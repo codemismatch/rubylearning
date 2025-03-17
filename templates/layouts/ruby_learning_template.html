@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Welcome to Ruby Learning | Typophic</title>
+  <meta name="description" content="Learn Ruby programming through structured tutorials, examples, and practical exercises.">
+  
+  <!-- Modern font -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;700&family=Fira+Code&display=swap" rel="stylesheet">
+  
+  <!-- CSS Files -->
+  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/css/highlight-monokai.css">
+  <link rel="stylesheet" href="/css/modern-ruby-style.css">
+  
+  <!-- Scripts -->
+  <script src="/js/highlight.min.js"></script>
+  <script src="/js/typophic-fixes.js"></script>
+</head>
+<body>
+  <header>
+    <div class="container">
+      <h1><a href="/">Ruby Learning</a></h1>
+      <nav>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/tutorials.html">Tutorials</a></li>
+          <li><a href="/examples.html">Examples</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <h1>Welcome to Ruby Learning</h1>
+        <p>Learn the Ruby programming language through structured tutorials, examples, and practical exercises.</p>
+      </div>
+    </section>
+
+    <div class="container">
+      <section class="intro">
+        <h2>Why Ruby?</h2>
+        <p>Ruby is designed for programmer happiness and productivity. Its elegant syntax is natural to read and easy to write.</p>
+        
+        <div class="code-block-wrapper">
+          <pre><code class="language-ruby">
+def greet(name)
+  puts "Hello, #{name}!"
+end
+
+greet("Ruby Learner")
+          </code></pre>
+        </div>
+      </section>
+
+      <section class="tutorial-list">
+        <h2>Latest Tutorials</h2>
+        <p>Here you'll find our latest tutorials on Ruby programming, from basic syntax to advanced concepts.</p>
+        
+        <div class="card-grid">
+          <div class="card">
+            <h3>Ruby Classes and Objects</h3>
+            <p>Learn about object-oriented programming in Ruby through classes and objects.</p>
+            <a href="/tutorials/ruby-classes-and-objects.html">Read Tutorial →</a>
+          </div>
+          
+          <div class="card">
+            <h3>Working with Arrays</h3>
+            <p>Master Ruby arrays and learn powerful methods for data manipulation.</p>
+            <a href="/tutorials/ruby-arrays.html">Read Tutorial →</a>
+          </div>
+          
+          <div class="card">
+            <h3>Ruby Blocks and Procs</h3>
+            <p>Understand Ruby's functional programming features with blocks, procs, and lambdas.</p>
+            <a href="/tutorials/ruby-blocks-procs.html">Read Tutorial →</a>
+          </div>
+          
+          <div class="card">
+            <h3>Modules and Mixins</h3>
+            <p>Learn how to organize code and share functionality with Ruby modules.</p>
+            <a href="/tutorials/ruby-modules-mixins.html">Read Tutorial →</a>
+          </div>
+        </div>
+      </section>
+
+      <section class="examples">
+        <h2>Ruby Code Examples</h2>
+        <p>Practical code examples that demonstrate Ruby's capabilities.</p>
+        
+        <div class="code-block-wrapper">
+          <pre><code class="language-ruby">
+# Example: Creating a simple class in Ruby
+class Person
+  attr_accessor :name, :age
+  
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+  
+  def introduce
+    puts "Hello, my name is #{@name} and I'm #{@age} years old."
+  end
+  
+  def birthday
+    @age += 1
+    puts "Happy birthday! Now I'm #{@age} years old."
+  end
+end
+
+# Create a new Person object
+john = Person.new("John", 30)
+john.introduce
+john.birthday
+          </code></pre>
+        </div>
+      </section>
+
+      <section class="get-started">
+        <h2>Get Started</h2>
+        <p>New to Ruby? Start with our <a href="/tutorials/introduction-to-ruby.html">introduction to Ruby</a> to understand the fundamentals.</p>
+        
+        <div class="card">
+          <h3>Installation Guide</h3>
+          <p>Follow our step-by-step guide to install Ruby on your computer:</p>
+          <ul>
+            <li><a href="/tutorials/install-ruby-on-mac.html">Install Ruby on macOS</a></li>
+            <li><a href="/tutorials/install-ruby-on-windows.html">Install Ruby on Windows</a></li>
+            <li><a href="/tutorials/install-ruby-on-linux.html">Install Ruby on Linux</a></li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="resources">
+        <h2>Resources</h2>
+        <ul>
+          <li><a href="/about.html">About This Site</a> - Learn more about our mission and content</li>
+          <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Official Documentation</a> - The official Ruby language documentation</li>
+          <li><a href="https://rubygems.org" target="_blank" rel="noopener">Ruby Gems</a> - Find and explore Ruby libraries (gems)</li>
+          <li><a href="https://rubyonrails.org" target="_blank" rel="noopener">Ruby on Rails</a> - The popular web framework built with Ruby</li>
+        </ul>
+      </section>
+    </div>
+  </main>
+
+  <footer>
+    <div class="container">
+      <div class="footer-section">
+        <h4>Ruby Learning</h4>
+        <p>A comprehensive resource for learning the Ruby programming language, from beginners to advanced developers.</p>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Quick Links</h4>
+        <ul>
+          <li><a href="/">Home</a></li>
+          <li><a href="/tutorials.html">Tutorials</a></li>
+          <li><a href="/examples.html">Examples</a></li>
+          <li><a href="/resources.html">Resources</a></li>
+          <li><a href="/about.html">About</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-section">
+        <h4>Resources</h4>
+        <ul>
+          <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Language</a></li>
+          <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+          <li><a href="https://rubygems.org" target="_blank" rel="noopener">Ruby Gems</a></li>
+          <li><a href="https://rubyonrails.org" target="_blank" rel="noopener">Ruby on Rails</a></li>
+        </ul>
+      </div>
+    </div>
+    
+    <div class="footer-bottom">
+      <div class="container">
+        <p>&copy; 2025 Ruby Learning. Built with <a href="#">Typophic</a>.</p>
+      </div>
+    </div>
+  </footer>
+</body>
+</html>

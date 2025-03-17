@@ -1,0 +1,191 @@
+#!/usr/bin/env ruby
+
+# Enhanced Typophic-deploy: Unified deployment system for Ruby Learning
+#
+# Usage: typophic-deploy [--local] [--remote URL] [--force] [--fix-only] [--build-only] [--custom-domain DOMAIN]
+
+require 'fileutils'
+require 'optparse'
+
+# Parse command line options
+options = {
+  force: false,
+  remote: nil,
+  mode: :github,  # Default to GitHub Pages deployment
+  fix_only: false,
+  build_only: false,
+  custom_domain: nil,
+  port: 3000
+}
+
+OptionParser.new do |opts|
+  opts.banner = "Usage: typophic-deploy [options]"
+  
+  opts.on("--force", "Force push to GitHub Pages") do
+    options[:force] = true
+  end
+  
+  opts.on("--remote URL", "GitHub repository URL") do |url|
+    options[:remote] = url
+  end
+  
+  opts.on("--local", "Deploy for local development") do
+    options[:mode] = :local
+  end
+  
+  opts.on("--fix-only", "Only fix paths without building or deploying") do
+    options[:fix_only] = true
+  end
+  
+  opts.on("--build-only", "Only build site without deploying") do
+    options[:build_only] = true
+  end
+  
+  opts.on("--custom-domain DOMAIN", "Set a custom domain") do |domain|
+    options[:custom_domain] = domain
+  end
+  
+  opts.on("--port PORT", Integer, "Port for local server (default: 3000)") do |port|
+    options[:port] = port
+  end
+  
+  opts.on("-h", "--help", "Show this help message") do
+    puts opts
+    exit
+  end
+end.parse!
+
+deploy_mode = options[:mode] == :local ? "local development" : "GitHub Pages"
+puts "==== Typophic: Enhanced Deployment System ===="
+puts "Mode: #{deploy_mode}"
+
+# Set environment variable for templates
+ENV["DEPLOY_ENV"] = options[:mode].to_s
+
+# Skip building if fix_only option is set
+unless options[:fix_only]
+  # 1. Build the site for deployment
+  puts "\n=== Step 1: Building site for deployment ==="
+  build_script = File.join(File.dirname(__FILE__), 'typophic-build')
+  if File.exist?(build_script)
+    system("#{build_script} --deploy")
+  else
+    puts "Error: Could not find typophic-build script at #{build_script}"
+    exit 1
+  end
+end
+
+# 2. Fix paths based on deployment mode
+puts "\n=== Step 2: Fixing paths for #{deploy_mode} ==="
+fix_paths_script = File.join(File.dirname(__FILE__), 'fix-paths.rb')
+
+if File.exist?(fix_paths_script)
+  if options[:mode] == :local
+    system("ruby #{fix_paths_script} --local")
+  else
+    system("ruby #{fix_paths_script} --github")
+  end
+  puts "Path fixing completed!"
+else
+  puts "Warning: Could not find fix-paths.rb script at #{fix_paths_script}"
+  puts "Paths may not be correctly set for deployment."
+  exit 1
+end
+
+# 3. Set custom domain if specified
+if options[:custom_domain]
+  puts "\n=== Step 3: Setting custom domain: #{options[:custom_domain]} ==="
+  File.write("public/CNAME", options[:custom_domain])
+  puts "Created CNAME file with domain: #{options[:custom_domain]}"
+end
+
+# Exit if only building or fixing
+exit if options[:build_only] || options[:fix_only]
+
+# Handle remaining steps based on deployment mode
+if options[:mode] == :local
+  # 4. Start local server
+  puts "\n=== Step 4: Starting local server on port #{options[:port]} ==="
+  serve_script = File.join(File.dirname(__FILE__), 'typophic-serve')
+  if File.exist?(serve_script)
+    system("#{serve_script} --port #{options[:port]}")
+  else
+    puts "No serve script found. Starting simple Ruby server..."
+    Dir.chdir("public") do
+      system("ruby -run -e httpd . -p #{options[:port]}")
+    end
+  end
+else
+  # 4. Prepare the Git repository for GitHub Pages
+  puts "\n=== Step 4: Preparing Git repository ==="
+
+  # Initialize git repository in public directory if not already
+  if !Dir.exist?("public/.git")
+    puts "Initializing git repository in public directory..."
+    Dir.chdir("public") do
+      system("git init")
+      system("git checkout -b gh-pages")  # GitHub Pages branch
+    end
+  else
+    puts "Git repository already exists in public directory"
+    Dir.chdir("public") do
+      system("git checkout gh-pages 2>/dev/null || git checkout -b gh-pages")  # Ensure we're on the gh-pages branch
+    end
+  end
+
+  # 5. Set remote if provided
+  if options[:remote]
+    puts "\n=== Step 5: Setting up remote repository ==="
+    Dir.chdir("public") do
+      system("git remote remove origin 2>/dev/null")  # Remove existing remote if any
+      system("git remote add origin #{options[:remote]}")
+      puts "Remote set to: #{options[:remote]}"
+    end
+  else
+    puts "\n=== Step 5: Using existing remote (none specified) ==="
+    Dir.chdir("public") do
+      # Check if a remote is configured
+      remotes = `git remote -v`.strip
+      if remotes.empty?
+        puts "Warning: No remote repository configured. Use --remote to specify one."
+      else
+        puts "Using existing remote: #{remotes}"
+      end
+    end
+  end
+
+  # 6. Commit and push
+  puts "\n=== Step 6: Committing and pushing changes ==="
+  Dir.chdir("public") do
+    # Stage all files
+    system("git add .")
+    
+    # Commit
+    commit_message = "Deploy Typophic site on #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    system("git commit -m \"#{commit_message}\"")
+    
+    # Push
+    force_option = options[:force] ? "-f" : ""
+    puts "Pushing to GitHub Pages#{options[:force] ? ' (force push)' : ''}..."
+    
+    result = system("git push #{force_option} origin gh-pages")
+    
+    if result
+      puts "Successfully pushed to GitHub Pages!"
+    else
+      puts "Error: Failed to push to GitHub Pages."
+      puts "If this is your first push, make sure you've set up the remote repository:"
+      puts "  typophic-deploy --remote git@github.com:metcritical/rubylearning.git"
+      exit 1
+    end
+  end
+
+  puts "\n==== Deployment Complete ===="
+  if options[:custom_domain]
+    puts "Your site has been deployed to GitHub Pages with custom domain: #{options[:custom_domain]}"
+    puts "You'll need to configure your domain DNS settings to point to GitHub Pages."
+  else
+    puts "Your site has been deployed to GitHub Pages!"
+    puts "It should be available at: https://metcritical.github.io/rubylearning/"
+  end
+end

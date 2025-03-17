@@ -1,0 +1,20 @@
+# Ignore built site in main branch
+public/
+
+# macOS system files
+.DS_Store
+
+# Backup files
+*.bak
+
+# Editor-specific files
+.vscode/
+.idea/
+
+# Ruby environment
+.ruby-version
+.ruby-gemset
+
+# Temporary files
+*.tmp
+*.log
