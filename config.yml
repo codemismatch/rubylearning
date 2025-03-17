@@ -3,7 +3,7 @@ site_name: Ruby Learning
 site_type: ruby
 author: Typophic User
 description: A beautiful static website for learning Ruby
-url: https://rubylearning..in
+url: https://rubylearning.in
 permalink_style: pretty
 date_format: "%B %-d, %Y"
 markdown_extensions:
