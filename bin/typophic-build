@@ -145,12 +145,8 @@ Dir.glob("templates/css/*.css").each do |file|
 end
 
 # Copy all JS files
-log "Copying JavaScript files...
-# Ensure prism.js is copied
-if [ -f "templates/js/prism.js" ] && [ ! -f "public/js/prism.js" ]; then
-  cp "templates/js/prism.js" "public/js/prism.js"
-  echo "  - Copied prism.js from templates to public"
-fi
+log "Copying JavaScript files..."
+# Specifically ensuring prism.js files are copied using Ruby syntax
 # Ensure prism.js files are copied
 log "Specifically ensuring prism.js files are copied..."
 ['prism.js', 'prism-ruby.js', 'prism-markdown.js'].each do |js_file|
