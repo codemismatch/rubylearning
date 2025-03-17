@@ -24,11 +24,38 @@ def load_config
   end
 end
 
+# Function to find a script file
+def find_script(name)
+  # Check in bin directory first
+  bin_path = File.join(File.dirname(__FILE__), name)
+  return bin_path if File.exist?(bin_path)
+  
+  # Check in tools directory
+  tools_path = File.join(Dir.pwd, 'tools', name)
+  return tools_path if File.exist?(tools_path)
+  
+  # Check in root directory
+  root_path = File.join(Dir.pwd, name)
+  return root_path if File.exist?(root_path)
+  
+  # Not found
+  nil
+end
+
 # Load configuration
 config = load_config
 
 # Get repository URL from config if available
 repo_url = config.dig('repository', 'url')
+
+# First try to get base path from site_name in config.yml
+base_repo_name = config['site_name']&.downcase&.gsub(/\s+/, '') if config['site_name']
+
+# If no site_name or it's empty, try to extract repo name from URL for base path
+if !base_repo_name && repo_url && repo_url =~ /github\.com[:/]([^/]+)/([^/\.]+)(\.git)?/
+  username = $1
+  base_repo_name = $2
+end
 
 # Parse command line options
 options = {
@@ -38,7 +65,8 @@ options = {
   fix_only: false,
   build_only: false,
   custom_domain: nil,
-  port: 3000
+  port: 3000,
+  base_repo_name: base_repo_name
 }
 
 OptionParser.new do |opts|
@@ -50,6 +78,14 @@ OptionParser.new do |opts|
   
   opts.on("--remote URL", "GitHub repository URL (overrides config.yml)") do |url|
     options[:remote] = url
+    # Update base_repo_name if remote URL changes
+    if url =~ /github\.com[:\/]([^\/]+)\/([^\/\.]+)(\.git)?/
+      options[:base_repo_name] = $2
+    end
+  end
+  
+  opts.on("--base-path PATH", "Base path for GitHub Pages (default: site_name from config.yml or repository name)") do |path|
+    options[:base_repo_name] = path
   end
   
   opts.on("--local", "Deploy for local development") do
@@ -86,6 +122,12 @@ puts "Mode: #{deploy_mode}"
 if options[:remote] && options[:mode] == :github
   puts "Repository URL: #{options[:remote]}"
   puts "Deploy Branch: #{config.dig('repository', 'deploy_branch') || 'gh-pages'}"
+  if options[:base_repo_name]
+    puts "Base Path for GitHub Pages: /#{options[:base_repo_name]}/"
+  else
+    puts "Warning: Could not determine base path from repository URL"
+    puts "Assets might not load correctly on GitHub Pages"
+  end
 end
 
 # Set environment variable for templates
@@ -106,20 +148,207 @@ end
 
 # 2. Fix paths based on deployment mode
 puts "\n=== Step 2: Fixing paths for #{deploy_mode} ==="
-fix_paths_script = File.join(File.dirname(__FILE__), 'fix-paths.rb')
 
-if File.exist?(fix_paths_script)
-  if options[:mode] == :local
-    system("ruby #{fix_paths_script} --local")
-  else
-    system("ruby #{fix_paths_script} --github")
-  end
-  puts "Path fixing completed!"
+# Implement path fixing directly in this script
+if options[:mode] == :local
+  base_path = ""
+  mode_name = "local development"
 else
-  puts "Warning: Could not find fix-paths.rb script at #{fix_paths_script}"
-  puts "Paths may not be correctly set for deployment."
-  exit 1
+  if options[:base_repo_name]
+    base_path = "/#{options[:base_repo_name]}"
+  else
+    base_path = ""
+    puts "Warning: Using empty base path for GitHub Pages - assets might not load correctly"
+  end
+  mode_name = "GitHub Pages"
 end
+
+puts "Using base path: #{base_path || '/'}"
+
+# Fix HTML files
+puts "Fixing HTML files..."
+Dir.glob("public/**/*.html").each do |file|
+  # Skip if it's a directory
+  next if File.directory?(file)
+  
+  content = File.read(file)
+  
+  # Fix unprocessed ERB template variables
+  # Replace <%= base_path %> with the actual path
+  content.gsub!(/<%=\s*base_path\s*%>/, base_path)
+  
+  # Handle base tag depending on mode
+  if options[:mode] == :local
+    # For local: remove base tag or set to root
+    if content.include?('<base href=')
+      content.gsub!(/<base href=["'][^"']*["']>/, '<base href="/">')
+      puts "  - Updated base tag for local in: #{file}"
+    end
+  else
+    # For GitHub: ensure correct base tag
+    if !content.include?('<base href=') && content.include?('<head>')
+      content.gsub!('<head>', "<head>\n  <base href=\"#{base_path}/\">")
+      puts "  - Added base tag to: #{file}"
+    elsif content.include?('<base href=')
+      content.gsub!(/<base href=["'][^"']*["']>/, "<base href=\"#{base_path}/\">")
+      puts "  - Updated base tag for GitHub in: #{file}"
+    end
+  end
+  
+  # Handle links and script paths
+  if options[:mode] == :local
+    # For local: use root-relative paths
+    content = content.gsub(/href=["']((?!http|https|\/\/|#|mailto:)[^"']*)["']/) do |match|
+      path = $1
+      # Don't modify already root-relative paths that start with /
+      if path.start_with?('/')
+        match
+      else
+        # Make root-relative
+        "href=\"/#{path}\""
+      end
+    end
+    
+    # Do the same for src attributes
+    content = content.gsub(/src=["']((?!http|https|\/\/|#|data:)[^"']*)["']/) do |match|
+      path = $1
+      if path.start_with?('/')
+        match
+      else
+        "src=\"/#{path}\""
+      end
+    end
+  else
+    # For GitHub: prefix with BASE_PATH
+    # First fix absolute paths
+    content = content.gsub(/href=["']\/(?!http|https|\/\/|#|mailto:)([^"']*)["']/) do |match|
+      "href=\"#{base_path}/#{$1}\""
+    end
+    
+    content = content.gsub(/src=["']\/(?!http|https|\/\/|#|data:)([^"']*)["']/) do |match|
+      "src=\"#{base_path}/#{$1}\""
+    end
+    
+    # Then fix relative paths
+    content = content.gsub(/href=["']((?!http|https|\/\/|#|mailto:|\/)[^"']*)["']/) do |match|
+      "href=\"#{base_path}/#{$1}\""
+    end
+    
+    content = content.gsub(/src=["']((?!http|https|\/\/|#|data:|\/)[^"']*)["']/) do |match|
+      "src=\"#{base_path}/#{$1}\""
+    end
+  end
+  
+  # Write back the file
+  File.write(file, content)
+  puts "  - Updated paths in: #{file}"
+end
+
+# Fix CSS files (url() references)
+puts "Fixing CSS files..."
+Dir.glob("public/**/*.css").each do |file|
+  # Skip if it's a directory
+  next if File.directory?(file)
+  
+  content = File.read(file)
+  
+  if options[:mode] == :local
+    # For local: use root-relative paths in CSS
+    updated_content = content.gsub(/url\(["']?((?!http|https|\/\/|data:|#)[^\/][^\)'"]*)["']?\)/) do |match|
+      path = $1
+      "url(/#{path})"
+    end
+  else
+    # For GitHub: prefix with BASE_PATH
+    updated_content = content
+      .gsub(/url\(["']?\/(?!http|https|\/\/|#)([^\)'"]*?)["']?\)/, "url(#{base_path}/\\1)")
+      
+    # Also fix relative paths
+    updated_content = updated_content
+      .gsub(/url\(["']?((?!http|https|\/\/|#|#{base_path})[^\/][^\)'"]*)["']?\)/, "url(#{base_path}/\\1)")
+  end
+    
+  if content != updated_content
+    File.write(file, updated_content)
+    puts "  - Updated paths in: #{file}"
+  end
+end
+
+puts "Path fixing completed!"
+
+# Create a debug info file to help troubleshoot path issues
+puts "Creating debug info file..."
+File.write("public/path-debug.html", <<~HTML)
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="UTF-8">
+  <title>Path Debug Info</title>
+  <base href="#{base_path}/">
+  <style>
+    body { font-family: monospace; padding: 20px; }
+    h1 { color: #333; }
+    pre { background: #f5f5f5; padding: 10px; border-radius: 5px; overflow-x: auto; }
+    .success { color: green; }
+    .error { color: red; }
+  </style>
+</head>
+<body>
+  <h1>Path Debug Information</h1>
+  <p>This file was created to help diagnose path issues with GitHub Pages deployment.</p>
+  
+  <h2>Deployment Configuration</h2>
+  <pre>
+Mode: #{deploy_mode}
+Base Path: #{base_path || '/'}
+Repository URL: #{options[:remote] || 'Not specified'}
+Repo Name: #{options[:base_repo_name] || 'Could not determine'}
+Deploy Branch: #{config.dig('repository', 'deploy_branch') || 'gh-pages'}
+  </pre>
+  
+  <h2>Asset Tests</h2>
+  <p>CSS test: <span id="css-test">Not loaded</span></p>
+  <p>JavaScript test: <span id="js-test">Not loaded</span></p>
+  
+  <h2>Absolute Path Links</h2>
+  <ul>
+    <li><a href="/css/style.css">Absolute: /css/style.css</a></li>
+    <li><a href="/js/prism.js">Absolute: /js/prism.js</a></li>
+    <li><a href="/index.html">Absolute: /index.html</a></li>
+  </ul>
+  
+  <h2>Path-corrected Links</h2>
+  <ul>
+    <li><a href="#{base_path}/css/style.css">Corrected: #{base_path}/css/style.css</a></li>
+    <li><a href="#{base_path}/js/prism.js">Corrected: #{base_path}/js/prism.js</a></li>
+    <li><a href="#{base_path}/index.html">Corrected: #{base_path}/index.html</a></li>
+  </ul>
+  
+  <h2>Relative Path Links</h2>
+  <ul>
+    <li><a href="css/style.css">Relative: css/style.css</a></li>
+    <li><a href="js/prism.js">Relative: js/prism.js</a></li>
+    <li><a href="index.html">Relative: index.html</a></li>
+  </ul>
+  
+  <style>
+    #css-test { color: green; }
+  </style>
+  
+  <script>
+    // Test if JS is loading
+    document.getElementById('css-test').textContent = 'CSS loaded successfully!';
+    document.getElementById('js-test').textContent = 'JavaScript loaded successfully!';
+    
+    // Log path info to console
+    console.log('Path Debug Info:');
+    console.log('Base Path:', '#{base_path}');
+    console.log('Current URL:', window.location.href);
+    console.log('Document Base URL:', document.baseURI);
+  </script>
+</body>
+</html>
+HTML
 
 # 3. Set custom domain if specified
 if options[:custom_domain]
@@ -188,8 +417,8 @@ else
     # Stage all files
     system("git add .")
     
-    # Commit
-    commit_message = "Deploy Typophic site on #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
+    # Commit with more detailed message including the base path
+    commit_message = "Deploy Typophic site with base path '#{base_path}' on #{Time.now.strftime('%Y-%m-%d %H:%M:%S')}"
     system("git commit -m \"#{commit_message}\"")
     
     # Push
@@ -222,6 +451,7 @@ else
     else
       puts "Your site has been deployed to GitHub Pages!"
       puts "It should be available at: https://#{username}.github.io/#{repo_name}/"
+      puts "To diagnose path issues, visit: https://#{username}.github.io/#{repo_name}/path-debug.html"
     end
   else
     puts "Your site has been deployed to GitHub Pages!"

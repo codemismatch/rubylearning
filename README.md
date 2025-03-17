@@ -2,45 +2,6 @@
 
 A beautiful static website for learning Ruby programming language using the Typophic static site generator.
 
-## Table of Contents
-
-- [Introduction](#introduction)
-- [Project Structure](#project-structure)
-- [Core Commands](#core-commands)
-- [Quick Start](#quick-start)
-- [Project Configuration](#project-configuration)
-- [Content Examples](#content-examples)
-- [Deployment](#deployment)
-  - [Deployment Options](#deployment-options)
-  - [Deployment Process](#deployment-process)
-  - [Path Fixing Process](#path-fixing-process)
-  - [Custom Domain Setup](#custom-domain-setup)
-  - [Troubleshooting Deployment](#troubleshooting-deployment)
-- [Git Workflow](#git-workflow)
-  - [Branch Structure](#branch-structure)
-  - [Setting Up the Workflow](#setting-up-the-workflow)
-  - [Development Workflow](#development-workflow)
-- [Site Features](#site-features)
-- [Ruby Learning Resources](#ruby-learning-resources)
-- [Tutorials](#tutorials)
-- [About](#about)
-- [Troubleshooting](#troubleshooting)
-
-## Introduction
-
-Ruby Learning is a static website built to help beginners and intermediate developers learn the Ruby programming language through structured tutorials, examples, and practical exercises.
-
-Ruby is designed for programmer happiness and productivity. Its elegant syntax is natural to read and easy to write.
-
-```ruby
-# This is Ruby code
-def greet(name)
-  puts "Hello, #{name}!"
-end
-
-greet("Ruby Learner")
-```
-
 ## Project Structure
 
 - `bin/` - Core utility scripts for building and managing the site
@@ -104,136 +65,185 @@ Create a new page:
 bin/typophic-new page "About Ruby"
 ```
 
-## Project Configuration
+### Deploying the Site
 
-The site configuration is stored in `config.yml` in the root directory. This file controls site-wide settings like:
+For local development:
 
-```yaml
----
-site_name: Ruby Learning
-site_type: ruby
-author: Typophic User
-description: A beautiful static website for learning Ruby
-url: http://example.com
-permalink_style: pretty
-date_format: "%B %-d, %Y"
-markdown_extensions:
-- tables
-- fenced_code_blocks
-- autolink
+```bash
+bin/typophic-deploy --local
 ```
 
-Additionally, you can configure repository settings in the config.yml file:
+For GitHub Pages:
+
+```bash
+bin/typophic-deploy
+```
+
+The GitHub Pages repository URL is configured in `config.yml`:
 
 ```yaml
-# Git repository settings
 repository:
   url: git@github.com:username/rubylearning.git
   branch: main
   deploy_branch: gh-pages
 ```
 
-This allows you to specify:
-- Your repository URL
-- The main branch for source code (default: main)
-- The branch for deployment (default: gh-pages)
+## Detailed Command Documentation
 
-## Content Examples
+### typophic-build
 
-### Ruby Classes and Objects
+Builds the site with all necessary optimizations.
 
-Here's an example of Ruby classes and objects:
-
-```ruby
-class Book
-  attr_accessor :title, :author, :pages
-  
-  def initialize(title, author, pages)
-    @title = title
-    @author = author
-    @pages = pages
-  end
-  
-  def to_s
-    "#{@title} by #{@author} (#{@pages} pages)"
-  end
-  
-  def read
-    puts "You're reading #{@title}. Enjoy!"
-  end
-end
-
-# Create new Book objects
-book1 = Book.new("The Ruby Programming Language", "Matz", 472)
-book2 = Book.new("Eloquent Ruby", "Russ Olsen", 448)
-
-# Access attributes
-puts book1.title   # => "The Ruby Programming Language"
-puts book2.author  # => "Russ Olsen"
-
-# Call methods
-puts book1         # => "The Ruby Programming Language by Matz (472 pages)"
-book2.read         # => "You're reading Eloquent Ruby. Enjoy!"
+```bash
+bin/typophic-build [options]
 ```
 
-### Inheritance Example
-
-```ruby
-class Animal
-  attr_accessor :name, :species
-  
-  def initialize(name, species)
-    @name = name
-    @species = species
-  end
-  
-  def speak
-    puts "#{@name} makes a sound"
-  end
-end
-
-class Dog < Animal
-  def initialize(name)
-    super(name, "Canine")
-  end
-  
-  def speak
-    puts "#{@name} says: Woof!"
-  end
-end
-
-class Cat < Animal
-  def initialize(name)
-    super(name, "Feline")
-  end
-  
-  def speak
-    puts "#{@name} says: Meow!"
-  end
-end
-
-# Create some animals
-dog = Dog.new("Rex")
-cat = Cat.new("Whiskers")
-
-# Call methods
-dog.speak
-cat.speak
-
-puts "#{dog.name} is a #{dog.species}"
-puts "#{cat.name} is a #{cat.species}"
-```
-
-## Deployment
-
-### Deployment Options
-
-The deployment system supports various options:
+**Options:**
 
 | Option | Description |
 |--------|-------------|
-| `--local` | Deploy for local development (starts a server) |
-| `--remote URL` | Set the GitHub repository URL |
+| `--deploy` | Build with deployment optimizations |
+| `--no-minify` | Skip minification of CSS and JavaScript |
+| `--no-optimize` | Skip image optimization |
+| `--watch` | Watch for changes and rebuild automatically |
+| `--verbose` | Display detailed output during build |
+| `--quiet` | Suppress all output except errors |
+| `--clean` | Clean build directory before building |
+
+**Examples:**
+
+```bash
+# Build for production with all optimizations
+bin/typophic-build --deploy
+
+# Build for development with file watching
+bin/typophic-build --watch
+
+# Clean and rebuild the site
+bin/typophic-build --clean
+```
+
+### typophic-serve
+
+Starts a local development server for previewing the site.
+
+```bash
+bin/typophic-serve [options]
+```
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--port PORT` | Specify the port number (default: 3000) |
+| `--bind ADDRESS` | Specify the bind address (default: 127.0.0.1) |
+| `--live-reload` | Enable live reload on file changes |
+| `--no-cache` | Disable caching of assets |
+| `--open` | Open browser automatically |
+
+**Examples:**
+
+```bash
+# Start server on default port 3000
+bin/typophic-serve
+
+# Start server on port 8080 with live reload
+bin/typophic-serve --port 8080 --live-reload
+
+# Start server and open browser automatically
+bin/typophic-serve --open
+```
+
+### typophic-new
+
+Creates new content with proper frontmatter and templates.
+
+```bash
+bin/typophic-new [type] [title] [options]
+```
+
+**Content Types:**
+
+| Type | Description |
+|------|-------------|
+| `post` | Blog post or tutorial entry |
+| `page` | Static page |
+| `category` | Category index page |
+| `tutorial` | Multi-part tutorial |
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--author NAME` | Specify content author |
+| `--date DATE` | Specify publication date (default: current date) |
+| `--draft` | Mark as draft (not published) |
+| `--series NAME` | Add to a tutorial series |
+| `--template NAME` | Use specific template |
+| `--no-frontmatter` | Skip frontmatter generation |
+
+**Examples:**
+
+```bash
+# Create a new blog post
+bin/typophic-new post "Getting Started with Ruby Classes"
+
+# Create a draft page
+bin/typophic-new page "Contributing Guidelines" --draft
+
+# Create a tutorial with specific author and series
+bin/typophic-new tutorial "Building a CLI App" --author "Jane Doe" --series "Ruby CLI"
+```
+
+### typophic-fix
+
+Fix common issues in the site content and structure.
+
+```bash
+bin/typophic-fix [options]
+```
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--all` | Apply all available fixes |
+| `--links` | Fix broken links |
+| `--images` | Fix image paths and add missing alt text |
+| `--code` | Fix code block formatting |
+| `--frontmatter` | Validate and fix frontmatter |
+| `--templates` | Fix template variables |
+| `--dry-run` | Show what would be fixed without making changes |
+| `--verbose` | Show detailed information about fixes |
+
+**Examples:**
+
+```bash
+# Apply all fixes
+bin/typophic-fix --all
+
+# Fix only links and show detailed output
+bin/typophic-fix --links --verbose
+
+# Check what would be fixed without making changes
+bin/typophic-fix --all --dry-run
+```
+
+### typophic-deploy
+
+Unified deployment system for both local development and GitHub Pages.
+
+```bash
+bin/typophic-deploy [options]
+```
+
+**Options:**
+
+| Option | Description |
+|--------|-------------|
+| `--local` | Deploy for local development |
+| `--remote URL` | GitHub repository URL (overrides config.yml) |
+| `--base-path PATH` | Base path for GitHub Pages (default: site_name from config.yml or repository name) |
 | `--force` | Force push to GitHub Pages |
 | `--fix-only` | Only fix paths without building or deploying |
 | `--build-only` | Only build site without deploying |
@@ -241,290 +251,59 @@ The deployment system supports various options:
 | `--port PORT` | Port for local server (default: 3000) |
 | `-h`, `--help` | Show help message |
 
-### Basic Usage
+**Examples:**
 
-#### Deploy to GitHub Pages
-
-With configuration in config.yml:
 ```bash
+# Deploy to GitHub Pages using site_name from config.yml as base path
 bin/typophic-deploy
+
+# Deploy for local development on port 8080
+bin/typophic-deploy --local --port 8080
+
+# Override the base path
+bin/typophic-deploy --base-path rubylearning
+
+# Only fix paths without deploying
+bin/typophic-deploy --fix-only
+
+# Force push to GitHub Pages
+bin/typophic-deploy --force
+
+# Deploy with custom domain
+bin/typophic-deploy --custom-domain rubylearning.example.com
 ```
 
-This will:
-1. Read the repository URL from config.yml
-2. Build the site
-3. Fix paths for GitHub Pages
-4. Deploy to the gh-pages branch
+## Feature: Automatic Base Path Detection
 
-#### Deploy for Local Development
+The `typophic-deploy` script now automatically determines the base path for GitHub Pages from your `config.yml` file:
 
-```bash
-bin/typophic-deploy --local
-```
+1. First, it checks for a `site_name` in your config.yml and uses that as the base path (converted to lowercase with spaces removed)
+2. If `site_name` is not available, it falls back to extracting the repository name from the URL
+3. The base path can always be manually specified with the `--base-path` option
 
-This will:
-1. Build the site
-2. Fix paths for local development
-3. Start a local server
+This feature eliminates the need to manually specify the base path when deploying to GitHub Pages.
 
-### GitHub Pages
+## Path Fixing for GitHub Pages
 
-```bash
-bin/typophic-deploy --remote git@github.com:username/rubylearning.git
-```
+When deploying to GitHub Pages, the `typophic-deploy` script automatically:
 
-### Custom Domain
-
-```bash
-bin/typophic-deploy --remote URL --custom-domain example.com
-```
-
-### Deployment Process
-
-The deployment process handles several tasks automatically:
-
-#### For Local Development
-
-1. Builds the site
-2. Fixes paths for local development
-3. Starts a local server
-
-#### For GitHub Pages
-
-1. Builds the site 
-2. Fixes paths for GitHub Pages
-3. Creates necessary GitHub Pages files (.nojekyll, etc.)
-4. Initializes Git repository if needed
-5. Commits and pushes to gh-pages branch
-
-### Path Fixing Process
-
-The major challenge with multi-environment deployment is handling paths correctly:
-
-#### Local Development Paths
-
-- Paths are relative to the server root
-- Example: `/css/style.css` → `http://localhost:3000/css/style.css`
-
-#### GitHub Pages Paths
-
-- Paths include the repository name
-- Example: `/css/style.css` → `https://username.github.io/rubylearning/css/style.css`
-- Base tag is added: `<base href="/rubylearning/">`
-
-### Custom Domain Setup
-
-If you prefer not to deal with subdirectories, you can use a custom domain:
-
-1. Purchase a domain (e.g., rubylearning.com)
-2. Deploy with `--custom-domain` option
-3. Configure domain DNS settings to point to GitHub Pages
-
-With a custom domain, your site will be served from the root, eliminating path issues.
-
-### Troubleshooting Deployment
-
-#### CSS/JS Not Loading
-
-If styles or scripts are not loading:
-
-1. Check browser console for 404 errors
-2. Run path fixes: `bin/typophic-deploy --fix-only --local` or `--fix-only` for GitHub
-3. Ensure template doesn't use hardcoded absolute paths
-
-#### Links Not Working
-
-If navigation links don't work:
-
-1. Check that the base path is correctly set
-2. Ensure links are properly relative or include base path
-3. Run `bin/typophic-fix --links` to fix link issues
-
-#### GitHub Pages Issues
-
-If your GitHub Pages deployment isn't working:
-
-1. Verify you're using the correct remote URL
-2. Check that site is being pushed to gh-pages branch
-3. In GitHub repository settings, ensure Pages is set to gh-pages branch
-
-#### Missing Repository URL
-
-If you get an error about missing repository URL:
-1. Add it to config.yml:
-   ```yaml
-   repository:
-     url: git@github.com:username/repo.git
-   ```
-2. Or specify it on the command line: 
-   ```bash
-   bin/typophic-deploy --remote git@github.com:username/repo.git
-   ```
-
-#### Failed to Push
-
-If push fails:
-1. Check your SSH key setup
-2. Try a force push: `bin/typophic-deploy --force`
-3. Verify the repository URL is correct
+1. Updates all links (href, src) to include the correct base path
+2. Sets the appropriate base tag in HTML files
+3. Fixes CSS url() references
+4. Creates a debug file at `/path-debug.html` to help troubleshoot any path issues
 
 ## Git Workflow
 
-### Branch Structure
+The project uses a proper Git workflow:
 
-- **main** branch: Contains all source code, templates, and build scripts
-- **gh-pages** branch: Contains only the built site (public directory)
+1. The **main** branch contains the source code (content, templates, scripts)
+2. The **gh-pages** branch contains the built site (public directory)
 
-### Setting Up the Workflow
-
-If you haven't set up the workflow yet, run:
-
-```bash
-chmod +x setup-git-workflow-revised.sh
-./setup-git-workflow-revised.sh
-```
-
-This script will:
-1. Initialize a Git repository in the project root
-2. Create a `.gitignore` file that excludes the `public` directory from the main branch
-3. Commit all source code to the main branch
-4. Verify that the typophic-deploy script exists
-
-### Development Workflow
-
-#### 1. Making Changes to the Site
-
-Work directly on the main branch:
-
-```bash
-# Edit content, templates, or scripts
-git add .
-git commit -m "Your commit message"
-```
-
-#### 2. Building the Site Locally
-
-To preview your changes:
-
-```bash
-bin/typophic-build
-bin/typophic-serve
-```
-
-#### 3. Deploying to GitHub Pages
-
-When you're ready to deploy, use your existing `typophic-deploy` script:
-
-```bash
-# Deploy built site to gh-pages branch
-bin/typophic-deploy --remote https://github.com/USERNAME/REPO_NAME.git
-```
-
-#### 4. Publishing Source Code
-
-Don't forget to also push your source code:
-
-```bash
-git push origin main
-```
-
-### Advanced Usage
-
-#### Path Fixing Only
-
-```bash
-bin/typophic-deploy --fix-only --local
-# or
-bin/typophic-deploy --fix-only  # for GitHub
-```
-
-#### Building Only
-
-```bash
-bin/typophic-deploy --build-only
-```
-
-#### Forcing Push
-
-```bash
-bin/typophic-deploy --remote URL --force
-```
-
-### Best Practices
-
-1. Use relative paths in templates when possible
-2. Test locally before deploying to GitHub
-3. Use `--fix-only` if you need to fix paths without rebuilding
-4. Consider using a custom domain for production sites
-
-## Site Features
-
-- Syntax highlighting for Ruby code
-- Responsive design for all devices
-- Modern typography and layout
-- Clean, distraction-free reading experience
-
-## Ruby Learning Resources
-
-Here's a curated collection of resources to help you on your Ruby learning journey.
-
-### Official Documentation
-
-- [Ruby Documentation](https://ruby-doc.org/) - The official documentation for the Ruby language
-- [Ruby API](https://rubyapi.org/) - Modern and searchable Ruby API documentation
-- [Ruby Style Guide](https://rubystyle.guide/) - A community-driven Ruby coding style guide
-
-### Books
-
-- **"The Ruby Programming Language"** by David Flanagan and Yukihiro Matsumoto
-- **"Eloquent Ruby"** by Russ Olsen
-- **"Practical Object-Oriented Design in Ruby"** by Sandi Metz
-- **"Ruby Under a Microscope"** by Pat Shaughnessy
-- **"Metaprogramming Ruby 2"** by Paolo Perrotta
-
-### Online Courses and Tutorials
-
-- [Ruby Koans](http://rubykoans.com/) - Learn Ruby through testing
-- [The Odin Project](https://www.theodinproject.com/paths/full-stack-ruby-on-rails) - Free full-stack Ruby on Rails curriculum
-- [Ruby Monk](https://rubymonk.com/) - Interactive Ruby tutorials
-- [Codecademy Ruby Track](https://www.codecademy.com/learn/learn-ruby) - Interactive Ruby lessons
-- [RubyGuides](https://www.rubyguides.com/) - Articles and tutorials on Ruby programming
-
-### Community
-
-- [Ruby Weekly](https://rubyweekly.com/) - A weekly newsletter about Ruby
-- [Ruby on Rails Reddit](https://www.reddit.com/r/rails/) - A community for Rails developers
-- [Ruby Reddit](https://www.reddit.com/r/ruby/) - A community for Ruby developers
-- [Ruby Discord](https://discord.gg/ruby-lang) - Ruby community Discord server
-- [Ruby on Rails Link](https://www.rubyonrails.link/) - Ruby on Rails community Slack
-
-## Tutorials
-
-Welcome to our curated list of Ruby tutorials. Here you'll find comprehensive guides to help you master Ruby programming.
-
-### Latest Tutorials
-
-- **Understanding Ruby Classes and Objects**
-  Learn about object-oriented programming in Ruby through classes and objects. Discover how Ruby implements OOP concepts elegantly.
-
-- **Ruby Code Examples**
-  Practical code examples that demonstrate Ruby's capabilities and show real-world applications.
-
-- **Welcome to Ruby Learning**
-  A warm welcome to the Ruby Learning site with an introduction to what you can expect to learn.
-
-### Coming Soon
-
-* Ruby Blocks, Procs, and Lambdas
-* Introduction to Ruby Metaprogramming
-* Working with Ruby Collections
-* Ruby Web Development Basics
-* Testing in Ruby with RSpec
-* Ruby Gems and Bundler
-
-## About
-
-This is a static website built with Typophic, a flexible static site generator designed for creating Ruby learning resources. The site aims to provide comprehensive tutorials, examples, and resources for learning Ruby programming language.
+The deployment script handles all the Git operations for the gh-pages branch, including:
+- Initializing a Git repository in the public directory
+- Setting the remote repository URL
+- Committing changes with informative commit messages that include the base path
+- Pushing to the gh-pages branch
 
 ## Troubleshooting
 
@@ -534,8 +313,38 @@ If you encounter issues with your site, use the fix tool:
 bin/typophic-fix --all
 ```
 
-This will fix common issues like:
-- Unprocessed template variables
-- Path problems
-- Link inconsistencies
-- Tutorial page formatting
+For path-related issues on GitHub Pages, check the automatically generated debug page:
+```
+https://username.github.io/rubylearning/path-debug.html
+```
+
+## Project Configuration
+
+The site configuration is stored in `config.yml` in the root directory:
+
+```yaml
+---
+site_name: Ruby Learning         # Used for site title and base path
+site_type: ruby                  # Site category/type
+author: Your Name                # Default author
+description: Site description    # Meta description
+url: http://example.com          # Production URL
+permalink_style: pretty          # URL format style
+date_format: "%B %-d, %Y"        # Date display format
+markdown_extensions:             # Markdown processors to enable
+  - tables
+  - fenced_code_blocks
+  - autolink
+repository:                      # Git repository settings
+  url: git@github.com:username/rubylearning.git
+  branch: main
+  deploy_branch: gh-pages
+```
+
+## Site Features
+
+- Syntax highlighting for Ruby code with Prism.js
+- Responsive design for all devices
+- Modern typography and layout
+- Clean, distraction-free reading experience
+- Automated deployment to GitHub Pages
