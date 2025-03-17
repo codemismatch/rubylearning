@@ -118,7 +118,7 @@ puts Counter.count  # => 3
 
 ## Try It Yourself
 
-```ruby-exec
+```ruby
 class Animal
   attr_accessor :name, :species
   

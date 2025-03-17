@@ -1,160 +1,145 @@
-/**
- * Code Block Enhancements
- * Adds copy buttons and other improvements to code blocks
- */
-document.addEventListener('DOMContentLoaded', function() {
-  // Initialize Prism if available
-  if (typeof Prism !== 'undefined') {
-    Prism.highlightAll();
-  }
-
-  // Add copy buttons to code blocks
+document.addEventListener('DOMContentLoaded', async () => {
+  if (typeof Prism !== 'undefined') Prism.highlightAll();
   addCopyButtonsToCodeBlocks();
-
-  // Add language labels to pre tags that don't have them
-  addLanguageLabels();
+  await addRubyExecSupport();
 });
 
-/**
- * Adds copy buttons to all code blocks
- */
-function addCopyButtonsToCodeBlocks() {
-  const codeBlocks = document.querySelectorAll('pre > code');
-  
-  codeBlocks.forEach(function(codeBlock) {
-    const pre = codeBlock.parentNode;
-    
-    // Create code header if it doesn't exist
-    let codeHeader = pre.previousElementSibling;
-    if (!codeHeader || !codeHeader.classList.contains('code-header')) {
-      codeHeader = document.createElement('div');
-      codeHeader.className = 'code-header';
-      
-      // Add window buttons for styling
-      const redBtn = document.createElement('span');
-      redBtn.className = 'window-btn red';
-      const yellowBtn = document.createElement('span');
-      yellowBtn.className = 'window-btn yellow';
-      const greenBtn = document.createElement('span');
-      greenBtn.className = 'window-btn green';
-      
-      // Get language from class
-      const langClass = Array.from(codeBlock.classList)
-        .find(c => c.startsWith('language-'));
-      
-      const langName = langClass ? 
-        langClass.replace('language-', '') : 
-        'code';
-      
-      const titleSpan = document.createElement('span');
-      titleSpan.className = 'window-title';
-      titleSpan.textContent = langName + (langName === 'ruby' ? '.rb' : '');
-      
-      codeHeader.appendChild(redBtn);
-      codeHeader.appendChild(yellowBtn);
-      codeHeader.appendChild(greenBtn);
-      codeHeader.appendChild(titleSpan);
-      
-      // Insert header before pre
-      pre.parentNode.insertBefore(codeHeader, pre);
-    }
-    
-    // Only add copy button if it doesn't exist
-    if (!codeHeader.querySelector('.copy-button')) {
-      const copyButton = document.createElement('button');
-      copyButton.className = 'copy-button';
-      copyButton.innerHTML = `
-        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-          <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-        </svg>
-        <span>Copy</span>
-      `;
-      
-      // Add click handler
-      copyButton.addEventListener('click', function() {
-        const codeToCopy = codeBlock.textContent;
-        
-        // Copy to clipboard
-        navigator.clipboard.writeText(codeToCopy).then(
-          function() {
-            // Success
-            copyButton.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <polyline points="20 6 9 17 4 12"></polyline>
-              </svg>
-              <span>Copied!</span>
-            `;
-            
-            // Reset after 2 seconds
-            setTimeout(function() {
-              copyButton.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                <span>Copy</span>
-              `;
-            }, 2000);
-          },
-          function() {
-            // Error
-            copyButton.innerHTML = `
-              <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                <circle cx="12" cy="12" r="10"></circle>
-                <line x1="12" y1="8" x2="12" y2="12"></line>
-                <line x1="12" y1="16" x2="12.01" y2="16"></line>
-              </svg>
-              <span>Error!</span>
-            `;
-            
-            // Reset after 2 seconds
-            setTimeout(function() {
-              copyButton.innerHTML = `
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                  <rect x="9" y="9" width="13" height="13" rx="2" ry="2"></rect>
-                  <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
-                </svg>
-                <span>Copy</span>
-              `;
-            }, 2000);
-          }
-        );
-      });
-      
-      codeHeader.appendChild(copyButton);
-    }
-    
-    // Add code-window class to pre if not present
-    if (!pre.classList.contains('code-window')) {
-      pre.classList.add('code-window');
-    }
-    
-    // Add code-content class to pre if not present
-    if (!pre.classList.contains('code-content')) {
-      pre.classList.add('code-content');
-    }
+async function setupRubyWasm() {
+  const script = document.createElement('script');
+  script.src = 'https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@2.7.1/dist/browser/+esm';
+  script.type = 'module';
+  document.head.appendChild(script);
+
+  return new Promise((resolve, reject) => {
+    script.onload = resolve;
+    script.onerror = reject;
   });
 }
 
-/**
- * Adds language labels to pre tags without them
- */
-function addLanguageLabels() {
-  const preElements = document.querySelectorAll('pre:not([class*="language-"])');
-  
-  preElements.forEach(function(pre) {
-    // Check if it has a child code element with a language class
-    const codeEl = pre.querySelector('code[class*="language-"]');
-    
-    if (codeEl) {
-      // Get the language class
-      const langClass = Array.from(codeEl.classList)
-        .find(c => c.startsWith('language-'));
-      
-      if (langClass) {
-        pre.classList.add(langClass);
+async function addRubyExecSupport() {
+  await setupRubyWasm();
+
+  // Load the Ruby WASM module
+  const response = await fetch('https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.7.1/dist/ruby+stdlib.wasm');
+  const module = await WebAssembly.compileStreaming(response);
+  const { DefaultRubyVM } = await import('https://cdn.jsdelivr.net/npm/@ruby/wasm-wasi@2.7.1/dist/browser/+esm');
+  const { vm } = await DefaultRubyVM(module);
+
+  document.querySelectorAll('.code-window pre.language-ruby').forEach((pre, index) => {
+    const codeBlock = pre.querySelector('code.language-ruby');
+    if (!codeBlock) return;
+
+    // Ensure the code block has contenteditable enabled
+    pre.setAttribute('contenteditable', true);
+    pre.style.whiteSpace = 'pre-wrap';
+    pre.style.outline = 'none';
+
+    // Create output area
+    const outputArea = document.createElement('div');
+    outputArea.className = 'output-area';
+    const outputContent = document.createElement('pre');
+    outputContent.className = 'output-content';
+    outputArea.appendChild(outputContent);
+
+    // Add run button to the header
+    const header = pre.closest('.code-window').querySelector('.code-header');
+    const runButton = document.createElement('button');
+    runButton.className = 'run-button';
+    runButton.textContent = '▶ Run Ruby';
+    header.appendChild(runButton);
+
+    // Insert output area after the <pre>
+    pre.parentNode.insertBefore(outputArea, pre.nextSibling);
+
+    // Add event listener for the run button
+    runButton.addEventListener('click', async () => {
+      const rubyCode = pre.textContent.trim();
+      outputContent.textContent = 'Executing Ruby code...\n';
+
+      try {
+        // Execute Ruby code with output redirection
+        const result = vm.eval(`
+          require 'stringio'
+          output = StringIO.new
+          $stdout = output
+          $stderr = output
+          begin
+            ${rubyCode}
+          rescue StandardError => e
+            "Error: \#{e.message}\n\#{e.backtrace.join('\\n')}"
+          ensure
+            $stdout = STDOUT
+            $stderr = STDERR
+          end
+          output.string
+        `);
+
+        // Display the captured output
+        outputContent.textContent = result || 'Execution completed successfully.';
+      } catch (err) {
+        outputContent.textContent = `Error: ${err.message}\n${err.stack}`;
       }
+    });
+  });
+}
+
+function addCopyButtonsToCodeBlocks() {
+  document.querySelectorAll('pre > code').forEach(codeBlock => {
+    const pre = codeBlock.parentNode;
+
+    // Transfer language class from code to pre
+    const langClass = codeBlock.className
+      .split(' ')
+      .find(c => c.startsWith('language-'));
+    if (langClass) pre.className = langClass;
+
+    // Create wrapper and header if needed
+    let codeWindow = pre.closest('.code-window');
+    if (!codeWindow) {
+      codeWindow = document.createElement('div');
+      codeWindow.className = 'code-window';
+      pre.parentNode.insertBefore(codeWindow, pre);
+      codeWindow.appendChild(pre);
+    }
+
+    if (!codeWindow.querySelector('.code-header')) {
+      const header = Object.assign(document.createElement('div'), {
+        className: 'code-header',
+        innerHTML: `
+          ${['red', 'yellow', 'green'].map(color =>
+            `<span class="window-btn ${color}"></span>`).join('')}
+          <span class="window-title">${langClass
+            ? langClass.replace('language-', '') +
+              (langClass.includes('ruby') ? '.rb' : '')
+            : 'code'}</span>`
+      });
+      codeWindow.insertBefore(header, pre);
+    }
+
+    // Add copy button if missing
+    if (!codeWindow.querySelector('.copy-button')) {
+      const copyBtn = Object.assign(document.createElement('button'), {
+        className: 'copy-button',
+        innerHTML: `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>`
+      });
+
+      const updateBtn = (iconPath, text, timeout = 2000) => {
+        copyBtn.innerHTML = `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">${iconPath}</svg><span>${text}</span>`;
+        if (timeout)
+          setTimeout(() => copyBtn.innerHTML =
+            `<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg><span>Copy</span>`, timeout);
+      };
+
+      copyBtn.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(codeBlock.textContent);
+          updateBtn('<polyline points="20 6 9 17 4 12"/>', 'Copied!');
+        } catch {
+          updateBtn('<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>', 'Error!', 2000);
+        }
+      });
+
+      codeWindow.querySelector('.code-header').appendChild(copyBtn);
     }
   });
 }
