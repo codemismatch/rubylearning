@@ -51,8 +51,9 @@ repo_url = config.dig('repository', 'url')
 # First try to get base path from site_name in config.yml
 base_repo_name = config['site_name']&.downcase&.gsub(/\s+/, '') if config['site_name']
 
+
 # If no site_name or it's empty, try to extract repo name from URL for base path
-if !base_repo_name && repo_url && repo_url =~ /github\.com[:/]([^/]+)/([^/\.]+)(\.git)?/
+if !base_repo_name && repo_url && repo_url =~ /github\.com[:\/]([^\/]+)\/([^\/\.]+)(\.git)?$/
   username = $1
   base_repo_name = $2
 end
