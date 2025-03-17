@@ -6,12 +6,35 @@
 
 require 'fileutils'
 require 'optparse'
+require 'yaml'
+
+# Function to load config.yml
+def load_config
+  config_file = File.join(Dir.pwd, 'config.yml')
+  if File.exist?(config_file)
+    begin
+      YAML.load_file(config_file)
+    rescue => e
+      puts "Warning: Error loading config.yml: #{e.message}"
+      {}
+    end
+  else
+    puts "Warning: config.yml not found"
+    {}
+  end
+end
+
+# Load configuration
+config = load_config
+
+# Get repository URL from config if available
+repo_url = config.dig('repository', 'url')
 
 # Parse command line options
 options = {
   force: false,
-  remote: nil,
-  mode: :github,  # Default to GitHub Pages deployment
+  remote: repo_url,  # Default to the URL from config.yml
+  mode: :github,     # Default to GitHub Pages deployment
   fix_only: false,
   build_only: false,
   custom_domain: nil,
@@ -25,7 +48,7 @@ OptionParser.new do |opts|
     options[:force] = true
   end
   
-  opts.on("--remote URL", "GitHub repository URL") do |url|
+  opts.on("--remote URL", "GitHub repository URL (overrides config.yml)") do |url|
     options[:remote] = url
   end
   
@@ -58,6 +81,12 @@ end.parse!
 deploy_mode = options[:mode] == :local ? "local development" : "GitHub Pages"
 puts "==== Typophic: Enhanced Deployment System ===="
 puts "Mode: #{deploy_mode}"
+
+# Print repository info if available
+if options[:remote] && options[:mode] == :github
+  puts "Repository URL: #{options[:remote]}"
+  puts "Deploy Branch: #{config.dig('repository', 'deploy_branch') || 'gh-pages'}"
+end
 
 # Set environment variable for templates
 ENV["DEPLOY_ENV"] = options[:mode].to_s
@@ -116,42 +145,41 @@ if options[:mode] == :local
     end
   end
 else
+  # Use deploy branch from config if available, otherwise default to gh-pages
+  deploy_branch = config.dig('repository', 'deploy_branch') || 'gh-pages'
+  
   # 4. Prepare the Git repository for GitHub Pages
-  puts "\n=== Step 4: Preparing Git repository ==="
+  puts "\n=== Step 4: Preparing Git repository (#{deploy_branch} branch) ==="
+
+  # Check if repository URL is available
+  if !options[:remote]
+    puts "Error: No repository URL specified."
+    puts "Please specify repository URL with --remote option or add it to config.yml:"
+    puts "  repository:"
+    puts "    url: git@github.com:username/repo.git"
+    exit 1
+  end
 
   # Initialize git repository in public directory if not already
   if !Dir.exist?("public/.git")
     puts "Initializing git repository in public directory..."
     Dir.chdir("public") do
       system("git init")
-      system("git checkout -b gh-pages")  # GitHub Pages branch
+      system("git checkout -b #{deploy_branch}")  # GitHub Pages branch
     end
   else
     puts "Git repository already exists in public directory"
     Dir.chdir("public") do
-      system("git checkout gh-pages 2>/dev/null || git checkout -b gh-pages")  # Ensure we're on the gh-pages branch
+      system("git checkout #{deploy_branch} 2>/dev/null || git checkout -b #{deploy_branch}")
     end
   end
 
-  # 5. Set remote if provided
-  if options[:remote]
-    puts "\n=== Step 5: Setting up remote repository ==="
-    Dir.chdir("public") do
-      system("git remote remove origin 2>/dev/null")  # Remove existing remote if any
-      system("git remote add origin #{options[:remote]}")
-      puts "Remote set to: #{options[:remote]}"
-    end
-  else
-    puts "\n=== Step 5: Using existing remote (none specified) ==="
-    Dir.chdir("public") do
-      # Check if a remote is configured
-      remotes = `git remote -v`.strip
-      if remotes.empty?
-        puts "Warning: No remote repository configured. Use --remote to specify one."
-      else
-        puts "Using existing remote: #{remotes}"
-      end
-    end
+  # 5. Set remote
+  puts "\n=== Step 5: Setting up remote repository ==="
+  Dir.chdir("public") do
+    system("git remote remove origin 2>/dev/null")  # Remove existing remote if any
+    system("git remote add origin #{options[:remote]}")
+    puts "Remote set to: #{options[:remote]}"
   end
 
   # 6. Commit and push
@@ -166,26 +194,41 @@ else
     
     # Push
     force_option = options[:force] ? "-f" : ""
-    puts "Pushing to GitHub Pages#{options[:force] ? ' (force push)' : ''}..."
+    puts "Pushing to #{deploy_branch} branch#{options[:force] ? ' (force push)' : ''}..."
     
-    result = system("git push #{force_option} origin gh-pages")
+    result = system("git push #{force_option} origin #{deploy_branch}")
     
     if result
-      puts "Successfully pushed to GitHub Pages!"
+      puts "Successfully pushed to #{deploy_branch} branch!"
     else
-      puts "Error: Failed to push to GitHub Pages."
-      puts "If this is your first push, make sure you've set up the remote repository:"
-      puts "  typophic-deploy --remote git@github.com:metcritical/rubylearning.git"
+      puts "Error: Failed to push to #{deploy_branch} branch."
+      puts "If this is your first push, check your repository URL and access permissions."
       exit 1
     end
   end
 
   puts "\n==== Deployment Complete ===="
-  if options[:custom_domain]
-    puts "Your site has been deployed to GitHub Pages with custom domain: #{options[:custom_domain]}"
-    puts "You'll need to configure your domain DNS settings to point to GitHub Pages."
+  
+  # Extract username/repo from the repository URL
+  # Handle both formats: git@github.com:username/repo.git and https://github.com/username/repo.git
+  repo_info = nil
+  if options[:remote] =~ /github\.com[:\/]([^\/]+)\/([^\/\.]+)(\.git)?/
+    username = $1
+    repo_name = $2
+    
+    if options[:custom_domain]
+      puts "Your site has been deployed to GitHub Pages with custom domain: #{options[:custom_domain]}"
+      puts "You'll need to configure your domain DNS settings to point to GitHub Pages."
+    else
+      puts "Your site has been deployed to GitHub Pages!"
+      puts "It should be available at: https://#{username}.github.io/#{repo_name}/"
+    end
   else
     puts "Your site has been deployed to GitHub Pages!"
-    puts "It should be available at: https://metcritical.github.io/rubylearning/"
+    if options[:custom_domain]
+      puts "It should be available at your custom domain: #{options[:custom_domain]}"
+    else
+      puts "Check your GitHub repository settings for the URL."
+    end
   end
 end

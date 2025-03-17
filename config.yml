@@ -10,3 +10,9 @@ markdown_extensions:
 - tables
 - fenced_code_blocks
 - autolink
+
+# Git repository settings
+repository:
+  url: git@github.com:metacritical/rubylearning.git
+  branch: main
+  deploy_branch: gh-pages
