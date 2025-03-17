@@ -2,10 +2,18 @@
 title: Understanding Ruby Classes and Objects
 layout: post
 date: 2023-01-03
-tags: [ruby, oop, classes, objects]
 description: Learn about object-oriented programming in Ruby through classes and objects
----
+tags:
+  - oop
+  - classes
+  - objects
+  - object-oriented
+difficulty: intermediate
+related_tutorials:
+  - title: "Ruby examples"
+    url: "/posts/2023-01-02-ruby-examples/"
 
+---
 # Understanding Ruby Classes and Objects
 
 Object-oriented programming is one of Ruby's core paradigms. Let's explore how classes and objects work in Ruby.

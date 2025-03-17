@@ -1,0 +1,15 @@
+<!-- templates/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    <% if page.layout == 'post' %>
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li><%= page.title %></li>
+    <% elsif page.title == 'Ruby Tutorials' %>
+    <li>Tutorials</li>
+    <% else %>
+    <li><%= page.title %></li>
+    <% end %>
+  </ol>
+</nav>

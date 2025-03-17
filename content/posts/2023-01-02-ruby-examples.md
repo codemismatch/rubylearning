@@ -2,9 +2,19 @@
 title: Ruby Code Examples
 layout: post
 date: 2023-01-02
-tags: [ruby, code]
----
+tags:
+  - examples
+  - syntax
+  - basics
+  - fundamentals
+difficulty: beginner
+related_tutorials:
+  - title: "Welcome"
+    url: "/posts/2023-01-01-welcome/"
+  - title: "Ruby classes and objects"
+    url: "/posts/2023-01-03-ruby-classes-and-objects/"
 
+---
 # Ruby Code Examples
 
 Here are some Ruby code examples that you can use:

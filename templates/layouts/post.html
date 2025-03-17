@@ -1,9 +1,18 @@
 ---
 layout: default
 ---
+<% breadcrumbs_path = File.join(Dir.pwd, 'templates/includes/_breadcrumbs.html') %>
+<% breadcrumbs = File.exist?(breadcrumbs_path) ? File.read(breadcrumbs_path) : '' %>
+<%= ERB.new(breadcrumbs).result(binding) if breadcrumbs != '' %>
+
 <article class="post">
   <header class="post-header">
-    <h1><%= page.title %></h1>
+    <h1>
+      <%= page.title %>
+      <% if page.difficulty %>
+        <span class="difficulty difficulty-<%= page.difficulty %>"><%= page.difficulty.capitalize %></span>
+      <% end %>
+    </h1>
     <div class="post-meta">
       <time datetime="<%= page.date.strftime('%Y-%m-%d') %>">
         <%= page.date.strftime(site.date_format) %>
@@ -21,4 +30,8 @@ layout: default
   <div class="post-content">
     <%= content %>
   </div>
+  
+  <% related_path = File.join(Dir.pwd, 'templates/includes/_related_tutorials.html') %>
+  <% related = File.exist?(related_path) ? File.read(related_path) : '' %>
+  <%= ERB.new(related).result(binding) if related != '' %>
 </article>

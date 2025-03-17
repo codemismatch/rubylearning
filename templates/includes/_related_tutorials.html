@@ -1,0 +1,12 @@
+<!-- templates/includes/_related_tutorials.html -->
+
+<% if page.related_tutorials && page.related_tutorials.any? %>
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    <% page.related_tutorials.each do |tutorial| %>
+    <li><a href="<%= tutorial.url %>"><%= tutorial.title %></a></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
