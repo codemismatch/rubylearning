@@ -31,6 +31,7 @@ If you want to dive deeper into the internals, see [`docs/INTERNALS.md`](docs/IN
 1. **Discovery** – Markdown files in `content/` are parsed, frontmatter extracted, and canonical metadata derived (slug, permalink, date, tags, layout).
 2. **Indexing** – Before rendering, Typophic walks the entire content tree to build collections for each section, chronological archives (`site.archives`), and tag taxonomies (`site.tags`). Themes can iterate these data structures to render listings.
 3. **Rendering** – Markdown is transformed to HTML with a lightweight renderer, then wrapped in ERB layouts. Layout inheritance is supported via frontmatter (`layout: parent`).
+   - Pages can also be expressed as `.html`, `.html.erb`, or `.erb`. Typophic detects the extension, runs ERB when needed (honouring the frontmatter), and drops the generated file at the permalink derived from the frontmatter or file name.
 4. **Output** – HTML is written to `public/`, assets are copied, and JSON summaries land in `public/typophic/` for client-side use.
 
 ### Theme Resolution
@@ -175,6 +176,22 @@ The builder derives `site.base_path` from `url`, so links and asset paths are co
 4. Publish with `typophic deploy` once you are ready.
 
 Because link rewrites now happen during rendering, there is no need for the legacy `typophic-fix` step. Any previous wrapper will emit a reminder and exit harmlessly.
+
+### Blogging workflow
+
+Typophic includes a `blog` command for scaffolding and publishing articles:
+
+```bash
+# Draft a new article (saved under content/drafts/slug.md)
+bin/typophic blog new --title "Understanding Enumerable" --tags "ruby,enumerable" --draft
+
+# Promote a draft into content/posts/YYYY-MM-DD-slug.md with a fresh date
+bin/typophic blog publish --slug understanding-enumerable
+```
+
+- Published posts are timestamped Markdown files stored in `content/posts/`. They adopt the `post` layout by default and automatically appear on `/blog/`.
+- The blog index itself lives at `content/pages/blog.html.erb`. That ERB template iterates `site.collections.posts`, so you can tweak the archive design without touching Ruby.
+- Drafts remain in `content/drafts/` until you run `blog publish`, which updates the frontmatter date and moves the file into `content/posts/`.
 
 ## Deployment Notes
 
