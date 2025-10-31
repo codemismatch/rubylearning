@@ -24,35 +24,35 @@ pre[class*="language-"]::before {
   text-transform: uppercase;
 }
 
-pre[class="language-ruby"]::before {
+pre.language-ruby::before {
   content: 'Ruby';
   background-color: rgba(204, 52, 45, 0.6);
 }
 
-pre[class="language-markdown"]::before {
+pre.language-markdown::before {
   content: 'Markdown';
   background-color: rgba(113, 80, 160, 0.6);
 }
 
-pre[class="language-javascript"]::before,
-pre[class="language-js"]::before {
+pre.language-javascript::before,
+pre.language-js::before {
   content: 'JavaScript';
   background-color: rgba(247, 223, 30, 0.6);
   color: #333;
 }
 
-pre[class="language-html"]::before {
+pre.language-html::before {
   content: 'HTML';
   background-color: rgba(227, 79, 38, 0.6);
 }
 
-pre[class="language-css"]::before {
+pre.language-css::before {
   content: 'CSS';
   background-color: rgba(33, 150, 243, 0.6);
 }
 
-pre[class="language-bash"]::before,
-pre[class="language-shell"]::before {
+pre.language-bash::before,
+pre.language-shell::before {
   content: 'Shell';
   background-color: rgba(46, 204, 113, 0.6);
 }
@@ -281,5 +281,5 @@ pre[class="language-shell"]::before {
 .output-content {
   white-space: pre-wrap;
   word-wrap: break-word;
-  color: aqua;
+  color: tomato;
 }

@@ -31,10 +31,8 @@ chmod +x fix-header-link.rb
 
 # Build the site
 echo "1. Building the site..."
-if [ -f "bin/typophic-build" ]; then
-  bin/typophic-build
-elif [ -f "bin/typophic" ]; then
-  bin/typophic
+if [ -x "bin/typophic" ]; then
+  bin/typophic build --deploy
 else
   echo "Error: No build script found."
   exit 1

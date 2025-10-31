@@ -1,0 +1,47 @@
+---
+layout: page
+title: Ruby & Rails Blog
+permalink: /blog
+description: Fresh lessons, tips, and project write-ups for Ruby and Ruby on Rails developers.
+breadcrumbs: true
+---
+
+<h1>Ruby &amp; Rails blog</h1>
+<p class="chapter-meta">We publish deep dives, practice guides, and project retros so you can keep sharpening both Ruby and Rails skills between chapters.</p>
+
+<% posts = Array(site.collections&.posts || [])
+  .sort_by { |post| post.date || Date.today }
+  .reverse %>
+
+<% if posts.any? %>
+  <div class="post-grid blog-archive">
+    <% posts.each do |post| %>
+      <article class="post-card">
+        <h2><a href="<%= url_for(post.permalink) %>"><%= post.title %></a></h2>
+        <div class="post-meta">
+          <% if post.date %>
+            <span class="post-date"><%= post.date.strftime(site.date_format || '%B %-d, %Y') %></span>
+          <% end %>
+          <% Array(post.tags).first(3).each do |tag| %>
+            <span class="post-tag"><%= tag %></span>
+          <% end %>
+        </div>
+        <% if post.description %>
+          <p><%= post.description %></p>
+        <% elsif post.summary %>
+          <p><%= post.summary %></p>
+        <% else %>
+          <p><%= truncate(strip_html(post.content), length: 160) %></p>
+        <% end %>
+        <a class="read-more" href="<%= url_for(post.permalink) %>">Read more →</a>
+      </article>
+    <% end %>
+  </div>
+<% else %>
+  <p>No blog posts yet—check back soon, or subscribe to the newsletter on the resources page.</p>
+<% end %>
+
+<section class="chapter-section">
+  <h2>Stay updated</h2>
+  <p>Subscribe to the RSS feed (coming soon) or join our mailing list to hear when new Ruby and Rails guides go live. Have a topic request? Open an issue on GitHub and we’ll add it to the queue.</p>
+</section>

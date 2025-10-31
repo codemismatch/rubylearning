@@ -1,0 +1,49 @@
+---
+layout: default
+---
+<div class="tutorial-wrapper">
+  <% if partial?("breadcrumbs") && page['breadcrumbs'] != false %>
+    <%= render_partial("breadcrumbs") %>
+  <% end %>
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        <%= page.title %>
+        <% if page.difficulty %>
+          <span class="difficulty difficulty-<%= page.difficulty %>"><%= page.difficulty.capitalize %></span>
+        <% end %>
+      </h1>
+      <% if page.summary %>
+        <p class="tutorial-summary"><%= page.summary %></p>
+      <% end %>
+    </header>
+
+    <div class="tutorial-content">
+      <%= content %>
+    </div>
+
+    <% if (page.previous_tutorial || page.next_tutorial) %>
+      <nav class="tutorial-nav">
+        <% if page.previous_tutorial %>
+          <% prev = page.previous_tutorial %>
+          <% prev_href = prev['url'] || prev[:url] %>
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="<%= url_for(prev_href) %>">
+            ← <%= prev['title'] || prev[:title] %>
+          </a>
+        <% end %>
+        <% if page.next_tutorial %>
+          <% nxt = page.next_tutorial %>
+          <% next_href = nxt['url'] || nxt[:url] %>
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="<%= url_for(next_href) %>">
+            <%= nxt['title'] || nxt[:title] %> →
+          </a>
+        <% end %>
+      </nav>
+    <% end %>
+
+    <% if page.related_tutorials && page.related_tutorials.any? %>
+      <%= render_partial('related_tutorials') %>
+    <% end %>
+  </article>
+</div>

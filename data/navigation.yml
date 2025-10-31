@@ -1,0 +1,39 @@
+primary:
+  - label: Home
+    path: /
+  - label: About
+    path: pages/about/
+  - label: Learn Ruby
+    url: /tutorials/#ruby-track
+  - label: Learn Rails
+    url: /tutorials/#rails-track
+  - label: Tutorials
+    path: tutorials/
+  - label: Blog
+    path: blog/
+  - label: Resources
+    path: pages/resources/
+
+footer_quick:
+  - label: Home
+    path: /
+  - label: About
+    path: pages/about/
+  - label: Learn Ruby
+    url: /tutorials/#ruby-track
+  - label: Learn Rails
+    url: /tutorials/#rails-track
+  - label: Tutorials
+    path: tutorials/
+  - label: Blog
+    path: blog/
+  - label: Resources
+    path: pages/resources/
+
+footer_resources:
+  - label: Ruby Official Site
+    url: https://ruby-lang.org
+  - label: Ruby Documentation
+    url: https://ruby-doc.org
+  - label: RubyGems
+    url: https://rubygems.org

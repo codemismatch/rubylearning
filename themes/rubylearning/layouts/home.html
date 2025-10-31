@@ -5,11 +5,11 @@ layout: default
   <!-- Hero Section with Code Example -->
   <section class="hero">
     <div class="hero-content">
-      <h1>Master <span class="text-ruby">Ruby</span> Programming</h1>
-      <p class="hero-subtitle">A modern approach to learning the elegant and powerful Ruby programming language</p>
+      <h1>Build confidence with <span class="text-ruby">Ruby</span></h1>
+      <p class="hero-subtitle">Short, purposeful lessons paired with runnable examples so you can go from “Hello World” to production-ready Ruby.</p>
       <div class="hero-actions">
-        <a href="tutorials.html" class="btn btn-primary">Start Learning</a>
-        <a href="resources.html" class="btn btn-secondary">Explore Resources</a>
+        <a href="<%= url_for('tutorials/') %>" class="btn btn-primary">Browse tutorials</a>
+        <a href="<%= url_for('pages/resources/') %>" class="btn btn-secondary">Grab learning aids</a>
       </div>
     </div>
     <div class="hero-image">
@@ -20,7 +20,7 @@ layout: default
           <span class="window-btn green"></span>
           <span class="window-title">ruby.rb</span>
         </div>
-        <!-- <div class="code-content"> -->
+        <div class="code-content">
           <pre><code class="language-ruby"># Welcome to Ruby Learning
 class Greeter
   def initialize(name)
@@ -37,7 +37,7 @@ greeter = Greeter.new("Rubyist")
 
 # Say hello to the world
 greeter.say_hello</code></pre>
-        <!-- </div> -->
+        </div>
       </div>
     </div>
   </section>
@@ -45,38 +45,63 @@ greeter.say_hello</code></pre>
   <!-- Features Section -->
   <section class="features">
     <div class="container">
-      <h2 class="section-title">Why Learn Ruby?</h2>
+      <h2 class="section-title">What you’ll master</h2>
       <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
           </div>
-          <h3>Elegant Syntax</h3>
-          <p>Ruby's clean and readable syntax makes it a joy to write and maintain. It's designed to feel natural to programmers.</p>
+          <h3>Readable foundations</h3>
+          <p>Learn the building blocks—expressions, methods, blocks, and iterators—using examples that emphasise Ruby’s expressive style.</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M16 8h-6a2 2 0 1 0 0 4h4a2 2 0 1 1 0 4H8"></path><line x1="12" y1="6" x2="12" y2="8"></line><line x1="12" y1="16" x2="12" y2="18"></line></svg>
           </div>
-          <h3>Powerful & Flexible</h3>
-          <p>Ruby's flexibility empowers you to solve problems in multiple ways, with a rich ecosystem of libraries and frameworks.</p>
+          <h3>Object-oriented fluency</h3>
+          <p>Understand classes, modules, and mixins, then practise by modelling real-world concepts with Ruby’s object system.</p>
         </div>
         
         <div class="feature-card">
           <div class="feature-icon">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="4 17 10 11 4 5"></polyline><line x1="12" y1="19" x2="20" y2="19"></line></svg>
           </div>
-          <h3>Developer Happiness</h3>
-          <p>Ruby is designed with programmer happiness in mind. Its intuitive design helps you express your ideas with less code.</p>
+          <h3>Everyday tooling</h3>
+          <p>Dive into enumerables, file IO, and error handling—skills you’ll use daily when scripting or building Ruby applications.</p>
         </div>
-        
+      </div>
+    </div>
+  </section>
+
+  <!-- Popular Topics Section -->
+  <section class="latest-tutorials">
+    <div class="container">
+      <h2 class="section-title">Popular topics</h2>
+      <div class="feature-grid">
         <div class="feature-card">
           <div class="feature-icon">
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.28a2 2 0 0 0 2-1.7l1.38-9a2 2 0 0 0-2-2.3zM7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"></path></svg>
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"></path><path d="M2 17l10 5 10-5"></path><path d="M2 12l10 5 10-5"></path></svg>
           </div>
-          <h3>In-Demand Skill</h3>
-          <p>Ruby skills are valuable in today's job market, especially with the popularity of Rails for web development.</p>
+          <h3>Ruby foundations</h3>
+          <p>Master expressions, flow, and Ruby idioms with curated guides and runnable examples.</p>
+          <a class="read-more" href="<%= url_for('ruby/') %>">Explore Ruby →</a>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"></rect><path d="M3 9h18"></path><path d="M9 21V9"></path></svg>
+          </div>
+          <h3>Rails fundamentals</h3>
+          <p>Learn MVC, routing, and modern Rails tooling through project-based lessons.</p>
+          <a class="read-more" href="<%= url_for('rails/') %>">Explore Rails →</a>
+        </div>
+        <div class="feature-card">
+          <div class="feature-icon">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"></circle><path d="M8 12l2 2 4-4"></path></svg>
+          </div>
+          <h3>Project playbooks</h3>
+          <p>Follow structured paths to build apps, practice testing, and ship polished features.</p>
+          <a class="read-more" href="<%= url_for('blog/') %>">Read the blog →</a>
         </div>
       </div>
     </div>
@@ -86,42 +111,34 @@ greeter.say_hello</code></pre>
   <section class="latest-tutorials">
     <div class="container">
       <h2 class="section-title">Latest Tutorials</h2>
+      <% latest_posts = Array(site.collections&.posts || [])
+        .sort_by { |post| post.date || Date.today }
+        .reverse
+        .first(3) %>
+
       <div class="post-grid">
-        <div class="post-card">
-          <h3><a href="posts/ruby-classes-and-objects.html">Understanding Ruby Classes and Objects</a></h3>
-          <div class="post-meta">
-            <span class="post-date">January 3, 2023</span>
-            <span class="post-tag">ruby</span>
-            <span class="post-tag">oop</span>
+        <% latest_posts.each do |post| %>
+          <div class="post-card">
+            <h3><a href="<%= url_for(post.permalink) %>"><%= post.title %></a></h3>
+            <div class="post-meta">
+              <% if post.date %>
+                <span class="post-date"><%= post.date.strftime(site.date_format || '%B %-d, %Y') %></span>
+              <% end %>
+              <% Array(post.tags).first(3).each do |tag| %>
+                <span class="post-tag"><%= tag %></span>
+              <% end %>
+            </div>
+            <% if post.description %>
+              <p><%= post.description %></p>
+            <% elsif post.summary %>
+              <p><%= post.summary %></p>
+            <% end %>
+            <a href="<%= url_for(post.permalink) %>" class="read-more">Read more →</a>
           </div>
-          <p>Learn about object-oriented programming in Ruby through classes and objects. Discover how Ruby implements OOP concepts elegantly.</p>
-          <a href="posts/ruby-classes-and-objects.html" class="read-more">Read more →</a>
-        </div>
-        
-        <div class="post-card">
-          <h3><a href="posts/ruby-examples.html">Ruby Code Examples</a></h3>
-          <div class="post-meta">
-            <span class="post-date">January 2, 2023</span>
-            <span class="post-tag">ruby</span>
-            <span class="post-tag">examples</span>
-          </div>
-          <p>Practical code examples that demonstrate Ruby's capabilities and show you how to solve common programming problems with Ruby.</p>
-          <a href="posts/ruby-examples.html" class="read-more">Read more →</a>
-        </div>
-        
-        <div class="post-card">
-          <h3><a href="posts/welcome.html">Welcome to Ruby Learning</a></h3>
-          <div class="post-meta">
-            <span class="post-date">January 1, 2023</span>
-            <span class="post-tag">welcome</span>
-            <span class="post-tag">introduction</span>
-          </div>
-          <p>Start your Ruby learning journey with this warm welcome and introduction to the Ruby programming language.</p>
-          <a href="posts/welcome.html" class="read-more">Read more →</a>
-        </div>
+        <% end %>
       </div>
       <div class="section-action">
-        <a href="tutorials.html" class="btn btn-secondary">View All Tutorials</a>
+        <a href="<%= url_for('blog/') %>" class="btn btn-secondary">Browse the blog</a>
       </div>
     </div>
   </section>
@@ -134,32 +151,32 @@ greeter.say_hello</code></pre>
         <div class="path-item">
           <div class="path-number">1</div>
           <div class="path-content">
-            <h3>Ruby Fundamentals</h3>
-            <p>Start with the basics: syntax, variables, control structures, and methods.</p>
+            <h3><a href="<%= url_for('tutorials/meet-ruby/') %>">Ruby fundamentals</a></h3>
+            <p>Start with the basics: values, methods, conditionals, and loops. Each lesson ends with a runnable snippet.</p>
           </div>
         </div>
         
         <div class="path-item">
           <div class="path-number">2</div>
           <div class="path-content">
-            <h3>Object-Oriented Ruby</h3>
-            <p>Master classes, objects, inheritance, and modules.</p>
+            <h3><a href="<%= url_for('tutorials/classes-and-objects/') %>">Object-oriented Ruby</a></h3>
+            <p>Model real objects with classes and modules, and see how Ruby uses mixins to share behaviour.</p>
           </div>
         </div>
         
         <div class="path-item">
           <div class="path-number">3</div>
           <div class="path-content">
-            <h3>Ruby Collections</h3>
-            <p>Work with arrays, hashes, and learn powerful enumeration techniques.</p>
+            <h3><a href="<%= url_for('tutorials/flow-control-collections/') %>">Collections &amp; blocks</a></h3>
+            <p>Practise the Enumerable toolkit, block passing, and iterators so you can transform data with confidence.</p>
           </div>
         </div>
         
         <div class="path-item">
           <div class="path-number">4</div>
           <div class="path-content">
-            <h3>Functional Programming</h3>
-            <p>Explore blocks, procs, lambdas, and functional concepts in Ruby.</p>
+            <h3>Functional patterns</h3>
+            <p>Explore blocks, procs, lambdas, and build composable helpers for day-to-day scripts.</p>
           </div>
         </div>
         
@@ -167,7 +184,7 @@ greeter.say_hello</code></pre>
           <div class="path-number">5</div>
           <div class="path-content">
             <h3>Advanced Ruby</h3>
-            <p>Dive into metaprogramming, DSLs, and Ruby's advanced features.</p>
+            <p>Metaprogramming, DSLs, and performance tips—coming soon to keep your skills sharp.</p>
           </div>
         </div>
       </div>
@@ -177,9 +194,9 @@ greeter.say_hello</code></pre>
   <!-- Community Section -->
   <section class="community">
     <div class="container">
-      <h2 class="section-title">Join the Ruby Community</h2>
+      <h2 class="section-title">Stay connected</h2>
       <div class="community-content">
-        <p>Ruby has one of the most friendly and helpful communities in the programming world. Connect with other Rubyists to share knowledge, get help, and make friends!</p>
+        <p>The Ruby ecosystem thrives on collaboration. Connect with other Rubyists to ask questions, share wins, and keep learning between lessons.</p>
         <div class="community-links">
           <a href="https://discuss.rubyonrails.org/" class="community-link" target="_blank" rel="noopener">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path></svg>

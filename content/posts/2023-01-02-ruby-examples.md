@@ -1,5 +1,5 @@
 ---
-title: Ruby Code Examples
+title: Ruby Practice Examples
 layout: post
 date: 2023-01-02
 tags:
@@ -7,17 +7,18 @@ tags:
   - syntax
   - basics
   - fundamentals
-difficulty: beginner
 related_tutorials:
-  - title: "Welcome"
-    url: "/posts/2023-01-01-welcome/"
-  - title: "Ruby classes and objects"
-    url: "/posts/2023-01-03-ruby-classes-and-objects/"
+  - title: "Chapter 2: Flow control & collections"
+    url: "/tutorials/flow-control-collections/"
+  - title: "Chapter 3: Methods & blocks"
+    url: "/tutorials/methods-and-blocks/"
 
 ---
-# Ruby Code Examples
+# Practise alongside the Ruby tutorials
 
-Here are some Ruby code examples that you can use:
+The dedicated Ruby tutorials page now houses the full learning path. Continue with [Chapter&nbsp;2](/tutorials/#chapter-2) for flow control and collections or [Chapter&nbsp;3](/tutorials/#chapter-3) for methods and blocks.
+
+If you’d like a quick refresher before diving back in, paste these examples into IRB and modify them after working through the practice checklists.
 
 ```ruby
 # A simple Ruby class
@@ -58,3 +59,5 @@ calc = Calculator.new
 puts "10 + 5 = #{calc.add(10, 5)}"
 puts "10 - 5 = #{calc.subtract(10, 5)}"
 ```
+
+Need more structured guidance? Head back to the [tutorials overview](/tutorials/) for the full chapter list, or visit the [resources page](/pages/resources/) to find supporting courses, videos, and reference material.

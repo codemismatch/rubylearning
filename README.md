@@ -1,350 +1,169 @@
 # Ruby Learning
 
-A beautiful static website for learning Ruby programming language using the Typophic static site generator.
+Ruby Learning is a Typophic-powered static site that curates modern Ruby programming guides, tutorials, and reference material. The repository now revolves around a single `typophic` executable that drives builds, previews, deployments, and scaffolding—no auxiliary binaries required.
 
 ## Project Structure
 
-- `bin/` - Core utility scripts for building and managing the site
-- `content/` - Source Markdown files for the site content
-- `data/` - Data files for the site (for dynamic content)
-- `public/` - Generated static site output
-- `templates/` - HTML templates and assets (CSS, JS, images)
-- `tools/` - Additional helper utilities
+- `bin/` – home of the primary `typophic` executable
+- `content/` – Markdown sources organised by section (`posts/`, `pages/`, etc.)
+- `themes/rubylearning/` – ERB layouts, partials, and static assets (`css/`, `js/`, `images/`)
+- `layouts/`, `includes/`, `assets/` – optional site-level overrides that shadow theme files
+- `helpers/` – Ruby helper modules (namespaced under `Typophic::Helpers`) made available to templates
+- `lib/` – Typophic runtime (builder, CLI commands, helpers)
+- `data/` – optional structured data files used during rendering
+- `public/` – generated output (safe to delete; always recreated by `typophic build`)
+- `config.yml` – site-wide metadata, deployment settings, and URL information
 
-## Core Commands
+## Architecture Overview
 
-The following commands are available for site management:
+Typophic is built as a RubyGem-backed static site generator. The same codebase powers the dogfooded `rubylearning` site and can be installed as a reusable tool.
 
-| Command | Description |
-|---------|-------------|
-| `bin/typophic` | Main static site generator |
-| `bin/typophic-build` | Build the site with all optimizations |
-| `bin/typophic-deploy` | Unified deployment system (local or GitHub Pages) |
-| `bin/typophic-fix` | Fix common site issues |
-| `bin/typophic-new` | Create new content |
-| `bin/typophic-serve` | Local development server |
+If you want to dive deeper into the internals, see [`docs/INTERNALS.md`](docs/INTERNALS.md).
 
-## Quick Start
+### Runtime Layers
 
-### First-time Setup
+- **CLI (`bin/typophic`)** – entry point exposing subcommands (`build`, `serve`, `deploy`, `new`, `theme`).
+- **Core library (`lib/typophic/`)** – builder, command modules, theme scaffolder, and helper plumbing packaged by the gemspec.
+- **Helpers (`helpers/` & `themes/<name>/helpers/`)** – optional Ruby modules under `Typophic::Helpers::*`. They are auto-included in template bindings so themes can add Ruby utilities without custom wiring.
 
-```bash
-# Make all scripts executable
-chmod +x bin/*
-```
+### Content Pipeline
 
-### Building the Site
+1. **Discovery** – Markdown files in `content/` are parsed, frontmatter extracted, and canonical metadata derived (slug, permalink, date, tags, layout).
+2. **Indexing** – Before rendering, Typophic walks the entire content tree to build collections for each section, chronological archives (`site.archives`), and tag taxonomies (`site.tags`). Themes can iterate these data structures to render listings.
+3. **Rendering** – Markdown is transformed to HTML with a lightweight renderer, then wrapped in ERB layouts. Layout inheritance is supported via frontmatter (`layout: parent`).
+4. **Output** – HTML is written to `public/`, assets are copied, and JSON summaries land in `public/typophic/` for client-side use.
 
-Build the site with all optimizations:
+### Theme Resolution
 
-```bash
-bin/typophic-build
-```
+When Typophic looks for a layout, partial, or asset it checks in order:
 
-### Preview the Site
+1. Site-level overrides (`layouts/`, `includes/`, `assets/`).
+2. Active theme (`themes/<theme-name>/…`).
 
-Start a local development server:
+This mirrors Hugo/Jekyll behaviour—site-specific tweaks can shadow theme files without forking the theme.
 
-```bash
-bin/typophic-serve
-```
+### Theme Packaging
 
-Visit http://localhost:3000 in your browser.
+- Themes live under `themes/<name>/` and ship with `layouts/`, `includes/`, `css/`, `js/`, and optional `helpers/` or `images/` directories.
+- `config.yml` declares the active theme (`theme: rubylearning`). Switch the value or run `typophic theme new <name>` to scaffold a fresh theme.
+- The gemspec includes both runtime code and the default theme so external users can install from RubyGems and get a working starting point.
 
-### Creating New Content
+### Dogfooding Workflow
 
-Create a new post:
+- The `rubylearning` site depends on the local gem via the same source tree, so improvements to Typophic immediately benefit the site.
+- During development run `bundle exec typophic build` or `typophic serve --build` to exercise the generator with real content.
+- When Typophic is ready for wider use, `gem build typophic.gemspec` (and optionally `gem push`) publishes the runtime and default theme for other projects.
 
-```bash
-bin/typophic-new post "My New Ruby Tutorial"
-```
+## Typophic CLI
 
-Create a new page:
+Every workflow funnels through the `typophic` command.
 
-```bash
-bin/typophic-new page "About Ruby"
-```
+| Command | Purpose |
+|---------|---------|
+| `typophic build` | Render Markdown + ERB into the `public/` directory |
+| `typophic serve` | Launch a Python preview server against the latest build |
+| `typophic deploy` | Either push `public/` to GitHub Pages or run a local preview loop |
+| `typophic new` | Scaffold a brand new Typophic site skeleton |
+| `typophic theme` | Manage themes (e.g. `typophic theme new minimal`) |
 
-### Deploying the Site
+### Developing as a Gem
 
-For local development:
-
-```bash
-bin/typophic-deploy --local
-```
-
-For GitHub Pages:
+Typophic is structured as a Ruby gem. To work on the generator and the site simultaneously:
 
 ```bash
-bin/typophic-deploy
+bundle install
+bundle exec typophic build
 ```
 
-The GitHub Pages repository URL is configured in `config.yml`:
+External projects can point at the gemspec during development:
+
+```ruby
+# Gemfile
+gem "typophic", path: "../typophic"
+```
+
+When ready to distribute, run `gem build typophic.gemspec` (and `gem push` if publishing to RubyGems).
+
+### Scaffolding Themes
+
+Create a fresh theme skeleton alongside the default `rubylearning` theme:
+
+```bash
+typophic theme new minimal
+```
+
+The command drops starter layouts, includes, and asset folders under `themes/minimal/` ready for customization.
+
+### Building
+
+```bash
+typophic build [--no-clean] [--quiet] [--deploy]
+```
+
+- `--no-clean` keeps existing files in `public/` for faster rebuilds.
+- `--quiet` suppresses progress output.
+- `--deploy` adds `.nojekyll` and a polished `404.html`, ready for GitHub Pages.
+
+### Serving
+
+```bash
+typophic serve [--port PORT] [--host HOST] [--build]
+```
+
+- `--build` triggers a fresh build before the server starts.
+- Specify `--port` (default `3000`) and `--host` (default `localhost`) to suit your environment.
+
+### Deploying
+
+```bash
+typophic deploy [--local] [--watch] [--port PORT]
+                    [--remote REMOTE] [--branch BRANCH] [--force]
+                    [--custom-domain DOMAIN]
+```
+
+- `--local` builds the site and starts a preview server instead of pushing.
+- `--watch` (local mode only) rebuilds whenever `content/`, `themes/`, `helpers/`, `assets/`, `data/`, or `config.yml` changes.
+- `--remote` / `--branch` control the git target (defaults come from `config.yml`).
+- `--force` forces the subtree push if the remote branch diverged.
+- `--custom-domain` writes `public/CNAME` before publishing.
+
+### Bootstrapping a New Site
+
+```bash
+typophic new [--name NAME] [--dir DIR]
+              [--type blog|docs|ruby]
+              [--author AUTHOR] [--description TEXT]
+```
+
+The generator mirrors the current repository layout, sets up sensible defaults in `config.yml`, and copies the `typophic` executable into the new project.
+
+## Configuration
+
+Key settings live in `config.yml`:
 
 ```yaml
+site_name: Ruby Learning
+author: Typophic User
+description: A beautiful static website for learning Ruby
+url: https://rubylearning.in        # Used for canonical/absolute links
+date_format: "%B %-d, %Y"
 repository:
-  url: git@github.com:username/rubylearning.git
+  url: git@github.com:metacritical/rubylearning.git
   branch: main
   deploy_branch: gh-pages
 ```
 
-## Detailed Command Documentation
+The builder derives `site.base_path` from `url`, so links and asset paths are correct the first time—no post-processing fixups required.
 
-### typophic-build
+## Development Workflow
 
-Builds the site with all necessary optimizations.
+1. Edit Markdown in `content/` or tweak ERB layouts in `themes/<active-theme>/`.
+2. Run `typophic build` (or `typophic serve --build` for a hands-free preview).
+3. Inspect the generated site under `public/`.
+4. Publish with `typophic deploy` once you are ready.
 
-```bash
-bin/typophic-build [options]
-```
+Because link rewrites now happen during rendering, there is no need for the legacy `typophic-fix` step. Any previous wrapper will emit a reminder and exit harmlessly.
 
-**Options:**
+## Deployment Notes
 
-| Option | Description |
-|--------|-------------|
-| `--deploy` | Build with deployment optimizations |
-| `--no-minify` | Skip minification of CSS and JavaScript |
-| `--no-optimize` | Skip image optimization |
-| `--watch` | Watch for changes and rebuild automatically |
-| `--verbose` | Display detailed output during build |
-| `--quiet` | Suppress all output except errors |
-| `--clean` | Clean build directory before building |
-
-**Examples:**
-
-```bash
-# Build for production with all optimizations
-bin/typophic-build --deploy
-
-# Build for development with file watching
-bin/typophic-build --watch
-
-# Clean and rebuild the site
-bin/typophic-build --clean
-```
-
-### typophic-serve
-
-Starts a local development server for previewing the site.
-
-```bash
-bin/typophic-serve [options]
-```
-
-**Options:**
-
-| Option | Description |
-|--------|-------------|
-| `--port PORT` | Specify the port number (default: 3000) |
-| `--bind ADDRESS` | Specify the bind address (default: 127.0.0.1) |
-| `--live-reload` | Enable live reload on file changes |
-| `--no-cache` | Disable caching of assets |
-| `--open` | Open browser automatically |
-
-**Examples:**
-
-```bash
-# Start server on default port 3000
-bin/typophic-serve
-
-# Start server on port 8080 with live reload
-bin/typophic-serve --port 8080 --live-reload
-
-# Start server and open browser automatically
-bin/typophic-serve --open
-```
-
-### typophic-new
-
-Creates new content with proper frontmatter and templates.
-
-```bash
-bin/typophic-new [type] [title] [options]
-```
-
-**Content Types:**
-
-| Type | Description |
-|------|-------------|
-| `post` | Blog post or tutorial entry |
-| `page` | Static page |
-| `category` | Category index page |
-| `tutorial` | Multi-part tutorial |
-
-**Options:**
-
-| Option | Description |
-|--------|-------------|
-| `--author NAME` | Specify content author |
-| `--date DATE` | Specify publication date (default: current date) |
-| `--draft` | Mark as draft (not published) |
-| `--series NAME` | Add to a tutorial series |
-| `--template NAME` | Use specific template |
-| `--no-frontmatter` | Skip frontmatter generation |
-
-**Examples:**
-
-```bash
-# Create a new blog post
-bin/typophic-new post "Getting Started with Ruby Classes"
-
-# Create a draft page
-bin/typophic-new page "Contributing Guidelines" --draft
-
-# Create a tutorial with specific author and series
-bin/typophic-new tutorial "Building a CLI App" --author "Jane Doe" --series "Ruby CLI"
-```
-
-### typophic-fix
-
-Fix common issues in the site content and structure.
-
-```bash
-bin/typophic-fix [options]
-```
-
-**Options:**
-
-| Option | Description |
-|--------|-------------|
-| `--all` | Apply all available fixes |
-| `--links` | Fix broken links |
-| `--images` | Fix image paths and add missing alt text |
-| `--code` | Fix code block formatting |
-| `--frontmatter` | Validate and fix frontmatter |
-| `--templates` | Fix template variables |
-| `--dry-run` | Show what would be fixed without making changes |
-| `--verbose` | Show detailed information about fixes |
-
-**Examples:**
-
-```bash
-# Apply all fixes
-bin/typophic-fix --all
-
-# Fix only links and show detailed output
-bin/typophic-fix --links --verbose
-
-# Check what would be fixed without making changes
-bin/typophic-fix --all --dry-run
-```
-
-### typophic-deploy
-
-Unified deployment system for both local development and GitHub Pages.
-
-```bash
-bin/typophic-deploy [options]
-```
-
-**Options:**
-
-| Option | Description |
-|--------|-------------|
-| `--local` | Deploy for local development |
-| `--remote URL` | GitHub repository URL (overrides config.yml) |
-| `--base-path PATH` | Base path for GitHub Pages (default: site_name from config.yml or repository name) |
-| `--force` | Force push to GitHub Pages |
-| `--fix-only` | Only fix paths without building or deploying |
-| `--build-only` | Only build site without deploying |
-| `--custom-domain DOMAIN` | Set a custom domain |
-| `--port PORT` | Port for local server (default: 3000) |
-| `-h`, `--help` | Show help message |
-
-**Examples:**
-
-```bash
-# Deploy to GitHub Pages using site_name from config.yml as base path
-bin/typophic-deploy
-
-# Deploy for local development on port 8080
-bin/typophic-deploy --local --port 8080
-
-# Override the base path
-bin/typophic-deploy --base-path rubylearning
-
-# Only fix paths without deploying
-bin/typophic-deploy --fix-only
-
-# Force push to GitHub Pages
-bin/typophic-deploy --force
-
-# Deploy with custom domain
-bin/typophic-deploy --custom-domain rubylearning.example.com
-```
-
-## Feature: Automatic Base Path Detection
-
-The `typophic-deploy` script now automatically determines the base path for GitHub Pages from your `config.yml` file:
-
-1. First, it checks for a `site_name` in your config.yml and uses that as the base path (converted to lowercase with spaces removed)
-2. If `site_name` is not available, it falls back to extracting the repository name from the URL
-3. The base path can always be manually specified with the `--base-path` option
-
-This feature eliminates the need to manually specify the base path when deploying to GitHub Pages.
-
-## Path Fixing for GitHub Pages
-
-When deploying to GitHub Pages, the `typophic-deploy` script automatically:
-
-1. Updates all links (href, src) to include the correct base path
-2. Sets the appropriate base tag in HTML files
-3. Fixes CSS url() references
-4. Creates a debug file at `/path-debug.html` to help troubleshoot any path issues
-
-## Git Workflow
-
-The project uses a proper Git workflow:
-
-1. The **main** branch contains the source code (content, templates, scripts)
-2. The **gh-pages** branch contains the built site (public directory)
-
-The deployment script handles all the Git operations for the gh-pages branch, including:
-- Initializing a Git repository in the public directory
-- Setting the remote repository URL
-- Committing changes with informative commit messages that include the base path
-- Pushing to the gh-pages branch
-
-## Troubleshooting
-
-If you encounter issues with your site, use the fix tool:
-
-```bash
-bin/typophic-fix --all
-```
-
-For path-related issues on GitHub Pages, check the automatically generated debug page:
-```
-https://username.github.io/rubylearning/path-debug.html
-```
-
-## Project Configuration
-
-The site configuration is stored in `config.yml` in the root directory:
-
-```yaml
----
-site_name: Ruby Learning         # Used for site title and base path
-site_type: ruby                  # Site category/type
-author: Your Name                # Default author
-description: Site description    # Meta description
-url: http://example.com          # Production URL
-permalink_style: pretty          # URL format style
-date_format: "%B %-d, %Y"        # Date display format
-markdown_extensions:             # Markdown processors to enable
-  - tables
-  - fenced_code_blocks
-  - autolink
-repository:                      # Git repository settings
-  url: git@github.com:username/rubylearning.git
-  branch: main
-  deploy_branch: gh-pages
-```
-
-## Site Features
-
-- Syntax highlighting for Ruby code with Prism.js
-- Responsive design for all devices
-- Modern typography and layout
-- Clean, distraction-free reading experience
-- Automated deployment to GitHub Pages
+Deploys remain git-based: `typophic deploy` invokes `git subtree push --prefix public` against the configured remote/branch. Verify that `public/` stays ignored locally, and keep `config.yml` updated with the correct repository URL, branch names, and production URL so the builder can generate canonical links accurately.

@@ -1,10 +1,6 @@
 ---
 layout: default
 ---
-<% breadcrumbs_path = File.join(Dir.pwd, 'templates/includes/_breadcrumbs.html') %>
-<% breadcrumbs = File.exist?(breadcrumbs_path) ? File.read(breadcrumbs_path) : '' %>
-<%= ERB.new(breadcrumbs).result(binding) if breadcrumbs != '' %>
-
 <article class="post">
   <header class="post-header">
     <h1>
@@ -14,13 +10,15 @@ layout: default
       <% end %>
     </h1>
     <div class="post-meta">
+      <% if page.date %>
       <time datetime="<%= page.date.strftime('%Y-%m-%d') %>">
-        <%= page.date.strftime(site.date_format) %>
+        <%= page.date.strftime(site.date_format || '%B %-d, %Y') %>
       </time>
+      <% end %>
       <% if page.tags && !page.tags.empty? %>
       <div class="tags">
         <% page.tags.each do |tag| %>
-        <span class="tag"><a href="tags/<%= tag %>"><%= tag %></a></span>
+        <span class="tag"><a href="<%= url_for("tags/#{tag}/") %>"><%= tag %></a></span>
         <% end %>
       </div>
       <% end %>
@@ -30,8 +28,4 @@ layout: default
   <div class="post-content">
     <%= content %>
   </div>
-  
-  <% related_path = File.join(Dir.pwd, 'templates/includes/_related_tutorials.html') %>
-  <% related = File.exist?(related_path) ? File.read(related_path) : '' %>
-  <%= ERB.new(related).result(binding) if related != '' %>
 </article>

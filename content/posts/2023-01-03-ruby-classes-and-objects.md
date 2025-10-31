@@ -8,10 +8,9 @@ tags:
   - classes
   - objects
   - object-oriented
-difficulty: intermediate
 related_tutorials:
   - title: "Ruby examples"
-    url: "/posts/2023-01-02-ruby-examples/"
+    url: "/posts/ruby-examples/"
 
 ---
 # Understanding Ruby Classes and Objects

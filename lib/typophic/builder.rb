@@ -1,0 +1,649 @@
+# frozen_string_literal: true
+
+require "fileutils"
+require "yaml"
+require "date"
+require "time"
+require "json"
+require "erb"
+require "uri"
+require "ostruct"
+
+module Typophic
+  # Core static-site builder that transforms Markdown content and ERB templates
+  # into a fully-linked static site. The goal is to generate correct URLs and
+  # asset paths on the first pass—no post-build fixers required.
+  class Builder
+    attr_reader :source_dir,
+                :output_dir,
+                :theme_root,
+                :theme_name,
+                :theme_path,
+                :data_dir,
+                :site_layouts_dir,
+                :site_includes_dir,
+                :site_assets_dir
+
+    def initialize(options = {})
+      @source_dir   = options[:source_dir] || "content"
+      @output_dir   = options[:output_dir] || "public"
+      @theme_root   = options[:theme_root] || "themes"
+      @theme_name   = options[:theme] || nil
+      @data_dir     = options[:data_dir] || "data"
+      @site_layouts_dir  = options[:layouts_dir]  || "layouts"
+      @site_includes_dir = options[:includes_dir] || "includes"
+      @site_assets_dir   = options[:assets_dir]   || "assets"
+
+      @config     = load_config
+      @theme_name ||= @config["theme"] || "rubylearning"
+      @theme_path  = options[:theme_dir] || File.join(@theme_root, @theme_name)
+
+      unless Dir.exist?(@theme_path)
+        raise "Theme '#{@theme_name}' not found at #{@theme_path}"
+      end
+
+      @site       = build_site_context(@config)
+      @collections = Hash.new { |hash, key| hash[key] = [] }
+      @archives    = Hash.new { |hash, key| hash[key] = [] }
+      @taxonomies  = { tags: Hash.new { |hash, key| hash[key] = [] } }
+      @helper_modules = load_helpers
+    end
+
+    def build
+      puts "Building site..."
+
+      FileUtils.rm_rf(Dir.glob(File.join(@output_dir, "*")))
+
+      copy_static_assets
+      process_content_files
+      write_collection_indexes
+
+      puts "Site built successfully!"
+    end
+
+    private
+
+    def load_config
+      YAML.load_file("config.yml")
+    rescue Errno::ENOENT
+      {}
+    end
+
+    def build_site_context(config)
+      base_url = config.fetch("url", "").to_s.strip
+      base_url = base_url.chomp("/") unless base_url.empty?
+
+      uri = begin
+        base_url.empty? ? URI.parse("/") : URI.parse(base_url)
+      rescue URI::InvalidURIError
+        URI.parse("/")
+      end
+
+      base_path = uri.path.to_s
+      base_path = "" if base_path == "/"
+
+      config.merge(
+        "base_url" => base_url,
+        "base_path" => base_path,
+        "title" => config["site_name"] || config["title"] || "Typophic Site"
+      )
+    end
+
+    def copy_static_assets
+      %w[css js images].each do |asset_dir|
+        copy_asset_tree(File.join(@theme_path, asset_dir), asset_dir, "theme")
+        copy_asset_tree(File.join(@site_assets_dir, asset_dir), asset_dir, "site")
+      end
+    end
+
+    def copy_asset_tree(source, asset_dir, label)
+      return unless Dir.exist?(source)
+
+      destination = File.join(@output_dir, asset_dir)
+      FileUtils.mkdir_p(destination)
+
+      Dir.glob(File.join(source, "**", "*")) do |file|
+        next if File.directory?(file)
+
+        relative = file.delete_prefix("#{source}/")
+        target = File.join(destination, relative)
+        FileUtils.mkdir_p(File.dirname(target))
+        FileUtils.cp(file, target)
+        puts "Copied #{label} asset: #{file}"
+      end
+    end
+
+    def process_content_files
+      entries = Dir.glob(File.join(@source_dir, "**", "*.md")).sort.map do |file|
+        parse_page(file)
+      end
+
+      entries.each { |entry| index_page(entry[:meta]) }
+      inject_collection_data_into_site
+
+      entries.each { |entry| render_page(entry) }
+    end
+
+    def parse_page(file)
+      raw = File.read(file)
+      front_matter, markdown = extract_front_matter(raw)
+      meta = build_page_context(file, front_matter)
+
+      { meta: meta, markdown: markdown }
+    end
+
+    def render_page(entry)
+      page = entry[:meta]
+      html_content = render_markdown(entry[:markdown])
+      rendered = render_layout(page["layout"], html_content, page)
+
+      output_path = File.join(@output_dir, page["output_path"])
+      FileUtils.mkdir_p(File.dirname(output_path))
+      File.write(output_path, rendered)
+
+      puts "Generated: #{output_path}"
+    end
+
+    def load_helpers
+      helper_dirs = ["helpers", File.join(@theme_path, "helpers")]
+      helper_modules = []
+
+      helper_dirs.each do |dir|
+        next unless Dir.exist?(dir)
+
+        Dir.glob(File.join(dir, "**", "*.rb")).sort.each do |file|
+          require File.expand_path(file)
+        end
+      end
+
+      if defined?(Typophic::Helpers)
+        Typophic::Helpers.constants.each do |const|
+          mod = Typophic::Helpers.const_get(const)
+          helper_modules << mod if mod.is_a?(Module)
+        end
+      end
+
+      helper_modules
+    end
+
+    def extract_front_matter(raw)
+      if raw =~ /\A---\n(.+?)\n---\n(.*)/m
+        data = YAML.safe_load(
+          Regexp.last_match(1),
+          permitted_classes: [Date, Time],
+          aliases: true
+        ) || {}
+        [data, Regexp.last_match(2)]
+      else
+        [{}, raw]
+      end
+    end
+
+    def build_page_context(file, front_matter)
+      relative_source = file.sub(/^#{@source_dir}\//, "")
+      segments = relative_source.split(File::SEPARATOR)
+      section = segments.first || ""
+      filename = segments.last || "index.md"
+      stem = filename.sub(/\.md\z/, "")
+
+      slug, inferred_date = derive_slug_and_date(stem, front_matter)
+      layout = (front_matter["layout"] || default_layout_for(section)).to_s
+
+      permalink = front_matter["permalink"]
+      permalink = default_permalink(section, segments[1..-2], slug, filename) if permalink.nil? || permalink.empty?
+      permalink = normalize_permalink(permalink)
+
+      page = stringify_keys(front_matter)
+      page["layout"] = layout
+      page["section"] = section
+      page["source"] = relative_source
+      page["slug"] = slug
+      page["date"] ||= inferred_date
+      page["date"] = parse_date(page["date"])
+      page["date_iso"] = page["date"]&.strftime("%Y-%m-%d")
+      page["permalink"] = permalink
+      page["url"] = build_url(permalink)
+      page["output_path"] = build_output_path(permalink)
+      page["title"] ||= prettify_slug(slug)
+      page["tags"] = Array(page["tags"])
+
+      page
+    end
+
+    def default_layout_for(section)
+      section == "posts" ? "post" : "page"
+    end
+
+    def derive_slug_and_date(stem, front_matter)
+      if stem =~ /(\d{4}-\d{2}-\d{2})-(.+)/
+        [Regexp.last_match(2), front_matter["date"] || Regexp.last_match(1)]
+      else
+        [stem, front_matter["date"]]
+      end
+    end
+
+    def default_permalink(section, intermediate_segments, slug, filename)
+      case section
+      when "posts"
+        "/posts/#{slug}/"
+      when "pages"
+        siblings = Array(intermediate_segments).dup
+        if filename == "index.md" && siblings.empty?
+          "/"
+        elsif siblings.any?
+          "/#{([section] + siblings + [slug]).join('/')}/"
+        else
+          "/pages/#{slug}/"
+        end
+      else
+        filename == "index.md" ? "/" : "/#{slug}/"
+      end
+    end
+
+    def normalize_permalink(permalink)
+      normalized = permalink.to_s.strip
+      normalized = "/#{normalized}" unless normalized.start_with?("/")
+      normalized = normalized.gsub(%r{//+}, "/")
+      normalized.end_with?("/") ? normalized : "#{normalized}/"
+    end
+
+    def build_output_path(permalink)
+      File.join(permalink.sub(%r{^/}, ""), "index.html")
+    end
+
+    def build_url(permalink)
+      return permalink if @site["base_url"].to_s.empty?
+
+      "#{@site["base_url"]}#{permalink}"
+    end
+
+    def prettify_slug(slug)
+      slug.to_s.tr("-", " ").split.map(&:capitalize).join(" ")
+    end
+
+    def render_markdown(content)
+      html = content.dup
+
+      # Handle code blocks BEFORE any other markdown transforms so that
+      # content inside fenced blocks (like lines starting with '#') does not
+      # get interpreted as headings or lists.
+      # Process ruby-exec separately from regular code blocks.
+      # Protect ruby-exec blocks first to avoid interference from other processing
+      ruby_exec_blocks = []
+      html.gsub!(/```ruby-exec\n(.*?)```/m) do
+        code_content = Regexp.last_match(1).gsub(/^\s+|\s+$/, '')
+        placeholder = "\x00RUBYEXEC_#{ruby_exec_blocks.length}\x00"
+        ruby_exec_blocks << build_code_window('ruby', code_content, executable: true)
+        placeholder
+      end
+
+      html.gsub!(/```([a-z]*)\n(.*?)```/m) do
+        lang = Regexp.last_match(1)
+        code_content = Regexp.last_match(2).gsub(/^\s+|\s+$/, '')
+        language = lang.empty? ? nil : lang
+        build_code_window(language, code_content, executable: false)
+      end
+
+      # Protect all <pre> blocks from further markdown transforms
+      pre_blocks = []
+      html.gsub!(%r{<pre[^>]*>.*?</pre>}m) do |block|
+        token = "\x00PRE_#{pre_blocks.length}\x00"
+        pre_blocks << block
+        token
+      end
+
+      # Now apply the rest of the lightweight markdown transforms
+      # (headings, inline code, links, lists, etc.) safely
+      html.gsub!(/^(#+)\s+(.+)$/) do
+        level = Regexp.last_match(1).length
+        "<h#{level}>#{Regexp.last_match(2)}</h#{level}>"
+      end
+
+      html = "<p>" + html + "</p>"
+      html.gsub!(/<\/p>\s*\n+\s*<p>/, "</p>\n<p>")
+      html.gsub!(/<p>(<\/?(?:h[1-6]|pre|ul|ol|li|div|p)[^>]*>)<\/p>/m, "\\1")
+      html.gsub!(/<p>\s*(<\/(?:h[1-6]|pre|ul|ol|li|div|p)>)\s*<\/p>/m, "\\1")
+      html.gsub!(/`([^`]+)`/) do
+        code_content = Regexp.last_match(1).gsub("<", "&lt;").gsub(">", "&gt;")
+        "<code>#{code_content}</code>"
+      end
+      html.gsub!(/\[([^\]]+)\]\(([^\)]+)\)/, '<a href="\2">\1</a>')
+      # Lists: convert only pure list lines outside of code blocks
+      html.gsub!(/^\-\s+(.+)$/) { "<li>#{$1}</li>" }
+      # Wrap consecutive <li> groups with <ul>
+      html.gsub!(%r{(?:\A|\n)(<li>.+?</li>)(?=\n|\z)}m) { "<ul>#{$1}</ul>" }
+
+      # Restore protected <pre> blocks
+      pre_blocks.each_with_index do |block, i|
+        html.gsub!("\x00PRE_#{i}\x00", block)
+      end
+
+      # Restore ruby-exec blocks last
+      ruby_exec_blocks.each_with_index do |replacement, i|
+        html.gsub!("\x00RUBYEXEC_#{i}\x00", replacement)
+      end
+
+      "<div class='markdown'>#{html}</div>"
+    end
+
+    def build_code_window(language, code_body, executable: false)
+      lang = (language && !language.empty?) ? language : nil
+      window_title = lang ? "#{lang}.#{lang == 'ruby' ? 'rb' : lang}" : 'code'
+      window_title = 'ruby.rb' if lang == 'ruby'
+      code_classes = ["language-#{lang || 'code'}"]
+      code_classes << 'ruby-exec' if executable
+      pre_attributes = []
+      pre_attributes << 'class="language-ruby"' if lang == 'ruby'
+      pre_attributes << 'data-executable="true"' if executable
+      pre_attributes << 'contenteditable="true"' if executable
+      pre_attributes << 'style="white-space: pre-wrap; outline: none;"'
+      pre_attr = pre_attributes.any? ? ' ' + pre_attributes.join(' ') : ''
+      escaped_code = ERB::Util.html_escape(code_body)
+
+      <<~HTML.chomp
+        <div class="code-window">
+          <div class="code-header">
+            <span class="window-btn red"></span>
+            <span class="window-btn yellow"></span>
+            <span class="window-btn green"></span>
+            <span class="window-title">#{window_title}</span>
+          </div>
+          <div class="code-content">
+            <pre#{pre_attr}><code class="#{code_classes.join(' ')}">#{escaped_code}
+            </code></pre>
+          </div>
+        </div>
+      HTML
+    end
+
+    def render_layout(layout_name, content, page_data)
+      layout_path = find_layout_path(layout_name)
+      raise "Missing layout: #{layout_name}" unless layout_path
+
+      front_matter, template_body = extract_front_matter(File.read(layout_path))
+
+      context = TemplateContext.new(
+        site: @site,
+        page: page_data,
+        content: content,
+        site_includes_dir: @site_includes_dir,
+        theme_includes_dir: File.join(@theme_path, "includes"),
+        helpers: @helper_modules
+      )
+
+      rendered = context.render(template_body)
+
+      parent_layout = front_matter.fetch("layout", nil)
+      parent_layout ? render_layout(parent_layout, rendered, page_data) : rendered
+    end
+
+    # Insert missing newlines between Ruby tokens that often get jammed
+    # during content edits or Markdown conversions.
+    def normalize_ruby_code(code)
+      starters = %w[class module def begin rescue ensure else elsif when end puts print p pp attr_reader attr_writer attr_accessor require include extend case unless if do while until for]
+
+      # Split glued tokens that frequently appear when Markdown editing strips
+      # newlines (e.g., "endclass", "}.each").
+      glue_fixed = code
+      glue_fixed = glue_fixed.gsub(/([)\}\]])(?=[A-Za-z_])/, "\\1\n")
+      glue_fixed = glue_fixed.gsub(/end(?=\S)/, "end\n")
+      glue_fixed = glue_fixed.gsub(/\.new(?=[A-Za-z_])/, ".new\n")
+      glue_fixed = glue_fixed.gsub(/((?:\"[^\"]*\")|(?:'[^']*'))(?=[A-Za-z_])/, "\\1\n")
+
+      lines = glue_fixed.split("\n")
+      indent_level = 0
+      formatted = []
+
+      lines.each do |line|
+        raw = line.rstrip
+        stripped = raw.strip
+
+        if stripped.empty?
+          formatted << ""
+          next
+        end
+
+        lower = stripped.split('#').first&.strip
+        if lower
+          if lower =~ /^(end)\b/
+            indent_level = [indent_level - 1, 0].max
+          elsif lower =~ /^(elsif|else|when|ensure|rescue)\b/
+            indent_level = [indent_level - 1, 0].max
+          end
+        end
+
+        formatted << ('  ' * indent_level) + stripped
+
+        if lower
+          if lower =~ /^(class|module|def|case|begin|while|until|for|loop|unless|if|do)\b/ || stripped =~ /do\b(?!.*end)/
+            indent_level += 1
+          elsif lower =~ /^(elsif|else|when|ensure|rescue)\b/
+            indent_level += 1
+          end
+        end
+      end
+
+      formatted.join("\n").gsub(/\n{3,}/, "\n\n")
+    end
+
+    def find_layout_path(layout_name)
+      candidates = []
+
+      if @site_layouts_dir && File.directory?(@site_layouts_dir)
+        candidates << File.join(@site_layouts_dir, "#{layout_name}.html")
+      end
+
+      candidates << File.join(@theme_path, "layouts", "#{layout_name}.html")
+
+      candidates.find { |path| File.exist?(path) }
+    end
+
+    def index_page(page)
+      section = page["section"]
+      return if section.nil? || section.empty?
+
+      @collections[section] << page
+
+      return unless section == "posts"
+
+      if (date = page["date"]) && date.respond_to?(:year)
+        @archives[date.year] << page
+      end
+
+      Array(page["tags"]).each do |tag|
+        @taxonomies[:tags][tag] << page
+      end
+    end
+
+    def write_collection_indexes
+      return if @collections.empty?
+
+      data_dir = File.join(@output_dir, "typophic")
+      FileUtils.mkdir_p(data_dir)
+
+      @collections.each do |section, pages|
+        summaries = pages.map do |page|
+          {
+            "title" => page["title"],
+            "description" => page["description"],
+            "permalink" => page["permalink"],
+            "url" => page["url"],
+            "date" => serialize_date(page["date"]),
+            "tags" => Array(page["tags"]).map(&:to_s)
+          }
+        end
+
+        File.write(
+          File.join(data_dir, "#{section}.json"),
+          JSON.pretty_generate(summaries)
+        )
+      end
+
+      inject_collection_data_into_site
+    end
+
+    def inject_collection_data_into_site
+      archive_entries = @archives.keys.sort.reverse.map do |year|
+        {
+          "year" => year,
+          "posts" => @archives[year].sort_by { |p| p["date"] || Date.today }.reverse
+        }
+      end
+
+      tag_entries = @taxonomies[:tags].keys.sort.map do |tag|
+        {
+          "name" => tag,
+          "posts" => @taxonomies[:tags][tag].sort_by { |p| p["date"] || Date.today }.reverse
+        }
+      end
+
+      @site["archives"] = archive_entries
+      @site["tags"] = tag_entries
+      @site["collections"] = @collections
+    end
+
+    def stringify_keys(hash)
+      hash.each_with_object({}) do |(key, value), memo|
+        memo[key.to_s] = value
+      end
+    end
+
+    def parse_date(value)
+      case value
+      when Date
+        value
+      when Time
+        value.to_date
+      when String
+        Date.parse(value)
+      else
+        nil
+      end
+    rescue ArgumentError
+      nil
+    end
+
+    def serialize_date(value)
+      return value.strftime("%Y-%m-%d") if value.respond_to?(:strftime)
+
+      value
+    end
+
+    class TemplateContext
+      attr_reader :site, :page
+
+      def initialize(site:, page:, content:, site_includes_dir:, theme_includes_dir:, helpers: [])
+        @site_hash = site
+        @page_hash = page
+        @content = content
+        @site_includes_dir = site_includes_dir
+        @theme_includes_dir = theme_includes_dir
+        @helper_modules = Array(helpers)
+
+        @helper_modules.each do |mod|
+          singleton_class.include(mod)
+        end
+
+        @site = deep_struct(site)
+        @page = deep_struct(page)
+      end
+
+      def render(template)
+        ERB.new(template, trim_mode: "-").result(binding)
+      end
+
+      def content
+        @content
+      end
+
+      def asset_path(relative_path)
+        relative = relative_path.to_s.sub(%r{^/}, "")
+        combine_with_base(relative)
+      end
+
+      def url_for(relative_path)
+        relative = relative_path.to_s
+        relative = relative == "/" ? "/" : relative.sub(%r{^/}, "")
+        combine_with_base(relative)
+      end
+
+      def absolute_url(relative_path)
+        return url_for(relative_path) if @site_hash["base_url"].to_s.empty?
+
+        relative = relative_path.to_s
+        relative = relative.start_with?("/") ? relative : "/#{relative}"
+        "#{@site_hash["base_url"]}#{relative}"
+      end
+
+      def base_path
+        @site_hash["base_path"] || ""
+      end
+
+      def render_partial(name, locals = {})
+        path = partial_path(name)
+        raise "Missing partial: #{name}" unless path
+
+        partial_context = TemplateContext.new(
+          site: @site_hash,
+          page: @page_hash.merge(stringify_keys(locals)),
+          content: "",
+          site_includes_dir: @site_includes_dir,
+          theme_includes_dir: @theme_includes_dir,
+          helpers: @helper_modules
+        )
+
+        ERB.new(File.read(path), trim_mode: "-").result(partial_context.send(:binding))
+      end
+
+      def partial?(name)
+        !partial_path(name).nil?
+      end
+
+      private
+
+      def deep_struct(value)
+        case value
+        when Hash
+          OpenStruct.new(value.each_with_object({}) do |(k, v), memo|
+            memo[k.to_sym] = deep_struct(v)
+          end)
+        when Array
+          value.map { |item| deep_struct(item) }
+        else
+          value
+        end
+      end
+
+      def stringify_keys(hash)
+        hash.each_with_object({}) do |(key, value), memo|
+          memo[key.to_s] = value
+        end
+      end
+
+      def partial_path(name)
+        candidates = []
+
+        if @site_includes_dir && File.directory?(@site_includes_dir)
+          candidates << File.join(@site_includes_dir, "#{name}.html")
+          candidates << File.join(@site_includes_dir, "_#{name}.html")
+        end
+
+        if @theme_includes_dir && File.directory?(@theme_includes_dir)
+          candidates << File.join(@theme_includes_dir, "#{name}.html")
+          candidates << File.join(@theme_includes_dir, "_#{name}.html")
+        end
+
+        candidates.find { |path| File.exist?(path) }
+      end
+
+      def combine_with_base(relative)
+        clean_relative = relative.to_s
+        return base_path.empty? ? "/" : "#{base_path}/" if clean_relative.empty? || clean_relative == "/"
+
+        clean_relative = clean_relative.sub(%r{^/}, "")
+        path = base_path.empty? ? "/#{clean_relative}" : "#{base_path}/#{clean_relative}"
+        path.gsub(%r{//+}, "/")
+      end
+    end
+  end
+end
