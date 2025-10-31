@@ -88,6 +88,8 @@ module Typophic
 
       names = Set.new([@default_theme_name])
       @section_theme_map.each_value { |n| names << n }
+      # Ensure canonical fallback is available when present
+      names << "rubylearning" if Dir.exist?(File.join(@theme_root, "rubylearning"))
       @theme_paths = names.each_with_object({}) { |n, memo| memo[n] = File.join(@theme_root, n) }
 
       @theme_paths.each do |name, path|
@@ -504,14 +506,14 @@ module Typophic
 
       front_matter, template_body = extract_front_matter(File.read(layout_path))
 
-      theme_path = @theme_paths[theme_name]
+      layout_theme_path = theme_path_for_layout(layout_path)
 
       context = TemplateContext.new(
         site: @site,
         page: page_data,
         content: content,
         site_includes_dir: @site_includes_dir,
-        theme_includes_dir: File.join(theme_path, "includes"),
+        theme_includes_dir: layout_theme_path ? File.join(layout_theme_path, "includes") : nil,
         helpers: @helper_modules,
         current_theme: theme_name
       )
@@ -593,12 +595,34 @@ module Typophic
         candidates << File.join(@site_layouts_dir, "#{layout_name}.html")
       end
 
+      # Primary: current page/theme
       theme_path = @theme_paths[theme_name]
       candidates << File.join(theme_path, "layouts", "#{layout_name}.html") if theme_path
-      # Fallback to default theme
+
+      # Secondary: known good fallback theme(s)
+      if @theme_paths["rubylearning"]
+        candidates << File.join(@theme_paths["rubylearning"], "layouts", "#{layout_name}.html")
+      end
+
+      # Tertiary: any other theme we know about
+      @theme_paths.each do |name, path|
+        next if name == theme_name || name == "rubylearning"
+        candidates << File.join(path, "layouts", "#{layout_name}.html")
+      end
+
+      # Legacy default
       candidates << File.join(@theme_path, "layouts", "#{layout_name}.html")
 
       candidates.find { |path| File.exist?(path) }
+    end
+
+    def theme_path_for_layout(layout_path)
+      abs = File.expand_path(layout_path)
+      @theme_paths.each_value do |path|
+        base = File.expand_path(File.join(path, "layouts"))
+        return path if abs.start_with?(base)
+      end
+      nil
     end
 
     def index_page(page)

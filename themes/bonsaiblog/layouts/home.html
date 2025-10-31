@@ -1,0 +1,16 @@
+---
+layout: default
+---
+<section class="hero">
+  <h1 class="hero-title"><%= page.title || site.title %></h1>
+  <% if page.description %>
+    <p class="hero-sub"><%= page.description %></p>
+  <% end %>
+</section>
+
+<div class="page">
+  <div class="post-body">
+    <%= content %>
+  </div>
+</div>
+

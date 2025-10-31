@@ -5,7 +5,7 @@ author: Typophic User
 description: A beautiful static website for learning Ruby
 url: https://rubylearning.in
 theme:
-  default: rubylearning
+  default: bonsaiblog
   sections:
     posts: bonsaiblog
 permalink_style: pretty
@@ -14,8 +14,6 @@ markdown_extensions:
 - tables
 - fenced_code_blocks
 - autolink
-
-# Git repository settings
 repository:
   url: git@github.com:metacritical/rubylearning.git
   branch: main

@@ -15,6 +15,8 @@ module Typophic
         case subcommand
         when "new"
           New.new(argv).run
+        when "use", "switch"
+          Use.new(argv).run
         when nil, "help", "--help", "-h"
           puts help_text
         else
@@ -29,7 +31,12 @@ module Typophic
           Usage: typophic theme <command> [options]
 
           Commands:
-            new NAME   Scaffold a new theme under themes/NAME
+            new NAME            Scaffold a new theme under themes/NAME
+            use NAME [options]  Set default or section theme in config.yml
+
+          Options for `use`:
+            --default           Make NAME the default site theme
+            --section SECTION   Apply NAME to a section (e.g., posts)
 
           Run `typophic theme new --help` for command-specific options.
         HELP
@@ -103,7 +110,70 @@ module Typophic
           end
         end
       end
+
+      class Use
+        def initialize(argv)
+          @options = { default: false, section: nil }
+          @parser = OptionParser.new do |opts|
+            opts.banner = "Usage: typophic theme use NAME [--default] [--section SECTION]"
+            opts.on("--default", "Set as default theme") { @options[:default] = true }
+            opts.on("--section SECTION", "Section to target (e.g., posts)") { |s| @options[:section] = s }
+            opts.on("-h", "--help", "Show help") { puts opts; exit }
+          end
+          @parser.parse!(argv)
+          @theme = argv.shift
+          if @theme.to_s.strip.empty?
+            warn "Theme NAME is required"
+            puts @parser
+            exit 1
+          end
+        end
+
+        def run
+          unless Dir.exist?(File.join("themes", @theme))
+            warn "Theme '#{@theme}' does not exist under themes/#{@theme}"
+            exit 1
+          end
+
+          config = load_config
+          config["theme"] = normalize_theme_config(config["theme"])
+
+          if @options[:section]
+            config["theme"]["sections"][@options[:section].to_s] = @theme
+            puts "Applied theme '#{@theme}' to section '#{@options[:section]}'"
+          end
+
+          if @options[:default] || !@options[:section]
+            config["theme"]["default"] = @theme
+            puts "Set default theme to '#{@theme}'"
+          end
+
+          File.write("config.yml", config.to_yaml)
+          puts "Updated config.yml"
+        end
+
+        private
+
+        def load_config
+          YAML.load_file("config.yml")
+        rescue Errno::ENOENT
+          {}
+        end
+
+        def normalize_theme_config(value)
+          case value
+          when String
+            { "default" => value, "sections" => {} }
+          when Hash
+            {
+              "default" => (value["default"] || value[:default]).to_s,
+              "sections" => (value["sections"] || value[:sections] || {}).transform_keys(&:to_s).transform_values(&:to_s)
+            }
+          else
+            { "default" => "rubylearning", "sections" => {} }
+          end
+        end
+      end
     end
   end
 end
-
