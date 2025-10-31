@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= page.title %> · <%= site.title %></title>
+  <title><%= page.title %> &middot; <%= site.title %></title>
   <meta name="description" content="<%= page.description || site.description %>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -13,7 +13,7 @@
 <body class="bonsai">
   <header class="blog-header">
     <div class="wrap">
-      <a class="blog-logo" href="<%= url_for('/blog/') %>">Ruby Learning · Blog</a>
+      <a class="blog-logo" href="<%= url_for('/blog/') %>">Ruby Learning &middot; Blog</a>
       <nav class="blog-nav">
         <a href="<%= url_for('/') %>">Home</a>
         <a href="<%= url_for('tutorials/') %>">Tutorials</a>
@@ -30,9 +30,8 @@
 
   <footer class="blog-footer">
     <div class="wrap">
-      <p>© <%= Time.now.year %> Ruby Learning • Powered by Typophic</p>
+      <p>&copy; <%= Time.now.year %> Ruby Learning &bull; Powered by Typophic</p>
     </div>
   </footer>
 </body>
 </html>
-
