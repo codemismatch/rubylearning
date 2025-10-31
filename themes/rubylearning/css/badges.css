@@ -112,11 +112,17 @@
   align-items: center;
 }
 
-.related-tutorials a::before {
-  content: '→';
+.related-tutorials .related-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 999px;
+  background-color: rgba(204, 52, 45, 0.12);
   color: var(--primary-color);
-  margin-right: 0.5rem;
-  font-weight: bold;
+  font-weight: 600;
+  margin-right: 0.75rem;
 }
 
 .related-tutorials a:hover {

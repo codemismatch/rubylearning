@@ -61,7 +61,7 @@ Every workflow funnels through the `typophic` command.
 | Command | Purpose |
 |---------|---------|
 | `typophic build` | Render Markdown + ERB into the `public/` directory |
-| `typophic serve` | Launch a Python preview server against the latest build |
+| `typophic serve` | Run the built-in WEBrick preview server (optional `--build`, `--watch`, `--livereload`) |
 | `typophic deploy` | Either push `public/` to GitHub Pages or run a local preview loop |
 | `typophic new` | Scaffold a brand new Typophic site skeleton |
 | `typophic theme` | Manage themes (e.g. `typophic theme new minimal`) |
@@ -103,15 +103,27 @@ typophic build [--no-clean] [--quiet] [--deploy]
 - `--no-clean` keeps existing files in `public/` for faster rebuilds.
 - `--quiet` suppresses progress output.
 - `--deploy` adds `.nojekyll` and a polished `404.html`, ready for GitHub Pages.
+- Tutorial Markdown under `content/pages/tutorials/` is automatically normalised (Ruby fences reflowed, code windows wrapped) on every build.
 
 ### Serving
 
 ```bash
-typophic serve [--port PORT] [--host HOST] [--build]
+typophic serve [--build] [--watch] [--livereload]
+              [--port PORT] [--host HOST]
 ```
 
-- `--build` triggers a fresh build before the server starts.
+- `--build` triggers a fresh build before the server starts (recommended on first run).
+- `--watch` monitors `content/`, `themes/`, `layouts/`, `includes/`, `helpers/`, `assets/`, `data/`, and `config.yml`, rebuilding automatically.
+- `--livereload` injects a lightweight polling script so browsers refresh as soon as a rebuild completes.
 - Specify `--port` (default `3000`) and `--host` (default `localhost`) to suit your environment.
+
+For an end-to-end live preview, run:
+
+```bash
+bin/typophic serve --build --watch --livereload
+```
+
+If you only need to serve an already-built site, `bin/typophic serve` without flags will reuse the existing `public/` output.
 
 ### Deploying
 
@@ -158,7 +170,7 @@ The builder derives `site.base_path` from `url`, so links and asset paths are co
 ## Development Workflow
 
 1. Edit Markdown in `content/` or tweak ERB layouts in `themes/<active-theme>/`.
-2. Run `typophic build` (or `typophic serve --build` for a hands-free preview).
+2. Run `bin/typophic serve --build --watch --livereload` for an auto-rebuilding preview (or `bin/typophic build` for a one-off render).
 3. Inspect the generated site under `public/`.
 4. Publish with `typophic deploy` once you are ready.
 

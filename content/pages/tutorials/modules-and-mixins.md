@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter 5 – Modules & mixins
+title: Chapter 5 &ndash; Modules & mixins
 permalink: /tutorials/modules-and-mixins/
 difficulty: intermediate
 summary: Share behaviour across objects with mixins and understand when to `include` versus `extend`.

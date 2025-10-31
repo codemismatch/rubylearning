@@ -6,7 +6,12 @@
   <ul>
     <% page.related_tutorials.each do |tutorial| %>
     <% href = tutorial.url.to_s.start_with?("http") ? tutorial.url : url_for(tutorial.url) %>
-    <li><a href="<%= href %>"><%= tutorial.title %></a></li>
+    <li>
+      <a href="<%= href %>">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span><%= tutorial.title %></span>
+      </a>
+    </li>
     <% end %>
   </ul>
 </div>

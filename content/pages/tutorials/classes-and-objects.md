@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter 4 – Classes & objects
+title: Chapter 4 &ndash; Classes & objects
 permalink: /tutorials/classes-and-objects/
 difficulty: intermediate
 summary: Model real-world concepts with Ruby classes, attribute readers, and collaborating objects.
@@ -13,7 +13,7 @@ next_tutorial:
 related_tutorials:
   - title: "Modules & mixins"
     url: /tutorials/modules-and-mixins/
-  - title: "Why Ruby’s RubyLearning approach still works"
+  - title: "Why Ruby&rsquo;s RubyLearning approach still works"
     url: /posts/ruby-learning-playbook/
 ---
 

@@ -17,7 +17,7 @@ Rails rewards people who learn by doing. The project-based curriculum from BigBi
 
 ## Stage 1 · Set up your stack
 
-- Install the recommended toolchain—Ruby, Rails, PostgreSQL, Node—and confirm `rails new` runs without errors.
+- Install the recommended toolchain&mdash;Ruby, Rails, PostgreSQL, Node&mdash;and confirm `rails new` runs without errors.
 - Generate your first app with Tailwind support, configure RuboCop, and commit the clean baseline.
 - Build a quick health check route and deploy it to a sandbox host to validate the pipeline.
 
@@ -37,6 +37,6 @@ Rails rewards people who learn by doing. The project-based curriculum from BigBi
 
 - Demo the feature to peers, gather feedback, and publish a short post-mortem.
 - Challenge yourself to refactor one subsystem (for example, move callbacks into service objects).
-- Plan the next milestone—maybe payments, APIs, or admin tooling—and keep iterating.
+- Plan the next milestone&mdash;maybe payments, APIs, or admin tooling&mdash;and keep iterating.
 
-Treat each project as portfolio-ready work. With a consistent build–review–refine loop, you will understand both the Rails conventions and the why behind them.
+Treat each project as portfolio-ready work. With a consistent build&ndash;review&ndash;refine loop, you will understand both the Rails conventions and the why behind them.

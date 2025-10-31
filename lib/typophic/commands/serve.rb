@@ -5,6 +5,7 @@ require "fileutils"
 require "listen"
 require "webrick"
 require "stringio"
+require "tempfile"
 require_relative "../builder"
 
 module Typophic
@@ -31,7 +32,10 @@ module Typophic
 
         parser(options).parse!(argv)
 
-        Typophic::Builder.new.build if options[:build]
+        if options[:build]
+          Typophic::Builder.new.build
+          update_last_build_time(Time.now)
+        end
 
         unless Dir.exist?("public")
           warn "Error: The 'public' directory does not exist. Please run `typophic build` first."
@@ -111,40 +115,43 @@ module Typophic
 
         # Set up file watcher to rebuild when content changes
         puts "\n=== Starting file watcher ==="
-        puts "Watching content/, themes/, and root directory for changes..."
-        
+        puts "Watching project directories for changes..."
+
+        project_root = Dir.pwd
+        watched_dirs = %w[content themes layouts includes helpers assets data].select { |dir| Dir.exist?(dir) }
+        watched_dirs << "."
+
         listener = Listen.to(
-          "content",
-          "themes",
-          ".",
+          *watched_dirs,
           ignore: [/\.swp$/, /\.swx$/, /^\.[^\/]*\/tmp\//, /public\//],
-          only: [/\.md$/, /\.html$/, /\.yml$/, /\.yaml$/, /\.rb$/]
+          only: [/\.(md|html|yml|yaml|rb|erb|css|scss|js)\z/]
         ) do |modified, added, removed|
-          # Filter to only process the files we care about
-          relevant_files = (modified + added + removed).select do |file|
-            file.start_with?('content/', 'themes/', './config.yml') ||
-            File.basename(file) == 'config.yml'
+          relative_paths = (modified + added + removed).map do |path|
+            path.start_with?("#{project_root}/") ? path.sub("#{project_root}/", "") : path
           end
-          
-          unless relevant_files.empty?
-            puts "\nDetected changes:"
-            puts "  Files: #{relevant_files.join(', ')}"
-            
-            begin
-              puts "Rebuilding site..."
-              Typophic::Builder.new.build
-              puts "Site rebuilt successfully!"
-              
-              # Update the last build time to trigger refresh
-              Typophic::Commands::Serve.update_last_build_time(Time.now)
-              
-              # Notify live-reload clients if enabled
-              if options[:livereload]
-                notify_livereload_clients
-              end
-            rescue => e
-              warn "Build failed: #{e.message}"
-            end
+
+          relevant_files = relative_paths.select do |relative|
+            relative.start_with?('content/', 'themes/', 'layouts/', 'includes/', 'helpers/', 'assets/', 'data/') ||
+              relative == 'config.yml'
+          end
+
+          next if relevant_files.empty?
+
+          puts "\nDetected changes:"
+          puts "  Files: #{relevant_files.join(', ')}"
+
+          begin
+            puts "Rebuilding site..."
+            Typophic::Builder.new.build
+            puts "Site rebuilt successfully!"
+
+            # Update the last build time to trigger refresh
+            Typophic::Commands::Serve.update_last_build_time(Time.now)
+
+            # Notify live-reload clients if enabled
+            notify_livereload_clients if options[:livereload]
+          rescue => e
+            warn "Build failed: #{e.message}"
           end
         end
 
@@ -206,6 +213,19 @@ module Typophic
         CACHE_HEADERS.each do |header, value|
           response[header] = value
         end
+        response['Content-Type'] = ensure_utf8_content_type(response['Content-Type']) if response
+      end
+
+      def self.ensure_utf8_content_type(content_type)
+        return 'text/html; charset=utf-8' if content_type.nil?
+
+        return content_type if content_type.downcase.include?('charset')
+
+        if content_type.downcase.start_with?('text/') || content_type.downcase.include?('html')
+          "#{content_type}; charset=utf-8"
+        else
+          content_type
+        end
       end
 
       def self.notify_livereload_clients
@@ -231,6 +251,8 @@ module Typophic
           # Add last-modified header for HTML files to support live-reload detection
           if response['Content-Type']&.include?('text/html')
             response['Last-Modified'] = Time.now.httpdate
+            response.body = response.body.force_encoding(Encoding::UTF_8)
+            response['Content-Type'] = 'text/html; charset=utf-8'
           end
         rescue WEBrick::HTTPStatus::NotFound
           raise unless spa_route?(request.path)
@@ -241,6 +263,8 @@ module Typophic
           # Add last-modified header for HTML files to support live-reload detection
           if response['Content-Type']&.include?('text/html')
             response['Last-Modified'] = Time.now.httpdate
+            response.body = response.body.force_encoding(Encoding::UTF_8)
+            response['Content-Type'] = 'text/html; charset=utf-8'
           end
         ensure
           Typophic::Commands::Serve.apply_no_cache_headers(response) if response
@@ -266,120 +290,25 @@ module Typophic
 
       class LiveReloadFileHandler < WEBrick::HTTPServlet::FileHandler
         def initialize(server, root, options = {})
-          super(server, root)
-          @options = options
+          # Initialize with proper options structure for WEBrick
+          full_options = {
+            :FancyIndexing => false,
+            :NondisclosureName => [".ht*", "~*"]
+          }.merge(options)
+          
+          super(server, root, full_options)
+          @typophic_options = options
         end
 
         def do_GET(request, response)
-          # Get the original response
           super
-
-          # Check if this is an HTML file that we should inject the script into
-          if response['Content-Type']&.include?('text/html')
-            original_body = response.body
-            
-            # Inject the live-reload script before the closing </body> tag
-            # If no </body> tag is found, inject before </html>
-            live_reload_script = <<~SCRIPT
-              <script>
-                // LiveReload script - checks build timestamp to detect changes
-                (function() {
-                  var lastBuildTime = null;
-                  
-                  function checkForChanges() {
-                    fetch('/__typophic__/build_time', { 
-                      cache: 'no-cache'
-                    })
-                    .then(function(response) {
-                      return response.text();
-                    })
-                    .then(function(currentBuildTime) {
-                      if (lastBuildTime && currentBuildTime && currentBuildTime !== lastBuildTime.toString()) {
-                        console.log('Site rebuilt, reloading...');
-                        window.location.reload();
-                      }
-                      lastBuildTime = parseInt(currentBuildTime);
-                    })
-                    .catch(function(error) {
-                      // Ignore errors, especially if the endpoint doesn't exist
-                    });
-                  }
-                  
-                  // Check for changes every 1 second
-                  setInterval(checkForChanges, 1000);
-                })();
-              </script>
-            SCRIPT
-
-            # Inject the script before </body> if it exists, otherwise before </html>
-            if original_body.include?('</body>')
-              modified_body = original_body.sub('</body>', live_reload_script + '</body>')
-            elsif original_body.include?('</html>')
-              modified_body = original_body.sub('</html>', live_reload_script + '</html>')
-            else
-              # If neither tag is found, append to body
-              modified_body = original_body + live_reload_script
-            end
-
-            response.body = modified_body
-            response['Content-Length'] = response.body.bytesize.to_s
-          end
+          inject_livereload(response)
         rescue WEBrick::HTTPStatus::NotFound
           raise unless spa_route?(request.path)
 
           request.path_info = "/index.html"
           super(request, response)
-          
-          # Apply same HTML modification to SPA routes
-          if response['Content-Type']&.include?('text/html')
-            original_body = response.body
-            
-            # Inject the live-reload script before the closing </body> tag
-            # If no </body> tag is found, inject before </html>
-            live_reload_script = <<~SCRIPT
-              <script>
-                // LiveReload script - checks build timestamp to detect changes
-                (function() {
-                  var lastBuildTime = null;
-                  
-                  function checkForChanges() {
-                    fetch('/__typophic__/build_time', { 
-                      cache: 'no-cache'
-                    })
-                    .then(function(response) {
-                      return response.text();
-                    })
-                    .then(function(currentBuildTime) {
-                      if (lastBuildTime && currentBuildTime && currentBuildTime !== lastBuildTime.toString()) {
-                        console.log('Site rebuilt, reloading...');
-                        window.location.reload();
-                      }
-                      lastBuildTime = parseInt(currentBuildTime);
-                    })
-                    .catch(function(error) {
-                      // Ignore errors, especially if the endpoint doesn't exist
-                    });
-                  }
-                  
-                  // Check for changes every 1 second
-                  setInterval(checkForChanges, 1000);
-                })();
-              </script>
-            SCRIPT
-
-            # Inject the script before </body> if it exists, otherwise before </html>
-            if original_body.include?('</body>')
-              modified_body = original_body.sub('</body>', live_reload_script + '</body>')
-            elsif original_body.include?('</html>')
-              modified_body = original_body.sub('</html>', live_reload_script + '</html>')
-            else
-              # If neither tag is found, append to body
-              modified_body = original_body + live_reload_script
-            end
-
-            response.body = modified_body
-            response['Content-Length'] = response.body.bytesize.to_s
-          end
+          inject_livereload(response)
         ensure
           Typophic::Commands::Serve.apply_no_cache_headers(response) if response
         end
@@ -391,6 +320,93 @@ module Typophic
         def spa_route?(path)
           return true if path.nil? || path == "/"
           !File.extname(path).match?(/\.[a-zA-Z0-9]+$/)
+        end
+
+        def inject_livereload(response)
+          return unless response['Content-Type']&.include?('text/html')
+
+          html = extract_body(response)
+          return if html.nil? || html.empty? || html.include?('data-typophic-livereload')
+
+          modified = append_livereload_script(html)
+          response.body = modified.force_encoding(Encoding::UTF_8)
+          response['Content-Length'] = modified.bytesize.to_s
+          response['Last-Modified'] = Time.now.httpdate
+          response['Content-Type'] = 'text/html; charset=utf-8'
+        end
+
+        def extract_body(response)
+          body = response.body
+
+          case body
+          when String
+            body.dup
+          when IO, StringIO
+            body.rewind if body.respond_to?(:rewind)
+            content = body.read
+            body.close if body.respond_to?(:close)
+            content
+          when Tempfile
+            body.rewind
+            content = body.read
+            body.close
+            content
+          else
+            body.to_s
+          end
+        end
+
+        def append_livereload_script(html)
+          script = live_reload_script
+          injection = "<!-- data-typophic-livereload -->\n#{script}"
+
+          html = html.dup
+          source_encoding = html.encoding
+          source_encoding = Encoding::UTF_8 if source_encoding == Encoding::ASCII_8BIT
+
+          html = html.encode(source_encoding, invalid: :replace, undef: :replace)
+          injection = injection.encode(source_encoding, invalid: :replace, undef: :replace)
+
+          if html.include?("</body>")
+            html.sub("</body>", "#{injection}\n</body>")
+          elsif html.include?("</html>")
+            html.sub("</html>", "#{injection}\n</html>")
+          else
+            html + "\n" + injection
+          end
+        end
+
+        def live_reload_script
+          <<~SCRIPT
+            <script>
+              // LiveReload script - checks build timestamp to detect changes
+              (function() {
+                var lastBuildTime = null;
+
+                function checkForChanges() {
+                  fetch('/__typophic__/build_time', {
+                    cache: 'no-cache'
+                  })
+                  .then(function(response) {
+                    return response.text();
+                  })
+                  .then(function(currentBuildTime) {
+                    if (lastBuildTime && currentBuildTime && currentBuildTime !== lastBuildTime.toString()) {
+                      console.log('Typophic: site rebuilt, reloading…');
+                      window.location.reload();
+                    }
+                    lastBuildTime = parseInt(currentBuildTime);
+                  })
+                  .catch(function(error) {
+                    // Silently ignore errors; the endpoint might be unavailable during restarts.
+                  });
+                }
+
+                checkForChanges();
+                setInterval(checkForChanges, 1000);
+              })();
+            </script>
+          SCRIPT
         end
       end
     end

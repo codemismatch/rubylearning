@@ -33,15 +33,18 @@ breadcrumbs: true
         <% else %>
           <p><%= truncate(strip_html(post.content), length: 160) %></p>
         <% end %>
-        <a class="read-more" href="<%= url_for(post.permalink) %>">Read more →</a>
+        <a class="read-more" href="<%= url_for(post.permalink) %>">
+          Read more
+          <span class="icon-arrow" aria-hidden="true">&gt;</span>
+        </a>
       </article>
     <% end %>
   </div>
 <% else %>
-  <p>No blog posts yet—check back soon, or subscribe to the newsletter on the resources page.</p>
+  <p>No blog posts yet&mdash;check back soon, or subscribe to the newsletter on the resources page.</p>
 <% end %>
 
 <section class="chapter-section">
   <h2>Stay updated</h2>
-  <p>Subscribe to the RSS feed (coming soon) or join our mailing list to hear when new Ruby and Rails guides go live. Have a topic request? Open an issue on GitHub and we’ll add it to the queue.</p>
+  <p>Subscribe to the RSS feed (coming soon) or join our mailing list to hear when new Ruby and Rails guides go live. Have a topic request? Open an issue on GitHub and we&rsquo;ll add it to the queue.</p>
 </section>

@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter 3 – Methods & blocks
+title: Chapter 3 &ndash; Methods & blocks
 permalink: /tutorials/methods-and-blocks/
 difficulty: beginner
 summary: Package behaviour into reusable methods and lean on Ruby blocks for expressive iteration.

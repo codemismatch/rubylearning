@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter R2 – Rails routes & controllers
+title: Chapter R2 &ndash; Rails routes & controllers
 permalink: /tutorials/rails-routes-controllers/
 difficulty: intermediate
 summary: Shape request flow with RESTful routes, controllers, and model validations.
@@ -53,4 +53,4 @@ end
 - Add model validations and watch the controller handle failures.
 - Write request specs (or system tests) to cover the happy path.
 
-When you’re comfortable with the request cycle, carry on to [Chapter R3: Hotwire views & feedback](/tutorials/rails-hotwire-feedback/).
+When you&rsquo;re comfortable with the request cycle, carry on to [Chapter R3: Hotwire views & feedback](/tutorials/rails-hotwire-feedback/).

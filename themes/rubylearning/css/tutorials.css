@@ -94,8 +94,10 @@
 }
 
 .topic-nav-links a::before {
-  content: '→';
+  content: '>';
   color: var(--primary-color);
+  font-weight: 600;
+  margin-right: 0.35rem;
 }
 
 /* Smooth scroll behavior for topic links */

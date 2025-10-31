@@ -11,13 +11,13 @@ Ruby on Rails shines when you build something tangible. This hub highlights how 
 
 ## Learn by shipping projects
 
-BigBinary Academy’s Rails course is designed around project work. You code from day one, building features that mirror production apps—authentication, dashboards, background jobs, and more. Every module mixes short lessons with hands-on exercises so you can internalise the framework’s conventions.
+BigBinary Academy&rsquo;s Rails course is designed around project work. You code from day one, building features that mirror production apps&mdash;authentication, dashboards, background jobs, and more. Every module mixes short lessons with hands-on exercises so you can internalise the framework&rsquo;s conventions.
 
 ### Suggested flow
 
 - Begin with the environment setup walkthrough to get Rails, PostgreSQL, and Node working together.
 - Follow the module order: models and migrations, controllers and routing, then views with Hotwire.
-- Treat each capstone assignment as deployable work—write README notes, seed data, and smoke tests.
+- Treat each capstone assignment as deployable work&mdash;write README notes, seed data, and smoke tests.
 
 ## Build your Rails toolkit
 

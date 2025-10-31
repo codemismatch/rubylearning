@@ -18,7 +18,7 @@ related_tutorials:
 
 The dedicated Ruby tutorials page now houses the full learning path. Continue with [Chapter&nbsp;2](/tutorials/#chapter-2) for flow control and collections or [Chapter&nbsp;3](/tutorials/#chapter-3) for methods and blocks.
 
-If you’d like a quick refresher before diving back in, paste these examples into IRB and modify them after working through the practice checklists.
+If you&rsquo;d like a quick refresher before diving back in, paste these examples into IRB and modify them after working through the practice checklists.
 
 ```ruby
 # A simple Ruby class

@@ -1,0 +1,15 @@
+#!/usr/bin/env ruby
+# frozen_string_literal: true
+
+$LOAD_PATH.unshift(File.expand_path("../lib", __dir__))
+
+require "typophic"
+
+# If no arguments provided, default to serve with build/watch/livereload
+argv = if ARGV.empty?
+         ["serve", "--build", "--watch", "--livereload"]
+       else
+         ARGV
+       end
+
+Typophic::CLI.start(argv)

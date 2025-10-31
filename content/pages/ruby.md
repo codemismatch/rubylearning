@@ -16,7 +16,7 @@ RubyLearning maintains a comprehensive collection of study notes that walk newco
 **Suggested plan:**
 
 - Skim the introductory chapters to understand how Ruby treats classes, modules, and blocks.
-- Work through each interactive example locally or in an online REPL—pausing to tweak and rerun code until the concept sticks.
+- Work through each interactive example locally or in an online REPL&mdash;pausing to tweak and rerun code until the concept sticks.
 - Keep the downloadable reference handy for quick refreshers on syntax and standard library nuggets.
 
 ## Practise with focused exercises
@@ -24,11 +24,11 @@ RubyLearning maintains a comprehensive collection of study notes that walk newco
 Pair the notes with your own experiments:
 
 - Recreate the sample scripts, replacing method names and data to see how Ruby handles flexibility in typing.
-- Set small daily goals (for example, “loop over arrays three different ways”) and log your findings.
+- Set small daily goals (for example, &ldquo;loop over arrays three different ways&rdquo;) and log your findings.
 - Share questions with the RubyLearning community or a local Ruby group to accelerate feedback.
 
 ## Build a personal Ruby playbook
 
-As you progress, document patterns you rely on often—collection helpers, file utilities, and common gems. Treat the RubyLearning topics as checkpoints, and revisit them whenever you notice a gap in your understanding.
+As you progress, document patterns you rely on often&mdash;collection helpers, file utilities, and common gems. Treat the RubyLearning topics as checkpoints, and revisit them whenever you notice a gap in your understanding.
 
 Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on our [blog](/blog/) or keep exploring the [tutorials](/tutorials/).

@@ -50,25 +50,25 @@ Use this page as a clean launchpad when you need high-quality references, struct
   </div>
   <div class="resource-card">
     <h3>Build with BigBinary Academy</h3>
-    <p>Pair our hubs with <a href="https://courses.bigbinaryacademy.com/learn-rubyonrails/" target="_blank" rel="noopener">BigBinary Academy’s Rails course</a>; every module ships a real feature so the lessons stick.</p>
+    <p>Pair our hubs with <a href="https://courses.bigbinaryacademy.com/learn-rubyonrails/" target="_blank" rel="noopener">BigBinary Academy&rsquo;s Rails course</a>; every module ships a real feature so the lessons stick.</p>
   </div>
 </div>
 
 ## Practice platforms
 
 <ul class="resource-list">
-  <li><strong>Ruby Koans</strong> — fix failing tests to internalise language features.</li>
-  <li><strong>Exercism Ruby track</strong> — receive mentor feedback on focused exercises.</li>
-  <li><strong>Codewars Ruby katas</strong> — drill problem solving with short, repeatable challenges.</li>
-  <li><strong>The Odin Project</strong> — combine Ruby, Rails, and front-end projects into a cohesive path.</li>
+  <li><strong>Ruby Koans</strong> &mdash; fix failing tests to internalise language features.</li>
+  <li><strong>Exercism Ruby track</strong> &mdash; receive mentor feedback on focused exercises.</li>
+  <li><strong>Codewars Ruby katas</strong> &mdash; drill problem solving with short, repeatable challenges.</li>
+  <li><strong>The Odin Project</strong> &mdash; combine Ruby, Rails, and front-end projects into a cohesive path.</li>
 </ul>
 
 ## Books on repeat
 
 <ol>
-  <li><em>Practical Object-Oriented Design in Ruby</em> — Sandi Metz on building maintainable systems.</li>
-  <li><em>Eloquent Ruby</em> — Russ Olsen’s tour of everyday idioms and patterns.</li>
-  <li><em>Ruby Under a Microscope</em> — Pat Shaughnessy’s deep dive into Ruby internals.</li>
+  <li><em>Practical Object-Oriented Design in Ruby</em> &mdash; Sandi Metz on building maintainable systems.</li>
+  <li><em>Eloquent Ruby</em> &mdash; Russ Olsen&rsquo;s tour of everyday idioms and patterns.</li>
+  <li><em>Ruby Under a Microscope</em> &mdash; Pat Shaughnessy&rsquo;s deep dive into Ruby internals.</li>
 </ol>
 
 ## Video playlists & screencasts

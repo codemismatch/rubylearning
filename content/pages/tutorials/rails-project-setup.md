@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter R1 – Rails project setup
+title: Chapter R1 &ndash; Rails project setup
 permalink: /tutorials/rails-project-setup/
 difficulty: beginner
 summary: Assemble your Rails environment, create a clean baseline app, and confirm everything boots.

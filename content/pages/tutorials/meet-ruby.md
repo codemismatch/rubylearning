@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter 1 – Meet Ruby
+title: Chapter 1 &ndash; Meet Ruby
 permalink: /tutorials/meet-ruby/
 difficulty: beginner
 summary: Greet the world, explore Ruby objects, and learn how the console responds to your code.
@@ -18,7 +18,7 @@ related_tutorials:
 
 ### Introduction {#introduction}
 
-Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write. Everything in Ruby is an object—numbers, strings, even `true` and `false`. Start by making sure Ruby is installed (via `rbenv`, `rvm`, or the Windows installer), open a terminal, and run `irb` to explore interactively.
+Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write. Everything in Ruby is an object&mdash;numbers, strings, even `true` and `false`. Start by making sure Ruby is installed (via `rbenv`, `rvm`, or the Windows installer), open a terminal, and run `irb` to explore interactively.
 
 <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 puts &quot;Hello, Ruby learner!&quot;
@@ -35,7 +35,7 @@ Ruby is an interpreted language that runs in your browser through our interactiv
 
 ### Your first Ruby program {#first-ruby-program}
 
-Ruby executes from top to bottom—there is no `main` method—so keep each script focused on one idea. Try the interactive example below:
+Ruby executes from top to bottom&mdash;there is no `main` method&mdash;so keep each script focused on one idea. Try the interactive example below:
 
 <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 puts &#39;Hello from the browser!&#39;
@@ -50,7 +50,7 @@ Ruby has several distinctive characteristics:
 - Ruby is free-form and case sensitive; indentation is for humans, not the interpreter
 - Comments start with `#`; multi-line comments can be wrapped in `=begin`/`=end`
 - Reserved keywords (`if`, `class`, `module`, etc.) shouldn't be used as identifiers unless prefixed with `@`, `@@`, or `$`
-- `nil` and `false` are the only falsey values—everything else counts as truthy
+- `nil` and `false` are the only falsey values&mdash;everything else counts as truthy
 
 <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 puts nil ? &#39;truthy&#39; : &#39;falsey&#39;

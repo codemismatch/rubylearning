@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter 6 – Files, gems & next steps
+title: Chapter 6 &ndash; Files, gems & next steps
 permalink: /tutorials/files-gems-next-steps/
 difficulty: advanced
 summary: Read external data, interact with the filesystem, and script with gems to automate real tasks.

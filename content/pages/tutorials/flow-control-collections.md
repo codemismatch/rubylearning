@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter 2 – Flow control & collections
+title: Chapter 2 &ndash; Flow control & collections
 permalink: /tutorials/flow-control-collections/
 difficulty: beginner
 summary: Practise branching logic and collection helpers so your scripts react to real data.
@@ -19,7 +19,7 @@ related_tutorials:
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
 
-Branches and loops let your program respond to data. Ruby's arrays and hashes give you flexible containers for organising that data. Try the examples and then tweak them—Ruby's dynamic nature makes experimentation fast.
+Branches and loops let your program respond to data. Ruby's arrays and hashes give you flexible containers for organising that data. Try the examples and then tweak them&mdash;Ruby's dynamic nature makes experimentation fast.
 
 ### Branching and iteration {#control-flow}
 

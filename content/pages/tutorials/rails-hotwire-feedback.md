@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: Chapter R3 – Rails Hotwire feedback
+title: Chapter R3 &ndash; Rails Hotwire feedback
 permalink: /tutorials/rails-hotwire-feedback/
 difficulty: intermediate
 summary: Layer Hotwire updates and feedback loops onto your Rails UI to keep users in flow.

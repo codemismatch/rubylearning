@@ -22,10 +22,10 @@ For now, Typophic mostly operates on view-like structs. As we dogfood the engine
 
 Typophic already records **soft dependencies** while building collections:
 
-- Raw content access (`page.raw_markdown`) → watch the source file checksum.
-- Attribute access (`page['title']`, `config['base_url']`) → track individual keys.
-- Compiled content (`other_page.compiled_html`) → note the rendered output snapshot.
-- Path (`page.path`) → track routing info.
+- Raw content access (`page.raw_markdown`) -> watch the source file checksum.
+- Attribute access (`page['title']`, `config['base_url']`) -> track individual keys.
+- Compiled content (`other_page.compiled_html`) -> note the rendered output snapshot.
+- Path (`page.path`) -> track routing info.
 
 Next steps, inspired by Nanoc:
 
@@ -102,4 +102,3 @@ Within `CompileReps`, each rep will go through:
 5. Explore parallel compilation once dependency ordering is rock solid.
 
 Contributions are welcome! If you’re interested in helping with any of the above, open an issue so we can coordinate design details up front.
-

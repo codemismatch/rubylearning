@@ -5,17 +5,17 @@ layout: page
 
 # About Ruby Learning
 
-Ruby Learning is the reference project for Typophic—the static-site generator we are building in the open. Every feature we ship to Typophic is tested here first, so the site doubles as a playground for contributors and a resource for new Rubyists.
+Ruby Learning is the reference project for Typophic&mdash;the static-site generator we are building in the open. Every feature we ship to Typophic is tested here first, so the site doubles as a playground for contributors and a resource for new Rubyists.
 
 Our goals are simple:
 
 - **Teach by doing.** Every tutorial includes runnable code and clear next steps.
 - **Stay current.** Lessons evolve as the Ruby ecosystem does. We revise content and add new sections regularly.
-- **Open-source the platform.** Typophic’s code and documentation live alongside this site so you can learn Ruby and peek behind the curtain.
+- **Open-source the platform.** Typophic&rsquo;s code and documentation live alongside this site so you can learn Ruby and peek behind the curtain.
 
 ## Who maintains this site?
 
-The Typophic core team curates the content. We write Ruby daily—shipping production apps, mentoring newcomers, and improving the tooling that powers this site. If you have ideas for lessons or spot an issue, we’d love to hear from you.
+The Typophic core team curates the content. We write Ruby daily&mdash;shipping production apps, mentoring newcomers, and improving the tooling that powers this site. If you have ideas for lessons or spot an issue, we&rsquo;d love to hear from you.
 
 ## How to contribute
 

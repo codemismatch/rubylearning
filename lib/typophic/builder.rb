@@ -9,6 +9,8 @@ require "erb"
 require "uri"
 require "ostruct"
 
+require_relative "tutorial_formatter"
+
 module Typophic
   # Core static-site builder that transforms Markdown content and ERB templates
   # into a fully-linked static site. The goal is to generate correct URLs and
@@ -51,6 +53,8 @@ module Typophic
 
     def build
       puts "Building site..."
+
+      format_tutorials
 
       FileUtils.rm_rf(Dir.glob(File.join(@output_dir, "*")))
 
@@ -139,9 +143,14 @@ module Typophic
 
       output_path = File.join(@output_dir, page["output_path"])
       FileUtils.mkdir_p(File.dirname(output_path))
-      File.write(output_path, rendered)
+      File.write(output_path, rendered, encoding: Encoding::UTF_8)
 
       puts "Generated: #{output_path}"
+    end
+
+    def format_tutorials
+      formatted = Typophic::TutorialFormatter.format_all(root: Dir.pwd)
+      formatted.each { |path| puts "Formatted tutorial: #{path}" }
     end
 
     def load_helpers
@@ -296,7 +305,21 @@ module Typophic
       # (headings, inline code, links, lists, etc.) safely
       html.gsub!(/^(#+)\s+(.+)$/) do
         level = Regexp.last_match(1).length
-        "<h#{level}>#{Regexp.last_match(2)}</h#{level}>"
+        heading_text = Regexp.last_match(2)
+        slug = nil
+
+        if heading_text =~ /\s*\{#([^}]+)\}\s*$/
+          slug = Regexp.last_match(1)
+          heading_text = heading_text.sub(/\s*\{#([^}]+)\}\s*$/, "")
+        end
+
+        heading_text = heading_text.strip
+
+        if slug
+          "<h#{level} id=\"#{slug}\">#{heading_text}</h#{level}>"
+        else
+          "<h#{level}>#{heading_text}</h#{level}>"
+        end
       end
 
       html = "<p>" + html + "</p>"
