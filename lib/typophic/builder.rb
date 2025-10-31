@@ -26,6 +26,8 @@ module Typophic
                 :site_includes_dir,
                 :site_assets_dir
 
+    SUPPORTED_CONTENT_EXTENSIONS = %w[.md .markdown .html .htm .erb].freeze
+
     def initialize(options = {})
       @source_dir   = options[:source_dir] || "content"
       @output_dir   = options[:output_dir] || "public"
@@ -118,9 +120,10 @@ module Typophic
     end
 
     def process_content_files
-      entries = Dir.glob(File.join(@source_dir, "**", "*.md")).sort.map do |file|
-        parse_page(file)
-      end
+      entries = Dir.glob(File.join(@source_dir, "**", "*"))
+                   .select { |path| File.file?(path) && supported_content_file?(path) }
+                   .sort
+                   .map { |file| parse_page(file) }
 
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
@@ -130,15 +133,25 @@ module Typophic
 
     def parse_page(file)
       raw = File.read(file)
-      front_matter, markdown = extract_front_matter(raw)
+      front_matter, body = extract_front_matter(raw)
+      renderer = renderer_for(file)
       meta = build_page_context(file, front_matter)
 
-      { meta: meta, markdown: markdown }
+      { meta: meta, body: body, renderer: renderer }
     end
 
     def render_page(entry)
       page = entry[:meta]
-      html_content = render_markdown(entry[:markdown])
+      html_content = case entry[:renderer]
+                     when :markdown
+                       render_markdown(entry[:body])
+                     when :erb
+                       render_inline_template(entry[:body], page)
+                     when :html
+                       entry[:body]
+                     else
+                       entry[:body].to_s
+                     end
       rendered = render_layout(page["layout"], html_content, page)
 
       output_path = File.join(@output_dir, page["output_path"])
@@ -151,6 +164,35 @@ module Typophic
     def format_tutorials
       formatted = Typophic::TutorialFormatter.format_all(root: Dir.pwd)
       formatted.each { |path| puts "Formatted tutorial: #{path}" }
+    end
+
+    def supported_content_file?(path)
+      return true if path.end_with?(".html.erb")
+
+      ext = File.extname(path).downcase
+      SUPPORTED_CONTENT_EXTENSIONS.include?(ext)
+    end
+
+    def renderer_for(path)
+      return :erb if path.end_with?(".html.erb")
+
+      case File.extname(path).downcase
+      when ".md", ".markdown"
+        :markdown
+      when ".html", ".htm"
+        :html
+      when ".erb"
+        :erb
+      else
+        :markdown
+      end
+    end
+
+    def strip_supported_extensions(filename)
+      base = filename.dup
+      base = base.sub(/\.html\.erb\z/i, "")
+      base = base.sub(/\.(md|markdown|html|htm|erb)\z/i, "")
+      base
     end
 
     def load_helpers
@@ -193,7 +235,7 @@ module Typophic
       segments = relative_source.split(File::SEPARATOR)
       section = segments.first || ""
       filename = segments.last || "index.md"
-      stem = filename.sub(/\.md\z/, "")
+      stem = strip_supported_extensions(filename)
 
       slug, inferred_date = derive_slug_and_date(stem, front_matter)
       layout = (front_matter["layout"] || default_layout_for(section)).to_s
@@ -400,6 +442,19 @@ module Typophic
       parent_layout ? render_layout(parent_layout, rendered, page_data) : rendered
     end
 
+    def render_inline_template(template_body, page_data)
+      context = TemplateContext.new(
+        site: @site,
+        page: page_data,
+        content: "",
+        site_includes_dir: @site_includes_dir,
+        theme_includes_dir: File.join(@theme_path, "includes"),
+        helpers: @helper_modules
+      )
+
+      context.render(template_body)
+    end
+
     # Insert missing newlines between Ruby tokens that often get jammed
     # during content edits or Markdown conversions.
     def normalize_ruby_code(code)
@@ -588,6 +643,21 @@ module Typophic
         relative = relative_path.to_s
         relative = relative == "/" ? "/" : relative.sub(%r{^/}, "")
         combine_with_base(relative)
+      end
+
+      def truncate(text, length: 100, omission: "…")
+        return "" if text.nil?
+
+        stripped = text.to_s
+        return stripped if stripped.length <= length
+
+        stripped[0, length].rstrip + omission
+      end
+
+      def strip_html(text)
+        return "" if text.nil?
+
+        text.to_s.gsub(/<[^>]*>/, "")
       end
 
       def absolute_url(relative_path)
