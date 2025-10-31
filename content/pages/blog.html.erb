@@ -1,20 +1,20 @@
 ---
-layout: page
+layout: blog_index
+theme: bonsaiblog
 title: Ruby & Rails Blog
 permalink: /blog
 description: Fresh lessons, tips, and project write-ups for Ruby and Ruby on Rails developers.
 breadcrumbs: true
 ---
 
-<h1>Ruby &amp; Rails blog</h1>
-<p class="chapter-meta">We publish deep dives, practice guides, and project retros so you can keep sharpening both Ruby and Rails skills between chapters.</p>
+<h2 class="visually-hidden">Latest Posts</h2>
 
 <% posts = Array(site.collections&.posts || [])
   .sort_by { |post| post.date || Date.today }
   .reverse %>
 
 <% if posts.any? %>
-  <div class="post-grid blog-archive">
+  <div class="post-grid">
     <% posts.each do |post| %>
       <article class="post-card">
         <h2><a href="<%= url_for(post.permalink) %>"><%= post.title %></a></h2>

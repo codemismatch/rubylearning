@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%= render_partial 'head' %>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="header-content">
+        <h1 class="site-title"><a href="<%= url_for('/') %>">Mria</a></h1>
+        <nav class="site-nav">
+          <a href="<%= url_for('/') %>">Home</a>
+          <a href="<%= url_for('/blog') %>">Blog</a>
+          <a href="<%= url_for('/authors') %>">Authors</a>
+          <a href="<%= url_for('/videos') %>">Videos</a>
+          <a href="<%= url_for('/pages') %>">Pages</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <section class="hero">
+        <h1>Thoughts, stories and ideas.</h1>
+        <p>Don't limit yourself. Many people limit themselves to what they think they can do. You can go as far as your mind lets you. What you believe, remember you can achieve.</p>
+      </section>
+
+      <%= content %>
+
+      <section class="videos-section">
+        <div class="container">
+          <div class="section-header">
+            <h2>Latest Videos</h2>
+            <a href="<%= url_for('/videos') %>" class="see-all-link">More videos →</a>
+          </div>
+          <div class="videos-grid">
+            <div class="video-card">
+              <img src="https://images.unsplash.com/photo-1611339555312-e607c04352fd?w=800&h=450&fit=crop" alt="Video thumbnail">
+            </div>
+            <div class="video-card">
+              <img src="https://images.unsplash.com/photo-1492684223066-81342ee5ff30?w=800&h=450&fit=crop" alt="Video thumbnail">
+            </div>
+            <div class="video-card">
+              <img src="https://images.unsplash.com/photo-1511379938547-c1f69b13d835?w=800&h=450&fit=crop" alt="Video thumbnail">
+            </div>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer>
+      <p>&copy; <%= Time.now.year %> Mria. All rights reserved.</p>
+    </footer>
+  </div>
+  
+  <script src="<%= asset_path('js/site.js') %>" defer></script>
+</body>
+</html>

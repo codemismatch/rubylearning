@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title><%= page.title %> · <%= site.title %></title>
+  <meta name="description" content="<%= page.description || site.description %>">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&family=Fira+Mono:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="<%= theme_asset_path('css/style.css') %>">
+</head>
+<body class="bonsai">
+  <header class="blog-header">
+    <div class="wrap">
+      <a class="blog-logo" href="<%= url_for('/blog/') %>">Ruby Learning · Blog</a>
+      <nav class="blog-nav">
+        <a href="<%= url_for('/') %>">Home</a>
+        <a href="<%= url_for('tutorials/') %>">Tutorials</a>
+        <a href="<%= url_for('pages/resources/') %>">Resources</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="blog-main">
+    <div class="wrap">
+      <%= content %>
+    </div>
+  </main>
+
+  <footer class="blog-footer">
+    <div class="wrap">
+      <p>© <%= Time.now.year %> Ruby Learning • Powered by Typophic</p>
+    </div>
+  </footer>
+</body>
+</html>
+

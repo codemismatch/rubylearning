@@ -1,0 +1,23 @@
+---
+layout: default
+---
+<article class="post">
+  <header class="post-head">
+    <h1 class="post-title"><%= page.title %></h1>
+    <% if page.date %>
+      <time class="post-date" datetime="<%= page.date.strftime('%Y-%m-%d') %>"><%= page.date.strftime(site.date_format || '%B %-d, %Y') %></time>
+    <% end %>
+    <% if page.tags && !page.tags.empty? %>
+      <div class="post-tags">
+        <% page.tags.each do |tag| %>
+          <span class="tag">#<%= tag %></span>
+        <% end %>
+      </div>
+    <% end %>
+  </header>
+
+  <div class="post-body">
+    <%= content %>
+  </div>
+</article>
+

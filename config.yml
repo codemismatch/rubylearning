@@ -4,7 +4,10 @@ site_type: ruby
 author: Typophic User
 description: A beautiful static website for learning Ruby
 url: https://rubylearning.in
-theme: rubylearning
+theme:
+  default: rubylearning
+  sections:
+    posts: bonsaiblog
 permalink_style: pretty
 date_format: "%B %-d, %Y"
 markdown_extensions:

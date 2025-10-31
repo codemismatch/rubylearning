@@ -95,6 +95,29 @@ typophic theme new minimal
 
 The command drops starter layouts, includes, and asset folders under `themes/minimal/` ready for customization.
 
+#### Nested Themes (Blog vs. Site)
+
+Typophic supports per-section themes. This repository uses the default `rubylearning` theme for the site and a Bonso‑inspired `bonsaiblog` theme for the blog:
+
+```yaml
+theme:
+  default: rubylearning
+  sections:
+    posts: bonsaiblog
+```
+
+The blog index page opts into the blog theme and layout:
+
+```yaml
+---
+layout: blog_index
+theme: bonsaiblog
+permalink: /blog
+---
+```
+
+See `docs/THEMES.md` and `docs/BLOG.md` for the full walkthrough.
+
 ### Building
 
 ```bash

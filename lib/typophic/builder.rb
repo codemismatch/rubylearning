@@ -8,6 +8,7 @@ require "json"
 require "erb"
 require "uri"
 require "ostruct"
+require "set"
 
 require_relative "tutorial_formatter"
 
@@ -21,6 +22,8 @@ module Typophic
                 :theme_root,
                 :theme_name,
                 :theme_path,
+                :default_theme_name,
+                :theme_paths,
                 :data_dir,
                 :site_layouts_dir,
                 :site_includes_dir,
@@ -32,19 +35,14 @@ module Typophic
       @source_dir   = options[:source_dir] || "content"
       @output_dir   = options[:output_dir] || "public"
       @theme_root   = options[:theme_root] || "themes"
-      @theme_name   = options[:theme] || nil
       @data_dir     = options[:data_dir] || "data"
       @site_layouts_dir  = options[:layouts_dir]  || "layouts"
       @site_includes_dir = options[:includes_dir] || "includes"
       @site_assets_dir   = options[:assets_dir]   || "assets"
 
-      @config     = load_config
-      @theme_name ||= @config["theme"] || "rubylearning"
-      @theme_path  = options[:theme_dir] || File.join(@theme_root, @theme_name)
+      @config = load_config
 
-      unless Dir.exist?(@theme_path)
-        raise "Theme '#{@theme_name}' not found at #{@theme_path}"
-      end
+      configure_themes(options)
 
       @site       = build_site_context(@config)
       @collections = Hash.new { |hash, key| hash[key] = [] }
@@ -60,6 +58,7 @@ module Typophic
 
       FileUtils.rm_rf(Dir.glob(File.join(@output_dir, "*")))
 
+      collect_content_theme_overrides
       copy_static_assets
       process_content_files
       write_collection_indexes
@@ -69,8 +68,67 @@ module Typophic
 
     private
 
-    def load_config
-      YAML.load_file("config.yml")
+    def configure_themes(options)
+      config_theme = @config["theme"]
+      case config_theme
+      when String
+        @default_theme_name = options[:theme] || config_theme
+        @section_theme_map = {}
+      when Hash
+        @default_theme_name = (options[:theme] || config_theme["default"] || config_theme[:default] || "rubylearning").to_s
+        sections = config_theme["sections"] || config_theme[:sections] || {}
+        @section_theme_map = sections.transform_keys(&:to_s).transform_values(&:to_s)
+      else
+        @default_theme_name = options[:theme] || "rubylearning"
+        @section_theme_map = {}
+      end
+
+      @theme_name = @default_theme_name
+      @theme_path = File.join(@theme_root, @default_theme_name)
+
+      names = Set.new([@default_theme_name])
+      @section_theme_map.each_value { |n| names << n }
+      @theme_paths = names.each_with_object({}) { |n, memo| memo[n] = File.join(@theme_root, n) }
+
+      @theme_paths.each do |name, path|
+        raise "Theme '#{name}' not found at #{path}" unless Dir.exist?(path)
+      end
+    end
+
+    
+
+    def collect_content_theme_overrides
+      Dir.glob(File.join(@source_dir, "**", "*.{md,markdown,html,erb}")) do |file|
+        front_matter, = extract_front_matter(File.read(file))
+        if (theme_name = front_matter["theme"]).to_s.strip != ""
+          @theme_paths[theme_name] ||= File.join(@theme_root, theme_name) if Dir.exist?(File.join(@theme_root, theme_name))
+        end
+      rescue => _e
+        # ignore parse errors; normal rendering will surface problems
+      end
+    end
+
+    
+
+        
+
+    
+
+    def theme_asset_destination(theme_name, asset_dir)
+      File.join("themes", theme_name, asset_dir)
+    end
+
+    
+
+        
+
+    
+
+            def load_config
+
+    
+
+              YAML.load_file("config.yml")
     rescue Errno::ENOENT
       {}
     end
@@ -96,16 +154,27 @@ module Typophic
     end
 
     def copy_static_assets
+      @theme_paths.each do |theme_name, path|
+        %w[css js images].each do |asset_dir|
+          destination = theme_asset_destination(theme_name, asset_dir)
+          copy_asset_tree(File.join(path, asset_dir), destination, "theme: #{theme_name}")
+        end
+      end
+
+      # Back-compat: also copy the default theme to root-level asset dirs
       %w[css js images].each do |asset_dir|
-        copy_asset_tree(File.join(@theme_path, asset_dir), asset_dir, "theme")
+        copy_asset_tree(File.join(@theme_path, asset_dir), asset_dir, "default theme (root)")
+      end
+
+      %w[css js images].each do |asset_dir|
         copy_asset_tree(File.join(@site_assets_dir, asset_dir), asset_dir, "site")
       end
     end
 
-    def copy_asset_tree(source, asset_dir, label)
+    def copy_asset_tree(source, destination_dir, label)
       return unless Dir.exist?(source)
 
-      destination = File.join(@output_dir, asset_dir)
+      destination = File.join(@output_dir, destination_dir)
       FileUtils.mkdir_p(destination)
 
       Dir.glob(File.join(source, "**", "*")) do |file|
@@ -142,17 +211,18 @@ module Typophic
 
     def render_page(entry)
       page = entry[:meta]
+      theme_name = theme_for_page(page)
       html_content = case entry[:renderer]
                      when :markdown
                        render_markdown(entry[:body])
                      when :erb
-                       render_inline_template(entry[:body], page)
+                       render_inline_template(entry[:body], page, theme_name)
                      when :html
                        entry[:body]
                      else
                        entry[:body].to_s
                      end
-      rendered = render_layout(page["layout"], html_content, page)
+      rendered = render_layout(page["layout"], html_content, page, theme_name)
 
       output_path = File.join(@output_dir, page["output_path"])
       FileUtils.mkdir_p(File.dirname(output_path))
@@ -196,7 +266,7 @@ module Typophic
     end
 
     def load_helpers
-      helper_dirs = ["helpers", File.join(@theme_path, "helpers")]
+      helper_dirs = ["helpers"] + @theme_paths.values.map { |p| File.join(p, "helpers") }
       helper_modules = []
 
       helper_dirs.each do |dir|
@@ -259,6 +329,13 @@ module Typophic
       page["tags"] = Array(page["tags"])
 
       page
+    end
+
+    def theme_for_page(page)
+      return page["theme"].to_s unless page["theme"].to_s.strip.empty?
+      section = page["section"].to_s
+      return @section_theme_map[section] if @section_theme_map && @section_theme_map[section]
+      @default_theme_name
     end
 
     def default_layout_for(section)
@@ -421,35 +498,40 @@ module Typophic
       HTML
     end
 
-    def render_layout(layout_name, content, page_data)
-      layout_path = find_layout_path(layout_name)
+    def render_layout(layout_name, content, page_data, theme_name)
+      layout_path = find_layout_path(layout_name, theme_name)
       raise "Missing layout: #{layout_name}" unless layout_path
 
       front_matter, template_body = extract_front_matter(File.read(layout_path))
+
+      theme_path = @theme_paths[theme_name]
 
       context = TemplateContext.new(
         site: @site,
         page: page_data,
         content: content,
         site_includes_dir: @site_includes_dir,
-        theme_includes_dir: File.join(@theme_path, "includes"),
-        helpers: @helper_modules
+        theme_includes_dir: File.join(theme_path, "includes"),
+        helpers: @helper_modules,
+        current_theme: theme_name
       )
 
       rendered = context.render(template_body)
 
       parent_layout = front_matter.fetch("layout", nil)
-      parent_layout ? render_layout(parent_layout, rendered, page_data) : rendered
+      parent_layout ? render_layout(parent_layout, rendered, page_data, theme_name) : rendered
     end
 
-    def render_inline_template(template_body, page_data)
+    def render_inline_template(template_body, page_data, theme_name)
+      theme_path = @theme_paths[theme_name]
       context = TemplateContext.new(
         site: @site,
         page: page_data,
         content: "",
         site_includes_dir: @site_includes_dir,
-        theme_includes_dir: File.join(@theme_path, "includes"),
-        helpers: @helper_modules
+        theme_includes_dir: File.join(theme_path, "includes"),
+        helpers: @helper_modules,
+        current_theme: theme_name
       )
 
       context.render(template_body)
@@ -504,13 +586,16 @@ module Typophic
       formatted.join("\n").gsub(/\n{3,}/, "\n\n")
     end
 
-    def find_layout_path(layout_name)
+    def find_layout_path(layout_name, theme_name)
       candidates = []
 
       if @site_layouts_dir && File.directory?(@site_layouts_dir)
         candidates << File.join(@site_layouts_dir, "#{layout_name}.html")
       end
 
+      theme_path = @theme_paths[theme_name]
+      candidates << File.join(theme_path, "layouts", "#{layout_name}.html") if theme_path
+      # Fallback to default theme
       candidates << File.join(@theme_path, "layouts", "#{layout_name}.html")
 
       candidates.find { |path| File.exist?(path) }
@@ -610,13 +695,14 @@ module Typophic
     class TemplateContext
       attr_reader :site, :page
 
-      def initialize(site:, page:, content:, site_includes_dir:, theme_includes_dir:, helpers: [])
+      def initialize(site:, page:, content:, site_includes_dir:, theme_includes_dir:, helpers: [], current_theme: nil)
         @site_hash = site
         @page_hash = page
         @content = content
         @site_includes_dir = site_includes_dir
         @theme_includes_dir = theme_includes_dir
         @helper_modules = Array(helpers)
+        @current_theme = current_theme
 
         @helper_modules.each do |mod|
           singleton_class.include(mod)
@@ -637,6 +723,12 @@ module Typophic
       def asset_path(relative_path)
         relative = relative_path.to_s.sub(%r{^/}, "")
         combine_with_base(relative)
+      end
+
+      def theme_asset_path(relative_path, theme_name = nil)
+        name = (theme_name || @current_theme).to_s
+        relative = relative_path.to_s.sub(%r{^/}, "")
+        combine_with_base(File.join("themes", name, relative))
       end
 
       def url_for(relative_path)

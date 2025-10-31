@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <%= render_partial 'head' %>
+</head>
+<body>
+  <div class="wrapper">
+    <header>
+      <div class="header-content">
+        <h1 class="site-title"><a href="<%= url_for('/') %>">Mria</a></h1>
+        <nav class="site-nav">
+          <a href="<%= url_for('/') %>">Home</a>
+          <a href="<%= url_for('/blog') %>">Blog</a>
+          <a href="<%= url_for('/authors') %>">Authors</a>
+          <a href="<%= url_for('/videos') %>">Videos</a>
+          <a href="<%= url_for('/pages') %>">Pages</a>
+        </nav>
+      </div>
+    </header>
+
+    <main class="container">
+      <article class="post-content">
+        <h1><%= page.title %></h1>
+        <div class="article-meta">
+          <div class="author-avatar"></div>
+          <div class="author-info">
+            <h4><%= page.author || 'Author' %></h4>
+            <p><%= page.date || Time.now.strftime('%B %d, %Y') %></p>
+          </div>
+        </div>
+        <%= content %>
+      </article>
+    </main>
+
+    <footer>
+      <p>&copy; <%= Time.now.year %> Mria. All rights reserved.</p>
+    </footer>
+  </div>
+  
+  <script src="<%= asset_path('js/site.js') %>" defer></script>
+</body>
+</html>
