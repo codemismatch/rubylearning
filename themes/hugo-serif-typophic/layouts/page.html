@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="<%= site["language"] || "en" %>">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title><%= page["title"] %> - <%= site["title"] %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <%= render_partial('google-fonts') %>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="<%= asset_path('css/style.css') %>">
+
+  <!-- Meta tags -->
+  <% if page["description"] %>
+  <meta name="description" content="<%= page["description"] %>"/>
+  <% end %>
+  <meta property="og:title" content="<%= page["meta_title"] || page["title"] %>"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="<%= page["url"] %>"/>
+  
+  <% if page["image"] %>
+  <meta property="og:image" content="<%= absolute_url(page["image"]) %>"/>
+  <% else %>
+  <meta property="og:image" content="<%= absolute_url(site["seo"] && site["seo"]["meta_og_image"] || "") %>"/>
+  <% end %>
+  
+  <% if page["description"] %>
+  <meta property="og:description" content="<%= page["description"] %>"/>
+  <% end %>
+  
+  <meta name="twitter:card" content="summary"/>
+  <% if site["seo"] && site["seo"]["meta_twitter_site"] %>
+  <meta name="twitter:site" content="<%= site["seo"]["meta_twitter_site"] %>"/>
+  <% end %>
+  <% if site["seo"] && site["seo"]["meta_twitter_creator"] %>
+  <meta name="twitter:creator" content="<%= site["seo"]["meta_twitter_creator"] %>"/>
+  <% end %>
+</head>
+
+<body class="page page-default-single">
+  <%= render_partial('main-menu-mobile') %>
+  <div class="wrapper">
+    <%= render_partial('header') %>
+    <main class="main">
+      <div class="container pb-6 pt-6 pt-md-14 pb-md-14">
+        <div class="row justify-content-start">
+          <div class="col-12 col-md-8">
+            <article>
+              <div class="content">
+                <%= content %>
+              </div>
+              
+              <% if page["tags"] && page["tags"].any? %>
+                <footer class="post-footer">
+                  <div class="post-tags">
+                    <h3>Tags:</h3>
+                    <% page["tags"].each do |tag| %>
+                      <span class="badge"><%= tag %></span>
+                    <% end %>
+                  </div>
+                </footer>
+              <% end %>
+            </article>
+          </div>
+        </div>
+      </div>
+    </main>
+  </div>
+
+  <%= render_partial('footer') %>
+  <%= render_partial('sub-footer') %>
+
+  <script type="text/javascript" src="<%= asset_path('js/scripts.js') %>"></script>
+  <script src="<%= asset_path('js/site.js') %>"></script>
+</body>
+</html>

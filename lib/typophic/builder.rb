@@ -135,6 +135,35 @@ module Typophic
       {}
     end
 
+    def load_data_files
+      data_dir = @data_dir || "data"
+      data = {}
+      
+      return data unless Dir.exist?(data_dir)
+      
+      Dir.glob(File.join(data_dir, "**", "*.{yaml,yml,json}")) do |file|
+        relative_path = file.sub(/^#{Regexp.escape(data_dir)}\//, "")
+        data_name = File.basename(relative_path, File.extname(relative_path))
+        
+        begin
+          case File.extname(file).downcase
+          when '.yaml', '.yml'
+            content = YAML.safe_load(File.read(file), aliases: true)
+          when '.json'
+            content = JSON.parse(File.read(file))
+          else
+            next
+          end
+          
+          data[data_name] = content
+        rescue => e
+          puts "Warning: Could not load data file #{file}: #{e.message}"
+        end
+      end
+      
+      data
+    end
+
     def build_site_context(config)
       base_url = config.fetch("url", "").to_s.strip
       base_url = base_url.chomp("/") unless base_url.empty?
@@ -148,10 +177,14 @@ module Typophic
       base_path = uri.path.to_s
       base_path = "" if base_path == "/"
 
+      # Load data files to make them available in templates similar to Hugo's .Site.Data
+      data_files = load_data_files
+
       config.merge(
         "base_url" => base_url,
         "base_path" => base_path,
-        "title" => config["site_name"] || config["title"] || "Typophic Site"
+        "title" => config["site_name"] || config["title"] || "Typophic Site",
+        "data" => data_files
       )
     end
 
@@ -312,6 +345,9 @@ module Typophic
       slug, inferred_date = derive_slug_and_date(stem, front_matter)
       layout = (front_matter["layout"] || default_layout_for(section)).to_s
 
+      # Support Hugo-like content types
+      content_type = front_matter["type"] || section
+
       permalink = front_matter["permalink"]
       permalink = default_permalink(section, segments[1..-2], slug, filename) if permalink.nil? || permalink.empty?
       permalink = normalize_permalink(permalink)
@@ -319,6 +355,7 @@ module Typophic
       page = stringify_keys(front_matter)
       page["layout"] = layout
       page["section"] = section
+      page["type"] = content_type  # Add Hugo-like content type
       page["source"] = relative_source
       page["slug"] = slug
       page["date"] ||= inferred_date
@@ -734,6 +771,66 @@ module Typophic
 
         @site = deep_struct(site)
         @page = deep_struct(page)
+      end
+
+      # Helper method to filter collections like Hugo's where function
+      def where(collection, field, value)
+        return [] unless collection.is_a?(Array)
+        
+        collection.select do |item|
+          if field.include?('.')
+            # Handle nested field access like "Params.featured"
+            nested_value = get_nested_value(item, field)
+            nested_value == value
+          else
+            item.is_a?(Hash) ? item[field] == value : (item.respond_to?(field) ? item.send(field) == value : false)
+          end
+        end
+      end
+
+      # Helper method to filter by type like .Site.RegularPages "Type" "services"
+      def where_type(pages_collection, type_value)
+        # Filter pages by type field (similar to Hugo's .Type)
+        pages_collection.select { |page| page.is_a?(Hash) && page["type"] == type_value }
+      end
+
+      # Helper method to get nested values for field access like .Params.featured
+      def get_nested_value(item, field_path)
+        parts = field_path.split('.')
+        current = item
+
+        parts.each do |part|
+          if current.is_a?(Hash)
+            current = current[part]
+          elsif current.respond_to?(:to_h)
+            hash_val = current.to_h
+            current = hash_val[part]
+          else
+            return nil
+          end
+          break if current.nil?
+        end
+
+        current
+      end
+
+      # Helper method to sort collections
+      def sort_by_field(collection, field_path)
+        return [] unless collection.is_a?(Array)
+        
+        collection.sort_by do |item|
+          if field_path.include?('.')
+            get_nested_value(item, field_path) || 0
+          else
+            item.is_a?(Hash) ? item[field_path] || 0 : (item.respond_to?(field_path.to_sym) ? item.send(field_path.to_sym) : 0)
+          end
+        end
+      end
+
+      # Helper method to take first N items
+      def take_first(collection, n)
+        return [] unless collection.is_a?(Array)
+        collection.first(n.to_i)
       end
 
       def render(template)

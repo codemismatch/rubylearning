@@ -39,7 +39,7 @@ module Typophic
               <nav class="site-nav">
                 <a href="<%= url_for('/') %>">Home</a>
                 <a href="<%= url_for('pages/about/') %>">About</a>
-                <a href="<%= url_for('posts/') %>">Posts</a>
+                <a href="<%= url_for('tutorials/') %>">Tutorials</a>
               </nav>
             </div>
           </header>
@@ -133,4 +133,3 @@ module Typophic
     private_class_method :footer_partial
   end
 end
-

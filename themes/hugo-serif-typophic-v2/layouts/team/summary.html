@@ -1,0 +1,19 @@
+<div class="team team-summary">
+  <% if page["image"] %>
+
+  <div class="team-image">
+    <img width="360" height="360" alt="Photo of <%= page["title"] %>" class="img-fluid mb-2" src="<%# UNCONVERTED HUGO SYNTAX: {{ .Params.image | relURL }} - Manual review required %>" />
+  </div>
+  <% end %>
+  <div class="team-meta">
+    <h2 class="team-name">
+      <a href="<%= url_for(page["permalink"]) %>"><%= page["title"] %></a>
+    </h2>
+    <p class="team-description"><%= page['Jobtitle'] %></p>
+    <% if page["Linkedinurl"] %>
+
+      <a target="_blank" rel="noreferrer" href="<%= page['Linkedinurl'] %>">LinkedIn</a>
+    <% end %>
+  </div>
+  <div class="team-content"></div>
+</div>

@@ -1,0 +1,28 @@
+
+<%# Hugo template definition: body_classes - page-default-single %>
+
+
+
+<%# Hugo template definition: main - <div class="container pb-6 pt-6 pt-md-14 pb-md-14">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <% if page["image"] %>
+
+        <div>
+          <img width="320" height="320" alt="Photo of <%= page["title"] %>" class="img-fluid mb-2" src="<%# UNCONVERTED HUGO SYNTAX: {{ .Params.image | relURL }} - Manual review required %>" />
+        </div> %>
+
+      <div class="team-summary">
+        <div class="team-meta mb-2">
+          <h1 class="team-name"><%= page["title"] %></h1>
+          <p class="team-description"><%= page['Jobtitle'] %></p>
+          <%# UNCONVERTED HUGO SYNTAX: {{ if .Params.Linkedinurl }} - Manual review required %>
+            <a target="_blank" rel="noreferrer" href="<%= page['Linkedinurl'] %>">LinkedIn</a>
+          <% end %>
+        </div>
+        <div class="content"><%= content %></div>
+      </div>
+    </div>
+  </div>
+</div>
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>

@@ -11,7 +11,7 @@ related_tutorials:
   - title: "Rails learning hub"
     url: /rails/
   - title: "Project-driven roadmap for learning Rails"
-    url: /posts/rails-learning-roadmap/
+    url: /blog/rails-learning-roadmap/
 ---
 
 ```erb

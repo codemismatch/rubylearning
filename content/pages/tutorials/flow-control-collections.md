@@ -14,7 +14,7 @@ related_tutorials:
   - title: "Methods & blocks"
     url: /tutorials/methods-and-blocks/
   - title: "Ruby practice examples"
-    url: /posts/ruby-examples/
+    url: /blog/ruby-examples/
 ---
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.

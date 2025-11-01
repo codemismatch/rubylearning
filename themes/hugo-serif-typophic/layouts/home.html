@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="<%= site["language"] || "en" %>">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title><%= page["title"] %> - <%= site["title"] %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="/favicon.png">
+
+  <%= render_partial('google-fonts') %>
+
+  <!-- CSS -->
+  <link rel="stylesheet" href="<%= asset_path('css/style.css') %>">
+
+  <!-- Meta tags -->
+  <% if page["description"] %>
+  <meta name="description" content="<%= page["description"] %>"/>
+  <% end %>
+  <meta property="og:title" content="<%= page["meta_title"] || page["title"] %>"/>
+  <meta property="og:type" content="website"/>
+  <meta property="og:url" content="<%= page["url"] %>"/>
+  
+  <% if page["image"] %>
+  <meta property="og:image" content="<%= absolute_url(page["image"]) %>"/>
+  <% else %>
+  <meta property="og:image" content="<%= absolute_url(site["seo"] && site["seo"]["meta_og_image"] || "") %>"/>
+  <% end %>
+  
+  <% if page["description"] %>
+  <meta property="og:description" content="<%= page["description"] %>"/>
+  <% end %>
+  
+  <meta name="twitter:card" content="summary"/>
+  <% if site["seo"] && site["seo"]["meta_twitter_site"] %>
+  <meta name="twitter:site" content="<%= site["seo"]["meta_twitter_site"] %>"/>
+  <% end %>
+  <% if site["seo"] && site["seo"]["meta_twitter_creator"] %>
+  <meta name="twitter:creator" content="<%= site["seo"]["meta_twitter_creator"] %>"/>
+  <% end %>
+</head>
+
+<body class="page page-home">
+  <%= render_partial('main-menu-mobile') %>
+  <div class="wrapper">
+    <%= render_partial('header') %>
+    <main class="main">
+      <div class="intro">
+        <div class="container">
+          <div class="row justify-content-start">
+            <div class="col-12 col-md-7 col-lg-6 order-2 order-md-1">
+              <%= content %>
+              <%= render_partial('call') %>
+            </div>
+            <%= render_partial('intro-image') %>
+          </div>
+        </div>
+      </div>
+
+      <% if site["collections"] %>
+        <% all_pages = site["collections"].values.flatten rescue [] %>
+        <% services = where_type(all_pages, "services") %>
+        <% featured_services = where(services, "featured", true) %>
+        <% featured_services_sorted = sort_by_field(featured_services, "weight") %>
+        <% top_services = take_first(featured_services_sorted, 6) %>
+        
+        <% if top_services.length > 0 %>
+          <div class="strip">
+            <div class="container pt-6 pb-6 pb-md-10">
+              <div class="row justify-content-start">
+                <% top_services.each do |service| %>
+                  <div class="col-12 col-md-4 mb-1">
+                    <div class="service-summary">
+                      <h3><a href="<%= url_for(service["permalink"]) %>"><%= service["title"] %></a></h3>
+                      <p><%= service["description"] %></p>
+                    </div>
+                  </div>
+                <% end %>
+              </div>
+              <% if site["homepage"] && site["homepage"]["show_services_button"] %>
+              <div class="row justify-content-center">
+                <div class="col-auto">
+                  <a class="button button-primary" href="<%= url_for('services/') %>">View All Services</a>
+                </div>
+              </div>
+              <% end %>
+            </div>
+          </div>
+        <% end %>
+      <% end %>
+
+      <% if site["data"] && site["data"]["features"] %>
+      <div class="strip strip-grey">
+        <div class="container pt-6 pb-6 pt-md-10 pb-md-10">
+          <div class="row justify-content-center">
+            <% site["data"]["features"].each do |feature| %>
+              <div class="col-12 col-md-6 col-lg-4 mb-2">
+                <div class="feature">
+                  <% if feature["image"] %>
+                  <div class="feature-image"><img width="100" height="100" alt="<%= feature["title"] %> logo"
+                      src="/<%= feature["image"] %>" /></div>
+                  <% end %>
+                  <h2 class="feature-title"><%= feature["title"] %></h2>
+                  <div class="feature-content">
+                    <p><%= feature["description"] %></p>
+                  </div>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </main>
+  </div>
+
+  <%= render_partial('footer') %>
+  <%= render_partial('sub-footer') %>
+
+  <script type="text/javascript" src="<%= asset_path('js/scripts.js') %>"></script>
+</body>
+</html>

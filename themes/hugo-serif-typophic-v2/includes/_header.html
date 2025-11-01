@@ -1,0 +1,18 @@
+<% if site["homepage"]page["sticky_header"] %>
+
+<div class='header' id="stickyHeader">
+<% else %>
+
+<div class='header' >
+<% end %>
+  <div class="container">
+    <div class="logo">
+      <a href="<%= url_for("/") %>"><img height=<%= site['logo'] && site['logo']['desktop_height'] %> alt="<%= site['logo'] && site['logo']['alt'] %>" src="<%# UNCONVERTED HUGO SYNTAX: {{ .Site.Params.logo.desktop | relURL }} - Manual review required %>" /></a>
+    </div>
+    <div class="logo-mobile">
+      <a href="<%= url_for("/") %>"><img height=<%= site['logo'] && site['logo']['mobile_height'] %> alt="<%= site['logo'] && site['logo']['alt'] %>" src="<%# UNCONVERTED HUGO SYNTAX: {{ .Site.Params.logo.mobile | relURL }} - Manual review required %>" /></a>
+    </div>
+    <%= render_partial('main-menu.html') %> <%# REVIEW: Context . needs manual conversion %>
+    <%= render_partial('hamburger.html') %> <%# REVIEW: Context . needs manual conversion %>
+  </div>
+</div>

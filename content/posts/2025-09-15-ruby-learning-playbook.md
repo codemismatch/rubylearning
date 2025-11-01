@@ -2,6 +2,7 @@
 title: Why Ruby&rsquo;s Study-Note Approach Still Works in 2025
 layout: post
 date: 2025-09-15
+permalink: /blog/ruby-learning-playbook/
 description: A guided plan for using curated study notes and deliberate practice to build lasting Ruby skills.
 tags:
   - ruby

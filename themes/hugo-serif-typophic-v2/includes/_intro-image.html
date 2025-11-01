@@ -1,0 +1,13 @@
+<% if page["intro_image"] %>
+
+<div class="col-12 col-md-5 col-lg-6 order-1 order-md-2 position-relative">
+  <img
+    alt="<%= page["title"] %>"
+    class="intro-image<%# UNCONVERTED HUGO SYNTAX: {{ if .Params.intro_image_absolute }} - Manual review required %> intro-image-absolute<% end %><% if page["intro_image_hide_on_mobile"] %>
+ intro-image-hide-mobile<% end %>"
+    src="<%# UNCONVERTED HUGO SYNTAX: {{ .Params.intro_image | relURL }} - Manual review required %>" 
+    style="<% if page["intro_image_absolute_offset"] %>
+inset: <%= page['intro_image_absolute_offset'] %>;<% end %>"
+  />
+</div>
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>

@@ -1,0 +1,27 @@
+
+<%# Hugo template definition: body_classes - page-services-single %>
+
+
+
+<%# Hugo template definition: main - <div class="container pb-6 pt-6 pt-md-14 pb-md-14">
+  <div class="row justify-content-start">
+    <div class="col-12 col-md-8">
+      <div class="service service-single">
+        <h1 class="title"><%= page["title"] %></h1>
+        <div class="content"><%= content %></div>
+      </div>
+    </div>
+  </div>
+</div> %>
+
+
+
+<%# Hugo template definition: footer_js - <%# UNCONVERTED HUGO SYNTAX: {{ $library := resources.Get "js/libs/library.js" }} - Manual review required %>
+<%# UNCONVERTED HUGO SYNTAX: {{ $services := resources.Get "js/pages/services.js" }} - Manual review required %>
+<%# UNCONVERTED HUGO SYNTAX: {{ $servicesJS := slice $library $services | resources.Concat "js/services.js" }} - Manual review required %>
+<% if hugopage["IsProduction"] %>
+
+  <%# UNCONVERTED HUGO SYNTAX: {{ $servicesJS = $servicesJS | minify | fingerprint }} - Manual review required %> %>
+
+<script type="text/javascript" src="<%# UNCONVERTED HUGO SYNTAX: {{ $servicesJS.RelPermalink }} - Manual review required %>"></script>
+<% end %>

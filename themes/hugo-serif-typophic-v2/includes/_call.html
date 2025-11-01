@@ -1,0 +1,22 @@
+<div class="call">
+  <div class="call-box-top">
+    <% if page["site"]page["Data"]page["contact"]page["phone"] %>
+
+        <div class="call-phone"><strong>Phone: </strong> <%# UNCONVERTED HUGO SYNTAX: {{ .site.Data.contact.phone }} - Manual review required %> </div>
+    <% end %>
+    <% if page["site"]page["Data"]page["contact"]page["email"] %>
+
+    <div class="call-email"><strong>Email: </strong>
+      <a href="mailto:<%# UNCONVERTED HUGO SYNTAX: {{ .site.Data.contact.email }} - Manual review required %>">
+        <%# UNCONVERTED HUGO SYNTAX: {{ .site.Data.contact.email }} - Manual review required %>
+      </a>
+    </div>
+    <% end %>
+  </div>
+    <% if eq page["show_button"] "true" %>
+
+      <div class="call-box-bottom">
+        <a href="<%# UNCONVERTED HUGO SYNTAX: {{ .site.Data.contact.contact_button_link | relURL }} - Manual review required %>" class="button">Contact</a>
+      </div>
+    <% end %>
+</div>

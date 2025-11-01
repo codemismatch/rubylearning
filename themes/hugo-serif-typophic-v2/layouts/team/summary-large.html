@@ -1,0 +1,22 @@
+<div class="team team-summary team-summary-large">
+  <% if page["image"] %>
+
+  <div class="team-image">
+    <img width="360" height="360" alt="Photo of <%= page["title"] %>" class="img-fluid mb-2" src="<%# UNCONVERTED HUGO SYNTAX: {{ .Params.image | relURL }} - Manual review required %>" />
+  </div>
+  <% end %>
+  <div class="team-meta">
+    <h2 class="team-name">
+      <a href="<%= url_for(page["permalink"]) %>"><%= page["title"] %></a>
+    </h2>
+    <p class="team-description"><%= page['Jobtitle'] %></p>
+    <% if page["Linkedinurl"] %>
+
+    <a target="_blank" rel="noreferrer" href="<%= page['Linkedinurl'] %>">LinkedIn</a> <% end %>
+    <% if page["Twitterhandle"] %>
+
+    <a target="_blank" rel="noreferrer" href="https://twitter.com/<%= page['Twitterhandle'] %>">Twitter</a> <% end %>
+
+  </div>
+  <div class="team-content">    <%# UNCONVERTED HUGO SYNTAX: {{ .Content | truncate (.Site.Params.team.summary_large_truncate | default 120 ) "…" }} - Manual review required %></div>
+</div>

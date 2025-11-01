@@ -14,7 +14,7 @@ related_tutorials:
   - title: "Files, gems & next steps"
     url: /tutorials/files-gems-next-steps/
   - title: "Ruby practice examples"
-    url: /posts/ruby-examples/
+    url: /blog/ruby-examples/
 ---
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.

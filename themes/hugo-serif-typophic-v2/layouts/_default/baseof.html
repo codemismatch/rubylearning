@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="<%# UNCONVERTED HUGO SYNTAX: {{ .Site.Language.Lang }} - Manual review required %>">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="x-ua-compatible" content="ie=edge">
+  <title><%# UNCONVERTED HUGO SYNTAX: {{ block "title" . }} - Manual review required %><%# UNCONVERTED HUGO SYNTAX: {{ .Params.meta_title | default (printf "%s - %s" .Title .Site.Title) }} - Manual review required %><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %></title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="icon" type="image/png" href="<%# UNCONVERTED HUGO SYNTAX: {{ .Site.Params.favicon | relURL }} - Manual review required %>">
+
+  <%= render_partial('google-fonts.html') %> <%# REVIEW: Context . needs manual conversion %>
+
+  <!-- CSS-->
+  <%# UNCONVERTED HUGO SYNTAX: {{ $css_options := dict "targetPath" "css/style.css" "enableSourceMap" (not hugo.IsProduction) }} - Manual review required %>
+  <%# UNCONVERTED HUGO SYNTAX: {{ $style := resources.Get "scss/style.scss" | resources.ExecuteAsTemplate "style.scss" . | toCSS $css_options }} - Manual review required %>
+  <% if hugopage["IsProduction"] %>
+
+    <%# UNCONVERTED HUGO SYNTAX: {{ $style = $style | minify | fingerprint }} - Manual review required %>
+  <% end %>
+  <link rel="stylesheet" href="<%# UNCONVERTED HUGO SYNTAX: {{ $style.RelPermalink }} - Manual review required %>">
+
+  <%# UNCONVERTED HUGO SYNTAX: {{ block "header_css" . }} - Manual review required %><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+
+  <%# UNCONVERTED HUGO SYNTAX: {{ block "meta_tags" . }} - Manual review required %>
+    <%# UNCONVERTED HUGO SYNTAX: {{ with .Params.description }} - Manual review required %><meta name="description" content="<%= page %>"/><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+    <meta property="og:title" content="<%# UNCONVERTED HUGO SYNTAX: {{ .Params.meta_title | default .Title }} - Manual review required %>"/>
+    <meta property="og:type" content="website"/>
+    <meta property="og:url" content="<%= page["url"] %>"/>
+    <%# UNCONVERTED HUGO SYNTAX: {{ with .Params.image | default .Site.Params.seo.meta_og_image }} - Manual review required %><meta property="og:image" content="<%# UNCONVERTED HUGO SYNTAX: {{ . | absURL }} - Manual review required %>"/><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+    <%# UNCONVERTED HUGO SYNTAX: {{ with .Params.description }} - Manual review required %><meta property="og:description" content="<%= page %>"/><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+    <meta name="twitter:card" content="summary"/>
+    <%# UNCONVERTED HUGO SYNTAX: {{ with .Site.Params.seo.meta_twitter_site }} - Manual review required %><meta name="twitter:site" content="<%= page %>"/><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+    <%# UNCONVERTED HUGO SYNTAX: {{ with .Site.Params.seo.meta_twitter_creator }} - Manual review required %><meta name="twitter:creator" content="<%= page %>"/><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+  <%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+
+</head>
+
+<body class='page <%# UNCONVERTED HUGO SYNTAX: {{ block "body_classes" . }} - Manual review required %><%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>'>
+  <%= render_partial('main-menu-mobile.html') %> <%# REVIEW: Context . needs manual conversion %>
+  <div class="wrapper">
+    <%= render_partial('header.html') %> <%# REVIEW: Context . needs manual conversion %>
+    <%# UNCONVERTED HUGO SYNTAX: {{ block "main" . }} - Manual review required %>
+    <%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+  </div>
+
+  <%= render_partial('footer.html') %> <%# REVIEW: Context . needs manual conversion %>
+  <%= render_partial('sub-footer.html') %> <%# REVIEW: Context . needs manual conversion %>
+
+  <%# UNCONVERTED HUGO SYNTAX: {{ $scripts := resources.Get "js/scripts.js" }} - Manual review required %>
+
+  <%# UNCONVERTED HUGO SYNTAX: {{ block "footer_js" . }} - Manual review required %>
+  <%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+
+  <% if hugopage["IsProduction"] %>
+
+    <%# UNCONVERTED HUGO SYNTAX: {{ $scripts = $scripts | minify | fingerprint }} - Manual review required %>
+  <% end %>
+  <script type="text/javascript" src="<%# UNCONVERTED HUGO SYNTAX: {{ $scripts.RelPermalink }} - Manual review required %>"></script>
+
+  <%= render_partial('google-tag-manager.html') %> <%# REVIEW: Context . needs manual conversion %>
+  <%= render_partial('google-analytics.html') %> <%# REVIEW: Context . needs manual conversion %>
+</body>
+
+</html>

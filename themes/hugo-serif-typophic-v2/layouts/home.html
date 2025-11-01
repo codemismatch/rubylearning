@@ -1,0 +1,73 @@
+
+<%# Hugo template definition: body_classes - page-home %>
+
+
+
+<%# Hugo template definition: main - <div class="intro">
+  <div class="container">
+    <div class="row justify-content-start">
+      <div class="col-12 col-md-7 col-lg-6 order-2 order-md-1">
+        <%= content %>
+        <% if site["homepage"]page["show_contact_box"] %>
+
+        <%= render_partial('call.html') %> <%# REVIEW: Context (dict "site" .Site "context" . "show_button" "true") needs manual conversion %> %>
+
+      </div>
+      <%= render_partial('intro-image.html') %> <%# REVIEW: Context . needs manual conversion %>
+    </div>
+  </div>
+</div>
+
+<%# UNCONVERTED HUGO SYNTAX: {{ $services := where (where .Site.RegularPages "Type" "services") ".Params.featured" true }} - Manual review required %>
+<%# UNCONVERTED HUGO SYNTAX: {{ if gt (len $services) 0 }} - Manual review required %>
+<div class="strip">
+  <div class="container pt-6 pb-6 pb-md-10">
+    <div class="row justify-content-start">
+      <% first 6 (sort services ".Params.weight").each do |services| %>
+
+      <div class="col-12 col-md-4 mb-1">
+        <%= render_partial("summary") %> <%# Manual review needed %>
+      </div>
+      <% end %>
+    </div>
+    <%# UNCONVERTED HUGO SYNTAX: {{ if .Site.Params.homepage.show_services_button }} - Manual review required %>
+    <div class="row justify-content-center">
+      <div class="col-auto">
+        <a class="button button-primary" href="<%= asset_path("services/") %>">View All Services</a>
+      </div>
+    </div>
+    <% end %>
+  </div>
+</div>
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+
+<% if site["Data"]page["features"] %>
+
+<div class="strip strip-grey">
+  <div class="container pt-6 pb-6 pt-md-10 pb-md-10">
+    <div class="row justify-content-center">
+      <% site[:data] && site[:data]['features'] || [].each do |item| %>
+
+      <div class="col-12 col-md-6 col-lg-4 mb-2">
+        <div class="feature">
+          <%# UNCONVERTED HUGO SYNTAX: {{ if .image }} - Manual review required %>
+          <div class="feature-image"><img width="100" height="100" alt="<%= page["title"] %> logo"
+              src="<%# UNCONVERTED HUGO SYNTAX: {{ .image | relURL }} - Manual review required %>" /></div>
+          <% end %>
+          <h2 class="feature-title"><%= page["title"] %></h2>
+          <div class="feature-content">
+            <p><%= page["description"] %></p>
+          </div>
+        </div>
+      </div>
+      <% end %>
+    </div>
+  </div>
+</div>
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+
+
+<%# Hugo template definition: footer_js -  %>
+

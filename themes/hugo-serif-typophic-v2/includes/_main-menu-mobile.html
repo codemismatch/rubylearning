@@ -1,0 +1,16 @@
+<div id="main-menu-mobile" class="main-menu-mobile">
+  <ul>
+    <%# UNCONVERTED HUGO SYNTAX: {{ $currentPage := . }} - Manual review required %>
+    <% .Site.Menus.main.each do |item| %>
+
+    <%# UNCONVERTED HUGO SYNTAX: {{ $active := or ($currentPage.IsMenuCurrent "main" .) ($currentPage.HasMenuCurrent "main" .) }} - Manual review required %>
+    <%# UNCONVERTED HUGO SYNTAX: {{ $active = or $active (eq (.URL | relLangURL) ($currentPage.RelPermalink | relLangURL)) }} - Manual review required %>
+    <li class="menu-item-<%# UNCONVERTED HUGO SYNTAX: {{ .Name | lower }} - Manual review required %> <% if $active %>
+active<% end %>">
+      <a href="<%= page["url"] %>">
+        <span><%= page["Name"] %></span>
+      </a>
+    </li>
+    <% end %>
+  </ul>
+</div>

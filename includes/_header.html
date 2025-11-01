@@ -1,0 +1,40 @@
+<% data_store = site.data || {} %>
+<% nav_data = data_store['navigation'] || data_store[:navigation] || {} %>
+<header class="site-header">
+  <div class="container">
+    <a href="<%= url_for('/') %>" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      <% primary_nav = Array(nav_data['primary'] || nav_data[:primary]) %>
+      <ul>
+        <% if primary_nav.any? %>
+          <% primary_nav.each do |item| %>
+            <% label = item['label'] || item[:label] %>
+            <% path = item['path'] || item[:path] %>
+            <% url = item['url'] || item[:url] %>
+            <% external = item['external'] || item[:external] %>
+            <% nav_href = url || (path ? url_for(path) : '#') %>
+            <li>
+              <a href="<%= nav_href %>" <%= 'target="_blank" rel="noopener"' if external %>><%= label %></a>
+            </li>
+          <% end %>
+        <% else %>
+          <li><a href="<%= url_for('/') %>">Home</a></li>
+          <li><a href="<%= url_for('pages/about/') %>">About</a></li>
+          <li><a href="<%= url_for('tutorials/') %>#ruby-track">Learn Ruby</a></li>
+          <li><a href="<%= url_for('tutorials/') %>#rails-track">Learn Rails</a></li>
+          <li><a href="<%= url_for('tutorials/') %>">Tutorials</a></li>
+          <li><a href="<%= url_for('blog/') %>">Blog</a></li>
+          <li><a href="<%= url_for('pages/resources/') %>">Resources</a></li>
+        <% end %>
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>

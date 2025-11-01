@@ -1,0 +1,17 @@
+<div class="sub-footer">
+  <div class="container">
+    <div class="row">
+      <div class="col-12">
+        <div class="sub-footer-inner">
+          <% if site["Data"]page["social"] %>
+
+            <%= render_partial('social.html') %> <%# REVIEW: Context . needs manual conversion %>
+          <% end %>
+          <%# UNCONVERTED HUGO SYNTAX: {{ with .Site.Params.footer.copyright_text }} - Manual review required %>
+            <div class="copyright"><%# UNCONVERTED HUGO SYNTAX: {{ . | safeHTML }} - Manual review required %></div>
+          <%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

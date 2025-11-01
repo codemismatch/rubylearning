@@ -7,7 +7,9 @@ url: https://rubylearning.in
 theme:
   default: rubylearning
   sections:
-    posts: bonsaiblog
+    blog: hugo-serif-typophic
+    posts: hugo-serif-typophic
+    pages: rubylearning
 permalink_style: pretty
 date_format: "%B %-d, %Y"
 markdown_extensions:
@@ -18,3 +20,6 @@ repository:
   url: git@github.com:metacritical/rubylearning.git
   branch: main
   deploy_branch: gh-pages
+collections:
+  posts:
+    permalink: /blog/:slug/

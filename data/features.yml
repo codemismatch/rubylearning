@@ -1,0 +1,11 @@
+- title: "Modern Design"
+  description: "Clean and contemporary design that focuses on usability and aesthetics."
+  image: "themes/hugo-serif-typophic/images/features/design.svg"
+
+- title: "Fully Responsive"
+  description: "Looks great on all devices from mobile phones to desktop computers."
+  image: "themes/hugo-serif-typophic/images/features/responsive.svg"
+
+- title: "SEO Optimized"
+  description: "Built with search engine optimization in mind to help your content rank better."
+  image: "themes/hugo-serif-typophic/images/features/seo.svg"

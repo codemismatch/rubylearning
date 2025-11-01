@@ -1,0 +1,27 @@
+homepage:
+  show_contact_box: true
+  show_services_button: true
+  sticky_header: false
+
+logo:
+  mobile: "images/tn.png"
+  mobile_height: "36px"
+  desktop: "images/screenshot.png" 
+  desktop_height: "36px"
+  alt: "Hugo Serif Typophic"
+
+colors:
+  primary: "#f24088"
+  black: "#2f2f41"
+  white: "#ffffff"
+  white_offset: "#f6f7ff"
+  grey: "#5C5A5A"
+
+fonts:
+  heading: "Playfair Display"
+  base: "Source Sans Pro"
+
+seo:
+  meta_twitter_site: "@typophic"
+  meta_twitter_creator: "@typophic"
+  meta_og_image: "/themes/hugo-serif-typophic/images/images/screenshot.png"

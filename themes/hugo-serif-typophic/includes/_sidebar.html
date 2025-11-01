@@ -1,0 +1,70 @@
+<!-- Search -->
+<div class="sidebar-widget mb-4">
+  <h3>Search</h3>
+  <form class="search-form">
+    <input type="text" class="form-control" placeholder="Search posts...">
+  </form>
+</div>
+
+<!-- Categories/Tags -->
+<div class="sidebar-widget mb-4">
+  <h3>Categories</h3>
+  <ul class="list-unstyled">
+    <li><a href="#">Ruby</a> <span class="badge bg-secondary">12</span></li>
+    <li><a href="#">Rails</a> <span class="badge bg-secondary">8</span></li>
+    <li><a href="#">Best Practices</a> <span class="badge bg-secondary">5</span></li>
+    <li><a href="#">Tutorials</a> <span class="badge bg-secondary">7</span></li>
+  </ul>
+</div>
+
+<!-- Archives by Year -->
+<% if site["collections"] && site["collections"]["posts"] %>
+  <div class="sidebar-widget mb-4">
+    <h3>Archives</h3>
+    <% archives = {} %>
+    <% site["collections"]["posts"].each do |post| %>
+      <% if post["date"] %>
+        <% year = post["date"].year %>
+        <% archives[year] = (archives[year] || 0) + 1 %>
+      <% end %>
+    <% end %>
+    
+    <ul class="list-unstyled">
+      <% archives.sort.reverse.each do |year, count| %>
+        <li><a href="#"><%= year %></a> <span class="badge bg-secondary"><%= count %></span></li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>
+
+<!-- Tag Cloud -->
+<div class="sidebar-widget mb-4">
+  <h3>Tag Cloud</h3>
+  <div class="tag-cloud">
+    <a href="#" class="tag-link">ruby</a>
+    <a href="#" class="tag-link">rails</a>
+    <a href="#" class="tag-link">tutorials</a>
+    <a href="#" class="tag-link">best-practices</a>
+    <a href="#" class="tag-link">testing</a>
+    <a href="#" class="tag-link">performance</a>
+    <a href="#" class="tag-link">gems</a>
+    <a href="#" class="tag-link">syntax</a>
+  </div>
+</div>
+
+<!-- Recent Posts -->
+<% if site["collections"] && site["collections"]["posts"] %>
+  <div class="sidebar-widget">
+    <h3>Recent Posts</h3>
+    <ul class="list-unstyled">
+      <% site["collections"]["posts"].sort_by { |post| post["date"] || Time.new(1970) }.reverse.first(5).each do |post| %>
+        <li class="mb-2">
+          <a href="<%= url_for(post["permalink"]) %>"><%= post["title"] %></a>
+          <% if post["date"] %>
+            <small class="d-block text-muted"><%= post["date"]&.strftime("%b %-d, %Y") %></small>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </div>
+<% end %>

@@ -2,6 +2,7 @@
 title: Understanding Ruby Classes and Objects
 layout: post
 date: 2023-01-03
+permalink: /blog/ruby-classes-and-objects/
 description: Learn about object-oriented programming in Ruby through classes and objects
 tags:
   - oop

@@ -1,0 +1,9 @@
+<% if site["Data"]page["social"] %>
+
+<div class="social">
+    <% site[:data] && site[:data]['social'] || [].each do |item| %>
+
+        <a href="<%= item['link'] %>" target="blank"><img src="<%# UNCONVERTED HUGO SYNTAX: {{ .image | relURL }} - Manual review required %>" title="<%= item['name'] %>" alt="<%= item['name'] %>" /></a>
+    <% end %>
+</div>
+<% end %>

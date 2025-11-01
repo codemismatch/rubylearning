@@ -27,6 +27,8 @@ Gem::Specification.new do |spec|
 
   spec.add_runtime_dependency "psych", ">= 4.0"
   spec.add_runtime_dependency "listen", "~> 3.0"
+  spec.add_runtime_dependency "ostruct"
+  spec.add_runtime_dependency "logger"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/metacritical/rubylearning/issues",

@@ -1,0 +1,15 @@
+<%# UNCONVERTED HUGO SYNTAX: {{ - if and (not hugo.IsServer) hugo.IsProduction - }} - Manual review required %>
+<%# UNCONVERTED HUGO SYNTAX: {{ with getenv "HUGO_GOOGLE_ANALYTICS_ID" | default .Site.Params.google_analytics_id }} - Manual review required %>
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=<%# UNCONVERTED HUGO SYNTAX: {{ - . - }} - Manual review required %>"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+
+  function gtag() {
+    dataLayer.push(arguments);
+  }
+  gtag('js', new Date());
+  gtag('config', '<%= page %>');
+</script>
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>
+<%# UNCONVERTED HUGO SYNTAX: {{ end }} - Manual review required %>

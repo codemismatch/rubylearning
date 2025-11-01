@@ -3,6 +3,8 @@ PATH
   specs:
     typophic (1.0.0)
       listen (~> 3.0)
+      logger
+      ostruct
       psych (>= 4.0)
 
 GEM
@@ -10,19 +12,12 @@ GEM
   specs:
     date (3.5.0)
     ffi (1.17.2)
-    ffi (1.17.2-aarch64-linux-gnu)
-    ffi (1.17.2-aarch64-linux-musl)
-    ffi (1.17.2-arm-linux-gnu)
-    ffi (1.17.2-arm-linux-musl)
     ffi (1.17.2-arm64-darwin)
-    ffi (1.17.2-x86-linux-gnu)
-    ffi (1.17.2-x86-linux-musl)
-    ffi (1.17.2-x86_64-darwin)
-    ffi (1.17.2-x86_64-linux-gnu)
-    ffi (1.17.2-x86_64-linux-musl)
     listen (3.9.0)
       rb-fsevent (~> 0.10, >= 0.10.3)
       rb-inotify (~> 0.9, >= 0.9.10)
+    logger (1.7.0)
+    ostruct (0.6.3)
     psych (5.2.6)
       date
       stringio
@@ -31,24 +26,16 @@ GEM
     rb-inotify (0.11.1)
       ffi (~> 1.0)
     stringio (3.1.7)
+    webrick (1.9.1)
 
 PLATFORMS
-  aarch64-linux-gnu
-  aarch64-linux-musl
-  arm-linux-gnu
-  arm-linux-musl
   arm64-darwin
-  ruby
-  x86-linux-gnu
-  x86-linux-musl
-  x86_64-darwin
-  x86_64-linux-gnu
-  x86_64-linux-musl
 
 DEPENDENCIES
   listen (~> 3.0)
   rake
   typophic!
+  webrick
 
 BUNDLED WITH
    2.7.2

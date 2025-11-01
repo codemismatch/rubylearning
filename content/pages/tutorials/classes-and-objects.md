@@ -13,8 +13,8 @@ next_tutorial:
 related_tutorials:
   - title: "Modules & mixins"
     url: /tutorials/modules-and-mixins/
-  - title: "Why Ruby&rsquo;s RubyLearning approach still works"
-    url: /posts/ruby-learning-playbook/
+  - title: "Why Ruby’s RubyLearning approach still works"
+    url: /blog/ruby-learning-playbook/
 ---
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
