@@ -7,8 +7,8 @@ url: https://rubylearning.in
 theme:
   default: rubylearning
   sections:
-    blog: hugo-serif-typophic
-    posts: hugo-serif-typophic
+    blog: rubylearning
+    posts: rubylearning
     pages: rubylearning
 permalink_style: pretty
 date_format: "%B %-d, %Y"
