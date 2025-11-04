@@ -57,6 +57,17 @@ module Typophic
             options[:custom_domain] = domain
           end
 
+          opts.on("--provider NAME", "Provider: github (default), s3, rsync") do |name|
+            options[:provider] = name.to_s.downcase.to_sym
+          end
+
+          # S3 options
+          opts.on("--bucket NAME", "S3 bucket for provider s3") { |v| options[:bucket] = v }
+          opts.on("--region NAME", "AWS region for provider s3") { |v| options[:region] = v }
+
+          # rsync options
+          opts.on("--dest USER@HOST:PATH", "rsync destination for provider rsync") { |v| options[:dest] = v }
+
           opts.on("-h", "--help", "Show this help message") do
             puts opts
             exit
@@ -74,7 +85,11 @@ module Typophic
           port: 3000,
           watch: false,
           watch_paths: %w[content themes helpers assets data config.yml],
-          ignore_patterns: ["**/.DS_Store", "**/.git/**", "public/**/*"]
+          ignore_patterns: ["**/.DS_Store", "**/.git/**", "public/**/*"],
+          provider: :github,
+          bucket: nil,
+          region: nil,
+          dest: nil
         }
       end
 
@@ -104,7 +119,16 @@ module Typophic
 
         create_custom_domain(options[:custom_domain]) if options[:custom_domain]
 
-        publish_to_git(options)
+        case options[:provider]
+        when :github
+          publish_to_git(options)
+        when :s3
+          publish_to_s3(options)
+        when :rsync
+          publish_with_rsync(options)
+        else
+          warn "Unknown provider: #{options[:provider]} (supported: github, s3, rsync)"
+        end
       end
 
       def create_custom_domain(domain)
@@ -113,6 +137,34 @@ module Typophic
 
         File.write(File.join("public", "CNAME"), clean)
         puts "Added CNAME for #{clean}"
+      end
+
+      def publish_to_s3(options)
+        bucket = options[:bucket]
+        if bucket.to_s.strip.empty?
+          warn "--bucket is required for --provider s3"
+          return
+        end
+        region = options[:region]
+        args = ["aws", "s3", "sync", "public/", "s3://#{bucket}/", "--delete"]
+        args += ["--region", region] if region
+        puts "== Publishing public/ to s3://#{bucket}/ =="
+        unless system(*args)
+          warn "aws s3 sync failed. Ensure AWS CLI is installed and configured."
+        end
+      end
+
+      def publish_with_rsync(options)
+        dest = options[:dest]
+        if dest.to_s.strip.empty?
+          warn "--dest USER@HOST:PATH is required for --provider rsync"
+          return
+        end
+        args = ["rsync", "-az", "--delete", "public/", dest]
+        puts "== Publishing public/ to #{dest} via rsync =="
+        unless system(*args)
+          warn "rsync failed. Verify SSH access and destination path."
+        end
       end
 
       def publish_to_git(options)

@@ -8,6 +8,8 @@ require_relative "commands/deploy"
 require_relative "commands/new"
 require_relative "commands/theme"
 require_relative "commands/blog"
+require_relative "commands/clean"
+require_relative "commands/doctor"
 
 module Typophic
   class CLI
@@ -18,7 +20,9 @@ module Typophic
       "deploy" => Commands::Deploy,
       "new" => Commands::New,
       "theme" => Commands::Theme,
-      "blog" => Commands::Blog
+      "blog" => Commands::Blog,
+      "clean" => Commands::Clean,
+      "doctor" => Commands::Doctor
     }.freeze
 
     def self.start(argv)
@@ -67,14 +71,26 @@ module Typophic
         Usage: typophic [command] [options]
 
         Available commands:
-          build     Build the static site (production-ready by default)
-          serve, s  Serve the generated site with auto-rebuild and live reload
-          deploy    Deploy the site or run pre-deploy steps
-          new       Scaffold new content or starter sites
-          theme     Manage themes (e.g. `typophic theme new <name>`)
-          blog      Create or publish blog posts (drafts & articles)
+          build       Build the static site (production-ready by default)
+          serve, s    Serve the generated site with auto-rebuild and live reload
+          deploy      Deploy the site (GitHub Pages by default; S3 and rsync supported)
+          new         Generators for site/blog/post/page
+          theme       Manage themes (new/use/install/list/remove)
+          blog        Manage blog posts (new/publish/list/delete)
+          clean       Remove generated artifacts (cleans public/)
+          doctor      Validate project structure and configuration
 
-        Run `typophic COMMAND --help` for command-specific options.
+        Quick examples:
+          typophic new site mysite --theme rubylearning
+          typophic new blog myblog --theme https://github.com/user/cool-theme
+          typophic new post "Hello World" --tags intro --draft
+          typophic new page "About" --permalink /about/
+          typophic theme install https://github.com/user/cool-theme
+          typophic blog list --drafts
+          typophic deploy --remote origin --branch gh-pages
+          typophic deploy --provider s3 --bucket my-bucket
+
+        Run `typophic COMMAND --help` for detailed, command-specific options.
       HELP
     end
   end

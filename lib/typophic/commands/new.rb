@@ -4,8 +4,12 @@ require "optparse"
 require "fileutils"
 require "yaml"
 require "pathname"
+require "date"
 
 require_relative "../theme_scaffolder"
+require_relative "../util"
+require_relative "blog"
+require_relative "theme"
 
 module Typophic
   module Commands
@@ -13,37 +17,181 @@ module Typophic
       DEFAULT_TYPE = "blog"
 
       def self.run(argv)
-        options = {
+        sub = argv.first
+        if ["-h", "--help", "help"].include?(sub)
+          puts <<~HELP
+            Usage:
+              typophic new site NAME [--theme NAME|URL] [options]
+              typophic new blog NAME [--theme NAME|URL] [options]
+              typophic new post TITLE [--draft] [--tags a,b] [--author NAME]
+              typophic new page TITLE [--permalink /path/] [--author NAME]
+
+            Options (site/blog):
+              --dir DIR            Target directory
+              --type TYPE          Template type: blog, docs, ruby
+              --author NAME        Author name for metadata (defaults to git config if present)
+              --description TEXT   Site description
+              --theme NAME|URL     Theme name or GitHub URL/OWNER/REPO
+
+            Examples:
+              typophic new site mysite --theme rubylearning
+              typophic new blog myblog --theme https://github.com/user/theme
+              typophic new post "Hello World" --tags intro --draft
+              typophic new page "About" --permalink /about/
+          HELP
+          return
+        end
+        case sub
+        when "site", "blog"
+          argv.shift
+          run_site(argv, type: sub == "blog" ? "blog" : "site")
+        when "post"
+          argv.shift
+          run_post(argv)
+        when "page"
+          argv.shift
+          run_page(argv)
+        else
+          # Back-compat: options-only site generator
+          options = default_site_options
+          site_parser(options).parse!(argv)
+          options[:name] ||= "#{DEFAULT_TYPE}-site"
+          options[:directory] ||= options[:name].gsub(/\s+/, "-").downcase
+          options[:theme] ||= options[:directory]
+          maybe_install_theme!(options)
+          Generator.new(options).run
+        end
+      end
+
+      def self.default_site_options
+        {
           name: nil,
           directory: nil,
           type: DEFAULT_TYPE,
-          author: "Typophic User",
+          author: Typophic::Util.resolved_author(fallback: "Typophic User"),
           description: "A beautiful static website",
           theme: nil
         }
-
-        parser(options).parse!(argv)
-        options[:name] ||= "#{DEFAULT_TYPE}-site"
-        options[:directory] ||= options[:name].gsub(/\s+/, "-").downcase
-        options[:theme] ||= options[:directory]
-
-        Generator.new(options).run
       end
 
-      def self.parser(options)
+      def self.site_parser(options, banner: "Usage: typophic new site NAME [options]")
         OptionParser.new do |opts|
-          opts.banner = "Usage: typophic new [options]"
+          opts.banner = banner
 
-          opts.on("--name NAME", "Display name of the site") { |name| options[:name] = name }
           opts.on("--dir DIR", "Target directory (defaults to sanitized name)") { |dir| options[:directory] = dir }
           opts.on("--type TYPE", "Template type: blog, docs, ruby") { |type| options[:type] = type }
           opts.on("--author AUTHOR", "Author name for metadata") { |author| options[:author] = author }
           opts.on("--description TEXT", "Site description") { |desc| options[:description] = desc }
-          opts.on("--theme NAME", "Theme directory name (defaults to sanitized site name)") { |theme| options[:theme] = theme }
-          opts.on("-h", "--help", "Show this help message") do
-            puts opts
-            exit
-          end
+          opts.on("--theme NAME|URL", "Theme name or GitHub URL/OWNER/REPO") { |theme| options[:theme] = theme }
+          opts.on("-h", "--help", "Show this help message") { puts opts; exit }
+        end
+      end
+
+      def self.run_site(argv, type: "site")
+        options = default_site_options
+        options[:type] = type
+        parser = site_parser(options, banner: "Usage: typophic new #{type} NAME [options]")
+        parser.parse!(argv)
+        name = argv.shift
+        if name.to_s.strip.empty?
+          warn "NAME is required"
+          puts parser
+          exit 1
+        end
+        options[:name] = name
+        options[:directory] ||= name.gsub(/\s+/, "-").downcase
+        options[:theme] ||= options[:directory]
+        maybe_install_theme!(options)
+        Generator.new(options).run
+      end
+
+      def self.run_post(argv)
+        # Positional title + options
+        options = {
+          title: nil, slug: nil, date: Date.today, tags: [], description: nil,
+          layout: "post", draft: false, author: nil
+        }
+        parser = OptionParser.new do |opts|
+          opts.banner = "Usage: typophic new post TITLE [options]"
+          opts.on("--slug SLUG") { |v| options[:slug] = v }
+          opts.on("--date DATE") { |v| options[:date] = Date.parse(v) }
+          opts.on("--tags TAGS") { |v| options[:tags] = v.split(/\s*,\s*/).reject(&:empty?) }
+          opts.on("--description TEXT") { |v| options[:description] = v }
+          opts.on("--layout NAME") { |v| options[:layout] = v }
+          opts.on("--draft") { options[:draft] = true }
+          opts.on("--author NAME") { |v| options[:author] = v }
+          opts.on("-h", "--help") { puts opts; exit }
+        end
+        # Peek for options then take remaining as title (first non-option)
+        parser.order!(argv)
+        title = argv.join(" ").strip
+        if title.empty?
+          warn "TITLE is required"
+          puts parser
+          exit 1
+        end
+        options[:title] = title
+        options[:author] ||= Typophic::Util.resolved_author
+
+        # Reuse blog implementation
+        args = ["--title", options[:title]]
+        args += ["--slug", options[:slug]] if options[:slug]
+        args += ["--date", options[:date].strftime('%Y-%m-%d')]
+        args += ["--tags", options[:tags].join(',')] if options[:tags]&.any?
+        args += ["--description", options[:description]] if options[:description]
+        args += ["--layout", options[:layout]] if options[:layout]
+        args += ["--draft"] if options[:draft]
+        args += ["--author", options[:author]] if options[:author]
+
+        Typophic::Commands::Blog.create_post(args)
+      end
+
+      def self.run_page(argv)
+        options = { permalink: nil, layout: "page", author: nil }
+        parser = OptionParser.new do |opts|
+          opts.banner = "Usage: typophic new page TITLE [options]"
+          opts.on("--permalink PATH", "Custom permalink, e.g. /about/") { |v| options[:permalink] = v }
+          opts.on("--layout NAME", "Layout to use (default: page)") { |v| options[:layout] = v }
+          opts.on("--author NAME", "Author name for front matter") { |v| options[:author] = v }
+          opts.on("-h", "--help", "Show help") { puts opts; exit }
+        end
+        parser.order!(argv)
+        title = argv.join(" ").strip
+        if title.empty?
+          warn "TITLE is required"
+          puts parser
+          exit 1
+        end
+        slug = Typophic::Util.sanitize_slug(title)
+        path = File.join("content", "pages", "#{slug}.md")
+        if File.exist?(path)
+          warn "Error: #{path} already exists"
+          exit 1
+        end
+        fm = {
+          "title" => title,
+          "layout" => options[:layout],
+          "permalink" => options[:permalink] || "/#{slug}/",
+          "author" => (options[:author] || Typophic::Util.resolved_author)
+        }.compact
+        FileUtils.mkdir_p(File.dirname(path))
+        File.write(path, format_front_matter(fm))
+        puts "Created page: #{path}"
+      end
+
+      def self.format_front_matter(hash)
+        yaml = hash.transform_keys(&:to_s).to_yaml(line_width: -1).sub(/^---\s*\n/, "").strip
+        "---\n#{yaml}\n---\n\n"
+      end
+
+      def self.maybe_install_theme!(options)
+        t = options[:theme].to_s
+        return if t.empty?
+        # If it's a URL or OWNER/REPO, install it and set theme name
+        if t =~ %r{^https?://} || t =~ %r{^git@} || t.include?("/")
+          installer = Typophic::Commands::Theme::Install.new([t])
+          installer.run
+          options[:theme] = File.basename(t.to_s.sub(/\.git\z/, "")) if options[:theme] == t
         end
       end
 

@@ -17,6 +17,12 @@ module Typophic
           New.new(argv).run
         when "use", "switch"
           Use.new(argv).run
+        when "install"
+          Install.new(argv).run
+        when "list"
+          List.run
+        when "remove", "rm"
+          Remove.new(argv).run
         when nil, "help", "--help", "-h"
           puts help_text
         else
@@ -31,8 +37,12 @@ module Typophic
           Usage: typophic theme <command> [options]
 
           Commands:
-            new NAME            Scaffold a new theme under themes/NAME
-            use NAME [options]  Set default or section theme in config.yml
+            new NAME              Scaffold a new theme under themes/NAME
+            use NAME [options]    Set default or section theme in config.yml
+            install URL|OWNER/REPO[#ref] [--name NAME]
+                                  Install a theme from GitHub into themes/NAME
+            list                  List installed themes
+            remove NAME           Remove an installed theme directory
 
           Options for `use`:
             --default           Make NAME the default site theme
@@ -171,6 +181,105 @@ module Typophic
             }
           else
             { "default" => "rubylearning", "sections" => {} }
+          end
+        end
+      end
+
+      class Install
+        def initialize(argv)
+          @options = { name: nil }
+          @parser = OptionParser.new do |opts|
+            opts.banner = "Usage: typophic theme install URL|OWNER/REPO[#ref] [--name NAME]"
+            opts.on("--name NAME", "Target theme directory name") { |v| @options[:name] = v }
+            opts.on("-h", "--help", "Show help") { puts opts; exit }
+          end
+          @parser.parse!(argv)
+          @source = argv.shift
+          if @source.to_s.strip.empty?
+            warn "Source required (GitHub URL or OWNER/REPO[#ref])"
+            puts @parser
+            exit 1
+          end
+        end
+
+        def run
+          url, name, ref = normalize_source(@source)
+          name = @options[:name] || name
+          target = File.join("themes", name)
+          if Dir.exist?(target)
+            warn "Theme directory already exists: #{target}"
+            exit 1
+          end
+          system("git", "clone", "--depth", "1", url, target) || abort("git clone failed")
+          if ref && !ref.to_s.strip.empty?
+            system("git", "-C", target, "fetch", "--all")
+            system("git", "-C", target, "checkout", ref) || warn("Failed to checkout ref '#{ref}', staying on default branch")
+          end
+          puts "Installed theme to #{target}"
+        end
+
+        private
+
+        def normalize_source(src)
+          # Accept full https/git URLs or shorthand OWNER/REPO[#ref]
+          if src =~ %r{^https?://} || src =~ %r{^git@}
+            name = infer_name_from_url(src)
+            url, ref = src, nil
+            [url, name, ref]
+          else
+            owner, repo_ref = src.split("/", 2)
+            abort("Invalid shorthand; use OWNER/REPO or URL") unless owner && repo_ref
+            repo, ref = repo_ref.split("#", 2)
+            ["https://github.com/#{owner}/#{repo}.git", repo, ref]
+          end
+        end
+
+        def infer_name_from_url(url)
+          File.basename(url.to_s.sub(/\.git\z/, ""))
+        end
+      end
+
+      module List
+        module_function
+        def run
+          themes_dir = "themes"
+          unless Dir.exist?(themes_dir)
+            puts "No themes/ directory"
+            return
+          end
+          names = Dir.children(themes_dir).select { |n| File.directory?(File.join(themes_dir, n)) }
+          if names.empty?
+            puts "No themes installed"
+          else
+            names.sort.each { |n| puts n }
+          end
+        end
+      end
+
+      class Remove
+        def initialize(argv)
+          @parser = OptionParser.new do |opts|
+            opts.banner = "Usage: typophic theme remove NAME"
+            opts.on("-h", "--help", "Show help") { puts opts; exit }
+          end
+          @parser.parse!(argv)
+          @name = argv.shift
+          if @name.to_s.strip.empty?
+            warn "Theme NAME is required"
+            puts @parser
+            exit 1
+          end
+        end
+
+        def run
+          path = File.join("themes", @name)
+          if Dir.exist?(path)
+            require "fileutils"
+            FileUtils.rm_rf(path)
+            puts "Removed theme #{path}"
+          else
+            warn "Theme not found: #{path}"
+            exit 1
           end
         end
       end
