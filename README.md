@@ -89,6 +89,42 @@ bundle exec typophic build
 bundle exec typophic serve
 ```
 
+## CLI Commands
+
+Typophic ships a single CLI with Rails-like generators and sensible defaults. Quick reference:
+
+```bash
+# Generators
+typophic new site mysite --theme rubylearning
+typophic new blog myblog --theme https://github.com/user/cool-theme
+typophic new post "Hello World" --tags intro --draft
+typophic new page "About" --permalink /about/
+
+# Blog workflow
+typophic blog new --title "Understanding Enumerable" --tags ruby
+typophic blog publish --slug understanding-enumerable
+typophic blog list --drafts
+typophic blog delete --slug understanding-enumerable --date 2025-01-01
+
+# Theme management
+typophic theme new mytheme
+typophic theme install user/cool-theme         # or full GitHub URL
+typophic theme list
+typophic theme use mytheme --default
+
+# Build/serve/deploy
+typophic build --deploy
+typophic serve --build --port 3000
+typophic deploy --remote origin --branch gh-pages
+typophic deploy --provider s3 --bucket my-bucket
+
+# Utilities
+typophic clean
+typophic doctor
+```
+
+For the full command reference, see `docs/CLI.md`.
+
 ## Content Organization
 - `/content/pages/` - Main pages and tutorials
 - `/content/posts/` - Blog posts
