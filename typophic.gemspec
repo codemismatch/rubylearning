@@ -12,7 +12,7 @@ Gem::Specification.new do |spec|
   spec.description   = "A dogfooded static site generator powering rubylearning and other ERB-driven themes."
   spec.license       = "MIT"
 
-  spec.homepage      = "https://github.com/metacritical/rubylearning"
+  spec.homepage      = "https://github.com/codemismatch/rubylearning"
 
   lib_files   = Dir.glob("lib/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
   theme_files = Dir.glob("themes/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
@@ -31,7 +31,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "logger", "~> 1.7.0"
 
   spec.metadata = {
-    "bug_tracker_uri" => "https://github.com/metacritical/rubylearning/issues",
-    "source_code_uri" => "https://github.com/metacritical/rubylearning"
+    "bug_tracker_uri" => "https://github.com/codemismatch/rubylearning/issues",
+    "source_code_uri" => "https://github.com/codemismatch/rubylearning"
   }
 end
