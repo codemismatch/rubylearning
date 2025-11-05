@@ -1,5 +1,6 @@
-# Ignore built site in main branch
-public/
+# Ignore local gem installs and built gems
+vendor/
+*.gem
 
 # macOS system files
 .DS_Store
