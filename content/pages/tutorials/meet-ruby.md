@@ -18,7 +18,30 @@ related_tutorials:
 
 ### Introduction {#introduction}
 
-Ruby is a dynamic, open source programming language with a focus on simplicity and productivity. It has an elegant syntax that is natural to read and easy to write. Everything in Ruby is an object&mdash;numbers, strings, even `true` and `false`. Start by making sure Ruby is installed (via `rbenv`, `rvm`, or the Windows installer), open a terminal, and run `irb` to explore interactively.
+Welcome to the world of Ruby! Ruby is a dynamic, open-source programming language with a focus on simplicity and productivity. It has an elegant, natural syntax that is easy to read and write, making it a fantastic choice for both new and experienced programmers.
+<p><p>
+#### What is Ruby? {#what-is-ruby}
+
+At its core, Ruby is a pure object-oriented language. In Ruby, everything is an object. Every piece of information and code can be given its own properties and actions. This consistent, object-oriented model makes the language logical and predictable.
+
+Ruby was created in the mid-1990s by Yukihiro "Matz" Matsumoto in Japan. Matz blended parts of his favorite languages (like Perl, Smalltalk, Eiffel, Ada, and Lisp) to form a new language that balanced functional programming with imperative programming.
+
+His guiding philosophy was the "Principle of Least Surprise" - meaning that Ruby should behave in a way that minimizes confusion for experienced users. The language is designed to be natural, not simple, and it strives to be a joy to use.
+
+<p><p>
+#### Why Learn Ruby? {#why-learn-ruby}
+
+- Developer Happiness: Ruby's primary goal is to make programmers productive and happy. Its clean and readable syntax feels almost like writing plain English, which reduces the cognitive load of coding.
+
+- The Power of Rails: Ruby gained massive popularity with the creation of Ruby on Rails, a powerful web application framework. Rails uses conventions over configurations, making it incredibly efficient to build robust web applications.
+
+- Full-Stack Capability: From command-line tools and desktop applications to complex, database-driven websites, Ruby is a versatile language capable of handling a wide range of tasks.
+
+- Vibrant Community: Ruby is supported by a friendly and passionate community. This means a wealth of free libraries (gems), extensive documentation, and plenty of help available online.
+<p><p>
+#### A Taste of Ruby Code {#a-taste-of-ruby-code}
+
+One of the best ways to see Ruby's elegance is to look at its code. Here's a classic example: a program that prints "Hello, World!" to the screen.
 
 <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 puts &quot;Hello, Ruby learner!&quot;
@@ -29,84 +52,16 @@ puts greeting.upcase
 puts greeting.class
 </code></pre>
 
-### Getting Started with Ruby {#getting-started}
+Compare this to other languages, and you'll immediately notice its simplicity. The puts command is a simple, intuitive way to output a line.
 
-Ruby is an interpreted language that runs in your browser through our interactive widget. You can execute any Ruby code directly in the examples below without installing anything on your system. The browser widget uses Ruby WASM to run Ruby code safely and efficiently.
-
-### Your first Ruby program {#first-ruby-program}
-
-Ruby executes from top to bottom&mdash;there is no `main` method&mdash;so keep each script focused on one idea. Try the interactive example below:
-
+Here's another example that highlights its object-oriented nature:
 <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-puts &#39;Hello from the browser!&#39;
-name = &#39;Ruby learner&#39;
-puts &quot;Welcome, #{name}!&quot;
+5.times { puts &quot;We love Ruby!&quot; }
 </code></pre>
 
-### Core Language Features {#features}
+This code tells the number 5 to execute the times method, which then runs the block of code (the part in curly braces) five times. It's a natural and readable way to express a loop.
+Getting Started
 
-Ruby has several distinctive characteristics:
+This tutorial is designed to be your guide. We will start from the very beginning, covering how to install Ruby and run your first script, and then progress through the fundamental concepts that form the foundation of the language.
 
-- Ruby is free-form and case sensitive; indentation is for humans, not the interpreter
-- Comments start with `#`; multi-line comments can be wrapped in `=begin`/`=end`
-- Reserved keywords (`if`, `class`, `module`, etc.) shouldn't be used as identifiers unless prefixed with `@`, `@@`, or `$`
-- `nil` and `false` are the only falsey values&mdash;everything else counts as truthy
-
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-puts nil ? &#39;truthy&#39; : &#39;falsey&#39;
-puts 0    ? &#39;truthy&#39; : &#39;falsey&#39;
-puts []   ? &#39;truthy&#39; : &#39;falsey&#39;  # Even empty arrays are truthy!
-</code></pre>
-
-### Numbers in Ruby {#numbers}
-
-Ruby supports various numeric types:
-
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Integers
-age = 25
-population = 7_800_000_000  # Underscores for readability
-
-# Floats
-price = 19.99
-pi = 3.14159
-
-# Basic arithmetic
-sum = 5 + 3
-product = 4 * 6
-quotient = 10 / 3  # Integer division in older Ruby versions
-exact_quotient = 10.0 / 3  # Float division
-
-puts &quot;Sum: #{sum}, Product: #{product}, Quotient: #{quotient}, Exact: #{exact_quotient.round(2)}&quot;
-</code></pre>
-
-### Variables and Assignment {#variables}
-
-In Ruby, you assign values to variables using the `=` operator:
-
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Variable assignment - no need to declare type
-name = &quot;Alice&quot;
-age = 30
-height = 5.6
-is_student = true
-
-# Ruby is dynamically typed
-puts name.class    # =&gt; String
-puts age.class     # =&gt; Integer
-puts height.class  # =&gt; Float
-puts is_student.class  # =&gt; TrueClass
-
-# Variables can be reassigned to different types
-name = 42
-puts name.class    # =&gt; Integer
-</code></pre>
-
-### Practice checklist
-
-- Launch `irb` and reproduce the snippets above
-- Call `.class` on numbers, strings, and symbols to see their object types
-- Experiment with string interpolation (`"#{}`) and concatenation
-- Try creating and running a simple Ruby script file
-
-Satisfied? Continue to [Chapter 2: Flow control & collections](/tutorials/flow-control-collections/).
+Ready to begin your journey? Let's dive in and discover why so many developers have fallen in love with Ruby
