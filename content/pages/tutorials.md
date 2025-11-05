@@ -15,6 +15,7 @@ breadcrumbs: true
           <div>
             <ol>
               <li><a href="/tutorials/meet-ruby/">Chapter 1: Meet Ruby</a></li>
+              <li><a href="/tutorials/installation-setup/">Chapter 2: Installation &amp; setup</a></li>
               <li><a href="/tutorials/flow-control-collections/">Chapter 2: Flow control &amp; collections</a></li>
               <li><a href="/tutorials/methods-and-blocks/">Chapter 3: Methods &amp; blocks</a></li>
               <li><a href="/tutorials/classes-and-objects/">Chapter 4: Classes &amp; objects</a></li>
