@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6 &ndash; Fun with Strings - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106332">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106332">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763106332">
+  <link rel="stylesheet" href="/css/badges.css?v=1763106332">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li>Chapter 6 &ndash; Fun with Strings</li>
+    
+  </ol>
+</nav>
+
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 6 &ndash; Fun with Strings
+        
+          <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+        <p class="tutorial-summary">Explore Ruby's flexible string literals, concatenation tricks, interpolation, and shell-friendly backticks before moving on to control flow.</p>
+      
+    </header>
+
+    <div class="tutorial-content">
+      <div class='markdown'><p>
+> Adapted from Satish Talim's “Fun with Strings” lesson on RubyLearning, refreshed with modern Ruby notes.
+
+Strings are sequences of characters surrounded by quotes. Ruby treats both single (<code>'</code>) and double (<code>"</code>) quotes as literal delimiters, and even the empty string (<code>''</code>) is a real object you can pass around.
+
+<h3>Warm up with a string script</h3>
+
+Here’s a modernised take on <code>p003rubystrings.rb</code>, highlighting concatenation, escaping, repetition, and constants:
+
+<pre class="language-ruby"><code class="language-ruby">
+# frozen_string_literal: true
+
+puts "Hello World"
+puts 'Hello World'             # same result, but no interpolation
+puts 'I like' + ' Ruby'        # concatenation
+puts 'It
+
+Key takeaways:
+<ul><li><code>puts</code> converts non-string objects with <code>to_s</code> before printing.</li></ul><ul><li>Literal strings are mutable by default. Freeze them globally with <code># frozen_string_literal: true</code> and unfreeze selectively via <code>+</code>prefix or <code>.dup</code>.</li></ul><ul><li>Double-quoted strings support interpolation (<code>"Hi #{name}"</code>) and backslash escape sequences; single quotes keep content literal except for <code>\\</code> and <code>\'</code>.</li></ul>
+
+<h3>Command substitution with backticks</h3>
+
+Backticks run shell commands and return their output as a string. The result still flows through Ruby, so you can print it, split it, or test it.
+
+<pre class="language-ruby"><code class="language-ruby">
+puts `ls`   # macOS/Linux: directory listing
+puts `dir`  # Windows: directory listing
+</code></pre>
+
+Ruby also exposes <code>Kernel#system</code> when you simply need to execute a command and check success:
+
+<pre class="language-ruby"><code class="language-ruby">
+if system("tar xzf data.tgz")
+  puts "Archive extracted"
+else
+  warn "Extraction failed"
+end
+</code></pre>
+
+<code>system</code> returns <code>true</code> when the command exits successfully, <code>false</code> when it runs but fails, and <code>nil</code> if the command is missing.
+
+<h3>Practice checklist</h3>
+<ul><li>[ ] Recreate the sample script and add interpolation (<code>"Hello #{ENV['USER']}"</code>) plus concatenation to see both approaches.</li></ul><ul><li>[ ] Freeze string literals at the top of a file and experiment with <code>+</code> and <code>.dup</code> to control mutability.</li></ul><ul><li>[ ] Capture the output of `<code> </code>ruby -v<code> </code><code> into a variable and parse the version number.</li></ul><ul><li>[ ] Use </code>system<code> to run a harmless command (like </code>echo Done`) and branch on the return value.</li></ul>
+
+Next up: apply what you know about numbers and strings while branching through Flow Control & Collections.
+</p>s my Ruby'           # escape quotes
+puts 'Hello ' * 3              # repetition
+
+PI = 3.1416
+puts PI
+</code></pre>
+
+Key takeaways:
+<ul><li><code>puts</code> converts non-string objects with <code>to_s</code> before printing.</li></ul><ul><li>Literal strings are mutable by default. Freeze them globally with <code># frozen_string_literal: true</code> and unfreeze selectively via <code>+</code>prefix or <code>.dup</code>.</li></ul><ul><li>Double-quoted strings support interpolation (<code>"Hi #{name}"</code>) and backslash escape sequences; single quotes keep content literal except for <code>\\</code> and <code>\'</code>.</li></ul>
+
+<h3>Command substitution with backticks</h3>
+
+Backticks run shell commands and return their output as a string. The result still flows through Ruby, so you can print it, split it, or test it.
+
+<pre class="language-ruby"><code class="language-ruby">
+puts `ls`   # macOS/Linux: directory listing
+puts `dir`  # Windows: directory listing
+</code></pre>
+
+Ruby also exposes <code>Kernel#system</code> when you simply need to execute a command and check success:
+
+<pre class="language-ruby"><code class="language-ruby">
+if system("tar xzf data.tgz")
+  puts "Archive extracted"
+else
+  warn "Extraction failed"
+end
+</code></pre>
+
+<code>system</code> returns <code>true</code> when the command exits successfully, <code>false</code> when it runs but fails, and <code>nil</code> if the command is missing.
+
+<h3>Practice checklist</h3>
+<ul><li>[ ] Recreate the sample script and add interpolation (<code>"Hello #{ENV['USER']}"</code>) plus concatenation to see both approaches.</li></ul><ul><li>[ ] Freeze string literals at the top of a file and experiment with <code>+</code> and <code>.dup</code> to control mutability.</li></ul><ul><li>[ ] Capture the output of `<code> </code>ruby -v<code> </code><code> into a variable and parse the version number.</li></ul><ul><li>[ ] Use </code>system<code> to run a harmless command (like </code>echo Done`) and branch on the return value.</li></ul>
+
+Next up: apply what you know about numbers and strings while branching through Flow Control & Collections.
+</p></div>
+    </div>
+
+    
+      <nav class="tutorial-nav">
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/numbers-in-ruby/">
+            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+            <span>Chapter 5: Numbers in Ruby</span>
+          </a>
+        
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/variables-and-assignment/">
+            <span>Chapter 7: Variables & Assignment</span>
+            <span class="icon-arrow" aria-hidden="true">&gt;</span>
+          </a>
+        
+      </nav>
+    
+
+    
+      <!-- themes/rubylearning/includes/_related_tutorials.html -->
+
+
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    
+    
+    <li>
+      <a href="/tutorials/ruby-features/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Ruby Features</span>
+      </a>
+    </li>
+    
+    
+    <li>
+      <a href="/tutorials/flow-control-collections/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Flow control & collections</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+
+    
+  </article>
+</div>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ruby Learning. Built with Typophic.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763106332"></script>
+  <script src="/js/prism-ruby.js?v=1763106332"></script>
+  <script src="/js/prism-markdown.js?v=1763106332"></script>
+  <script src="/js/code-enhancements.js?v=1763106332"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763106332"></script>
+  <script src="/js/github-pages-fix.js?v=1763106332"></script>
+  <script src="/js/site.js?v=1763106332"></script>
+</body>
+</html>

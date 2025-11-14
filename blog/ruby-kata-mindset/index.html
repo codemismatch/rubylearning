@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Build a Ruby Kata Mindset - Ruby Learning</title>
+  <meta name="description" content="A lightweight routine for keeping your Ruby skills sharp with daily kata practice and reflection prompts.">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106334">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106334">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763106334">
+  <link rel="stylesheet" href="/css/badges.css?v=1763106334">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <article class="post">
+  <header class="post-header">
+    <h1>
+      Build a Ruby Kata Mindset
+      
+    </h1>
+    <div class="post-meta">
+      
+      <time datetime="2025-10-30">
+        October 30, 2025
+      </time>
+      
+      
+      <div class="tags">
+        
+        <span class="tag"><a href="/tags/ruby/">ruby</a></span>
+        
+        <span class="tag"><a href="/tags/practice/">practice</a></span>
+        
+        <span class="tag"><a href="/tags/productivity/">productivity</a></span>
+        
+        <span class="tag"><a href="/tags/fundamentals/">fundamentals</a></span>
+        
+      </div>
+      
+    </div>
+  </header>
+  
+  <div class="post-content">
+    <div class='markdown'><p>
+Daily practice compounds quickly when you treat Ruby exercises like a kata: repeatable, reflective, and scoped. Here&rsquo;s a routine you can start today.
+
+<h2>Warm up with quick wins</h2>
+
+Pick a problem you can solve in five minutes&mdash;reversing strings, scanning arrays, or parsing dates. The goal is to get your fingers moving and your <code>irb</code> session ready. Once the snippet passes, copy it into a notes file so you can revisit technique changes over time.
+
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <pre class="language-ruby" style="white-space: pre-wrap; outline: none;"><code class="language-ruby">def alternating_sum(numbers)
+numbers.each_with_index.reduce(0) do |sum, (number, index)|
+index.even? ? sum + number : sum - number
+end
+endputs alternating_sum([1, 2, 3, 4, 5])
+# =&gt; 3
+    </code></pre>
+  </div>
+</div>
+
+<h2>Rotate problem types</h2>
+
+Keep a checklist of categories&mdash;collections, file IO, concurrency, metaprogramming. Tackle a different one each day. The variety keeps you honest and uncovers blind spots before they surprise you in production.
+
+<h2>Reflect in a kata log</h2>
+
+End every session by writing three notes: what felt easy, what surprised you, and one question to research. The log becomes your personal changelog and a source of future blog ideas.
+
+<h2>Ship your lessons</h2>
+
+Turn the week&rsquo;s highlight into a gist, a blog post, or a snippet you share with your team. Teaching reinforces your own understanding and gives others a jumping-off point.
+
+Ready to keep going? Pick the next challenge from the <a href="/tutorials/meet-ruby/">Ruby learning path</a> or dive into the <a href="/tutorials/rails-project-setup/">Rails sprint</a> when you want a bigger project.
+</p></div>
+  </div>
+</article>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ruby Learning. Built with Typophic.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763106334"></script>
+  <script src="/js/prism-ruby.js?v=1763106334"></script>
+  <script src="/js/prism-markdown.js?v=1763106334"></script>
+  <script src="/js/code-enhancements.js?v=1763106334"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763106334"></script>
+  <script src="/js/github-pages-fix.js?v=1763106334"></script>
+  <script src="/js/site.js?v=1763106334"></script>
+</body>
+</html>

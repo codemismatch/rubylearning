@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 17 &ndash; Ruby Arrays - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106333">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106333">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763106333">
+  <link rel="stylesheet" href="/css/badges.css?v=1763106333">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li>Chapter 17 &ndash; Ruby Arrays</li>
+    
+  </ol>
+</nav>
+
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 17 &ndash; Ruby Arrays
+        
+          <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+        <p class="tutorial-summary">Build and reshape Ruby arrays, iterate with blocks, tap environment/ARGV helpers, and leverage splats for parallel assignment.</p>
+      
+    </header>
+
+    <div class="tutorial-content">
+      <div class='markdown'><p>
+> Adapted from Satish Talim's original arrays chapter, refreshed for Typophic.
+
+Arrays are ordered, mutable lists. Every slot holds a reference to any object (numbers, strings, other arrays). Ruby indexes from <code>0</code>, and negative indexes count from the end (<code>-1</code> is the last element).
+
+<h3>Constructing and expanding arrays</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+# p018arrays.rb
+var1 = []                # empty array
+var2 = [5]
+var3 = ["Hello", "Goodbye"]
+
+flavour = "mango"
+var4 = [80.5, flavour, [true, false]]
+
+name = ["Satish", "Talim", "Ruby", "Java",]
+puts name[4]             # nil (out of bounds)
+name[4] = "Pune"         # extend array
+name[5] = 4.33
+name[6] = [1, 2, 3]
+</code></pre>
+<ul><li><code>size</code> and <code>length</code> return the element count.</li></ul><ul><li><code>first</code>, <code>last</code>, and <code>sort</code> provide quick helpers.</li></ul><ul><li>Accessing beyond the ends returns <code>nil</code> rather than raising.</li></ul>
+
+<h3>Iteration with blocks</h3>
+
+<code>Array#each</code> and friends rely on blocks:
+
+<pre class="language-ruby"><code class="language-ruby">
+locations = [&quot;Pune&quot;, &quot;Mumbai&quot;, &quot;Bangalore&quot;]
+
+locations.each do |loc|
+  puts &quot;I love #{loc}!&quot;
+  puts &quot;Don&#39;t you?&quot;
+end
+
+locations.delete(&quot;Mumbai&quot;)
+</code></pre>
+
+Thanks to blocks, you rarely need manual index counters.
+
+<h3>Methods returning arrays</h3>
+
+Methods can return multiple values; Ruby wraps them in an array automatically:
+
+<pre class="language-ruby"><code class="language-ruby">
+# p019mtdarry.rb
+def mtdarry
+  10.times do |num|
+    square = num * num
+    return num, square if num > 5
+  end
+end
+
+num, square = mtdarry
+puts num    # 6
+puts square # 36
+</code></pre>
+
+<h3>Parallel assignment & splats</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+a = 1, 2, 3, 4   #=&gt; [1, 2, 3, 4]
+a, b = 1, 2, 3, 4 # a=1, b=2 (remaining values ignored)
+c, = 1, 2, 3, 4   # trailing comma lets you grab the first item only
+</code></pre>
+
+The splat (<code>*</code>) packs or unpacks arrays when you need flexible argument counts.
+
+<h3>ENV and ARGV helpers</h3>
+<ul><li><code>ENV</code> behaves like a hash of environment variables and is enumerable:</li></ul>
+
+  <pre class="language-ruby"><code class="language-ruby">
+ENV.each { |k, v| puts &quot;#{k}: #{v}&quot; }
+ENV[&quot;course&quot;] = &quot;FORPC101&quot;
+puts ENV[&quot;course&quot;]
+</code></pre>
+<ul><li>Ruby reads certain environment variables when it starts, so updates you make later only affect the current process and any child processes you spawn. Setting a value to <code>nil</code> (Ruby 1.9+) removes the variable entirely.</li></ul>
+<ul><li><code>ARGV</code> stores command-line arguments. Access with indexes (<code>ARGV[0]</code>) or parse with libraries such as <code>GetoptLong</code>:</li></ul>
+
+  <pre class="language-ruby"><code class="language-ruby">
+require &quot;getoptlong&quot;
+
+opts = GetoptLong.new(
+[&quot;--hostname&quot;, &quot;-h&quot;, GetoptLong::REQUIRED_ARGUMENT],
+[&quot;--port&quot;, &quot;-n&quot;, GetoptLong::REQUIRED_ARGUMENT],
+[&quot;--username&quot;, &quot;-u&quot;, GetoptLong::REQUIRED_ARGUMENT],
+[&quot;--pass&quot;, &quot;-p&quot;, GetoptLong::REQUIRED_ARGUMENT]
+)
+
+host = port = user = pass = nil
+opts.each do |opt, arg|
+  case opt
+  when &quot;--hostname&quot; then host = arg
+  when &quot;--port&quot;     then port = arg
+  when &quot;--username&quot; then user = arg
+  when &quot;--pass&quot;     then pass = arg
+  end
+end
+</code></pre>
+
+<code>require</code> pulls in stdlib helpers (and later, gems); here it exposes <code>GetoptLong</code>. We’ll dive deeper into <code>require</code> soon.
+
+<h3>Coercing values to arrays</h3>
+
+<code>Array(obj)</code> attempts to wrap or copy the value:
+
+<pre class="language-ruby"><code class="language-ruby">
+Array(&quot;hello&quot;).class  #=&gt; Array
+Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
+[1,2,3,4].class.ancestors #=&gt; [Array, Enumerable, Object, Kernel, BasicObject]
+</code></pre>
+
+<h3>Practice checklist</h3>
+<ul><li>[ ] Recreate <code>p018arrays.rb</code>, then add <code>push</code>, <code>pop</code>, and <code>shift</code> calls to see how the array mutates.</li></ul><ul><li>[ ] Write a method that returns multiple values and capture them via parallel assignment.</li></ul><ul><li>[ ] Iterate over <code>ENV</code> to print a subset of variables relevant to your setup.</li></ul><ul><li>[ ] Parse fake CLI arguments with <code>GetoptLong</code> (or Ruby’s newer <code>OptionParser</code>) and feed them into a script.</li></ul><ul><li>[ ] Use <code>Array()</code> to wrap non-array objects and inspect <code>Array.ancestors</code> to understand its inheritance chain.</li></ul>
+
+Next: armed with arrays and blocks, jump into Flow Control & Collections to combine loops, iterators, and data structures.
+</p></div>
+    </div>
+
+    
+      <nav class="tutorial-nav">
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/ruby-blocks/">
+            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+            <span>Chapter 16: Ruby Blocks</span>
+          </a>
+        
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/ruby-ranges/">
+            <span>Chapter 18: Ruby Ranges</span>
+            <span class="icon-arrow" aria-hidden="true">&gt;</span>
+          </a>
+        
+      </nav>
+    
+
+    
+      <!-- themes/rubylearning/includes/_related_tutorials.html -->
+
+
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    
+    
+    <li>
+      <a href="/tutorials/flow-control-collections/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Flow control & collections</span>
+      </a>
+    </li>
+    
+    
+    <li>
+      <a href="/tutorials/writing-own-ruby-methods/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Writing Your Own Ruby Methods</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+
+    
+  </article>
+</div>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ruby Learning. Built with Typophic.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763106333"></script>
+  <script src="/js/prism-ruby.js?v=1763106333"></script>
+  <script src="/js/prism-markdown.js?v=1763106333"></script>
+  <script src="/js/code-enhancements.js?v=1763106333"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763106333"></script>
+  <script src="/js/github-pages-fix.js?v=1763106333"></script>
+  <script src="/js/site.js?v=1763106333"></script>
+</body>
+</html>

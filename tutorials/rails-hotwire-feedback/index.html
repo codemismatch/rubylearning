@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter R3 &ndash; Rails Hotwire feedback - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106333">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106333">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763106333">
+  <link rel="stylesheet" href="/css/badges.css?v=1763106333">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li>Chapter R3 &ndash; Rails Hotwire feedback</li>
+    
+  </ol>
+</nav>
+
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter R3 &ndash; Rails Hotwire feedback
+        
+          <span class="difficulty difficulty-intermediate">Intermediate</span>
+        
+      </h1>
+      
+        <p class="tutorial-summary">Layer Hotwire updates and feedback loops onto your Rails UI to keep users in flow.</p>
+      
+    </header>
+
+    <div class="tutorial-content">
+      <div class='markdown'><p>
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">erb.erb</span>
+  </div>
+  <div class="code-content">
+    <pre style="white-space: pre-wrap; outline: none;"><code class="language-erb">&lt;!-- app/views/entries/index.html.erb --&gt;
+&lt;%= turbo_stream_from :entries %&gt;&lt;%= form_with model: Entry.new, class: &quot;stack&quot; do |form| %&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;%= form.label :title %&gt;
+&lt;%= form.text_field :title, required: true %&gt;
+&lt;/div&gt;
+&lt;div class=&quot;field&quot;&gt;
+&lt;%= form.label :body %&gt;
+&lt;%= form.text_area :body, rows: 4 %&gt;
+&lt;/div&gt;
+&lt;%= form.submit &quot;Add entry&quot;, class: &quot;btn btn-primary&quot; %&gt;
+&lt;% end %&gt;&lt;div id=&quot;entries&quot;&gt;
+&lt;%= render @entries %&gt;
+&lt;/div&gt;
+    </code></pre>
+  </div>
+</div>
+
+<pre class="language-ruby"><code class="language-ruby">
+# app/models/entry.rb
+class Entry &lt; ApplicationRecord
+  after_create_commit -&gt; { broadcast_prepend_to :entries }
+  validates :title, presence: true
+end
+</code></pre>
+
+<h3>Practice checklist</h3>
+<ul><li>Add Turbo Stream templates to broadcast updates when entries change.</li></ul><ul><li>Use Stimulus to show success/error toasts after submissions.</li></ul><ul><li>Wire up background jobs (ActiveJob + Sidekiq/GoodJob) to send summary emails.</li></ul>
+
+Next, iterate on the project by adding authentication, dashboards, or background processing. Keep exploring ideas in the <a href="/rails/">Rails learning hub</a>.
+</p></div>
+    </div>
+
+    
+      <nav class="tutorial-nav">
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/rails-routes-controllers/">
+            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+            <span>Chapter R2: Routes & controllers</span>
+          </a>
+        
+        
+      </nav>
+    
+
+    
+      <!-- themes/rubylearning/includes/_related_tutorials.html -->
+
+
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    
+    
+    <li>
+      <a href="/rails/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Rails learning hub</span>
+      </a>
+    </li>
+    
+    
+    <li>
+      <a href="/blog/rails-learning-roadmap/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Project-driven roadmap for learning Rails</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+
+    
+  </article>
+</div>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ruby Learning. Built with Typophic.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763106333"></script>
+  <script src="/js/prism-ruby.js?v=1763106333"></script>
+  <script src="/js/prism-markdown.js?v=1763106333"></script>
+  <script src="/js/code-enhancements.js?v=1763106333"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763106333"></script>
+  <script src="/js/github-pages-fix.js?v=1763106333"></script>
+  <script src="/js/site.js?v=1763106333"></script>
+</body>
+</html>
