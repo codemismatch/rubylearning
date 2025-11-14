@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 8 &ndash; Scope - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106334">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106334">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763106334">
+  <link rel="stylesheet" href="/css/badges.css?v=1763106334">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li>Chapter 8 &ndash; Scope</li>
+    
+  </ol>
+</nav>
+
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 8 &ndash; Scope
+        
+          <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+        <p class="tutorial-summary">Understand where your Ruby variables live, how global symbols behave, and why local scopes form around classes, modules, and methods.</p>
+      
+    </header>
+
+    <div class="tutorial-content">
+      <div class='markdown'><p>
+> Adapted from Satish Talim's “Scope” chapter on RubyLearning, updated with modern Ruby examples.
+
+Scope describes where a variable is visible. Ruby keeps the rules straightforward: variable *prefixes* indicate intent, and structural keywords (<code>class</code>, <code>module</code>, <code>def</code>) carve out local bubbles.
+
+<h3>Global scope and <code>$globals</code></h3>
+
+Any identifier that starts with <code>$</code> is a **global variable**. It is accessible everywhere in your process and never goes out of scope.
+
+<pre class="language-ruby"><code class="language-ruby">
+$app_mode = &quot;demo&quot;
+
+def banner
+  &quot;Running in #{$app_mode} mode&quot;
+end
+
+puts banner           #=&gt; &quot;Running in demo mode&quot;
+</code></pre>
+
+Because global state is hard to reason about, most Rubyists limit themselves to the built-in globals Ruby provides automatically.
+
+<h4>Handy built-in globals</h4>
+<ul><li><code>$0</code> &mdash; The filename used to invoke the current program.</li></ul><ul><li><code>$:</code> &mdash; An array of directories Ruby searches when you <code>require</code> files.</li></ul><ul><li><code>$$</code> &mdash; The process ID of the current Ruby interpreter.</li></ul>
+
+You can inspect them just like any other variable:
+
+<pre class="language-ruby"><code class="language-ruby">
+puts &quot;Running #{$0} (PID #{$$})&quot;
+puts &quot;Load path has #{$:.size} entries&quot;
+</code></pre>
+
+<h3>Local scope rules</h3>
+
+Locals are far more common than globals. Ruby (MRI) follows three big rules:
+
+1. The **top level** (outside any class/module/method) has its own scope.
+2. Each <code>class</code> or <code>module</code> block introduces a new local scope. Nested definitions get their own scopes too.
+3. Every <code>def</code> creates a brand-new scope. Locals from the outer scope are not automatically visible unless captured in a block or passed in.
+
+<pre class="language-ruby"><code class="language-ruby">
+message = &quot;outside&quot;
+
+class ScopeDemo
+  message = &quot;inside class&quot;
+
+  def self.print_messages
+    message = &quot;inside method&quot;
+    puts message
+  end
+end
+
+ScopeDemo.print_messages  # prints &quot;inside method&quot;
+puts message              # prints &quot;outside&quot;
+</code></pre>
+
+Notice how each structural boundary protects its own copy of <code>message</code>.
+
+<h3>Blocks inherit, defs isolate</h3>
+
+Blocks (<code>do..end</code>, <code>{}</code>) share their parent's local scope:
+
+<pre class="language-ruby"><code class="language-ruby">
+count = 0
+3.times do
+  count += 1
+end
+puts count #=&gt; 3
+</code></pre>
+
+Method definitions (<code>def</code>) always start fresh, so read/write outer locals via instance variables, accessors, or closures (e.g., lambdas) when needed.
+
+<h3>Practice checklist</h3>
+<ul><li>[ ] Print <code>$0</code>, <code>$$</code>, and the size of <code>$:</code> in a scratch script to see their values on your machine.</li></ul><ul><li>[ ] Create nested <code>class</code>/<code>module</code> definitions and confirm each maintains its own <code>message</code> local.</li></ul><ul><li>[ ] Compare a block's behaviour (which can increment an outer local) with a method definition (which cannot) using similar code.</li></ul><ul><li>[ ] Refactor a small script to replace a global variable with an instance variable or dependency injection to reduce scope.</li></ul>
+
+Next: Apply these scope rules as you branch and iterate inside Flow Control & Collections.
+</p></div>
+    </div>
+
+    
+      <nav class="tutorial-nav">
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/variables-and-assignment/">
+            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+            <span>Chapter 7: Variables & Assignment</span>
+          </a>
+        
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/getting-input/">
+            <span>Chapter 9: Getting Input</span>
+            <span class="icon-arrow" aria-hidden="true">&gt;</span>
+          </a>
+        
+      </nav>
+    
+
+    
+      <!-- themes/rubylearning/includes/_related_tutorials.html -->
+
+
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    
+    
+    <li>
+      <a href="/tutorials/variables-and-assignment/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Variables & Assignment</span>
+      </a>
+    </li>
+    
+    
+    <li>
+      <a href="/tutorials/ruby-features/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Ruby Features</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+
+    
+  </article>
+</div>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ruby Learning. Built with Typophic.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763106334"></script>
+  <script src="/js/prism-ruby.js?v=1763106334"></script>
+  <script src="/js/prism-markdown.js?v=1763106334"></script>
+  <script src="/js/code-enhancements.js?v=1763106334"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763106334"></script>
+  <script src="/js/github-pages-fix.js?v=1763106334"></script>
+  <script src="/js/site.js?v=1763106334"></script>
+</body>
+</html>

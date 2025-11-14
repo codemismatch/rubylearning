@@ -1,0 +1,154 @@
+/* Tutorial Topic Styles */
+
+.topic-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 2rem;
+}
+
+.topic-tag {
+  display: inline-block;
+  background-color: rgba(204, 52, 45, 0.1);
+  color: var(--primary-color);
+  padding: 0.5rem 1rem;
+  border-radius: 25px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.topic-tag:hover {
+  background-color: var(--primary-color);
+  color: white;
+  text-decoration: none;
+  transform: translateY(-2px);
+}
+
+.topic-section {
+  margin-bottom: 3rem;
+  padding-bottom: 2rem;
+  border-bottom: 1px solid var(--border-color);
+}
+
+.topic-section:last-child {
+  border-bottom: none;
+}
+
+.topic-title {
+  color: var(--primary-color);
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+  display: inline-block;
+  border-bottom: 2px solid var(--primary-light);
+  padding-bottom: 0.5rem;
+}
+
+.tutorial-tag {
+  display: inline-block;
+  background-color: rgba(204, 52, 45, 0.1);
+  color: var(--primary-color);
+  padding: 0.2rem 0.5rem;
+  border-radius: 4px;
+  font-size: 0.8rem;
+  margin-right: 0.25rem;
+}
+
+/* Topic Navigation */
+.topic-nav {
+  position: sticky;
+  top: 100px;
+  background-color: var(--background-alt);
+  padding: 1.5rem;
+  border-radius: 8px;
+  margin-bottom: 2rem;
+}
+
+.topic-nav h4 {
+  margin-bottom: 1rem;
+  font-size: 1.2rem;
+}
+
+.topic-nav-links {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.topic-nav-links li {
+  margin-bottom: 0.75rem;
+}
+
+.topic-nav-links a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: var(--text-color);
+  font-weight: 500;
+  transition: color 0.2s;
+}
+
+.topic-nav-links a:hover {
+  color: var(--primary-color);
+  text-decoration: none;
+}
+
+.topic-nav-links a::before {
+  content: '>';
+  color: var(--primary-color);
+  font-weight: 600;
+  margin-right: 0.35rem;
+}
+
+/* Smooth scroll behavior for topic links */
+html {
+  scroll-padding-top: 100px; /* To account for the sticky header */
+}
+
+/* Topic Scroll Progress Indicator */
+.topic-progress {
+  height: 4px;
+  background-color: var(--primary-light);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0;
+  z-index: 1000;
+  transition: width 0.2s;
+}
+
+/* Search Filter */
+.topic-filter {
+  margin-bottom: 2rem;
+}
+
+.topic-filter-input {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.topic-filter-input:focus {
+  border-color: var(--primary-color);
+  box-shadow: 0 0 0 3px rgba(204, 52, 45, 0.2);
+  outline: none;
+}
+
+/* Responsive Styles */
+@media (max-width: 768px) {
+  .topic-tags {
+    gap: 0.5rem;
+  }
+  
+  .topic-tag {
+    padding: 0.4rem 0.8rem;
+    font-size: 0.9rem;
+  }
+  
+  .topic-title {
+    font-size: 1.3rem;
+  }
+}

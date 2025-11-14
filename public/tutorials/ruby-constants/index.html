@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 42 &ndash; Ruby Constants - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106333">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106333">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763106333">
+  <link rel="stylesheet" href="/css/badges.css?v=1763106333">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li>Chapter 42 &ndash; Ruby Constants</li>
+    
+  </ol>
+</nav>
+
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 42 &ndash; Ruby Constants
+        
+          <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+        <p class="tutorial-summary">Treat constants as stable names, understand Ruby’s reassignment warnings, and use the scope operator to reach constants across classes and modules.</p>
+      
+    </header>
+
+    <div class="tutorial-content">
+      <div class='markdown'><p>
+> Adapted from Satish Talim’s “Ruby Constants” lesson, refreshed for Typophic’s modern walkthrough.
+
+Constants behave like variables whose references are meant to stay fixed for the lifetime of the program. Ruby favors conventions over enforcement: you _can_ reassign a constant, but the interpreter will warn you so you know you’re breaking expectations.
+
+<h3>Ruby warns on reassignment</h3>
+
+Constant names start with an uppercase letter. Conventional style uses screaming snake case (<code>MAX_ATTEMPTS</code>, <code>PI</code>), while class/module names stay in CamelCase. Ruby only creates the constant once it’s assigned.
+
+<pre class="language-ruby"><code class="language-ruby">
+# p054constwarn.rb
+A_CONST = 10
+A_CONST = 20
+</code></pre>
+
+Running that script emits <code>warning: already initialized constant A_CONST</code>. The code still runs, but future readers now have to wonder if the change was intentional—treat the warning as a smell, not a feature.
+
+<h3>Mutating referenced objects is allowed</h3>
+
+The “no changes” rule applies to the _binding_, not the object. If a constant points at a mutable value (like a string or array), you can mutate that value without touching the binding.
+
+<pre class="language-ruby"><code class="language-ruby">
+# p055constalter.rb
+A_CONST = "Doshi"
+B_CONST = A_CONST
+A_CONST[0] = "J"
+
+puts A_CONST  # Joshi
+puts B_CONST  # Joshi -- both names reference the same object
+</code></pre>
+
+Rails and other frameworks lean on this behavior: they freeze or mutate structures referenced by constants during boot to keep configuration in one place.
+
+<h3>Scope and the <code>::</code> operator</h3>
+
+Constants live in Ruby’s lexical scope. You can read them directly inside the class or module where they’re defined. From the outside, reach in with the scope operator.
+
+<pre class="language-ruby"><code class="language-ruby">
+OUTER_CONST = 99
+
+class Const
+  CONST = OUTER_CONST + 1
+
+  def get_const
+    CONST
+  end
+end
+
+puts Const.new.get_const #=> 100
+puts Const::CONST        #=> 100
+puts ::OUTER_CONST       #=> 99
+puts Const::NEW_CONST = 123
+</code></pre>
+
+Key rules:
+<ul><li>Use <code>Namespace::CONST</code> to reference constants defined elsewhere.</li></ul><ul><li>You can open an existing class/module and define new constants on it.</li></ul><ul><li>Constants can’t be declared inside methods; define them at class/module scope instead.</li></ul>
+
+<h3>Constants next to other Ruby variables</h3>
+
+The original RubyLearning example contrasts globals, class variables, instance variables, and constants in one class. It’s noisy, but handy for seeing scoping rules in action.
+
+<pre class="language-ruby"><code class="language-ruby">
+# p057mymethods2.rb
+$glob = 5
+
+class TestVar
+  @@cla = 6
+  CONST_VAL = 7
+
+  def initialize(x)
+    @inst = x
+    @@cla += 1
+  end
+
+  def self.cla
+    @@cla
+  end
+
+  def self.cla=(value)
+    @@cla = value
+  end
+
+  def inst
+    @inst
+  end
+
+  def inst=(value)
+    @inst = value
+  end
+end
+
+test = TestVar.new(3)
+puts $glob          # global variable
+puts TestVar.cla    # class variable via reader
+puts TestVar::CONST_VAL
+test.inst = 8
+puts test.inst
+</code></pre>
+
+Pick the narrowest scope that communicates intent: prefer constants over globals, prefer readers/writers over directly exposing instance variables, and reserve class variables for data truly shared by every instance of the class.
+
+<h3>Practice checklist</h3>
+<ul><li>[ ] Reassign a constant in <code>irb</code> and observe the warning (then undo it).</li></ul><ul><li>[ ] Store a mutable object (string, array, hash) in a constant and mutate it to see how references behave.</li></ul><ul><li>[ ] Access a constant through nested namespaces using the scope operator.</li></ul><ul><li>[ ] Attempt to define a constant inside a method so you can see Ruby’s error firsthand.</li></ul><ul><li>[ ] Freeze a constant (<code>CONFIG = {...}.freeze</code>) and try to mutate it to understand when immutability is enforced at the object level.</li></ul>
+
+Next up: keep working through Flow Control & Collections so you can put these naming rules into practice while you branch, loop, and build enumerable data.
+</p></div>
+    </div>
+
+    
+      <nav class="tutorial-nav">
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/ruby-self/">
+            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+            <span>Chapter 41: Understanding `self`</span>
+          </a>
+        
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/ruby-socket-programming/">
+            <span>Chapter 43: Socket Programming & Threads</span>
+            <span class="icon-arrow" aria-hidden="true">&gt;</span>
+          </a>
+        
+      </nav>
+    
+
+    
+      <!-- themes/rubylearning/includes/_related_tutorials.html -->
+
+
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    
+    
+    <li>
+      <a href="/tutorials/variables-and-assignment/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Variables & Assignment</span>
+      </a>
+    </li>
+    
+    
+    <li>
+      <a href="/tutorials/ruby-names/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Ruby Names</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+
+    
+  </article>
+</div>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>&copy; 2025 Ruby Learning. Built with Typophic.</p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763106333"></script>
+  <script src="/js/prism-ruby.js?v=1763106333"></script>
+  <script src="/js/prism-markdown.js?v=1763106333"></script>
+  <script src="/js/code-enhancements.js?v=1763106333"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763106333"></script>
+  <script src="/js/github-pages-fix.js?v=1763106333"></script>
+  <script src="/js/site.js?v=1763106333"></script>
+</body>
+</html>
