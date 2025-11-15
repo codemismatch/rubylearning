@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 2 &ndash; Modern Ruby Installation Guide"
+title: Chapter 2 &ndash; Modern Ruby Installation Guide
 permalink: /tutorials/installation-setup/
 difficulty: beginner
 summary: Greet the world, explore Ruby objects, and learn how the console responds to your code.
