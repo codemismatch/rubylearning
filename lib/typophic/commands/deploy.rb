@@ -170,14 +170,27 @@ module Typophic
       def publish_to_git(options)
         remote = options[:remote]
         branch = options[:branch]
-        force_flag = options[:force] ? "--force" : nil
+        force = options[:force]
 
-        command = ["git", "subtree", "push", "--prefix", "public", remote, branch]
-        command << force_flag if force_flag
+        if force
+          puts "== Publishing public/ to #{remote}/#{branch} (force) =="
 
-        puts "== Publishing public/ to #{remote}/#{branch} =="
-        unless system(*command.compact)
-          warn "Git publish failed. Verify the remote name/branch or push manually."
+          split_sha = `git subtree split --prefix public`.strip
+          unless $?.success? && !split_sha.empty?
+            warn "Git subtree split failed. Ensure git-subtree is installed and public/ exists."
+            return
+          end
+
+          push_command = ["git", "push", remote, "#{split_sha}:#{branch}", "--force"]
+          unless system(*push_command)
+            warn "Git force publish failed. Verify the remote name/branch or push manually."
+          end
+        else
+          puts "== Publishing public/ to #{remote}/#{branch} =="
+          command = ["git", "subtree", "push", "--prefix", "public", remote, branch]
+          unless system(*command)
+            warn "Git publish failed. Verify the remote name/branch or push manually."
+          end
         end
       end
 
