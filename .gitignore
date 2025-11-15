@@ -22,3 +22,6 @@ vendor/
 
 # Qwen Code agent files
 .code/
+
+# Generated static site output
+public/
