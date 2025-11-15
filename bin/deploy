@@ -20,9 +20,9 @@ chmod +x "${REPO_ROOT}/fix-header-link.rb" 2>/dev/null || true
 # Build and deploy via Typophic CLI
 echo "1. Building and deploying the site via Typophic..."
 if [ -x "${REPO_ROOT}/bin/typo" ]; then
-  "${REPO_ROOT}/bin/typo" deploy --remote origin --branch gh-pages --force
+  "${REPO_ROOT}/bin/typo" deploy --remote origin --branch gh-pages
 elif [ -x "${REPO_ROOT}/bin/typophic" ]; then
-  "${REPO_ROOT}/bin/typophic" deploy --remote origin --branch gh-pages --force
+  "${REPO_ROOT}/bin/typophic" deploy --remote origin --branch gh-pages
 else
   echo "Error: No Typophic CLI found (bin/typo or bin/typophic)."
   exit 1
