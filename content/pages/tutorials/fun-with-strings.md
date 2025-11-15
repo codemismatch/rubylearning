@@ -172,7 +172,7 @@ puts "Parsed: #{version}"  # expecting: Parsed: 3.3.0
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.include?('✅ Command succeeded')"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.include?('Command succeeded')"><code class="language-ruby">
 # In a real script you might call: system("echo Done")
 # Here we'll simulate the result with a boolean flag.
 
@@ -190,9 +190,9 @@ puts "Parsed: #{version}"  # expecting: Parsed: 3.3.0
 command_succeeded = true  # change to false to test the other branch
 
 if command_succeeded
-  puts "✅ Command succeeded"
+  puts "Command succeeded"
 else
-  puts "❌ Command failed"
+  puts "Command failed"
 end
 </script>
 
