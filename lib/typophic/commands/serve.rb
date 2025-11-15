@@ -13,6 +13,8 @@ end
 require "webrick"
 require "stringio"
 require "tempfile"
+require "yaml"
+require "uri"
 require_relative "../builder"
 
 module Typophic
@@ -189,8 +191,15 @@ module Typophic
       def self.build_server(options)
         File.write(File.join("public", ".htaccess"), htaccess_rules)
 
+        base_path = detect_base_path
+        mount_path = base_path.empty? ? "/" : base_path
+
         puts "\n=== Starting local server ==="
-        puts "Server running at http://#{options[:host]}:#{options[:port]}"
+        if base_path.empty?
+          puts "Server running at http://#{options[:host]}:#{options[:port]}"
+        else
+          puts "Server running at http://#{options[:host]}:#{options[:port]}#{base_path}/"
+        end
         if options[:livereload]
           puts "LiveReload enabled"
         end
@@ -207,13 +216,39 @@ module Typophic
         )
 
         if options[:livereload]
-          server.mount("/", LiveReloadFileHandler, document_root, options)
-          server.mount("/__typophic__/build_time", BuildTimeServlet)
+          server.mount(mount_path, LiveReloadFileHandler, document_root, options)
+          server.mount(File.join(base_path, "/__typophic__/build_time"), BuildTimeServlet)
         else
-          server.mount("/", NoCacheFileHandler, document_root)
+          server.mount(mount_path, NoCacheFileHandler, document_root)
+        end
+
+        # Convenience redirect from / to base_path when running locally
+        unless base_path.empty?
+          server.mount_proc("/") do |req, res|
+            res.status = 302
+            res["Location"] = base_path + "/"
+          end
         end
 
         server
+      end
+
+      def self.detect_base_path
+        config = YAML.load_file("config.yml")
+      rescue Errno::ENOENT
+        ""
+      else
+        base_url = config.fetch("url", "").to_s.strip
+        base_url = base_url.chomp("/") unless base_url.empty?
+
+        uri = begin
+          base_url.empty? ? URI.parse("/") : URI.parse(base_url)
+        rescue URI::InvalidURIError
+          URI.parse("/")
+        end
+
+        path = uri.path.to_s
+        path == "/" ? "" : path
       end
 
       def self.apply_no_cache_headers(response)

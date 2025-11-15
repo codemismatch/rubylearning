@@ -73,7 +73,6 @@ module Typophic
           <html lang="en">
           <head>
             <meta charset="UTF-8">
-            <meta http-equiv="refresh" content="5;url=/">
             <title>Page Not Found</title>
             <style>
               body { font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; display: grid; place-items: center; min-height: 100vh; background: #0f172a; color: #e2e8f0; margin: 0; }
@@ -82,13 +81,32 @@ module Typophic
               p { margin-bottom: 1.5rem; line-height: 1.6; }
               a { color: #38bdf8; text-decoration: none; font-weight: 600; }
               a:hover { text-decoration: underline; }
+              .countdown { margin-top: 0.5rem; font-size: 0.9rem; opacity: 0.85; }
             </style>
+            <script>
+              (function() {
+                var seconds = 5;
+                function tick() {
+                  var el = document.getElementById('countdown');
+                  if (!el) return;
+                  el.textContent = seconds;
+                  if (seconds <= 0) {
+                    window.location.href = "/";
+                  } else {
+                    seconds -= 1;
+                    setTimeout(tick, 1000);
+                  }
+                }
+                document.addEventListener('DOMContentLoaded', tick);
+              })();
+            </script>
           </head>
           <body>
             <div class="card">
               <h1>404</h1>
               <p>The page you were looking for is off exploring Ruby metaprogramming.</p>
               <p><a href="/">Return home</a> or wait to be redirected.</p>
+              <p class="countdown">Redirecting in <span id="countdown">5</span>…</p>
             </div>
           </body>
           </html>
@@ -99,4 +117,3 @@ module Typophic
     end
   end
 end
-
