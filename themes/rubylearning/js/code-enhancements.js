@@ -21,6 +21,33 @@ async function setupRubyWasm() {
   });
 }
 
+function launchConfettiAround(element) {
+  if (!element) return;
+  const rect = element.getBoundingClientRect();
+  const originX = rect.left + rect.width / 2;
+  const originY = rect.top + rect.height / 2;
+  const colors = ['#f97316', '#38bdf8', '#22c55e', '#e11d48', '#6366f1'];
+
+  for (let i = 0; i < 32; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    const angle = (Math.random() - 0.5) * 2 * Math.PI;
+    const distance = 80 + Math.random() * 80;
+
+    piece.style.left = `${originX}px`;
+    piece.style.top = `${originY}px`;
+    piece.style.backgroundColor = colors[i % colors.length];
+    piece.style.setProperty('--confetti-x', `${Math.cos(angle) * distance}px`);
+    piece.style.setProperty('--confetti-y', `${Math.sin(angle) * distance + 120}px`);
+
+    document.body.appendChild(piece);
+
+    setTimeout(() => {
+      piece.remove();
+    }, 1200);
+  }
+}
+
 async function addRubyExecSupport() {
   // Only add Ruby execution support on pages with executable Ruby code
   const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
@@ -49,8 +76,9 @@ async function addRubyExecSupport() {
       if (!codeBlock) return;
 
       const practiceChapter = pre.dataset.practiceChapter || codeBlock.dataset.practiceChapter;
-      const expectedSubstring = pre.dataset.expectedSubstring || codeBlock.dataset.expectedSubstring;
-      const isPracticeCheck = !!practiceChapter;
+      const practiceIndex = pre.dataset.practiceIndex ? parseInt(pre.dataset.practiceIndex, 10) : null;
+      const practiceTest = pre.dataset.test || codeBlock.dataset.test || "";
+      const isPracticeCheck = !!practiceChapter && !Number.isNaN(practiceIndex) && practiceTest.trim().length > 0;
 
       // Ensure the code block has contenteditable enabled
       pre.setAttribute('contenteditable', true);
@@ -69,7 +97,7 @@ async function addRubyExecSupport() {
       if (header && !header.querySelector('.run-button')) {
         const runButton = document.createElement('button');
         runButton.className = 'run-button';
-        runButton.textContent = isPracticeCheck ? '✔ Check' : '▶ Run Ruby';
+        runButton.textContent = isPracticeCheck ? '✔ Check' : '▶ Run';
         header.appendChild(runButton);
 
         // Insert output area after the <pre>
@@ -110,25 +138,83 @@ async function addRubyExecSupport() {
               "ensure",
               "  $stdout = STDOUT",
               "  $stderr = STDERR",
-              "end",
-              "output.string"
+              "end"
             ];
 
+            if (isPracticeCheck && practiceTest.trim().length > 0) {
+              const testTag = 'RUBYTEST';
+              programLines.push(
+                "test_result = begin",
+                `  !!(eval <<-'${testTag}')`,
+                practiceTest,
+                testTag,
+                "rescue Exception => e",
+                "  output.puts(\"Test error: #{e.class}: #{e.message}\")",
+                "  false",
+                "end",
+                "output_text = output.string",
+                "output_text + \"\\n__TEST__=#{test_result ? 'PASS' : 'FAIL'}\""
+              );
+            } else {
+              programLines.push("output.string");
+            }
+
             const result = vm.eval(programLines.join("\n"));
-            const outputText = result?.toString?.() ?? '';
+            let outputText = result?.toString?.() ?? '';
+
+            let testPassed = null;
+            if (isPracticeCheck) {
+              const markerMatch = outputText.match(/__TEST__=(PASS|FAIL)\s*$/);
+              if (markerMatch) {
+                testPassed = markerMatch[1] === 'PASS';
+                outputText = outputText.replace(/\s*__TEST__=(PASS|FAIL)\s*$/, '');
+              }
+            }
+
             outputContent.textContent = outputText ? `>> ${outputText}` : '>>';
 
-            if (isPracticeCheck && practiceChapter) {
-              const passed = evaluatePracticeOutput(practiceChapter, outputText, expectedSubstring);
-              const feedback = document.querySelector(`.practice-feedback[data-practice-chapter="${practiceChapter}"]`);
+            if (isPracticeCheck && practiceChapter && testPassed !== null) {
+              const feedback = document.querySelector(
+                `.practice-feedback[data-practice-chapter="${practiceChapter}"][data-practice-index="${practiceIndex}"]`
+              );
               if (feedback) {
-                feedback.textContent = passed
-                  ? '✅ Challenge passed! Practice checklist marked complete.'
+                feedback.textContent = testPassed
+                  ? '✅ Challenge passed! Practice item marked complete.'
                   : '❌ Not yet. Adjust your code and try again.';
               }
 
-              if (passed && window.TypophicPractice && typeof window.TypophicPractice.markChapterComplete === 'function') {
-                window.TypophicPractice.markChapterComplete(practiceChapter);
+              if (testPassed) {
+                if (window.TypophicPractice && typeof window.TypophicPractice.markPracticeItem === 'function') {
+                  window.TypophicPractice.markPracticeItem(practiceChapter, practiceIndex, true);
+                }
+                launchConfettiAround(header || pre);
+              } else {
+                // Only reveal "Show code" after at least one failed attempt
+                const existing = header.querySelector('.show-solution-button');
+                if (!existing) {
+                  const showButton = document.createElement('button');
+                  showButton.className = 'show-solution-button';
+                  showButton.textContent = 'Show code';
+                  header.appendChild(showButton);
+
+                  showButton.addEventListener('click', () => {
+                    try {
+                      const solutionKey = `${practiceChapter}:${practiceIndex}`;
+                      const solutionNode = document.querySelector(
+                        `script[data-practice-solution="${solutionKey}"]`
+                      );
+                      if (!solutionNode) return;
+
+                      const solution = solutionNode.textContent.replace(/^\s+|\s+$/g, '');
+                      codeBlock.textContent = solution;
+                      if (typeof Prism !== 'undefined') {
+                        Prism.highlightElement(codeBlock);
+                      }
+                    } catch (_) {
+                      // swallow errors; showing solutions is a convenience only
+                    }
+                  });
+                }
               }
             }
           } catch (err) {
@@ -214,16 +300,4 @@ function addCopyButtonsToCodeBlocks() {
       codeWindow.querySelector('.code-header').appendChild(copyBtn);
     }
   });
-}
-
-function evaluatePracticeOutput(chapterId, outputText, expectedSubstring) {
-  const normalized = (outputText || '').toString().trim();
-  if (!normalized) return false;
-
-  if (expectedSubstring && expectedSubstring.trim().length > 0) {
-    return normalized.includes(expectedSubstring);
-  }
-
-  // Fallback: consider any non-empty output a "pass" if no expectation is provided.
-  return normalized.length > 0;
 }

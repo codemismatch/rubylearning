@@ -199,11 +199,13 @@ function initPracticeChecklists() {
   // Expose checklist metadata for practice runners (e.g. Ruby WASM checks)
   window.TypophicPractice = window.TypophicPractice || {};
   window.TypophicPractice[chapterKeyPrefix] = itemKeys.slice();
-  window.TypophicPractice.markChapterComplete = function(chapterId) {
+  window.TypophicPractice.markPracticeItem = function(chapterId, index, passed) {
     const keys = window.TypophicPractice[chapterId];
-    if (!keys) return;
+    if (!keys || index == null || index < 0 || index >= keys.length) return;
 
-    keys.forEach(key => {
+    const key = keys[index];
+
+    if (passed) {
       try {
         window.localStorage.setItem(key, '1');
       } catch (_) {}
@@ -211,10 +213,10 @@ function initPracticeChecklists() {
       if (btn) {
         btn.setAttribute('aria-pressed', 'true');
         btn.textContent = '✅';
+        btn.setAttribute('aria-pressed', 'true');
       }
-    });
-
-    updateChapterCompletion(chapterId, keys);
+      updateChapterCompletion(chapterId, keys);
+    }
   };
 }
 
