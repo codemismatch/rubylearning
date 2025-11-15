@@ -21,6 +21,33 @@ async function setupRubyWasm() {
   });
 }
 
+function launchConfettiAround(element) {
+  if (!element) return;
+  const rect = element.getBoundingClientRect();
+  const originX = rect.left + rect.width / 2;
+  const originY = rect.top + rect.height / 2;
+  const colors = ['#f97316', '#38bdf8', '#22c55e', '#e11d48', '#6366f1'];
+
+  for (let i = 0; i < 32; i++) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    const angle = (Math.random() - 0.5) * 2 * Math.PI;
+    const distance = 80 + Math.random() * 80;
+
+    piece.style.left = `${originX}px`;
+    piece.style.top = `${originY}px`;
+    piece.style.backgroundColor = colors[i % colors.length];
+    piece.style.setProperty('--confetti-x', `${Math.cos(angle) * distance}px`);
+    piece.style.setProperty('--confetti-y', `${Math.sin(angle) * distance + 120}px`);
+
+    document.body.appendChild(piece);
+
+    setTimeout(() => {
+      piece.remove();
+    }, 1200);
+  }
+}
+
 async function addRubyExecSupport() {
   // Only add Ruby execution support on pages with executable Ruby code
   const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
@@ -48,6 +75,11 @@ async function addRubyExecSupport() {
       const codeBlock = pre.querySelector('code.language-ruby, code.ruby-exec');
       if (!codeBlock) return;
 
+      const practiceChapter = pre.dataset.practiceChapter || codeBlock.dataset.practiceChapter;
+      const practiceIndex = pre.dataset.practiceIndex ? parseInt(pre.dataset.practiceIndex, 10) : null;
+      const practiceTest = pre.dataset.test || codeBlock.dataset.test || "";
+      const isPracticeCheck = !!practiceChapter && !Number.isNaN(practiceIndex) && practiceTest.trim().length > 0;
+
       // Ensure the code block has contenteditable enabled
       pre.setAttribute('contenteditable', true);
       pre.style.whiteSpace = 'pre-wrap';
@@ -60,18 +92,18 @@ async function addRubyExecSupport() {
       outputContent.className = 'output-content';
       outputArea.appendChild(outputContent);
 
-      // Add run button to the header
+      // Add run/check button to the header
       const header = pre.closest('.code-window')?.querySelector('.code-header') || pre.parentElement?.querySelector('.code-header');
       if (header && !header.querySelector('.run-button')) {
         const runButton = document.createElement('button');
         runButton.className = 'run-button';
-        runButton.textContent = '▶ Run Ruby';
+        runButton.textContent = isPracticeCheck ? '✔ Check' : '▶ Run';
         header.appendChild(runButton);
 
         // Insert output area after the <pre>
         pre.parentNode.insertBefore(outputArea, pre.nextSibling);
 
-        // Add event listener for the run button
+        // Add event listener for the run/check button
         runButton.addEventListener('click', async () => {
           const userCode = codeBlock.textContent.trim();
           outputContent.textContent = 'Executing Ruby code...\n';
@@ -106,13 +138,85 @@ async function addRubyExecSupport() {
               "ensure",
               "  $stdout = STDOUT",
               "  $stderr = STDERR",
-              "end",
-              "output.string"
+              "end"
             ];
 
+            if (isPracticeCheck && practiceTest.trim().length > 0) {
+              const testTag = 'RUBYTEST';
+              programLines.push(
+                "test_result = begin",
+                `  !!(eval <<-'${testTag}')`,
+                practiceTest,
+                testTag,
+                "rescue Exception => e",
+                "  output.puts(\"Test error: #{e.class}: #{e.message}\")",
+                "  false",
+                "end",
+                "output_text = output.string",
+                "output_text + \"\\n__TEST__=#{test_result ? 'PASS' : 'FAIL'}\""
+              );
+            } else {
+              programLines.push("output.string");
+            }
+
             const result = vm.eval(programLines.join("\n"));
-            const outputText = result?.toString?.() ?? '';
+            let outputText = result?.toString?.() ?? '';
+
+            let testPassed = null;
+            if (isPracticeCheck) {
+              const markerMatch = outputText.match(/__TEST__=(PASS|FAIL)\s*$/);
+              if (markerMatch) {
+                testPassed = markerMatch[1] === 'PASS';
+                outputText = outputText.replace(/\s*__TEST__=(PASS|FAIL)\s*$/, '');
+              }
+            }
+
             outputContent.textContent = outputText ? `>> ${outputText}` : '>>';
+
+            if (isPracticeCheck && practiceChapter && testPassed !== null) {
+              const feedback = document.querySelector(
+                `.practice-feedback[data-practice-chapter="${practiceChapter}"][data-practice-index="${practiceIndex}"]`
+              );
+              if (feedback) {
+                feedback.textContent = testPassed
+                  ? '✅ Challenge passed! Practice item marked complete.'
+                  : '❌ Not yet. Adjust your code and try again.';
+              }
+
+              if (testPassed) {
+                if (window.TypophicPractice && typeof window.TypophicPractice.markPracticeItem === 'function') {
+                  window.TypophicPractice.markPracticeItem(practiceChapter, practiceIndex, true);
+                }
+                launchConfettiAround(header || pre);
+              } else {
+                // Only reveal "Show code" after at least one failed attempt
+                const existing = header.querySelector('.show-solution-button');
+                if (!existing) {
+                  const showButton = document.createElement('button');
+                  showButton.className = 'show-solution-button';
+                  showButton.textContent = 'Show code';
+                  header.appendChild(showButton);
+
+                  showButton.addEventListener('click', () => {
+                    try {
+                      const solutionKey = `${practiceChapter}:${practiceIndex}`;
+                      const solutionNode = document.querySelector(
+                        `script[data-practice-solution="${solutionKey}"]`
+                      );
+                      if (!solutionNode) return;
+
+                      const solution = solutionNode.textContent.replace(/^\s+|\s+$/g, '');
+                      codeBlock.textContent = solution;
+                      if (typeof Prism !== 'undefined') {
+                        Prism.highlightElement(codeBlock);
+                      }
+                    } catch (_) {
+                      // swallow errors; showing solutions is a convenience only
+                    }
+                  });
+                }
+              }
+            }
           } catch (err) {
             outputContent.textContent = `Error: ${err.message}`;
           }

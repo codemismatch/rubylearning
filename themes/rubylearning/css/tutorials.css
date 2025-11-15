@@ -137,6 +137,32 @@ html {
   outline: none;
 }
 
+/* Practice checklist toggles inside tutorials */
+.practice-checklist-toggle {
+  border: none;
+  background: transparent;
+  cursor: pointer;
+  margin-right: 0.4rem;
+  font-size: 1rem;
+}
+
+.practice-checklist-toggle:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+}
+
+/* Remove default bullets for checklist items */
+.practice-checklist-item {
+  list-style: none;
+  margin-left: 0;
+}
+
+/* Chapter progress markers on the learning path list */
+.chapter-progress-marker {
+  margin-left: 0.4rem;
+  font-size: 0.9rem;
+}
+
 /* Responsive Styles */
 @media (max-width: 768px) {
   .topic-tags {
