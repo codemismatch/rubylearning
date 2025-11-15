@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 15 &ndash; Simple Constructs"
 permalink: /tutorials/simple-constructs/
 difficulty: beginner
-summary: Get comfortable with Ruby’s core control-flow tools—`if`, `elsif`, `unless`, loops, ternaries, `case`, and the truthiness rules around `nil`.
+summary: Get comfortable with Ruby's core control-flow tools--`if`, `elsif`, `unless`, loops, ternaries, `case`, and the truthiness rules around `nil`.
 previous_tutorial:
   title: "Chapter 14: More on Strings"
   url: /tutorials/more-on-strings/
@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-names/
 ---
 
-> Adapted from Satish Talim's “Simple Constructs” lesson.
+> Adapted from Satish Talim's "Simple Constructs" lesson.
 
 Ruby keeps branching syntax lightweight. Parentheses on `if`/`while` are optional, and indentation follows the semantic blocks (`if ... end`).
 
@@ -105,7 +105,7 @@ warn &quot;Missing args&quot; unless ARGV.any?
 
 ### `case` expressions
 
-`case` is Ruby’s flexible multi-branch construct and always returns the last evaluated expression:
+`case` is Ruby's flexible multi-branch construct and always returns the last evaluated expression:
 
 <pre class="language-ruby"><code class="language-ruby">
 year = 2000

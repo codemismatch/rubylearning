@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-arrays/
 ---
 
-> Adapted from Satish Talim’s Ruby Hashes lesson.
+> Adapted from Satish Talim's Ruby Hashes lesson.
 
-Hashes (aka associative arrays, maps, dictionaries) pair any object as a **key** to any object as a **value**. Unlike arrays, which use integer indexes, hashes can use strings, symbols, regexes, numbers—anything that implements `hash` and `eql?`.
+Hashes (aka associative arrays, maps, dictionaries) pair any object as a **key** to any object as a **value**. Unlike arrays, which use integer indexes, hashes can use strings, symbols, regexes, numbers--anything that implements `hash` and `eql?`.
 
 ### Hash literals and access
 

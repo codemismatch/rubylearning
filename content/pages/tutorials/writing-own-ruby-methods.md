@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-names/
 ---
 
-> Adapted from Satish Talim's “Writing Own Ruby Methods” lesson.
+> Adapted from Satish Talim's "Writing Own Ruby Methods" lesson.
 
 Defining a method is as simple as wrapping logic between `def` and `end`. The last evaluated expression becomes the return value, so you rarely need an explicit `return`.
 
@@ -103,7 +103,7 @@ puts foo("hello", "world")  # ["hello", "world"]
 puts foo                     # []
 </code></pre>
 
-You can mix splats with required parameters—Ruby pushes arguments left-to-right—so defaults can reference earlier values:
+You can mix splats with required parameters--Ruby pushes arguments left-to-right--so defaults can reference earlier values:
 
 <pre class="language-ruby"><code class="language-ruby">
 # p012mtdstack.rb

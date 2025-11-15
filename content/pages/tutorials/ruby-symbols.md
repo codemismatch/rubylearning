@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 19 &ndash; Ruby Symbols"
 permalink: /tutorials/ruby-symbols/
 difficulty: beginner
-summary: Learn when to reach for symbols instead of strings, why they’re unique and memory-friendly, and how to convert between types.
+summary: Learn when to reach for symbols instead of strings, why they're unique and memory-friendly, and how to convert between types.
 previous_tutorial:
   title: "Chapter 18: Ruby Ranges"
   url: /tutorials/ruby-ranges/
@@ -17,14 +17,14 @@ related_tutorials:
     url: /tutorials/ruby-names/
 ---
 
-> Adapted from Satish Talim’s Ruby Symbols lesson.
+> Adapted from Satish Talim's Ruby Symbols lesson.
 
-Symbols are lightweight, immutable identifiers prefixed with a colon (e.g., `:action`, `:line_items`). Think of the colon as saying “the thing named …”. Ruby auto-interns symbols so each unique spelling corresponds to exactly one object for the duration of the program.
+Symbols are lightweight, immutable identifiers prefixed with a colon (e.g., `:action`, `:line_items`). Think of the colon as saying "the thing named ...". Ruby auto-interns symbols so each unique spelling corresponds to exactly one object for the duration of the program.
 
 ### Strings vs symbols
 
 - Strings carry content; multiple string literals with the same characters are distinct objects.
-- Symbols represent identity; each unique symbol exists once in Ruby’s symbol table.
+- Symbols represent identity; each unique symbol exists once in Ruby's symbol table.
 
 Use strings when you care about the text itself, and symbols when you just need consistent names or keys.
 
@@ -36,7 +36,7 @@ puts :symbol.object_id
 puts :symbol.object_id
 </code></pre>
 
-The second string has a different `object_id`; the symbol doesn’t.
+The second string has a different `object_id`; the symbol doesn't.
 
 ### How Ruby uses symbols
 
@@ -87,7 +87,7 @@ This is handy when bridging user input (strings) and internal identifiers (symbo
 
 ### Symbols as hash keys
 
-Symbols shine as hash keys because they’re immutable and faster to compare. You’ll see syntax like `{ name: "Satish", city: "Pune" }`, where `name:` is a symbol key (`:name`).
+Symbols shine as hash keys because they're immutable and faster to compare. You'll see syntax like `{ name: "Satish", city: "Pune" }`, where `name:` is a symbol key (`:name`).
 
 ### Practice checklist
 

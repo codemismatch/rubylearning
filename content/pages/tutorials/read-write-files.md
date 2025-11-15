@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 22 &ndash; Read/Write Text Files"
 permalink: /tutorials/read-write-files/
 difficulty: beginner
-summary: Use Ruby’s IO classes to read, write, traverse directories, and seek within files while keeping resources safely closed.
+summary: Use Ruby's IO classes to read, write, traverse directories, and seek within files while keeping resources safely closed.
 previous_tutorial:
   title: "Chapter 21: Ruby Random Numbers"
   url: /tutorials/ruby-random-numbers/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-hashes/
 ---
 
-> Adapted from Satish Talim’s Read/Write Files lesson.
+> Adapted from Satish Talim's Read/Write Files lesson.
 
-Ruby’s `IO` family (which `File` inherits from) handles disk operations. You can open files in read, write, append, or combined modes, and Ruby auto-closes them when you pass a block to `File.open`.
+Ruby's `IO` family (which `File` inherits from) handles disk operations. You can open files in read, write, append, or combined modes, and Ruby auto-closes them when you pass a block to `File.open`.
 
 ### Reading and writing files
 
@@ -62,7 +62,7 @@ puts &quot;#{type}: #{path}&quot;
 end
 </code></pre>
 
-This example prints each file/directory under the current working directory. You’ll learn more about `require` soon—it loads stdlib modules like `Find`.
+This example prints each file/directory under the current working directory. You'll learn more about `require` soon--it loads stdlib modules like `Find`.
 
 ### Random file access
 
@@ -80,7 +80,7 @@ f.close
 
 ### Marshaling preview
 
-Ruby supports object serialization via `Marshal.dump`/`Marshal.load`. We’ll revisit this later, but it’s mentioned here because file IO often accompanies serialization tasks.
+Ruby supports object serialization via `Marshal.dump`/`Marshal.load`. We'll revisit this later, but it's mentioned here because file IO often accompanies serialization tasks.
 
 ### Practice checklist
 

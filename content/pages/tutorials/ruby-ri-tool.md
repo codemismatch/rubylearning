@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 13 &ndash; Ruby `ri` Tool"
 permalink: /tutorials/ruby-ri-tool/
 difficulty: beginner
-summary: Use Ruby’s built-in `ri` and `rdoc` tools to browse documentation offline when the web isn’t handy.
+summary: Use Ruby's built-in `ri` and `rdoc` tools to browse documentation offline when the web isn't handy.
 previous_tutorial:
   title: "Chapter 12: Writing Your Own Ruby Methods"
   url: /tutorials/writing-own-ruby-methods/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/methods-and-blocks/
 ---
 
-> Adapted from Satish Talim’s primer on `ri` and `RDoc`.
+> Adapted from Satish Talim's primer on `ri` and `RDoc`.
 
-Fast internet isn’t always available. Ruby ships documentation tools so you can stay productive offline:
+Fast internet isn't always available. Ruby ships documentation tools so you can stay productive offline:
 
 - `ri` (Ruby Index) lets you look up classes, modules, and methods from the command line.
 - `RDoc` extracts documentation comments from Ruby/C source files and formats them as HTML, Markdown, or `ri` data.
@@ -41,7 +41,7 @@ Rules of thumb:
 - Use `::` for class methods (`Math::sqrt`).
 - If you provide only a method name (`ri length`) and multiple classes define it, `ri` lists all matches.
 
-`ri` displays formatted output generated from the same RDoc data that powers Ruby’s online API docs.
+`ri` displays formatted output generated from the same RDoc data that powers Ruby's online API docs.
 
 ### Generating docs with `rdoc`
 

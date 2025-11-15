@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/simple-constructs/
 ---
 
-> Adapted from Satish Talim’s original ranges lesson.
+> Adapted from Satish Talim's original ranges lesson.
 
-Ranges represent sequences with a start, an end, and a way to produce successive values. They’re light-weight objects that reference the boundary values rather than allocating every member up front.
+Ranges represent sequences with a start, an end, and a way to produce successive values. They're light-weight objects that reference the boundary values rather than allocating every member up front.
 
 ### Inclusive vs exclusive ranges
 
@@ -31,7 +31,7 @@ Ranges represent sequences with a start, an end, and a way to produce successive
 (1...5).to_a   #=&gt; [1, 2, 3, 4]
 </code></pre>
 
-Ranges aren’t stored as arrays internally—`1..100_000` keeps just the endpoints—but you can convert one to an array with `to_a` when needed.
+Ranges aren't stored as arrays internally--`1..100_000` keeps just the endpoints--but you can convert one to an array with `to_a` when needed.
 
 ### Common helpers
 

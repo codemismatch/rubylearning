@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-procs/
 ---
 
-> Adapted from Satish Talim’s “Ruby Inheritance” lesson.
+> Adapted from Satish Talim's "Ruby Inheritance" lesson.
 
-Inheritance lets you derive a class from another, sharing behavior while customizing it. Every Ruby class ultimately inherits from `Object` (and, one level deeper, `BasicObject`), so even a “blank” class automatically picks up dozens of handy methods.
+Inheritance lets you derive a class from another, sharing behavior while customizing it. Every Ruby class ultimately inherits from `Object` (and, one level deeper, `BasicObject`), so even a "blank" class automatically picks up dozens of handy methods.
 
 ### Defining a hierarchy
 
@@ -89,7 +89,7 @@ Modules keep hierarchies shallow while still encouraging code reuse.
 ### Checking ancestry
 
 - `obj.is_a?(ClassOrModule)` and its alias `kind_of?` respect inheritance and mixins.
-- `obj.instance_of?(Class)` matches only the exact class—not subclasses.
+- `obj.instance_of?(Class)` matches only the exact class--not subclasses.
 
 <pre class="language-ruby"><code class="language-ruby">
 dog = Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;)
@@ -99,7 +99,7 @@ puts dog.instance_of?(Animal) # false
 puts dog.instance_of?(Dog)    # true
 </code></pre>
 
-Use the right predicate for the question you’re asking.
+Use the right predicate for the question you're asking.
 
 ### Practice checklist
 

@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-exceptions/
 ---
 
-> Adapted from Satish Talim’s object serialization lesson.
+> Adapted from Satish Talim's object serialization lesson.
 
-Ruby’s `Marshal` module converts objects to byte streams (serialization) and back (deserialization). Handy for caching, storing session data, or quick persistence.
+Ruby's `Marshal` module converts objects to byte streams (serialization) and back (deserialization). Handy for caching, storing session data, or quick persistence.
 
 ### Dumping and loading
 
@@ -43,7 +43,7 @@ restored = Marshal.load(payload)
 
 ### Unsupported objects
 
-Some things can’t be marshaled (e.g., procs, bindings, IO objects, singleton objects). Catch `TypeError` if you’re unsure.
+Some things can't be marshaled (e.g., procs, bindings, IO objects, singleton objects). Catch `TypeError` if you're unsure.
 
 ### Practice checklist
 

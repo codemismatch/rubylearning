@@ -1,9 +1,9 @@
 ---
 layout: tutorial
-title: "Chapter 31 &ndash; “Overloading” Methods the Ruby Way"
+title: 'Chapter 31 &ndash; "Overloading" Methods the Ruby Way'
 permalink: /tutorials/ruby-overloading-methods/
 difficulty: beginner
-summary: Ruby doesn’t have compile-time overloading, but optional args, splats, and keyword args give you flexible interfaces.
+summary: Ruby doesn't have compile-time overloading, but optional args, splats, and keyword args give you flexible interfaces.
 previous_tutorial:
   title: "Chapter 30: Overriding Methods"
   url: /tutorials/ruby-overriding-methods/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-procs/
 ---
 
-> Adapted from Satish Talim’s “Overloading Methods” lesson.
+> Adapted from Satish Talim's "Overloading Methods" lesson.
 
-Ruby doesn’t support traditional method overloading (same name, different signatures). Instead, you build flexible interfaces with default values, splats (`*args`), keyword arguments, and runtime dispatch.
+Ruby doesn't support traditional method overloading (same name, different signatures). Instead, you build flexible interfaces with default values, splats (`*args`), keyword arguments, and runtime dispatch.
 
 ### Optional and default arguments
 
@@ -59,8 +59,8 @@ Keyword args make call sites self-documenting and avoid argument-order bugs.
 
 ### Tips from the legacy lesson
 
-- Lean on Ruby’s dynamic nature: check `args.length`, `args.first`, or presence of options to determine behavior.
-- Don’t overdo it—too many code paths in a single method can get confusing. Prefer separate methods if behavior differs significantly.
+- Lean on Ruby's dynamic nature: check `args.length`, `args.first`, or presence of options to determine behavior.
+- Don't overdo it--too many code paths in a single method can get confusing. Prefer separate methods if behavior differs significantly.
 - Consider using hashes (`options = {}`) or keyword arguments for clarity when mimicking overloads.
 
 ### Practice checklist
@@ -68,6 +68,6 @@ Keyword args make call sites self-documenting and avoid argument-order bugs.
 - [ ] Write a `log(message, level = :info)` method and call it with/without the second argument.
 - [ ] Build a `rectangle_area(*args)` method that accepts either two numbers (`width`, `height`) or a hash (`width:`, `height:`).
 - [ ] Use keyword arguments with defaults to simulate constructor overloading in a small class.
-- [ ] Inspect `args.length` in a method and raise `ArgumentError` when the combination doesn’t make sense.
+- [ ] Inspect `args.length` in a method and raise `ArgumentError` when the combination doesn't make sense.
 
 Next: keep applying these dynamic dispatch techniques inside Flow Control & Collections.

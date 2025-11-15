@@ -89,7 +89,7 @@ x = 10
 5.times do |x|
   puts &quot;x inside block: #{x}&quot;
 end
-puts &quot;x outside block: #{x}&quot; # 10 — outer x untouched
+puts &quot;x outside block: #{x}&quot; # 10 -- outer x untouched
 </code></pre>
 
 Reassigning `x` inside the block without using it as a parameter will change the outer variable:
@@ -99,7 +99,7 @@ x = 10
 5.times do |y|
   x = y
 end
-puts x # 4 — last iteration value
+puts x # 4 -- last iteration value
 </code></pre>
 
 Ruby 1.9+ introduced block-local variables to avoid accidental clobbering:

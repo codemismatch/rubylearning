@@ -5,7 +5,7 @@ permalink: /tutorials/ruby-access-control/
 difficulty: beginner
 summary: Use `public`, `protected`, and `private` to shape how objects expose methods and state.
 previous_tutorial:
-  title: "Chapter 31: “Overloading” Methods the Ruby Way"
+  title: 'Chapter 31: "Overloading" Methods the Ruby Way'
   url: /tutorials/ruby-overloading-methods/
 next_tutorial:
   title: "Chapter 33: Ruby Exceptions"
@@ -17,13 +17,13 @@ related_tutorials:
     url: /tutorials/ruby-open-classes/
 ---
 
-> Adapted from Satish Talim’s “Access Control” lesson.
+> Adapted from Satish Talim's "Access Control" lesson.
 
 Ruby offers three visibility levels for instance methods:
 
-- `public` – callable from anywhere (default).
-- `protected` – callable by any instance of the same class/module (commonly used for comparisons).
-- `private` – callable only without an explicit receiver (implicit `self`).
+- `public` - callable from anywhere (default).
+- `protected` - callable by any instance of the same class/module (commonly used for comparisons).
+- `private` - callable only without an explicit receiver (implicit `self`).
 
 ### Basic example
 
@@ -53,11 +53,11 @@ Move `attr_reader` under `protected` if you want only account instances to compa
 protected :balance
 </code></pre>
 
-Now outside callers can’t do `account.balance`, but other `Account` objects still can inside methods like `richer_than?`.
+Now outside callers can't do `account.balance`, but other `Account` objects still can inside methods like `richer_than?`.
 
 ### Private methods
 
-Private methods can’t be called with an explicit receiver—even `self`.
+Private methods can't be called with an explicit receiver--even `self`.
 
 <pre class="language-ruby"><code class="language-ruby">
 class Motorcycle

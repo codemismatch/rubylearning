@@ -123,7 +123,7 @@ opts.each do |opt, arg|
 end
 </code></pre>
 
-`require` pulls in stdlib helpers (and later, gems); here it exposes `GetoptLong`. We’ll dive deeper into `require` soon.
+`require` pulls in stdlib helpers (and later, gems); here it exposes `GetoptLong`. We'll dive deeper into `require` soon.
 
 ### Coercing values to arrays
 
@@ -140,7 +140,7 @@ Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
 - [ ] Recreate `p018arrays.rb`, then add `push`, `pop`, and `shift` calls to see how the array mutates.
 - [ ] Write a method that returns multiple values and capture them via parallel assignment.
 - [ ] Iterate over `ENV` to print a subset of variables relevant to your setup.
-- [ ] Parse fake CLI arguments with `GetoptLong` (or Ruby’s newer `OptionParser`) and feed them into a script.
+- [ ] Parse fake CLI arguments with `GetoptLong` (or Ruby's newer `OptionParser`) and feed them into a script.
 - [ ] Use `Array()` to wrap non-array objects and inspect `Array.ancestors` to understand its inheritance chain.
 
 Next: armed with arrays and blocks, jump into Flow Control & Collections to combine loops, iterators, and data structures.

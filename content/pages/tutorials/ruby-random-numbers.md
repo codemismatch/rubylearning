@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/flow-control-collections/
 ---
 
-> Adapted from Satish Talim’s “Random Numbers” chapter.
+> Adapted from Satish Talim's "Random Numbers" chapter.
 
-Ruby ships with a pseudo-random number generator exposed via `rand`. Use it for quick simulations, toy programs, or any scenario where cryptographic strength isn’t required.
+Ruby ships with a pseudo-random number generator exposed via `rand`. Use it for quick simulations, toy programs, or any scenario where cryptographic strength isn't required.
 
 ### Basic `rand` usage
 
@@ -52,9 +52,9 @@ Each call to `rand(list.length)` picks a valid index, so the script prints a dif
 
 ### Practice checklist
 
-- [ ] Print ten floats from `rand` and confirm they’re always between 0.0 and 1.0.
+- [ ] Print ten floats from `rand` and confirm they're always between 0.0 and 1.0.
 - [ ] Roll a virtual die by calling `rand(6) + 1`.
 - [ ] Use `rand(range_size)` to select random elements from user-provided arrays.
 - [ ] Seed the RNG (`srand(1234)`) and observe how the sequence repeats for reproducible tests.
 
-Next: head back to Flow Control & Collections, where you’ll combine conditionals, loops, and the data structures you’ve learned so far.
+Next: head back to Flow Control & Collections, where you'll combine conditionals, loops, and the data structures you've learned so far.

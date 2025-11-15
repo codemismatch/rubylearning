@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 43 &ndash; Socket Programming & Threads"
 permalink: /tutorials/ruby-socket-programming/
 difficulty: intermediate
-summary: Build a tiny TCP server and client with Ruby’s socket library, understand ports/IPs, and use threads to handle multiple connections.
+summary: Build a tiny TCP server and client with Ruby's socket library, understand ports/IPs, and use threads to handle multiple connections.
 previous_tutorial:
   title: "Chapter 42: Ruby Constants"
   url: /tutorials/ruby-constants/
@@ -17,19 +17,19 @@ related_tutorials:
     url: /tutorials/ruby-features/
 ---
 
-> Adapted from Satish Talim’s “Socket Programming and Threads” lesson, updated for Typophic.
+> Adapted from Satish Talim's "Socket Programming and Threads" lesson, updated for Typophic.
 
 Networking in Ruby leans on the BSD sockets API but trims away the ceremony. A socket represents one conversation between two endpoints; the server waits for clients, and each client exchanges data over its own connection.
 
 ### TCP/IP refresher
 
 - **Client vs server**: The client initiates a request (e.g., your browser), while the server listens for inbound requests and answers them.
-- **Ports**: Integers between `0` and `65535`. Well-known services occupy 0–1023 (`80`=HTTP, `25`=SMTP), registered services use 1024–49151, and dynamic/private ports use 49152–65535.
+- **Ports**: Integers between `0` and `65535`. Well-known services occupy 0-1023 (`80`=HTTP, `25`=SMTP), registered services use 1024-49151, and dynamic/private ports use 49152-65535.
 - **IP addresses**: IPv4 addresses are four bytes (e.g., `132.163.4.102`). `127.0.0.1` / `localhost` is the loopback address that always points to the current machine.
 
-A socket is the combination of an IP address and a port. Ruby mirrors the BSD API, so if you’ve written network code in C, the same ideas apply.
+A socket is the combination of an IP address and a port. Ruby mirrors the BSD API, so if you've written network code in C, the same ideas apply.
 
-### Ruby’s socket classes
+### Ruby's socket classes
 
 Load the standard library with `require "socket"`. The important classes:
 
@@ -41,7 +41,7 @@ All of these inherit from `IO`, so familiar methods like `read`, `write`, and `c
 
 ### Add threads for concurrent clients
 
-Ruby’s threads are lightweight enough for simple demos. Before writing your own code, skim the dedicated [Ruby Threads](/tutorials/ruby-threads/) guide so you know how scheduling and synchronization work.
+Ruby's threads are lightweight enough for simple demos. Before writing your own code, skim the dedicated [Ruby Threads](/tutorials/ruby-threads/) guide so you know how scheduling and synchronization work.
 
 ### Date-Time server (`p068dtserver.rb`)
 
@@ -91,6 +91,6 @@ socket.close
 - [ ] Replace `localhost` with a LAN IP to confirm the code works between two real machines.
 - [ ] Send a full sentence from the server and have the client acknowledge receipt before closing.
 - [ ] Experiment with `Thread.start` vs. sequential handling to see how concurrency affects throughput.
-- [ ] Wrap the server loop with logging and exception handling so failures don’t crash the process.
+- [ ] Wrap the server loop with logging and exception handling so failures don't crash the process.
 
 Summary: Ruby sockets piggyback on familiar IO primitives, so once you understand ports/IPs you can craft small TCP services with only a few dozen lines of code. Next, deepen your concurrency toolbox in the Ruby Threads chapter.

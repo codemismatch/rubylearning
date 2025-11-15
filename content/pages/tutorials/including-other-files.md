@@ -17,13 +17,13 @@ related_tutorials:
     url: /tutorials/read-write-files/
 ---
 
-> Adapted from Satish Talim’s “Including Other Files” lesson.
+> Adapted from Satish Talim's "Including Other Files" lesson.
 
-As your Ruby programs grow, you’ll split code across files. Ruby provides three helpers:
+As your Ruby programs grow, you'll split code across files. Ruby provides three helpers:
 
-- `require` – loads a file once, searching `$LOAD_PATH` (aliased as `$:`).
-- `load` – forcibly reloads a file every time you call it.
-- `require_relative` – loads a file relative to the current file’s directory.
+- `require` - loads a file once, searching `$LOAD_PATH` (aliased as `$:`).
+- `load` - forcibly reloads a file every time you call it.
+- `require_relative` - loads a file relative to the current file's directory.
 
 ### `require`
 
@@ -35,7 +35,7 @@ require &quot;pg&quot;                   # gem
 require_relative &quot;lib/user&quot;    # project file (see below)
 </code></pre>
 
-`require` returns `true` when it loads a file, `false` when the file was already loaded, and raises `LoadError` if it can’t find the file.
+`require` returns `true` when it loads a file, `false` when the file was already loaded, and raises `LoadError` if it can't find the file.
 
 Ruby looks through each directory in `$LOAD_PATH` for the requested file. You can inspect or modify the path:
 

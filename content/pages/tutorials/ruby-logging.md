@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-access-control/
 ---
 
-> Adapted from Satish Talim’s “Ruby Logging” notes.
+> Adapted from Satish Talim's "Ruby Logging" notes.
 
 Logging surfaces what your program is doing without halting execution. Ruby ships a flexible stdlib logger and you can always fall back to simple `puts` or file writes.
 
@@ -28,7 +28,7 @@ puts &quot;[DEBUG] Starting import...&quot;
 File.open(&quot;app.log&quot;, &quot;a&quot;) { |f| f.puts &quot;#{Time.now} Task finished&quot; }
 </code></pre>
 
-Useful for tiny scripts, but you’ll quickly want log levels, formatting, and rotation—enter `Logger`.
+Useful for tiny scripts, but you'll quickly want log levels, formatting, and rotation--enter `Logger`.
 
 ### Using stdlib `Logger`
 

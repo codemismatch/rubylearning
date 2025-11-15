@@ -36,7 +36,7 @@ A bareword is any unadorned identifier (letters, digits, underscores). Ruby inte
 2. If it matches a reserved word, Ruby treats it as a **keyword** (e.g., `if`, `end`, `class`).
 3. Otherwise, Ruby assumes it's a **method call** on the current object.
 
-> Reference: <https://web.archive.org/web/20181219143329/http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html> — local variables and barewords share the same syntax, so prefer lowercase snake_case names and avoid Ruby keywords to keep intent clear.
+> Reference: <https://web.archive.org/web/20181219143329/http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html> -- local variables and barewords share the same syntax, so prefer lowercase snake_case names and avoid Ruby keywords to keep intent clear.
 
 <pre class="language-ruby"><code class="language-ruby">
 puts greeting        # method call (will raise NameError if undefined)
@@ -90,7 +90,7 @@ The line containing `END_STR` must be flush-left and match the opening identifie
 
 ### Messages, receivers, and dots
 
-Method calls read as “send this **message** to that **receiver**.” The dot connects the two:
+Method calls read as "send this **message** to that **receiver**." The dot connects the two:
 
 <pre class="language-ruby"><code class="language-ruby">
 x = "200.0".to_f

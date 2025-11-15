@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/variables-and-assignment/
 ---
 
-> Adapted from Satish Talim's “Ruby Names” lesson, with refreshed examples for the modern stack.
+> Adapted from Satish Talim's "Ruby Names" lesson, with refreshed examples for the modern stack.
 
 Ruby names refer to the labels you use for variables, methods, classes, modules, and constants. The first character signals Ruby's intent: lowercase for locals, `@` for instances, `@@` for class-level state, `$` for globals, and uppercase for constants.
 
@@ -53,7 +53,7 @@ Ruby allows you to reassign constants but prints a warning. Treat them as immuta
 ### Method naming conventions
 
 - Method names should start with a lowercase letter or `_`.
-- Allowed suffixes: `?` for predicate methods (`empty?`), `!` for “dangerous” variants (`save!`), and `=` for attribute writers (`name=`).
+- Allowed suffixes: `?` for predicate methods (`empty?`), `!` for "dangerous" variants (`save!`), and `=` for attribute writers (`name=`).
 - Use snake_case for multi-word names and ALL_CAPS for constant-style identifiers.
 
 ### Ruby is dynamically typed
@@ -70,7 +70,7 @@ x = 7.5       # Float
 'I love Ruby'.length
 </code></pre>
 
-Ruby automatically manages references and garbage collection, so there is no separate “primitive” vs “object” concept—everything is an object.
+Ruby automatically manages references and garbage collection, so there is no separate "primitive" vs "object" concept--everything is an object.
 
 ### Numeric classes and huge values
 
@@ -91,7 +91,7 @@ rice_on_square = 1
 end
 </code></pre>
 
-By the final square you are counting trillions of grains—Ruby handles it seamlessly.
+By the final square you are counting trillions of grains--Ruby handles it seamlessly.
 
 ### Inspecting classes and `self`
 
@@ -113,8 +113,8 @@ Blocks enhance readability too:
 ### Practice checklist
 
 - [ ] Declare one variable of each scope type (`local`, `@instance`, `@@class`, `$global`) and log them from inside a class to see which are accessible.
-- [ ] Create a module with a constant, then try reassigning it to observe Ruby’s warning.
-- [ ] Write a script that prints `Float::DIG` and `Float::MAX` plus the class of a huge integer to confirm Ruby’s automatic promotion.
+- [ ] Create a module with a constant, then try reassigning it to observe Ruby's warning.
+- [ ] Write a script that prints `Float::DIG` and `Float::MAX` plus the class of a huge integer to confirm Ruby's automatic promotion.
 - [ ] Reproduce the rice-on-a-chessboard example and experiment with different iteration counts to see how quickly the value grows.
 
 Next: move into Flow Control & Collections to apply these naming rules inside loops and conditionals.

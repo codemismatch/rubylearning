@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 37 &ndash; Ruby Syntactic Sugar"
 permalink: /tutorials/ruby-syntactic-sugar/
 difficulty: beginner
-summary: Lean on Ruby’s shorthand—attr helpers, literal shortcuts, and inline modifiers—to write expressive code.
+summary: Lean on Ruby's shorthand--attr helpers, literal shortcuts, and inline modifiers--to write expressive code.
 previous_tutorial:
   title: "Chapter 36: Duck Typing"
   url: /tutorials/duck-typing/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-overloading-methods/
 ---
 
-> Adapted from Satish Talim’s “Ruby Syntactic Sugar” notes.
+> Adapted from Satish Talim's "Ruby Syntactic Sugar" notes.
 
-Ruby’s syntax hides repetitive boilerplate so you can focus on intent.
+Ruby's syntax hides repetitive boilerplate so you can focus on intent.
 
 ### attr_* helpers
 
@@ -29,7 +29,7 @@ class Person
 end
 </code></pre>
 
-This expands to getter/setter methods—no need to write them manually.
+This expands to getter/setter methods--no need to write them manually.
 
 ### Operator methods
 
@@ -46,8 +46,8 @@ Single-line conditionals keep intent obvious.
 
 ### Literal shortcuts
 
-- `%w[foo bar]` → `["foo", "bar"]`
-- `%i[foo bar]` → `[:foo, :bar]`
+- `%w[foo bar]` -> `["foo", "bar"]`
+- `%i[foo bar]` -> `[:foo, :bar]`
 - Symbol hash keys: `{ nickname: "Satish", language: "Marathi" }`
 - Ranges: `1..5` (inclusive), `1...5` (exclusive)
 

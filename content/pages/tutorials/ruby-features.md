@@ -42,7 +42,7 @@ Identifiers are case-sensitive: `user_name`, `UserName`, and `USERNAME` are thre
 
 ### Comments
 
-Use `#` for inline comments—Ruby ignores everything to the end of the line:
+Use `#` for inline comments--Ruby ignores everything to the end of the line:
 
 <pre class="language-ruby"><code class="language-ruby">
 total = price * 1.18 # add GST
@@ -74,7 +74,7 @@ book_title = &quot;Ruby &quot; \
 
 ### Keywords and truthiness
 
-Ruby reserves about 40 keywords (e.g., `if`, `class`, `end`, `yield`). Avoid using them as variable names even if Ruby lets you prefix them with `@`, `@@`, or `$`. When checking truthiness, remember that *only* `false` and `nil` are falsey—`0`, empty strings, and empty collections all evaluate as true.
+Ruby reserves about 40 keywords (e.g., `if`, `class`, `end`, `yield`). Avoid using them as variable names even if Ruby lets you prefix them with `@`, `@@`, or `$`. When checking truthiness, remember that *only* `false` and `nil` are falsey--`0`, empty strings, and empty collections all evaluate as true.
 
 <pre class="language-ruby"><code class="language-ruby">
 def logged_in?(token)

@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 35 &ndash; Ruby `Time` Class"
 permalink: /tutorials/ruby-time-class/
 difficulty: beginner
-summary: Create, format, and manipulate timestamps with Ruby’s `Time` helpers.
+summary: Create, format, and manipulate timestamps with Ruby's `Time` helpers.
 previous_tutorial:
   title: "Chapter 34: Ruby Logging"
   url: /tutorials/ruby-logging/
@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-exceptions/
 ---
 
-> Adapted from Satish Talim’s “Ruby Time Class” lesson.
+> Adapted from Satish Talim's "Ruby Time Class" lesson.
 
 The `Time` class handles timestamps, duration math, and formatting.
 

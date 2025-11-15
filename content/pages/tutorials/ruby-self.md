@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 41 &ndash; Understanding `self`"
 permalink: /tutorials/ruby-self/
 difficulty: beginner
-summary: "`self` always points to the current object—learn how it shifts between top-level code, class bodies, and methods."
+summary: "`self` always points to the current object--learn how it shifts between top-level code, class bodies, and methods."
 previous_tutorial:
   title: "Chapter 40: Modules & Mixins"
   url: /tutorials/modules-and-mixins/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-open-classes/
 ---
 
-> Adapted from Satish Talim’s “Ruby self” lesson.
+> Adapted from Satish Talim's "Ruby self" lesson.
 
-`self` always references “the current object,” but that object changes depending on where you are in the code.
+`self` always references "the current object," but that object changes depending on where you are in the code.
 
 ### Top-level `self`
 

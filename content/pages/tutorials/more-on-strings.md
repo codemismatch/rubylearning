@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 14 &ndash; More on Strings"
 permalink: /tutorials/more-on-strings/
 difficulty: beginner
-summary: Explore Ruby’s rich String toolkit—transformations, comparisons, `%w` literals, and Unicode encodings.
+summary: Explore Ruby's rich String toolkit--transformations, comparisons, `%w` literals, and Unicode encodings.
 previous_tutorial:
   title: "Chapter 13: Ruby `ri` Tool"
   url: /tutorials/ruby-ri-tool/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/variables-and-assignment/
 ---
 
-> Adapted from Satish Talim’s “More on Strings” lesson, with modern Ruby notes.
+> Adapted from Satish Talim's "More on Strings" lesson, with modern Ruby notes.
 
-Ruby’s `String` class packs dozens of helpers. You don’t need to memorize them all—`ri String` is available—but a few core families show up constantly.
+Ruby's `String` class packs dozens of helpers. You don't need to memorize them all--`ri String` is available--but a few core families show up constantly.
 
 ### Transformation methods
 
@@ -89,8 +89,8 @@ Ruby ignores extra whitespace inside `%w{ ... }`.
 
 ### Character sets and encodings
 
-- A **character set** maps symbols to numeric code points (e.g., Unicode’s U+0048 for “H”).
-- An **encoding** describes how to store those code points (UTF-8 uses 1–4 bytes).
+- A **character set** maps symbols to numeric code points (e.g., Unicode's U+0048 for "H").
+- An **encoding** describes how to store those code points (UTF-8 uses 1-4 bytes).
 - Ruby tracks encoding metadata on each string via `Encoding`.
 
 List supported encodings:
@@ -121,6 +121,6 @@ String.instance_methods(false).sort.take(10)
 - [ ] Recreate `say_goodnight` using single quotes and observe how interpolation stops working.
 - [ ] Write a script that compares two user inputs with `==`, `eql?`, and `equal?`.
 - [ ] Build a `%w` array of Ruby core types and iterate over it.
-- [ ] Print each string’s encoding (e.g., `"Olá".encoding`) and experiment with `#encode` to convert between UTF-8 and another encoding.
+- [ ] Print each string's encoding (e.g., `"Ola".encoding`) and experiment with `#encode` to convert between UTF-8 and another encoding.
 
 Next: put these string skills to work while branching and looping through Flow Control & Collections.

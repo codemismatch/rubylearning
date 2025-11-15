@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/variables-and-assignment/
 ---
 
-> Adapted from Satish Talim's “More on Ruby Methods” chapter.
+> Adapted from Satish Talim's "More on Ruby Methods" chapter.
 
 If objects are the nouns of Ruby, methods are the verbs. Every method runs in the context of an object (the **receiver**). You usually see the receiver to the left of a dot (`message.upcase`), but Ruby also lets you call methods *without* writing the receiver explicitly.
 
@@ -80,7 +80,7 @@ log_self  # top-level =&gt; main
 Later chapters dive deeper into defining your own methods, but for now remember:
 
 1. Every method belongs to a receiver.
-2. Leaving off the receiver means “call this on `self`.”
+2. Leaving off the receiver means "call this on `self`."
 3. `self` changes based on where you are (top level, class body, instance method, etc.).
 
 ### Practice checklist
@@ -90,4 +90,4 @@ Later chapters dive deeper into defining your own methods, but for now remember:
 - [ ] Experiment with predicate (`?`) and bang (`!`) method variants to see how they signal intent.
 - [ ] Build a quick script that defines a helper method, calls it with and without an explicit receiver, and logs `self` along the way.
 
-Next: apply these ideas in Flow Control & Collections, where you’ll combine methods with loops and conditionals.
+Next: apply these ideas in Flow Control & Collections, where you'll combine methods with loops and conditionals.

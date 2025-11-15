@@ -8,7 +8,7 @@ previous_tutorial:
   title: "Chapter 29: Ruby Inheritance"
   url: /tutorials/ruby-inheritance/
 next_tutorial:
-  title: "Chapter 31: “Overloading” Methods the Ruby Way"
+  title: 'Chapter 31: "Overloading" Methods the Ruby Way'
   url: /tutorials/ruby-overloading-methods/
 related_tutorials:
   - title: "Writing Our Own Class"
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-open-classes/
 ---
 
-> Adapted from Satish Talim’s “Overriding Methods” lesson.
+> Adapted from Satish Talim's "Overriding Methods" lesson.
 
-Inheritance gives you defaults; overriding lets subclasses tailor those defaults. Ruby makes overriding straightforward: define a method with the same name in the subclass, and call `super` when you need the parent’s behavior.
+Inheritance gives you defaults; overriding lets subclasses tailor those defaults. Ruby makes overriding straightforward: define a method with the same name in the subclass, and call `super` when you need the parent's behavior.
 
 ### Basic override
 

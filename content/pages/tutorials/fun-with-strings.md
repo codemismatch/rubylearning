@@ -17,13 +17,13 @@ related_tutorials:
     url: /tutorials/flow-control-collections/
 ---
 
-> Adapted from Satish Talim's “Fun with Strings” lesson on RubyLearning, refreshed with modern Ruby notes.
+> Adapted from Satish Talim's "Fun with Strings" lesson on RubyLearning, refreshed with modern Ruby notes.
 
 Strings are sequences of characters surrounded by quotes. Ruby treats both single (`'`) and double (`"`) quotes as literal delimiters, and even the empty string (`''`) is a real object you can pass around.
 
 ### Warm up with a string script
 
-Here’s a modernised take on `p003rubystrings.rb`, highlighting concatenation, escaping, repetition, and constants:
+Here's a modernised take on `p003rubystrings.rb`, highlighting concatenation, escaping, repetition, and constants:
 
 <pre class="language-ruby"><code class="language-ruby">
 # frozen_string_literal: true
@@ -31,8 +31,8 @@ Here’s a modernised take on `p003rubystrings.rb`, highlighting concatenation, 
 puts "Hello World"
 puts 'Hello World'             # same result, but no interpolation
 puts 'I like' + ' Ruby'        # concatenation
-puts 'It\'s my Ruby'           # escape quotes
 puts 'Hello ' * 3              # repetition
+puts 'It\s my Ruby'           # escape quotes
 
 PI = 3.1416
 puts PI

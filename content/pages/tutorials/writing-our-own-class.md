@@ -17,16 +17,16 @@ related_tutorials:
     url: /tutorials/ruby-hashes/
 ---
 
-> Adapted from Satish Talim’s “Writing our own Class” lesson.
+> Adapted from Satish Talim's "Writing our own Class" lesson.
 
-Procedural code focuses on steps. Object-oriented Ruby focuses on **objects**—small agents that know things (state) and do things (behavior). A **class** is a blueprint for those objects: it defines the instance variables an object carries and the methods it can respond to.
+Procedural code focuses on steps. Object-oriented Ruby focuses on **objects**--small agents that know things (state) and do things (behavior). A **class** is a blueprint for those objects: it defines the instance variables an object carries and the methods it can respond to.
 
 ### Objects know things and do things
 
-- What an object **knows** → instance variables (state). Each object can hold different values.
-- What an object **does** → methods. Methods expose behavior to the rest of the program.
+- What an object **knows** -> instance variables (state). Each object can hold different values.
+- What an object **does** -> methods. Methods expose behavior to the rest of the program.
 
-A class combines both. Each class is itself an instance of Ruby’s `Class`, and calling `ClassName.new` allocates memory then calls the instance’s `initialize` method. Construction (`new`) and initialization (`initialize`) are separate steps you can override independently.
+A class combines both. Each class is itself an instance of Ruby's `Class`, and calling `ClassName.new` allocates memory then calls the instance's `initialize` method. Construction (`new`) and initialization (`initialize`) are separate steps you can override independently.
 
 ### First class: `Dog`
 
@@ -65,18 +65,18 @@ Key takeaways:
 - Instance variables start with `@` and are private to the object.
 - Methods like `bark` and `display` form the public API.
 - `object_id` shows the unique identifier Ruby assigns each object.
-- `respond_to?` lets you ask whether an object understands a message before sending it—handy for duck typing.
+- `respond_to?` lets you ask whether an object understands a message before sending it--handy for duck typing.
 
-Multiple variables can reference the same object, and setting a variable to `nil` simply drops that reference. When no references remain, Ruby’s garbage collector reclaims the object.
+Multiple variables can reference the same object, and setting a variable to `nil` simply drops that reference. When no references remain, Ruby's garbage collector reclaims the object.
 
 ### Introspection helpers
 
 Ruby ships lots of methods on every object. Try `d.methods.sort` (commented out above) to see them. A few particularly useful ones:
 
-- `object_id` – unique ID for the object.
-- `respond_to?` – whether a method is defined.
-- `class` – the object’s class name.
-- `instance_of?` – whether the object is an instance of a specific class (e.g., `num.instance_of?(Integer)`).
+- `object_id` - unique ID for the object.
+- `respond_to?` - whether a method is defined.
+- `class` - the object's class name.
+- `instance_of?` - whether the object is an instance of a specific class (e.g., `num.instance_of?(Integer)`).
 
 ### Practice checklist
 

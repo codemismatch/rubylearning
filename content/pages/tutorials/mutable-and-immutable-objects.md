@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-open-classes/
 ---
 
-> Adapted from Satish Talim’s “Mutable and Immutable Objects” lesson.
+> Adapted from Satish Talim's "Mutable and Immutable Objects" lesson.
 
 Ruby stores some objects as mutable containers (strings, arrays, hashes) and others as immutable values (numbers, symbols). Understanding the difference prevents surprises when multiple variables reference the same object.
 
@@ -69,7 +69,7 @@ Frozen strings are common when `# frozen_string_literal: true` appears at the to
 
 - [ ] Demonstrate how two arrays referencing the same object both mutate after `<<`.
 - [ ] Freeze a string and rescue the `FrozenError` raised when attempting to append to it.
-- [ ] Explain why symbol keys in hashes don’t need cloning—they’re immutable.
+- [ ] Explain why symbol keys in hashes don't need cloning--they're immutable.
 - [ ] Use `dup` to copy a mutable object before modifying it.
 
 Next: continue into Flow Control & Collections, now mindful of which objects mutate in place.

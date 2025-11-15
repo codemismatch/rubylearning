@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-features/
 ---
 
-> Adapted from Satish Talim's “Scope” chapter on RubyLearning, updated with modern Ruby examples.
+> Adapted from Satish Talim's "Scope" chapter on RubyLearning, updated with modern Ruby examples.
 
 Scope describes where a variable is visible. Ruby keeps the rules straightforward: variable *prefixes* indicate intent, and structural keywords (`class`, `module`, `def`) carve out local bubbles.
 

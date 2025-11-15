@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/writing-our-own-class/
 ---
 
-> Adapted from Satish Talim’s original “Ruby Procs” lesson.
+> Adapted from Satish Talim's original "Ruby Procs" lesson.
 
-Blocks are anonymous snippets that you pass to methods. `Proc` and `lambda` capture those blocks as reusable objects—you can store them in variables, pass them around, and call them later.
+Blocks are anonymous snippets that you pass to methods. `Proc` and `lambda` capture those blocks as reusable objects--you can store them in variables, pass them around, and call them later.
 
 ### Creating procs
 
@@ -31,7 +31,7 @@ square.call(4)   #=&gt; 16
 doubler.call(5)  #=&gt; 10
 </code></pre>
 
-You can call a proc via `.call`, `.[]`, or `.()`; they’re interchangeable.
+You can call a proc via `.call`, `.[]`, or `.()`; they're interchangeable.
 
 ### Lambdas vs procs
 

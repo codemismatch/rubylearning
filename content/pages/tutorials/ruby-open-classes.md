@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 28 &ndash; Ruby Open Classes"
 permalink: /tutorials/ruby-open-classes/
 difficulty: beginner
-summary: Reopen existing classes—even core ones—to add behavior, and learn when to patch responsibly.
+summary: Reopen existing classes--even core ones--to add behavior, and learn when to patch responsibly.
 previous_tutorial:
   title: "Chapter 27: Including Other Files"
   url: /tutorials/including-other-files/
@@ -17,9 +17,9 @@ related_tutorials:
     url: /tutorials/ruby-symbols/
 ---
 
-> Adapted from Satish Talim’s “Ruby Open Classes” lesson.
+> Adapted from Satish Talim's "Ruby Open Classes" lesson.
 
-Ruby classes are **open**, meaning you can reopen them at any time to add or override methods—even built-in classes like `String` and `Integer`. This power fuels Ruby’s expressive DSLs, but it requires discipline.
+Ruby classes are **open**, meaning you can reopen them at any time to add or override methods--even built-in classes like `String` and `Integer`. This power fuels Ruby's expressive DSLs, but it requires discipline.
 
 ### Simple example: adding to `String`
 
@@ -49,13 +49,13 @@ end
 puts 3.squared   #=&gt; 9
 </code></pre>
 
-This pattern explains why built-in methods like `2.times { ... }` work—the core `Integer` class defines them. Any method you add becomes available to every object of that class.
+This pattern explains why built-in methods like `2.times { ... }` work--the core `Integer` class defines them. Any method you add becomes available to every object of that class.
 
 ### Use responsibly
 
 - Patches are global. Overriding a common method (e.g., `String#length`) affects all code, including gems.
 - Prefer refinements or wrapper modules when shipping libraries to avoid collisions.
-- Clearly document custom patches so teammates aren’t surprised.
+- Clearly document custom patches so teammates aren't surprised.
 
 ### Practice checklist
 

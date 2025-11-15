@@ -17,7 +17,7 @@ related_tutorials:
     url: /tutorials/ruby-procs/
 ---
 
-> Adapted from Satish Talim's “Ruby Exceptions” lesson.
+> Adapted from Satish Talim's "Ruby Exceptions" lesson.
 
 Ruby uses exceptions to report runtime problems. Use `begin`/`rescue` blocks to catch them, `ensure` to run cleanup, and `raise` to signal your own errors.
 
@@ -39,7 +39,7 @@ end
 
 - `rescue SpecificError => e` lets you branch per exception type.
 - `else` executes only when no exception was raised.
-- `ensure` runs regardless of success or failure—perfect for closing files or releasing resources.
+- `ensure` runs regardless of success or failure--perfect for closing files or releasing resources.
 
 ### Raising exceptions
 
@@ -85,6 +85,6 @@ class ServiceError &lt; StandardError; end
 - [ ] Wrap a file read in `begin`/`rescue` to catch `Errno::ENOENT` and print a friendly message.
 - [ ] Use `ensure` to close a file handle even when an exception occurs.
 - [ ] Define a custom exception and raise it from a validation method.
-- [ ] Experiment with `retry` (inside `rescue`) to re-run the block after handling an error—use cautiously!
+- [ ] Experiment with `retry` (inside `rescue`) to re-run the block after handling an error--use cautiously!
 
 Next: keep iterating through Flow Control & Collections, now with robust error handling.
