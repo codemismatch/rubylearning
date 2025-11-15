@@ -159,6 +159,8 @@ function initPracticeChecklists() {
       itemKeys.push(key);
       const saved = window.localStorage.getItem(key) === '1';
 
+      li.classList.add('practice-checklist-item');
+
       // Strip leading [ ] / [x] markers from the first text node only
       const firstNode = li.firstChild;
       if (firstNode && firstNode.nodeType === Node.TEXT_NODE) {
