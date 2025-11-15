@@ -2,7 +2,14 @@
 
 require "optparse"
 require "fileutils"
-require "listen"
+begin
+  require "listen"
+rescue LoadError
+  warn "Error: The `listen` gem is required for `typophic serve`."
+  warn "Install it with `gem install listen -v '~> 3.0'`"
+  warn "or run `bundle install` in this project."
+  exit 1
+end
 require "webrick"
 require "stringio"
 require "tempfile"
