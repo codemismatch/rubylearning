@@ -17,6 +17,13 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeTutorialTags();
 });
 
+// Secondary enhancements that should run on both the tutorials index and
+// individual tutorial chapters (practice checklists and progress markers).
+document.addEventListener('DOMContentLoaded', function() {
+  initPracticeChecklists();
+  initChapterListProgress();
+});
+
 // Add smooth scrolling to topic links
 function addSmoothScrolling() {
   const topicLinks = document.querySelectorAll('.topic-tag');
@@ -120,5 +127,120 @@ function initializeTutorialTags() {
         });
       }
     });
+  });
+}
+
+// Turn "Practice checklist" bullets into interactive, persistent items.
+function initPracticeChecklists() {
+  const article = document.querySelector('article.tutorial');
+  if (!article) return;
+
+  const heading = Array.from(article.querySelectorAll('h3')).find(h =>
+    h.textContent.trim().toLowerCase() === 'practice checklist'
+  );
+  if (!heading) return;
+
+  const path = window.location.pathname.replace(/\/$/, '');
+  const chapterKeyPrefix = `rl:chapter:${path}`;
+  const itemKeys = [];
+
+  // Collect consecutive <ul> blocks after the heading
+  let el = heading.nextElementSibling;
+  const lists = [];
+  while (el && el.tagName && el.tagName.toLowerCase() === 'ul') {
+    lists.push(el);
+    el = el.nextElementSibling;
+  }
+
+  let index = 0;
+  lists.forEach(ul => {
+    ul.querySelectorAll('li').forEach(li => {
+      const key = `${chapterKeyPrefix}:item:${index}`;
+      itemKeys.push(key);
+      const saved = window.localStorage.getItem(key) === '1';
+
+      // Strip leading [ ] / [x] markers from the first text node only
+      const firstNode = li.firstChild;
+      if (firstNode && firstNode.nodeType === Node.TEXT_NODE) {
+        firstNode.textContent = firstNode.textContent.replace(/^\s*\[\s*[xX]?\s*\]\s*/, '');
+      }
+
+      const toggle = document.createElement('button');
+      toggle.type = 'button';
+      toggle.className = 'practice-checklist-toggle';
+      toggle.setAttribute('aria-pressed', saved ? 'true' : 'false');
+      toggle.setAttribute('data-key', key);
+      toggle.textContent = saved ? '✅' : '☐';
+
+      toggle.addEventListener('click', () => {
+        const isOn = toggle.getAttribute('aria-pressed') === 'true';
+        const nextState = !isOn;
+        toggle.setAttribute('aria-pressed', nextState ? 'true' : 'false');
+        toggle.textContent = nextState ? '✅' : '☐';
+        try {
+          window.localStorage.setItem(key, nextState ? '1' : '0');
+        } catch (_) {}
+        updateChapterCompletion(chapterKeyPrefix, itemKeys);
+      });
+
+      li.insertBefore(toggle, li.firstChild);
+      index += 1;
+    });
+  });
+
+  // Mark chapter as visited and update completion status once on load
+  try {
+    window.localStorage.setItem(`${chapterKeyPrefix}:visited`, '1');
+  } catch (_) {}
+  updateChapterCompletion(chapterKeyPrefix, itemKeys);
+}
+
+function updateChapterCompletion(chapterKeyPrefix, itemKeys) {
+  if (!itemKeys.length) return;
+  let allDone = true;
+  try {
+    for (const key of itemKeys) {
+      if (window.localStorage.getItem(key) !== '1') {
+        allDone = false;
+        break;
+      }
+    }
+    window.localStorage.setItem(
+      `${chapterKeyPrefix}:complete`,
+      allDone ? '1' : '0'
+    );
+  } catch (_) {
+    // If localStorage fails, just skip persistence.
+  }
+}
+
+// On the Ruby learning path page, annotate chapters with visited/completed ticks.
+function initChapterListProgress() {
+  const chapterNav = document.querySelector('.chapter-nav');
+  if (!chapterNav) return;
+
+  const links = chapterNav.querySelectorAll('ol li > a[href^="/tutorials/"]');
+  links.forEach(link => {
+    try {
+      const url = new URL(link.getAttribute('href'), window.location.origin);
+      const path = url.pathname.replace(/\/$/, '');
+      const chapterKeyPrefix = `rl:chapter:${path}`;
+      const visited = window.localStorage.getItem(`${chapterKeyPrefix}:visited`) === '1';
+      const complete = window.localStorage.getItem(`${chapterKeyPrefix}:complete`) === '1';
+
+      if (!visited && !complete) return;
+
+      const marker = document.createElement('span');
+      marker.className = 'chapter-progress-marker';
+      marker.textContent = complete ? '✅' : '☑️';
+      marker.setAttribute(
+        'aria-label',
+        complete ? 'Chapter completed' : 'Chapter visited'
+      );
+
+      link.appendChild(marker);
+    } catch (_) {
+      // Ignore malformed URLs
+    }
   });
 }
