@@ -195,6 +195,27 @@ function initPracticeChecklists() {
     window.localStorage.setItem(`${chapterKeyPrefix}:visited`, '1');
   } catch (_) {}
   updateChapterCompletion(chapterKeyPrefix, itemKeys);
+
+  // Expose checklist metadata for practice runners (e.g. Ruby WASM checks)
+  window.TypophicPractice = window.TypophicPractice || {};
+  window.TypophicPractice[chapterKeyPrefix] = itemKeys.slice();
+  window.TypophicPractice.markChapterComplete = function(chapterId) {
+    const keys = window.TypophicPractice[chapterId];
+    if (!keys) return;
+
+    keys.forEach(key => {
+      try {
+        window.localStorage.setItem(key, '1');
+      } catch (_) {}
+      const btn = document.querySelector(`.practice-checklist-toggle[data-key="${key}"]`);
+      if (btn) {
+        btn.setAttribute('aria-pressed', 'true');
+        btn.textContent = '✅';
+      }
+    });
+
+    updateChapterCompletion(chapterId, keys);
+  };
 }
 
 function updateChapterCompletion(chapterKeyPrefix, itemKeys) {

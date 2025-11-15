@@ -48,6 +48,10 @@ async function addRubyExecSupport() {
       const codeBlock = pre.querySelector('code.language-ruby, code.ruby-exec');
       if (!codeBlock) return;
 
+      const practiceChapter = pre.dataset.practiceChapter || codeBlock.dataset.practiceChapter;
+      const expectedSubstring = pre.dataset.expectedSubstring || codeBlock.dataset.expectedSubstring;
+      const isPracticeCheck = !!practiceChapter;
+
       // Ensure the code block has contenteditable enabled
       pre.setAttribute('contenteditable', true);
       pre.style.whiteSpace = 'pre-wrap';
@@ -60,18 +64,18 @@ async function addRubyExecSupport() {
       outputContent.className = 'output-content';
       outputArea.appendChild(outputContent);
 
-      // Add run button to the header
+      // Add run/check button to the header
       const header = pre.closest('.code-window')?.querySelector('.code-header') || pre.parentElement?.querySelector('.code-header');
       if (header && !header.querySelector('.run-button')) {
         const runButton = document.createElement('button');
         runButton.className = 'run-button';
-        runButton.textContent = '▶ Run Ruby';
+        runButton.textContent = isPracticeCheck ? '✔ Check' : '▶ Run Ruby';
         header.appendChild(runButton);
 
         // Insert output area after the <pre>
         pre.parentNode.insertBefore(outputArea, pre.nextSibling);
 
-        // Add event listener for the run button
+        // Add event listener for the run/check button
         runButton.addEventListener('click', async () => {
           const userCode = codeBlock.textContent.trim();
           outputContent.textContent = 'Executing Ruby code...\n';
@@ -113,6 +117,20 @@ async function addRubyExecSupport() {
             const result = vm.eval(programLines.join("\n"));
             const outputText = result?.toString?.() ?? '';
             outputContent.textContent = outputText ? `>> ${outputText}` : '>>';
+
+            if (isPracticeCheck && practiceChapter) {
+              const passed = evaluatePracticeOutput(practiceChapter, outputText, expectedSubstring);
+              const feedback = document.querySelector(`.practice-feedback[data-practice-chapter="${practiceChapter}"]`);
+              if (feedback) {
+                feedback.textContent = passed
+                  ? '✅ Challenge passed! Practice checklist marked complete.'
+                  : '❌ Not yet. Adjust your code and try again.';
+              }
+
+              if (passed && window.TypophicPractice && typeof window.TypophicPractice.markChapterComplete === 'function') {
+                window.TypophicPractice.markChapterComplete(practiceChapter);
+              }
+            }
           } catch (err) {
             outputContent.textContent = `Error: ${err.message}`;
           }
@@ -196,4 +214,16 @@ function addCopyButtonsToCodeBlocks() {
       codeWindow.querySelector('.code-header').appendChild(copyBtn);
     }
   });
+}
+
+function evaluatePracticeOutput(chapterId, outputText, expectedSubstring) {
+  const normalized = (outputText || '').toString().trim();
+  if (!normalized) return false;
+
+  if (expectedSubstring && expectedSubstring.trim().length > 0) {
+    return normalized.includes(expectedSubstring);
+  }
+
+  // Fallback: consider any non-empty output a "pass" if no expectation is provided.
+  return normalized.length > 0;
 }

@@ -72,4 +72,22 @@ end
 - [ ] Capture the output of `` `ruby -v` `` into a variable and parse the version number.
 - [ ] Use `system` to run a harmless command (like `echo Done`) and branch on the return value.
 
+#### Try it in the browser
+
+<p><strong>Challenge:</strong> Write a short Ruby script that prints a greeting twice – once using interpolation and once using concatenation. When your output looks right, click “Check” to mark this practice as complete.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
+     data-expected-substring="Hello"><code class="language-ruby">
+# Write your Ruby code here.
+# Example goal (feel free to tweak):
+#   Hello Alice
+#   Hello Bob
+#
+# Use interpolation for one line and concatenation for the other.
+
+</code></pre>
+<div class="practice-feedback" data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"></div>
+
 Next up: apply what you know about numbers and strings while branching through Flow Control & Collections.
