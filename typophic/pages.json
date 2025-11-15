@@ -3,7 +3,7 @@
     "title": "About",
     "description": null,
     "permalink": "/pages/about/",
-    "url": "https://rubylearning.in/pages/about/",
+    "url": "https://codemismatch.com/rubylearning/pages/about/",
     "date": null,
     "tags": []
   },
@@ -11,7 +11,7 @@
     "title": "Ruby & Rails Blog",
     "description": "Fresh lessons, tips, and project write-ups for Ruby and Ruby on Rails developers.",
     "permalink": "/blog/",
-    "url": "https://rubylearning.in/blog/",
+    "url": "https://codemismatch.com/rubylearning/blog/",
     "date": null,
     "tags": []
   },
@@ -19,7 +19,7 @@
     "title": "Home",
     "description": "Learn Ruby step-by-step with runnable examples, curated lessons, and community-driven resources.",
     "permalink": "/",
-    "url": "https://rubylearning.in/",
+    "url": "https://codemismatch.com/rubylearning/",
     "date": null,
     "tags": []
   },
@@ -27,7 +27,7 @@
     "title": "Rails Learning Hub",
     "description": "A project-driven path for learning Ruby on Rails through modern tooling and real-world practice.",
     "permalink": "/rails/",
-    "url": "https://rubylearning.in/rails/",
+    "url": "https://codemismatch.com/rubylearning/rails/",
     "date": null,
     "tags": []
   },
@@ -35,7 +35,7 @@
     "title": "Ruby Learning Resources",
     "description": "Curated references, courses, and communities for becoming confident with Ruby and Ruby on Rails.",
     "permalink": "/pages/resources/",
-    "url": "https://rubylearning.in/pages/resources/",
+    "url": "https://codemismatch.com/rubylearning/pages/resources/",
     "date": null,
     "tags": []
   },
@@ -43,7 +43,7 @@
     "title": "Ruby Learning Hub",
     "description": "Curated guidance for mastering Ruby fundamentals with structured notes and hands-on practice.",
     "permalink": "/ruby/",
-    "url": "https://rubylearning.in/ruby/",
+    "url": "https://codemismatch.com/rubylearning/ruby/",
     "date": null,
     "tags": []
   },
@@ -51,7 +51,7 @@
     "title": "Ruby Tutorials",
     "description": null,
     "permalink": "/tutorials/",
-    "url": "https://rubylearning.in/tutorials/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/",
     "date": null,
     "tags": []
   },
@@ -59,7 +59,7 @@
     "title": "Chapter 4 &ndash; Classes & objects",
     "description": null,
     "permalink": "/tutorials/classes-and-objects/",
-    "url": "https://rubylearning.in/tutorials/classes-and-objects/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/classes-and-objects/",
     "date": null,
     "tags": []
   },
@@ -67,7 +67,7 @@
     "title": "Chapter 36 &ndash; Duck Typing",
     "description": null,
     "permalink": "/tutorials/duck-typing/",
-    "url": "https://rubylearning.in/tutorials/duck-typing/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/duck-typing/",
     "date": null,
     "tags": []
   },
@@ -75,7 +75,7 @@
     "title": "Chapter 6 &ndash; Files, gems & next steps",
     "description": null,
     "permalink": "/tutorials/files-gems-next-steps/",
-    "url": "https://rubylearning.in/tutorials/files-gems-next-steps/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/files-gems-next-steps/",
     "date": null,
     "tags": []
   },
@@ -83,7 +83,7 @@
     "title": "Chapter 3 &ndash; First Ruby Program",
     "description": null,
     "permalink": "/tutorials/first-ruby-program/",
-    "url": "https://rubylearning.in/tutorials/first-ruby-program/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/first-ruby-program/",
     "date": null,
     "tags": []
   },
@@ -91,7 +91,7 @@
     "title": "Chapter 2 &ndash; Flow control & collections",
     "description": null,
     "permalink": "/tutorials/flow-control-collections/",
-    "url": "https://rubylearning.in/tutorials/flow-control-collections/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/flow-control-collections/",
     "date": null,
     "tags": []
   },
@@ -99,7 +99,7 @@
     "title": "Chapter 6 &ndash; Fun with Strings",
     "description": null,
     "permalink": "/tutorials/fun-with-strings/",
-    "url": "https://rubylearning.in/tutorials/fun-with-strings/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/fun-with-strings/",
     "date": null,
     "tags": []
   },
@@ -107,7 +107,7 @@
     "title": "Chapter 9 &ndash; Getting Input",
     "description": null,
     "permalink": "/tutorials/getting-input/",
-    "url": "https://rubylearning.in/tutorials/getting-input/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/getting-input/",
     "date": null,
     "tags": []
   },
@@ -115,7 +115,7 @@
     "title": "Chapter 27 &ndash; Including Other Files",
     "description": null,
     "permalink": "/tutorials/including-other-files/",
-    "url": "https://rubylearning.in/tutorials/including-other-files/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/including-other-files/",
     "date": null,
     "tags": []
   },
@@ -123,7 +123,7 @@
     "title": "Chapter 2 &ndash; Modern Ruby Installation Guide",
     "description": null,
     "permalink": "/tutorials/installation-setup/",
-    "url": "https://rubylearning.in/tutorials/installation-setup/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/installation-setup/",
     "date": null,
     "tags": []
   },
@@ -131,7 +131,7 @@
     "title": "Chapter 1 &ndash; Meet Ruby",
     "description": null,
     "permalink": "/tutorials/meet-ruby/",
-    "url": "https://rubylearning.in/tutorials/meet-ruby/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/meet-ruby/",
     "date": null,
     "tags": []
   },
@@ -139,7 +139,7 @@
     "title": "Chapter 3 &ndash; Methods & blocks",
     "description": null,
     "permalink": "/tutorials/methods-and-blocks/",
-    "url": "https://rubylearning.in/tutorials/methods-and-blocks/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/methods-and-blocks/",
     "date": null,
     "tags": []
   },
@@ -147,7 +147,7 @@
     "title": "Chapter 40 &ndash; Modules & Mixins",
     "description": null,
     "permalink": "/tutorials/modules-and-mixins/",
-    "url": "https://rubylearning.in/tutorials/modules-and-mixins/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/modules-and-mixins/",
     "date": null,
     "tags": []
   },
@@ -155,7 +155,7 @@
     "title": "Chapter 11 &ndash; More on Ruby Methods",
     "description": null,
     "permalink": "/tutorials/more-on-ruby-methods/",
-    "url": "https://rubylearning.in/tutorials/more-on-ruby-methods/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/more-on-ruby-methods/",
     "date": null,
     "tags": []
   },
@@ -163,7 +163,7 @@
     "title": "Chapter 14 &ndash; More on Strings",
     "description": null,
     "permalink": "/tutorials/more-on-strings/",
-    "url": "https://rubylearning.in/tutorials/more-on-strings/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/more-on-strings/",
     "date": null,
     "tags": []
   },
@@ -171,7 +171,7 @@
     "title": "Chapter 38 &ndash; Mutable vs Immutable Objects",
     "description": null,
     "permalink": "/tutorials/mutable-and-immutable-objects/",
-    "url": "https://rubylearning.in/tutorials/mutable-and-immutable-objects/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/mutable-and-immutable-objects/",
     "date": null,
     "tags": []
   },
@@ -179,7 +179,7 @@
     "title": "Chapter 5 &ndash; Numbers in Ruby",
     "description": null,
     "permalink": "/tutorials/numbers-in-ruby/",
-    "url": "https://rubylearning.in/tutorials/numbers-in-ruby/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/numbers-in-ruby/",
     "date": null,
     "tags": []
   },
@@ -187,7 +187,7 @@
     "title": "Chapter 39 &ndash; Object Serialization (Marshal)",
     "description": null,
     "permalink": "/tutorials/object-serialization/",
-    "url": "https://rubylearning.in/tutorials/object-serialization/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/object-serialization/",
     "date": null,
     "tags": []
   },
@@ -195,7 +195,7 @@
     "title": "Chapter R3 &ndash; Rails Hotwire feedback",
     "description": null,
     "permalink": "/tutorials/rails-hotwire-feedback/",
-    "url": "https://rubylearning.in/tutorials/rails-hotwire-feedback/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/rails-hotwire-feedback/",
     "date": null,
     "tags": []
   },
@@ -203,7 +203,7 @@
     "title": "Chapter R1 &ndash; Rails project setup",
     "description": null,
     "permalink": "/tutorials/rails-project-setup/",
-    "url": "https://rubylearning.in/tutorials/rails-project-setup/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/rails-project-setup/",
     "date": null,
     "tags": []
   },
@@ -211,7 +211,7 @@
     "title": "Chapter R2 &ndash; Rails routes & controllers",
     "description": null,
     "permalink": "/tutorials/rails-routes-controllers/",
-    "url": "https://rubylearning.in/tutorials/rails-routes-controllers/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/rails-routes-controllers/",
     "date": null,
     "tags": []
   },
@@ -219,7 +219,7 @@
     "title": "Chapter 22 &ndash; Read/Write Text Files",
     "description": null,
     "permalink": "/tutorials/read-write-files/",
-    "url": "https://rubylearning.in/tutorials/read-write-files/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/read-write-files/",
     "date": null,
     "tags": []
   },
@@ -227,7 +227,7 @@
     "title": "Chapter 32 &ndash; Ruby Access Control",
     "description": null,
     "permalink": "/tutorials/ruby-access-control/",
-    "url": "https://rubylearning.in/tutorials/ruby-access-control/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-access-control/",
     "date": null,
     "tags": []
   },
@@ -235,7 +235,7 @@
     "title": "Chapter 17 &ndash; Ruby Arrays",
     "description": null,
     "permalink": "/tutorials/ruby-arrays/",
-    "url": "https://rubylearning.in/tutorials/ruby-arrays/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-arrays/",
     "date": null,
     "tags": []
   },
@@ -243,7 +243,7 @@
     "title": "Chapter 16 &ndash; Ruby Blocks",
     "description": null,
     "permalink": "/tutorials/ruby-blocks/",
-    "url": "https://rubylearning.in/tutorials/ruby-blocks/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-blocks/",
     "date": null,
     "tags": []
   },
@@ -251,7 +251,7 @@
     "title": "Chapter 42 &ndash; Ruby Constants",
     "description": null,
     "permalink": "/tutorials/ruby-constants/",
-    "url": "https://rubylearning.in/tutorials/ruby-constants/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-constants/",
     "date": null,
     "tags": []
   },
@@ -259,7 +259,7 @@
     "title": "Chapter 33 &ndash; Ruby Exceptions",
     "description": null,
     "permalink": "/tutorials/ruby-exceptions/",
-    "url": "https://rubylearning.in/tutorials/ruby-exceptions/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-exceptions/",
     "date": null,
     "tags": []
   },
@@ -267,7 +267,7 @@
     "title": "Chapter 4 &ndash; Ruby Features",
     "description": null,
     "permalink": "/tutorials/ruby-features/",
-    "url": "https://rubylearning.in/tutorials/ruby-features/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-features/",
     "date": null,
     "tags": []
   },
@@ -275,7 +275,7 @@
     "title": "Chapter 20 &ndash; Ruby Hashes",
     "description": null,
     "permalink": "/tutorials/ruby-hashes/",
-    "url": "https://rubylearning.in/tutorials/ruby-hashes/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-hashes/",
     "date": null,
     "tags": []
   },
@@ -283,7 +283,7 @@
     "title": "Chapter 29 &ndash; Ruby Inheritance",
     "description": null,
     "permalink": "/tutorials/ruby-inheritance/",
-    "url": "https://rubylearning.in/tutorials/ruby-inheritance/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-inheritance/",
     "date": null,
     "tags": []
   },
@@ -291,7 +291,7 @@
     "title": "Chapter 34 &ndash; Ruby Logging",
     "description": null,
     "permalink": "/tutorials/ruby-logging/",
-    "url": "https://rubylearning.in/tutorials/ruby-logging/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-logging/",
     "date": null,
     "tags": []
   },
@@ -299,7 +299,7 @@
     "title": "Chapter 25 &ndash; Ruby `method_missing`",
     "description": null,
     "permalink": "/tutorials/ruby-method-missing/",
-    "url": "https://rubylearning.in/tutorials/ruby-method-missing/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-method-missing/",
     "date": null,
     "tags": []
   },
@@ -307,7 +307,7 @@
     "title": "Chapter 10 &ndash; Ruby Names",
     "description": null,
     "permalink": "/tutorials/ruby-names/",
-    "url": "https://rubylearning.in/tutorials/ruby-names/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-names/",
     "date": null,
     "tags": []
   },
@@ -315,15 +315,15 @@
     "title": "Chapter 28 &ndash; Ruby Open Classes",
     "description": null,
     "permalink": "/tutorials/ruby-open-classes/",
-    "url": "https://rubylearning.in/tutorials/ruby-open-classes/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-open-classes/",
     "date": null,
     "tags": []
   },
   {
-    "title": "Chapter 31 &ndash; “Overloading” Methods the Ruby Way",
+    "title": "Chapter 31 &ndash; \"Overloading\" Methods the Ruby Way",
     "description": null,
     "permalink": "/tutorials/ruby-overloading-methods/",
-    "url": "https://rubylearning.in/tutorials/ruby-overloading-methods/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-overloading-methods/",
     "date": null,
     "tags": []
   },
@@ -331,7 +331,7 @@
     "title": "Chapter 30 &ndash; Overriding Methods",
     "description": null,
     "permalink": "/tutorials/ruby-overriding-methods/",
-    "url": "https://rubylearning.in/tutorials/ruby-overriding-methods/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-overriding-methods/",
     "date": null,
     "tags": []
   },
@@ -339,7 +339,7 @@
     "title": "Chapter 26 &ndash; Ruby Procs & Lambdas",
     "description": null,
     "permalink": "/tutorials/ruby-procs/",
-    "url": "https://rubylearning.in/tutorials/ruby-procs/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-procs/",
     "date": null,
     "tags": []
   },
@@ -347,7 +347,7 @@
     "title": "Chapter 21 &ndash; Ruby Random Numbers",
     "description": null,
     "permalink": "/tutorials/ruby-random-numbers/",
-    "url": "https://rubylearning.in/tutorials/ruby-random-numbers/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-random-numbers/",
     "date": null,
     "tags": []
   },
@@ -355,7 +355,7 @@
     "title": "Chapter 18 &ndash; Ruby Ranges",
     "description": null,
     "permalink": "/tutorials/ruby-ranges/",
-    "url": "https://rubylearning.in/tutorials/ruby-ranges/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-ranges/",
     "date": null,
     "tags": []
   },
@@ -363,7 +363,7 @@
     "title": "Chapter 23 &ndash; Ruby Regular Expressions",
     "description": null,
     "permalink": "/tutorials/ruby-regular-expressions/",
-    "url": "https://rubylearning.in/tutorials/ruby-regular-expressions/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-regular-expressions/",
     "date": null,
     "tags": []
   },
@@ -371,7 +371,7 @@
     "title": "Chapter 13 &ndash; Ruby `ri` Tool",
     "description": null,
     "permalink": "/tutorials/ruby-ri-tool/",
-    "url": "https://rubylearning.in/tutorials/ruby-ri-tool/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-ri-tool/",
     "date": null,
     "tags": []
   },
@@ -379,7 +379,7 @@
     "title": "Chapter 41 &ndash; Understanding `self`",
     "description": null,
     "permalink": "/tutorials/ruby-self/",
-    "url": "https://rubylearning.in/tutorials/ruby-self/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-self/",
     "date": null,
     "tags": []
   },
@@ -387,7 +387,7 @@
     "title": "Chapter 43 &ndash; Socket Programming & Threads",
     "description": null,
     "permalink": "/tutorials/ruby-socket-programming/",
-    "url": "https://rubylearning.in/tutorials/ruby-socket-programming/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-socket-programming/",
     "date": null,
     "tags": []
   },
@@ -395,7 +395,7 @@
     "title": "Chapter 19 &ndash; Ruby Symbols",
     "description": null,
     "permalink": "/tutorials/ruby-symbols/",
-    "url": "https://rubylearning.in/tutorials/ruby-symbols/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-symbols/",
     "date": null,
     "tags": []
   },
@@ -403,7 +403,7 @@
     "title": "Chapter 37 &ndash; Ruby Syntactic Sugar",
     "description": null,
     "permalink": "/tutorials/ruby-syntactic-sugar/",
-    "url": "https://rubylearning.in/tutorials/ruby-syntactic-sugar/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-syntactic-sugar/",
     "date": null,
     "tags": []
   },
@@ -411,7 +411,7 @@
     "title": "Chapter 35 &ndash; Ruby `Time` Class",
     "description": null,
     "permalink": "/tutorials/ruby-time-class/",
-    "url": "https://rubylearning.in/tutorials/ruby-time-class/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/ruby-time-class/",
     "date": null,
     "tags": []
   },
@@ -419,7 +419,7 @@
     "title": "Chapter 8 &ndash; Scope",
     "description": null,
     "permalink": "/tutorials/scope/",
-    "url": "https://rubylearning.in/tutorials/scope/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/scope/",
     "date": null,
     "tags": []
   },
@@ -427,7 +427,7 @@
     "title": "Chapter 15 &ndash; Simple Constructs",
     "description": null,
     "permalink": "/tutorials/simple-constructs/",
-    "url": "https://rubylearning.in/tutorials/simple-constructs/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/simple-constructs/",
     "date": null,
     "tags": []
   },
@@ -435,7 +435,7 @@
     "title": "Chapter 7 &ndash; Variables & Assignment",
     "description": null,
     "permalink": "/tutorials/variables-and-assignment/",
-    "url": "https://rubylearning.in/tutorials/variables-and-assignment/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/variables-and-assignment/",
     "date": null,
     "tags": []
   },
@@ -443,7 +443,7 @@
     "title": "Chapter 24 &ndash; Writing Our Own Class",
     "description": null,
     "permalink": "/tutorials/writing-our-own-class/",
-    "url": "https://rubylearning.in/tutorials/writing-our-own-class/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/writing-our-own-class/",
     "date": null,
     "tags": []
   },
@@ -451,7 +451,7 @@
     "title": "Chapter 12 &ndash; Writing Your Own Ruby Methods",
     "description": null,
     "permalink": "/tutorials/writing-own-ruby-methods/",
-    "url": "https://rubylearning.in/tutorials/writing-own-ruby-methods/",
+    "url": "https://codemismatch.com/rubylearning/tutorials/writing-own-ruby-methods/",
     "date": null,
     "tags": []
   }

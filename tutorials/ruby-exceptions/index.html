@@ -6,7 +6,7 @@
   <title>Chapter 33 &ndash; Ruby Exceptions - Ruby Learning</title>
   <meta name="description" content="A beautiful static website for learning Ruby">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,19 +14,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106333">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106333">
+  <link rel="stylesheet" href="/rubylearning/css/prism-monokai.css?v=1763215891">
+  <link rel="stylesheet" href="/rubylearning/css/enhanced-code.css?v=1763215891">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763106333">
-  <link rel="stylesheet" href="/css/badges.css?v=1763106333">
+  <link rel="stylesheet" href="/rubylearning/css/tutorials.css?v=1763215891">
+  <link rel="stylesheet" href="/rubylearning/css/badges.css?v=1763215891">
 </head>
 <body>
   
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="site-logo">
+    <a href="/rubylearning/" class="site-logo">
       <span class="logo-text">Ruby</span>
       <span class="logo-accent">Learning</span>
     </a>
@@ -41,7 +41,7 @@
             
             
             <li>
-              <a href="/" >Home</a>
+              <a href="/rubylearning/" >Home</a>
             </li>
           
             
@@ -50,7 +50,7 @@
             
             
             <li>
-              <a href="/pages/about/" >About</a>
+              <a href="/rubylearning/pages/about/" >About</a>
             </li>
           
             
@@ -77,7 +77,7 @@
             
             
             <li>
-              <a href="/tutorials/" >Tutorials</a>
+              <a href="/rubylearning/tutorials/" >Tutorials</a>
             </li>
           
             
@@ -86,7 +86,7 @@
             
             
             <li>
-              <a href="/blog/" >Blog</a>
+              <a href="/rubylearning/blog/" >Blog</a>
             </li>
           
             
@@ -95,7 +95,7 @@
             
             
             <li>
-              <a href="/pages/resources/" >Resources</a>
+              <a href="/rubylearning/pages/resources/" >Resources</a>
             </li>
           
         
@@ -118,9 +118,9 @@
 
 <nav class="breadcrumbs">
   <ol>
-    <li><a href="/">Home</a></li>
+    <li><a href="/rubylearning/">Home</a></li>
     
-    <li><a href="/tutorials/">Tutorials</a></li>
+    <li><a href="/rubylearning/tutorials/">Tutorials</a></li>
     <li>Chapter 33 &ndash; Ruby Exceptions</li>
     
   </ol>
@@ -143,7 +143,7 @@
 
     <div class="tutorial-content">
       <div class='markdown'><p>
-> Adapted from Satish Talim's “Ruby Exceptions” lesson.
+> Adapted from Satish Talim's "Ruby Exceptions" lesson.
 
 Ruby uses exceptions to report runtime problems. Use <code>begin</code>/<code>rescue</code> blocks to catch them, <code>ensure</code> to run cleanup, and <code>raise</code> to signal your own errors.
 
@@ -162,7 +162,7 @@ ensure
   puts "Always runs"
 end
 </code></pre>
-<ul><li><code>rescue SpecificError =&gt; e</code> lets you branch per exception type.</li></ul><ul><li><code>else</code> executes only when no exception was raised.</li></ul><ul><li><code>ensure</code> runs regardless of success or failure—perfect for closing files or releasing resources.</li></ul>
+<ul><li><code>rescue SpecificError =&gt; e</code> lets you branch per exception type.</li></ul><ul><li><code>else</code> executes only when no exception was raised.</li></ul><ul><li><code>ensure</code> runs regardless of success or failure--perfect for closing files or releasing resources.</li></ul>
 
 <h3>Raising exceptions</h3>
 
@@ -204,7 +204,7 @@ class ServiceError &lt; StandardError; end
 </code></pre>
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Wrap a file read in <code>begin</code>/<code>rescue</code> to catch <code>Errno::ENOENT</code> and print a friendly message.</li></ul><ul><li>[ ] Use <code>ensure</code> to close a file handle even when an exception occurs.</li></ul><ul><li>[ ] Define a custom exception and raise it from a validation method.</li></ul><ul><li>[ ] Experiment with <code>retry</code> (inside <code>rescue</code>) to re-run the block after handling an error—use cautiously!</li></ul>
+<ul><li>[ ] Wrap a file read in <code>begin</code>/<code>rescue</code> to catch <code>Errno::ENOENT</code> and print a friendly message.</li></ul><ul><li>[ ] Use <code>ensure</code> to close a file handle even when an exception occurs.</li></ul><ul><li>[ ] Define a custom exception and raise it from a validation method.</li></ul><ul><li>[ ] Experiment with <code>retry</code> (inside <code>rescue</code>) to re-run the block after handling an error--use cautiously!</li></ul>
 
 Next: keep iterating through Flow Control & Collections, now with robust error handling.
 </p></div>
@@ -215,7 +215,7 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/ruby-access-control/">
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/rubylearning/tutorials/ruby-access-control/">
             <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
             <span>Chapter 32: Ruby Access Control</span>
           </a>
@@ -223,7 +223,7 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/ruby-logging/">
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/rubylearning/tutorials/ruby-logging/">
             <span>Chapter 34: Ruby Logging</span>
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -241,7 +241,7 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
     
     
     <li>
-      <a href="/tutorials/read-write-files/">
+      <a href="/rubylearning/tutorials/read-write-files/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Read/Write Text Files</span>
       </a>
@@ -249,7 +249,7 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
     
     
     <li>
-      <a href="/tutorials/ruby-procs/">
+      <a href="/rubylearning/tutorials/ruby-procs/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Ruby Procs & Lambdas</span>
       </a>
@@ -286,14 +286,14 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
               
               
               
-              <li><a href="/" >Home</a></li>
+              <li><a href="/rubylearning/" >Home</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/about/" >About</a></li>
+              <li><a href="/rubylearning/pages/about/" >About</a></li>
             
               
               
@@ -314,21 +314,21 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
               
               
               
-              <li><a href="/tutorials/" >Tutorials</a></li>
+              <li><a href="/rubylearning/tutorials/" >Tutorials</a></li>
             
               
               
               
               
               
-              <li><a href="/blog/" >Blog</a></li>
+              <li><a href="/rubylearning/blog/" >Blog</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/resources/" >Resources</a></li>
+              <li><a href="/rubylearning/pages/resources/" >Resources</a></li>
             
           
         </ul>
@@ -366,12 +366,12 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763106333"></script>
-  <script src="/js/prism-ruby.js?v=1763106333"></script>
-  <script src="/js/prism-markdown.js?v=1763106333"></script>
-  <script src="/js/code-enhancements.js?v=1763106333"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763106333"></script>
-  <script src="/js/github-pages-fix.js?v=1763106333"></script>
-  <script src="/js/site.js?v=1763106333"></script>
+  <script src="/rubylearning/js/prism.js?v=1763215891"></script>
+  <script src="/rubylearning/js/prism-ruby.js?v=1763215891"></script>
+  <script src="/rubylearning/js/prism-markdown.js?v=1763215891"></script>
+  <script src="/rubylearning/js/code-enhancements.js?v=1763215891"></script>
+  <script src="/rubylearning/js/tutorial-enhancements.js?v=1763215891"></script>
+  <script src="/rubylearning/js/github-pages-fix.js?v=1763215891"></script>
+  <script src="/rubylearning/js/site.js?v=1763215891"></script>
 </body>
 </html>

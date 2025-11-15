@@ -6,7 +6,7 @@
   <title>Chapter 11 &ndash; More on Ruby Methods - Ruby Learning</title>
   <meta name="description" content="A beautiful static website for learning Ruby">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,19 +14,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106332">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106332">
+  <link rel="stylesheet" href="/rubylearning/css/prism-monokai.css?v=1763215890">
+  <link rel="stylesheet" href="/rubylearning/css/enhanced-code.css?v=1763215890">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763106332">
-  <link rel="stylesheet" href="/css/badges.css?v=1763106332">
+  <link rel="stylesheet" href="/rubylearning/css/tutorials.css?v=1763215890">
+  <link rel="stylesheet" href="/rubylearning/css/badges.css?v=1763215890">
 </head>
 <body>
   
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="site-logo">
+    <a href="/rubylearning/" class="site-logo">
       <span class="logo-text">Ruby</span>
       <span class="logo-accent">Learning</span>
     </a>
@@ -41,7 +41,7 @@
             
             
             <li>
-              <a href="/" >Home</a>
+              <a href="/rubylearning/" >Home</a>
             </li>
           
             
@@ -50,7 +50,7 @@
             
             
             <li>
-              <a href="/pages/about/" >About</a>
+              <a href="/rubylearning/pages/about/" >About</a>
             </li>
           
             
@@ -77,7 +77,7 @@
             
             
             <li>
-              <a href="/tutorials/" >Tutorials</a>
+              <a href="/rubylearning/tutorials/" >Tutorials</a>
             </li>
           
             
@@ -86,7 +86,7 @@
             
             
             <li>
-              <a href="/blog/" >Blog</a>
+              <a href="/rubylearning/blog/" >Blog</a>
             </li>
           
             
@@ -95,7 +95,7 @@
             
             
             <li>
-              <a href="/pages/resources/" >Resources</a>
+              <a href="/rubylearning/pages/resources/" >Resources</a>
             </li>
           
         
@@ -118,9 +118,9 @@
 
 <nav class="breadcrumbs">
   <ol>
-    <li><a href="/">Home</a></li>
+    <li><a href="/rubylearning/">Home</a></li>
     
-    <li><a href="/tutorials/">Tutorials</a></li>
+    <li><a href="/rubylearning/tutorials/">Tutorials</a></li>
     <li>Chapter 11 &ndash; More on Ruby Methods</li>
     
   </ol>
@@ -143,7 +143,7 @@
 
     <div class="tutorial-content">
       <div class='markdown'><p>
-> Adapted from Satish Talim's “More on Ruby Methods” chapter.
+> Adapted from Satish Talim's "More on Ruby Methods" chapter.
 
 If objects are the nouns of Ruby, methods are the verbs. Every method runs in the context of an object (the **receiver**). You usually see the receiver to the left of a dot (<code>message.upcase</code>), but Ruby also lets you call methods *without* writing the receiver explicitly.
 
@@ -203,13 +203,13 @@ log_self  # top-level =&gt; main
 Later chapters dive deeper into defining your own methods, but for now remember:
 
 1. Every method belongs to a receiver.
-2. Leaving off the receiver means “call this on <code>self</code>.”
+2. Leaving off the receiver means "call this on <code>self</code>."
 3. <code>self</code> changes based on where you are (top level, class body, instance method, etc.).
 
 <h3>Practice checklist</h3>
 <ul><li>[ ] Print <code>self</code> at the top level, inside a class body, and inside an instance method to watch it change.</li></ul><ul><li>[ ] Rewrite a few explicit calls (e.g., <code>self.helper_method</code>) to implicit ones and confirm they still work.</li></ul><ul><li>[ ] Experiment with predicate (<code>?</code>) and bang (<code>!</code>) method variants to see how they signal intent.</li></ul><ul><li>[ ] Build a quick script that defines a helper method, calls it with and without an explicit receiver, and logs <code>self</code> along the way.</li></ul>
 
-Next: apply these ideas in Flow Control & Collections, where you’ll combine methods with loops and conditionals.
+Next: apply these ideas in Flow Control & Collections, where you'll combine methods with loops and conditionals.
 </p></div>
     </div>
 
@@ -218,7 +218,7 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/ruby-names/">
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/rubylearning/tutorials/ruby-names/">
             <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
             <span>Chapter 10: Ruby Names</span>
           </a>
@@ -226,7 +226,7 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/writing-own-ruby-methods/">
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/rubylearning/tutorials/writing-own-ruby-methods/">
             <span>Chapter 12: Writing Your Own Ruby Methods</span>
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -244,7 +244,7 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
     
     
     <li>
-      <a href="/tutorials/methods-and-blocks/">
+      <a href="/rubylearning/tutorials/methods-and-blocks/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Methods & blocks</span>
       </a>
@@ -252,7 +252,7 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
     
     
     <li>
-      <a href="/tutorials/variables-and-assignment/">
+      <a href="/rubylearning/tutorials/variables-and-assignment/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Variables & Assignment</span>
       </a>
@@ -289,14 +289,14 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
               
               
               
-              <li><a href="/" >Home</a></li>
+              <li><a href="/rubylearning/" >Home</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/about/" >About</a></li>
+              <li><a href="/rubylearning/pages/about/" >About</a></li>
             
               
               
@@ -317,21 +317,21 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
               
               
               
-              <li><a href="/tutorials/" >Tutorials</a></li>
+              <li><a href="/rubylearning/tutorials/" >Tutorials</a></li>
             
               
               
               
               
               
-              <li><a href="/blog/" >Blog</a></li>
+              <li><a href="/rubylearning/blog/" >Blog</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/resources/" >Resources</a></li>
+              <li><a href="/rubylearning/pages/resources/" >Resources</a></li>
             
           
         </ul>
@@ -369,12 +369,12 @@ Next: apply these ideas in Flow Control & Collections, where you’ll combine me
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763106332"></script>
-  <script src="/js/prism-ruby.js?v=1763106332"></script>
-  <script src="/js/prism-markdown.js?v=1763106332"></script>
-  <script src="/js/code-enhancements.js?v=1763106332"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763106332"></script>
-  <script src="/js/github-pages-fix.js?v=1763106332"></script>
-  <script src="/js/site.js?v=1763106332"></script>
+  <script src="/rubylearning/js/prism.js?v=1763215890"></script>
+  <script src="/rubylearning/js/prism-ruby.js?v=1763215890"></script>
+  <script src="/rubylearning/js/prism-markdown.js?v=1763215890"></script>
+  <script src="/rubylearning/js/code-enhancements.js?v=1763215890"></script>
+  <script src="/rubylearning/js/tutorial-enhancements.js?v=1763215890"></script>
+  <script src="/rubylearning/js/github-pages-fix.js?v=1763215890"></script>
+  <script src="/rubylearning/js/site.js?v=1763215890"></script>
 </body>
 </html>

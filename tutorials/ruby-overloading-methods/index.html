@@ -3,10 +3,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 31 &ndash; “Overloading” Methods the Ruby Way - Ruby Learning</title>
+  <title>Chapter 31 &ndash; "Overloading" Methods the Ruby Way - Ruby Learning</title>
   <meta name="description" content="A beautiful static website for learning Ruby">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,19 +14,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106333">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106333">
+  <link rel="stylesheet" href="/rubylearning/css/prism-monokai.css?v=1763215891">
+  <link rel="stylesheet" href="/rubylearning/css/enhanced-code.css?v=1763215891">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763106333">
-  <link rel="stylesheet" href="/css/badges.css?v=1763106333">
+  <link rel="stylesheet" href="/rubylearning/css/tutorials.css?v=1763215891">
+  <link rel="stylesheet" href="/rubylearning/css/badges.css?v=1763215891">
 </head>
 <body>
   
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="site-logo">
+    <a href="/rubylearning/" class="site-logo">
       <span class="logo-text">Ruby</span>
       <span class="logo-accent">Learning</span>
     </a>
@@ -41,7 +41,7 @@
             
             
             <li>
-              <a href="/" >Home</a>
+              <a href="/rubylearning/" >Home</a>
             </li>
           
             
@@ -50,7 +50,7 @@
             
             
             <li>
-              <a href="/pages/about/" >About</a>
+              <a href="/rubylearning/pages/about/" >About</a>
             </li>
           
             
@@ -77,7 +77,7 @@
             
             
             <li>
-              <a href="/tutorials/" >Tutorials</a>
+              <a href="/rubylearning/tutorials/" >Tutorials</a>
             </li>
           
             
@@ -86,7 +86,7 @@
             
             
             <li>
-              <a href="/blog/" >Blog</a>
+              <a href="/rubylearning/blog/" >Blog</a>
             </li>
           
             
@@ -95,7 +95,7 @@
             
             
             <li>
-              <a href="/pages/resources/" >Resources</a>
+              <a href="/rubylearning/pages/resources/" >Resources</a>
             </li>
           
         
@@ -118,10 +118,10 @@
 
 <nav class="breadcrumbs">
   <ol>
-    <li><a href="/">Home</a></li>
+    <li><a href="/rubylearning/">Home</a></li>
     
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 31 &ndash; “Overloading” Methods the Ruby Way</li>
+    <li><a href="/rubylearning/tutorials/">Tutorials</a></li>
+    <li>Chapter 31 &ndash; "Overloading" Methods the Ruby Way</li>
     
   </ol>
 </nav>
@@ -131,21 +131,21 @@
   <article class="tutorial">
     <header class="tutorial-header">
       <h1>
-        Chapter 31 &ndash; “Overloading” Methods the Ruby Way
+        Chapter 31 &ndash; "Overloading" Methods the Ruby Way
         
           <span class="difficulty difficulty-beginner">Beginner</span>
         
       </h1>
       
-        <p class="tutorial-summary">Ruby doesn’t have compile-time overloading, but optional args, splats, and keyword args give you flexible interfaces.</p>
+        <p class="tutorial-summary">Ruby doesn't have compile-time overloading, but optional args, splats, and keyword args give you flexible interfaces.</p>
       
     </header>
 
     <div class="tutorial-content">
       <div class='markdown'><p>
-> Adapted from Satish Talim’s “Overloading Methods” lesson.
+> Adapted from Satish Talim's "Overloading Methods" lesson.
 
-Ruby doesn’t support traditional method overloading (same name, different signatures). Instead, you build flexible interfaces with default values, splats (<code>*args</code>), keyword arguments, and runtime dispatch.
+Ruby doesn't support traditional method overloading (same name, different signatures). Instead, you build flexible interfaces with default values, splats (<code>*args</code>), keyword arguments, and runtime dispatch.
 
 <h3>Optional and default arguments</h3>
 
@@ -184,10 +184,10 @@ send_email(to: &quot;team@example.com&quot;, subject: &quot;Reminder&quot;)
 Keyword args make call sites self-documenting and avoid argument-order bugs.
 
 <h3>Tips from the legacy lesson</h3>
-<ul><li>Lean on Ruby’s dynamic nature: check <code>args.length</code>, <code>args.first</code>, or presence of options to determine behavior.</li></ul><ul><li>Don’t overdo it—too many code paths in a single method can get confusing. Prefer separate methods if behavior differs significantly.</li></ul><ul><li>Consider using hashes (<code>options = {}</code>) or keyword arguments for clarity when mimicking overloads.</li></ul>
+<ul><li>Lean on Ruby's dynamic nature: check <code>args.length</code>, <code>args.first</code>, or presence of options to determine behavior.</li></ul><ul><li>Don't overdo it--too many code paths in a single method can get confusing. Prefer separate methods if behavior differs significantly.</li></ul><ul><li>Consider using hashes (<code>options = {}</code>) or keyword arguments for clarity when mimicking overloads.</li></ul>
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.</li></ul><ul><li>[ ] Build a <code>rectangle_area(*args)</code> method that accepts either two numbers (<code>width</code>, <code>height</code>) or a hash (<code>width:</code>, <code>height:</code>).</li></ul><ul><li>[ ] Use keyword arguments with defaults to simulate constructor overloading in a small class.</li></ul><ul><li>[ ] Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn’t make sense.</li></ul>
+<ul><li>[ ] Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.</li></ul><ul><li>[ ] Build a <code>rectangle_area(*args)</code> method that accepts either two numbers (<code>width</code>, <code>height</code>) or a hash (<code>width:</code>, <code>height:</code>).</li></ul><ul><li>[ ] Use keyword arguments with defaults to simulate constructor overloading in a small class.</li></ul><ul><li>[ ] Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn't make sense.</li></ul>
 
 Next: keep applying these dynamic dispatch techniques inside Flow Control & Collections.
 </p></div>
@@ -198,7 +198,7 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/ruby-overriding-methods/">
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/rubylearning/tutorials/ruby-overriding-methods/">
             <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
             <span>Chapter 30: Overriding Methods</span>
           </a>
@@ -206,7 +206,7 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/ruby-access-control/">
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/rubylearning/tutorials/ruby-access-control/">
             <span>Chapter 32: Ruby Access Control</span>
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -224,7 +224,7 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
     
     
     <li>
-      <a href="/tutorials/writing-our-own-class/">
+      <a href="/rubylearning/tutorials/writing-our-own-class/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Writing Our Own Class</span>
       </a>
@@ -232,7 +232,7 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
     
     
     <li>
-      <a href="/tutorials/ruby-procs/">
+      <a href="/rubylearning/tutorials/ruby-procs/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Ruby Procs & Lambdas</span>
       </a>
@@ -269,14 +269,14 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
               
               
               
-              <li><a href="/" >Home</a></li>
+              <li><a href="/rubylearning/" >Home</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/about/" >About</a></li>
+              <li><a href="/rubylearning/pages/about/" >About</a></li>
             
               
               
@@ -297,21 +297,21 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
               
               
               
-              <li><a href="/tutorials/" >Tutorials</a></li>
+              <li><a href="/rubylearning/tutorials/" >Tutorials</a></li>
             
               
               
               
               
               
-              <li><a href="/blog/" >Blog</a></li>
+              <li><a href="/rubylearning/blog/" >Blog</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/resources/" >Resources</a></li>
+              <li><a href="/rubylearning/pages/resources/" >Resources</a></li>
             
           
         </ul>
@@ -349,12 +349,12 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763106333"></script>
-  <script src="/js/prism-ruby.js?v=1763106333"></script>
-  <script src="/js/prism-markdown.js?v=1763106333"></script>
-  <script src="/js/code-enhancements.js?v=1763106333"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763106333"></script>
-  <script src="/js/github-pages-fix.js?v=1763106333"></script>
-  <script src="/js/site.js?v=1763106333"></script>
+  <script src="/rubylearning/js/prism.js?v=1763215891"></script>
+  <script src="/rubylearning/js/prism-ruby.js?v=1763215891"></script>
+  <script src="/rubylearning/js/prism-markdown.js?v=1763215891"></script>
+  <script src="/rubylearning/js/code-enhancements.js?v=1763215891"></script>
+  <script src="/rubylearning/js/tutorial-enhancements.js?v=1763215891"></script>
+  <script src="/rubylearning/js/github-pages-fix.js?v=1763215891"></script>
+  <script src="/rubylearning/js/site.js?v=1763215891"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
   <title>Chapter 24 &ndash; Writing Our Own Class - Ruby Learning</title>
   <meta name="description" content="A beautiful static website for learning Ruby">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,19 +14,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106334">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106334">
+  <link rel="stylesheet" href="/rubylearning/css/prism-monokai.css?v=1763215892">
+  <link rel="stylesheet" href="/rubylearning/css/enhanced-code.css?v=1763215892">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763106334">
-  <link rel="stylesheet" href="/css/badges.css?v=1763106334">
+  <link rel="stylesheet" href="/rubylearning/css/tutorials.css?v=1763215892">
+  <link rel="stylesheet" href="/rubylearning/css/badges.css?v=1763215892">
 </head>
 <body>
   
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="site-logo">
+    <a href="/rubylearning/" class="site-logo">
       <span class="logo-text">Ruby</span>
       <span class="logo-accent">Learning</span>
     </a>
@@ -41,7 +41,7 @@
             
             
             <li>
-              <a href="/" >Home</a>
+              <a href="/rubylearning/" >Home</a>
             </li>
           
             
@@ -50,7 +50,7 @@
             
             
             <li>
-              <a href="/pages/about/" >About</a>
+              <a href="/rubylearning/pages/about/" >About</a>
             </li>
           
             
@@ -77,7 +77,7 @@
             
             
             <li>
-              <a href="/tutorials/" >Tutorials</a>
+              <a href="/rubylearning/tutorials/" >Tutorials</a>
             </li>
           
             
@@ -86,7 +86,7 @@
             
             
             <li>
-              <a href="/blog/" >Blog</a>
+              <a href="/rubylearning/blog/" >Blog</a>
             </li>
           
             
@@ -95,7 +95,7 @@
             
             
             <li>
-              <a href="/pages/resources/" >Resources</a>
+              <a href="/rubylearning/pages/resources/" >Resources</a>
             </li>
           
         
@@ -118,9 +118,9 @@
 
 <nav class="breadcrumbs">
   <ol>
-    <li><a href="/">Home</a></li>
+    <li><a href="/rubylearning/">Home</a></li>
     
-    <li><a href="/tutorials/">Tutorials</a></li>
+    <li><a href="/rubylearning/tutorials/">Tutorials</a></li>
     <li>Chapter 24 &ndash; Writing Our Own Class</li>
     
   </ol>
@@ -143,14 +143,14 @@
 
     <div class="tutorial-content">
       <div class='markdown'><p>
-> Adapted from Satish Talim’s “Writing our own Class” lesson.
+> Adapted from Satish Talim's "Writing our own Class" lesson.
 
-Procedural code focuses on steps. Object-oriented Ruby focuses on **objects**—small agents that know things (state) and do things (behavior). A **class** is a blueprint for those objects: it defines the instance variables an object carries and the methods it can respond to.
+Procedural code focuses on steps. Object-oriented Ruby focuses on **objects**--small agents that know things (state) and do things (behavior). A **class** is a blueprint for those objects: it defines the instance variables an object carries and the methods it can respond to.
 
 <h3>Objects know things and do things</h3>
-<ul><li>What an object **knows** → instance variables (state). Each object can hold different values.</li></ul><ul><li>What an object **does** → methods. Methods expose behavior to the rest of the program.</li></ul>
+<ul><li>What an object **knows** -> instance variables (state). Each object can hold different values.</li></ul><ul><li>What an object **does** -> methods. Methods expose behavior to the rest of the program.</li></ul>
 
-A class combines both. Each class is itself an instance of Ruby’s <code>Class</code>, and calling <code>ClassName.new</code> allocates memory then calls the instance’s <code>initialize</code> method. Construction (<code>new</code>) and initialization (<code>initialize</code>) are separate steps you can override independently.
+A class combines both. Each class is itself an instance of Ruby's <code>Class</code>, and calling <code>ClassName.new</code> allocates memory then calls the instance's <code>initialize</code> method. Construction (<code>new</code>) and initialization (<code>initialize</code>) are separate steps you can override independently.
 
 <h3>First class: <code>Dog</code></h3>
 
@@ -185,14 +185,14 @@ d.display
 </code></pre>
 
 Key takeaways:
-<ul><li>Instance variables start with <code>@</code> and are private to the object.</li></ul><ul><li>Methods like <code>bark</code> and <code>display</code> form the public API.</li></ul><ul><li><code>object_id</code> shows the unique identifier Ruby assigns each object.</li></ul><ul><li><code>respond_to?</code> lets you ask whether an object understands a message before sending it—handy for duck typing.</li></ul>
+<ul><li>Instance variables start with <code>@</code> and are private to the object.</li></ul><ul><li>Methods like <code>bark</code> and <code>display</code> form the public API.</li></ul><ul><li><code>object_id</code> shows the unique identifier Ruby assigns each object.</li></ul><ul><li><code>respond_to?</code> lets you ask whether an object understands a message before sending it--handy for duck typing.</li></ul>
 
-Multiple variables can reference the same object, and setting a variable to <code>nil</code> simply drops that reference. When no references remain, Ruby’s garbage collector reclaims the object.
+Multiple variables can reference the same object, and setting a variable to <code>nil</code> simply drops that reference. When no references remain, Ruby's garbage collector reclaims the object.
 
 <h3>Introspection helpers</h3>
 
 Ruby ships lots of methods on every object. Try <code>d.methods.sort</code> (commented out above) to see them. A few particularly useful ones:
-<ul><li><code>object_id</code> – unique ID for the object.</li></ul><ul><li><code>respond_to?</code> – whether a method is defined.</li></ul><ul><li><code>class</code> – the object’s class name.</li></ul><ul><li><code>instance_of?</code> – whether the object is an instance of a specific class (e.g., <code>num.instance_of?(Integer)</code>).</li></ul>
+<ul><li><code>object_id</code> - unique ID for the object.</li></ul><ul><li><code>respond_to?</code> - whether a method is defined.</li></ul><ul><li><code>class</code> - the object's class name.</li></ul><ul><li><code>instance_of?</code> - whether the object is an instance of a specific class (e.g., <code>num.instance_of?(Integer)</code>).</li></ul>
 
 <h3>Practice checklist</h3>
 <ul><li>[ ] Extend <code>Dog</code> with a <code>talk</code> method and watch <code>respond_to?</code> flip from false to true.</li></ul><ul><li>[ ] Add reader/writer methods (or <code>attr_accessor</code>) for the instance variables so callers can rename dogs.</li></ul><ul><li>[ ] Create two references to the same <code>Dog</code>, mutate via one reference, and verify the other sees the change.</li></ul><ul><li>[ ] Print <code>Dog.new("Alsatian", "Lassie").class</code> and <code>object_id</code> to reinforce how Ruby manages objects.</li></ul>
@@ -206,7 +206,7 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/ruby-regular-expressions/">
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/rubylearning/tutorials/ruby-regular-expressions/">
             <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
             <span>Chapter 23: Ruby Regular Expressions</span>
           </a>
@@ -214,7 +214,7 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/ruby-method-missing/">
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/rubylearning/tutorials/ruby-method-missing/">
             <span>Chapter 25: Ruby `method_missing`</span>
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -232,7 +232,7 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
     
     
     <li>
-      <a href="/tutorials/ruby-symbols/">
+      <a href="/rubylearning/tutorials/ruby-symbols/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Ruby Symbols</span>
       </a>
@@ -240,7 +240,7 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
     
     
     <li>
-      <a href="/tutorials/ruby-hashes/">
+      <a href="/rubylearning/tutorials/ruby-hashes/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Ruby Hashes</span>
       </a>
@@ -277,14 +277,14 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
               
               
               
-              <li><a href="/" >Home</a></li>
+              <li><a href="/rubylearning/" >Home</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/about/" >About</a></li>
+              <li><a href="/rubylearning/pages/about/" >About</a></li>
             
               
               
@@ -305,21 +305,21 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
               
               
               
-              <li><a href="/tutorials/" >Tutorials</a></li>
+              <li><a href="/rubylearning/tutorials/" >Tutorials</a></li>
             
               
               
               
               
               
-              <li><a href="/blog/" >Blog</a></li>
+              <li><a href="/rubylearning/blog/" >Blog</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/resources/" >Resources</a></li>
+              <li><a href="/rubylearning/pages/resources/" >Resources</a></li>
             
           
         </ul>
@@ -357,12 +357,12 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763106334"></script>
-  <script src="/js/prism-ruby.js?v=1763106334"></script>
-  <script src="/js/prism-markdown.js?v=1763106334"></script>
-  <script src="/js/code-enhancements.js?v=1763106334"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763106334"></script>
-  <script src="/js/github-pages-fix.js?v=1763106334"></script>
-  <script src="/js/site.js?v=1763106334"></script>
+  <script src="/rubylearning/js/prism.js?v=1763215892"></script>
+  <script src="/rubylearning/js/prism-ruby.js?v=1763215892"></script>
+  <script src="/rubylearning/js/prism-markdown.js?v=1763215892"></script>
+  <script src="/rubylearning/js/code-enhancements.js?v=1763215892"></script>
+  <script src="/rubylearning/js/tutorial-enhancements.js?v=1763215892"></script>
+  <script src="/rubylearning/js/github-pages-fix.js?v=1763215892"></script>
+  <script src="/rubylearning/js/site.js?v=1763215892"></script>
 </body>
 </html>

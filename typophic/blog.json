@@ -3,7 +3,7 @@
     "title": "Project-Driven Roadmap for Learning Rails",
     "description": "A step-by-step plan for mastering Rails by building production-style features.",
     "permalink": "/blog/rails-learning-roadmap/",
-    "url": "https://rubylearning.in/blog/rails-learning-roadmap/",
+    "url": "https://codemismatch.com/rubylearning/blog/rails-learning-roadmap/",
     "date": "2025-09-22",
     "tags": [
       "rails",
@@ -15,7 +15,7 @@
     "title": "Ruby Practice Examples",
     "description": null,
     "permalink": "/blog/ruby-examples/",
-    "url": "https://rubylearning.in/blog/ruby-examples/",
+    "url": "https://codemismatch.com/rubylearning/blog/ruby-examples/",
     "date": "2023-01-02",
     "tags": [
       "examples",
@@ -29,7 +29,7 @@
     "title": "Build a Ruby Kata Mindset",
     "description": "A lightweight routine for keeping your Ruby skills sharp with daily kata practice and reflection prompts.",
     "permalink": "/blog/ruby-kata-mindset/",
-    "url": "https://rubylearning.in/blog/ruby-kata-mindset/",
+    "url": "https://codemismatch.com/rubylearning/blog/ruby-kata-mindset/",
     "date": "2025-10-30",
     "tags": [
       "ruby",

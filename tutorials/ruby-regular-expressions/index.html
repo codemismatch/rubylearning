@@ -6,7 +6,7 @@
   <title>Chapter 23 &ndash; Ruby Regular Expressions - Ruby Learning</title>
   <meta name="description" content="A beautiful static website for learning Ruby">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -14,19 +14,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763106334">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763106334">
+  <link rel="stylesheet" href="/rubylearning/css/prism-monokai.css?v=1763215892">
+  <link rel="stylesheet" href="/rubylearning/css/enhanced-code.css?v=1763215892">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763106334">
-  <link rel="stylesheet" href="/css/badges.css?v=1763106334">
+  <link rel="stylesheet" href="/rubylearning/css/tutorials.css?v=1763215892">
+  <link rel="stylesheet" href="/rubylearning/css/badges.css?v=1763215892">
 </head>
 <body>
   
 
 <header class="site-header">
   <div class="container">
-    <a href="/" class="site-logo">
+    <a href="/rubylearning/" class="site-logo">
       <span class="logo-text">Ruby</span>
       <span class="logo-accent">Learning</span>
     </a>
@@ -41,7 +41,7 @@
             
             
             <li>
-              <a href="/" >Home</a>
+              <a href="/rubylearning/" >Home</a>
             </li>
           
             
@@ -50,7 +50,7 @@
             
             
             <li>
-              <a href="/pages/about/" >About</a>
+              <a href="/rubylearning/pages/about/" >About</a>
             </li>
           
             
@@ -77,7 +77,7 @@
             
             
             <li>
-              <a href="/tutorials/" >Tutorials</a>
+              <a href="/rubylearning/tutorials/" >Tutorials</a>
             </li>
           
             
@@ -86,7 +86,7 @@
             
             
             <li>
-              <a href="/blog/" >Blog</a>
+              <a href="/rubylearning/blog/" >Blog</a>
             </li>
           
             
@@ -95,7 +95,7 @@
             
             
             <li>
-              <a href="/pages/resources/" >Resources</a>
+              <a href="/rubylearning/pages/resources/" >Resources</a>
             </li>
           
         
@@ -118,9 +118,9 @@
 
 <nav class="breadcrumbs">
   <ol>
-    <li><a href="/">Home</a></li>
+    <li><a href="/rubylearning/">Home</a></li>
     
-    <li><a href="/tutorials/">Tutorials</a></li>
+    <li><a href="/rubylearning/tutorials/">Tutorials</a></li>
     <li>Chapter 23 &ndash; Ruby Regular Expressions</li>
     
   </ol>
@@ -137,15 +137,15 @@
         
       </h1>
       
-        <p class="tutorial-summary">Match and capture patterns using Ruby’s built-in `Regexp` objects, from literal characters to wildcards and capture groups.</p>
+        <p class="tutorial-summary">Match and capture patterns using Ruby's built-in `Regexp` objects, from literal characters to wildcards and capture groups.</p>
       
     </header>
 
     <div class="tutorial-content">
       <div class='markdown'><p>
-> Adapted from Satish Talim’s regular expressions lesson.
+> Adapted from Satish Talim's regular expressions lesson.
 
-Regular expressions (regexps) describe patterns of text. In Ruby they’re first-class objects (<code>Regexp</code>) that you delimit with slashes (<code>/pattern/</code>) or <code>%r{pattern}</code> when slashes would be awkward.
+Regular expressions (regexps) describe patterns of text. In Ruby they're first-class objects (<code>Regexp</code>) that you delimit with slashes (<code>/pattern/</code>) or <code>%r{pattern}</code> when slashes would be awkward.
 
 <h3>Getting started</h3>
 
@@ -169,26 +169,26 @@ puts m2                 # 14 (start index)
 </code></pre>
 
 <h3>Literal characters and escaping</h3>
-<ul><li>Literal characters match themselves: <code>/a/</code> finds the letter “a”.</li></ul><ul><li>The <code>|</code> operator means “either/or”: <code>/Pune|Ruby/</code>.</li></ul><ul><li>Special characters (<code>^</code>, <code>$</code>, <code>.</code>, <code>?</code>, <code>+</code>, <code>*</code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>{</code>, <code>}</code>, <code>|</code>, <code>/</code>, <code>\</code>) must be escaped with <code>\</code> when you want their literal meaning: <code>/\?/</code> matches a question mark.</li></ul>
+<ul><li>Literal characters match themselves: <code>/a/</code> finds the letter "a".</li></ul><ul><li>The <code>|</code> operator means "either/or": <code>/Pune|Ruby/</code>.</li></ul><ul><li>Special characters (<code>^</code>, <code>$</code>, <code>.</code>, <code>?</code>, <code>+</code>, <code>*</code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>{</code>, <code>}</code>, <code>|</code>, <code>/</code>, <code>\</code>) must be escaped with <code>\</code> when you want their literal meaning: <code>/\?/</code> matches a question mark.</li></ul>
 
 <h3>Wildcards and character classes</h3>
 <ul><li><code>.</code> (dot) matches any character except newline.</li></ul><ul><li>Character classes (<code>[]</code>) limit matches to specific sets or ranges:</li></ul>
 
 <pre class="language-ruby"><code class="language-ruby">
-/.ejected/          # matches “dejected”, “rejected”, “%ejected”
-/[dr]ejected/       # matches “dejected” or “rejected”
+/.ejected/          # matches "dejected", "rejected", "%ejected"
+/[dr]ejected/       # matches "dejected" or "rejected"
 /[a-z]/             # lowercase letter
 /[A-Fa-f0-9]/       # hexadecimal digit
 /[^A-Fa-f0-9]/      # anything that is NOT a hexadecimal digit
 </code></pre>
 
 Ruby also provides shorthand escapes for common classes:
-<ul><li><code>\d</code> / <code>\D</code> → digit / non-digit</li></ul><ul><li><code>\w</code> / <code>\W</code> → word character (letters, digits, underscore) / non-word</li></ul><ul><li><code>\s</code> / <code>\S</code> → whitespace / non-whitespace</li></ul>
+<ul><li><code>\d</code> / <code>\D</code> -> digit / non-digit</li></ul><ul><li><code>\w</code> / <code>\W</code> -> word character (letters, digits, underscore) / non-word</li></ul><ul><li><code>\s</code> / <code>\S</code> -> whitespace / non-whitespace</li></ul>
 
 <h3>Match results and capture groups</h3>
 
 Parentheses capture portions of the match. The result is a <code>MatchData</code> object with useful helpers:
-<ul><li><code>string</code> – original string</li></ul><ul><li><code>[0]</code> – entire match</li></ul><ul><li><code>[1]</code>, <code>[2]</code>, … – captures</li></ul><ul><li><code>captures</code> – array of captures</li></ul>
+<ul><li><code>string</code> - original string</li></ul><ul><li><code>[0]</code> - entire match</li></ul><ul><li><code>[1]</code>, <code>[2]</code>, ... - captures</li></ul><ul><li><code>captures</code> - array of captures</li></ul>
 
 <pre class="language-ruby"><code class="language-ruby">
 # p064regexp.rb
@@ -222,7 +222,7 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials/read-write-files/">
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/rubylearning/tutorials/read-write-files/">
             <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
             <span>Chapter 22: Read/Write Text Files</span>
           </a>
@@ -230,7 +230,7 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
         
           
           
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/writing-our-own-class/">
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/rubylearning/tutorials/writing-our-own-class/">
             <span>Chapter 24: Writing Our Own Class</span>
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -248,7 +248,7 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
     
     
     <li>
-      <a href="/tutorials/ruby-symbols/">
+      <a href="/rubylearning/tutorials/ruby-symbols/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Ruby Symbols</span>
       </a>
@@ -256,7 +256,7 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
     
     
     <li>
-      <a href="/tutorials/ruby-hashes/">
+      <a href="/rubylearning/tutorials/ruby-hashes/">
         <span class="related-icon" aria-hidden="true">&gt;</span>
         <span>Ruby Hashes</span>
       </a>
@@ -293,14 +293,14 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
               
               
               
-              <li><a href="/" >Home</a></li>
+              <li><a href="/rubylearning/" >Home</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/about/" >About</a></li>
+              <li><a href="/rubylearning/pages/about/" >About</a></li>
             
               
               
@@ -321,21 +321,21 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
               
               
               
-              <li><a href="/tutorials/" >Tutorials</a></li>
+              <li><a href="/rubylearning/tutorials/" >Tutorials</a></li>
             
               
               
               
               
               
-              <li><a href="/blog/" >Blog</a></li>
+              <li><a href="/rubylearning/blog/" >Blog</a></li>
             
               
               
               
               
               
-              <li><a href="/pages/resources/" >Resources</a></li>
+              <li><a href="/rubylearning/pages/resources/" >Resources</a></li>
             
           
         </ul>
@@ -373,12 +373,12 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763106334"></script>
-  <script src="/js/prism-ruby.js?v=1763106334"></script>
-  <script src="/js/prism-markdown.js?v=1763106334"></script>
-  <script src="/js/code-enhancements.js?v=1763106334"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763106334"></script>
-  <script src="/js/github-pages-fix.js?v=1763106334"></script>
-  <script src="/js/site.js?v=1763106334"></script>
+  <script src="/rubylearning/js/prism.js?v=1763215892"></script>
+  <script src="/rubylearning/js/prism-ruby.js?v=1763215892"></script>
+  <script src="/rubylearning/js/prism-markdown.js?v=1763215892"></script>
+  <script src="/rubylearning/js/code-enhancements.js?v=1763215892"></script>
+  <script src="/rubylearning/js/tutorial-enhancements.js?v=1763215892"></script>
+  <script src="/rubylearning/js/github-pages-fix.js?v=1763215892"></script>
+  <script src="/rubylearning/js/site.js?v=1763215892"></script>
 </body>
 </html>
