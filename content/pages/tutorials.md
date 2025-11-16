@@ -14,6 +14,7 @@ breadcrumbs: true
         <div class="chapter-nav__sections">
           <div>
             <ol>
+              <li><a href="/tutorials/quick-intro/">Super fast Ruby intro (20 minutes)</a></li>
               <li><a href="/tutorials/meet-ruby/">Chapter 1: Meet Ruby</a></li>
               <li><a href="/tutorials/installation-setup/">Chapter 2: Installation &amp; setup</a></li>
               <li><a href="/tutorials/first-ruby-program/">Chapter 3: First Ruby Program</a></li>
