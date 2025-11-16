@@ -44,7 +44,7 @@ breadcrumbs: true
               <li><a href="/tutorials/ruby-open-classes/">Chapter 28: Ruby Open Classes</a></li>
               <li><a href="/tutorials/ruby-inheritance/">Chapter 29: Ruby Inheritance</a></li>
               <li><a href="/tutorials/ruby-overriding-methods/">Chapter 30: Overriding Methods</a></li>
-              <li><a href="/tutorials/ruby-overloading-methods/">Chapter 31: “Overloading” Methods the Ruby Way</a></li>
+              <li><a href="/tutorials/ruby-overloading-methods/">Chapter 31: "Overloading" Methods the Ruby Way</a></li>
               <li><a href="/tutorials/ruby-access-control/">Chapter 32: Ruby Access Control</a></li>
               <li><a href="/tutorials/ruby-exceptions/">Chapter 33: Ruby Exceptions</a></li>
               <li><a href="/tutorials/ruby-logging/">Chapter 34: Ruby Logging</a></li>
