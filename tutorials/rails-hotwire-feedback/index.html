@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -182,6 +182,73 @@ end
 <ul><li>Add Turbo Stream templates to broadcast updates when entries change.</li></ul><ul><li>Use Stimulus to show success/error toasts after submissions.</li></ul><ul><li>Wire up background jobs (ActiveJob + Sidekiq/GoodJob) to send summary emails.</li></ul>
 
 Next, iterate on the project by adding authentication, dashboards, or background processing. Keep exploring ideas in the <a href="/rails/">Rails learning hub</a>.
+
+<h4>Practice 1 - Thinking through Turbo Stream updates</h4>
+
+<p><strong>Goal:</strong> Describe how Turbo Stream templates can broadcast updates when entries change.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-hotwire-feedback"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('turbo_stream') }"><code class="language-ruby">
+# TODO: Print a short explanation of how a Turbo Stream template
+# might be used to prepend a new entry to a list when it is created.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-hotwire-feedback"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-hotwire-feedback:0">
+puts "Turbo Stream templates can use turbo_stream.prepend to insert"
+puts "a rendered entry partial into the #entries element after create."
+</script>
+
+<h4>Practice 2 - Stimulus feedback ideas</h4>
+
+<p><strong>Goal:</strong> Outline how Stimulus could show success/error toasts after submissions.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-hotwire-feedback"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('stimulus') }"><code class="language-ruby">
+# TODO: Print a couple of sentences on how a Stimulus controller
+# might listen for form submission events and display toast messages.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-hotwire-feedback"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-hotwire-feedback:1">
+puts "A Stimulus controller can watch for turbo:submit-end events"
+puts "and show a toast on success or error based on the response."
+</script>
+
+<h4>Practice 3 - Background jobs for summaries</h4>
+
+<p><strong>Goal:</strong> Plan how background jobs could send summary emails.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-hotwire-feedback"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('activejob') } || lines.any? { |l| l.downcase.include?('sidekiq') }"><code class="language-ruby">
+# TODO: Print a brief description of how you could use ActiveJob with
+# a background worker (like Sidekiq or GoodJob) to send periodic entry
+# summary emails.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-hotwire-feedback"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-hotwire-feedback:2">
+puts "ActiveJob can enqueue a SummaryEmailJob that runs via Sidekiq or GoodJob"
+puts "on a schedule, gathering recent entries and emailing a digest."
+</script>
 </p></div>
     </div>
 
@@ -340,12 +407,12 @@ Next, iterate on the project by adding authentication, dashboards, or background
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

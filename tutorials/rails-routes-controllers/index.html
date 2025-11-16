@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -178,6 +178,73 @@ end
 <ul><li>Scaffold the <code>Entry</code> model with a migration and run <code>rails db:migrate</code>.</li></ul><ul><li>Add model validations and watch the controller handle failures.</li></ul><ul><li>Write request specs (or system tests) to cover the happy path.</li></ul>
 
 When you&rsquo;re comfortable with the request cycle, carry on to <a href="/tutorials/rails-hotwire-feedback/">Chapter R3: Hotwire views & feedback</a>.
+
+<h4>Practice 1 - Thinking through scaffolding and migrations</h4>
+
+<p><strong>Goal:</strong> Outline what scaffolding the <code>Entry</code> model and running migrations involves.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rails generate scaffold') }"><code class="language-ruby">
+# TODO: Print the commands and steps you would use to scaffold the
+# Entry model and run migrations in your Rails app.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-routes-controllers:0">
+puts "rails generate scaffold Entry title:string body:text"
+puts "rails db:migrate"
+</script>
+
+<h4>Practice 2 - Validations and failure handling</h4>
+
+<p><strong>Goal:</strong> Describe how validations affect controller behaviour on failure.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('validates') } && lines.any? { |l| l.downcase.include?('unprocessable_entity') }"><code class="language-ruby">
+# TODO: Print a short example of a validation and note how the
+# controller might respond when validations fail (rendering with
+# status :unprocessable_entity).
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-routes-controllers:1">
+puts "Example: validates :title, presence: true"
+puts "On failure, the controller can render :new with status :unprocessable_entity"
+</script>
+
+<h4>Practice 3 - Request specs or system tests</h4>
+
+<p><strong>Goal:</strong> Capture the idea of writing request or system tests for the happy path.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('request spec') } || lines.any? { |l| l.downcase.include?('system test') }"><code class="language-ruby">
+# TODO: Print one or two sentences about what a happy-path request
+# spec or system test would assert in this journal app.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-routes-controllers:2">
+puts "A request spec would POST a valid entry and expect a redirect."
+puts "A system test would fill in the form, submit it, and expect to see the new entry."
+</script>
 </p></div>
     </div>
 
@@ -343,12 +410,12 @@ When you&rsquo;re comfortable with the request cycle, carry on to <a href="/tuto
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

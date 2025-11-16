@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -217,6 +217,102 @@ Bookmark <a href="https://ruby-doc.org/"><code>ruby-doc.org</code></a> for the f
 <ul><li>[ ] Reformat a snippet from the previous chapter using Ruby's free-form layout rules.</li></ul><ul><li>[ ] Add inline and block comments to <code>first_program.rb</code> explaining what each section does.</li></ul><ul><li>[ ] Open IRB and confirm that <code>0</code>, <code>""</code>, and <code>[]</code> are all truthy (<code>!!value</code> returns <code>true</code>).</li></ul><ul><li>[ ] Scan the keywords reference and note any that are new to you.</li></ul>
 
 Ready to put these conventions to use? Continue to the next chapter to practise flow control and iterate through collections.
+
+<h4>Practice 1 - Reformatting with free-form layout</h4>
+
+<p><strong>Goal:</strong> Reformat a multi-line snippet using Ruby's flexible layout rules.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Ready?') } && lines.any? { |l| l.include?('Go!') }"><code class="language-ruby">
+# TODO: Rewrite a short snippet (like the Ready/Go example) using
+# Ruby's free-form layout: line breaks and optional semicolons.
+# Print at least two lines of output.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:0">
+puts "Ready?"
+puts "Go!"
+</script>
+
+<h4>Practice 2 - Adding comments to a small script</h4>
+
+<p><strong>Goal:</strong> Add inline and block-style comments explaining what each section of a tiny script does.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('#') }"><code class="language-ruby">
+# TODO: Write a short Ruby snippet and annotate it with comments
+# explaining each major step.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:1">
+<h1>Print a greeting</h1>
+name = "Rubyist"
+puts "Hello, #{name}"
+
+<h1>Compute a simple result</h1>
+result = 1 + 2
+puts "Result is #{result}"
+</script>
+
+<h4>Practice 3 - Checking truthiness</h4>
+
+<p><strong>Goal:</strong> Confirm that <code>0</code>, <code>""</code>, and <code>[]</code> are all truthy using <code>!!value</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[0 \"\" []].all? { |repr| lines.any? { |l| l.include?(repr) } }"><code class="language-ruby">
+# TODO: For each of 0, \"\", and [], compute !!value and print the
+# value and the result to show they are truthy.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:2">
+[[0, "0"], ["", "\"\""], [[], "[]"]].each do |value, label|
+  puts "#{label}: #{!!value}"
+end
+</script>
+
+<h4>Practice 4 - Noting new keywords</h4>
+
+<p><strong>Goal:</strong> Scan the keywords reference and note any that are new to you (simulated here).</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('new keyword') }"><code class="language-ruby">
+# TODO: Pretend you've scanned the keywords reference and print a
+# couple of keywords that are new or interesting, labelling them
+# as such.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:3">
+puts "New keyword to me: __END__"
+puts "New keyword to me: redo"
+</script>
 </p></div>
     </div>
 
@@ -382,12 +478,12 @@ Ready to put these conventions to use? Continue to the next chapter to practise 
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

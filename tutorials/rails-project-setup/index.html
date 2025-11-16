@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -165,6 +165,77 @@ bin/rails server
 <ul><li>Install PostgreSQL locally (or use Docker) and confirm <code>rails db:prepare</code> succeeds.</li></ul><ul><li>Swap Tailwind for another CSS framework and note the differences.</li></ul><ul><li>Initialise a Git repository and commit the pristine app so you can track changes.</li></ul>
 
 Continue to <a href="/tutorials/rails-routes-controllers/">Chapter R2: Routes & controllers</a> when you can boot the app without errors.
+
+<h4>Practice 1 - Verifying database setup</h4>
+
+<p><strong>Goal:</strong> Think through what it means for <code>rails db:prepare</code> to succeed on your machine.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('db:prepare') }"><code class="language-ruby">
+# TODO: Print a short checklist of what you need in place for
+# `rails db:prepare` to work (database running, config correct, etc.).
+# This script doesn't run Rails, but you can document the steps here.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-project-setup:0">
+puts "To run <code>rails db:prepare</code> successfully you generally need:"
+puts "- PostgreSQL (or your chosen DB) running"
+puts "- config/database.yml pointing at the right database"
+puts "- The app's gems installed"
+</script>
+
+<h4>Practice 2 - Reflecting on CSS framework choices</h4>
+
+<p><strong>Goal:</strong> Note differences you might see when swapping Tailwind for another CSS framework.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('tailwind') }"><code class="language-ruby">
+# TODO: Print a few high-level observations you expect when swapping
+# Tailwind for another CSS framework (class names, build pipeline,
+# design tokens, etc.).
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-project-setup:1">
+puts "Tailwind uses utility classes; other frameworks may use components."
+puts "Swapping frameworks can change class names and build tooling."
+</script>
+
+<h4>Practice 3 - Committing a pristine app</h4>
+
+<p><strong>Goal:</strong> Plan the first Git commit for a new Rails app.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('git init') }"><code class="language-ruby">
+# TODO: Describe the Git commands you would use to initialise a
+# repository and commit the pristine app.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/rails-project-setup:2">
+puts "git init"
+puts "git add ."
+puts "git commit -m 'Initial Rails app'"
+</script>
 </p></div>
     </div>
 
@@ -323,12 +394,12 @@ Continue to <a href="/tutorials/rails-routes-controllers/">Chapter R2: Routes & 
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

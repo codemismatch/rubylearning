@@ -252,10 +252,22 @@ pre.language-shell::before {
   cursor: pointer;
   position: absolute;
   right: 80px;
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
 .run-button:hover {
   background: #218838;
+}
+
+/* Check button for practice blocks - runs automated tests */
+.run-button.check-button {
+  background: #007bff;
+  right: 80px; /* Same position as Run button */
+}
+
+.run-button.check-button:hover {
+  background: #0056b3;
 }
 
 .show-solution-button {
@@ -266,7 +278,9 @@ pre.language-shell::before {
   border-radius: 4px;
   cursor: pointer;
   position: absolute;
-  right: 180px;
+  right: 180px; /* To the left of Check button */
+  font-size: 14px;
+  transition: background 0.2s ease;
 }
 
 .show-solution-button:hover {

@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265846">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265846">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265846">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265846">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -238,6 +238,115 @@ String.instance_methods(false).sort.take(10)
 <ul><li>[ ] Recreate <code>say_goodnight</code> using single quotes and observe how interpolation stops working.</li></ul><ul><li>[ ] Write a script that compares two user inputs with <code>==</code>, <code>eql?</code>, and <code>equal?</code>.</li></ul><ul><li>[ ] Build a <code>%w</code> array of Ruby core types and iterate over it.</li></ul><ul><li>[ ] Print each string's encoding (e.g., <code>"Ola".encoding</code>) and experiment with <code>#encode</code> to convert between UTF-8 and another encoding.</li></ul>
 
 Next: put these string skills to work while branching and looping through Flow Control & Collections.
+
+<h4>Practice 1 - Interpolation vs single quotes</h4>
+
+<p><strong>Goal:</strong> Recreate <code>say_goodnight</code> using single quotes and observe how interpolation behaves.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(\"Good night, \") } && lines.any? { |l| l.include?('#{name}') }"><code class="language-ruby">
+# TODO: Implement say_goodnight twice: once with double quotes that
+# interpolate a name, and once with single quotes that leave #{name}
+# unchanged. Print both results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:0">
+def say_goodnight_double(name)
+  "Good night, #{name}"
+end
+
+def say_goodnight_single(name)
+  'Good night, #{name}'
+end
+
+puts say_goodnight_double("Rubyist")
+puts say_goodnight_single("Rubyist")
+</script>
+
+<h4>Practice 2 - Comparing user inputs</h4>
+
+<p><strong>Goal:</strong> Compare two strings with <code>==</code>, <code>eql?</code>, and <code>equal?</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[== eql? equal?].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+# TODO: Read or define two strings, compare them with ==, eql?,
+# and equal?, and print a labelled line for each comparison.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:1">
+s1 = "Jonathan"
+s2 = "Jonathan"
+s3 = s1
+
+puts "== : #{s1 == s2}"
+puts "eql?: #{s1.eql?(s2)}"
+puts "equal? (s1,s2): #{s1.equal?(s2)}"
+puts "equal? (s1,s3): #{s1.equal?(s3)}"
+</script>
+
+<h4>Practice 3 - Building a %w array</h4>
+
+<p><strong>Goal:</strong> Build a <code>%w</code> array of Ruby core types and iterate over it.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[String Array Hash Symbol].all? { |word| lines.any? { |l| l.include?(word) } }"><code class="language-ruby">
+# TODO: Use %w to construct an array of Ruby core type names, then
+# iterate and print each element with a short label.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:2">
+types = %w[String Array Hash Symbol]
+
+types.each do |name|
+  puts "Core type: #{name}"
+end
+</script>
+
+<h4>Practice 4 - Working with encodings</h4>
+
+<p><strong>Goal:</strong> Print each string's encoding and experiment with <code>#encode</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('encoding') }"><code class="language-ruby">
+# TODO: Create a couple of strings, print their encoding, and call
+# encode on at least one of them to convert it to a different encoding.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:3">
+hello = "Olá"
+
+puts "Original encoding: #{hello.encoding}"
+converted = hello.encode("UTF-8")
+puts "Converted encoding: #{converted.encoding}"
+</script>
 </p></div>
     </div>
 
@@ -403,12 +512,12 @@ Next: put these string skills to work while branching and looping through Flow C
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265846"></script>
-  <script src="/js/prism-ruby.js?v=1763265846"></script>
-  <script src="/js/prism-markdown.js?v=1763265846"></script>
-  <script src="/js/code-enhancements.js?v=1763265846"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265846"></script>
-  <script src="/js/github-pages-fix.js?v=1763265846"></script>
-  <script src="/js/site.js?v=1763265846"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

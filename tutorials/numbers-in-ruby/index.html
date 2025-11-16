@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -234,6 +234,124 @@ Swap <code>and</code> for <code>&&</code> in the snippet above and the assignmen
 <h3>Practice checklist</h3>
 <ul><li>[ ] Recreate <code>numbers.rb</code> locally and observe how integer vs float division change the output.</li></ul><ul><li>[ ] Experiment with <code>%</code> using positive and negative operands to internalize the sign rule.</li></ul><ul><li>[ ] Use <code>||=</code> to set default configuration in <code>first_program.rb</code>.</li></ul><ul><li>[ ] Replace <code>&&</code> with <code>and</code> (and vice versa) in a test script to see how precedence affects assignment expressions.</li></ul>
 
+<h4>Practice 1 - Integer vs float division</h4>
+
+<p><strong>Goal:</strong> Print examples that show how integer and float division differ.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); (lines.any? { |l| l.include?('.0') } || lines.any? { |l| l.match?(/\d+\.\d+/) }) && lines.size >= 2"><code class="language-ruby">
+# TODO: Print at least two results that highlight the difference
+# between integer division and float division in Ruby.
+# Hint:
+#   - Try expressions like 7 / 2 and 7.0 / 2.
+#   - Print each result on its own line.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:0">
+int_div  = 7 / 2
+float_div = 7.0 / 2
+
+puts "7 / 2   = #{int_div}"
+puts "7.0 / 2 = #{float_div}"
+</script>
+
+<h4>Practice 2 - Modulo with positive and negative numbers</h4>
+
+<p><strong>Goal:</strong> Experiment with the <code>%</code> operator using positive and negative operands.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('%') } && lines.size >= 2"><code class="language-ruby">
+# TODO: Print a few modulo calculations that use both positive and
+# negative operands.
+# Hint:
+#   - Try 10 % 3, -10 % 3, and 10 % -3.
+#   - Print each expression and its result.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:1">
+puts "10 % 3   = #{10 % 3}"
+puts "-10 % 3  = #{-10 % 3}"
+puts "10 % -3  = #{10 % -3}"
+</script>
+
+<h4>Practice 3 - Using ||= for defaults</h4>
+
+<p><strong>Goal:</strong> Use the <code>||=</code> operator to set default configuration.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('port') } && lines.any? { |l| l.match?(/\d+/) }"><code class="language-ruby">
+# TODO: Use ||= to set defaults for a few configuration values.
+# Hint:
+#   - Start with variables like port or host that might already
+#     have a value.
+#   - Use ||= to assign a default only when the value is nil.
+#   - Print the final configuration so you can see the result.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:2">
+port = ENV["APP_PORT"]
+port ||= 3000
+
+host = ENV["APP_HOST"]
+host ||= "localhost"
+
+puts "port: #{port}"
+puts "host: #{host}"
+</script>
+
+<h4>Practice 4 - and/&& precedence in assignments</h4>
+
+<p><strong>Goal:</strong> Observe how <code>and</code> and <code>&&</code> differ when used with assignments.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/and result: (true|false|nil)/) } && lines.any? { |l| l.match?(/&& result: (true|false|nil)/) }"><code class="language-ruby">
+# TODO: Write a small script that uses both `and` and `&&` with
+# assignments, then print out the results to compare.
+# Hint:
+#   - Try patterns like: value = true and other = false
+#   - Repeat with && and print the assigned values.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:3">
+a = b = nil
+
+a = true and b = false
+puts "and result: a=#{a.inspect}, b=#{b.inspect}"
+
+c = d = nil
+
+c = true && d = false
+puts "&& result: c=#{c.inspect}, d=#{d.inspect}"
+</script>
+
 Next up: apply these number skills while branching and iterating through collections.
 </p></div>
     </div>
@@ -400,12 +518,12 @@ Next up: apply these number skills while branching and iterating through collect
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -195,6 +195,145 @@ Feel free to stack overrides across multiple generations; each call to <code>sup
 <ul><li>[ ] Build a <code>Vehicle</code> hierarchy with a base <code>#description</code> and override it in <code>Car</code> and <code>Truck</code>.</li></ul><ul><li>[ ] Override <code>initialize</code> in a subclass and experiment with <code>super</code>, <code>super()</code>, and explicit argument lists.</li></ul><ul><li>[ ] Add logging to an overridden method by printing before/after calling <code>super</code>.</li></ul><ul><li>[ ] Combine overrides with modules: include a module that defines a method, then override it in the class to tweak output.</li></ul>
 
 Next: keep exploring Flow Control & Collections, now with multiple levels of behavior you can toggle via overrides.
+
+<h4>Practice 1 - Overriding #description</h4>
+
+<p><strong>Goal:</strong> Build a <code>Vehicle</code> hierarchy with a base <code>#description</code> and override it in <code>Car</code> and <code>Truck</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="0"
+     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car) && sandbox.const_defined?(:Truck); car = sandbox.const_get(:Car).new; truck = sandbox.const_get(:Truck).new; out = output.string; assert out.lines.any? { |l| l.downcase.include?('car') }; assert out.lines.any? { |l| l.downcase.include?('truck') }; true"><code class="language-ruby">
+# TODO: Define Vehicle#description and override it in Car and Truck
+# to return specialised strings, then instantiate and print them.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:0">
+class Vehicle
+  def description
+    "A generic vehicle"
+  end
+end
+
+class Car < Vehicle
+  def description
+    "A car for the road"
+  end
+end
+
+class Truck < Vehicle
+  def description
+    "A truck for hauling"
+  end
+end
+
+puts Car.new.description
+puts Truck.new.description
+</script>
+
+<h4>Practice 2 - Overriding initialize with super variants</h4>
+
+<p><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code>, <code>super()</code>, and explicit argument lists.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('super()') } && lines.any? { |l| l.downcase.include?('super with args') }"><code class="language-ruby">
+# TODO: Sketch a base/subclass pair where the subclass uses both
+# super and super() in different contexts and print labelled lines.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:1">
+puts "class Base"
+puts "  def initialize(msg = 'default')"
+puts "    puts \"Base: \#{msg}\""
+puts "  end"
+puts "end"
+puts "class Child < Base"
+puts "  def initialize(msg)"
+puts "    super(msg)"
+puts "    super() # uses default argument"
+puts "  end"
+puts "end"
+</script>
+
+<h4>Practice 3 - Logging around super</h4>
+
+<p><strong>Goal:</strong> Add logging to an overridden method by printing before/after calling <code>super</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('before super') } && lines.any? { |l| l.downcase.include?('after super') }"><code class="language-ruby">
+# TODO: Print an override that logs before and after calling super in
+# a method such as #save.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:2">
+puts "class Model"
+puts "  def save"
+puts "    puts 'Saving record'"
+puts "  end"
+puts "end"
+puts "class LoggedModel < Model"
+puts "  def save"
+puts "    puts 'before super'"
+puts "    super"
+puts "    puts 'after super'"
+puts "  end"
+puts "end"
+</script>
+
+<h4>Practice 4 - Overrides plus modules</h4>
+
+<p><strong>Goal:</strong> Combine overrides with modules: include a module defining a method, then override it in the class.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('module') } && lines.any? { |l| l.downcase.include?('override') }"><code class="language-ruby">
+# TODO: Print a simple module with a greeting method, include it in a
+# class, and override the method to tweak output while still calling
+# super.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:3">
+puts "module Greeter"
+puts "  def greet"
+puts "    'hello'"
+puts "  end"
+puts "end"
+puts "class Friendly"
+puts "  include Greeter"
+puts "  def greet"
+puts "    super + ', friend'"
+puts "  end"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -360,12 +499,12 @@ Next: keep exploring Flow Control & Collections, now with multiple levels of beh
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

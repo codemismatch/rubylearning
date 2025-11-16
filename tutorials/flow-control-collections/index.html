@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265846">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265846">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265846">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265846">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -396,6 +396,159 @@ puts rand            # Will always return the same sequence
 <h3>Practice checklist</h3>
 <ul><li>Practice string manipulation methods like <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, <code>include?</code>, etc.</li></ul><ul><li>Experiment with different control structures (<code>if/else</code>, <code>case</code>, <code>unless</code>)</li></ul><ul><li>Create and manipulate arrays and hashes with various methods</li></ul><ul><li>Try using ranges for sequence generation and condition checking</li></ul><ul><li>Work with symbols and understand their difference from strings</li></ul>
 
+<h4>Practice 1 - String manipulation drills</h4>
+
+<p><strong>Goal:</strong> Practise common string methods such as <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, and <code>include?</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[upcase downcase reverse include?].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
+# TODO: Pick a base string and call upcase, downcase, reverse, and
+# include? on it, printing a short label and the result for each call.
+# Hint:
+#   - Show both the method name and the value so it's clear which is which.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:0">
+phrase = "Flow Control"
+
+puts "upcase:   #{phrase.upcase}"
+puts "downcase: #{phrase.downcase}"
+puts "reverse:  #{phrase.reverse}"
+puts "include? 'Control': #{phrase.include?('Control')}"
+</script>
+
+<h4>Practice 2 - Playing with control structures</h4>
+
+<p><strong>Goal:</strong> Experiment with <code>if/else</code>, <code>case</code>, and <code>unless</code> in a single script.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[if case unless].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
+# TODO: Write a small script that uses if/else, case, and unless to
+# branch based on a value (for example, a score or a role).
+# Hint:
+#   - Print a line that mentions each construct so you can see it ran.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:1">
+score = 82
+
+if score >= 90
+  puts "if: excellent"
+elsif score >= 60
+  puts "if: passing"
+else
+  puts "if: needs work"
+end
+
+level = case score
+when 0...60 then "low"
+when 60...80 then "medium"
+else "high"
+end
+puts "case: level is #{level}"
+
+logged_in = true
+unless logged_in == false
+  puts "unless: user is logged in"
+end
+</script>
+
+<h4>Practice 3 - Arrays and hashes in action</h4>
+
+<p><strong>Goal:</strong> Create and manipulate arrays and hashes with various methods.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('array:') } && lines.any? { |l| l.downcase.include?('hash:') }"><code class="language-ruby">
+# TODO: Build an array and a hash, then apply a few methods to each
+# (such as map, select, merge, or delete_if) and print the results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:2">
+nums = [1, 2, 3, 4, 5]
+evens = nums.select(&:even?)
+puts "array: even numbers: #{evens.inspect}"
+
+user = { name: "Ruby", role: "learner", points: 10 }
+user[:points] += 5
+puts "hash: #{user.inspect}"
+</script>
+
+<h4>Practice 4 - Using ranges for sequences and conditions</h4>
+
+<p><strong>Goal:</strong> Use ranges for sequence generation and condition checking.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..5') } && lines.any? { |l| l.downcase.include?('in range') }"><code class="language-ruby">
+# TODO: Generate a sequence using a range and use a range in a
+# condition (for example, to check whether a value falls inside a band).
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:3">
+range = 1..5
+puts "1..5 as array: #{range.to_a.inspect}"
+
+value = 3
+if range.include?(value)
+  puts "#{value} is in range"
+else
+  puts "#{value} is outside range"
+end
+</script>
+
+<h4>Practice 5 - Working with symbols</h4>
+
+<p><strong>Goal:</strong> Work with symbols and see how they differ from strings.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':name') } && lines.any? { |l| l.downcase.include?('symbol') }"><code class="language-ruby">
+# TODO: Create a hash that uses symbols as keys and compare them to
+# string keys, printing out classes and a couple of lookups.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:4">
+person = { name: "Rubyist", role: "student" }
+
+puts "Keys: #{person.keys.inspect}"
+puts "name value: #{person[:name]}"
+puts "Key class: #{person.keys.first.class} (symbol)"
+puts "String key equal? #{:name == 'name'}"
+</script>
+
 When the logic feels natural, move ahead to <a href="/tutorials/methods-and-blocks/">Chapter 3: Methods & blocks</a>.
 </p></div>
     </div>
@@ -562,12 +715,12 @@ When the logic feels natural, move ahead to <a href="/tutorials/methods-and-bloc
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265846"></script>
-  <script src="/js/prism-ruby.js?v=1763265846"></script>
-  <script src="/js/prism-markdown.js?v=1763265846"></script>
-  <script src="/js/code-enhancements.js?v=1763265846"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265846"></script>
-  <script src="/js/github-pages-fix.js?v=1763265846"></script>
-  <script src="/js/site.js?v=1763265846"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290158">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290158">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290158">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290158">
 </head>
 <body>
   
@@ -210,6 +210,130 @@ socket.close
 <ul><li>[ ] Sketch the client-server flow for your own app idea and label which side initiates the connection.</li></ul><ul><li>[ ] Replace <code>localhost</code> with a LAN IP to confirm the code works between two real machines.</li></ul><ul><li>[ ] Send a full sentence from the server and have the client acknowledge receipt before closing.</li></ul><ul><li>[ ] Experiment with <code>Thread.start</code> vs. sequential handling to see how concurrency affects throughput.</li></ul><ul><li>[ ] Wrap the server loop with logging and exception handling so failures don't crash the process.</li></ul>
 
 Summary: Ruby sockets piggyback on familiar IO primitives, so once you understand ports/IPs you can craft small TCP services with only a few dozen lines of code. Next, deepen your concurrency toolbox in the Ruby Threads chapter.
+
+<h4>Practice 1 - Sketching client-server flow</h4>
+
+<p><strong>Goal:</strong> Sketch the client-server flow for an app and label which side initiates the connection.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('client') } && lines.any? { |l| l.downcase.include?('server') }"><code class="language-ruby">
+# TODO: Print a brief pseudo-flow describing which side (client or
+# server) opens the socket and which accepts connections.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:0">
+puts "Server: TCPServer.new('localhost', 3000) then accept connections"
+puts "Client: TCPSocket.new('localhost', 3000) initiates connection"
+</script>
+
+<h4>Practice 2 - LAN IP vs localhost</h4>
+
+<p><strong>Goal:</strong> Show how you would replace <code>localhost</code> with a LAN IP.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('192.168.') }"><code class="language-ruby">
+# TODO: Print an example client connection line using a private LAN IP
+# such as 192.168.x.x.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:1">
+puts "TCPSocket.new('192.168.1.10', 3000)"
+</script>
+
+<h4>Practice 3 - Simple message and acknowledgement</h4>
+
+<p><strong>Goal:</strong> Send a full sentence from the server and have the client acknowledge receipt.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('ack') }"><code class="language-ruby">
+# TODO: Sketch send/receive/ack behaviour in a comment-style snippet.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:2">
+puts "# server: client.puts 'Hello from server'"
+puts "# client: message = socket.gets; socket.puts 'ACK'"
+</script>
+
+<h4>Practice 4 - Threads vs sequential handling</h4>
+
+<p><strong>Goal:</strong> Contrast <code>Thread.start</code> with sequential handling in a server loop.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('thread.start') }"><code class="language-ruby">
+# TODO: Print pseudo-code that shows a threaded server loop using
+# Thread.start for each client.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:3">
+puts "server = TCPServer.new(3000)"
+puts "loop do"
+puts "  client = server.accept"
+puts "  Thread.start(client) do |sock|"
+puts "    # handle client"
+puts "  end"
+puts "end"
+</script>
+
+<h4>Practice 5 - Logging and exception handling</h4>
+
+<p><strong>Goal:</strong> Wrap the server loop with logging and exception handling.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('logger') } && lines.any? { |l| l.downcase.include?('rescue') }"><code class="language-ruby">
+# TODO: Print a small example that pairs a server loop with logging
+# and exception handling to keep the process alive on failure.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:4">
+puts "loop do"
+puts "  begin"
+puts "    client = server.accept"
+puts "    logger.info('accepted connection')"
+puts "  rescue => e"
+puts "    logger.error(\"socket error: \#{e.message}\")"
+puts "  end"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -375,12 +499,12 @@ Summary: Ruby sockets piggyback on familiar IO primitives, so once you understan
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290158"></script>
+  <script src="/js/prism-ruby.js?v=1763290158"></script>
+  <script src="/js/prism-markdown.js?v=1763290158"></script>
+  <script src="/js/code-enhancements.js?v=1763290158"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290158"></script>
+  <script src="/js/github-pages-fix.js?v=1763290158"></script>
+  <script src="/js/site.js?v=1763290158"></script>
 </body>
 </html>

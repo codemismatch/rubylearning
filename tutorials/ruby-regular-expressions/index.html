@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -215,6 +215,104 @@ puts "Number:    #{m[3]}"
 <ul><li>[ ] Test <code>=~</code> with and without matches to see the index vs <code>nil</code>.</li></ul><ul><li>[ ] Write a regexp that matches lowercase hex digits, then negate it with <code>[^...]</code>.</li></ul><ul><li>[ ] Capture month/day/year from a date string using groups and print the captures.</li></ul><ul><li>[ ] Experiment with <code>String#sub</code>/<code>gsub</code> to replace text using regexps.</li></ul>
 
 Next: return to Flow Control & Collections to combine regex-based parsing with loops and data structures.
+
+<h4>Practice 1 - =~ index vs nil</h4>
+
+<p><strong>Goal:</strong> Test <code>=~</code> with and without matches to see an index vs <code>nil</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('index') } && lines.any? { |l| l.downcase.include?('nil') }"><code class="language-ruby">
+# TODO: Use =~ on a string where the pattern matches and one where it
+# does not, and print the index and nil results.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:0">
+match_index = "Ruby" =~ /Ruby/
+no_match = "Ruby" =~ /Python/
+puts "index: #{match_index.inspect}"
+puts "no match: #{no_match.inspect}"
+</script>
+
+<h4>Practice 2 - Matching and negating hex digits</h4>
+
+<p><strong>Goal:</strong> Write a regexp that matches lowercase hex digits, then negate it with <code>[^...]</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[a-f0-9]') } && lines.any? { |l| l.include?('[^a-f0-9]') }"><code class="language-ruby">
+# TODO: Print two regexps: one that matches lowercase hex digits and
+# one that matches any character that's not a lowercase hex digit.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:1">
+puts "/[a-f0-9]/"
+puts "/[^a-f0-9]/"
+</script>
+
+<h4>Practice 3 - Capturing date components</h4>
+
+<p><strong>Goal:</strong> Capture month/day/year from a date string using groups and print the captures.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('month') } && lines.any? { |l| l.downcase.include?('year') }"><code class="language-ruby">
+# TODO: Use a regexp with capture groups on a date string like
+# 2024-01-31 or 31/01/2024 and print the components with labels.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:2">
+date = "2024-01-31"
+if date =~ /(\\d{4})-(\\d{2})-(\\d{2})/
+  year, month, day = $1, $2, $3
+  puts "year: #{year}, month: #{month}, day: #{day}"
+end
+</script>
+
+<h4>Practice 4 - sub and gsub replacements</h4>
+
+<p><strong>Goal:</strong> Experiment with <code>String#sub</code> and <code>String#gsub</code> to replace text using regexps.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('sub:') } && lines.any? { |l| l.downcase.include?('gsub:') }"><code class="language-ruby">
+# TODO: Print a before string, then show the results of sub and gsub
+# for a simple pattern.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:3">
+text = "Ruby Ruby Ruby"
+puts "sub:  #{text.sub(/Ruby/, 'Rails')}"
+puts "gsub: #{text.gsub(/Ruby/, 'Rails')}"
+</script>
 </p></div>
     </div>
 
@@ -380,12 +478,12 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

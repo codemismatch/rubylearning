@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290158">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290158">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290158">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290158">
 </head>
 <body>
   
@@ -229,6 +229,100 @@ Here the string <code>"200.0"</code> is the receiver and <code>to_f</code> is th
 <ul><li>[ ] Write a script that assigns the same bareword both as a local (<code>status = "new"</code>) and as a method (<code>def status; "ok"; end</code>) to observe the precedence rules.</li></ul><ul><li>[ ] Recreate <code>p004stringusage.rb</code> and extend it with <code>.to_s</code> and <code>.to_f</code> examples.</li></ul><ul><li>[ ] Append to a string with <code>&lt;&lt;</code> and compare the result to concatenation with <code>+</code>.</li></ul><ul><li>[ ] Define a heredoc that includes interpolation and confirm it respects the surrounding quotation style (<code>&lt;&lt;~</code> for indentation stripping is handy).</li></ul>
 
 Next: put these variables to work while branching through Flow Control & Collections.
+
+<h4>Practice 1 - Bareword precedence</h4>
+
+<p><strong>Goal:</strong> Assign the same bareword as both a local and a method to observe precedence rules.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('status =') } && lines.any? { |l| l.downcase.include?('def status') }"><code class="language-ruby">
+# TODO: Print a snippet that assigns status = \"new\" and also defines
+# def status; \"ok\"; end, then inspect which one is used where.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:0">
+puts "status = 'new'"
+puts "def status; 'ok'; end"
+</script>
+
+<h4>Practice 2 - Casting with to_s and to_f</h4>
+
+<p><strong>Goal:</strong> Extend <code>p004stringusage.rb</code> with <code>.to_s</code> and <code>.to_f</code> examples.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+# TODO: Print a couple of conversions using to_s and to_f on numeric
+# and string values.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:1">
+puts "42.to_s"
+puts "'3.14'.to_f"
+</script>
+
+<h4>Practice 3 - << vs +</h4>
+
+<p><strong>Goal:</strong> Append to a string with <code>&lt;&lt;</code> and compare the result to concatenation with <code>+</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<') } && lines.any? { |l| l.include?(' + ') }"><code class="language-ruby">
+# TODO: Show how << mutates a string while + returns a new string,
+# printing both results.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:2">
+puts "greeting = 'hi'"
+puts "greeting << ' there'"
+puts "greeting + ' again'"
+</script>
+
+<h4>Practice 4 - Heredocs with interpolation</h4>
+
+<p><strong>Goal:</strong> Define a heredoc that includes interpolation and respects quotation style.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<~') }"><code class="language-ruby">
+# TODO: Print a simple heredoc using <<~ that interpolates a variable.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:3">
+puts "name = 'Ruby'"
+puts "message = <<~TEXT"
+puts "  Hello, \#{name}"
+puts "TEXT"
+</script>
 </p></div>
     </div>
 
@@ -394,12 +488,12 @@ Next: put these variables to work while branching through Flow Control & Collect
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290158"></script>
+  <script src="/js/prism-ruby.js?v=1763290158"></script>
+  <script src="/js/prism-markdown.js?v=1763290158"></script>
+  <script src="/js/code-enhancements.js?v=1763290158"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290158"></script>
+  <script src="/js/github-pages-fix.js?v=1763290158"></script>
+  <script src="/js/site.js?v=1763290158"></script>
 </body>
 </html>

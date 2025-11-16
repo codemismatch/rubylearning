@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -198,6 +198,103 @@ end
 <ul><li>[ ] Convert <code>(1..10)</code> and <code>(1...10)</code> to arrays and compare the results.</li></ul><ul><li>[ ] Use <code>include?</code>, <code>min</code>, and <code>max</code> on a negative-to-positive range.</li></ul><ul><li>[ ] Write a method that accepts a range and yields only the even members via <code>select</code>.</li></ul><ul><li>[ ] Build a <code>case</code> expression that classifies temperatures using range intervals.</li></ul>
 
 Next: continue into Flow Control & Collections where ranges, arrays, and enumerators come together in loops and iterators.
+
+<h4>Practice 1 - Inclusive vs exclusive ranges</h4>
+
+<p><strong>Goal:</strong> Convert <code>(1..10)</code> and <code>(1...10)</code> to arrays and compare the results.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..10') } && lines.any? { |l| l.include?('1...10') }"><code class="language-ruby">
+# TODO: Print the arrays produced by (1..10).to_a and (1...10).to_a
+# with clear labels.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:0">
+puts "1..10  => #{(1..10).to_a.inspect}"
+puts "1...10 => #{(1...10).to_a.inspect}"
+</script>
+
+<h4>Practice 2 - include?, min, max on ranges</h4>
+
+<p><strong>Goal:</strong> Use <code>include?</code>, <code>min</code>, and <code>max</code> on a negative-to-positive range.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[include? min max].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+# TODO: Create a range from -5 to 5 and print whether it includes 0,
+# along with its min and max.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:1">
+range = -5..5
+puts "include?(0): #{range.include?(0)}"
+puts "min: #{range.min}, max: #{range.max}"
+</script>
+
+<h4>Practice 3 - Yielding even members from a range</h4>
+
+<p><strong>Goal:</strong> Write a method that accepts a range and yields only the even members using <code>select</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('even') }"><code class="language-ruby">
+# TODO: Print an example method that takes a range and returns only
+# its even numbers with select.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:2">
+puts "def evens(range)"
+puts "  range.select(&:even?)"
+puts "end"
+</script>
+
+<h4>Practice 4 - case with range intervals</h4>
+
+<p><strong>Goal:</strong> Build a <code>case</code> expression that classifies temperatures using ranges.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('cold') } && lines.any? { |l| l.downcase.include?('hot') }"><code class="language-ruby">
+# TODO: Print a case expression that categorises a temperature as
+# cold, mild, or hot using range intervals.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:3">
+puts "case temp"
+puts "when -50...10 then 'cold'"
+puts "when 10...25 then 'mild'"
+puts "else 'hot'"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -363,12 +460,12 @@ Next: continue into Flow Control & Collections where ranges, arrays, and enumera
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

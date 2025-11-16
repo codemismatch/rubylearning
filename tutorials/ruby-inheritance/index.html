@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -227,6 +227,156 @@ Use the right predicate for the question you're asking.
 <ul><li>[ ] Extend the <code>Vehicle</code> hierarchy with <code>Car</code> and <code>Motorcycle</code>, overriding <code>start_engine</code> while calling <code>super</code>.</li></ul><ul><li>[ ] Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code> to understand argument forwarding.</li></ul><ul><li>[ ] Mix in a module (e.g., <code>Flyable</code>) to a subset of subclasses and confirm <code>is_a?</code> reflects the mixin.</li></ul><ul><li>[ ] Use <code>instance_of?</code> vs <code>is_a?</code> to see how strict type checks affect control flow.</li></ul>
 
 Next: continue to Flow Control & Collections to exercise these hierarchies inside loops and iterators.
+
+<h4>Practice 1 - Extending the Vehicle hierarchy</h4>
+
+<p><strong>Goal:</strong> Extend a <code>Vehicle</code> hierarchy with subclasses that override <code>start_engine</code> and call <code>super</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="0"
+     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car) && sandbox.const_defined?(:Motorcycle); v = sandbox.const_get(:Vehicle).new; c = sandbox.const_get(:Car).new; m = sandbox.const_get(:Motorcycle).new; out = output.string; assert out.lines.any? { |l| l.downcase.include?('car') }; assert out.lines.any? { |l| l.downcase.include?('motorcycle') }; true"><code class="language-ruby">
+# TODO: Define a Vehicle base class with start_engine, then subclasses
+# Car and Motorcycle that override start_engine while calling super.
+# Instantiate each and call start_engine.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:0">
+class Vehicle
+  def start_engine
+    puts "Starting generic engine"
+  end
+end
+
+class Car < Vehicle
+  def start_engine
+    super
+    puts "Car engine is now running"
+  end
+end
+
+class Motorcycle < Vehicle
+  def start_engine
+    super
+    puts "Motorcycle engine is now running"
+  end
+end
+
+Vehicle.new.start_engine
+Car.new.start_engine
+Motorcycle.new.start_engine
+</script>
+
+<h4>Practice 2 - super vs super()</h4>
+
+<p><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('with args') } && lines.any? { |l| l.downcase.include?('without args') }"><code class="language-ruby">
+# TODO: Build a small example that shows how super and super() behave
+# differently when overriding initialize, and print labelled output.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:1">
+class Base
+  def initialize(arg = "default")
+    puts "Base initialized with #{arg}"
+  end
+end
+
+class WithArgs < Base
+  def initialize(arg)
+    puts "WithArgs before super"
+    super
+  end
+end
+
+class WithoutArgs < Base
+  def initialize(arg)
+    puts "WithoutArgs before super()"
+    super()
+  end
+end
+
+WithArgs.new("with args")
+WithoutArgs.new("ignored")
+</script>
+
+<h4>Practice 3 - Mixins and is_a?</h4>
+
+<p><strong>Goal:</strong> Mix a module into a subset of subclasses and confirm <code>is_a?</code> reflects the mixin.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('can fly') } && lines.any? { |l| l.downcase.include?('is a flyable') }"><code class="language-ruby">
+# TODO: Define a Flyable module, include it in one subclass, and print
+# a line proving that instance.is_a?(Flyable) is true.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:2">
+module Flyable
+  def fly
+    puts "#{self.class} can fly"
+  end
+end
+
+class Plane
+  include Flyable
+end
+
+plane = Plane.new
+plane.fly
+puts "is a Flyable? #{plane.is_a?(Flyable)}"
+</script>
+
+<h4>Practice 4 - instance_of? vs is_a?</h4>
+
+<p><strong>Goal:</strong> Compare <code>instance_of?</code> vs <code>is_a?</code> and see how strict type checks affect control flow.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('instance_of?') } && lines.any? { |l| l.include?('is_a?') }"><code class="language-ruby">
+# TODO: Create a base class and subclass, instantiate the subclass,
+# and print the results of instance_of? and is_a? checks.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:3">
+class Animal; end
+class Dog < Animal; end
+
+dog = Dog.new
+puts "instance_of? Dog: #{dog.instance_of?(Dog)}"
+puts "instance_of? Animal: #{dog.instance_of?(Animal)}"
+puts "is_a? Animal: #{dog.is_a?(Animal)}"
+</script>
 </p></div>
     </div>
 
@@ -392,12 +542,12 @@ Next: continue to Flow Control & Collections to exercise these hierarchies insid
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

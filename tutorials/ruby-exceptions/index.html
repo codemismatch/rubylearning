@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -208,6 +208,114 @@ class ServiceError &lt; StandardError; end
 <ul><li>[ ] Wrap a file read in <code>begin</code>/<code>rescue</code> to catch <code>Errno::ENOENT</code> and print a friendly message.</li></ul><ul><li>[ ] Use <code>ensure</code> to close a file handle even when an exception occurs.</li></ul><ul><li>[ ] Define a custom exception and raise it from a validation method.</li></ul><ul><li>[ ] Experiment with <code>retry</code> (inside <code>rescue</code>) to re-run the block after handling an error--use cautiously!</li></ul>
 
 Next: keep iterating through Flow Control & Collections, now with robust error handling.
+
+<h4>Practice 1 - Rescuing Errno::ENOENT</h4>
+
+<p><strong>Goal:</strong> Wrap a file read in <code>begin</code>/<code>rescue</code> to catch <code>Errno::ENOENT</code> and print a friendly message.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Errno::ENOENT') } && lines.any? { |l| l.downcase.include?('missing') }"><code class="language-ruby">
+# TODO: Print a begin/rescue example that rescues Errno::ENOENT around
+# a File.read call and prints a friendly message.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:0">
+puts "begin"
+puts "  File.read('missing.txt')"
+puts "rescue Errno::ENOENT"
+puts "  puts 'Missing file; please create missing.txt'"
+puts "end"
+</script>
+
+<h4>Practice 2 - Using ensure to close files</h4>
+
+<p><strong>Goal:</strong> Show how <code>ensure</code> runs even when an exception occurs, to close a file handle.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ensure') }"><code class="language-ruby">
+# TODO: Print a begin/rescue/ensure block that opens a file and
+# guarantees some cleanup work in ensure.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:1">
+puts "begin"
+puts "  f = File.open('data.txt', 'r')"
+puts "  # work with f"
+puts "rescue => e"
+puts "  puts \"Error: \#{e.message}\""
+puts "ensure"
+puts "  f.close if f && !f.closed?"
+puts "end"
+</script>
+
+<h4>Practice 3 - Custom exceptions</h4>
+
+<p><strong>Goal:</strong> Define a custom exception and raise it from a validation method.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class InvalidDataError') } && lines.any? { |l| l.downcase.include?('raise') }"><code class="language-ruby">
+# TODO: Print a small custom exception class and a validation method
+# that raises it when data is invalid.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:2">
+puts "class InvalidDataError < StandardError; end"
+puts "def validate!(value)"
+puts "  raise InvalidDataError, 'value must be positive' if value <= 0"
+puts "end"
+</script>
+
+<h4>Practice 4 - retry with caution</h4>
+
+<p><strong>Goal:</strong> Experiment with <code>retry</code> inside <code>rescue</code> to re-run a block after handling an error.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('retry') }"><code class="language-ruby">
+# TODO: Print a small example that uses retry inside a rescue clause,
+# with a guard to avoid infinite loops.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:3">
+puts "attempts = 0"
+puts "begin"
+puts "  attempts += 1"
+puts "  raise 'boom' if attempts < 2"
+puts "rescue => e"
+puts "  retry if attempts < 3"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -373,12 +481,12 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

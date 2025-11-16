@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290158">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290158">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290158">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290158">
 </head>
 <body>
   
@@ -178,6 +178,105 @@ Single-line conditionals keep intent obvious.
 <ul><li>[ ] Replace manual getters/setters with <code>attr_accessor</code>.</li></ul><ul><li>[ ] Use <code>%w</code> to rewrite an array of strings without repetitive quotes.</li></ul><ul><li>[ ] Convert a multi-line <code>if</code> to an inline modifier where readability improves.</li></ul><ul><li>[ ] Implement <code>&lt;&lt;</code> in a custom class to append items and see how operator methods feel.</li></ul>
 
 Next: continue through Flow Control & Collections, now armed with concise Ruby idioms.
+
+<h4>Practice 1 - Replacing manual getters/setters</h4>
+
+<p><strong>Goal:</strong> Replace manual getter/setter methods with <code>attr_accessor</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor') }"><code class="language-ruby">
+# TODO: Print a small class definition before/after showing how
+# attr_accessor replaces handwritten getter/setter methods.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-syntactic-sugar:0">
+puts "class User"
+puts "  attr_accessor :name"
+puts "end"
+</script>
+
+<h4>Practice 2 - Using %w for arrays of strings</h4>
+
+<p><strong>Goal:</strong> Use <code>%w</code> to rewrite an array of strings without repetitive quotes.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('%w[') }"><code class="language-ruby">
+# TODO: Print an array of string literals, then show the equivalent
+# using %w.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-syntactic-sugar:1">
+puts 'names = ["ann", "bob", "carla"]'
+puts 'names = %w[ann bob carla]'
+</script>
+
+<h4>Practice 3 - Inline if modifier</h4>
+
+<p><strong>Goal:</strong> Convert a multi-line <code>if</code> to an inline modifier where readability improves.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('if user.admin?') }"><code class="language-ruby">
+# TODO: Print a before/after example where a single-line action with
+# an if modifier reads more cleanly than a full if/end block.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-syntactic-sugar:2">
+puts 'notify_admin if user.admin?'
+</script>
+
+<h4>Practice 4 - Implementing << in a custom class</h4>
+
+<p><strong>Goal:</strong> Implement <code>&lt;&lt;</code> in a custom class to append items.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('def <<') }"><code class="language-ruby">
+# TODO: Print a class that defines << to append values to an internal
+# array, returning self for chaining.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-syntactic-sugar"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-syntactic-sugar:3">
+puts "class Bag"
+puts "  def initialize"
+puts "    @items = []"
+puts "  end"
+puts "  def <<(item)"
+puts "    @items << item"
+puts "    self"
+puts "  end"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -343,12 +442,12 @@ Next: continue through Flow Control & Collections, now armed with concise Ruby i
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290158"></script>
+  <script src="/js/prism-ruby.js?v=1763290158"></script>
+  <script src="/js/prism-markdown.js?v=1763290158"></script>
+  <script src="/js/code-enhancements.js?v=1763290158"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290158"></script>
+  <script src="/js/github-pages-fix.js?v=1763290158"></script>
+  <script src="/js/site.js?v=1763290158"></script>
 </body>
 </html>

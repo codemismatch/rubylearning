@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265846">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265846">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265846">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265846">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -207,6 +207,99 @@ puts short_name(&quot;Satish Talim&quot;)
 <ul><li>[ ] Create two files, define a helper in one, and <code>require_relative</code> it from the other.</li></ul><ul><li>[ ] Modify <code>$LOAD_PATH</code> to include a <code>lib/</code> directory and require a file from there.</li></ul><ul><li>[ ] Use <code>load</code> to execute a script twice and observe that any top-level code reruns.</li></ul><ul><li>[ ] Rescue <code>LoadError</code> to provide a helpful message when an optional dependency is missing.</li></ul>
 
 Next: return to Flow Control & Collections to keep building on these reusable building blocks.
+
+<h4>Practice 1 - Thinking through require_relative</h4>
+
+<p><strong>Goal:</strong> Describe how you would split code across two files and use <code>require_relative</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('require_relative') }"><code class="language-ruby">
+# TODO: Print a tiny example that shows a helper defined in one file
+# and required from another using require_relative.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:0">
+puts 'require_relative "helpers/string_helpers"'
+puts 'include StringHelpers'
+</script>
+
+<h4>Practice 2 - $LOAD_PATH and lib</h4>
+
+<p><strong>Goal:</strong> Show how you would modify <code>$LOAD_PATH</code> to include a <code>lib/</code> directory.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$LOAD_PATH') } && lines.any? { |l| l.include?('lib') }"><code class="language-ruby">
+# TODO: Print a snippet that pushes 'lib' onto $LOAD_PATH and requires
+# a file from there.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:1">
+puts "$LOAD_PATH.unshift(File.expand_path('lib', __dir__))"
+puts "require 'my_library'"
+</script>
+
+<h4>Practice 3 - load and rerunning top-level code</h4>
+
+<p><strong>Goal:</strong> Use <code>load</code> to execute a script twice and understand that top-level code reruns.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('load ') }"><code class="language-ruby">
+# TODO: Print a short example that shows calling load twice on the
+# same file.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:2">
+puts "load 'scripts/setup.rb'"
+puts "load 'scripts/setup.rb' # runs again"
+</script>
+
+<h4>Practice 4 - Rescuing LoadError</h4>
+
+<p><strong>Goal:</strong> Show how you would rescue <code>LoadError</code> for an optional dependency.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('LoadError') } && lines.any? { |l| l.include?('require') }"><code class="language-ruby">
+# TODO: Print a begin/rescue snippet that rescues LoadError around a
+# require call and prints a friendly message.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:3">
+puts "begin"
+puts "  require 'optional_gem'"
+puts "rescue LoadError"
+puts "  puts 'Install optional_gem for extra features'"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -372,12 +465,12 @@ Next: return to Flow Control & Collections to keep building on these reusable bu
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265846"></script>
-  <script src="/js/prism-ruby.js?v=1763265846"></script>
-  <script src="/js/prism-markdown.js?v=1763265846"></script>
-  <script src="/js/code-enhancements.js?v=1763265846"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265846"></script>
-  <script src="/js/github-pages-fix.js?v=1763265846"></script>
-  <script src="/js/site.js?v=1763265846"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

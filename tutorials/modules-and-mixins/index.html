@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265846">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265846">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265846">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265846">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -196,6 +196,163 @@ Modules keep related classes/constants organized and prevent name clashes.
 <ul><li>[ ] Create a module with shared methods (<code>Flyable</code>) and include it in two unrelated classes.</li></ul><ul><li>[ ] Use <code>extend</code> to add a class-level helper for logging.</li></ul><ul><li>[ ] Define a namespace module (<code>Inventory</code>) containing multiple classes.</li></ul><ul><li>[ ] Combine modules with inheritance--include different mixins in subclasses to tailor behavior.</li></ul>
 
 Next: head back to Flow Control & Collections to deploy these shared behaviors in loops and enumerations.
+
+<h4>Practice 1 - Sharing behaviour with an included module</h4>
+
+<p><strong>Goal:</strong> Create a module with shared methods and include it in two unrelated classes.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('taking off') } >= 2"><code class="language-ruby">
+# TODO: Define a Flyable module with a take_off method, include it in
+# two classes, and call the shared method on instances of each class.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:0">
+module Flyable
+  def take_off
+    puts "#{self.class} is taking off"
+  end
+end
+
+class Plane
+  include Flyable
+end
+
+class Drone
+  include Flyable
+end
+
+Plane.new.take_off
+Drone.new.take_off
+</script>
+
+<h4>Practice 2 - Using extend for class-level helpers</h4>
+
+<p><strong>Goal:</strong> Use <code>extend</code> to add a class-level logging helper.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }"><code class="language-ruby">
+# TODO: Create a module with a log class method and extend it into
+# a class so you can call MyClass.log directly.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:1">
+module ClassLogger
+  def log(message)
+    puts "LOG: #{message}"
+  end
+end
+
+class Service
+  extend ClassLogger
+end
+
+Service.log("starting up")
+</script>
+
+<h4>Practice 3 - Defining a namespace module</h4>
+
+<p><strong>Goal:</strong> Define a namespace module containing multiple classes.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Inventory::Product') } && lines.any? { |l| l.include?('Inventory::Order') }"><code class="language-ruby">
+# TODO: Build an Inventory module that contains Product and Order
+# classes, then instantiate them using the namespace.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:2">
+module Inventory
+  class Product
+    def initialize(name)
+      @name = name
+    end
+
+    def label
+      "Inventory::Product - #{@name}"
+    end
+  end
+
+  class Order
+    def initialize(id)
+      @id = id
+    end
+
+    def label
+      "Inventory::Order ##{@id}"
+    end
+  end
+end
+
+puts Inventory::Product.new("Book").label
+puts Inventory::Order.new(1).label
+</script>
+
+<h4>Practice 4 - Combining modules with inheritance</h4>
+
+<p><strong>Goal:</strong> Include different mixins in subclasses to tailor behaviour.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('emailing') } && lines.any? { |l| l.downcase.include?('logging') }"><code class="language-ruby">
+# TODO: Create a base class and two subclasses that each include
+# different mixins to provide extra behaviour, then show the
+# combined effects when you call their methods.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:3">
+module EmailNotifications
+  def notify(email)
+    puts "emailing #{email}"
+  end
+end
+
+module Logging
+  def log(message)
+    puts "logging: #{message}"
+  end
+end
+
+class BaseJob
+end
+
+class SignupJob < BaseJob
+  include EmailNotifications
+end
+
+class AuditJob < BaseJob
+  include Logging
+end
+
+SignupJob.new.notify("user@example.com")
+AuditJob.new.log("user signed up")
+</script>
 </p></div>
     </div>
 
@@ -361,12 +518,12 @@ Next: head back to Flow Control & Collections to deploy these shared behaviors i
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265846"></script>
-  <script src="/js/prism-ruby.js?v=1763265846"></script>
-  <script src="/js/prism-markdown.js?v=1763265846"></script>
-  <script src="/js/code-enhancements.js?v=1763265846"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265846"></script>
-  <script src="/js/github-pages-fix.js?v=1763265846"></script>
-  <script src="/js/site.js?v=1763265846"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

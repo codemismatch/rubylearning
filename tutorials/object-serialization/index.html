@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290156">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290156">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290156">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290156">
 </head>
 <body>
   
@@ -176,6 +176,105 @@ Some things can't be marshaled (e.g., procs, bindings, IO objects, singleton obj
 <ul><li>[ ] Serialize a custom class instance to disk and load it back in another script.</li></ul><ul><li>[ ] Attempt to marshal a proc and rescue the resulting <code>TypeError</code>.</li></ul><ul><li>[ ] Combine <code>Marshal.dump</code> with <code>StringIO</code> for in-memory caching.</li></ul><ul><li>[ ] Wrap dump/load in <code>begin/rescue</code> blocks and log failures.</li></ul>
 
 Next: continue to Flow Control & Collections, now with simple persistence techniques under your belt.
+
+<h4>Practice 1 - Sketching Marshal dump/load</h4>
+
+<p><strong>Goal:</strong> Describe how you would serialize a custom class instance to disk and load it back.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Marshal.dump') } && lines.any? { |l| l.include?('Marshal.load') }"><code class="language-ruby">
+# TODO: Print a short example showing Marshal.dump and Marshal.load
+# used with a custom class instance and a file.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/object-serialization:0">
+puts "File.open('user.dump', 'wb') { |f| Marshal.dump(user, f) }"
+puts "user = File.open('user.dump', 'rb') { |f| Marshal.load(f) }"
+</script>
+
+<h4>Practice 2 - Rescuing Marshal TypeError</h4>
+
+<p><strong>Goal:</strong> Attempt to marshal a proc and rescue the <code>TypeError</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('TypeError') }"><code class="language-ruby">
+# TODO: Print a snippet that shows attempting to Marshal.dump a proc
+# and rescuing TypeError with a friendly message.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/object-serialization:1">
+puts "begin"
+puts "  Marshal.dump(-> { puts 'hi' })"
+puts "rescue TypeError"
+puts "  puts 'Cannot marshal procs'"
+puts "end"
+</script>
+
+<h4>Practice 3 - Using StringIO for in-memory caching</h4>
+
+<p><strong>Goal:</strong> Combine <code>Marshal.dump</code> with <code>StringIO</code> for in-memory caching.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('StringIO') }"><code class="language-ruby">
+# TODO: Print an example using StringIO.new as an in-memory buffer for
+# Marshal.dump and Marshal.load.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/object-serialization:2">
+puts "buffer = StringIO.new"
+puts "Marshal.dump(obj, buffer)"
+puts "buffer.rewind"
+puts "copy = Marshal.load(buffer)"
+</script>
+
+<h4>Practice 4 - Logging serialization failures</h4>
+
+<p><strong>Goal:</strong> Wrap dump/load in <code>begin</code>/<code>rescue</code> and log failures.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('logger') } && lines.any? { |l| l.include?('rescue') }"><code class="language-ruby">
+# TODO: Print a short example that shows using Logger inside
+# begin/rescue around serialization calls.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/object-serialization"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/object-serialization:3">
+puts "begin"
+puts "  Marshal.dump(config, File.open('config.dump', 'wb'))"
+puts "rescue => e"
+puts "  logger.error(\"Failed to serialize config: \#{e.message}\")"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -341,12 +440,12 @@ Next: continue to Flow Control & Collections, now with simple persistence techni
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290156"></script>
+  <script src="/js/prism-ruby.js?v=1763290156"></script>
+  <script src="/js/prism-markdown.js?v=1763290156"></script>
+  <script src="/js/code-enhancements.js?v=1763290156"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290156"></script>
+  <script src="/js/github-pages-fix.js?v=1763290156"></script>
+  <script src="/js/site.js?v=1763290156"></script>
 </body>
 </html>

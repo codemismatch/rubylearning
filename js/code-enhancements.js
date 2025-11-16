@@ -48,7 +48,7 @@ function launchConfettiAround(element) {
   }
 }
 
-async function addRubyExecSupport() {
+  async function addRubyExecSupport() {
   // Only add Ruby execution support on pages with executable Ruby code
   const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
   if (rubyBlocks.length === 0) return;
@@ -65,9 +65,50 @@ async function addRubyExecSupport() {
       const module = await WebAssembly.compileStreaming(response);
       const instance = await DefaultRubyVM(module);
       vm = instance.vm;
+      console.log('Ruby VM initialized successfully');
     } catch (error) {
-      console.warn('Failed to load Ruby WASM:', error);
+      console.error('Failed to load Ruby WASM:', error);
       return;
+    }
+
+    // Wire interactive stdin via Ruby's JS bridge
+    // This overrides Kernel#gets to call window.prompt() when not in test mode
+    try {
+      const setupResult = vm.eval(`
+        require 'js'
+        
+        # Override Kernel#gets to use JS prompt
+        module Kernel
+          alias_method :__original_wasm_gets, :gets
+          
+          def gets(*args)
+            # If $stdin is a StringIO (from tests), use it
+            if defined?(StringIO) && $stdin.is_a?(StringIO)
+              return $stdin.gets(*args)
+            end
+            
+            # Otherwise prompt via JS - use JS.global.call syntax
+            result = JS.global.call(:prompt, "Ruby input >")
+            if result.nil?
+              return nil
+            end
+            result_str = result.to_s
+            return nil if result_str == "null"
+            result_str + "\\n"
+          end
+        end
+        
+        # Test that gets override works
+        $gets_test = defined?(gets) ? "method_defined" : "method_undefined"
+        "gets_override_ready"
+      `);
+      console.log('stdin override installed:', setupResult.toString());
+      
+      // Verify gets method is accessible
+      const getsTest = vm.eval('$gets_test');
+      console.log('gets method status:', getsTest.toString());
+    } catch (err) {
+      console.error('Failed to install stdin override:', err);
     }
 
     rubyBlocks.forEach((pre, index) => {
@@ -95,16 +136,25 @@ async function addRubyExecSupport() {
       // Add run/check button to the header
       const header = pre.closest('.code-window')?.querySelector('.code-header') || pre.parentElement?.querySelector('.code-header');
       if (header && !header.querySelector('.run-button')) {
-        const runButton = document.createElement('button');
-        runButton.className = 'run-button';
-        runButton.textContent = isPracticeCheck ? '✔ Check' : '▶ Run';
-        header.appendChild(runButton);
+        // For practice blocks, only show Check button (which runs tests)
+        // For non-practice blocks, show Run button
+        const mainButton = document.createElement('button');
+        mainButton.className = 'run-button';
+        
+        if (isPracticeCheck) {
+          mainButton.classList.add('check-button');
+          mainButton.textContent = '✔ Check';
+        } else {
+          mainButton.textContent = '▶ Run';
+        }
+        
+        header.appendChild(mainButton);
 
         // Insert output area after the <pre>
         pre.parentNode.insertBefore(outputArea, pre.nextSibling);
 
-        // Add event listener for the run/check button
-        runButton.addEventListener('click', async () => {
+        // Shared execution logic
+        const executeCode = async (runTests) => {
           const userCode = codeBlock.textContent.trim();
           outputContent.textContent = 'Executing Ruby code...\n';
 
@@ -122,41 +172,104 @@ async function addRubyExecSupport() {
             });
             const programLines = [
               "require 'stringio'",
-              "output = StringIO.new",
-              "$stdout = output",
-              "$stderr = output",
+              "require 'js'",
+              "$__exec_output__ = StringIO.new",
+              "$__last_prompt_line__ = nil",
+              "",
+              "# Override Kernel methods to capture output and provide gets",
+              "module Kernel",
+              "  # Capture output",
+              "  def puts(*args)",
+              "    if args.empty?",
+              "      $__exec_output__.puts",
+              "      $__last_prompt_line__ = nil",
+              "    else",
+              "      args.each do |arg|",
+              "        $__exec_output__.puts(arg)",
+              "        $__last_prompt_line__ = arg.to_s",
+              "      end",
+              "    end",
+              "    nil",
+              "  end",
+              "",
+              "  def print(*args)",
+              "    text = args.join",
+              "    $__exec_output__.print(text)",
+              "    $__last_prompt_line__ = text unless text.empty?",
+              "    nil",
+              "  end",
+              "",
+              "  def p(*args)",
+              "    args.each { |arg| $__exec_output__.puts(arg.inspect) }",
+              "    args.length <= 1 ? args.first : args",
+              "  end",
+              "",
+              "  # Override gets to prompt via JS when available, using the",
+              "  # last printed line as the prompt text when possible.",
+              "  alias __typophic_original_gets gets unless method_defined?(:__typophic_original_gets)",
+              "  def gets(*args)",
+              "    if defined?(JS) && JS.respond_to?(:global)",
+              "      prompt_text = $__last_prompt_line__.to_s.strip",
+              "      prompt_text = 'Ruby input >' if prompt_text.empty?",
+              "      result = JS.global.call(:prompt, prompt_text)",
+              "      return nil if result.nil?",
+              "      result.to_s + \"\\n\"",
+              "    else",
+              "      __typophic_original_gets(*args)",
+              "    end",
+              "  end",
+              "end",
+              "",
               "begin",
               "  sandbox = Module.new",
+              "  # Explicitly include Kernel so gets/puts/print work in sandbox",
+              "  sandbox.module_eval { include Kernel }",
+              "  ",
               `  sandbox.module_eval <<-'${heredocTag}'`,
               normalized,
               heredocTag,
-              "  if sandbox.respond_to?(:main)",
-              "    sandbox.main",
-              "  end",
               "rescue Exception => e",
-              "  output.puts(\"Error: #{e.class}: #{e.message}\")",
-              "ensure",
-              "  $stdout = STDOUT",
-              "  $stderr = STDERR",
+              "  $__exec_output__.puts(\"Error: \#{e.class}: \#{e.message}\")",
               "end"
             ];
 
+            // For practice blocks, always run tests (Check button)
+            // For non-practice blocks, just run the code (Run button)
             if (isPracticeCheck && practiceTest.trim().length > 0) {
               const testTag = 'RUBYTEST';
               programLines.push(
+                "# Make output variable available to tests",
+                "output = $__exec_output__",
+                "",
                 "test_result = begin",
-                `  !!(eval <<-'${testTag}')`,
+                "  begin",
+                "    # Prefer Test::Unit-style assertions when available, but",
+                "    # fall back to treating the last expression as a boolean.",
+                "    begin",
+                "      require 'test/unit/assertions'",
+                "      extend Test::Unit::Assertions",
+                "    rescue LoadError",
+                "      # In minimal environments, assertions may not be available.",
+                "    end",
+                `    __test_value__ = (eval <<-'${testTag}')`,
                 practiceTest,
                 testTag,
+                "    __test_value__ = true if __test_value__.nil?",
+                "    !!__test_value__",
+                "  rescue Exception => e",
+                "    # Swallow test framework details; surface only a concise error.",
+                "    $__exec_output__.puts(\"Test error: \#{e.message}\")",
+                "    false",
+                "  end",
                 "rescue Exception => e",
-                "  output.puts(\"Test error: #{e.class}: #{e.message}\")",
+                "  $__exec_output__.puts(\"Test error: \#{e.message}\")",
                 "  false",
                 "end",
-                "output_text = output.string",
-                "output_text + \"\\n__TEST__=#{test_result ? 'PASS' : 'FAIL'}\""
+                "output_text = $__exec_output__.string",
+                "output_text + \"\\n__TEST__=\#{test_result ? 'PASS' : 'FAIL'}\""
               );
             } else {
-              programLines.push("output.string");
+              programLines.push("$__exec_output__.string");
             }
 
             const result = vm.eval(programLines.join("\n"));
@@ -189,7 +302,7 @@ async function addRubyExecSupport() {
                 }
                 launchConfettiAround(header || pre);
               } else {
-                // Only reveal "Show code" after at least one failed attempt
+                // Reveal "Show code" button after first failed attempt
                 const existing = header.querySelector('.show-solution-button');
                 if (!existing) {
                   const showButton = document.createElement('button');
@@ -197,21 +310,26 @@ async function addRubyExecSupport() {
                   showButton.textContent = 'Show code';
                   header.appendChild(showButton);
 
+                  // Event listener that always fetches fresh solution from script tag
                   showButton.addEventListener('click', () => {
                     try {
                       const solutionKey = `${practiceChapter}:${practiceIndex}`;
                       const solutionNode = document.querySelector(
                         `script[data-practice-solution="${solutionKey}"]`
                       );
-                      if (!solutionNode) return;
+                      if (!solutionNode) {
+                        console.warn('Solution not found for:', solutionKey);
+                        return;
+                      }
 
+                      // Always restore from the stored solution
                       const solution = solutionNode.textContent.replace(/^\s+|\s+$/g, '');
                       codeBlock.textContent = solution;
                       if (typeof Prism !== 'undefined') {
                         Prism.highlightElement(codeBlock);
                       }
-                    } catch (_) {
-                      // swallow errors; showing solutions is a convenience only
+                    } catch (err) {
+                      console.warn('Failed to show solution:', err);
                     }
                   });
                 }
@@ -220,6 +338,11 @@ async function addRubyExecSupport() {
           } catch (err) {
             outputContent.textContent = `Error: ${err.message}`;
           }
+        };
+
+        // Wire up button event listener
+        mainButton.addEventListener('click', async () => {
+          await executeCode(isPracticeCheck); // Practice = run tests, non-practice = just run code
         });
       }
     });

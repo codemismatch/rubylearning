@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -200,6 +200,96 @@ Helpful references:
 <ul><li>[ ] Run <code>ri String#split</code> and <code>ri Enumerable#map</code> to inspect their signatures.</li></ul><ul><li>[ ] Document a small Ruby file with RDoc-style comments and generate HTML using <code>rdoc</code>.</li></ul><ul><li>[ ] Explore class vs instance method lookups with <code>ri Math::cos</code> and <code>ri Math#cos</code> to see the difference.</li></ul><ul><li>[ ] Cache the RDoc output for your project so you can browse it without internet access.</li></ul>
 
 Next: armed with offline docs, continue into Flow Control & Collections to keep building Ruby fluency.
+
+<h4>Practice 1 - Using ri for core methods</h4>
+
+<p><strong>Goal:</strong> Show how you would run <code>ri</code> for common methods like <code>String#split</code> and <code>Enumerable#map</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ri String#split') } && lines.any? { |l| l.include?('ri Enumerable#map') }"><code class="language-ruby">
+# TODO: Print the ri invocations you would use to inspect String#split
+# and Enumerable#map.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:0">
+puts "ri String#split"
+puts "ri Enumerable#map"
+</script>
+
+<h4>Practice 2 - RDoc comments and HTML generation</h4>
+
+<p><strong>Goal:</strong> Document a Ruby file with RDoc-style comments and generate HTML with <code>rdoc</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rdoc') }"><code class="language-ruby">
+# TODO: Print the rdoc command you would run to generate HTML docs for
+# your project.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:1">
+puts "rdoc -o doc ."
+</script>
+
+<h4>Practice 3 - Class vs instance method lookups</h4>
+
+<p><strong>Goal:</strong> Explore <code>ri Math::cos</code> vs <code>ri Math#cos</code> to see class vs instance method lookups.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Math::cos') } && lines.any? { |l| l.include?('Math#cos') }"><code class="language-ruby">
+# TODO: Print the two ri commands and a short note about what they
+# mean.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:2">
+puts "ri Math::cos  # class method"
+puts "ri Math#cos   # instance method (for completeness)"
+</script>
+
+<h4>Practice 4 - Caching docs offline</h4>
+
+<p><strong>Goal:</strong> Cache RDoc output so you can browse docs without internet access.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('offline docs') }"><code class="language-ruby">
+# TODO: Print a short explanation of how generating HTML with rdoc
+# gives you offline docs.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:3">
+puts "Generating HTML with rdoc into ./doc lets you open docs in a browser without internet access."
+</script>
 </p></div>
     </div>
 
@@ -365,12 +455,12 @@ Next: armed with offline docs, continue into Flow Control & Collections to keep 
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

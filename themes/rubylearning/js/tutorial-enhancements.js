@@ -253,17 +253,27 @@ function initChapterListProgress() {
       const visited = window.localStorage.getItem(`${chapterKeyPrefix}:visited`) === '1';
       const complete = window.localStorage.getItem(`${chapterKeyPrefix}:complete`) === '1';
 
-      if (!visited && !complete) return;
-
       const marker = document.createElement('span');
       marker.className = 'chapter-progress-marker';
-      marker.textContent = complete ? '✅' : '☑️';
-      marker.setAttribute(
-        'aria-label',
-        complete ? 'Chapter completed' : 'Chapter visited'
-      );
+      let ariaLabel = 'Chapter not started';
 
-      link.appendChild(marker);
+      if (complete) {
+        marker.textContent = '✓';
+        marker.classList.add('chapter-progress-marker--complete');
+        ariaLabel = 'Chapter completed';
+        link.classList.add('chapter-link--complete');
+      } else if (visited) {
+        marker.textContent = '✓';
+        marker.classList.add('chapter-progress-marker--visited');
+        ariaLabel = 'Chapter visited';
+      } else {
+        marker.classList.add('chapter-progress-marker--pending');
+      }
+
+      marker.setAttribute('aria-label', ariaLabel);
+
+      // Insert marker before the link text so it appears to the left
+      link.insertBefore(marker, link.firstChild);
     } catch (_) {
       // Ignore malformed URLs
     }

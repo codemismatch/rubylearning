@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -244,6 +244,127 @@ The semicolon separates block parameters (<code>y</code>) from block-local varia
 <ul><li>[ ] Write a method that yields twice and pass it a block that prints a message with iteration counts.</li></ul><ul><li>[ ] Experiment with <code>block_given?</code> by calling a method with and without a block.</li></ul><ul><li>[ ] Use a block to iterate over a range and collect values, then rewrite the same logic using <code>Enumerable#map</code>.</li></ul><ul><li>[ ] Demonstrate the difference between block parameters, outer variables, and block-local variables using <code>;</code> syntax.</li></ul>
 
 Next: continue to Flow Control & Collections to iterate with arrays, hashes, and enumerable helpers.
+
+<h4>Practice 1 - Yielding multiple times</h4>
+
+<p><strong>Goal:</strong> Write a method that yields twice and pass it a block that prints a message with iteration counts.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('iteration') } >= 2"><code class="language-ruby">
+# TODO: Define a method that yields at least twice and pass it a block
+# that prints a message including the iteration number.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:0">
+def twice
+  2.times do |i|
+    yield(i + 1)
+  end
+end
+
+twice do |iteration|
+  puts "iteration #{iteration}"
+end
+</script>
+
+<h4>Practice 2 - Using block_given?</h4>
+
+<p><strong>Goal:</strong> Experiment with <code>block_given?</code> by calling a method with and without a block.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('with block') } && lines.any? { |l| l.downcase.include?('without block') }"><code class="language-ruby">
+# TODO: Write a method that behaves differently depending on whether
+# block_given? is true, then call it with and without a block.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:1">
+def maybe_yield
+  if block_given?
+    puts "with block"
+    yield
+  else
+    puts "without block"
+  end
+end
+
+maybe_yield
+maybe_yield { puts "block ran" }
+</script>
+
+<h4>Practice 3 - Range iteration vs map</h4>
+
+<p><strong>Goal:</strong> Use a block to iterate over a range and collect values, then rewrite the same logic with <code>Enumerable#map</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('manual:') } && lines.any? { |l| l.downcase.include?('map:') }"><code class="language-ruby">
+# TODO: Iterate over a numeric range using an explicit loop and a
+# block to collect values, then do the same with map and print both
+# results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:2">
+range = 1..5
+
+manual = []
+range.each do |n|
+  manual << n * 2
+end
+puts "manual: #{manual.inspect}"
+
+mapped = range.map { |n| n * 2 }
+puts "map:    #{mapped.inspect}"
+</script>
+
+<h4>Practice 4 - Block parameters vs outer and block-local variables</h4>
+
+<p><strong>Goal:</strong> Demonstrate the difference between block parameters, outer variables, and block-local variables using <code>;</code> syntax.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('outer x') } && lines.any? { |l| l.downcase.include?('block-local x') }"><code class="language-ruby">
+# TODO: Use a block with block-local variables to contrast the values
+# of a parameter, an outer variable, and a block-local variable.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:3">
+x = 10
+
+puts "outer x before: #{x}"
+
+3.times do |i; x|
+  x = i
+  puts "block-local x: #{x}"
+end
+
+puts "outer x after: #{x}"
+</script>
 </p></div>
     </div>
 
@@ -409,12 +530,12 @@ Next: continue to Flow Control & Collections to iterate with arrays, hashes, and
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -189,6 +189,117 @@ Key details:
 <ul><li>[ ] Add <code>method_missing</code> to a class and log every unknown method before calling <code>super</code>.</li></ul><ul><li>[ ] Build a simple dynamic finder (e.g., <code>user.find_by_name("...")</code>) that parses the method name inside <code>method_missing</code>.</li></ul><ul><li>[ ] Override <code>respond_to_missing?</code> to keep <code>respond_to?</code> in sync with your dynamic methods.</li></ul><ul><li>[ ] Experiment with passing blocks through <code>&block.call</code> inside your handler.</li></ul>
 
 Next: continue to Flow Control & Collections to keep exercising these dynamic techniques inside larger programs.
+
+<h4>Practice 1 - Logging unknown methods</h4>
+
+<p><strong>Goal:</strong> Add <code>method_missing</code> to a class and log unknown methods before calling <code>super</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('method_missing') } && lines.any? { |l| l.downcase.include?('unknown') }"><code class="language-ruby">
+# TODO: Print a class definition that implements method_missing,
+# logs the unknown method name, and calls super.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:0">
+puts "class LoggerProxy"
+puts "  def method_missing(name, *args, &block)"
+puts "    puts \"unknown method: \#{name}\""
+puts "    super"
+puts "  end"
+puts "end"
+</script>
+
+<h4>Practice 2 - Simple dynamic finder</h4>
+
+<p><strong>Goal:</strong> Build a simple dynamic finder using <code>method_missing</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('find_by_name') } && lines.any? { |l| l.downcase.include?('parsed') }"><code class="language-ruby">
+# TODO: Print a small sketch of a UserRepository class that responds
+# to methods like find_by_name via method_missing by parsing the
+# method name.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:1">
+puts "class UserRepository"
+puts "  def method_missing(name, *args)"
+puts "    if name.to_s.start_with?('find_by_')"
+puts "      field = name.to_s.sub('find_by_', '')"
+puts "      puts \"parsed dynamic finder for \#{field}\""
+puts "    else"
+puts "      super"
+puts "    end"
+puts "  end"
+puts "end"
+</script>
+
+<h4>Practice 3 - Keeping respond_to? honest</h4>
+
+<p><strong>Goal:</strong> Override <code>respond_to_missing?</code> so <code>respond_to?</code> stays in sync with dynamic methods.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('respond_to_missing?') }"><code class="language-ruby">
+# TODO: Print an example respond_to_missing? implementation that
+# recognises your dynamic finder methods.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:2">
+puts "def respond_to_missing?(name, include_private = false)"
+puts "  name.to_s.start_with?('find_by_') || super"
+puts "end"
+</script>
+
+<h4>Practice 4 - Passing blocks through handlers</h4>
+
+<p><strong>Goal:</strong> Experiment with passing blocks through <code>&block</code> inside a <code>method_missing</code> handler.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('yielded from block') }"><code class="language-ruby">
+# TODO: Print a short example showing method_missing capturing a
+# block argument and calling it.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:3">
+puts "def method_missing(name, *args, &block)"
+puts "  if block"
+puts "    block.call('yielded from block')"
+puts "  else"
+puts "    super"
+puts "  end"
+puts "end"
+</script>
 </p></div>
     </div>
 
@@ -354,12 +465,12 @@ Next: continue to Flow Control & Collections to keep exercising these dynamic te
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

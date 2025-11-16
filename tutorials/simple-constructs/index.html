@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290158">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290158">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290158">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290158">
 </head>
 <body>
   
@@ -263,6 +263,131 @@ Remember: <code>nil</code> is a real object (<code>NilClass</code>) and responds
 <h3>Practice checklist</h3>
 <ul><li>[ ] Rewrite an <code>if</code>/<code>else</code> tree using <code>elsif</code> and then with logical operators to reduce nesting.</li></ul><ul><li>[ ] Use <code>unless</code> to validate command-line arguments, then swap it with <code>if</code> to see which reads better.</li></ul><ul><li>[ ] Convert a small <code>if/else</code> assignment into a ternary expression and back.</li></ul><ul><li>[ ] Build a <code>case</code> expression that categorizes numeric ranges (e.g., fizz/buzz or temperature bands).</li></ul>
 
+<h4>Practice 1 - Refactoring nested conditionals</h4>
+
+<p><strong>Goal:</strong> Rewrite a nested <code>if</code>/<code>else</code> tree using <code>elsif</code> or logical operators to reduce nesting.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('eligible') } && lines.any? { |l| l.downcase.include?('not eligible') }"><code class="language-ruby">
+# TODO: Start from a nested conditional (e.g., age + country checks)
+# and refactor it to use elsif or logical operators so it's easier to
+# read.
+# Hint:
+#   - Print a message for the 'eligible' and 'not eligible' cases.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:0">
+age = 20
+country = "IN"
+
+if age >= 18 && country == "IN"
+  puts "Eligible to vote"
+else
+  puts "Not eligible to vote"
+end
+</script>
+
+<h4>Practice 2 - Using unless for guard clauses</h4>
+
+<p><strong>Goal:</strong> Use <code>unless</code> to validate command-line arguments and compare readability with <code>if</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('usage') } || lines.any? { |l| l.downcase.include?('missing') }"><code class="language-ruby">
+# TODO: Check ARGV for at least one argument, using `unless` to
+# display a usage message when none are provided.
+# Hint:
+#   - After trying with unless, rewrite the same logic with if.
+#   - Print a clear usage or error message.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:1">
+unless ARGV.any?
+  puts "Usage: ruby script.rb <name>"
+end
+</script>
+
+<h4>Practice 3 - Ternary expression vs if/else</h4>
+
+<p><strong>Goal:</strong> Convert a small <code>if/else</code> assignment into a ternary expression and back.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/status:/i) }"><code class="language-ruby">
+# TODO: Assign a status string based on a condition using an if/else
+# block, then rewrite it as a ternary expression.
+# Hint:
+#   - Use something like status = condition ? 'ok' : 'error'
+#   - Print the final status.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:2">
+score = 75
+
+status = if score >= 60
+  "pass"
+else
+  "fail"
+end
+
+status = score >= 60 ? "pass" : "fail"
+
+puts "Status: #{status}"
+</script>
+
+<h4>Practice 4 - Case expression for range categories</h4>
+
+<p><strong>Goal:</strong> Build a <code>case</code> expression that categorizes numeric ranges.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/cold/i) } && lines.any? { |l| l.match?(/hot/i) }"><code class="language-ruby">
+# TODO: Use a case expression to categorize a temperature into ranges
+# such as 'cold', 'warm', and 'hot'.
+# Hint:
+#   - Choose a temperature value and print the category.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:3">
+temp = 28
+
+label = case temp
+when -Float::INFINITY...10
+  "cold"
+when 10...25
+  "mild"
+else
+  "hot"
+end
+
+puts "Temperature #{temp}°C feels #{label}"
+</script>
+
 Next: dive deeper into Flow Control & Collections to combine these constructs with loops, arrays, and hashes.
 </p></div>
     </div>
@@ -429,12 +554,12 @@ Next: dive deeper into Flow Control & Collections to combine these constructs wi
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290158"></script>
+  <script src="/js/prism-ruby.js?v=1763290158"></script>
+  <script src="/js/prism-markdown.js?v=1763290158"></script>
+  <script src="/js/code-enhancements.js?v=1763290158"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290158"></script>
+  <script src="/js/github-pages-fix.js?v=1763290158"></script>
+  <script src="/js/site.js?v=1763290158"></script>
 </body>
 </html>

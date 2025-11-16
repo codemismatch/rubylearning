@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -185,6 +185,116 @@ This pattern explains why built-in methods like <code>2.times { ... }</code> wor
 <ul><li>[ ] Add a method to <code>Array</code> that returns the middle element, making sure odd/even sizes behave sensibly.</li></ul><ul><li>[ ] Override <code>String#to_s</code> in a small script and observe the impact; revert afterward to avoid confusion.</li></ul><ul><li>[ ] Implement a custom numeric helper (e.g., <code>5.minutes</code> returning seconds) and use it in a timer script.</li></ul><ul><li>[ ] Explore refinements (<code>using ModuleName</code>) for safer, scoped patches.</li></ul>
 
 Next: keep building in Flow Control & Collections, combining your augmented classes with loops and iterators, and then dive into Ruby Inheritance to organize related behavior.
+
+<h4>Practice 1 - Adding Array#middle</h4>
+
+<p><strong>Goal:</strong> Add a method to <code>Array</code> that returns the middle element, behaving sensibly for odd/even sizes.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Array') } && lines.any? { |l| l.include?('def middle') }"><code class="language-ruby">
+# TODO: Reopen Array and define #middle so that it returns the middle
+# element for odd sizes and one of the two middle elements for even
+# sizes (you can choose which).
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:0">
+puts "class Array"
+puts "  def middle"
+puts "    return nil if empty?"
+puts "    self[(size - 1) / 2]"
+puts "  end"
+puts "end"
+</script>
+
+<h4>Practice 2 - Overriding String#to_s</h4>
+
+<p><strong>Goal:</strong> Override <code>String#to_s</code> in a small script and observe the impact.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class String') } && lines.any? { |l| l.include?('def to_s') }"><code class="language-ruby">
+# TODO: Print a small example that reopens String to override to_s and
+# mention in a comment that this is only for experimentation.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:1">
+puts "class String"
+puts "  def to_s"
+puts "    \"[string: \#{inspect}]\""
+puts "  end"
+puts "end"
+puts "# Override only in small scripts; avoid in real apps."
+</script>
+
+<h4>Practice 3 - Custom numeric helper</h4>
+
+<p><strong>Goal:</strong> Implement a custom numeric helper (e.g., <code>5.minutes</code> returning seconds).</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Integer') } && lines.any? { |l| l.include?('def minutes') }"><code class="language-ruby">
+# TODO: Reopen Integer and define minutes (and optionally seconds,
+# hours) so that 5.minutes returns 300.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:2">
+puts "class Integer"
+puts "  def minutes"
+puts "    self * 60"
+puts "  end"
+puts "end"
+puts "puts 5.minutes # => 300"
+</script>
+
+<h4>Practice 4 - Exploring refinements</h4>
+
+<p><strong>Goal:</strong> Explore refinements for safer, scoped patches.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('refine String') } && lines.any? { |l| l.include?('using') }"><code class="language-ruby">
+# TODO: Print a simple refinement that patches String inside a module
+# and show how to activate it with using.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:3">
+puts "module StringRefinements"
+puts "  refine String do"
+puts "    def shout; upcase + '!'; end"
+puts "  end"
+puts "end"
+puts "using StringRefinements"
+puts "\"hello\".shout # works only where refinement is active"
+</script>
 </p></div>
     </div>
 
@@ -350,12 +460,12 @@ Next: keep building in Flow Control & Collections, combining your augmented clas
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

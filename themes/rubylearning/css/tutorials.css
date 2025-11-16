@@ -159,8 +159,35 @@ html {
 
 /* Chapter progress markers on the learning path list */
 .chapter-progress-marker {
-  margin-left: 0.4rem;
-  font-size: 0.9rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.1em;
+  height: 1.1em;
+  border-radius: 999px;
+  margin-right: 0.4rem;
+  font-size: 0.7em;
+  vertical-align: middle;
+}
+
+.chapter-progress-marker--complete {
+  background-color: #22c55e; /* green */
+  color: #ffffff;
+}
+
+.chapter-progress-marker--visited {
+  background-color: #9ca3af; /* gray */
+  color: #ffffff;
+}
+
+.chapter-progress-marker--pending {
+  border: 2px solid #d1d5db;
+  background-color: transparent;
+  color: transparent; /* no glyph, just the ring */
+}
+
+.chapter-nav ol li a.chapter-link--complete {
+  color: #16a34a; /* green text for completed chapters */
 }
 
 /* Responsive Styles */

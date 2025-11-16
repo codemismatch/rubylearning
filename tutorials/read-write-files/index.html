@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265847">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265847">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290157">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290157">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265847">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265847">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290157">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290157">
 </head>
 <body>
   
@@ -210,6 +210,97 @@ Ruby supports object serialization via <code>Marshal.dump</code>/<code>Marshal.l
 <ul><li>[ ] Open a text file in <code>"a"</code> (append) mode and log a timestamped entry.</li></ul><ul><li>[ ] Use <code>File.readlines</code> to count the number of lines matching a pattern.</li></ul><ul><li>[ ] Traverse a directory with <code>Find.find</code>, filtering only <code>.rb</code> files.</li></ul><ul><li>[ ] Seek to the middle of a file and read the remainder to understand pointer positioning.</li></ul>
 
 Next: continue to Flow Control & Collections to keep combining IO with loops, ranges, and data structures.
+
+<h4>Practice 1 - Appending a timestamped entry</h4>
+
+<p><strong>Goal:</strong> Sketch how you would append a timestamped entry to a log file.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.open') } && lines.any? { |l| l.include?('\"a\"') }"><code class="language-ruby">
+# TODO: Print a snippet that opens a file in \"a\" mode and writes a
+# timestamped line.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/read-write-files:0">
+puts 'File.open("log.txt", "a") { |f| f.puts("[\#{Time.now}] Started app") }'
+</script>
+
+<h4>Practice 2 - Counting matching lines</h4>
+
+<p><strong>Goal:</strong> Describe how you would use <code>File.readlines</code> to count matching lines.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.readlines') }"><code class="language-ruby">
+# TODO: Print an example that reads all lines from a file and counts
+# those matching a pattern.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/read-write-files:1">
+puts 'count = File.readlines("log.txt").count { |line| line.include?("ERROR") }'
+</script>
+
+<h4>Practice 3 - Traversing directories with Find.find</h4>
+
+<p><strong>Goal:</strong> Use <code>Find.find</code> to traverse a directory tree and select <code>.rb</code> files.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Find.find') } && lines.any? { |l| l.include?('.rb') }"><code class="language-ruby">
+# TODO: Print a snippet that walks a directory tree and prints only
+# Ruby files.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/read-write-files:2">
+puts 'Find.find(".") { |path| puts path if path.end_with?(".rb") }'
+</script>
+
+<h4>Practice 4 - Seeking within a file</h4>
+
+<p><strong>Goal:</strong> Show how you would seek to the middle of a file and read the remainder.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.seek(') }"><code class="language-ruby">
+# TODO: Print an example that uses IO#seek to move to a position and
+# then reads the rest of the file.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/read-write-files:3">
+puts 'File.open("data.txt", "r") do |f|'
+puts '  f.seek(f.size / 2)'
+puts '  tail = f.read'
+puts 'end'
+</script>
 </p></div>
     </div>
 
@@ -375,12 +466,12 @@ Next: continue to Flow Control & Collections to keep combining IO with loops, ra
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265847"></script>
-  <script src="/js/prism-ruby.js?v=1763265847"></script>
-  <script src="/js/prism-markdown.js?v=1763265847"></script>
-  <script src="/js/code-enhancements.js?v=1763265847"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265847"></script>
-  <script src="/js/github-pages-fix.js?v=1763265847"></script>
-  <script src="/js/site.js?v=1763265847"></script>
+  <script src="/js/prism.js?v=1763290157"></script>
+  <script src="/js/prism-ruby.js?v=1763290157"></script>
+  <script src="/js/prism-markdown.js?v=1763290157"></script>
+  <script src="/js/code-enhancements.js?v=1763290157"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290157"></script>
+  <script src="/js/github-pages-fix.js?v=1763290157"></script>
+  <script src="/js/site.js?v=1763290157"></script>
 </body>
 </html>

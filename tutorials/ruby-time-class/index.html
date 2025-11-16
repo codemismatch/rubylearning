@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763265848">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763265848">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763290158">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763290158">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763265848">
-  <link rel="stylesheet" href="/css/badges.css?v=1763265848">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763290158">
+  <link rel="stylesheet" href="/css/badges.css?v=1763290158">
 </head>
 <body>
   
@@ -198,6 +198,102 @@ puts &quot;deadline passed&quot; if Time.now &gt; deadline
 <ul><li>[ ] Format the current time as <code>YYYY/MM/DD HH:MM</code>.</li></ul><ul><li>[ ] Compute how many seconds remain until midnight.</li></ul><ul><li>[ ] Convert <code>Time.now</code> to UTC, then back to local.</li></ul><ul><li>[ ] Measure how long a block takes by capturing <code>start = Time.now</code> and subtracting.</li></ul>
 
 Next: keep building in Flow Control & Collections, now with timestamps for logging or scheduling.
+
+<h4>Practice 1 - Formatting the current time</h4>
+
+<p><strong>Goal:</strong> Format the current time as <code>YYYY/MM/DD HH:MM</code>.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match(/\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}/) }"><code class="language-ruby">
+# TODO: Use Time.now.strftime to print the current time as
+# YYYY/MM/DD HH:MM.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:0">
+puts Time.now.strftime("%Y/%m/%d %H:%M")
+</script>
+
+<h4>Practice 2 - Seconds until midnight</h4>
+
+<p><strong>Goal:</strong> Compute how many seconds remain until midnight.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('seconds until midnight') }"><code class="language-ruby">
+# TODO: Calculate the time difference between now and the next
+# midnight, and print it in seconds.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:1">
+now = Time.now
+midnight = Time.new(now.year, now.month, now.day) + 24 * 60 * 60
+seconds = (midnight - now).to_i
+puts "seconds until midnight: #{seconds}"
+</script>
+
+<h4>Practice 3 - Converting to UTC and back</h4>
+
+<p><strong>Goal:</strong> Convert <code>Time.now</code> to UTC, then back to local.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('utc') } && lines.any? { |l| l.downcase.include?('local') }"><code class="language-ruby">
+# TODO: Print both the UTC and local representations of the current
+# time.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:2">
+now = Time.now
+puts "utc:   #{now.utc}"
+puts "local: #{now.localtime}"
+</script>
+
+<h4>Practice 4 - Measuring block duration</h4>
+
+<p><strong>Goal:</strong> Measure how long a block takes using <code>Time.now</code> before and after.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('elapsed') }"><code class="language-ruby">
+# TODO: Capture start = Time.now, run some work, then print the
+# elapsed seconds.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:3">
+start = Time.now
+sleep 0.1
+elapsed = Time.now - start
+puts "elapsed: #{elapsed} seconds"
+</script>
 </p></div>
     </div>
 
@@ -363,12 +459,12 @@ Next: keep building in Flow Control & Collections, now with timestamps for loggi
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763265848"></script>
-  <script src="/js/prism-ruby.js?v=1763265848"></script>
-  <script src="/js/prism-markdown.js?v=1763265848"></script>
-  <script src="/js/code-enhancements.js?v=1763265848"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763265848"></script>
-  <script src="/js/github-pages-fix.js?v=1763265848"></script>
-  <script src="/js/site.js?v=1763265848"></script>
+  <script src="/js/prism.js?v=1763290158"></script>
+  <script src="/js/prism-ruby.js?v=1763290158"></script>
+  <script src="/js/prism-markdown.js?v=1763290158"></script>
+  <script src="/js/code-enhancements.js?v=1763290158"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763290158"></script>
+  <script src="/js/github-pages-fix.js?v=1763290158"></script>
+  <script src="/js/site.js?v=1763290158"></script>
 </body>
 </html>
