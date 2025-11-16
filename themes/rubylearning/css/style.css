@@ -404,7 +404,8 @@
 }
 
 .ruby-console-drawer--open .ruby-console-body {
-  max-height: 70vh;
+  max-height: 85vh; /* allow taller drawer */
+  min-height: 300px; /* ensure meaningful open height */
 }
 
 .ruby-console-toggle {
