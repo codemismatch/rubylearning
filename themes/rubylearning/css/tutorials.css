@@ -162,11 +162,11 @@ html {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.1em;
-  height: 1.1em;
+  width: 1.6em;
+  height: 1.6em;
   border-radius: 999px;
   margin-right: 0.4rem;
-  font-size: 0.7em;
+  font-size: 1em;
   vertical-align: middle;
 }
 
