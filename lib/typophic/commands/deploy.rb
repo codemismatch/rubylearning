@@ -117,18 +117,34 @@ module Typophic
         build_args = ["--deploy"]
         previous_override = nil
 
-        if options[:custom_domain]
+        # Determine domain for build-time URL override and CNAME:
+        # 1. Explicit --custom-domain flag wins.
+        # 2. Otherwise, derive host from config.yml url (if present).
+        domain_for_cname = options[:custom_domain]
+        if domain_for_cname.to_s.strip.empty?
+          config = load_config
+          raw_url = config.fetch("url", "").to_s.strip
+          begin
+            uri = raw_url.empty? ? nil : URI.parse(raw_url)
+            host = uri&.host.to_s.strip
+            domain_for_cname = host unless host.empty?
+          rescue URI::InvalidURIError
+            domain_for_cname = nil
+          end
+        end
+
+        if domain_for_cname
           previous_override = ENV["TYPOPHIC_URL_OVERRIDE"]
-          ENV["TYPOPHIC_URL_OVERRIDE"] = "https://#{options[:custom_domain]}"
+          ENV["TYPOPHIC_URL_OVERRIDE"] = "https://#{domain_for_cname}"
         end
 
         begin
           Typophic::Commands::Build.run(build_args)
         ensure
-          ENV["TYPOPHIC_URL_OVERRIDE"] = previous_override if options[:custom_domain]
+          ENV["TYPOPHIC_URL_OVERRIDE"] = previous_override if domain_for_cname
         end
 
-        create_custom_domain(options[:custom_domain]) if options[:custom_domain]
+        create_custom_domain(domain_for_cname) if domain_for_cname
 
         case options[:provider]
         when :github
