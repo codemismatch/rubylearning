@@ -2,27 +2,19 @@
 
 require "optparse"
 require_relative "version"
-require_relative "commands/build"
-require_relative "commands/serve"
-require_relative "commands/deploy"
-require_relative "commands/new"
-require_relative "commands/theme"
-require_relative "commands/blog"
-require_relative "commands/clean"
-require_relative "commands/doctor"
 
 module Typophic
   class CLI
     COMMANDS = {
-      "build" => Commands::Build,
-      "serve" => Commands::Serve,
-      "s" => Commands::Serve,  # Alias for serve
-      "deploy" => Commands::Deploy,
-      "new" => Commands::New,
-      "theme" => Commands::Theme,
-      "blog" => Commands::Blog,
-      "clean" => Commands::Clean,
-      "doctor" => Commands::Doctor
+      "build" => -> { require_relative "commands/build"; Commands::Build },
+      "serve" => -> { require_relative "commands/serve"; Commands::Serve },
+      "s" => -> { require_relative "commands/serve"; Commands::Serve }, # Alias for serve
+      "deploy" => -> { require_relative "commands/deploy"; Commands::Deploy },
+      "new" => -> { require_relative "commands/new"; Commands::New },
+      "theme" => -> { require_relative "commands/theme"; Commands::Theme },
+      "blog" => -> { require_relative "commands/blog"; Commands::Blog },
+      "clean" => -> { require_relative "commands/clean"; Commands::Clean },
+      "doctor" => -> { require_relative "commands/doctor"; Commands::Doctor }
     }.freeze
 
     def self.start(argv)
@@ -44,14 +36,14 @@ module Typophic
         return
       end
 
-      handler = COMMANDS[command]
-      if handler.nil?
+      handler_loader = COMMANDS[command]
+      if handler_loader.nil?
         warn "Unknown command: #{command}\n"
         print_help
         exit 1
       end
 
-      handler.run(@argv)
+      handler_loader.call.run(@argv)
     end
 
     private

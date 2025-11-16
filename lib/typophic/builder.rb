@@ -127,10 +127,10 @@ module Typophic
     
 
             def load_config
-
-    
-
-              YAML.load_file("config.yml")
+              config = YAML.load_file("config.yml")
+              override = ENV["TYPOPHIC_URL_OVERRIDE"].to_s.strip
+              config["url"] = override unless override.empty?
+              config
     rescue Errno::ENOENT
       {}
     end

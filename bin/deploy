@@ -1,0 +1,33 @@
+#!/bin/bash
+
+# bin/deploy - Deploy Ruby Learning site via Typophic
+
+set -e  # Exit on error
+
+# Resolve repository root based on this script's location
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+REPO_ROOT="$(cd "${SCRIPT_DIR}/.." && pwd)"
+
+cd "${REPO_ROOT}"
+
+echo "===== RUBY LEARNING DEPLOYMENT ====="
+echo "Repository root: ${REPO_ROOT}"
+
+# Make scripts executable
+chmod +x "${REPO_ROOT}/bin/"* 2>/dev/null || echo "Warning: Could not make bin scripts executable"
+chmod +x "${REPO_ROOT}/fix-header-link.rb" 2>/dev/null || true
+
+# Build and deploy via Typophic CLI
+echo "1. Building and deploying the site via Typophic..."
+if [ -x "${REPO_ROOT}/bin/typo" ]; then
+  "${REPO_ROOT}/bin/typo" deploy --remote origin --branch gh-pages
+elif [ -x "${REPO_ROOT}/bin/typophic" ]; then
+  "${REPO_ROOT}/bin/typophic" deploy --remote origin --branch gh-pages
+else
+  echo "Error: No Typophic CLI found (bin/typo or bin/typophic)."
+  exit 1
+fi
+
+echo "===== DEPLOYMENT COMPLETE ====="
+echo "Your site has been deployed to GitHub Pages!"
+echo "It may take a few minutes for the changes to appear."

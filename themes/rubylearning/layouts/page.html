@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title><%= page.title %> - <%= site.title %></title>
   <meta name="description" content="<%= page.description || site.description %>">
+  <link rel="icon" type="image/x-icon" href="<%= asset_path('images/favicon.ico') %>">
   <link rel="stylesheet" href="<%= asset_path('css/style.css') %>">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -120,7 +121,13 @@
         </div>
       </div>
       <div class="footer-bottom">
-        <p>&copy; <%= Time.now.year %> Ruby Learning. Built with Typophic.</p>
+        <p>
+          &copy; <%= Time.now.year %> Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
       </div>
     </div>
   </footer>

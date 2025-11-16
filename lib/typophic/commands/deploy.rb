@@ -115,9 +115,36 @@ module Typophic
       def remote_publish(options)
         puts "== Building site for deployment =="
         build_args = ["--deploy"]
-        Typophic::Commands::Build.run(build_args)
+        previous_override = nil
 
-        create_custom_domain(options[:custom_domain]) if options[:custom_domain]
+        # Determine domain for build-time URL override and CNAME:
+        # 1. Explicit --custom-domain flag wins.
+        # 2. Otherwise, derive host from config.yml url (if present).
+        domain_for_cname = options[:custom_domain]
+        if domain_for_cname.to_s.strip.empty?
+          config = load_config
+          raw_url = config.fetch("url", "").to_s.strip
+          begin
+            uri = raw_url.empty? ? nil : URI.parse(raw_url)
+            host = uri&.host.to_s.strip
+            domain_for_cname = host unless host.empty?
+          rescue URI::InvalidURIError
+            domain_for_cname = nil
+          end
+        end
+
+        if domain_for_cname
+          previous_override = ENV["TYPOPHIC_URL_OVERRIDE"]
+          ENV["TYPOPHIC_URL_OVERRIDE"] = "https://#{domain_for_cname}"
+        end
+
+        begin
+          Typophic::Commands::Build.run(build_args)
+        ensure
+          ENV["TYPOPHIC_URL_OVERRIDE"] = previous_override if domain_for_cname
+        end
+
+        create_custom_domain(domain_for_cname) if domain_for_cname
 
         case options[:provider]
         when :github
@@ -170,14 +197,79 @@ module Typophic
       def publish_to_git(options)
         remote = options[:remote]
         branch = options[:branch]
-        force_flag = options[:force] ? "--force" : nil
+        force = options[:force]
 
-        command = ["git", "subtree", "push", "--prefix", "public", remote, branch]
-        command << force_flag if force_flag
+        repo_root = Dir.pwd
+        public_dir = File.join(repo_root, "public")
 
-        puts "== Publishing public/ to #{remote}/#{branch} =="
-        unless system(*command.compact)
-          warn "Git publish failed. Verify the remote name/branch or push manually."
+        unless Dir.exist?(public_dir)
+          warn "public/ directory not found. Run `typophic build --deploy` first."
+          return
+        end
+
+        worktree_dir = File.join(repo_root, ".typophic-gh-pages")
+
+        if Dir.exist?(worktree_dir)
+          FileUtils.rm_rf(worktree_dir)
+        end
+
+        puts "== Publishing public/ to #{remote}/#{branch} via worktree =="
+
+        # Ensure we have the latest remote branch (if it exists)
+        system("git", "fetch", remote, branch)
+
+        worktree_added = system("git", "worktree", "add", "-B", branch, worktree_dir, "#{remote}/#{branch}")
+        unless worktree_added
+          # Branch might not exist yet; fall back to creating from current HEAD
+          worktree_added = system("git", "worktree", "add", "-B", branch, worktree_dir, "HEAD")
+        end
+
+        unless worktree_added
+          warn "Failed to create git worktree for #{branch}. Ensure git-worktree is available."
+          return
+        end
+
+        begin
+          # Clean existing files in the worktree (except .git)
+          Dir.glob(File.join(worktree_dir, "*"), File::FNM_DOTMATCH).each do |path|
+            base = File.basename(path)
+            next if base == "." || base == ".." || base == ".git"
+            FileUtils.rm_rf(path)
+          end
+
+          # Copy contents of public/ into the worktree
+          Dir.glob(File.join(public_dir, "**", "*"), File::FNM_DOTMATCH).each do |source|
+            base = File.basename(source)
+            next if base == "." || base == ".."
+
+            relative = source.sub(/^#{Regexp.escape(public_dir)}\/?/, "")
+            next if relative == ".git" || relative.start_with?(".git/")
+            target = relative.empty? ? worktree_dir : File.join(worktree_dir, relative)
+
+            if File.directory?(source)
+              FileUtils.mkdir_p(target)
+            else
+              FileUtils.mkdir_p(File.dirname(target))
+              FileUtils.cp(source, target)
+            end
+          end
+
+          Dir.chdir(worktree_dir) do
+            system("git", "add", "-A")
+            unless system("git", "commit", "-m", "Deploy site to #{branch}")
+              puts "No changes to commit for #{branch}; working tree is up to date."
+            end
+
+            push_cmd = ["git", "push", remote, branch]
+            push_cmd << "--force" if force
+
+            unless system(*push_cmd)
+              warn "Git publish failed. Verify the remote name/branch or push manually."
+            end
+          end
+        ensure
+          Dir.chdir(repo_root)
+          system("git", "worktree", "remove", worktree_dir, "--force")
         end
       end
 
