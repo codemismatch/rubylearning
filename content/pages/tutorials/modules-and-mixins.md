@@ -2,7 +2,7 @@
 layout: tutorial
 title: "Chapter 40 &ndash; Modules & Mixins"
 permalink: /tutorials/modules-and-mixins/
-difficulty: beginner
+difficulty: intermediate
 summary: Share behavior across classes by grouping methods in modules and mixing them in with `include` or `extend`.
 previous_tutorial:
   title: "Chapter 39: Object Serialization (Marshal)"

@@ -2,7 +2,7 @@
 layout: tutorial
 title: "Chapter 30 &ndash; Overriding Methods"
 permalink: /tutorials/ruby-overriding-methods/
-difficulty: beginner
+difficulty: intermediate
 summary: Customize inherited behavior by overriding methods and using `super` to build on parent logic.
 previous_tutorial:
   title: "Chapter 29: Ruby Inheritance"

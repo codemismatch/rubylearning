@@ -2,7 +2,7 @@
 layout: tutorial
 title: "Chapter 36 &ndash; Duck Typing"
 permalink: /tutorials/duck-typing/
-difficulty: beginner
+difficulty: intermediate
 summary: Embrace Ruby's "if it quacks like a duck" philosophy-code to behavior, not class names.
 previous_tutorial:
   title: "Chapter 35: Ruby Time Class"
