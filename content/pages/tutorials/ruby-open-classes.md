@@ -2,7 +2,7 @@
 layout: tutorial
 title: "Chapter 28 &ndash; Ruby Open Classes"
 permalink: /tutorials/ruby-open-classes/
-difficulty: beginner
+difficulty: intermediate
 summary: Reopen existing classes--even core ones--to add behavior, and learn when to patch responsibly.
 previous_tutorial:
   title: "Chapter 27: Including Other Files"

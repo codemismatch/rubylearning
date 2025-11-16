@@ -2,7 +2,7 @@
 layout: tutorial
 title: 'Chapter 31 &ndash; "Overloading" Methods the Ruby Way'
 permalink: /tutorials/ruby-overloading-methods/
-difficulty: beginner
+difficulty: intermediate
 summary: Ruby doesn't have compile-time overloading, but optional args, splats, and keyword args give you flexible interfaces.
 previous_tutorial:
   title: "Chapter 30: Overriding Methods"

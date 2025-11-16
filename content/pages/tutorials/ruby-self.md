@@ -2,7 +2,7 @@
 layout: tutorial
 title: "Chapter 41 &ndash; Understanding `self`"
 permalink: /tutorials/ruby-self/
-difficulty: beginner
+difficulty: intermediate
 summary: "`self` always points to the current object--learn how it shifts between top-level code, class bodies, and methods."
 previous_tutorial:
   title: "Chapter 40: Modules & Mixins"

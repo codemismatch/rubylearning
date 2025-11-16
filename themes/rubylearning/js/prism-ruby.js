@@ -23,7 +23,11 @@
 	});
 
 	Prism.languages.insertBefore('ruby', 'number', {
-		'builtin': /\b(?:Array|Bignum|Binding|Class|Continuation|Dir|Exception|FalseClass|File|Fixnum|Float|Hash|Integer|IO|MatchData|Method|Module|NilClass|Numeric|Object|Proc|Range|Regexp|String|Struct|Symbol|TMS|Thread|ThreadGroup|Time|TrueClass)\b/,
+		'symbol': {
+			pattern: /:[a-zA-Z_]\w*[?!]?/,
+			greedy: true
+		},
+		'builtin': /\b(?:Array|Bignum|Binding|Class|Continuation|Dir|Exception|FalseClass|File|Fixnum|Float|Hash|Integer|IO|MatchData|Method|Module|NilClass|Numeric|Object|Proc|Range|Regexp|String|Struct|Symbol|TMS|Thread|ThreadGroup|Time|TrueClass|puts|print|p|gets|readline|getc|putc|printf|sprintf|warn|abort|exit|sleep|at_exit|fork|exec|system|load|require|require_relative|gem|catch|throw|raise|fail|loop|caller|binding|eval|local_variables|global_variables|instance_variables|class_variables|block_given|lambda|proc|define_method|method_missing|respond_to|send|public_send|instance_eval|instance_exec|class_eval|class_exec|module_eval|module_exec)\b/,
 		'constant': /\b[A-Z]\w*(?:[?!]|\b)/
 	});
 

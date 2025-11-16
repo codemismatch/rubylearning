@@ -162,11 +162,11 @@ html {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.6em;
-  height: 1.6em;
+  width: 1.2rem;   /* smaller marker */
+  height: 1.2rem;  /* smaller marker */
   border-radius: 999px;
-  margin-right: 0.4rem;
-  font-size: 1em;
+  margin-right: 0.3rem;
+  font-size: 0.75em; /* scale down the check glyph */
   vertical-align: middle;
 }
 
@@ -181,7 +181,7 @@ html {
 }
 
 .chapter-progress-marker--pending {
-  border: 2px solid #d1d5db;
+  border: 1.5px solid #d1d5db; /* thinner ring for smaller size */
   background-color: transparent;
   color: transparent; /* no glyph, just the ring */
 }

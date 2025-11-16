@@ -1,8 +1,37 @@
 document.addEventListener('DOMContentLoaded', async () => {
   if (typeof Prism !== 'undefined') Prism.highlightAll();
   addCopyButtonsToCodeBlocks();
+  initRubyConsoleDrawer();
   await addRubyExecSupport();
 });
+
+function initRubyConsoleDrawer() {
+  const drawer = document.querySelector('.ruby-console-drawer');
+  if (!drawer) return;
+  const toggle = drawer.querySelector('.ruby-console-toggle');
+  if (!toggle) return;
+
+  const icon = toggle.querySelector('.ruby-console-toggle-icon');
+  const input = drawer.querySelector('.ruby-irb-input');
+
+  const setState = (open) => {
+    drawer.classList.toggle('ruby-console-drawer--open', open);
+    toggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    
+    // Focus input when drawer opens
+    if (open && input) {
+      // Small delay to allow CSS transition to start
+      setTimeout(() => {
+        input.focus();
+      }, 100);
+    }
+  };
+
+  toggle.addEventListener('click', () => {
+    const open = !drawer.classList.contains('ruby-console-drawer--open');
+    setState(open);
+  });
+}
 
 async function setupRubyWasm() {
   // Check if Ruby WASM is already loaded
@@ -48,6 +77,242 @@ function launchConfettiAround(element) {
   }
 }
 
+function escapeHtml(text) {
+  return text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;');
+}
+
+function highlightRubyInline(code) {
+  if (window.Prism && Prism.languages && Prism.languages.ruby) {
+    try {
+      let highlighted = Prism.highlight(code, Prism.languages.ruby, 'ruby');
+      
+      // Post-process to fix built-in methods and symbols
+      const builtins = ['puts', 'print', 'p', 'gets', 'require', 'raise', 'attr_reader', 'attr_writer', 'attr_accessor', 'alias_method', 'include', 'extend', 'loop', 'sleep'];
+      const builtinRegex = new RegExp(`\\b(${builtins.join('|')})\\b`, 'g');
+      
+      // Wrap built-ins in cyan span if not already in a token
+      highlighted = highlighted.replace(builtinRegex, (match) => {
+        return `<span class="token builtin">${match}</span>`;
+      });
+      
+      // Ensure symbols are properly highlighted in gold
+      highlighted = highlighted.replace(/(:)([a-zA-Z_]\w*)/g, (match, colon, name) => {
+        return `<span class="token symbol">${colon}${name}</span>`;
+      });
+      
+      return highlighted;
+    } catch (_) {
+      return escapeHtml(code);
+    }
+  }
+  return escapeHtml(code);
+}
+
+function initRubyConsoles(vm) {
+  const consoles = document.querySelectorAll('.ruby-irb[data-ruby-console="true"]');
+  if (!consoles.length) return;
+
+  // Prepare a helper in the shared VM that evaluates a single line,
+  // capturing everything printed to $stdout and returning a combined string.
+  try {
+    if (!window.TypophicRubyConsoleInitialized) {
+      vm.eval(`
+        require 'stringio'
+
+        $typ_irb_output = StringIO.new
+        $typ_irb_buffer = +""
+
+        def _typophic_eval(line)
+          $typ_irb_output.truncate(0)
+          $typ_irb_output.rewind
+          result = nil
+
+          begin
+            old_stdout = $stdout
+            $stdout = $typ_irb_output
+            $typ_irb_buffer << line << "\\n"
+            begin
+              result = eval($typ_irb_buffer, TOPLEVEL_BINDING)
+              $typ_irb_buffer.clear
+            rescue SyntaxError => e
+              message = e.message.to_s
+              if message.include?("unexpected end-of-input") || message.include?("unterminated")
+                return "__INCOMPLETE__"
+              else
+                $typ_irb_buffer.clear
+                $typ_irb_output.puts("\#{e.class}: \#{e.message}")
+              end
+            end
+          rescue Exception => e
+            $typ_irb_output.puts("\#{e.class}: \#{e.message}")
+          ensure
+            $stdout = old_stdout
+          end
+
+          out = $typ_irb_output.string
+          if result.nil?
+            out.empty? ? "=> nil" : "\#{out}=> nil"
+          else
+            out.empty? ? "=> \#{result.inspect}" : "\#{out}=> \#{result.inspect}"
+          end
+        end
+      `);
+      window.TypophicRubyConsoleInitialized = true;
+    }
+  } catch (err) {
+    console.warn('Failed to initialize Ruby console helper:', err);
+  }
+
+  consoles.forEach(container => {
+    const outputEl = container.querySelector('.ruby-irb-output');
+    const form = container.querySelector('.ruby-irb-form');
+    const input = container.querySelector('.ruby-irb-input');
+    const promptEl = container.querySelector('.ruby-irb-prompt');
+    const ghostEl = container.querySelector('.ruby-irb-ghost');
+    const caretEl = container.querySelector('.ruby-irb-caret');
+    if (!outputEl || !form || !input || !ghostEl || !caretEl) return;
+
+    const appendLine = (text, cssClass) => {
+      const line = document.createElement('div');
+      line.className = 'ruby-irb-line' + (cssClass ? ` ${cssClass}` : '');
+      line.textContent = text;
+      outputEl.appendChild(line);
+      outputEl.scrollTop = outputEl.scrollHeight;
+    };
+
+    let lineNumber = 1;
+    let pendingBlock = false;
+
+    const updateCaret = () => {
+      const text = ghostEl.textContent || '';
+      // Use ghost width to position caret at end of text
+      const width = ghostEl.offsetWidth || 0;
+      caretEl.style.transform = `translateX(${width}px)`;
+    };
+
+    const updatePrompt = () => {
+      if (!promptEl) return;
+      const label = String(lineNumber).padStart(3, '0');
+      const sign = pendingBlock ? '*' : '>';
+      promptEl.textContent = `mrc(main):${label}${sign}`;
+      ghostEl.innerHTML = highlightRubyInline(input.value || '');
+      updateCaret();
+    };
+
+    // Initial hint
+    if (!outputEl.dataset.initialized) {
+      appendLine('Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green');
+      appendLine('Examples: 1 + 2, "hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-red');
+      outputEl.dataset.initialized = 'true';
+    }
+
+    updatePrompt();
+
+    input.addEventListener('input', (e) => {
+      const currentValue = input.value;
+      const trimmed = currentValue.trim();
+      
+      // Auto-dedent keywords that should be at the same level as their opening
+      const dedentKeywords = /^(end|else|elsif|when|rescue|ensure)$/;
+      if (dedentKeywords.test(trimmed)) {
+        // Remove one level of indentation (2 spaces)
+        const leadingSpaces = currentValue.match(/^(\s*)/)[1];
+        if (leadingSpaces.length >= 2) {
+          input.value = leadingSpaces.slice(2) + trimmed;
+        }
+      }
+      
+      ghostEl.innerHTML = highlightRubyInline(input.value || '');
+      updateCaret();
+    });
+
+    input.addEventListener('focus', () => {
+      caretEl.style.visibility = 'visible';
+      updateCaret();
+    });
+
+    input.addEventListener('blur', () => {
+      caretEl.style.visibility = 'hidden';
+    });
+
+    form.addEventListener('submit', event => {
+      event.preventDefault();
+      const code = input.value;
+      if (!code.trim()) {
+        input.value = '';
+        return;
+      }
+
+      input.value = '';
+
+      try {
+        const rubyString = JSON.stringify(code);
+        const result = vm.eval(`_typophic_eval(${rubyString})`);
+        const text = (result && typeof result.toString === 'function')
+          ? result.toString()
+          : '=> nil';
+        const label = String(lineNumber).padStart(3, '0');
+
+          if (text === '__INCOMPLETE__') {
+          const line = document.createElement('div');
+          line.className = 'ruby-irb-line ruby-irb-line--input';
+          line.innerHTML = `<span class="ruby-irb-label">mrc(main):${label}*</span> <span class="ruby-irb-code">${highlightRubyInline(code)}</span>`;
+          outputEl.appendChild(line);
+          outputEl.scrollTop = outputEl.scrollHeight;
+          lineNumber += 1;
+          pendingBlock = true;
+
+          // Simple auto-indent: carry leading spaces and add two for common block starters
+          const leading = (code.match(/^\s*/) || [''])[0];
+          const trimmed = code.trim();
+          let indent = leading;
+          if (/\b(def|class|module|if|case|while|until|for|begin|do)\b/.test(trimmed)) {
+            indent += '  ';
+          }
+          input.value = indent;
+          ghostEl.innerHTML = highlightRubyInline(input.value || '');
+          updatePrompt();
+          return;
+        }
+
+        const inputLine = document.createElement('div');
+        inputLine.className = 'ruby-irb-line ruby-irb-line--input';
+        inputLine.innerHTML = `<span class="ruby-irb-label">mrc(main):${label}&gt;</span> <span class="ruby-irb-code">${highlightRubyInline(code)}</span>`;
+        outputEl.appendChild(inputLine);
+        outputEl.scrollTop = outputEl.scrollHeight;
+        lineNumber += 1;
+        pendingBlock = false;
+        input.value = '';
+        ghostEl.innerHTML = '';
+        updatePrompt();
+
+        const lines = text.split(/\r?\n/);
+        lines.forEach((raw, idx) => {
+          const lineText = raw.trimEnd();
+          if (!lineText) return;
+          const lineEl = document.createElement('div');
+          lineEl.className = 'ruby-irb-line ruby-irb-line--result';
+
+          if (idx === lines.length - 1 && lineText.startsWith('=>')) {
+            const value = lineText.slice(2).trim();
+            lineEl.innerHTML = `<span class="ruby-irb-result-marker">=&gt;</span> <span class="ruby-irb-result-value">${escapeHtml(value)}</span>`;
+          } else {
+            lineEl.textContent = lineText;
+          }
+
+          outputEl.appendChild(lineEl);
+          outputEl.scrollTop = outputEl.scrollHeight;
+        });
+      } catch (err) {
+        appendLine(`ERROR: ${err.message}`, 'ruby-irb-line--error');
+      }
+    });
+  });
+}
+
   async function addRubyExecSupport() {
   // Only add Ruby execution support on pages with executable Ruby code
   const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
@@ -70,6 +335,9 @@ function launchConfettiAround(element) {
       console.error('Failed to load Ruby WASM:', error);
       return;
     }
+
+    // Expose the VM globally so other helpers (like the mini console) can reuse it
+    window.TypophicRubyVM = vm;
 
     // Wire interactive stdin via Ruby's JS bridge
     // This overrides Kernel#gets to call window.prompt() when not in test mode
@@ -110,6 +378,9 @@ function launchConfettiAround(element) {
     } catch (err) {
       console.error('Failed to install stdin override:', err);
     }
+
+    // Initialize any inline Ruby consoles (virtual irb) before wiring code blocks
+    initRubyConsoles(vm);
 
     rubyBlocks.forEach((pre, index) => {
       // Accept either explicit ruby code blocks or ruby-exec markers
