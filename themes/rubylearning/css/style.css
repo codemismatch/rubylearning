@@ -262,7 +262,9 @@
 }
 
 .chapter-nav a {
-  font-weight: 500;
+  font-weight: 600;
+  font-size: 1.0rem !important;
+  line-height: 2.5em;
 }
 
 .chapter-heading {
@@ -308,7 +310,7 @@
 }
 
 .tutorial-wrapper {
-  max-width: 860px;
+  max-width: 1140px;
   margin: 0 auto;
 }
 

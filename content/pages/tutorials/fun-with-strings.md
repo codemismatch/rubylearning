@@ -3,6 +3,7 @@ layout: tutorial
 title: "Chapter 6 &ndash; Fun with Strings"
 permalink: /tutorials/fun-with-strings/
 difficulty: beginner
+author: Pankaj Doharey
 summary: Explore Ruby's flexible string literals, concatenation tricks, interpolation, and shell-friendly backticks before moving on to control flow.
 previous_tutorial:
   title: "Chapter 5: Numbers in Ruby"
