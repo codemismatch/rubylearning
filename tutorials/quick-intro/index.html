@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Super Fast Ruby Intro (40 minutes) - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  <link rel="stylesheet" href="/css/style.css">
+  
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763326297">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763326297">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763326297">
+  <link rel="stylesheet" href="/css/badges.css?v=1763326297">
+</head>
+<body>
+  
+
+<header class="site-header">
+  <div class="container">
+    <a href="/" class="site-logo">
+      <span class="logo-text">Ruby</span>
+      <span class="logo-accent">Learning</span>
+    </a>
+    <nav class="site-nav">
+      
+      <ul>
+        
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/" >Home</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/about/" >About</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/#rails-track" >Learn Rails</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/tutorials/" >Tutorials</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/blog/" >Blog</a>
+            </li>
+          
+            
+            
+            
+            
+            
+            <li>
+              <a href="/pages/resources/" >Resources</a>
+            </li>
+          
+        
+      </ul>
+    </nav>
+    <button class="menu-toggle" aria-label="Toggle menu">
+      <span class="bar"></span>
+      <span class="bar"></span>
+      <span class="bar"></span>
+    </button>
+  </div>
+</header>
+
+  
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
+
+<nav class="breadcrumbs">
+  <ol>
+    <li><a href="/">Home</a></li>
+    
+    <li><a href="/tutorials/">Tutorials</a></li>
+    <li>Super Fast Ruby Intro (40 minutes)</li>
+    
+  </ol>
+</nav>
+
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Super Fast Ruby Intro (40 minutes)
+        
+          <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+        <p class="tutorial-summary">A single, runnable 40-minute tour from "Ruby as a calculator" to blocks, classes, a tiny DSL, an interactive script, and a handful of Ruby party tricks.</p>
+      
+    </header>
+
+    <div class="tutorial-content">
+      <div class='markdown'><p>
+> This is a 40-minute Ruby wow session. Instead of reading a reference, you will walk a straight path: from "Ruby as a calculator" through blocks, classes, and a tiny DSL, then finish with some Ruby party tricks and an interactive script.
+
+Each section has a code window. Read the comment, hit **Run**, then change something and run it again.
+
+---
+
+<h3>Ruby as a friendly calculator</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+puts 1 + 2        # addition
+puts 3 * 7        # multiplication
+puts 10 / 4.0     # division (float)
+puts 2**8         # exponent (2 to the power 8)
+puts 5 + 3 * 10   # normal math precedence
+</code></pre>
+
+Ruby only shows results when you ask it to, so we use <code>puts</code> to print the answers like a tiny calculator.
+
+---
+
+<h3>Everything is an object</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+42.class          # => Integer
+"hello".upcase   # call a method on a String
+:symbol.to_s     # convert a Symbol to a String
+nil.class        # => NilClass
+</code></pre>
+
+Numbers, strings, symbols, and <code>nil</code> are all real objects with methods you can call.
+
+Try adding <code>.methods.sort.take(5)</code> after one of the lines to peek at what it can do.
+
+---
+
+<h3>Strings and interpolation</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+name = "Ruby"     # local variable
+age  = 30
+
+puts "Hello, #{name}!"                 # insert name into the string
+puts "Ruby has been around for #{age} years."
+
+multiline = "Line 1\nLine 2\nLine 3"   # \n makes a new line
+puts multiline
+</code></pre>
+
+<code>#{...}</code> lets you inject any expression into a string. This is one of the reasons Ruby code often reads like a sentence.
+
+Change the text and try adding your own variables.
+
+---
+
+<h3>Arrays, blocks, and Enumerable</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+numbers = [1, 2, 3, 4, 5]                 # an Array
+
+evens   = numbers.select { |n| n.even? }  # keep only even numbers
+squares = numbers.map    { |n| n * n }    # transform each number
+
+puts "Original: #{numbers.inspect}"
+puts "Evens:    #{evens.inspect}"
+puts "Squares:  #{squares.inspect}"
+</code></pre>
+
+Blocks (<code>{ |n| ... }</code> or <code>do ... end</code>) are little anonymous functions you can hand to methods like <code>map</code>, <code>select</code>, and <code>each</code>. Ruby's <code>Enumerable</code> module gives you a whole toolbox of these.
+
+Change the block to double only the odd numbers, or to build a new array of strings like <code>"Number: 3"</code>.
+
+---
+
+<h3>Hashes and symbols</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+scores = {
+  ruby:   10,   # key is a Symbol, value is an Integer
+  python: 9,
+  java:   7
+}
+
+scores[:go] = 8  # add a new key/value pair
+
+scores.each do |language, score|
+  puts "#{language} => #{score}"
+end
+</code></pre>
+
+Hashes are Ruby's flexible key/value store. Symbols like <code>:ruby</code> are lightweight, reusable identifiers that make great hash keys.
+
+Try adding a new language or changing the scoring.
+
+---
+
+<h3>Methods: naming tiny ideas</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+def greet(name)
+  "Hello, #{name}!"         # last expression is the return value
+end
+
+def loud_greet(name)
+  greet(name).upcase        # call another method we just defined
+end
+
+puts greet("Ruby")
+puts loud_greet("Ruby")
+</code></pre>
+
+Methods let you give names to behaviour and build bigger ideas out of smaller ones.
+
+Rename the methods or add a new one (for example <code>whisper_greet</code>) and call it.
+
+---
+
+<h3>Classes and objects: your own types</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class Greeter
+  def initialize(name)
+    @name = name            # instance variable belongs to this object
+  end
+
+  def hello
+    "Hello, #{@name}!"      # use the instance variable
+  end
+end
+
+g = Greeter.new("Rubyist")  # create a new Greeter object
+puts g.hello
+</code></pre>
+
+Classes bundle data and behaviour. <code>Greeter.new("Rubyist")</code> creates an object with its own <code>@name</code>.
+
+Add a <code>goodbye</code> method or change the greeting message.
+
+---
+
+<h3>Open classes: teaching old classes new tricks</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class String
+  def shout
+    upcase + "!!!"          # use existing String methods
+  end
+end
+
+puts "ruby".shout
+puts "hello, world".shout
+</code></pre>
+
+In Ruby you can reopen existing classes and add behaviour. This is one of Ruby's most famous "superpowers". Use it with care in real applications, but it is great for exploration.
+
+Try adding <code>def title_case</code> to <code>String</code> and use it on a sentence.
+
+---
+
+<h3>Blocks as little callbacks</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+def with_logging
+  puts "Starting work..."                 # runs before the block
+  result = yield                          # run the block and capture result
+  puts "Finished. Result was #{result.inspect}"  # runs after the block
+  result                                  # return the block's result
+end
+
+value = with_logging do
+  10 * 10                                 # this is the block body
+end
+
+puts "Outside we still have: #{value}"
+</code></pre>
+
+The <code>yield</code> keyword "calls" the block that was passed to the method. This is how many Ruby libraries let you write neat internal DSLs.
+
+Change the block to do something more interesting, like building an array, and see how the logging changes.
+
+---
+
+<h3>Lambdas and closures: functions that remember</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+def make_counter
+  count = 0          # local to this method, but captured by the lambda
+  -> do
+    count += 1
+  end
+end
+
+counter = make_counter   # each call gets its own captured count
+puts counter.call
+puts counter.call
+puts counter.call
+</code></pre>
+
+The lambda remembers the <code>count</code> variable from the method where it was created. This "remembering" is called a closure and is used all over Ruby code.
+
+Try creating two separate counters and call them in different orders.
+
+---
+
+<h3>Enumerable pipelines: small steps, big power</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+numbers = (1..20).to_a           # turn a Range into an Array
+
+result = numbers
+  .select { |n| n.even? }        # keep even numbers
+  .map    { |n| n * n }          # square them
+  .reject { |n| n > 200 }        # drop big ones
+
+puts result.inspect              # show the final Array
+</code></pre>
+
+Chaining <code>select</code>, <code>map</code>, and <code>reject</code> lets you express "what" you want to do without drowning in loops.
+
+Experiment with other steps like <code>group_by</code> or <code>sum</code>.
+
+---
+
+<h3>A tiny configuration DSL</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class Config
+  attr_reader :settings
+
+  def initialize(&block)
+    @settings = {}             # plain Hash under the hood
+    instance_eval(&block) if block   # run the block in this instance's context
+  end
+
+  def set(key, value)
+    @settings[key] = value
+  end
+end
+
+config = Config.new do
+  set :adapter, "postgres"   # looks like a mini configuration language
+  set :pool, 5
+end
+
+puts config.settings.inspect
+</code></pre>
+
+Inside the block, <code>self</code> is the config object, so calling <code>set</code> reads like a tiny Ruby DSL. Many gems and frameworks use this pattern.
+
+Change the configuration keys or print them in a prettier way.
+
+---
+
+<h3>A small interactive script with gets</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+print "What city do you live in? "   # print without a newline
+city = gets.chomp                    # ask the user and remove the newline
+
+print "What country is that in? "
+country = gets.chomp
+
+puts "You live in #{city}, #{country}. Nice!"
+</code></pre>
+
+In this playground <code>gets</code> is wired to a browser prompt, so when the code runs you will see a popup asking for input. You can type any city or country you like; the script only cares that it gets some text back.
+
+---
+
+<h3>Bonus: Ruby party tricks (extra 20 minutes)</h3>
+
+These are more advanced and a bit cheeky. They show off Ruby's flexible object model and syntax.
+
+---
+
+<h3>Teaching Integer some math slang</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class Integer
+  def squared
+    self * self     # "self" is the Integer we are calling on
+  end
+
+  def seconds
+    self            # read nicely with "seconds"
+  end
+
+  def minutes
+    self * 60       # 1.minute, 2.minutes, etc.
+  end
+end
+
+puts 5.squared
+puts 2.minutes
+puts 10.minutes + 5.seconds
+</code></pre>
+
+Monkey patching <code>Integer</code> like this makes tiny scripts read closer to English. In real apps, do this only in very clear, well-named places.
+
+---
+
+<h3>A tiny Money class with overloaded operators</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class Money
+  attr_reader :cents   # expose the amount in cents
+
+  def initialize(cents)
+    @cents = cents
+  end
+
+  def +(other)
+    Money.new(cents + other.cents)  # add two Money values
+  end
+
+  def *(n)
+    Money.new(cents * n)            # multiply by a number
+  end
+
+  def to_s
+    format("$%.2f", cents / 100.0)  # pretty string like "$3.50"
+  end
+end
+
+coffee   = Money.new(350)
+sandwich = Money.new(550)
+
+puts coffee + sandwich
+puts (coffee + sandwich) * 3
+</code></pre>
+
+Operators like <code>+</code> and <code>*</code> are just methods. You can give your own classes natural-feeling arithmetic.
+
+---
+
+<h3>Bang methods that wrap safer ones</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class String
+  def shout!
+    replace(upcase + "!!!")   # mutate the original string in-place
+  end
+end
+
+name = "ruby"
+name.shout!
+puts name
+</code></pre>
+
+By convention, <code>!</code> means "dangerous" or "mutating". Here <code>shout!</code> permanently changes the string instead of returning a new one.
+
+---
+
+<h3>Auto-logging every method call</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class Logged
+  def self.log_calls!
+    instance_methods(false).each do |name|
+      original = instance_method(name)
+
+      define_method(name) do |*args, &block|
+        puts "[LOG] calling #{name}(#{args.inspect})"  # before
+        original.bind(self).call(*args, &block)       # call the real method
+      end
+    end
+  end
+end
+
+class Calculator < Logged
+  def add(a, b)
+    a + b          # simple methods, logging is added by the parent class
+  end
+
+  def mul(a, b)
+    a * b
+  end
+
+  log_calls!
+end
+
+calc = Calculator.new
+puts calc.add(2, 3)
+puts calc.mul(4, 5)
+</code></pre>
+
+Metaprogramming lets you wrap every method on a class in one go and add cross-cutting behaviour like logging.
+
+---
+
+<h3>Auto-vivifying nested hashes</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+tree = Hash.new { |hash, key| hash[key] = Hash.new(&hash.default_proc) }
+  # for any missing key, create another hash with the same behaviour
+
+tree[:europe][:france][:paris] = "Eiffel Tower"
+tree[:asia][:japan][:tokyo]    = "Skytree"
+
+p tree
+</code></pre>
+
+The default block calls itself, so missing keys automatically get another hash. You can build deep structures without <code>||=</code> everywhere.
+
+---
+
+<h3>The mysterious flip-flop operator</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+lines = [
+  "noise",
+  "START",
+  "keep this",
+  "and this too",
+  "STOP",   # flip-flop will turn off after this line
+  "more noise"
+]
+
+lines.each do |line|
+  puts line if (line == "START")..(line == "STOP")
+end
+</code></pre>
+
+The range <code>(cond1)..(cond2)</code> inside <code>if</code> or <code>unless</code> acts like a tiny state machine, flipping on at <code>cond1</code> and off after <code>cond2</code>.
+
+---
+
+<h3>Splat in parallel assignment</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+first, *middle, last = [1, 2, 3, 4, 5]
+
+p first   # => 1
+p middle  # => [2, 3, 4]
+p last    # => 5
+</code></pre>
+
+The splat (<code>*</code>) lets you capture "the rest" of a list. It feels a bit like pattern matching for arrays.
+
+---
+
+<h3>tap and the safe navigation operator</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+user = { name: "Rubyist", email: "ruby@example.com" }
+
+handle = user
+  .tap { |u| puts "Debug: #{u.inspect}" }  # peek at the value
+  &.fetch(:email, nil)                     # safe lookup
+  &.split("@")                             # only if not nil
+  &.first
+
+puts "Handle is: #{handle.inspect}"
+</code></pre>
+
+<code>tap</code> gives you a place to log or tweak an object in the middle of a chain. <code>&.</code> ("lonely operator") calls methods only when the receiver is not <code>nil</code>.
+
+---
+
+<h3>Methods with operator-like names</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+class MagicArray < Array
+  def <<(value)
+    puts "Pushing #{value.inspect}"  # extra behaviour
+    super
+  end
+
+  def empty?
+    puts "Checking if empty..."      # extra behaviour
+    super
+  end
+end
+
+m = MagicArray.new
+puts m.empty?
+m << 1
+puts m.empty?
+</code></pre>
+
+Ruby lets you define methods like <code>&lt;&lt;</code> and <code>empty?</code>, which makes APIs and DSLs read naturally.
+
+---
+
+<h3>Conditional superclass at runtime</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+verbose = true
+
+Base = verbose ? Struct.new(:name) : Object
+
+class Greeter < Base
+  def hello
+    if respond_to?(:name) && name   # only works when Base has a :name field
+      "Hello, #{name}!"
+    else
+      "Hello there!"
+    end
+  end
+end
+
+puts Greeter.new("Ruby").hello   # if Base is Struct
+puts Greeter.new.hello           # if Base is Object
+</code></pre>
+
+Ruby evaluates the superclass expression when the class is defined, so you can choose behaviour at runtime.
+
+---
+
+<h3>A tiny CLI-inspired script</h3>
+
+<pre class="language-ruby"><code class="language-ruby">
+line_no = 0
+
+File.foreach(__FILE__) do |line|
+  line_no += 1                     # $. is the built-in line counter; we roll our own here
+  print "#{line_no}: #{line}"      # print line number and the original line
+end
+</code></pre>
+
+This is similar to what Ruby's <code>-n</code> and <code>-p</code> command-line flags do: wrap your code in a loop that reads each line, optionally printing it.
+
+---
+
+<h3>Where to go next</h3>
+
+You have now seen, in order:
+<ul><li>Ruby as a calculator where everything is an object.</li></ul><ul><li>Strings, arrays, hashes, and blocks.</li></ul><ul><li>Methods, classes, and open classes.</li></ul><ul><li>Blocks, lambdas, and a tiny configuration DSL.</li></ul><ul><li>A short interactive script using <code>gets</code>.</li></ul><ul><li>A handful of Ruby "party tricks": monkey patching core classes, overloading operators, auto-logging, flip-flops, splat tricks, and CLI-style processing.</li></ul>
+
+When you are ready for a slower, more complete tour, jump into **Chapter 1 - Meet Ruby** and work through the main learning path with checklists and practice exercises. The ideas you just met will keep popping up in friendlier, more detailed form.
+</p></div>
+    </div>
+
+    
+      <nav class="tutorial-nav">
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="/tutorials">
+            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+            <span>Ruby Tutorials</span>
+          </a>
+        
+        
+          
+          
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="/tutorials/meet-ruby/">
+            <span>Chapter 1: Meet Ruby</span>
+            <span class="icon-arrow" aria-hidden="true">&gt;</span>
+          </a>
+        
+      </nav>
+    
+
+    
+      <!-- themes/rubylearning/includes/_related_tutorials.html -->
+
+
+<div class="related-tutorials">
+  <h2>Related Tutorials</h2>
+  <ul>
+    
+    
+    <li>
+      <a href="/tutorials/meet-ruby/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Chapter 1: Meet Ruby</span>
+      </a>
+    </li>
+    
+    
+    <li>
+      <a href="/tutorials/first-ruby-program/">
+        <span class="related-icon" aria-hidden="true">&gt;</span>
+        <span>Chapter 3: First Ruby Program</span>
+      </a>
+    </li>
+    
+  </ul>
+</div>
+
+
+    
+  </article>
+
+  <div class="ruby-console-drawer">
+    <button class="ruby-console-toggle" type="button" aria-expanded="false">
+      <span class="ruby-console-toggle-label">Ruby console</span>
+      <span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="ruby-console-body">
+      <div class="ruby-irb" data-ruby-console="true">
+        <div class="ruby-irb-output" aria-live="polite"></div>
+        <form class="ruby-irb-form">
+          <span class="ruby-irb-prompt">mrc(main):001&gt;</span>
+          <div class="ruby-irb-input-wrapper">
+            <span class="ruby-irb-caret" aria-hidden="true"></span>
+            <pre class="ruby-irb-ghost"></pre>
+            <input
+              type="text"
+              class="ruby-irb-input"
+              placeholder="Enter Ruby code here..."
+              autocomplete="off"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
+    </div>
+  </main>
+  
+  
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-about">
+        <h3>Ruby Learning</h3>
+        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+      </div>
+      <div class="footer-links">
+        <h3>Quick Links</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li><a href="/" >Home</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/about/" >About</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/tutorials/" >Tutorials</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/blog/" >Blog</a></li>
+            
+              
+              
+              
+              
+              
+              <li><a href="/pages/resources/" >Resources</a></li>
+            
+          
+        </ul>
+      </div>
+      <div class="footer-resources">
+        <h3>Ruby Resources</h3>
+        
+        <ul>
+          
+            
+              
+              
+              
+              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+              
+              
+              
+              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+              
+              
+              
+              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+          
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+        <p>
+          &copy; 2025 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+    </div>
+  </div>
+</footer>
+
+
+  <!-- Scripts -->
+  <script src="/js/prism.js?v=1763326297"></script>
+  <script src="/js/prism-ruby.js?v=1763326297"></script>
+  <script src="/js/prism-markdown.js?v=1763326297"></script>
+  <script src="/js/code-enhancements.js?v=1763326297"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763326297"></script>
+  <script src="/js/github-pages-fix.js?v=1763326297"></script>
+  <script src="/js/site.js?v=1763326297"></script>
+</body>
+</html>
