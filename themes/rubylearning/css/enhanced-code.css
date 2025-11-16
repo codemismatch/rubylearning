@@ -330,3 +330,233 @@ pre.language-shell::before {
   word-wrap: break-word;
   color: tomato;
 }
+
+/* Inline Ruby console (virtual irb) */
+.ruby-irb {
+  margin: 2rem 0;
+  padding: 1rem 1.25rem;
+  border-radius: 8px;
+  background-color: #111827;
+  color: #e5e7eb;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  max-height: 70vh;
+  box-sizing: border-box;
+}
+
+.ruby-irb-output {
+  max-height: 52vh;
+  overflow-y: auto;
+  padding: 0.25rem 0 0 0;
+  border-bottom: none;
+  margin-bottom: 0;
+  font-size: 0.9rem;
+}
+
+.ruby-irb-line {
+  white-space: pre-wrap;
+  line-height: 1.3;
+  margin-bottom: 0.05rem;
+}
+
+.ruby-irb-label {
+  color: #f97316; /* orange prompt */
+  font-weight: 600;
+}
+
+.ruby-irb-code {
+  color: #facc15;
+}
+
+.ruby-irb-result-marker {
+  color: #22c55e;
+  font-weight: 600;
+}
+
+.ruby-irb-result-value {
+  color: #a7f3d0;
+}
+
+.ruby-irb-line--input {
+  color: #f9d149;
+}
+
+.ruby-irb-line--result {
+  color: #a7f3d0;
+}
+
+.ruby-irb-line--error {
+  color: #fca5a5;
+}
+
+.ruby-irb-line--info {
+  color: #9ca3af;
+}
+
+.ruby-irb-line--intro {
+  font-weight: 600;
+  margin-bottom: 0.25rem;
+}
+
+.ruby-irb-line--intro-green {
+  color: #4ade80;
+}
+
+.ruby-irb-line--intro-red {
+  color: #fca5a5;
+}
+
+.ruby-irb-form {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  border-top: none;
+  padding: 0;
+  margin-top: -10px;
+  line-height: 10px;
+}
+
+.ruby-irb-prompt {
+  color: #22c55e;
+  font-weight: 600;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+}
+
+.ruby-irb-input-wrapper {
+  position: relative;
+  flex: 1;
+  min-height: 2rem;
+}
+
+.ruby-irb-caret {
+  position: absolute;
+  top: 0.4rem;
+  left: 0.1rem;
+  width: 0.6ch;
+  height: 1.2em;
+  background-color: #f97373;
+  pointer-events: none;
+  opacity: 1;
+  animation: ruby-caret-blink 1s steps(1) infinite;
+}
+
+@keyframes ruby-caret-blink {
+  0%, 50% { opacity: 1; }
+  50.01%, 100% { opacity: 0; }
+}
+
+.ruby-irb-ghost {
+  display: inline-block;
+  margin: 0;
+  padding: 0.4rem 0.1rem;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.9rem;
+  line-height: 1.4;
+  color: #9ca3af;
+  white-space: pre-wrap;
+  max-width: 100%;
+  overflow: hidden;
+}
+
+.ruby-irb-input {
+  position: absolute;
+  inset: 0;
+  padding: 0.4rem 0.1rem;
+  border-radius: 0;
+  border: none;
+  background-color: transparent;
+  color: transparent; /* ghost handles visible text */
+  font-size: 0.9rem;
+  line-height: 1.4;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  caret-color: transparent; /* hide native caret */
+}
+
+.ruby-irb-input:focus {
+  outline: none;
+  border: none;
+}
+
+/* Syntax highlighting for Ruby console ghost text */
+.ruby-irb-ghost .token.keyword {
+  color: #c678dd; /* keywords: def, class, end, if, etc. - purple */
+  font-weight: 600;
+}
+
+.ruby-irb-ghost .token.function,
+.ruby-irb-ghost .token.method,
+.ruby-irb-ghost .token.builtin {
+  color: #56b6c2; /* built-in methods: puts, print, gets, etc. - cyan */
+  font-weight: 600;
+}
+
+.ruby-irb-ghost .token.string {
+  color: #98c379; /* strings - green */
+}
+
+.ruby-irb-ghost .token.symbol {
+  color: #e5c07b; /* symbols like :hi - bright gold/yellow */
+  font-weight: 600;
+}
+
+.ruby-irb-ghost .token.number,
+.ruby-irb-ghost .token.constant {
+  color: #d19a66; /* numbers and constants - orange */
+}
+
+.ruby-irb-ghost .token.operator,
+.ruby-irb-ghost .token.punctuation {
+  color: #abb2bf; /* operators and punctuation - light gray */
+}
+
+.ruby-irb-ghost .token.comment {
+  color: #5c6370; /* comments - dark gray */
+  font-style: italic;
+}
+
+.ruby-irb-ghost .token.variable,
+.ruby-irb-ghost .token.instance-variable {
+  color: #e06c75; /* variables - red */
+}
+
+/* Console output syntax highlighting */
+.ruby-irb-code .token.keyword {
+  color: #c678dd;
+  font-weight: 600;
+}
+
+.ruby-irb-code .token.function,
+.ruby-irb-code .token.method,
+.ruby-irb-code .token.builtin {
+  color: #56b6c2;
+  font-weight: 600;
+}
+
+.ruby-irb-code .token.string {
+  color: #98c379;
+}
+
+.ruby-irb-code .token.symbol {
+  color: #e5c07b;
+  font-weight: 600;
+}
+
+.ruby-irb-code .token.number,
+.ruby-irb-code .token.constant {
+  color: #d19a66;
+}
+
+.ruby-irb-code .token.operator,
+.ruby-irb-code .token.punctuation {
+  color: #abb2bf;
+}
+
+.ruby-irb-code .token.comment {
+  color: #5c6370;
+  font-style: italic;
+}
+
+.ruby-irb-code .token.variable,
+.ruby-irb-code .token.instance-variable {
+  color: #e06c75;
+}

@@ -48,4 +48,29 @@ layout: default
       <%= render_partial('related_tutorials') %>
     <% end %>
   </article>
+
+  <div class="ruby-console-drawer">
+    <button class="ruby-console-toggle" type="button" aria-expanded="false">
+      <span class="ruby-console-toggle-label">Ruby console</span>
+      <span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="ruby-console-body">
+      <div class="ruby-irb" data-ruby-console="true">
+        <div class="ruby-irb-output" aria-live="polite"></div>
+        <form class="ruby-irb-form">
+          <span class="ruby-irb-prompt">mrc(main):001&gt;</span>
+          <div class="ruby-irb-input-wrapper">
+            <span class="ruby-irb-caret" aria-hidden="true"></span>
+            <pre class="ruby-irb-ghost"></pre>
+            <input
+              type="text"
+              class="ruby-irb-input"
+              placeholder="Enter Ruby code here..."
+              autocomplete="off"
+            />
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
 </div>

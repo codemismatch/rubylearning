@@ -1,9 +1,9 @@
 ---
 layout: tutorial
-title: "Super Fast Ruby Intro (20 minutes)"
+title: "Super Fast Ruby Intro (40 minutes)"
 permalink: /tutorials/quick-intro/
 difficulty: beginner
-summary: A single, runnable walkthrough that takes you from launching Ruby to writing your first class, iterating with blocks, and wiring up a tiny greeter script.
+summary: A single, runnable 40-minute tour from "Ruby as a calculator" to blocks, classes, a tiny DSL, an interactive script, and a handful of Ruby party tricks.
 previous_tutorial:
   title: "Ruby Tutorials"
   url: /tutorials
@@ -17,205 +17,538 @@ related_tutorials:
     url: /tutorials/first-ruby-program/
 ---
 
-> Don’t worry about covering *everything* here. This is a feel-good tour that should take about 20 minutes. You’ll see Ruby’s core ideas, run code in the browser, and be ready to dive into the full learning path.
+> This is a 40-minute Ruby wow session. Instead of reading a reference, you will walk a straight path: from "Ruby as a calculator" through blocks, classes, and a tiny DSL, then finish with some Ruby party tricks and an interactive script.
 
-### 1. Ruby as a calculator
+Each section has a code window. Read the comment, hit **Run**, then change something and run it again.
 
-Ruby is an expression-oriented language. You can use it like a calculator in an interactive shell or a script file.
+---
 
-Try running a few expressions in the code window:
+### Ruby as a friendly calculator
 
 <pre class="language-ruby"><code class="language-ruby">
-# Numbers and basic arithmetic
-1 + 2
-5 * 10
-7 / 2.0
-
-# Strings and concatenation
-"Hello" + " " + "Ruby"
-
-# Boolean expressions
-3 &lt; 5
-10 == 2 * 5
+puts 1 + 2        # addition
+puts 3 * 7        # multiplication
+puts 10 / 4.0     # division (float)
+puts 2**8         # exponent (2 to the power 8)
+puts 5 + 3 * 10   # normal math precedence
 </code></pre>
 
-Every line is an expression that produces a value. When you call `puts`, Ruby prints that value:
+Ruby only shows results when you ask it to, so we use `puts` to print the answers like a tiny calculator.
+
+---
+
+### Everything is an object
 
 <pre class="language-ruby"><code class="language-ruby">
-puts 1 + 2
-puts "Total: #{5 * 10}"
+42.class          # => Integer
+"hello".upcase   # call a method on a String
+:symbol.to_s     # convert a Symbol to a String
+nil.class        # => NilClass
 </code></pre>
 
-### 2. Variables and string interpolation
+Numbers, strings, symbols, and `nil` are all real objects with methods you can call.
 
-Ruby variables spring into existence when you assign to them. Interpolation (`#{...}`) lets you embed Ruby expressions inside double-quoted strings.
+Try adding `.methods.sort.take(5)` after one of the lines to peek at what it can do.
+
+---
+
+### Strings and interpolation
 
 <pre class="language-ruby"><code class="language-ruby">
-name = "Rubyist"
-age  = 7 + 6
+name = "Ruby"     # local variable
+age  = 30
 
-message = "Hello, #{name}! You are #{age} years awesome."
-puts message
+puts "Hello, #{name}!"                 # insert name into the string
+puts "Ruby has been around for #{age} years."
+
+multiline = "Line 1\nLine 2\nLine 3"   # \n makes a new line
+puts multiline
 </code></pre>
 
-Try changing `name` and `age` and re-running the code. Notice how interpolation keeps the string readable.
+`#{...}` lets you inject any expression into a string. This is one of the reasons Ruby code often reads like a sentence.
 
-### 3. Arrays, hashes, and iteration
+Change the text and try adding your own variables.
 
-Ruby has flexible collection types. Arrays are ordered lists; hashes map keys to values.
+---
+
+### Arrays, blocks, and Enumerable
 
 <pre class="language-ruby"><code class="language-ruby">
-languages = ["Ruby", "Python", "Elixir"]
+numbers = [1, 2, 3, 4, 5]                 # an Array
 
-puts "Languages I like:"
-languages.each do |lang|
-  puts "- #{lang}"
+evens   = numbers.select { |n| n.even? }  # keep only even numbers
+squares = numbers.map    { |n| n * n }    # transform each number
+
+puts "Original: #{numbers.inspect}"
+puts "Evens:    #{evens.inspect}"
+puts "Squares:  #{squares.inspect}"
+</code></pre>
+
+Blocks (`{ |n| ... }` or `do ... end`) are little anonymous functions you can hand to methods like `map`, `select`, and `each`. Ruby's `Enumerable` module gives you a whole toolbox of these.
+
+Change the block to double only the odd numbers, or to build a new array of strings like `"Number: 3"`.
+
+---
+
+### Hashes and symbols
+
+<pre class="language-ruby"><code class="language-ruby">
+scores = {
+  ruby:   10,   # key is a Symbol, value is an Integer
+  python: 9,
+  java:   7
+}
+
+scores[:go] = 8  # add a new key/value pair
+
+scores.each do |language, score|
+  puts "#{language} => #{score}"
+end
+</code></pre>
+
+Hashes are Ruby's flexible key/value store. Symbols like `:ruby` are lightweight, reusable identifiers that make great hash keys.
+
+Try adding a new language or changing the scoring.
+
+---
+
+### Methods: naming tiny ideas
+
+<pre class="language-ruby"><code class="language-ruby">
+def greet(name)
+  "Hello, #{name}!"         # last expression is the return value
 end
 
-config = { host: "localhost", port: 3000 }
-
-puts "Connecting to #{config[:host]}:#{config[:port]}..."
-</code></pre>
-
-Blocks (`do ... end`) are Ruby’s way of passing chunks of code to methods such as `each`. We’ll lean on them again in a moment.
-
-### 4. Writing your own method
-
-Methods package behaviour under a name and can take parameters with defaults.
-
-<pre class="language-ruby"><code class="language-ruby">
-def greet(name = "world")
-  "Hello, #{name}!"
+def loud_greet(name)
+  greet(name).upcase        # call another method we just defined
 end
 
 puts greet("Ruby")
-puts greet
+puts loud_greet("Ruby")
 </code></pre>
 
-Ruby returns the last expression from a method automatically; no explicit `return` is needed in simple cases.
+Methods let you give names to behaviour and build bigger ideas out of smaller ones.
 
-### 5. A tiny Greeter class
+Rename the methods or add a new one (for example `whisper_greet`) and call it.
 
-Ruby is object-oriented: almost everything is an object, and classes define how those objects behave.
+---
 
-Let’s build a minimal greeter that remembers a name.
+### Classes and objects: your own types
 
 <pre class="language-ruby"><code class="language-ruby">
 class Greeter
   def initialize(name)
-    @name = name         # instance variable, stored on the object
+    @name = name            # instance variable belongs to this object
   end
 
-  def greet
-    "Hello, #{@name}!"
+  def hello
+    "Hello, #{@name}!"      # use the instance variable
   end
 end
 
-greeter = Greeter.new("Ruby learner")
-puts greeter.greet
+g = Greeter.new("Rubyist")  # create a new Greeter object
+puts g.hello
 </code></pre>
 
-Instance variables start with `@` and are private to the object. Methods such as `greet` can read them.
+Classes bundle data and behaviour. `Greeter.new("Rubyist")` creates an object with its own `@name`.
 
-### 6. Adding a little flexibility
+Add a `goodbye` method or change the greeting message.
 
-Let’s evolve the greeter so it can say hello to one name or many names.
+---
+
+### Open classes: teaching old classes new tricks
 
 <pre class="language-ruby"><code class="language-ruby">
-class Greeter
-  def initialize(names)
-    @names = Array(names)
+class String
+  def shout
+    upcase + "!!!"          # use existing String methods
+  end
+end
+
+puts "ruby".shout
+puts "hello, world".shout
+</code></pre>
+
+In Ruby you can reopen existing classes and add behaviour. This is one of Ruby's most famous "superpowers". Use it with care in real applications, but it is great for exploration.
+
+Try adding `def title_case` to `String` and use it on a sentence.
+
+---
+
+### Blocks as little callbacks
+
+<pre class="language-ruby"><code class="language-ruby">
+def with_logging
+  puts "Starting work..."                 # runs before the block
+  result = yield                          # run the block and capture result
+  puts "Finished. Result was #{result.inspect}"  # runs after the block
+  result                                  # return the block's result
+end
+
+value = with_logging do
+  10 * 10                                 # this is the block body
+end
+
+puts "Outside we still have: #{value}"
+</code></pre>
+
+The `yield` keyword "calls" the block that was passed to the method. This is how many Ruby libraries let you write neat internal DSLs.
+
+Change the block to do something more interesting, like building an array, and see how the logging changes.
+
+---
+
+### Lambdas and closures: functions that remember
+
+<pre class="language-ruby"><code class="language-ruby">
+def make_counter
+  count = 0          # local to this method, but captured by the lambda
+  -> do
+    count += 1
+  end
+end
+
+counter = make_counter   # each call gets its own captured count
+puts counter.call
+puts counter.call
+puts counter.call
+</code></pre>
+
+The lambda remembers the `count` variable from the method where it was created. This "remembering" is called a closure and is used all over Ruby code.
+
+Try creating two separate counters and call them in different orders.
+
+---
+
+### Enumerable pipelines: small steps, big power
+
+<pre class="language-ruby"><code class="language-ruby">
+numbers = (1..20).to_a           # turn a Range into an Array
+
+result = numbers
+  .select { |n| n.even? }        # keep even numbers
+  .map    { |n| n * n }          # square them
+  .reject { |n| n > 200 }        # drop big ones
+
+puts result.inspect              # show the final Array
+</code></pre>
+
+Chaining `select`, `map`, and `reject` lets you express "what" you want to do without drowning in loops.
+
+Experiment with other steps like `group_by` or `sum`.
+
+---
+
+### A tiny configuration DSL
+
+<pre class="language-ruby"><code class="language-ruby">
+class Config
+  attr_reader :settings
+
+  def initialize(&block)
+    @settings = {}             # plain Hash under the hood
+    instance_eval(&block) if block   # run the block in this instance's context
   end
 
-  def greet_all
-    if @names.empty?
-      puts "Hello, stranger!"
-    else
-      @names.each do |name|
-        puts "Hello, #{name}!"
+  def set(key, value)
+    @settings[key] = value
+  end
+end
+
+config = Config.new do
+  set :adapter, "postgres"   # looks like a mini configuration language
+  set :pool, 5
+end
+
+puts config.settings.inspect
+</code></pre>
+
+Inside the block, `self` is the config object, so calling `set` reads like a tiny Ruby DSL. Many gems and frameworks use this pattern.
+
+Change the configuration keys or print them in a prettier way.
+
+---
+
+### A small interactive script with gets
+
+<pre class="language-ruby"><code class="language-ruby">
+print "What city do you live in? "   # print without a newline
+city = gets.chomp                    # ask the user and remove the newline
+
+print "What country is that in? "
+country = gets.chomp
+
+puts "You live in #{city}, #{country}. Nice!"
+</code></pre>
+
+In this playground `gets` is wired to a browser prompt, so when the code runs you will see a popup asking for input. You can type any city or country you like; the script only cares that it gets some text back.
+
+---
+
+### Bonus: Ruby party tricks (extra 20 minutes)
+
+These are more advanced and a bit cheeky. They show off Ruby's flexible object model and syntax.
+
+---
+
+### Teaching Integer some math slang
+
+<pre class="language-ruby"><code class="language-ruby">
+class Integer
+  def squared
+    self * self     # "self" is the Integer we are calling on
+  end
+
+  def seconds
+    self            # read nicely with "seconds"
+  end
+
+  def minutes
+    self * 60       # 1.minute, 2.minutes, etc.
+  end
+end
+
+puts 5.squared
+puts 2.minutes
+puts 10.minutes + 5.seconds
+</code></pre>
+
+Monkey patching `Integer` like this makes tiny scripts read closer to English. In real apps, do this only in very clear, well-named places.
+
+---
+
+### A tiny Money class with overloaded operators
+
+<pre class="language-ruby"><code class="language-ruby">
+class Money
+  attr_reader :cents   # expose the amount in cents
+
+  def initialize(cents)
+    @cents = cents
+  end
+
+  def +(other)
+    Money.new(cents + other.cents)  # add two Money values
+  end
+
+  def *(n)
+    Money.new(cents * n)            # multiply by a number
+  end
+
+  def to_s
+    format("$%.2f", cents / 100.0)  # pretty string like "$3.50"
+  end
+end
+
+coffee   = Money.new(350)
+sandwich = Money.new(550)
+
+puts coffee + sandwich
+puts (coffee + sandwich) * 3
+</code></pre>
+
+Operators like `+` and `*` are just methods. You can give your own classes natural-feeling arithmetic.
+
+---
+
+### Bang methods that wrap safer ones
+
+<pre class="language-ruby"><code class="language-ruby">
+class String
+  def shout!
+    replace(upcase + "!!!")   # mutate the original string in-place
+  end
+end
+
+name = "ruby"
+name.shout!
+puts name
+</code></pre>
+
+By convention, `!` means "dangerous" or "mutating". Here `shout!` permanently changes the string instead of returning a new one.
+
+---
+
+### Auto-logging every method call
+
+<pre class="language-ruby"><code class="language-ruby">
+class Logged
+  def self.log_calls!
+    instance_methods(false).each do |name|
+      original = instance_method(name)
+
+      define_method(name) do |*args, &block|
+        puts "[LOG] calling #{name}(#{args.inspect})"  # before
+        original.bind(self).call(*args, &block)       # call the real method
       end
     end
   end
 end
 
-single = Greeter.new("Rubyist")
-single.greet_all
-
-many = Greeter.new(%w[Alice Bob Charlie])
-many.greet_all
-</code></pre>
-
-Here we lean on `Array(names)` to normalise either a single string or an array into an array we can iterate over.
-
-### 7. Blocks and yield
-
-Ruby’s blocks really shine when you *yield* control from your method to a block supplied by the caller.
-
-<pre class="language-ruby"><code class="language-ruby">
-def with_timing(label = "block")
-  start = Time.now
-  result = yield          # run the caller’s block
-  finish = Time.now
-
-  elapsed = (finish - start).round(4)
-  puts "#{label} took #{elapsed} seconds"
-  result
-end
-
-with_timing("sleeping") do
-  sleep 0.2
-end
-</code></pre>
-
-The block stays close to the call site, while `with_timing` handles the reusable before/after logic.
-
-### 8. Putting it together: a tiny script
-
-Finally, let’s combine input, a class, and iteration into a very small script. When you click **Run**, this will ask you for names via a browser prompt (powered by Ruby’s `gets` in WebAssembly).
-
-<pre class="language-ruby"><code class="language-ruby">
-class Greeter
-  def initialize
-    @names = []
+class Calculator < Logged
+  def add(a, b)
+    a + b          # simple methods, logging is added by the parent class
   end
 
-  def ask_for_names
-    loop do
-      print "Enter a name (or just press Enter to finish): "
-      name = gets.chomp
-      break if name.empty?
-      @names &lt;&lt; name
-    end
+  def mul(a, b)
+    a * b
   end
 
-  def greet_all
-    if @names.empty?
-      puts "No names given, but hello anyway!"
+  log_calls!
+end
+
+calc = Calculator.new
+puts calc.add(2, 3)
+puts calc.mul(4, 5)
+</code></pre>
+
+Metaprogramming lets you wrap every method on a class in one go and add cross-cutting behaviour like logging.
+
+---
+
+### Auto-vivifying nested hashes
+
+<pre class="language-ruby"><code class="language-ruby">
+tree = Hash.new { |hash, key| hash[key] = Hash.new(&hash.default_proc) }
+  # for any missing key, create another hash with the same behaviour
+
+tree[:europe][:france][:paris] = "Eiffel Tower"
+tree[:asia][:japan][:tokyo]    = "Skytree"
+
+p tree
+</code></pre>
+
+The default block calls itself, so missing keys automatically get another hash. You can build deep structures without `||=` everywhere.
+
+---
+
+### The mysterious flip-flop operator
+
+<pre class="language-ruby"><code class="language-ruby">
+lines = [
+  "noise",
+  "START",
+  "keep this",
+  "and this too",
+  "STOP",   # flip-flop will turn off after this line
+  "more noise"
+]
+
+lines.each do |line|
+  puts line if (line == "START")..(line == "STOP")
+end
+</code></pre>
+
+The range `(cond1)..(cond2)` inside `if` or `unless` acts like a tiny state machine, flipping on at `cond1` and off after `cond2`.
+
+---
+
+### Splat in parallel assignment
+
+<pre class="language-ruby"><code class="language-ruby">
+first, *middle, last = [1, 2, 3, 4, 5]
+
+p first   # => 1
+p middle  # => [2, 3, 4]
+p last    # => 5
+</code></pre>
+
+The splat (`*`) lets you capture "the rest" of a list. It feels a bit like pattern matching for arrays.
+
+---
+
+### tap and the safe navigation operator
+
+<pre class="language-ruby"><code class="language-ruby">
+user = { name: "Rubyist", email: "ruby@example.com" }
+
+handle = user
+  .tap { |u| puts "Debug: #{u.inspect}" }  # peek at the value
+  &.fetch(:email, nil)                     # safe lookup
+  &.split("@")                             # only if not nil
+  &.first
+
+puts "Handle is: #{handle.inspect}"
+</code></pre>
+
+`tap` gives you a place to log or tweak an object in the middle of a chain. `&.` ("lonely operator") calls methods only when the receiver is not `nil`.
+
+---
+
+### Methods with operator-like names
+
+<pre class="language-ruby"><code class="language-ruby">
+class MagicArray < Array
+  def <<(value)
+    puts "Pushing #{value.inspect}"  # extra behaviour
+    super
+  end
+
+  def empty?
+    puts "Checking if empty..."      # extra behaviour
+    super
+  end
+end
+
+m = MagicArray.new
+puts m.empty?
+m << 1
+puts m.empty?
+</code></pre>
+
+Ruby lets you define methods like `<<` and `empty?`, which makes APIs and DSLs read naturally.
+
+---
+
+### Conditional superclass at runtime
+
+<pre class="language-ruby"><code class="language-ruby">
+verbose = true
+
+Base = verbose ? Struct.new(:name) : Object
+
+class Greeter < Base
+  def hello
+    if respond_to?(:name) && name   # only works when Base has a :name field
+      "Hello, #{name}!"
     else
-      @names.each do |name|
-        puts "👋 Hello, #{name}!"
-      end
+      "Hello there!"
     end
   end
 end
 
-greeter = Greeter.new
-greeter.ask_for_names
-greeter.greet_all
+puts Greeter.new("Ruby").hello   # if Base is Struct
+puts Greeter.new.hello           # if Base is Object
 </code></pre>
 
-Type a few different names when the prompts appear to see the script respond.
+Ruby evaluates the superclass expression when the class is defined, so you can choose behaviour at runtime.
 
-### What next?
+---
 
-You’ve just:
+### A tiny CLI-inspired script
 
-- Run Ruby expressions and printed values.
-- Worked with strings, arrays, hashes, and interpolation.
-- Written your own method.
-- Defined a class with an initializer and instance methods.
-- Used blocks, `each`, and `yield` to express behaviour.
-- Wired a tiny interactive script that talks to you.
+<pre class="language-ruby"><code class="language-ruby">
+line_no = 0
 
-When you’re ready to go deeper, head to the main learning path and start with **Chapter 1 – Meet Ruby**. Each chapter builds on this quick intro with more examples and interactive practice.
+File.foreach(__FILE__) do |line|
+  line_no += 1                     # $. is the built-in line counter; we roll our own here
+  print "#{line_no}: #{line}"      # print line number and the original line
+end
+</code></pre>
 
+This is similar to what Ruby's `-n` and `-p` command-line flags do: wrap your code in a loop that reads each line, optionally printing it.
+
+---
+
+### Where to go next
+
+You have now seen, in order:
+
+- Ruby as a calculator where everything is an object.
+- Strings, arrays, hashes, and blocks.
+- Methods, classes, and open classes.
+- Blocks, lambdas, and a tiny configuration DSL.
+- A short interactive script using `gets`.
+- A handful of Ruby "party tricks": monkey patching core classes, overloading operators, auto-logging, flip-flops, splat tricks, and CLI-style processing.
+
+When you are ready for a slower, more complete tour, jump into **Chapter 1 - Meet Ruby** and work through the main learning path with checklists and practice exercises. The ideas you just met will keep popping up in friendlier, more detailed form.
