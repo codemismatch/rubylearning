@@ -118,3 +118,105 @@ Blocks enhance readability too:
 - [ ] Reproduce the rice-on-a-chessboard example and experiment with different iteration counts to see how quickly the value grows.
 
 Next: move into Flow Control & Collections to apply these naming rules inside loops and conditionals.
+
+#### Practice 1 - Variable scopes
+
+<p><strong>Goal:</strong> Declare variables of each scope type and log them from inside a class.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[local @instance @@class $global].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+# TODO: Sketch a snippet that uses a local, @instance, @@class, and
+# $global variable and prints which ones are visible from where.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-names:0">
+puts "local = 'local'"
+puts "@instance = 'instance'"
+puts "@@class = 'class'"
+puts "$global = 'global'"
+</script>
+
+#### Practice 2 - Module constants and warnings
+
+<p><strong>Goal:</strong> Create a module with a constant and try reassigning it.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('MyModule::NAME') } && lines.any? { |l| l.downcase.include?('warning') }"><code class="language-ruby">
+# TODO: Print an example that defines and then reassigns a module
+# constant, noting Ruby will warn about it.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-names:1">
+puts "module MyModule"
+puts "  NAME = 'original'"
+puts "end"
+puts "MyModule::NAME = 'changed' # Ruby warns about already initialized constant"
+</script>
+
+#### Practice 3 - Float limits and big integers
+
+<p><strong>Goal:</strong> Print `Float::DIG`, `Float::MAX`, and the class of a huge integer.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Float::DIG') } && lines.any? { |l| l.downcase.include?('bignum') || l.downcase.include?('integer') }"><code class="language-ruby">
+# TODO: Print Float::DIG, Float::MAX, and inspect the class of a very
+# large integer literal.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-names:2">
+puts "Float::DIG"
+puts "Float::MAX"
+puts "(10**50).class # Integer/Bignum depending on Ruby version"
+</script>
+
+#### Practice 4 - Rice-on-a-chessboard growth
+
+<p><strong>Goal:</strong> Reproduce the rice-on-a-chessboard example and experiment with growth.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('square') } && lines.any? { |l| l.downcase.include?('total') }"><code class="language-ruby">
+# TODO: Print a small script that doubles grains each square and
+# prints the total at the end.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-names:3">
+puts "total = 0"
+puts "grains = 1"
+puts "64.times do |square|"
+puts "  total += grains"
+puts "  grains *= 2"
+puts "end"
+puts "puts \"total grains: \#{total}\""
+</script>

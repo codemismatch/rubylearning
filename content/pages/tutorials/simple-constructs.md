@@ -140,4 +140,129 @@ Remember: `nil` is a real object (`NilClass`) and responds to methods just like 
 - [ ] Convert a small `if/else` assignment into a ternary expression and back.
 - [ ] Build a `case` expression that categorizes numeric ranges (e.g., fizz/buzz or temperature bands).
 
+#### Practice 1 - Refactoring nested conditionals
+
+<p><strong>Goal:</strong> Rewrite a nested `if`/`else` tree using `elsif` or logical operators to reduce nesting.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('eligible') } && lines.any? { |l| l.downcase.include?('not eligible') }"><code class="language-ruby">
+# TODO: Start from a nested conditional (e.g., age + country checks)
+# and refactor it to use elsif or logical operators so it's easier to
+# read.
+# Hint:
+#   - Print a message for the 'eligible' and 'not eligible' cases.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:0">
+age = 20
+country = "IN"
+
+if age >= 18 && country == "IN"
+  puts "Eligible to vote"
+else
+  puts "Not eligible to vote"
+end
+</script>
+
+#### Practice 2 - Using unless for guard clauses
+
+<p><strong>Goal:</strong> Use `unless` to validate command-line arguments and compare readability with `if`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('usage') } || lines.any? { |l| l.downcase.include?('missing') }"><code class="language-ruby">
+# TODO: Check ARGV for at least one argument, using `unless` to
+# display a usage message when none are provided.
+# Hint:
+#   - After trying with unless, rewrite the same logic with if.
+#   - Print a clear usage or error message.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:1">
+unless ARGV.any?
+  puts "Usage: ruby script.rb <name>"
+end
+</script>
+
+#### Practice 3 - Ternary expression vs if/else
+
+<p><strong>Goal:</strong> Convert a small `if/else` assignment into a ternary expression and back.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/status:/i) }"><code class="language-ruby">
+# TODO: Assign a status string based on a condition using an if/else
+# block, then rewrite it as a ternary expression.
+# Hint:
+#   - Use something like status = condition ? 'ok' : 'error'
+#   - Print the final status.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:2">
+score = 75
+
+status = if score >= 60
+  "pass"
+else
+  "fail"
+end
+
+status = score >= 60 ? "pass" : "fail"
+
+puts "Status: #{status}"
+</script>
+
+#### Practice 4 - Case expression for range categories
+
+<p><strong>Goal:</strong> Build a `case` expression that categorizes numeric ranges.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/cold/i) } && lines.any? { |l| l.match?(/hot/i) }"><code class="language-ruby">
+# TODO: Use a case expression to categorize a temperature into ranges
+# such as 'cold', 'warm', and 'hot'.
+# Hint:
+#   - Choose a temperature value and print the category.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/simple-constructs:3">
+temp = 28
+
+label = case temp
+when -Float::INFINITY...10
+  "cold"
+when 10...25
+  "mild"
+else
+  "hot"
+end
+
+puts "Temperature #{temp}°C feels #{label}"
+</script>
+
 Next: dive deeper into Flow Control & Collections to combine these constructs with loops, arrays, and hashes.

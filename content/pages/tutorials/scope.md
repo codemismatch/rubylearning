@@ -98,3 +98,105 @@ Method definitions (`def`) always start fresh, so read/write outer locals via in
 - [ ] Refactor a small script to replace a global variable with an instance variable or dependency injection to reduce scope.
 
 Next: Apply these scope rules as you branch and iterate inside Flow Control & Collections.
+
+#### Practice 1 - Global special variables
+
+<p><strong>Goal:</strong> Print `$0`, `$$`, and the size of `$:`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[$0 $$ $:].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+# TODO: Sketch a small script that prints $0, $$, and $:.size with
+# labels so you can inspect them on your machine.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/scope:0">
+puts "$0: #{$0}"
+puts "$$: #{$$}"
+puts "$:.size: #{$:.size}"
+</script>
+
+#### Practice 2 - Nested class/module locals
+
+<p><strong>Goal:</strong> Create nested `class`/`module` definitions and confirm each maintains its own `message` local.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Outer') } && lines.any? { |l| l.include?('Inner') }"><code class="language-ruby">
+# TODO: Print an example of nested definitions that each use a
+# different message local variable.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/scope:1">
+puts "module Outer"
+puts "  message = 'outer'"
+puts "  class Inner"
+puts "    message = 'inner'"
+puts "  end"
+puts "end"
+</script>
+
+#### Practice 3 - Block vs method scope
+
+<p><strong>Goal:</strong> Compare a block's behaviour with a method definition using similar code.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('block count') } && lines.any? { |l| l.downcase.include?('method count') }"><code class="language-ruby">
+# TODO: Show a block that increments an outer local and a method that
+# cannot modify it directly, printing both counts.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/scope:2">
+puts "count = 0"
+puts "3.times { count += 1 } # block can see outer variable"
+puts "def bump(count); count += 1; end # method gets a copy"
+</script>
+
+#### Practice 4 - Refactoring globals
+
+<p><strong>Goal:</strong> Refactor a small script to replace a global variable with an instance variable or dependency injection.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$global') } && lines.any? { |l| l.include?('@value') }"><code class="language-ruby">
+# TODO: Print before/after pseudo-code that replaces a global variable
+# with an instance variable.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/scope"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/scope:3">
+puts "$global = 1"
+puts "class Refactored"
+puts "  def initialize(value)"
+puts "    @value = value"
+puts "  end"
+puts "end"
+</script>

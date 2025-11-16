@@ -91,3 +91,115 @@ Later chapters dive deeper into defining your own methods, but for now remember:
 - [ ] Build a quick script that defines a helper method, calls it with and without an explicit receiver, and logs `self` along the way.
 
 Next: apply these ideas in Flow Control & Collections, where you'll combine methods with loops and conditionals.
+
+#### Practice 1 - Watching self in different contexts
+
+<p><strong>Goal:</strong> Print `self` at the top level, inside a class body, and inside an instance method.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('top level') } && lines.any? { |l| l.downcase.include?('class body') } && lines.any? { |l| l.downcase.include?('instance method') }"><code class="language-ruby">
+# TODO: Print self at the top level, inside a class body, and inside
+# an instance method, labelling each line so you can see the context.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:0">
+puts "top level: #{self.inspect}"
+
+class DemoSelf
+  puts "class body: #{self.inspect}"
+
+  def who_am_i
+    puts "instance method: #{self.inspect}"
+  end
+end
+
+DemoSelf.new.who_am_i
+</script>
+
+#### Practice 2 - Explicit vs implicit receivers
+
+<p><strong>Goal:</strong> Rewrite explicit receiver calls to use implicit receivers and confirm they still work.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('explicit') } && lines.any? { |l| l.downcase.include?('implicit') }"><code class="language-ruby">
+# TODO: Define a helper method and call it once with an explicit
+# receiver (self.helper) and once without, printing labelled output
+# for both calls.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:1">
+def helper
+  "helper called"
+end
+
+puts "explicit: #{self.helper}"
+puts "implicit: #{helper}"
+</script>
+
+#### Practice 3 - Predicate and bang methods
+
+<p><strong>Goal:</strong> Experiment with predicate (`?`) and bang (`!`) method variants.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('empty?') } && lines.any? { |l| l.include?('upcase!') }"><code class="language-ruby">
+# TODO: Use at least one predicate method and one bang method, and
+# print before/after states to show how they differ.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:2">
+name = "ruby"
+
+puts "empty? before: #{name.empty?}"
+
+puts "before upcase!: #{name}"
+name.upcase!
+puts "after upcase!: #{name}"
+</script>
+
+#### Practice 4 - Logging self through helper calls
+
+<p><strong>Goal:</strong> Define a helper method, call it with and without an explicit receiver, and log `self` along the way.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('helper called') } && lines.any? { |l| l.downcase.include?('self is') }"><code class="language-ruby">
+# TODO: Build a short script that defines a helper method and logs
+# self inside it, then call the helper with both explicit and
+# implicit receivers, printing labelled lines.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:3">
+def helper_with_self(label)
+  puts "#{label}: helper called, self is #{self.inspect}"
+end
+
+helper_with_self("implicit")
+self.helper_with_self("explicit")
+</script>

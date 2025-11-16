@@ -13,7 +13,7 @@ next_tutorial:
 related_tutorials:
   - title: "Modules & mixins"
     url: /tutorials/modules-and-mixins/
-  - title: "Why Ruby’s RubyLearning approach still works"
+  - title: "Why Ruby's RubyLearning approach still works"
     url: /blog/ruby-learning-playbook/
 ---
 
@@ -334,5 +334,237 @@ make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
 - Use attribute accessors appropriately
 - Try extending existing Ruby classes with new methods
 - Experiment with access control using private/protected methods
+
+#### Practice 1 - Defining a simple class
+
+<p><strong>Goal:</strong> Create a class with instance variables and methods.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="0"
+     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Person); person_class = sandbox.const_get(:Person); p = person_class.new('Alex', 30); out = output.string; assert out.lines.any? { |l| l.include?('Alex') }; true"><code class="language-ruby">
+# TODO: Define a Person class with instance variables such as name
+# and age, plus a method that prints a friendly description.
+# Hint:
+#   - Store values in @name, @age.
+#   - Add an instance method like #describe that prints them.
+#
+# Define your class in this block; the test harness will try to
+# instantiate sandbox::Person.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:0">
+class Person
+  def initialize(name, age)
+    @name = name
+    @age = age
+  end
+
+  def describe
+    puts "#{@name} is #{@age} years old"
+  end
+end
+
+person = Person.new("Alex", 30)
+person.describe
+</script>
+
+#### Practice 2 - Practising inheritance
+
+<p><strong>Goal:</strong> Create a parent and child class that share behaviour via inheritance.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="1"
+     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car); vehicle = sandbox.const_get(:Vehicle).new('RubyMobile'); car = sandbox.const_get(:Car).new('RailsRunner'); out = output.string; assert out.lines.any? { |l| l.include?('RubyMobile') }; assert out.lines.any? { |l| l.include?('RailsRunner') }; true"><code class="language-ruby">
+# TODO: Define a Vehicle class with a start method, then create a
+# Car subclass that inherits from Vehicle and adds its own behaviour.
+# Hint:
+#   - Use &lt; to declare inheritance: class Car &lt; Vehicle
+#   - Instantiate both and call their methods.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:1">
+class Vehicle
+  def initialize(name)
+    @name = name
+  end
+
+  def start
+    puts "#{@name} is starting"
+  end
+end
+
+class Car &lt; Vehicle
+  def honk
+    puts "#{@name} says: Beep!"
+  end
+end
+
+vehicle = Vehicle.new("RubyMobile")
+vehicle.start
+
+car = Car.new("RailsRunner")
+car.start
+car.honk
+</script>
+
+#### Practice 3 - Implementing method overriding
+
+<p><strong>Goal:</strong> Override a method in a subclass.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="2"
+     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Animal) && sandbox.const_defined?(:Cat); cat = sandbox.const_get(:Cat).new('Misty'); out = output.string; assert out.lines.any? { |l| l.downcase.include?('misty is sleeping') }; true"><code class="language-ruby">
+# TODO: Create a base class with a method, then a subclass that
+# overrides that method to specialise the behaviour.
+# Hint:
+#   - Define an Animal class with a #sleep method.
+#   - Define a Cat subclass that overrides #sleep.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:2">
+class Animal
+  def initialize(name)
+    @name = name
+  end
+
+  def sleep
+    puts "#{@name} is sleeping."
+  end
+end
+
+class Cat &lt; Animal
+  def sleep
+    puts "#{@name} is sleeping on the keyboard."
+  end
+end
+
+cat = Cat.new("Misty")
+cat.sleep
+</script>
+
+#### Practice 4 - Using attribute accessors
+
+<p><strong>Goal:</strong> Use attribute accessors to create getters and setters.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="3"
+     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Book); book = sandbox.const_get(:Book).new('Ruby 101', 'Satish'); book.title = 'Ruby 102'; out = output.string; assert out.lines.any? { |l| l.include?('Ruby 102') }; true"><code class="language-ruby">
+# TODO: Define a Book class that uses attr_accessor and attr_reader,
+# then demonstrate reading and writing attributes.
+# Hint:
+#   - Use attr_accessor for mutable fields, attr_reader for read-only.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:3">
+class Book
+  attr_accessor :title, :author
+  attr_reader :pages
+
+  def initialize(title, author, pages = 0)
+    @title = title
+    @author = author
+    @pages = pages
+  end
+end
+
+book = Book.new("Ruby 101", "Satish", 200)
+book.title = "Ruby 102"
+puts "Title: #{book.title}"
+puts "Pages: #{book.pages}"
+</script>
+
+#### Practice 5 - Extending existing classes
+
+<p><strong>Goal:</strong> Extend an existing Ruby class with a new method.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello from ruby') }"><code class="language-ruby">
+# TODO: Open an existing class (such as String) and add a small
+# helper method, then call it.
+# Hint:
+#   - For example, define String#shout that returns the string in
+#     uppercase with an exclamation mark.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:4">
+class String
+  def shout
+    upcase + "!"
+  end
+end
+
+puts "hello from ruby".shout
+</script>
+
+#### Practice 6 - Access control with private/protected
+
+<p><strong>Goal:</strong> Experiment with private/protected methods and see how they affect access.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="5"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('balance:') }"><code class="language-ruby">
+# TODO: Define a class that has a public method using a private helper
+# and experiment with calling the helper from outside the class.
+# Hint:
+#   - Use private to hide an implementation detail.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
+     data-practice-index="5"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:5">
+class Account
+  def initialize(balance)
+    @balance = balance
+  end
+
+  def print_balance
+    puts "Balance: #{formatted_balance}"
+  end
+
+  private
+
+  def formatted_balance
+    "$#{@balance}"
+  end
+end
+
+account = Account.new(100)
+account.print_balance
+</script>
 
 Continue to [Chapter 5: Modules & mixins](/tutorials/modules-and-mixins/) to share behaviour across objects.

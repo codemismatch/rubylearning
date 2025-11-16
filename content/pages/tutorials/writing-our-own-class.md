@@ -86,3 +86,103 @@ Ruby ships lots of methods on every object. Try `d.methods.sort` (commented out 
 - [ ] Print `Dog.new("Alsatian", "Lassie").class` and `object_id` to reinforce how Ruby manages objects.
 
 Next: proceed to Flow Control & Collections to put your new objects to work inside loops and iterators.
+
+#### Practice 1 - Extending Dog with #talk
+
+<p><strong>Goal:</strong> Extend `Dog` with a `talk` method and watch `respond_to?` change.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('talk') } && lines.any? { |l| l.include?('respond_to?') }"><code class="language-ruby">
+# TODO: Show a Dog class gaining a talk method and demonstrate
+# respond_to? :talk returning true.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:0">
+puts "class Dog"
+puts "  def talk"
+puts "    'woof'"
+puts "  end"
+puts "end"
+puts "Dog.new.respond_to?(:talk)"
+</script>
+
+#### Practice 2 - Reader/writer methods
+
+<p><strong>Goal:</strong> Add reader/writer methods (or `attr_accessor`) for instance variables so callers can rename dogs.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor :name') }"><code class="language-ruby">
+# TODO: Sketch a Dog class that uses attr_accessor for name and shows
+# renaming a dog.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:1">
+puts "class Dog"
+puts "  attr_accessor :name"
+puts "end"
+puts "dog = Dog.new"
+puts "dog.name = 'Lassie'"
+</script>
+
+#### Practice 3 - Shared references to the same object
+
+<p><strong>Goal:</strong> Create two references to the same `Dog`, mutate via one, and verify the other sees the change.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('same object') }"><code class="language-ruby">
+# TODO: Print a short example where two variables point at the same
+# Dog instance and a change via one is visible via the other.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:2">
+puts "dog1 = Dog.new"
+puts "dog2 = dog1"
+puts "dog1.object_id == dog2.object_id # same object"
+</script>
+
+#### Practice 4 - Class and object_id
+
+<p><strong>Goal:</strong> Print `Dog.new(\"Alsatian\", \"Lassie\").class` and `object_id`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('object_id') }"><code class="language-ruby">
+# TODO: Show the class and object_id for a freshly instantiated Dog.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:3">
+puts "dog = Dog.new('Alsatian', 'Lassie')"
+puts "dog.class"
+puts "dog.object_id"
+</script>

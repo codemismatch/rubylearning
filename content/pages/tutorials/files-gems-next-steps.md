@@ -276,3 +276,100 @@ Next steps:
 - Practice building real-world applications that combine all these concepts.
 - Move into the Rails sprint, starting with [Chapter R1: Project setup](/tutorials/rails-project-setup/).
 - Keep useful references close by using the [resources page](/pages/resources/).
+
+#### Practice 1 - Sketching a file IO script
+
+<p><strong>Goal:</strong> Outline a small script that uses `File.open`, `File.read`, and `File.write`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[File.open File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+# TODO: Print a short outline of a script that would read from one
+# file and write to another using File.open/File.read/File.write.
+# This environment doesn't touch your real filesystem, so focus on
+# the code you would write, not actually running it.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/files-gems-next-steps:0">
+puts 'File.open("input.txt", "r") { |f| data = f.read }'
+puts 'File.open("output.txt", "w") { |f| f.write(data) }'
+</script>
+
+#### Practice 2 - Thinking through exception handling
+
+<p><strong>Goal:</strong> Show how you would use `begin`/`rescue`/`ensure` around IO.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[begin rescue ensure].all? { |kw| lines.any? { |l| l.include?(kw) } }"><code class="language-ruby">
+# TODO: Print a minimal begin/rescue/ensure snippet that would wrap a
+# file operation and handle errors gracefully.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/files-gems-next-steps:1">
+puts "begin"
+puts "  File.read('config.yml')"
+puts "rescue Errno::ENOENT"
+puts "  puts 'Missing config file'"
+puts "ensure"
+puts "  puts 'cleanup if needed'"
+end
+</script>
+
+#### Practice 3 - Logging and time usage
+
+<p><strong>Goal:</strong> Describe how you would use `Logger` and `Time` in a small script.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Logger.new') } && lines.any? { |l| l.include?('Time.now') }"><code class="language-ruby">
+# TODO: Print one or two lines that show how you might construct a
+# Logger and log a message with the current time.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/files-gems-next-steps:2">
+puts "logger = Logger.new('log/app.log')"
+puts "logger.info(\"Started at \#{Time.now}\")"
+</script>
+
+#### Practice 4 - JSON/YAML and regex sketch
+
+<p><strong>Goal:</strong> Sketch how you would serialize data to JSON/YAML and use a regexp to filter text.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[JSON YAML /\\w+/].any? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+# TODO: Print a small snippet (as plain text) that mentions using
+# JSON/YAML for serialization and a regular expression for filtering.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/files-gems-next-steps:3">
+puts 'data = { name: "Rubyist" }'
+puts 'json = JSON.dump(data)'
+puts 'yaml = YAML.dump(data)'
+puts 'matches = "Ruby 3.3.0".scan(/\d+\.\d+\.\d+/)'
+</script>

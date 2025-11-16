@@ -145,3 +145,103 @@ Following Ruby conventions, the bang version (`downer!`) makes the destructive b
 - [ ] Experiment with pure vs bang-style methods to see how mutating arguments affects callers.
 
 Next: move into Flow Control & Collections to loop over data with the methods you've authored.
+
+#### Practice 1 - Greeting with optional arguments
+
+<p><strong>Goal:</strong> Create a method that greets users with optional first and last name arguments.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello') } && lines.any? { |l| l.downcase.include?('guest') }"><code class="language-ruby">
+# TODO: Define greet(first = \"Guest\", last = nil) and print at least
+# one greeting that uses defaults and one that passes both names.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:0">
+puts "def greet(first = 'Guest', last = nil)"
+puts "  name = [first, last].compact.join(' ')"
+puts "  puts \"Hello, #{name}\""
+puts "end"
+</script>
+
+#### Practice 2 - Aliasing and redefining methods
+
+<p><strong>Goal:</strong> Alias a helper method, redefine the original, and ensure both behaviours remain available.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('alias') }"><code class="language-ruby">
+# TODO: Sketch a method, alias it, then redefine the original while
+# the alias retains the earlier behaviour.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:1">
+puts "def hello; 'hi'; end"
+puts "alias old_hello hello"
+puts "def hello; 'hello'; end"
+</script>
+
+#### Practice 3 - Variadic log(*messages)
+
+<p><strong>Goal:</strong> Write a `log(*messages)` method that joins an arbitrary number of arguments and prints them.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }"><code class="language-ruby">
+# TODO: Define log(*messages) to join its arguments with spaces and
+# print a single line.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:2">
+puts "def log(*messages)"
+puts "  puts \"log: #{messages.join(' ')}\""
+puts "end"
+</script>
+
+#### Practice 4 - Pure vs bang-style methods
+
+<p><strong>Goal:</strong> Experiment with pure vs bang-style methods to see how mutating arguments affects callers.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('pure') } && lines.any? { |l| l.include?('bang') }"><code class="language-ruby">
+# TODO: Print a small example of a pure helper that returns a new
+# value and a bang-style helper that mutates an argument.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:3">
+puts "def pure_upcase(str)"
+puts "  str.upcase"
+puts "end"
+puts "def bang_upcase!(str)"
+puts "  str.upcase!"
+puts "end"
+</script>

@@ -283,4 +283,157 @@ puts rand            # Will always return the same sequence
 - Try using ranges for sequence generation and condition checking
 - Work with symbols and understand their difference from strings
 
+#### Practice 1 - String manipulation drills
+
+<p><strong>Goal:</strong> Practise common string methods such as `upcase`, `downcase`, `reverse`, and `include?`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[upcase downcase reverse include?].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
+# TODO: Pick a base string and call upcase, downcase, reverse, and
+# include? on it, printing a short label and the result for each call.
+# Hint:
+#   - Show both the method name and the value so it's clear which is which.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:0">
+phrase = "Flow Control"
+
+puts "upcase:   #{phrase.upcase}"
+puts "downcase: #{phrase.downcase}"
+puts "reverse:  #{phrase.reverse}"
+puts "include? 'Control': #{phrase.include?('Control')}"
+</script>
+
+#### Practice 2 - Playing with control structures
+
+<p><strong>Goal:</strong> Experiment with `if/else`, `case`, and `unless` in a single script.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[if case unless].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
+# TODO: Write a small script that uses if/else, case, and unless to
+# branch based on a value (for example, a score or a role).
+# Hint:
+#   - Print a line that mentions each construct so you can see it ran.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:1">
+score = 82
+
+if score >= 90
+  puts "if: excellent"
+elsif score >= 60
+  puts "if: passing"
+else
+  puts "if: needs work"
+end
+
+level = case score
+when 0...60 then "low"
+when 60...80 then "medium"
+else "high"
+end
+puts "case: level is #{level}"
+
+logged_in = true
+unless logged_in == false
+  puts "unless: user is logged in"
+end
+</script>
+
+#### Practice 3 - Arrays and hashes in action
+
+<p><strong>Goal:</strong> Create and manipulate arrays and hashes with various methods.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('array:') } && lines.any? { |l| l.downcase.include?('hash:') }"><code class="language-ruby">
+# TODO: Build an array and a hash, then apply a few methods to each
+# (such as map, select, merge, or delete_if) and print the results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:2">
+nums = [1, 2, 3, 4, 5]
+evens = nums.select(&:even?)
+puts "array: even numbers: #{evens.inspect}"
+
+user = { name: "Ruby", role: "learner", points: 10 }
+user[:points] += 5
+puts "hash: #{user.inspect}"
+</script>
+
+#### Practice 4 - Using ranges for sequences and conditions
+
+<p><strong>Goal:</strong> Use ranges for sequence generation and condition checking.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..5') } && lines.any? { |l| l.downcase.include?('in range') }"><code class="language-ruby">
+# TODO: Generate a sequence using a range and use a range in a
+# condition (for example, to check whether a value falls inside a band).
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:3">
+range = 1..5
+puts "1..5 as array: #{range.to_a.inspect}"
+
+value = 3
+if range.include?(value)
+  puts "#{value} is in range"
+else
+  puts "#{value} is outside range"
+end
+</script>
+
+#### Practice 5 - Working with symbols
+
+<p><strong>Goal:</strong> Work with symbols and see how they differ from strings.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':name') } && lines.any? { |l| l.downcase.include?('symbol') }"><code class="language-ruby">
+# TODO: Create a hash that uses symbols as keys and compare them to
+# string keys, printing out classes and a couple of lookups.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:4">
+person = { name: "Rubyist", role: "student" }
+
+puts "Keys: #{person.keys.inspect}"
+puts "name value: #{person[:name]}"
+puts "Key class: #{person.keys.first.class} (symbol)"
+puts "String key equal? #{:name == 'name'}"
+</script>
+
 When the logic feels natural, move ahead to [Chapter 3: Methods & blocks](/tutorials/methods-and-blocks/).

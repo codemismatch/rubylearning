@@ -106,3 +106,97 @@ Here the string `"200.0"` is the receiver and `to_f` is the message. Ruby evalua
 - [ ] Define a heredoc that includes interpolation and confirm it respects the surrounding quotation style (`<<~` for indentation stripping is handy).
 
 Next: put these variables to work while branching through Flow Control & Collections.
+
+#### Practice 1 - Bareword precedence
+
+<p><strong>Goal:</strong> Assign the same bareword as both a local and a method to observe precedence rules.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('status =') } && lines.any? { |l| l.downcase.include?('def status') }"><code class="language-ruby">
+# TODO: Print a snippet that assigns status = \"new\" and also defines
+# def status; \"ok\"; end, then inspect which one is used where.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:0">
+puts "status = 'new'"
+puts "def status; 'ok'; end"
+</script>
+
+#### Practice 2 - Casting with to_s and to_f
+
+<p><strong>Goal:</strong> Extend `p004stringusage.rb` with `.to_s` and `.to_f` examples.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+# TODO: Print a couple of conversions using to_s and to_f on numeric
+# and string values.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:1">
+puts "42.to_s"
+puts "'3.14'.to_f"
+</script>
+
+#### Practice 3 - << vs +
+
+<p><strong>Goal:</strong> Append to a string with `<<` and compare the result to concatenation with `+`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<') } && lines.any? { |l| l.include?(' + ') }"><code class="language-ruby">
+# TODO: Show how << mutates a string while + returns a new string,
+# printing both results.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:2">
+puts "greeting = 'hi'"
+puts "greeting << ' there'"
+puts "greeting + ' again'"
+</script>
+
+#### Practice 4 - Heredocs with interpolation
+
+<p><strong>Goal:</strong> Define a heredoc that includes interpolation and respects quotation style.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<~') }"><code class="language-ruby">
+# TODO: Print a simple heredoc using <<~ that interpolates a variable.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:3">
+puts "name = 'Ruby'"
+puts "message = <<~TEXT"
+puts "  Hello, \#{name}"
+puts "TEXT"
+</script>
