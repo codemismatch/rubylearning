@@ -129,3 +129,120 @@ Pick the narrowest scope that communicates intent: prefer constants over globals
 - [ ] Freeze a constant (`CONFIG = {...}.freeze`) and try to mutate it to understand when immutability is enforced at the object level.
 
 Next up: keep working through Flow Control & Collections so you can put these naming rules into practice while you branch, loop, and build enumerable data.
+
+#### Practice 1 - Reassigning constants
+
+<p><strong>Goal:</strong> Demonstrate what happens when you reassign a constant.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('PI') } && lines.any? { |l| l.downcase.include?('warning') }"><code class="language-ruby">
+# TODO: Print a short snippet that shows reassigning a constant like
+# PI and noting that Ruby warns about it.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-constants:0">
+puts "PI = 3.14"
+puts "PI = 3.14159 # Ruby prints a warning about already initialized constant"
+</script>
+
+#### Practice 2 - Mutable objects in constants
+
+<p><strong>Goal:</strong> Store a mutable object in a constant and show how mutation behaves.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('CONFIG') } && lines.any? { |l| l.downcase.include?('mutated') }"><code class="language-ruby">
+# TODO: Print a snippet where a constant holds a hash or array that is
+# mutated without reassigning the constant itself.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-constants:1">
+puts "CONFIG = { retries: 3 }"
+puts "CONFIG[:timeout] = 10  # mutated without reassigning CONFIG"
+puts "# CONFIG mutated in place"
+</script>
+
+#### Practice 3 - Namespaced constants
+
+<p><strong>Goal:</strong> Access a constant through nested namespaces using `::`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Math::PI') }"><code class="language-ruby">
+# TODO: Print a couple of examples of constants accessed via the scope
+# operator from nested modules or classes.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-constants:2">
+puts "Math::PI"
+puts "MyApp::Models::User::DEFAULT_ROLE"
+</script>
+
+#### Practice 4 - Constants inside methods
+
+<p><strong>Goal:</strong> Attempt to define a constant inside a method and note Ruby's error.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('dynamic constant assignment') }"><code class="language-ruby">
+# TODO: Print a snippet that tries to define a constant inside a
+# method and mention the dynamic constant assignment error.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-constants:3">
+puts "def bad_constant"
+puts "  INSIDE = 1 # raises dynamic constant assignment"
+puts "end"
+</script>
+
+#### Practice 5 - Freezing constants
+
+<p><strong>Goal:</strong> Freeze a constant and try to mutate it to see where immutability is enforced.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.freeze') } && lines.any? { |l| l.downcase.include?('frozenerror') }"><code class="language-ruby">
+# TODO: Print a snippet where a constant hash is frozen and a comment
+# about the FrozenError raised when modifying it.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-constants:4">
+puts "CONFIG = { cache: true }.freeze"
+puts "CONFIG[:cache] = false # raises FrozenError"
+</script>

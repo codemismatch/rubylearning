@@ -80,3 +80,107 @@ This pattern is handy for tallies and grouping. For nested hashes, consider `Has
 - [ ] Experiment with non-symbol keys (numbers, arrays) to see how Ruby handles equality.
 
 Next: with symbols and hashes under your belt, continue into Flow Control & Collections where these structures help drive iterators and data transformations.
+
+#### Practice 1 - Hash defaults
+
+<p><strong>Goal:</strong> Create a hash with a default value and observe missing keys.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('default') } && lines.any? { |l| l.include?(':missing') }"><code class="language-ruby">
+# TODO: Create a hash with a default value, access a missing key, and
+# print the default along with the hash contents.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-hashes:0">
+counts = Hash.new(0)
+puts "default: #{counts[:missing]}"
+counts[:apples] += 1
+puts "hash: #{counts.inspect}"
+</script>
+
+#### Practice 2 - JSON-style vs hashrocket
+
+<p><strong>Goal:</strong> Build a hash using both JSON-style and hashrocket syntax and compare them.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('=>') } && lines.any? { |l| l.include?('name:') }"><code class="language-ruby">
+# TODO: Print two equivalent hashes, one using the newer symbol: value
+# syntax and one using hashrockets, and demonstrate that they are equal.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-hashes:1">
+json_style = { name: "Ruby", version: "3.3" }
+rocket_style = { :name => "Ruby", :version => "3.3" }
+
+puts "json-style:   #{json_style.inspect}"
+puts "hashrockets:  #{rocket_style.inspect}"
+puts "equal?: #{json_style == rocket_style}"
+</script>
+
+#### Practice 3 - Refactoring string keys to symbols
+
+<p><strong>Goal:</strong> Refactor a string-keyed hash to use symbols.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':title') } && lines.any? { |l| l.downcase.include?('symbols') }"><code class="language-ruby">
+# TODO: Start from a hash literal with string keys, then build a new
+# hash with symbol keys and print both along with a short note about
+# readability.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-hashes:2">
+string_keys = { "title" => "Ruby", "level" => "beginner" }
+symbol_keys = { title: "Ruby", level: "beginner" }
+
+puts "string keys: #{string_keys.inspect}"
+puts "symbol keys: #{symbol_keys.inspect} (symbols improve readability)"
+</script>
+
+#### Practice 4 - Non-symbol keys
+
+<p><strong>Goal:</strong> Experiment with non-symbol hash keys and equality.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[1, 2]') }"><code class="language-ruby">
+# TODO: Create a hash that uses a number and an array as keys, then
+# access them and print the results.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-hashes:3">
+keys = { 1 => "one", [1, 2] => "pair" }
+
+puts "1 maps to: #{keys[1]}"
+puts "[1, 2] maps to: #{keys[[1, 2]]}"
+</script>

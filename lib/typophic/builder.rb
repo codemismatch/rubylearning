@@ -54,6 +54,7 @@ module Typophic
     def build
       puts "Building site..."
 
+      normalize_content_quotes
       format_tutorials
 
       FileUtils.rm_rf(Dir.glob(File.join(@output_dir, "*")))
@@ -67,6 +68,37 @@ module Typophic
     end
 
     private
+
+    def normalize_content_quotes
+      content_root = @source_dir || "content"
+      target_exts = [".md", ".markdown"]
+      smart_map = {
+        "\u201C" => '"',
+        "\u201D" => '"',
+        "\u2018" => "'",
+        "\u2019" => "'",
+        "\u2013" => "-",
+        "\u2014" => "-"
+      }.freeze
+
+      Dir.glob(File.join(content_root, "**", "*")).each do |path|
+        next unless File.file?(path)
+        ext = File.extname(path).downcase
+        next unless target_exts.include?(ext)
+
+        begin
+          original = File.read(path, mode: "r:BOM|UTF-8")
+          normalized = original.dup
+          smart_map.each { |from, to| normalized.gsub!(from, to) }
+          next if normalized == original
+
+          File.write(path, normalized)
+          puts "Normalized quotes in: #{path}"
+        rescue Encoding::InvalidByteSequenceError, Encoding::UndefinedConversionError => e
+          warn "Skipping #{path} due to encoding error: #{e.message}"
+        end
+      end
+    end
 
     def configure_themes(options)
       config_theme = @config["theme"]

@@ -116,4 +116,122 @@ Swap `and` for `&&` in the snippet above and the assignments no longer behave as
 - [ ] Use `||=` to set default configuration in `first_program.rb`.
 - [ ] Replace `&&` with `and` (and vice versa) in a test script to see how precedence affects assignment expressions.
 
+#### Practice 1 - Integer vs float division
+
+<p><strong>Goal:</strong> Print examples that show how integer and float division differ.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); (lines.any? { |l| l.include?('.0') } || lines.any? { |l| l.match?(/\\d+\\.\\d+/) }) && lines.size >= 2"><code class="language-ruby">
+# TODO: Print at least two results that highlight the difference
+# between integer division and float division in Ruby.
+# Hint:
+#   - Try expressions like 7 / 2 and 7.0 / 2.
+#   - Print each result on its own line.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:0">
+int_div  = 7 / 2
+float_div = 7.0 / 2
+
+puts "7 / 2   = #{int_div}"
+puts "7.0 / 2 = #{float_div}"
+</script>
+
+#### Practice 2 - Modulo with positive and negative numbers
+
+<p><strong>Goal:</strong> Experiment with the `%` operator using positive and negative operands.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('%') } && lines.size >= 2"><code class="language-ruby">
+# TODO: Print a few modulo calculations that use both positive and
+# negative operands.
+# Hint:
+#   - Try 10 % 3, -10 % 3, and 10 % -3.
+#   - Print each expression and its result.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:1">
+puts "10 % 3   = #{10 % 3}"
+puts "-10 % 3  = #{-10 % 3}"
+puts "10 % -3  = #{10 % -3}"
+</script>
+
+#### Practice 3 - Using ||= for defaults
+
+<p><strong>Goal:</strong> Use the `||=` operator to set default configuration.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('port') } && lines.any? { |l| l.match?(/\\d+/) }"><code class="language-ruby">
+# TODO: Use ||= to set defaults for a few configuration values.
+# Hint:
+#   - Start with variables like port or host that might already
+#     have a value.
+#   - Use ||= to assign a default only when the value is nil.
+#   - Print the final configuration so you can see the result.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:2">
+port = ENV["APP_PORT"]
+port ||= 3000
+
+host = ENV["APP_HOST"]
+host ||= "localhost"
+
+puts "port: #{port}"
+puts "host: #{host}"
+</script>
+
+#### Practice 4 - and/&& precedence in assignments
+
+<p><strong>Goal:</strong> Observe how `and` and `&&` differ when used with assignments.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/and result: (true|false|nil)/) } && lines.any? { |l| l.match?(/&& result: (true|false|nil)/) }"><code class="language-ruby">
+# TODO: Write a small script that uses both `and` and `&&` with
+# assignments, then print out the results to compare.
+# Hint:
+#   - Try patterns like: value = true and other = false
+#   - Repeat with && and print the assigned values.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/numbers-in-ruby:3">
+a = b = nil
+
+a = true and b = false
+puts "and result: a=#{a.inspect}, b=#{b.inspect}"
+
+c = d = nil
+
+c = true && d = false
+puts "&& result: c=#{c.inspect}, d=#{d.inspect}"
+</script>
+
 Next up: apply these number skills while branching and iterating through collections.

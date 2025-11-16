@@ -94,3 +94,99 @@ Bookmark [`ruby-doc.org`](https://ruby-doc.org/) for the full core and standard-
 - [ ] Scan the keywords reference and note any that are new to you.
 
 Ready to put these conventions to use? Continue to the next chapter to practise flow control and iterate through collections.
+
+#### Practice 1 - Reformatting with free-form layout
+
+<p><strong>Goal:</strong> Reformat a multi-line snippet using Ruby's flexible layout rules.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Ready?') } && lines.any? { |l| l.include?('Go!') }"><code class="language-ruby">
+# TODO: Rewrite a short snippet (like the Ready/Go example) using
+# Ruby's free-form layout: line breaks and optional semicolons.
+# Print at least two lines of output.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:0">
+puts "Ready?"
+puts "Go!"
+</script>
+
+#### Practice 2 - Adding comments to a small script
+
+<p><strong>Goal:</strong> Add inline and block-style comments explaining what each section of a tiny script does.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('#') }"><code class="language-ruby">
+# TODO: Write a short Ruby snippet and annotate it with comments
+# explaining each major step.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:1">
+# Print a greeting
+name = "Rubyist"
+puts "Hello, #{name}"
+
+# Compute a simple result
+result = 1 + 2
+puts "Result is #{result}"
+</script>
+
+#### Practice 3 - Checking truthiness
+
+<p><strong>Goal:</strong> Confirm that `0`, `""`, and `[]` are all truthy using `!!value`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[0 \"\" []].all? { |repr| lines.any? { |l| l.include?(repr) } }"><code class="language-ruby">
+# TODO: For each of 0, \"\", and [], compute !!value and print the
+# value and the result to show they are truthy.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:2">
+[[0, "0"], ["", "\"\""], [[], "[]"]].each do |value, label|
+  puts "#{label}: #{!!value}"
+end
+</script>
+
+#### Practice 4 - Noting new keywords
+
+<p><strong>Goal:</strong> Scan the keywords reference and note any that are new to you (simulated here).</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('new keyword') }"><code class="language-ruby">
+# TODO: Pretend you've scanned the keywords reference and print a
+# couple of keywords that are new or interesting, labelling them
+# as such.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-features"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-features:3">
+puts "New keyword to me: __END__"
+puts "New keyword to me: redo"
+</script>

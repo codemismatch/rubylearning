@@ -143,4 +143,162 @@ Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
 - [ ] Parse fake CLI arguments with `GetoptLong` (or Ruby's newer `OptionParser`) and feed them into a script.
 - [ ] Use `Array()` to wrap non-array objects and inspect `Array.ancestors` to understand its inheritance chain.
 
+#### Practice 1 - Experimenting with array mutation
+
+<p><strong>Goal:</strong> Recreate an array script and add `push`, `pop`, and `shift` calls to observe mutations.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('after push') } && lines.any? { |l| l.downcase.include?('after pop') }"><code class="language-ruby">
+# TODO: Create an array, then call push, pop, and shift on it,
+# printing the array after each operation so you can see how it changes.
+# Hint:
+#   - Use puts with Array#inspect so the structure is visible.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-arrays:0">
+nums = [1, 2, 3]
+puts "start:       #{nums.inspect}"
+
+nums.push(4)
+puts "after push:  #{nums.inspect}"
+
+nums.pop
+puts "after pop:   #{nums.inspect}"
+
+nums.shift
+puts "after shift: #{nums.inspect}"
+</script>
+
+#### Practice 2 - Parallel assignment with multiple return values
+
+<p><strong>Goal:</strong> Write a method that returns multiple values and capture them with parallel assignment.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/sum:/i) } && lines.any? { |l| l.match?(/average:/i) }"><code class="language-ruby">
+# TODO: Define a method that returns multiple values (e.g., sum and
+# average) and capture them with parallel assignment.
+# Hint:
+#   - Return an array from the method, then unpack it with
+#     multiple variables on the left-hand side.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-arrays:1">
+def stats(nums)
+  sum = nums.sum
+  avg = sum.to_f / nums.size
+  [sum, avg]
+end
+
+numbers = [2, 4, 6, 8]
+sum, average = stats(numbers)
+
+puts "sum: #{sum}"
+puts "average: #{average}"
+</script>
+
+#### Practice 3 - Inspecting selected environment variables
+
+<p><strong>Goal:</strong> Iterate over `ENV` and print a subset of variables relevant to your setup.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/env/i) } || lines.size >= 1"><code class="language-ruby">
+# TODO: Loop over ENV and print only a few variables that are
+# interesting on your system (e.g., PATH, HOME).
+# Hint:
+#   - Use ENV.each or ENV.select with a list of keys.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-arrays:2">
+interesting = %w[PATH HOME SHELL]
+
+interesting.each do |key|
+  value = ENV[key]
+  puts "#{key}=#{value.inspect}"
+end
+</script>
+
+#### Practice 4 - Parsing fake CLI arguments
+
+<p><strong>Goal:</strong> Parse fake CLI arguments and feed them into a script.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('host') } && lines.any? { |l| l.downcase.include?('port') }"><code class="language-ruby">
+# TODO: Simulate command-line arguments in an array and parse them
+# into variables such as host and port.
+# Hint:
+#   - You can ignore GetoptLong and OptionParser here and just
+#     iterate over an array of flags/values.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-arrays:3">
+args = %w[--host localhost --port 3000]
+
+host = nil
+port = nil
+
+args.each_slice(2) do |flag, value|
+  case flag
+  when "--host" then host = value
+  when "--port" then port = value.to_i
+  end
+end
+
+puts "host: #{host}"
+puts "port: #{port}"
+</script>
+
+#### Practice 5 - Using Array() and inspecting ancestors
+
+<p><strong>Goal:</strong> Use `Array()` to wrap non-array objects and inspect `Array.ancestors`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('ancestors') }"><code class="language-ruby">
+# TODO: Call Array() on a few different values and print the results,
+# then print Array.ancestors to see where Array fits into Ruby's class
+# hierarchy.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-arrays:4">
+puts "Array('hello')      => #{Array('hello').inspect}"
+puts "Array(1..3)         => #{Array(1..3).inspect}"
+puts "Array([:a, :b, :c]) => #{Array([:a, :b, :c]).inspect}"
+
+puts "Array ancestors: #{Array.ancestors.inspect}"
+</script>
+
 Next: armed with arrays and blocks, jump into Flow Control & Collections to combine loops, iterators, and data structures.

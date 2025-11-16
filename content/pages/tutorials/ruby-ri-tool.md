@@ -67,3 +67,93 @@ Helpful references:
 - [ ] Cache the RDoc output for your project so you can browse it without internet access.
 
 Next: armed with offline docs, continue into Flow Control & Collections to keep building Ruby fluency.
+
+#### Practice 1 - Using ri for core methods
+
+<p><strong>Goal:</strong> Show how you would run `ri` for common methods like `String#split` and `Enumerable#map`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ri String#split') } && lines.any? { |l| l.include?('ri Enumerable#map') }"><code class="language-ruby">
+# TODO: Print the ri invocations you would use to inspect String#split
+# and Enumerable#map.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:0">
+puts "ri String#split"
+puts "ri Enumerable#map"
+</script>
+
+#### Practice 2 - RDoc comments and HTML generation
+
+<p><strong>Goal:</strong> Document a Ruby file with RDoc-style comments and generate HTML with `rdoc`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rdoc') }"><code class="language-ruby">
+# TODO: Print the rdoc command you would run to generate HTML docs for
+# your project.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:1">
+puts "rdoc -o doc ."
+</script>
+
+#### Practice 3 - Class vs instance method lookups
+
+<p><strong>Goal:</strong> Explore `ri Math::cos` vs `ri Math#cos` to see class vs instance method lookups.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Math::cos') } && lines.any? { |l| l.include?('Math#cos') }"><code class="language-ruby">
+# TODO: Print the two ri commands and a short note about what they
+# mean.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:2">
+puts "ri Math::cos  # class method"
+puts "ri Math#cos   # instance method (for completeness)"
+</script>
+
+#### Practice 4 - Caching docs offline
+
+<p><strong>Goal:</strong> Cache RDoc output so you can browse docs without internet access.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('offline docs') }"><code class="language-ruby">
+# TODO: Print a short explanation of how generating HTML with rdoc
+# gives you offline docs.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ri-tool"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ri-tool:3">
+puts "Generating HTML with rdoc into ./doc lets you open docs in a browser without internet access."
+</script>

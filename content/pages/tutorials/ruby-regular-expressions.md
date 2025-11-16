@@ -104,3 +104,101 @@ puts "Number:    #{m[3]}"
 - [ ] Experiment with `String#sub`/`gsub` to replace text using regexps.
 
 Next: return to Flow Control & Collections to combine regex-based parsing with loops and data structures.
+
+#### Practice 1 - =~ index vs nil
+
+<p><strong>Goal:</strong> Test `=~` with and without matches to see an index vs `nil`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('index') } && lines.any? { |l| l.downcase.include?('nil') }"><code class="language-ruby">
+# TODO: Use =~ on a string where the pattern matches and one where it
+# does not, and print the index and nil results.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:0">
+match_index = "Ruby" =~ /Ruby/
+no_match = "Ruby" =~ /Python/
+puts "index: #{match_index.inspect}"
+puts "no match: #{no_match.inspect}"
+</script>
+
+#### Practice 2 - Matching and negating hex digits
+
+<p><strong>Goal:</strong> Write a regexp that matches lowercase hex digits, then negate it with `[^...]`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[a-f0-9]') } && lines.any? { |l| l.include?('[^a-f0-9]') }"><code class="language-ruby">
+# TODO: Print two regexps: one that matches lowercase hex digits and
+# one that matches any character that's not a lowercase hex digit.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:1">
+puts "/[a-f0-9]/"
+puts "/[^a-f0-9]/"
+</script>
+
+#### Practice 3 - Capturing date components
+
+<p><strong>Goal:</strong> Capture month/day/year from a date string using groups and print the captures.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('month') } && lines.any? { |l| l.downcase.include?('year') }"><code class="language-ruby">
+# TODO: Use a regexp with capture groups on a date string like
+# 2024-01-31 or 31/01/2024 and print the components with labels.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:2">
+date = "2024-01-31"
+if date =~ /(\\d{4})-(\\d{2})-(\\d{2})/
+  year, month, day = $1, $2, $3
+  puts "year: #{year}, month: #{month}, day: #{day}"
+end
+</script>
+
+#### Practice 4 - sub and gsub replacements
+
+<p><strong>Goal:</strong> Experiment with `String#sub` and `String#gsub` to replace text using regexps.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('sub:') } && lines.any? { |l| l.downcase.include?('gsub:') }"><code class="language-ruby">
+# TODO: Print a before string, then show the results of sub and gsub
+# for a simple pattern.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-regular-expressions:3">
+text = "Ruby Ruby Ruby"
+puts "sub:  #{text.sub(/Ruby/, 'Rails')}"
+puts "gsub: #{text.gsub(/Ruby/, 'Rails')}"
+</script>

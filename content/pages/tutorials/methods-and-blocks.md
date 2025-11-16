@@ -247,4 +247,147 @@ puts lambda_example.call(1)   # ArgumentError - too few arguments
 - Create and use Procs and lambdas
 - Understand the differences between Procs and lambdas
 
+#### Practice 1 - Writing methods with parameters
+
+<p><strong>Goal:</strong> Define methods with different numbers of parameters and call them.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello') } && lines.any? { |l| l.downcase.include?('sum') }"><code class="language-ruby">
+# TODO: Define at least two methods: one that takes a single
+# parameter, and another that takes two or more parameters. Call
+# them and print the results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/methods-and-blocks:0">
+def greet(name)
+  puts "Hello, #{name}"
+end
+
+def add(a, b)
+  a + b
+end
+
+greet("Rubyist")
+puts "Sum: #{add(2, 3)}"
+</script>
+
+#### Practice 2 - Default parameters and return values
+
+<p><strong>Goal:</strong> Experiment with default parameters and explicit return values.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('guest') } && lines.any? { |l| l.downcase.include?('alex') }"><code class="language-ruby">
+# TODO: Write a method that uses a default parameter, call it with
+# and without an explicit value, and print the returned values.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/methods-and-blocks:1">
+def welcome(name = "guest")
+  "Welcome, #{name}"
+end
+
+puts welcome
+puts welcome("Alex")
+</script>
+
+#### Practice 3 - Using blocks with array methods
+
+<p><strong>Goal:</strong> Practise using blocks with `each`, `map`, and `select`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('mapped') } && lines.any? { |l| l.downcase.include?('selected') }"><code class="language-ruby">
+# TODO: Create an array and use blocks with each, map, and select to
+# transform and filter it, printing each step with a label.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/methods-and-blocks:2">
+nums = [1, 2, 3, 4, 5]
+
+nums.each { |n| puts "each: #{n}" }
+
+mapped = nums.map { |n| n * 2 }
+puts "mapped: #{mapped.inspect}"
+
+selected = nums.select(&:even?)
+puts "selected: #{selected.inspect}"
+</script>
+
+#### Practice 4 - Creating and using Procs and lambdas
+
+<p><strong>Goal:</strong> Create Procs and lambdas and invoke them.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('proc') } && lines.any? { |l| l.downcase.include?('lambda') }"><code class="language-ruby">
+# TODO: Create a Proc and a lambda that each print or return a simple
+# message, then call them using both .call and [] syntax.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/methods-and-blocks:3">
+my_proc = Proc.new { |name| puts "proc: Hello, #{name}" }
+my_lambda = ->(name) { puts "lambda: Hello, #{name}" }
+
+my_proc.call("Ruby")
+my_proc["Rails"]
+
+my_lambda.call("Ruby")
+my_lambda["Rails"]
+</script>
+
+#### Practice 5 - Observing Proc vs lambda differences
+
+<p><strong>Goal:</strong> Observe at least one behavioural difference between Procs and lambdas.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="4"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('proc result') } && lines.any? { |l| l.downcase.include?('lambda result') }"><code class="language-ruby">
+# TODO: Write a small example that contrasts return behaviour or
+# arity between a Proc and a lambda and print labelled results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
+     data-practice-index="4"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/methods-and-blocks:4">
+def proc_vs_lambda
+  pr = Proc.new { |x, y| "proc result: #{x}, #{y.inspect}" }
+  lm = ->(x, y) { "lambda result: #{x}, #{y}" }
+
+  puts pr.call(1)
+  puts lm.call(1, 2)
+end
+
+proc_vs_lambda
+</script>
+
 Ready for more structure? Continue to [Chapter 4: Classes & objects](/tutorials/classes-and-objects/).

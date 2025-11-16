@@ -87,3 +87,96 @@ puts short_name(&quot;Satish Talim&quot;)
 - [ ] Rescue `LoadError` to provide a helpful message when an optional dependency is missing.
 
 Next: return to Flow Control & Collections to keep building on these reusable building blocks.
+
+#### Practice 1 - Thinking through require_relative
+
+<p><strong>Goal:</strong> Describe how you would split code across two files and use `require_relative`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('require_relative') }"><code class="language-ruby">
+# TODO: Print a tiny example that shows a helper defined in one file
+# and required from another using require_relative.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:0">
+puts 'require_relative "helpers/string_helpers"'
+puts 'include StringHelpers'
+</script>
+
+#### Practice 2 - $LOAD_PATH and lib
+
+<p><strong>Goal:</strong> Show how you would modify `$LOAD_PATH` to include a `lib/` directory.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$LOAD_PATH') } && lines.any? { |l| l.include?('lib') }"><code class="language-ruby">
+# TODO: Print a snippet that pushes 'lib' onto $LOAD_PATH and requires
+# a file from there.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:1">
+puts "$LOAD_PATH.unshift(File.expand_path('lib', __dir__))"
+puts "require 'my_library'"
+</script>
+
+#### Practice 3 - load and rerunning top-level code
+
+<p><strong>Goal:</strong> Use `load` to execute a script twice and understand that top-level code reruns.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('load ') }"><code class="language-ruby">
+# TODO: Print a short example that shows calling load twice on the
+# same file.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:2">
+puts "load 'scripts/setup.rb'"
+puts "load 'scripts/setup.rb' # runs again"
+</script>
+
+#### Practice 4 - Rescuing LoadError
+
+<p><strong>Goal:</strong> Show how you would rescue `LoadError` for an optional dependency.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('LoadError') } && lines.any? { |l| l.include?('require') }"><code class="language-ruby">
+# TODO: Print a begin/rescue snippet that rescues LoadError around a
+# require call and prints a friendly message.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/including-other-files:3">
+puts "begin"
+puts "  require 'optional_gem'"
+puts "rescue LoadError"
+puts "  puts 'Install optional_gem for extra features'"
+puts "end"
+</script>

@@ -123,3 +123,124 @@ The semicolon separates block parameters (`y`) from block-local variables (`x`).
 - [ ] Demonstrate the difference between block parameters, outer variables, and block-local variables using `;` syntax.
 
 Next: continue to Flow Control & Collections to iterate with arrays, hashes, and enumerable helpers.
+
+#### Practice 1 - Yielding multiple times
+
+<p><strong>Goal:</strong> Write a method that yields twice and pass it a block that prints a message with iteration counts.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('iteration') } >= 2"><code class="language-ruby">
+# TODO: Define a method that yields at least twice and pass it a block
+# that prints a message including the iteration number.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:0">
+def twice
+  2.times do |i|
+    yield(i + 1)
+  end
+end
+
+twice do |iteration|
+  puts "iteration #{iteration}"
+end
+</script>
+
+#### Practice 2 - Using block_given?
+
+<p><strong>Goal:</strong> Experiment with `block_given?` by calling a method with and without a block.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('with block') } && lines.any? { |l| l.downcase.include?('without block') }"><code class="language-ruby">
+# TODO: Write a method that behaves differently depending on whether
+# block_given? is true, then call it with and without a block.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:1">
+def maybe_yield
+  if block_given?
+    puts "with block"
+    yield
+  else
+    puts "without block"
+  end
+end
+
+maybe_yield
+maybe_yield { puts "block ran" }
+</script>
+
+#### Practice 3 - Range iteration vs map
+
+<p><strong>Goal:</strong> Use a block to iterate over a range and collect values, then rewrite the same logic with `Enumerable#map`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('manual:') } && lines.any? { |l| l.downcase.include?('map:') }"><code class="language-ruby">
+# TODO: Iterate over a numeric range using an explicit loop and a
+# block to collect values, then do the same with map and print both
+# results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:2">
+range = 1..5
+
+manual = []
+range.each do |n|
+  manual << n * 2
+end
+puts "manual: #{manual.inspect}"
+
+mapped = range.map { |n| n * 2 }
+puts "map:    #{mapped.inspect}"
+</script>
+
+#### Practice 4 - Block parameters vs outer and block-local variables
+
+<p><strong>Goal:</strong> Demonstrate the difference between block parameters, outer variables, and block-local variables using `;` syntax.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('outer x') } && lines.any? { |l| l.downcase.include?('block-local x') }"><code class="language-ruby">
+# TODO: Use a block with block-local variables to contrast the values
+# of a parameter, an outer variable, and a block-local variable.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-blocks:3">
+x = 10
+
+puts "outer x before: #{x}"
+
+3.times do |i; x|
+  x = i
+  puts "block-local x: #{x}"
+end
+
+puts "outer x after: #{x}"
+</script>

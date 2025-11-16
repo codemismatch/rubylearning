@@ -77,3 +77,100 @@ end
 - [ ] Build a `case` expression that classifies temperatures using range intervals.
 
 Next: continue into Flow Control & Collections where ranges, arrays, and enumerators come together in loops and iterators.
+
+#### Practice 1 - Inclusive vs exclusive ranges
+
+<p><strong>Goal:</strong> Convert `(1..10)` and `(1...10)` to arrays and compare the results.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..10') } && lines.any? { |l| l.include?('1...10') }"><code class="language-ruby">
+# TODO: Print the arrays produced by (1..10).to_a and (1...10).to_a
+# with clear labels.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:0">
+puts "1..10  => #{(1..10).to_a.inspect}"
+puts "1...10 => #{(1...10).to_a.inspect}"
+</script>
+
+#### Practice 2 - include?, min, max on ranges
+
+<p><strong>Goal:</strong> Use `include?`, `min`, and `max` on a negative-to-positive range.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[include? min max].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+# TODO: Create a range from -5 to 5 and print whether it includes 0,
+# along with its min and max.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:1">
+range = -5..5
+puts "include?(0): #{range.include?(0)}"
+puts "min: #{range.min}, max: #{range.max}"
+</script>
+
+#### Practice 3 - Yielding even members from a range
+
+<p><strong>Goal:</strong> Write a method that accepts a range and yields only the even members using `select`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('even') }"><code class="language-ruby">
+# TODO: Print an example method that takes a range and returns only
+# its even numbers with select.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:2">
+puts "def evens(range)"
+puts "  range.select(&:even?)"
+puts "end"
+</script>
+
+#### Practice 4 - case with range intervals
+
+<p><strong>Goal:</strong> Build a `case` expression that classifies temperatures using ranges.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('cold') } && lines.any? { |l| l.downcase.include?('hot') }"><code class="language-ruby">
+# TODO: Print a case expression that categorises a temperature as
+# cold, mild, or hot using range intervals.
+</code></pre>
+
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/ruby-ranges"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/ruby-ranges:3">
+puts "case temp"
+puts "when -50...10 then 'cold'"
+puts "when 10...25 then 'mild'"
+puts "else 'hot'"
+puts "end"
+</script>

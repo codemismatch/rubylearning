@@ -124,3 +124,112 @@ String.instance_methods(false).sort.take(10)
 - [ ] Print each string's encoding (e.g., `"Ola".encoding`) and experiment with `#encode` to convert between UTF-8 and another encoding.
 
 Next: put these string skills to work while branching and looping through Flow Control & Collections.
+
+#### Practice 1 - Interpolation vs single quotes
+
+<p><strong>Goal:</strong> Recreate `say_goodnight` using single quotes and observe how interpolation behaves.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="0"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(\"Good night, \") } && lines.any? { |l| l.include?('#{name}') }"><code class="language-ruby">
+# TODO: Implement say_goodnight twice: once with double quotes that
+# interpolate a name, and once with single quotes that leave #{name}
+# unchanged. Print both results.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="0"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:0">
+def say_goodnight_double(name)
+  "Good night, #{name}"
+end
+
+def say_goodnight_single(name)
+  'Good night, #{name}'
+end
+
+puts say_goodnight_double("Rubyist")
+puts say_goodnight_single("Rubyist")
+</script>
+
+#### Practice 2 - Comparing user inputs
+
+<p><strong>Goal:</strong> Compare two strings with `==`, `eql?`, and `equal?`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="1"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[== eql? equal?].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+# TODO: Read or define two strings, compare them with ==, eql?,
+# and equal?, and print a labelled line for each comparison.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="1"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:1">
+s1 = "Jonathan"
+s2 = "Jonathan"
+s3 = s1
+
+puts "== : #{s1 == s2}"
+puts "eql?: #{s1.eql?(s2)}"
+puts "equal? (s1,s2): #{s1.equal?(s2)}"
+puts "equal? (s1,s3): #{s1.equal?(s3)}"
+</script>
+
+#### Practice 3 - Building a %w array
+
+<p><strong>Goal:</strong> Build a `%w` array of Ruby core types and iterate over it.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="2"
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[String Array Hash Symbol].all? { |word| lines.any? { |l| l.include?(word) } }"><code class="language-ruby">
+# TODO: Use %w to construct an array of Ruby core type names, then
+# iterate and print each element with a short label.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="2"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:2">
+types = %w[String Array Hash Symbol]
+
+types.each do |name|
+  puts "Core type: #{name}"
+end
+</script>
+
+#### Practice 4 - Working with encodings
+
+<p><strong>Goal:</strong> Print each string's encoding and experiment with `#encode`.</p>
+
+<pre class="language-ruby"
+     data-executable="true"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="3"
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('encoding') }"><code class="language-ruby">
+# TODO: Create a couple of strings, print their encoding, and call
+# encode on at least one of them to convert it to a different encoding.
+</code></pre>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
+     data-practice-index="3"></div>
+
+<script type="text/plain"
+        data-practice-solution="rl:chapter:/tutorials/more-on-strings:3">
+hello = "Olá"
+
+puts "Original encoding: #{hello.encoding}"
+converted = hello.encode("UTF-8")
+puts "Converted encoding: #{converted.encoding}"
+</script>
