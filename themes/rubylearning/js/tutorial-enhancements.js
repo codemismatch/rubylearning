@@ -190,6 +190,11 @@ function initPracticeChecklists() {
     });
   });
 
+  // Persist total item count for index-page progress rings
+  try {
+    window.localStorage.setItem(`${chapterKeyPrefix}:total`, String(itemKeys.length));
+  } catch (_) {}
+
   // Mark chapter as visited and update completion status once on load
   try {
     window.localStorage.setItem(`${chapterKeyPrefix}:visited`, '1');
@@ -255,21 +260,39 @@ function initChapterListProgress() {
 
       const marker = document.createElement('span');
       marker.className = 'chapter-progress-marker';
-      let ariaLabel = 'Chapter not started';
 
-      if (complete) {
-        marker.textContent = '✓';
-        marker.classList.add('chapter-progress-marker--complete');
-        ariaLabel = 'Chapter completed';
-        link.classList.add('chapter-link--complete');
+      // Compute percentage using stored checklist items
+      const totalStr = window.localStorage.getItem(`${chapterKeyPrefix}:total`);
+      const total = totalStr ? parseInt(totalStr, 10) : 0;
+      let completed = 0;
+      if (total > 0) {
+        for (let i = 0; i < total; i++) {
+          if (window.localStorage.getItem(`${chapterKeyPrefix}:item:${i}`) === '1') completed += 1;
+        }
+      }
+      let percent = 0;
+      if (total > 0) {
+        percent = Math.round((completed / total) * 100);
+      } else if (complete) {
+        percent = 100;
       } else if (visited) {
-        marker.textContent = '✓';
-        marker.classList.add('chapter-progress-marker--visited');
-        ariaLabel = 'Chapter visited';
-      } else {
-        marker.classList.add('chapter-progress-marker--pending');
+        percent = 10;
       }
 
+      const size = 20;
+      const radius = 8;
+      const circumference = 2 * Math.PI * radius;
+      const offset = circumference * (1 - percent / 100);
+      const stateClass = percent >= 100 ? 'is-complete' : percent > 0 ? 'is-partial' : 'is-pending';
+      marker.classList.add(stateClass);
+      marker.innerHTML = `
+        <svg class="chapter-progress-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">
+          <circle class="chapter-progress-ring-bg" cx="10" cy="10" r="${radius}" />
+          <circle class="chapter-progress-ring-progress" cx="10" cy="10" r="${radius}"
+                  stroke-dasharray="${circumference.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" />
+        </svg>`;
+
+      const ariaLabel = percent > 0 ? `Chapter progress: ${percent}%` : 'Chapter not started';
       marker.setAttribute('aria-label', ariaLabel);
 
       // Insert marker before the link text so it appears to the left

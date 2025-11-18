@@ -204,8 +204,8 @@ function initRubyConsoles(vm) {
 
     // Initial hint
     if (!outputEl.dataset.initialized) {
-      appendLine('Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green');
-      appendLine('Examples: 1 + 2, "hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-red');
+      appendLine('💎 Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green');
+      appendLine('Try: 1 + 2, "Hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-white');
       outputEl.dataset.initialized = 'true';
     }
 

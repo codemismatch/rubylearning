@@ -166,7 +166,7 @@ html {
   height: 1.2rem;  /* smaller marker */
   border-radius: 999px;
   margin-right: 0.3rem;
-  font-size: 0.75em; /* scale down the check glyph */
+  font-size: 0.75em; /* legacy glyph fallback */
   vertical-align: middle;
 }
 
@@ -185,6 +185,25 @@ html {
   background-color: transparent;
   color: transparent; /* no glyph, just the ring */
 }
+
+/* Progress ring visuals */
+.chapter-progress-svg { display: block; }
+.chapter-progress-ring-bg {
+  fill: none;
+  stroke: #e5e7eb;
+  stroke-width: 3;
+}
+.chapter-progress-ring-progress {
+  fill: none;
+  stroke: #9ca3af; /* default grey */
+  stroke-width: 3;
+  stroke-linecap: round;
+  transform-origin: 50% 50%;
+  transform: rotate(-90deg); /* start at 12 o'clock */
+  transition: stroke-dashoffset 0.3s ease, stroke 0.2s ease;
+}
+.chapter-progress-marker.is-partial .chapter-progress-ring-progress { stroke: #f59e0b; }
+.chapter-progress-marker.is-complete .chapter-progress-ring-progress { stroke: #22c55e; }
 
 .chapter-nav ol li a.chapter-link--complete {
   color: #16a34a; /* green text for completed chapters */
