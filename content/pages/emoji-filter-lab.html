@@ -15,24 +15,32 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
   .lab-header{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:12px}
   .lab-title{margin:0;font-size:1.25rem;font-weight:700}
   .lab-hint{color:var(--muted);font-size:.9rem}
-  .lab-wrap{display:grid;grid-template-columns:360px 1fr;gap:16px}
-  .lab-panel{background:var(--panel);border:1px solid #1f2a44;border-radius:10px;padding:14px;overflow:auto}
+  .lab-wrap{display:grid;grid-auto-rows:auto;gap:16px}
+  /* Top row uses the same column widths as the bottom row to align panels */
+  .top-row{display:grid;grid-template-columns: 1fr 1.6fr; gap:16px; align-items:start}
+  /* Bottom row: left controls (text/bg + snippets) and right (filters); right ~60% wider */
+  .two-col{display:grid; grid-template-columns: 1fr 1.6fr; gap:16px}
+  .lab-panel{background:var(--panel);border:1px solid #1f2a44;border-radius:10px;padding:14px;overflow:visible; width:100%; box-sizing:border-box}
   .controls{display:grid;gap:10px}
   .group{background:rgba(255,255,255,.03);border:1px solid #22304f;padding:10px;border-radius:8px}
   .group h3{margin:0 0 8px;font-size:.95rem;color:#cbd5e1}
   label{display:grid;grid-template-columns: 1fr minmax(120px,1fr);align-items:center;gap:10px;font-size:.9rem}
   input[type="range"]{width:100%}
-  input[type="color"], input[type="text"], input[type="number"]{width:100%;background:#0f1626;color:var(--text);border:1px solid #293656;border-radius:6px;padding:6px}
+  input[type="color"], input[type="text"], input[type="number"], textarea{width:100%;background:#0f1626;color:var(--text);border:1px solid #293656;border-radius:6px;padding:6px; font-family:var(--sans)}
   .mono{font-family:var(--mono)}
   .editor-wrap{display:grid;grid-template-rows:auto 1fr auto;gap:10px;min-height:0}
-  .editor{min-height:260px;background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:16px;overflow:auto;font-family:var(--mono);font-size:18px;line-height:1.5}
+  .editor{min-height:180px;background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:16px;overflow:auto;font-family:var(--mono), 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; font-size:18px;line-height:1.5}
+  .editor .emoji{display:inline-block;}
   .preview{display:flex;align-items:center;gap:10px;font-size:48px}
   .preview .emoji{display:inline-block}
   .row{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
   .btn{background:var(--accent);color:#fff;border:none;padding:8px 12px;border-radius:8px;cursor:pointer}
   .btn.secondary{background:#334155}
   .small{font-size:.85rem;color:var(--muted)}
-  .code{background:#0b1220;border:1px solid #1e293b;padding:8px;border-radius:8px;white-space:pre-wrap}
+  .code{background:#0b1220;border:1px solid #1e293b;padding:8px;border-radius:8px;white-space:pre-wrap; color:var(--text)}
+  textarea.code{width:100%; min-height:3.5rem}
+  .toast{position:fixed; right:16px; bottom:16px; background:#16a34a; color:#fff; padding:8px 12px; border-radius:8px; opacity:0; transform:translateY(10px); transition:all .2s ease; pointer-events:none}
+  .toast.show{opacity:1; transform:translateY(0)}
 </style>
 <div class="lab-root">
   <div class="lab-header">
@@ -40,30 +48,31 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
     <div class="lab-hint">Tune CSS filters to tint emojis. Copy CSS + HTML when you like the color.</div>
   </div>
   <div class="lab-wrap">
-    <aside class="lab-panel">
+    <div class="top-row">
+      <aside class="lab-panel">
       <div class="controls">
         <div class="group">
           <h3>Emoji preview</h3>
+          <div class="preview"><span id="emojiNode" class="emoji">💎</span></div>
           <div class="row">
-            <label>Emoji <input id="emojiInput" type="text" value="💎" maxlength="4" /></label>
+            <label>Emoji <input id="emojiInput" type="text" value="💎" maxlength="8" /></label>
             <label>Size (px) <input id="emojiSize" type="number" value="48" min="12" max="256" /></label>
           </div>
-          <div class="preview"><span id="emojiNode" class="emoji">💎</span></div>
         </div>
-        <div class="group">
-          <h3>Filter sliders</h3>
-          <label>Hue rotate (deg) <input id="hue" type="range" min="0" max="360" value="240"/></label>
-          <label>Saturate <input id="saturate" type="range" min="0" max="5" step="0.1" value="1.5"/></label>
-          <label>Brightness <input id="brightness" type="range" min="0" max="2" step="0.05" value="1.1"/></label>
-          <label>Contrast <input id="contrast" type="range" min="0" max="2" step="0.05" value="1"/></label>
-          <label>Sepia <input id="sepia" type="range" min="0" max="1" step="0.01" value="0"/></label>
-          <label>Invert <input id="invert" type="range" min="0" max="1" step="0.01" value="0"/></label>
-          <label>Grayscale <input id="grayscale" type="range" min="0" max="1" step="0.01" value="0"/></label>
-          <label>Opacity <input id="opacity" type="range" min="0.1" max="1" step="0.01" value="1"/></label>
-          <div class="small">Filter CSS (copy):</div>
-          <div id="filterCss" class="code mono"></div>
-          <button id="copyFilter" class="btn" type="button">Copy filter()</button>
+      </div>
+      </aside>
+      <main class="lab-panel editor-wrap">
+        <div class="row">
+          <strong>Live editor</strong>
+          <span class="small">Type text and emojis below. Text color & background apply here.</span>
         </div>
+        <div id="editor" class="editor" contenteditable="true">💎 Hello Ruby Baby! ✨ Type and tint emojis.</div>
+        <div class="small">Tip: Paste any emoji and tweak filters below. All emojis in the editor adopt the current filter.</div>
+      </main>
+    </div>
+    <div class="two-col">
+    <aside class="lab-panel">
+      <div class="controls">
         <div class="group">
           <h3>Text & background</h3>
           <label>Text color <input id="textColor" type="color" value="#e5e7eb"/></label>
@@ -78,15 +87,27 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
         </div>
       </div>
     </aside>
-    <main class="lab-panel editor-wrap">
-      <div class="row">
-        <strong>Live editor</strong>
-        <span class="small">Type text and emojis below. Text color & background apply here.</span>
+    <aside class="lab-panel">
+      <div class="controls">
+        <div class="group">
+          <h3>Filter sliders & CSS</h3>
+          <label>Hue rotate (deg) <input id="hue" type="range" min="0" max="360" value="240"/></label>
+          <label>Saturate <input id="saturate" type="range" min="0" max="5" step="0.1" value="1.5"/></label>
+          <label>Brightness <input id="brightness" type="range" min="0" max="2" step="0.05" value="1.1"/></label>
+          <label>Contrast <input id="contrast" type="range" min="0" max="2" step="0.05" value="1"/></label>
+          <label>Sepia <input id="sepia" type="range" min="0" max="1" step="0.01" value="0"/></label>
+          <label>Invert <input id="invert" type="range" min="0" max="1" step="0.01" value="0"/></label>
+          <label>Grayscale <input id="grayscale" type="range" min="0" max="1" step="0.01" value="0"/></label>
+          <label>Opacity <input id="opacity" type="range" min="0.1" max="1" step="0.01" value="1"/></label>
+          <div class="small">Filter CSS (editable):</div>
+          <textarea id="filterCss" class="code mono" rows="3"></textarea>
+          <button id="copyFilter" class="btn" type="button">Copy filter()</button>
+        </div>
       </div>
-      <div id="editor" class="editor" contenteditable="true">💎 Mini Ruby console. Type Ruby code and press Enter.</div>
-      <div class="small">Tip: Use the Emoji preview above to tune color, then copy CSS filter and apply it to your emoji in code.</div>
-    </main>
+    </aside>
+    </div>
   </div>
+  <div id="toast" class="toast" role="status" aria-live="polite">Copied!</div>
 </div>
 <script>
   const $ = s => document.querySelector(s);
@@ -99,20 +120,45 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
   const sliders = ['hue','saturate','brightness','contrast','sepia','invert','grayscale','opacity'].map(id=>$('#'+id));
   function buildFilter(){
     const v = {hue:$('#hue').value, sat:$('#saturate').value, bri:$('#brightness').value, con:$('#contrast').value, sep:$('#sepia').value, inv:$('#invert').value, gry:$('#grayscale').value, op:$('#opacity').value};
-    return `filter: hue-rotate(${v.hue}deg) saturate(${v.sat}) brightness(${v.bri}) contrast(${v.con}) sepia(${v.sep}) invert(${v.inv}) grayscale(${v.gry}) opacity(${v.op});`;
+    return `hue-rotate(${v.hue}deg) saturate(${v.sat}) brightness(${v.bri}) contrast(${v.con}) sepia(${v.sep}) invert(${v.inv}) grayscale(${v.gry}) opacity(${v.op})`;
+  }
+  function applyFilterString(str){
+    // set preview
+    emojiNode.style.cssText = `filter: ${str}; font-size:${sizeInput.value||48}px;`;
+    filterCss.value = `filter: ${str};`;
+    htmlSnippet.textContent = `<span style="filter: ${str};">${(emojiInput.value||'💎')}</span>`;
+    // decorate editor emojis
+    const emojiRegex = /(\p{Extended_Pictographic})/gu;
+    const text = editor.textContent;
+    editor.innerHTML = text.replace(emojiRegex, (m)=>`<span class="emoji" style="filter:${str};">${m}</span>`);
+    editor.style.color = $('#textColor').value;
+    document.querySelector('.lab-root').style.background = $('#bgColor').value;
+    editor.style.fontSize = (parseInt($('#fontSize').value)||18) + 'px';
   }
   function render(){
-    emojiNode.textContent = emojiInput.value || '💎';
-    emojiNode.style.cssText = buildFilter() + ` font-size:${sizeInput.value||48}px;`;
-    filterCss.textContent = buildFilter();
-    htmlSnippet.textContent = `<span style="${buildFilter()}">${(emojiInput.value||'💎')}</span>`;
-    editor.style.color = $('#textColor').value;
-    document.querySelector('.lab-root').style.background = $('#bgColor').value; // scoped bg
-    editor.style.fontSize = (parseInt($('#fontSize').value)||18) + 'px';
+    // Only show first emoji cluster in preview
+    const content = emojiInput.value || '💎';
+    const m = content.match(/\p{Extended_Pictographic}/u);
+    emojiNode.textContent = m ? m[0] : (content.charAt(0) || '💎');
+    applyFilterString(buildFilter());
   }
   sliders.forEach(s=> s.addEventListener('input', render));
   [emojiInput,sizeInput,$('#textColor'),$('#bgColor'),$('#fontSize')].forEach(i=> i.addEventListener('input', render));
-  $('#copyFilter').addEventListener('click', ()=>{ navigator.clipboard.writeText(filterCss.textContent).catch(()=>{}); });
-  $('#copyHtml').addEventListener('click', ()=>{ navigator.clipboard.writeText(htmlSnippet.textContent).catch(()=>{}); });
+  // If textarea edited manually, auto-apply
+  filterCss.addEventListener('input', ()=>{
+    const v = (filterCss.value||'').replace(/^\s*filter\s*:\s*/,'').replace(/;\s*$/,'');
+    if(v) applyFilterString(v);
+  });
+  $('#copyFilter').addEventListener('click', ()=>{ 
+    navigator.clipboard.writeText(filterCss.value||'').then(()=>{
+      const t=$('#toast'); t.textContent='Filter copied!'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1200);
+    }).catch(()=>{});
+  });
+  $('#copyHtml').addEventListener('click', ()=>{ 
+    navigator.clipboard.writeText(htmlSnippet.textContent).then(()=>{
+      const t=$('#toast'); t.textContent='HTML copied!'; t.classList.add('show'); setTimeout(()=>t.classList.remove('show'),1200);
+    }).catch(()=>{});
+  });
+  editor.addEventListener('input', ()=>{ applyFilterString(buildFilter()); });
   render();
 </script>
