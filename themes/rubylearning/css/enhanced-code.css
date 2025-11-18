@@ -413,7 +413,7 @@ pre.language-shell::before {
 /* Tint the diamond emoji to ruby red */
 .tinted-diamond {
   filter: hue-rotate(240deg) saturate(1.5) brightness(1.1);
-  font-size: 50px;
+  font-size: 36px; /* smaller */
   line-height: 1;
   display: inline-block;
   vertical-align: -0.15em;

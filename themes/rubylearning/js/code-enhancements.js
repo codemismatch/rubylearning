@@ -208,7 +208,7 @@ function initRubyConsoles(vm) {
 
     // Initial hint
     if (!outputEl.dataset.initialized) {
-      appendLine('<svg class="ruby-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2L3 7L12 12L21 7L12 2Z" fill="#CC342D"/><path d="M3 7L12 22L21 7L12 12L3 7Z" fill="#CC342D" opacity="0.7"/><path d="M12 12L21 7V17L12 22V12Z" fill="#CC342D" opacity="0.85"/><path d="M12 12L3 7V17L12 22V12Z" fill="#CC342D" opacity="0.6"/></svg> Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green', true);
+      appendLine('<span class="tinted-diamond" aria-hidden="true">💎</span> Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green', true);
       appendLine('Try: 1 + 2, "Hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-white');
       outputEl.dataset.initialized = 'true';
     }
