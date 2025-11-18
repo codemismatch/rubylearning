@@ -168,42 +168,29 @@ html {
   margin-right: 0.3rem;
   font-size: 0.75em; /* legacy glyph fallback */
   vertical-align: middle;
+  position: relative;
+  border: 1.5px solid #d1d5db; /* ring outline */
+  --percent: 0%;
+  --progress-color: var(--primary-color);
+  background: conic-gradient(var(--progress-color) var(--percent), transparent 0);
 }
 
-.chapter-progress-marker--complete {
-  background-color: #22c55e; /* green */
-  color: #ffffff;
-}
-
-.chapter-progress-marker--visited {
-  background-color: #9ca3af; /* gray */
-  color: #ffffff;
-}
-
-.chapter-progress-marker--pending {
-  border: 1.5px solid #d1d5db; /* thinner ring for smaller size */
-  background-color: transparent;
-  color: transparent; /* no glyph, just the ring */
-}
+.chapter-progress-marker--complete { --progress-color: #22c55e; }
+.chapter-progress-marker--visited { --progress-color: var(--primary-color); }
+.chapter-progress-marker--pending { --progress-color: var(--primary-color); }
 
 /* Progress ring visuals */
-.chapter-progress-svg { display: block; }
-.chapter-progress-ring-bg {
-  fill: none;
-  stroke: #e5e7eb;
-  stroke-width: 3;
+/* Tick overlay when complete */
+.chapter-progress-marker.is-complete::after {
+  content: '✓';
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #ffffff;
+  font-size: 0.7rem;
 }
-.chapter-progress-ring-progress {
-  fill: none;
-  stroke: #9ca3af; /* default grey */
-  stroke-width: 3;
-  stroke-linecap: round;
-  transform-origin: 50% 50%;
-  transform: rotate(-90deg); /* start at 12 o'clock */
-  transition: stroke-dashoffset 0.3s ease, stroke 0.2s ease;
-}
-.chapter-progress-marker.is-partial .chapter-progress-ring-progress { stroke: #f59e0b; }
-.chapter-progress-marker.is-complete .chapter-progress-ring-progress { stroke: #22c55e; }
 
 .chapter-nav ol li a.chapter-link--complete {
   color: #16a34a; /* green text for completed chapters */

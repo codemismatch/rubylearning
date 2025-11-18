@@ -279,18 +279,9 @@ function initChapterListProgress() {
         percent = 10;
       }
 
-      const size = 20;
-      const radius = 8;
-      const circumference = 2 * Math.PI * radius;
-      const offset = circumference * (1 - percent / 100);
       const stateClass = percent >= 100 ? 'is-complete' : percent > 0 ? 'is-partial' : 'is-pending';
       marker.classList.add(stateClass);
-      marker.innerHTML = `
-        <svg class="chapter-progress-svg" width="${size}" height="${size}" viewBox="0 0 ${size} ${size}" aria-hidden="true">
-          <circle class="chapter-progress-ring-bg" cx="10" cy="10" r="${radius}" />
-          <circle class="chapter-progress-ring-progress" cx="10" cy="10" r="${radius}"
-                  stroke-dasharray="${circumference.toFixed(2)}" stroke-dashoffset="${offset.toFixed(2)}" />
-        </svg>`;
+      marker.style.setProperty('--percent', percent + '%');
 
       const ariaLabel = percent > 0 ? `Chapter progress: ${percent}%` : 'Chapter not started';
       marker.setAttribute('aria-label', ariaLabel);
