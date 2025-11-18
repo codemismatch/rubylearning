@@ -405,6 +405,43 @@ pre.language-shell::before {
   color: #fca5a5;
 }
 
+/* White intro helper line (e.g., "Try:") */
+.ruby-irb-line--intro-white {
+  color: #e5e7eb;
+}
+
+/* Tint the diamond emoji to ruby red */
+.tinted-diamond {
+  filter: hue-rotate(240deg) saturate(1.5) brightness(1.1);
+  font-size: 50px;
+  line-height: 1;
+  display: inline-block;
+  vertical-align: -0.15em;
+  margin-right: 0.25rem;
+}
+
+/* Ruby SVG icon for console heading */
+.ruby-icon {
+  display: inline-block;
+  vertical-align: -0.2em;
+  margin-right: 0.4rem;
+  flex-shrink: 0;
+}
+.overlay-diamond {
+  position: relative;
+  display: inline-block;
+  font-size: 36px; /* smaller */
+}
+.overlay-diamond::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background-color: rgba(204, 52, 45, 0.4);
+  mix-blend-mode: multiply;
+  border-radius: 15%;
+  pointer-events: none;
+}
+
 .ruby-irb-form {
   display: flex;
   align-items: center;

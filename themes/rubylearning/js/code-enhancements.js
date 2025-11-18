@@ -175,10 +175,14 @@ function initRubyConsoles(vm) {
     const caretEl = container.querySelector('.ruby-irb-caret');
     if (!outputEl || !form || !input || !ghostEl || !caretEl) return;
 
-    const appendLine = (text, cssClass) => {
+    const appendLine = (text, cssClass, asHtml = false) => {
       const line = document.createElement('div');
       line.className = 'ruby-irb-line' + (cssClass ? ` ${cssClass}` : '');
-      line.textContent = text;
+      if (asHtml || /<[^>]+>/.test(text)) {
+        line.innerHTML = text;
+      } else {
+        line.textContent = text;
+      }
       outputEl.appendChild(line);
       outputEl.scrollTop = outputEl.scrollHeight;
     };
@@ -204,7 +208,7 @@ function initRubyConsoles(vm) {
 
     // Initial hint
     if (!outputEl.dataset.initialized) {
-      appendLine('💎 Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green');
+      appendLine('<svg class="ruby-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" aria-hidden="true"><path d="M12 2L3 7L12 12L21 7L12 2Z" fill="#CC342D"/><path d="M3 7L12 22L21 7L12 12L3 7Z" fill="#CC342D" opacity="0.7"/><path d="M12 12L21 7V17L12 22V12Z" fill="#CC342D" opacity="0.85"/><path d="M12 12L3 7V17L12 22V12Z" fill="#CC342D" opacity="0.6"/></svg> Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green', true);
       appendLine('Try: 1 + 2, "Hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-white');
       outputEl.dataset.initialized = 'true';
     }
@@ -386,6 +390,10 @@ function initRubyConsoles(vm) {
       initRubyConsoles(vm);
     }
 
+    // Progress tracking across both practice items and runnable examples
+    const chapterKeyPrefix = `rl:chapter:${window.location.pathname.replace(/\/$/, '')}`;
+    let exampleCounter = 0;
+
     rubyBlocks.forEach((pre, index) => {
       // Accept either explicit ruby code blocks or ruby-exec markers
       const codeBlock = pre.querySelector('code.language-ruby, code.ruby-exec');
@@ -395,6 +403,8 @@ function initRubyConsoles(vm) {
       const practiceIndex = pre.dataset.practiceIndex ? parseInt(pre.dataset.practiceIndex, 10) : null;
       const practiceTest = pre.dataset.test || codeBlock.dataset.test || "";
       const isPracticeCheck = !!practiceChapter && !Number.isNaN(practiceIndex) && practiceTest.trim().length > 0;
+      // Index for non-practice example blocks
+      const exampleIndex = isPracticeCheck ? null : exampleCounter++;
 
       // Ensure the code block has contenteditable enabled
       pre.setAttribute('contenteditable', true);
@@ -618,9 +628,15 @@ function initRubyConsoles(vm) {
         // Wire up button event listener
         mainButton.addEventListener('click', async () => {
           await executeCode(isPracticeCheck); // Practice = run tests, non-practice = just run code
+          // Mark example as executed for progress tracking
+          if (!isPracticeCheck && exampleIndex != null) {
+            try { window.localStorage.setItem(`${chapterKeyPrefix}:example:${exampleIndex}`, '1'); } catch (_) {}
+          }
         });
       }
     });
+    // Persist examples total count for progress rings on index page
+    try { window.localStorage.setItem(`${chapterKeyPrefix}:examples_total`, String(exampleCounter)); } catch (_) {}
   } catch (error) {
     console.warn('Ruby execution support failed to initialize:', error);
   }

@@ -162,22 +162,22 @@ html {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 1.2rem;   /* smaller marker */
-  height: 1.2rem;  /* smaller marker */
+  width: 1.75rem;   /* slightly bigger marker */
+  height: 1.75rem;  /* slightly bigger marker */
   border-radius: 999px;
-  margin-right: 0.3rem;
+  margin-right: 0.4rem;
   font-size: 0.75em; /* legacy glyph fallback */
   vertical-align: middle;
   position: relative;
-  border: 1.5px solid #d1d5db; /* ring outline */
+  border: 2px solid #d1d5db; /* ring outline */
   --percent: 0%;
   --progress-color: var(--primary-color);
   background: conic-gradient(var(--progress-color) var(--percent), transparent 0);
 }
 
-.chapter-progress-marker--complete { --progress-color: #22c55e; }
-.chapter-progress-marker--visited { --progress-color: var(--primary-color); }
-.chapter-progress-marker--pending { --progress-color: var(--primary-color); }
+.chapter-progress-marker.is-complete { --progress-color: #22c55e; }
+.chapter-progress-marker.is-partial { --progress-color: var(--primary-color); }
+.chapter-progress-marker.is-pending { --progress-color: var(--primary-color); }
 
 /* Progress ring visuals */
 /* Tick overlay when complete */
@@ -189,7 +189,7 @@ html {
   align-items: center;
   justify-content: center;
   color: #ffffff;
-  font-size: 0.7rem;
+  font-size: 0.9rem; /* bigger tick */
 }
 
 .chapter-nav ol li a.chapter-link--complete {
