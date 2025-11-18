@@ -175,10 +175,14 @@ function initRubyConsoles(vm) {
     const caretEl = container.querySelector('.ruby-irb-caret');
     if (!outputEl || !form || !input || !ghostEl || !caretEl) return;
 
-    const appendLine = (text, cssClass) => {
+    const appendLine = (text, cssClass, asHtml = false) => {
       const line = document.createElement('div');
       line.className = 'ruby-irb-line' + (cssClass ? ` ${cssClass}` : '');
-      line.textContent = text;
+      if (asHtml || /<[^>]+>/.test(text)) {
+        line.innerHTML = text;
+      } else {
+        line.textContent = text;
+      }
       outputEl.appendChild(line);
       outputEl.scrollTop = outputEl.scrollHeight;
     };
@@ -204,8 +208,8 @@ function initRubyConsoles(vm) {
 
     // Initial hint
     if (!outputEl.dataset.initialized) {
-      appendLine('Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green');
-      appendLine('Examples: 1 + 2, "hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-red');
+      appendLine('<span class="tinted-diamond" aria-hidden="true">💎</span> Mini Ruby console. Type Ruby code and press Enter.', 'ruby-irb-line--intro ruby-irb-line--intro-green', true);
+      appendLine('Try: 1 + 2, "Hello".upcase', 'ruby-irb-line--intro ruby-irb-line--intro-white');
       outputEl.dataset.initialized = 'true';
     }
 
@@ -314,9 +318,11 @@ function initRubyConsoles(vm) {
 }
 
   async function addRubyExecSupport() {
-  // Only add Ruby execution support on pages with executable Ruby code
+  // Add Ruby execution support when there are runnable code blocks
+  // OR when the inline Ruby console drawer is present.
   const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
-  if (rubyBlocks.length === 0) return;
+  const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
+  if (rubyBlocks.length === 0 && !hasInlineConsole) return;
   
   try {
     await setupRubyWasm();
@@ -380,7 +386,13 @@ function initRubyConsoles(vm) {
     }
 
     // Initialize any inline Ruby consoles (virtual irb) before wiring code blocks
-    initRubyConsoles(vm);
+    if (hasInlineConsole) {
+      initRubyConsoles(vm);
+    }
+
+    // Progress tracking across both practice items and runnable examples
+    const chapterKeyPrefix = `rl:chapter:${window.location.pathname.replace(/\/$/, '')}`;
+    let exampleCounter = 0;
 
     rubyBlocks.forEach((pre, index) => {
       // Accept either explicit ruby code blocks or ruby-exec markers
@@ -391,6 +403,8 @@ function initRubyConsoles(vm) {
       const practiceIndex = pre.dataset.practiceIndex ? parseInt(pre.dataset.practiceIndex, 10) : null;
       const practiceTest = pre.dataset.test || codeBlock.dataset.test || "";
       const isPracticeCheck = !!practiceChapter && !Number.isNaN(practiceIndex) && practiceTest.trim().length > 0;
+      // Index for non-practice example blocks
+      const exampleIndex = isPracticeCheck ? null : exampleCounter++;
 
       // Ensure the code block has contenteditable enabled
       pre.setAttribute('contenteditable', true);
@@ -614,9 +628,15 @@ function initRubyConsoles(vm) {
         // Wire up button event listener
         mainButton.addEventListener('click', async () => {
           await executeCode(isPracticeCheck); // Practice = run tests, non-practice = just run code
+          // Mark example as executed for progress tracking
+          if (!isPracticeCheck && exampleIndex != null) {
+            try { window.localStorage.setItem(`${chapterKeyPrefix}:example:${exampleIndex}`, '1'); } catch (_) {}
+          }
         });
       }
     });
+    // Persist examples total count for progress rings on index page
+    try { window.localStorage.setItem(`${chapterKeyPrefix}:examples_total`, String(exampleCounter)); } catch (_) {}
   } catch (error) {
     console.warn('Ruby execution support failed to initialize:', error);
   }

@@ -22,6 +22,7 @@ document.addEventListener('DOMContentLoaded', function() {
 document.addEventListener('DOMContentLoaded', function() {
   initPracticeChecklists();
   initChapterListProgress();
+  trackLessonReading();
 });
 
 // Add smooth scrolling to topic links
@@ -190,6 +191,11 @@ function initPracticeChecklists() {
     });
   });
 
+  // Persist total item count for index-page progress rings
+  try {
+    window.localStorage.setItem(`${chapterKeyPrefix}:total`, String(itemKeys.length));
+  } catch (_) {}
+
   // Mark chapter as visited and update completion status once on load
   try {
     window.localStorage.setItem(`${chapterKeyPrefix}:visited`, '1');
@@ -239,6 +245,41 @@ function updateChapterCompletion(chapterKeyPrefix, itemKeys) {
   }
 }
 
+// Track when a lesson has been read (scrolled through)
+function trackLessonReading() {
+  const article = document.querySelector('article.tutorial');
+  if (!article) return;
+
+  const path = window.location.pathname.replace(/\/$/, '');
+  const chapterKeyPrefix = `rl:chapter:${path}`;
+
+  // Mark as read when user scrolls past 70% of content
+  let hasMarkedRead = window.localStorage.getItem(`${chapterKeyPrefix}:lesson-read`) === '1';
+  
+  if (!hasMarkedRead) {
+    const checkScroll = () => {
+      const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      const articleHeight = article.offsetHeight;
+      const articleTop = article.offsetTop;
+      const windowHeight = window.innerHeight;
+      
+      // Calculate how far through the article the user has scrolled
+      const scrolledPastTop = scrollTop + windowHeight - articleTop;
+      const percentScrolled = (scrolledPastTop / articleHeight) * 100;
+      
+      if (percentScrolled >= 70 && !hasMarkedRead) {
+        try {
+          window.localStorage.setItem(`${chapterKeyPrefix}:lesson-read`, '1');
+          hasMarkedRead = true;
+        } catch (_) {}
+      }
+    };
+    
+    window.addEventListener('scroll', checkScroll);
+    checkScroll(); // Check immediately in case already scrolled
+  }
+}
+
 // On the Ruby learning path page, annotate chapters with visited/completed ticks.
 function initChapterListProgress() {
   const chapterNav = document.querySelector('.chapter-nav');
@@ -251,25 +292,38 @@ function initChapterListProgress() {
       const path = url.pathname.replace(/\/$/, '');
       const chapterKeyPrefix = `rl:chapter:${path}`;
       const visited = window.localStorage.getItem(`${chapterKeyPrefix}:visited`) === '1';
-      const complete = window.localStorage.getItem(`${chapterKeyPrefix}:complete`) === '1';
+      const lessonRead = window.localStorage.getItem(`${chapterKeyPrefix}:lesson-read`) === '1';
 
       const marker = document.createElement('span');
       marker.className = 'chapter-progress-marker';
-      let ariaLabel = 'Chapter not started';
 
-      if (complete) {
-        marker.textContent = '✓';
-        marker.classList.add('chapter-progress-marker--complete');
-        ariaLabel = 'Chapter completed';
-        link.classList.add('chapter-link--complete');
-      } else if (visited) {
-        marker.textContent = '✓';
-        marker.classList.add('chapter-progress-marker--visited');
-        ariaLabel = 'Chapter visited';
+      // Compute percentage combining lesson reading + practice checklist
+      // 50% for reading the lesson, 50% for completing practice items
+      const totalStr = window.localStorage.getItem(`${chapterKeyPrefix}:total`);
+      const total = totalStr ? parseInt(totalStr, 10) : 0;
+      let practiceCompleted = 0;
+      if (total > 0) {
+        for (let i = 0; i < total; i++) {
+          if (window.localStorage.getItem(`${chapterKeyPrefix}:item:${i}`) === '1') practiceCompleted += 1;
+        }
+      }
+      
+      let percent = 0;
+      if (total > 0) {
+        // Has practice checklist: 50% for lesson + 50% for practice
+        const lessonPercent = lessonRead ? 50 : 0;
+        const practicePercent = Math.round((practiceCompleted / total) * 50);
+        percent = lessonPercent + practicePercent;
       } else {
-        marker.classList.add('chapter-progress-marker--pending');
+        // No practice checklist: 100% based on reading the lesson
+        percent = lessonRead ? 100 : (visited ? 10 : 0);
       }
 
+      const stateClass = percent >= 100 ? 'is-complete' : percent > 0 ? 'is-partial' : 'is-pending';
+      marker.classList.add(stateClass);
+      marker.style.setProperty('--percent', percent + '%');
+
+      const ariaLabel = percent > 0 ? `Chapter progress: ${percent}%` : 'Chapter not started';
       marker.setAttribute('aria-label', ariaLabel);
 
       // Insert marker before the link text so it appears to the left
