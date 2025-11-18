@@ -314,9 +314,11 @@ function initRubyConsoles(vm) {
 }
 
   async function addRubyExecSupport() {
-  // Only add Ruby execution support on pages with executable Ruby code
+  // Add Ruby execution support when there are runnable code blocks
+  // OR when the inline Ruby console drawer is present.
   const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
-  if (rubyBlocks.length === 0) return;
+  const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
+  if (rubyBlocks.length === 0 && !hasInlineConsole) return;
   
   try {
     await setupRubyWasm();
@@ -380,7 +382,9 @@ function initRubyConsoles(vm) {
     }
 
     // Initialize any inline Ruby consoles (virtual irb) before wiring code blocks
-    initRubyConsoles(vm);
+    if (hasInlineConsole) {
+      initRubyConsoles(vm);
+    }
 
     rubyBlocks.forEach((pre, index) => {
       // Accept either explicit ruby code blocks or ruby-exec markers
