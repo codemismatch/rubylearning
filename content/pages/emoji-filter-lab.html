@@ -17,9 +17,9 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
   .lab-hint{color:var(--muted);font-size:.9rem}
   .lab-wrap{display:grid;grid-auto-rows:auto;gap:16px}
   /* Top row uses the same column widths as the bottom row to align panels */
-  .top-row{display:grid;grid-template-columns: 1fr 1.6fr; gap:16px; align-items:start}
+  .top-row{display:grid;grid-template-columns: minmax(0,1fr) minmax(0,1.6fr); gap:16px; align-items:start}
   /* Bottom row: left controls (text/bg + snippets) and right (filters); right ~60% wider */
-  .two-col{display:grid; grid-template-columns: 1fr 1.6fr; gap:16px}
+  .two-col{display:grid; grid-template-columns: minmax(0,1fr) minmax(0,1.6fr); gap:16px}
   .lab-panel{background:var(--panel);border:1px solid #1f2a44;border-radius:10px;padding:14px;overflow:visible; width:100%; box-sizing:border-box}
   .controls{display:grid;gap:10px}
   .group{background:rgba(255,255,255,.03);border:1px solid #22304f;padding:10px;border-radius:8px}
@@ -27,6 +27,7 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
   label{display:grid;grid-template-columns: 1fr minmax(120px,1fr);align-items:center;gap:10px;font-size:.9rem}
   input[type="range"]{width:100%}
   input[type="color"], input[type="text"], input[type="number"], textarea{width:100%;background:#0f1626;color:var(--text);border:1px solid #293656;border-radius:6px;padding:6px; font-family:var(--sans)}
+  .emoji-font{font-family:'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji','Twemoji Mozilla',var(--sans);}
   .mono{font-family:var(--mono)}
   .editor-wrap{display:grid;grid-template-rows:auto 1fr auto;gap:10px;min-height:0}
   .editor{min-height:180px;background:#0f172a;border:1px solid #1e293b;border-radius:10px;padding:16px;overflow:auto;font-family:var(--mono), 'Apple Color Emoji','Segoe UI Emoji','Noto Color Emoji', sans-serif; font-size:18px;line-height:1.5}
@@ -53,9 +54,9 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
       <div class="controls">
         <div class="group">
           <h3>Emoji preview</h3>
-          <div class="preview"><span id="emojiNode" class="emoji">💎</span></div>
+          <div class="preview emoji-font"><span id="emojiNode" class="emoji">💎</span></div>
           <div class="row">
-            <label>Emoji <input id="emojiInput" type="text" value="💎" maxlength="8" /></label>
+            <label>Emoji <input id="emojiInput" class="emoji-font" type="text" value="💎" maxlength="8" /></label>
             <label>Size (px) <input id="emojiSize" type="number" value="48" min="12" max="256" /></label>
           </div>
         </div>
@@ -138,8 +139,14 @@ description: CSS filter playground to tint emojis. Adjust hue, saturation, brigh
   function render(){
     // Only show first emoji cluster in preview
     const content = emojiInput.value || '💎';
-    const m = content.match(/\p{Extended_Pictographic}/u);
-    emojiNode.textContent = m ? m[0] : (content.charAt(0) || '💎');
+    let glyph = '';
+    try {
+      const clusters = Array.from(content.trim());
+      glyph = clusters.length ? clusters[0] : '';
+    } catch (_) {
+      glyph = content.trim().charAt(0);
+    }
+    emojiNode.textContent = glyph || '💎';
     applyFilterString(buildFilter());
   }
   sliders.forEach(s=> s.addEventListener('input', render));
