@@ -116,9 +116,10 @@ pre.language-shell::before {
 .code-window {
   margin: 2em 0;
   border-radius: 8px;
-  overflow: hidden;
+  overflow: hidden; /* Keep hidden for border-radius, but content can expand */
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
   background-color: var(--code-bg);
+  /* Allow code windows to expand to show all content - no height restriction */
 }
 
 .code-header {
@@ -178,10 +179,14 @@ pre.language-shell::before {
 
 .code-content {
   padding: 1rem;
+  /* Allow code content to expand naturally - no height restrictions */
 }
 
 .code-content pre {
   margin: 0;
+  /* Allow pre elements to expand to show all content */
+  white-space: pre;
+  word-wrap: normal;
 }
 
 /* Syntax highlighting override for Ruby's common elements */
@@ -218,25 +223,47 @@ pre.language-shell::before {
 }
 
 /* Ruby-exec editable code blocks */
-.code-window code[contenteditable="true"] {
-  display: block;
+.code-editor {
+  position: relative;
+}
+
+.code-editor__highlight {
+  margin: 0;
+  padding: 1rem;
+  min-height: 150px;
+  /* Allow code windows to expand to show all content - no max-height */
+  height: auto;
   background: #272822;
   color: #f8f8f2;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  padding: 1rem;
-  min-height: 150px;
-  outline: none;
-  white-space: pre-wrap;
-  word-wrap: break-word;
-  caret-color: #f97316;
-  line-height: 1.5;
   border-radius: 4px;
+  overflow: auto; /* Allow scrolling if needed, but no height restriction */
+  pointer-events: none;
+  line-height: 1.5;
 }
 
-.code-window code[contenteditable="true"]:focus {
-  outline: 2px solid rgba(249, 115, 22, 0.3);
-  outline-offset: -2px;
-  background: #2a2b26;
+.code-editor__input {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  margin: 0;
+  padding: 1rem;
+  border: none;
+  background: transparent;
+  color: transparent;
+  caret-color: #f97316;
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 1rem;
+  line-height: 1.5;
+  white-space: pre;
+  resize: none;
+  overflow: hidden;
+  z-index: 2;
+}
+
+.code-editor__input:focus {
+  outline: none;
 }
 
 /* CodeMirror editor styling to match theme */
@@ -244,7 +271,8 @@ pre.language-shell::before {
   margin: 0;
   padding: 0;
   min-height: 150px;
-  max-height: 600px;
+  /* Removed max-height: 600px to allow code windows to expand fully and show all content */
+  /* Use auto to allow scrolling for very long content, but no artificial height limit */
   overflow: auto;
   border-radius: 0 0 8px 8px;
 }
@@ -261,6 +289,7 @@ pre.language-shell::before {
 .code-window .cm-scroller {
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   line-height: 1.5;
+  /* Allow scroller to expand - CodeMirror will handle overflow internally */
   overflow: auto !important;
 }
 

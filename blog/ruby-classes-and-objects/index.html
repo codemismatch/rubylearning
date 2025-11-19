@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763538451">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763538451">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562583">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562583">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763538451">
-  <link rel="stylesheet" href="/css/badges.css?v=1763538451">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763562583">
+  <link rel="stylesheet" href="/css/badges.css?v=1763562583">
   
   <!-- CodeMirror Import Map -->
   <script type="importmap">
@@ -187,7 +187,8 @@ Here's a simple class definition:
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Book
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Book
 attr_accessor :title, :author, :pages
 def initialize(title, author, pages)
 @title = title
@@ -201,7 +202,8 @@ def read
 puts &quot;You&#39;re reading #{@title}. Enjoy!&quot;
 end
 end
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -217,14 +219,16 @@ Once you have a class, you can create objects (instances of the class):
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Create new Book objects
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Create new Book objects
 book1 = Book.new(&quot;The Ruby Programming Language&quot;, &quot;Matz&quot;, 472)
 book2 = Book.new(&quot;Eloquent Ruby&quot;, &quot;Russ Olsen&quot;, 448)# Access attributes
 puts book1.title   # =&gt; &quot;The Ruby Programming Language&quot;
 puts book2.author  # =&gt; &quot;Russ Olsen&quot;# Call methods
 puts book1         # =&gt; &quot;The Ruby Programming Language by Matz (472 pages)&quot;
 book2.read         # =&gt; &quot;You&#39;re reading Eloquent Ruby. Enjoy!&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -244,7 +248,8 @@ Instance methods define behavior for individual objects:
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Circle
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Circle
 attr_accessor :radius
 def initialize(radius)
 @radius = radius
@@ -258,7 +263,8 @@ end
 endcircle = Circle.new(5)
 puts &quot;Area: #{circle.area}&quot;
 puts &quot;Circumference: #{circle.circumference}&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -274,7 +280,8 @@ Class variables (prefixed with <code>@@</code>) are shared across all instances 
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Counter
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Counter
 @@count = 0
 def initialize
 @@count += 1
@@ -285,7 +292,8 @@ end
 endCounter.new
 Counter.new
 Counter.newputs Counter.count  # =&gt; 3
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -299,7 +307,8 @@ Counter.newputs Counter.count  # =&gt; 3
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Animal
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Animal
 attr_accessor :name, :species
 def initialize(name, species)
 @name = name
@@ -328,7 +337,8 @@ cat = Cat.new(&quot;Whiskers&quot;)# Call methods
 dog.speak
 cat.speakputs &quot;#{dog.name} is a #{dog.species}&quot;
 puts &quot;#{cat.name} is a #{cat.species}&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -446,12 +456,12 @@ This example demonstrates inheritance in Ruby, where <code>Dog</code> and <code>
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763538451"></script>
-  <script src="/js/prism-ruby.js?v=1763538451"></script>
-  <script src="/js/prism-markdown.js?v=1763538451"></script>
-  <script src="/js/code-enhancements.js?v=1763538451"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763538451"></script>
-  <script src="/js/github-pages-fix.js?v=1763538451"></script>
-  <script src="/js/site.js?v=1763538451"></script>
+  <script src="/js/prism.js?v=1763562583"></script>
+  <script src="/js/prism-ruby.js?v=1763562583"></script>
+  <script src="/js/prism-markdown.js?v=1763562583"></script>
+  <script src="/js/code-enhancements.js?v=1763562583"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763562583"></script>
+  <script src="/js/github-pages-fix.js?v=1763562583"></script>
+  <script src="/js/site.js?v=1763562583"></script>
 </body>
 </html>

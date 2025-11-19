@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763538449">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763538449">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562581">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562581">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763538449">
-  <link rel="stylesheet" href="/css/badges.css?v=1763538449">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763562581">
+  <link rel="stylesheet" href="/css/badges.css?v=1763562581">
   
   <!-- CodeMirror Import Map -->
   <script type="importmap">
@@ -187,12 +187,14 @@ Each section has a code window. Read the comment, hit **Run**, then change somet
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">puts 1 + 2        # addition
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">puts 1 + 2        # addition
 puts 3 * 7        # multiplication
 puts 10 / 4.0     # division (float)
 puts 2**8         # exponent (2 to the power 8)
 puts 5 + 3 * 10   # normal math precedence
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -210,11 +212,13 @@ Ruby only shows results when you ask it to, so we use <code>puts</code> to print
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">p 42.class          # =&gt; Integer
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">p 42.class          # =&gt; Integer
 p &quot;hello&quot;.upcase    # call a method on a String
 p :symbol.to_s      # convert a Symbol to a String
 p nil.class         # =&gt; NilClass
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -234,13 +238,15 @@ Try adding <code>.methods.sort.take(5)</code> after one of the lines to peek at 
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">name = &quot;Ruby&quot;     # local variable
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">name = &quot;Ruby&quot;     # local variable
 age  = 30
 puts &quot;Hello, #{name}!&quot;                 # insert name into the string
 puts &quot;Ruby has been around for #{age} years.&quot;
 multiline = &quot;Line 1\nLine 2\nLine 3&quot;   # \n makes a new line
 puts multiline
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -260,13 +266,15 @@ Change the text and try adding your own variables.
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">numbers = [1, 2, 3, 4, 5]                 # an Array
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">numbers = [1, 2, 3, 4, 5]                 # an Array
 evens   = numbers.select { |n| n.even? }  # keep only even numbers
 squares = numbers.map    { |n| n * n }    # transform each number
 puts &quot;Original: #{numbers.inspect}&quot;
 puts &quot;Evens:    #{evens.inspect}&quot;
 puts &quot;Squares:  #{squares.inspect}&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -286,7 +294,8 @@ Change the block to double only the odd numbers, or to build a new array of stri
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">scores = {
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">scores = {
   ruby:   10,   # key is a Symbol, value is an Integer
   python: 9,
   java:   7
@@ -295,7 +304,8 @@ scores[:go] = 8  # add a new key/value pair
 scores.each do |language, score|
   puts &quot;#{language} =&gt; #{score}&quot;
 end
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -315,7 +325,8 @@ Try adding a new language or changing the scoring.
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def greet(name)
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def greet(name)
   &quot;Hello, #{name}!&quot;         # last expression is the return value
 end
 
@@ -325,7 +336,8 @@ end
 
 puts greet(&quot;Ruby&quot;)
 puts loud_greet(&quot;Ruby&quot;)
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -345,7 +357,8 @@ Rename the methods or add a new one (for example <code>whisper_greet</code>) and
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Greeter
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Greeter
   def initialize(name)
     @name = name            # instance variable belongs to this object
   end
@@ -357,7 +370,8 @@ end
 
 g = Greeter.new(&quot;Rubyist&quot;)  # create a new Greeter object
 puts g.hello
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -377,7 +391,8 @@ Add a <code>goodbye</code> method or change the greeting message.
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class String
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class String
   def shout
     upcase + &quot;!!!&quot;          # use existing String methods
   end
@@ -385,7 +400,8 @@ end
 
 puts &quot;ruby&quot;.shout
 puts &quot;hello, world&quot;.shout
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -405,7 +421,8 @@ Try adding <code>def title_case</code> to <code>String</code> and use it on a se
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def with_logging
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def with_logging
   puts &quot;Starting work...&quot;                 # runs before the block
   result = yield                          # run the block and capture result
   puts &quot;Finished. Result was #{result.inspect}&quot;  # runs after the block
@@ -417,7 +434,8 @@ value = with_logging do
 end
 
 puts &quot;Outside we still have: #{value}&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -437,7 +455,8 @@ Change the block to do something more interesting, like building an array, and s
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def make_counter
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def make_counter
   count = 0          # local to this method, but captured by the lambda
   -&gt; do
     count += 1
@@ -448,7 +467,8 @@ counter = make_counter   # each call gets its own captured count
 puts counter.call
 puts counter.call
 puts counter.call
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -468,7 +488,8 @@ Try creating two separate counters and call them in different orders.
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">numbers = (1..20).to_a           # turn a Range into an Array
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">numbers = (1..20).to_a           # turn a Range into an Array
 
 result = numbers
   .select { |n| n.even? }        # keep even numbers
@@ -476,7 +497,8 @@ result = numbers
   .reject { |n| n &gt; 200 }        # drop big ones
 
 puts result.inspect              # show the final Array
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -496,7 +518,8 @@ Experiment with other steps like <code>group_by</code> or <code>sum</code>.
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Config
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Config
   attr_reader :settings
 
   def initialize(&amp;block)
@@ -515,7 +538,8 @@ config = Config.new do
 end
 
 puts config.settings.inspect
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -535,14 +559,16 @@ Change the configuration keys or print them in a prettier way.
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">print &quot;What city do you live in? &quot;   # print without a newline
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">print &quot;What city do you live in? &quot;   # print without a newline
 city = gets.chomp                    # ask the user and remove the newline
 
 print &quot;What country is that in? &quot;
 country = gets.chomp
 
 puts &quot;You live in #{city}, #{country}. Nice!&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -566,7 +592,8 @@ These are more advanced and a bit cheeky. They show off Ruby's flexible object m
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Integer
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Integer
   def squared
     self * self     # &quot;self&quot; is the Integer we are calling on
   end
@@ -583,7 +610,8 @@ end
 puts 5.squared
 puts 2.minutes
 puts 10.minutes + 5.seconds
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -601,7 +629,8 @@ Monkey patching <code>Integer</code> like this makes tiny scripts read closer to
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Money
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Money
   attr_reader :cents   # expose the amount in cents
 
   def initialize(cents)
@@ -626,7 +655,8 @@ sandwich = Money.new(550)
 
 puts coffee + sandwich
 puts (coffee + sandwich) * 3
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -644,7 +674,8 @@ Operators like <code>+</code> and <code>*</code> are just methods. You can give 
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class String
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class String
   def shout!
     replace(upcase + &quot;!!!&quot;)   # mutate the original string in-place
   end
@@ -653,7 +684,8 @@ end
 name = &quot;ruby&quot;
 name.shout!
 puts name
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -671,7 +703,8 @@ By convention, <code>!</code> means "dangerous" or "mutating". Here <code>shout!
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Logged
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Logged
   def self.log_calls!
     instance_methods(false).each do |name|
       original = instance_method(name)
@@ -699,7 +732,8 @@ end
 calc = Calculator.new
 puts calc.add(2, 3)
 puts calc.mul(4, 5)
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -717,14 +751,16 @@ Metaprogramming lets you wrap every method on a class in one go and add cross-cu
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">tree = Hash.new { |hash, key| hash[key] = Hash.new(&amp;hash.default_proc) }
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">tree = Hash.new { |hash, key| hash[key] = Hash.new(&amp;hash.default_proc) }
   # for any missing key, create another hash with the same behaviour
 
 tree[:europe][:france][:paris] = &quot;Eiffel Tower&quot;
 tree[:asia][:japan][:tokyo]    = &quot;Skytree&quot;
 
 p tree
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -742,7 +778,8 @@ The default block calls itself, so missing keys automatically get another hash. 
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">lines = [
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">lines = [
   &quot;noise&quot;,
   &quot;START&quot;,
   &quot;keep this&quot;,
@@ -754,7 +791,8 @@ The default block calls itself, so missing keys automatically get another hash. 
 lines.each do |line|
   puts line if (line == &quot;START&quot;)..(line == &quot;STOP&quot;)
 end
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -772,12 +810,14 @@ The range <code>(cond1)..(cond2)</code> inside <code>if</code> or <code>unless</
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">first, *middle, last = [1, 2, 3, 4, 5]
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">first, *middle, last = [1, 2, 3, 4, 5]
 
 p first   # =&gt; 1
 p middle  # =&gt; [2, 3, 4]
 p last    # =&gt; 5
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -795,7 +835,8 @@ The splat (<code>*</code>) lets you capture "the rest" of a list. It feels a bit
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">user = { name: &quot;Rubyist&quot;, email: &quot;ruby@example.com&quot; }
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">user = { name: &quot;Rubyist&quot;, email: &quot;ruby@example.com&quot; }
 
 handle = user
   .tap { |u| puts &quot;Debug: #{u.inspect}&quot; }  # peek at the value
@@ -804,7 +845,8 @@ handle = user
   &amp;.first
 
 puts &quot;Handle is: #{handle.inspect}&quot;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -822,7 +864,8 @@ puts &quot;Handle is: #{handle.inspect}&quot;
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class MagicArray &lt; Array
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class MagicArray &lt; Array
   def &lt;&lt;(value)
     puts &quot;Pushing #{value.inspect}&quot;  # extra behaviour
     super
@@ -838,7 +881,8 @@ m = MagicArray.new
 puts m.empty?
 m &lt;&lt; 1
 puts m.empty?
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -856,7 +900,8 @@ Ruby lets you define methods like <code>&lt;&lt;</code> and <code>empty?</code>,
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Clear previous definitions (so you can re-run this example)
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Clear previous definitions (so you can re-run this example)
 Object.send(:remove_const, :Base) if defined?(Base)
 Object.send(:remove_const, :Greeter) if defined?(Greeter)
 
@@ -876,7 +921,8 @@ end
 
 puts Greeter.new(&quot;Ruby&quot;).hello   # if Base is Struct
 puts Greeter.new.hello           # if Base is Object
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -894,7 +940,8 @@ Ruby evaluates the superclass expression when the class is defined, so you can c
     <span class="window-title">ruby.rb</span>
   </div>
   <div class="code-content">
-    <pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">line_no = 0
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">line_no = 0
 
 lines = [
   &quot;First line&quot;,
@@ -906,7 +953,8 @@ lines.each do |line|
   line_no += 1                     # our own line counter
   print &quot;#{line_no}: #{line}\n&quot;      # print line number and the original line
 end
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -1110,12 +1158,12 @@ When you are ready for a slower, more complete tour, jump into **Chapter 1 - Mee
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763538449"></script>
-  <script src="/js/prism-ruby.js?v=1763538449"></script>
-  <script src="/js/prism-markdown.js?v=1763538449"></script>
-  <script src="/js/code-enhancements.js?v=1763538449"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763538449"></script>
-  <script src="/js/github-pages-fix.js?v=1763538449"></script>
-  <script src="/js/site.js?v=1763538449"></script>
+  <script src="/js/prism.js?v=1763562581"></script>
+  <script src="/js/prism-ruby.js?v=1763562581"></script>
+  <script src="/js/prism-markdown.js?v=1763562581"></script>
+  <script src="/js/code-enhancements.js?v=1763562581"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763562581"></script>
+  <script src="/js/github-pages-fix.js?v=1763562581"></script>
+  <script src="/js/site.js?v=1763562581"></script>
 </body>
 </html>

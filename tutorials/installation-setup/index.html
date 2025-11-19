@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763538449">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763538449">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562581">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562581">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763538449">
-  <link rel="stylesheet" href="/css/badges.css?v=1763538449">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763562581">
+  <link rel="stylesheet" href="/css/badges.css?v=1763562581">
   
   <!-- CodeMirror Import Map -->
   <script type="importmap">
@@ -195,12 +195,14 @@ Ubuntu/Debian:
     <span class="window-title">bash.bash</span>
   </div>
   <div class="code-content">
-    <pre style="white-space: pre-wrap; outline: none;"><code class="language-bash">sudo apt update &amp;&amp; sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev
+    <div class="code-editor">
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">sudo apt update &amp;&amp; sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev
 git clone https://github.com/rbenv/rbenv.git ~/.rbenv
 echo &#39;export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc
 echo &#39;eval &quot;$(rbenv init -)&quot;&#39; &gt;&gt; ~/.bashrc
 exec $SHELL
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -215,8 +217,10 @@ exec $SHELL
     <span class="window-title">bash.bash</span>
   </div>
   <div class="code-content">
-    <pre style="white-space: pre-wrap; outline: none;"><code class="language-bash">`git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build`
-    </code></pre>
+    <div class="code-editor">
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build`
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -230,10 +234,12 @@ exec $SHELL
     <span class="window-title">bash.bash</span>
   </div>
   <div class="code-content">
-    <pre style="white-space: pre-wrap; outline: none;"><code class="language-bash">`rbenv install 3.3.0`
+    <div class="code-editor">
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`rbenv install 3.3.0`
 `rbenv global 3.3.0`
 `ruby -v  # Verify installation`
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -252,11 +258,13 @@ One-line install:
     <span class="window-title">bash.bash</span>
   </div>
   <div class="code-content">
-    <pre style="white-space: pre-wrap; outline: none;"><code class="language-bash">`\curl -sSL https://get.rvm.io | bash -s stable`
+    <div class="code-editor">
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`\curl -sSL https://get.rvm.io | bash -s stable`
 `source ~/.rvm/scripts/rvm`
 `rvm install 3.3.0`
 `rvm use 3.3.0 --default`
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -273,10 +281,12 @@ Test your installation with these commands:
     <span class="window-title">bash.bash</span>
   </div>
   <div class="code-content">
-    <pre style="white-space: pre-wrap; outline: none;"><code class="language-bash">`ruby -v    # Should show ruby 3.3.0+`
+    <div class="code-editor">
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`ruby -v    # Should show ruby 3.3.0+`
 `gem -v     # Check gem manager`
 `gem install rails  # Test gem installation`
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -469,12 +479,12 @@ Common issues:
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763538449"></script>
-  <script src="/js/prism-ruby.js?v=1763538449"></script>
-  <script src="/js/prism-markdown.js?v=1763538449"></script>
-  <script src="/js/code-enhancements.js?v=1763538449"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763538449"></script>
-  <script src="/js/github-pages-fix.js?v=1763538449"></script>
-  <script src="/js/site.js?v=1763538449"></script>
+  <script src="/js/prism.js?v=1763562581"></script>
+  <script src="/js/prism-ruby.js?v=1763562581"></script>
+  <script src="/js/prism-markdown.js?v=1763562581"></script>
+  <script src="/js/code-enhancements.js?v=1763562581"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763562581"></script>
+  <script src="/js/github-pages-fix.js?v=1763562581"></script>
+  <script src="/js/site.js?v=1763562581"></script>
 </body>
 </html>

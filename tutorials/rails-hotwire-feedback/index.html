@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763538449">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763538449">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562581">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562581">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763538449">
-  <link rel="stylesheet" href="/css/badges.css?v=1763538449">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763562581">
+  <link rel="stylesheet" href="/css/badges.css?v=1763562581">
   
   <!-- CodeMirror Import Map -->
   <script type="importmap">
@@ -179,7 +179,8 @@
     <span class="window-title">erb.erb</span>
   </div>
   <div class="code-content">
-    <pre style="white-space: pre-wrap; outline: none;"><code class="language-erb">&lt;!-- app/views/entries/index.html.erb --&gt;
+    <div class="code-editor">
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-erb">&lt;!-- app/views/entries/index.html.erb --&gt;
 &lt;%= turbo_stream_from :entries %&gt;&lt;%= form_with model: Entry.new, class: &quot;stack&quot; do |form| %&gt;
 &lt;div class=&quot;field&quot;&gt;
 &lt;%= form.label :title %&gt;
@@ -193,7 +194,8 @@
 &lt;% end %&gt;&lt;div id=&quot;entries&quot;&gt;
 &lt;%= render @entries %&gt;
 &lt;/div&gt;
-    </code></pre>
+      </code></pre>
+    </div>
   </div>
 </div>
 
@@ -459,12 +461,12 @@ puts "on a schedule, gathering recent entries and emailing a digest."
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763538449"></script>
-  <script src="/js/prism-ruby.js?v=1763538449"></script>
-  <script src="/js/prism-markdown.js?v=1763538449"></script>
-  <script src="/js/code-enhancements.js?v=1763538449"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763538449"></script>
-  <script src="/js/github-pages-fix.js?v=1763538449"></script>
-  <script src="/js/site.js?v=1763538449"></script>
+  <script src="/js/prism.js?v=1763562581"></script>
+  <script src="/js/prism-ruby.js?v=1763562581"></script>
+  <script src="/js/prism-markdown.js?v=1763562581"></script>
+  <script src="/js/code-enhancements.js?v=1763562581"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763562581"></script>
+  <script src="/js/github-pages-fix.js?v=1763562581"></script>
+  <script src="/js/site.js?v=1763562581"></script>
 </body>
 </html>
