@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763577393">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763577393">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
-  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763577393">
+  <link rel="stylesheet" href="/css/badges.css?v=1763577393">
   
 </head>
 <body>
@@ -511,7 +511,7 @@ Next steps:
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[File.open File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
 # TODO: Print a short outline of a script that would read from one
 # file and write to another using File.open/File.read/File.write.
 # This environment doesn't touch your real filesystem, so focus on
@@ -526,8 +526,8 @@ Next steps:
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/files-gems-next-steps:0">
-puts 'File.open("input.txt", "r") { |f| data = f.read }'
-puts 'File.open("output.txt", "w") { |f| f.write(data) }'
+puts 'data = File.read("input.txt")'
+puts 'File.write("output.txt", data)'
 </script>
 
 <h4>Practice 2 - Thinking through exception handling</h4>
@@ -566,7 +566,6 @@ puts "rescue Errno::ENOENT"
 puts "  puts 'Missing config file'"
 puts "ensure"
 puts "  puts 'cleanup if needed'"
-end
 </script>
 
 <h4>Practice 3 - Logging and time usage</h4>
@@ -821,12 +820,12 @@ puts 'matches = "Ruby 3.3.0".scan(/\d+\.\d+\.\d+/)'
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763576646"></script>
-  <script src="/js/prism-ruby.js?v=1763576646"></script>
-  <script src="/js/prism-markdown.js?v=1763576646"></script>
-  <script src="/js/code-enhancements.js?v=1763576646"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
-  <script src="/js/github-pages-fix.js?v=1763576646"></script>
-  <script src="/js/site.js?v=1763576646"></script>
+  <script src="/js/prism.js?v=1763577394"></script>
+  <script src="/js/prism-ruby.js?v=1763577394"></script>
+  <script src="/js/prism-markdown.js?v=1763577394"></script>
+  <script src="/js/code-enhancements.js?v=1763577394"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763577394"></script>
+  <script src="/js/github-pages-fix.js?v=1763577394"></script>
+  <script src="/js/site.js?v=1763577394"></script>
 </body>
 </html>

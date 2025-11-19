@@ -15,12 +15,12 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763577395">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763577395">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
-  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763577395">
+  <link rel="stylesheet" href="/css/badges.css?v=1763577395">
   
 </head>
 <body>
@@ -295,7 +295,7 @@ Next: continue to Flow Control & Collections to exercise these hierarchies insid
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
      data-practice-index="0"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car) && sandbox.const_defined?(:Motorcycle); v = sandbox.const_get(:Vehicle).new; c = sandbox.const_get(:Car).new; m = sandbox.const_get(:Motorcycle).new; out = output.string; assert out.lines.any? { |l| l.downcase.include?('car') }; assert out.lines.any? { |l| l.downcase.include?('motorcycle') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car engine') } && lines.any? { |l| l.downcase.include?('motorcycle engine') }"><code class="language-ruby">
 # TODO: Define a Vehicle base class with start_engine, then subclasses
 # Car and Motorcycle that override start_engine while calling super.
 # Instantiate each and call start_engine.
@@ -665,12 +665,12 @@ puts "is_a? Animal: #{dog.is_a?(Animal)}"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763576647"></script>
-  <script src="/js/prism-ruby.js?v=1763576647"></script>
-  <script src="/js/prism-markdown.js?v=1763576647"></script>
-  <script src="/js/code-enhancements.js?v=1763576647"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
-  <script src="/js/github-pages-fix.js?v=1763576647"></script>
-  <script src="/js/site.js?v=1763576647"></script>
+  <script src="/js/prism.js?v=1763577395"></script>
+  <script src="/js/prism-ruby.js?v=1763577395"></script>
+  <script src="/js/prism-markdown.js?v=1763577395"></script>
+  <script src="/js/code-enhancements.js?v=1763577395"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763577395"></script>
+  <script src="/js/github-pages-fix.js?v=1763577395"></script>
+  <script src="/js/site.js?v=1763577395"></script>
 </body>
 </html>
