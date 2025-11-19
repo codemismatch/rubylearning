@@ -532,7 +532,7 @@ function initRubyConsoles(vm) {
   async function addRubyExecSupport() {
   // Add Ruby execution support when there are runnable code blocks
   // OR when the inline Ruby console drawer is present.
-  const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"]');
+  const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"], pre[data-practice-chapter]');
   const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
   if (rubyBlocks.length === 0 && !hasInlineConsole) return;
   
@@ -618,157 +618,163 @@ function initRubyConsoles(vm) {
       // Index for non-practice example blocks
       const exampleIndex = isPracticeCheck ? null : exampleCounter++;
 
-      // Ensure the code block has contenteditable enabled
-      pre.setAttribute('contenteditable', true);
-      pre.style.whiteSpace = 'pre-wrap';
-      pre.style.outline = 'none';
+      // Store reference to the original plain text for reliable code extraction
+      let currentPlainText = codeBlock.textContent;
       
-      // Add live syntax highlighting as user types
-      if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.ruby) {
-        const addLiveHighlighting = () => {
-          // Calculate cursor position as absolute offset from start
-          const selection = window.getSelection();
-          if (!selection.rangeCount) return;
+      // Ensure the code block has contenteditable enabled
+      codeBlock.setAttribute('contenteditable', true);
+      codeBlock.style.whiteSpace = 'pre-wrap';
+      codeBlock.style.outline = 'none';
+      codeBlock.style.caretColor = '#f97316'; // Orange caret
+      
+      // Track editing state
+      let isEditing = false;
+      let updateTimer = null;
+      
+      // Update the stored plain text whenever content changes
+      const updatePlainText = () => {
+        currentPlainText = codeBlock.textContent;
+        // Keep data attribute in sync for copy operations
+        codeBlock.dataset.plainText = currentPlainText;
+      };
+      
+      // Apply syntax highlighting without losing cursor position
+      const applySyntaxHighlighting = () => {
+        if (isEditing || document.activeElement === codeBlock) {
+          // Don't highlight while actively editing
+          return;
+        }
+        
+        const code = currentPlainText;
+        if (code && code.trim().length > 0 && typeof Prism !== 'undefined' && Prism.languages && Prism.languages.ruby) {
+          // Create a highlighted version in a detached element
+          const highlighted = highlightRubyInline(code);
           
-          // Save cursor position by counting characters from start
-          let cursorOffset = 0;
-          try {
-            const range = selection.getRangeAt(0);
-            const preCaretRange = range.cloneRange();
-            preCaretRange.selectNodeContents(codeBlock);
-            preCaretRange.setEnd(range.endContainer, range.endOffset);
-            
-            // Use textContent length for accurate position
-            cursorOffset = preCaretRange.toString().length;
-          } catch (e) {
-            // If we can't get cursor position, default to 0
-            console.warn('Could not determine cursor position:', e);
-            cursorOffset = 0;
+          // Only update if content actually changed (avoid unnecessary DOM updates)
+          if (codeBlock.innerHTML !== highlighted) {
+            codeBlock.innerHTML = highlighted;
           }
-          
-          // Get plain text content (preserve newlines)
-          const code = codeBlock.textContent;
-          
-          console.log('Before highlight - cursor offset:', cursorOffset, 'code length:', code.length);
-          console.log('Code content:', JSON.stringify(code));
-          
-          // If content is empty, just clear and put cursor at start
-          if (!code || code.trim().length === 0) {
-            codeBlock.textContent = code; // Preserve whitespace
-            const newRange = document.createRange();
-            const textNode = codeBlock.firstChild || codeBlock.appendChild(document.createTextNode(''));
-            newRange.setStart(textNode, Math.min(cursorOffset, textNode.length));
-            newRange.collapse(true);
-            selection.removeAllRanges();
-            selection.addRange(newRange);
+        }
+      };
+      
+      // Convert to plain text for editing
+      const convertToPlainText = () => {
+        // Check if we have HTML content (syntax highlighting) vs plain text
+        if (codeBlock.innerHTML !== codeBlock.textContent) {
+          codeBlock.textContent = currentPlainText;
+        }
+      };
+      
+      // Handle focus - switch to plain text for editing
+      codeBlock.addEventListener('focus', () => {
+        isEditing = true;
+        convertToPlainText();
+      });
+      
+      // Handle blur - apply syntax highlighting
+      codeBlock.addEventListener('blur', () => {
+        isEditing = false;
+        updatePlainText();
+        applySyntaxHighlighting();
+      });
+      
+      // Handle input - update stored plain text immediately
+      codeBlock.addEventListener('input', () => {
+        updatePlainText();
+        
+        // Clear any pending update
+        if (updateTimer) {
+          clearTimeout(updateTimer);
+        }
+      });
+      
+      // Handle paste - clean up pasted content
+      codeBlock.addEventListener('paste', (e) => {
+        e.preventDefault();
+        
+        // Get plain text from clipboard
+        const text = (e.clipboardData || window.clipboardData).getData('text/plain');
+        
+        // Insert at cursor position
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+        
+        const range = selection.getRangeAt(0);
+        range.deleteContents();
+        range.insertNode(document.createTextNode(text));
+        
+        // Move cursor to end of inserted text
+        range.collapse(false);
+        selection.removeAllRanges();
+        selection.addRange(range);
+        
+        // Update stored text
+        updatePlainText();
+      });
+      
+      // Handle Enter key to ensure proper line breaks
+      codeBlock.addEventListener('keydown', (e) => {
+        if (e.key === 'Enter' && (isEditing || document.activeElement === codeBlock)) {
+          // Ensure we're in plain text mode before handling Enter
+          // This prevents issues when the block has HTML highlighting
+          if (codeBlock.innerHTML !== codeBlock.textContent) {
+            convertToPlainText();
+            // After converting, let the browser handle Enter naturally
+            // Don't prevent default - just ensure we're in the right state
             return;
           }
           
-          // Re-highlight using the same function as initial highlighting
-          codeBlock.innerHTML = highlightRubyInline(code);
+          // If we're already in plain text mode, prevent default and handle manually
+          // This ensures consistent behavior
+          e.preventDefault();
           
-          console.log('After highlight - innerHTML length:', codeBlock.innerHTML.length);
+          const selection = window.getSelection();
+          if (!selection.rangeCount) return;
           
-          // Restore cursor position
-          try {
-            const walker = document.createTreeWalker(
-              codeBlock,
-              NodeFilter.SHOW_TEXT,
-              null
-            );
-            
-            let charCount = 0;
-            let targetNode = null;
-            let targetOffset = 0;
-            
-            while (walker.nextNode()) {
-              const node = walker.currentNode;
-              const nodeLength = node.textContent.length;
-              
-              if (charCount + nodeLength >= cursorOffset) {
-                targetNode = node;
-                targetOffset = cursorOffset - charCount;
-                break;
-              }
-              charCount += nodeLength;
-            }
-            
-            // If no target node found (cursor beyond content), place at end
-            if (!targetNode) {
-              // Get last text node
-              const walker2 = document.createTreeWalker(
-                codeBlock,
-                NodeFilter.SHOW_TEXT,
-                null
-              );
-              let lastNode = null;
-              while (walker2.nextNode()) {
-                lastNode = walker2.currentNode;
-              }
-              if (lastNode) {
-                targetNode = lastNode;
-                targetOffset = lastNode.length;
-              }
-            }
-            
-            if (targetNode) {
-              console.log('Restoring cursor - targetNode:', targetNode.textContent.substring(0, 20), 'offset:', targetOffset);
-              const newRange = document.createRange();
-              newRange.setStart(targetNode, Math.min(targetOffset, targetNode.length));
-              newRange.collapse(true);
-              selection.removeAllRanges();
-              selection.addRange(newRange);
-            } else {
-              console.warn('No target node found for cursor offset:', cursorOffset);
-            }
-          } catch (e) {
-            // Cursor restoration failed, try to place at end of content
-            try {
-              const lastChild = codeBlock.lastChild;
-              if (lastChild) {
-                const newRange = document.createRange();
-                if (lastChild.nodeType === Node.TEXT_NODE) {
-                  newRange.setStart(lastChild, lastChild.length);
-                } else {
-                  newRange.setStartAfter(lastChild);
-                }
-                newRange.collapse(true);
-                selection.removeAllRanges();
-                selection.addRange(newRange);
-              }
-            } catch (e2) {
-              console.warn('Cursor restoration completely failed:', e2);
-            }
-          }
-        };
-        
-        // Debounce to avoid excessive re-highlighting
-        let highlightTimeout;
-        let lastEnterTime = 0;
-        
-        // Track Enter key presses to handle newlines better
-        pre.addEventListener('keydown', (e) => {
-          if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
-            lastEnterTime = Date.now();
-          }
-        });
-        
-        pre.addEventListener('input', (e) => {
-          clearTimeout(highlightTimeout);
+          const range = selection.getRangeAt(0);
+          range.deleteContents();
           
-          // If Enter was just pressed (within 200ms), use longer debounce to let user continue typing
-          const timeSinceEnter = Date.now() - lastEnterTime;
-          const debounceTime = timeSinceEnter < 200 ? 300 : 100;
+          // Insert newline as text node
+          const newlineNode = document.createTextNode('\n');
+          range.insertNode(newlineNode);
           
-          highlightTimeout = setTimeout(() => {
-            addLiveHighlighting();
-          }, debounceTime);
-        });
-        
-        // Initial highlight
-        if (codeBlock.textContent.trim()) {
-          addLiveHighlighting();
+          // Position cursor after the newline
+          range.setStartAfter(newlineNode);
+          range.collapse(true);
+          selection.removeAllRanges();
+          selection.addRange(range);
+          
+          // Update stored text and trigger input event
+          updatePlainText();
+          codeBlock.dispatchEvent(new Event('input', { bubbles: true }));
         }
+      });
+      
+      // Handle copy event to ensure plain text is copied (not HTML with syntax highlighting)
+      codeBlock.addEventListener('copy', (e) => {
+        const selection = window.getSelection();
+        if (!selection.rangeCount) return;
+        
+        const range = selection.getRangeAt(0);
+        // Get selected text as plain text (range.toString() already gives plain text)
+        const selectedText = range.toString();
+        
+        // Always copy plain text, even if the display has HTML highlighting
+        if (selectedText) {
+          // User selected specific text - copy that selection as plain text
+          e.clipboardData.setData('text/plain', selectedText);
+          e.preventDefault(); // Prevent default copy behavior
+        } else {
+          // No selection - copy entire code block as plain text
+          const plainText = codeBlock.dataset.plainText || currentPlainText || codeBlock.textContent;
+          e.clipboardData.setData('text/plain', plainText);
+          e.preventDefault();
+        }
+      });
+
+      // Initial state - apply highlighting if not empty
+      if (currentPlainText.trim()) {
+        applySyntaxHighlighting();
       }
 
       // Create output area
@@ -800,7 +806,9 @@ function initRubyConsoles(vm) {
 
         // Shared execution logic
         const executeCode = async (runTests) => {
-          const userCode = codeBlock.textContent.trim();
+          // CRITICAL: Always extract the current plain text, not from DOM
+          // This ensures we get the latest code even if highlighting is applied
+          const userCode = currentPlainText.trim();
           outputContent.textContent = 'Executing Ruby code...\n';
 
           try {
@@ -963,12 +971,21 @@ function initRubyConsoles(vm) {
                         return;
                       }
 
-                      // Always restore from the stored solution
+                      // Get the solution as plain text
                       const solution = solutionNode.textContent.replace(/^\s+|\s+$/g, '');
-                      codeBlock.textContent = solution;
-                      if (typeof Prism !== 'undefined') {
-                        Prism.highlightElement(codeBlock);
-                      }
+                      
+                      // Update stored plain text
+                      currentPlainText = solution;
+                      
+                      // Store plain text in data attribute for copy operations
+                      codeBlock.dataset.plainText = solution;
+                      
+                      // Show with syntax highlighting (for display)
+                      const highlighted = highlightRubyInline(solution);
+                      codeBlock.innerHTML = highlighted;
+                      
+                      // Make sure the code block is not in editing mode so highlighting stays
+                      isEditing = false;
                     } catch (err) {
                       console.warn('Failed to show solution:', err);
                     }
@@ -1061,7 +1078,10 @@ function addCopyButtonsToCodeBlocks() {
 
       copyBtn.addEventListener('click', async () => {
         try {
-          await navigator.clipboard.writeText(codeBlock.textContent);
+          // Always copy plain text, even if codeBlock has highlighted HTML
+          // Check for stored plain text first (from "Show code"), then fall back to textContent
+          const plainText = codeBlock.dataset.plainText || codeBlock.textContent;
+          await navigator.clipboard.writeText(plainText);
           updateBtn('<polyline points="20 6 9 17 4 12"/>', 'Copied!');
         } catch {
           updateBtn('<circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/>', 'Error!', 2000);
