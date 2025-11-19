@@ -626,11 +626,15 @@ function initRubyConsoles(vm) {
       // Add live syntax highlighting as user types
       if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.ruby) {
         const addLiveHighlighting = () => {
-          // Save cursor position
+          // Calculate cursor position as absolute offset from start
           const selection = window.getSelection();
-          const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
-          const cursorOffset = range ? range.startOffset : 0;
-          const cursorNode = range ? range.startContainer : null;
+          if (!selection.rangeCount) return;
+          
+          const range = selection.getRangeAt(0);
+          const preCaretRange = range.cloneRange();
+          preCaretRange.selectNodeContents(codeBlock);
+          preCaretRange.setEnd(range.endContainer, range.endOffset);
+          const cursorOffset = preCaretRange.toString().length;
           
           // Get plain text content
           const code = codeBlock.textContent;
@@ -640,40 +644,38 @@ function initRubyConsoles(vm) {
           
           // Restore cursor position
           try {
-            if (cursorNode && range) {
-              // Find the equivalent text node in the new DOM
-              const walker = document.createTreeWalker(
-                codeBlock,
-                NodeFilter.SHOW_TEXT,
-                null
-              );
+            const walker = document.createTreeWalker(
+              codeBlock,
+              NodeFilter.SHOW_TEXT,
+              null
+            );
+            
+            let charCount = 0;
+            let targetNode = null;
+            let targetOffset = 0;
+            
+            while (walker.nextNode()) {
+              const node = walker.currentNode;
+              const nodeLength = node.textContent.length;
               
-              let currentOffset = 0;
-              let targetNode = null;
-              let targetOffset = 0;
-              
-              while (walker.nextNode()) {
-                const node = walker.currentNode;
-                const nodeLength = node.textContent.length;
-                
-                if (currentOffset + nodeLength >= cursorOffset) {
-                  targetNode = node;
-                  targetOffset = cursorOffset - currentOffset;
-                  break;
-                }
-                currentOffset += nodeLength;
+              if (charCount + nodeLength >= cursorOffset) {
+                targetNode = node;
+                targetOffset = cursorOffset - charCount;
+                break;
               }
-              
-              if (targetNode) {
-                const newRange = document.createRange();
-                newRange.setStart(targetNode, Math.min(targetOffset, targetNode.length));
-                newRange.collapse(true);
-                selection.removeAllRanges();
-                selection.addRange(newRange);
-              }
+              charCount += nodeLength;
+            }
+            
+            if (targetNode) {
+              const newRange = document.createRange();
+              newRange.setStart(targetNode, Math.min(targetOffset, targetNode.length));
+              newRange.collapse(true);
+              selection.removeAllRanges();
+              selection.addRange(newRange);
             }
           } catch (e) {
             // Cursor restoration failed, just continue
+            console.warn('Cursor restoration failed:', e);
           }
         };
         
