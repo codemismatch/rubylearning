@@ -622,6 +622,73 @@ function initRubyConsoles(vm) {
       pre.setAttribute('contenteditable', true);
       pre.style.whiteSpace = 'pre-wrap';
       pre.style.outline = 'none';
+      
+      // Add live syntax highlighting as user types
+      if (typeof Prism !== 'undefined' && Prism.languages && Prism.languages.ruby) {
+        const addLiveHighlighting = () => {
+          // Save cursor position
+          const selection = window.getSelection();
+          const range = selection.rangeCount > 0 ? selection.getRangeAt(0) : null;
+          const cursorOffset = range ? range.startOffset : 0;
+          const cursorNode = range ? range.startContainer : null;
+          
+          // Get plain text content
+          const code = codeBlock.textContent;
+          
+          // Re-highlight
+          codeBlock.innerHTML = Prism.highlight(code, Prism.languages.ruby, 'ruby');
+          
+          // Restore cursor position
+          try {
+            if (cursorNode && range) {
+              // Find the equivalent text node in the new DOM
+              const walker = document.createTreeWalker(
+                codeBlock,
+                NodeFilter.SHOW_TEXT,
+                null
+              );
+              
+              let currentOffset = 0;
+              let targetNode = null;
+              let targetOffset = 0;
+              
+              while (walker.nextNode()) {
+                const node = walker.currentNode;
+                const nodeLength = node.textContent.length;
+                
+                if (currentOffset + nodeLength >= cursorOffset) {
+                  targetNode = node;
+                  targetOffset = cursorOffset - currentOffset;
+                  break;
+                }
+                currentOffset += nodeLength;
+              }
+              
+              if (targetNode) {
+                const newRange = document.createRange();
+                newRange.setStart(targetNode, Math.min(targetOffset, targetNode.length));
+                newRange.collapse(true);
+                selection.removeAllRanges();
+                selection.addRange(newRange);
+              }
+            }
+          } catch (e) {
+            // Cursor restoration failed, just continue
+          }
+        };
+        
+        // Debounce to avoid excessive re-highlighting
+        let highlightTimeout;
+        pre.addEventListener('input', () => {
+          clearTimeout(highlightTimeout);
+          highlightTimeout = setTimeout(addLiveHighlighting, 100);
+        });
+        
+        // Initial highlight
+        if (codeBlock.textContent.trim()) {
+          addLiveHighlighting();
+        }
+      }
 
       // Create output area
       const outputArea = document.createElement('div');
