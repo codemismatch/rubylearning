@@ -166,17 +166,35 @@ module Typophic
 
         listener.start
 
-        # Wait for interrupt signal to stop
+        # Coordinate graceful shutdown outside of the signal trap context.
+        stop_requested = false
+
         trap("INT") do
           puts "\nStopping file watcher and server..."
-          listener.stop
-          server.shutdown
-          server_thread.join
-          exit
+          stop_requested = true
         end
 
-        # Keep the main thread alive
-        sleep
+        # Keep the main thread alive until Ctrl+C is pressed.
+        until stop_requested
+          sleep 0.5
+        end
+
+        # Perform shutdown work outside the trap context to avoid
+        # interacting with Mutexes and other primitives from a signal
+        # handler (which Listen warns against).
+        begin
+          listener.stop
+        rescue => e
+          warn "Error stopping file watcher: #{e.message}"
+        end
+
+        begin
+          server.shutdown
+        rescue => e
+          warn "Error shutting down server: #{e.message}"
+        end
+
+        server_thread.join
       end
 
       def self.htaccess_rules
