@@ -140,9 +140,13 @@ function initOverlayEditor(pre, codeBlock, initialValue, onChange) {
   };
 
   const syncSize = () => {
+    // Set textarea height to match its content
     textarea.style.height = 'auto';
-    textarea.style.height = `${textarea.scrollHeight}px`;
-    pre.style.height = textarea.style.height;
+    const contentHeight = textarea.scrollHeight;
+    textarea.style.height = `${contentHeight}px`;
+    // Don't set pre height - let CSS handle it naturally
+    // This prevents unnecessary elongation when Run button appears
+    // The pre element will size based on its content via CSS
   };
 
   const emitChange = () => {
