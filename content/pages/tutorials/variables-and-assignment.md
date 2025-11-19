@@ -21,7 +21,7 @@ related_tutorials:
 
 When you *assign* a value, Ruby creates the variable on the fly:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 s = "Hello World!"
 x = 10
 </code></pre>
@@ -38,7 +38,7 @@ A bareword is any unadorned identifier (letters, digits, underscores). Ruby inte
 
 > Reference: <https://web.archive.org/web/20181219143329/http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html> -- local variables and barewords share the same syntax, so prefer lowercase snake_case names and avoid Ruby keywords to keep intent clear.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts greeting        # method call (will raise NameError if undefined)
 answer = 42          # local variable assignment
 class_name = &quot;User&quot;  # still a variable; keywords must be exact matches
@@ -50,7 +50,7 @@ Because method calls and barewords share syntax, name collisions can be confusin
 
 Satish's `p004stringusage.rb` script still makes a great tour of assignments:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # frozen_string_literal: true
 
 PI = 3.1416              # constant: name starts with uppercase
@@ -70,7 +70,7 @@ Ruby ships with `.to_i`, `.to_f`, and `.to_s` on most core classes so you can co
 
 Use the shovel operator `<<` to mutate a string in place:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 message = "hello "
 message << "world.\nI love this world..."
 puts message
@@ -78,7 +78,7 @@ puts message
 
 For multi-line strings, reach for a heredoc:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 story = &lt;&lt; END_STR
  This is the string And a second line
 END_STR
@@ -92,7 +92,7 @@ The line containing `END_STR` must be flush-left and match the opening identifie
 
 Method calls read as "send this **message** to that **receiver**." The dot connects the two:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = "200.0".to_f
 </code></pre>
 

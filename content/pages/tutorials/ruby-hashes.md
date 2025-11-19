@@ -23,7 +23,7 @@ Hashes (aka associative arrays, maps, dictionaries) pair any object as a **key**
 
 ### Hash literals and access
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p040myhash.rb
 h = { "dog" => "canine", "cat" => "feline", "donkey" => "asinine", 12 => "dodecine" }
 
@@ -40,7 +40,7 @@ puts h          # prints the whole hash
 
 Symbols make efficient, readable keys:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p041symbolhash.rb
 person = {}
 person[:nickname] = "IndianGuru"
@@ -52,7 +52,7 @@ puts person[:lastname] # Talim
 
 Modern Ruby supports the JSON-style literal when keys are symbols:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p0411symbolhash.rb
 person = { :nickname => "IndianGuru", :language => "Marathi", :lastname => "Talim" }
 
@@ -64,7 +64,7 @@ Both yield `{ :nickname=>"IndianGuru", :language=>"Marathi", :lastname=>"Talim" 
 
 ### Defaults and lookup
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 counts = Hash.new(0)
 counts[:apples] += 1
 puts counts[:missing]  # 0 instead of nil

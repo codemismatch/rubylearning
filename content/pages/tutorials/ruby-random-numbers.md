@@ -26,7 +26,7 @@ Ruby ships with a pseudo-random number generator exposed via `rand`. Use it for 
 - `rand` with no arguments returns a float between `0.0` (inclusive) and `1.0` (exclusive).
 - `rand(n)` with an integer argument returns an integer between `0` (inclusive) and `n` (exclusive).
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 rand          #=&gt; 0.731245...
 rand(5)       #=&gt; 0, 1, 2, 3, or 4
 rand(1.5)     # Ruby converts the argument to an integer, so this behaves like rand(1)
@@ -34,7 +34,7 @@ rand(1.5)     # Ruby converts the argument to an integer, so this behaves like r
 
 ### Example: buzzword generator
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p026phrase.rb
 word_list_one = %w[24/7 multi-Tier 30,000-foot B-to-B win-win front-end web-based pervasive smart six-sigma critical-path dynamic]
 word_list_two = %w[empowered sticky value-added oriented centric distributed clustered branded outside-the-box positioned networked focused leveraged aligned targeted shared cooperative accelerated]

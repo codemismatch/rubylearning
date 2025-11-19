@@ -23,7 +23,7 @@ Inheritance lets you derive a class from another, sharing behavior while customi
 
 ### Defining a hierarchy
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Vehicle
   def start_engine
     &quot;engine on&quot;
@@ -47,7 +47,7 @@ puts Motorcycle.new.start_engine  #=&gt; &quot;engine on vroom!&quot;
 
 `initialize` follows the same rule: `super` passes control up the chain.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Animal
   def initialize(name)
     @name = name
@@ -70,7 +70,7 @@ If you call `super` with empty parentheses (`super()`), Ruby forwards no argumen
 
 Ruby only allows single inheritance, but you can share behavior horizontally with modules. Legacy examples often defined reusable abilities (like `Honks` or `OffRoadable`) and mixed them into subclasses:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 module OffRoadable
   def terrain
     "rocks and mud"
@@ -91,7 +91,7 @@ Modules keep hierarchies shallow while still encouraging code reuse.
 - `obj.is_a?(ClassOrModule)` and its alias `kind_of?` respect inheritance and mixins.
 - `obj.instance_of?(Class)` matches only the exact class--not subclasses.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 dog = Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;)
 
 puts dog.is_a?(Animal)        # true

@@ -23,7 +23,7 @@ Duck typing says: *if it quacks like a duck, treat it like a duck.* Ruby cares a
 
 ### Simple example
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def make_it_quack(thing)
   thing.quack
 end
@@ -50,7 +50,7 @@ Both objects implement `#quack`, so the method works for either type.
 
 Use `respond_to?` when you want to guard against missing behavior:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def notify(target, message)
   if target.respond_to?(:notify)
     target.notify(message)

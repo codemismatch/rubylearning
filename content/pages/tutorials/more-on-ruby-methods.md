@@ -23,20 +23,20 @@ If objects are the nouns of Ruby, methods are the verbs. Every method runs in th
 
 ### Explicit vs implicit receivers
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 &quot;ruby&quot;.upcase    # receiver is the string literal
 upcase           # same call, but the receiver is implicit
 </code></pre>
 
 When you omit the receiver, Ruby sends the message to the object referenced by `self`. At the top level of a script, `self` defaults to a special object named `main` that Ruby creates to represent your program.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts self        #=&gt; main
 </code></pre>
 
 Inside classes and modules, `self` changes depending on where you are:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Greeter
   puts &quot;Class body self: #{self}&quot;  # Greeter
 
@@ -54,7 +54,7 @@ Understanding `self` helps you decide whether to call helper methods directly, q
 
 Everything in Ruby is an object, so every expression you write ends up sending messages:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 42.to_s           # Integer -&gt; String
 [1, 2, 3].length  # Array -&gt; Integer
 ruby = &quot;Ruby&quot;
@@ -69,7 +69,7 @@ ruby.upcase!
 
 Use `self` whenever you need to check or pass the current receiver:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def log_self
   puts &quot;Currently running inside #{self.class}: #{self.inspect}&quot;
 end

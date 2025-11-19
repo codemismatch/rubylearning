@@ -25,7 +25,7 @@ related_tutorials:
 
 At the top level of a file:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts self        #=&gt; main
 puts self.class  #=&gt; Object
 </code></pre>
@@ -36,7 +36,7 @@ puts self.class  #=&gt; Object
 
 Within the class body (outside instance methods), `self` is the class object:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Person
   puts self        #=&gt; Person
   def instance_method

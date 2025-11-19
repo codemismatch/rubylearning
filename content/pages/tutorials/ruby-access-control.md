@@ -27,7 +27,7 @@ Ruby offers three visibility levels for instance methods:
 
 ### Basic example
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Account
   attr_reader :balance
 
@@ -49,7 +49,7 @@ end
 
 Move `attr_reader` under `protected` if you want only account instances to compare balances:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 protected :balance
 </code></pre>
 
@@ -59,7 +59,7 @@ Now outside callers can't do `account.balance`, but other `Account` objects stil
 
 Private methods can't be called with an explicit receiver--even `self`.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Motorcycle
   def start
     warm_up_engine
@@ -82,7 +82,7 @@ Calling `bike.warm_up_engine` would raise `NoMethodError` because it uses an exp
 
 Protected shines when comparing internal state:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Person
   def initialize(age)
     @age = age

@@ -23,7 +23,7 @@ Defining a method is as simple as wrapping logic between `def` and `end`. The la
 
 ### Basic method shapes
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p008mymethods.rb
 # Methods that act as queries often end with ?
 # Bang methods (!) signal a dangerous or mutating variant
@@ -49,7 +49,7 @@ puts hello2 "Talim"
 
 Ruby lets you set default values so callers can omit arguments:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p009mymethods1.rb
 def mtd(arg1="Dibya", arg2="Shashank", arg3="Shashank")
   "#{arg1}, #{arg2}, #{arg3}."
@@ -61,7 +61,7 @@ puts mtd("Ruby")
 
 Interpolation (`#{ ... }`) evaluates the expression and inserts the result into the surrounding string:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;100 * 5 = #{100 * 5}&quot;  # =&gt; 100 * 5 = 500
 </code></pre>
 
@@ -71,7 +71,7 @@ Ruby still lacks a way to skip the first argument and only override later ones, 
 
 Use `alias new_name old_name` to keep the original implementation before redefining it:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p010aliasmtd.rb
 def oldmtd
   "old method"
@@ -93,7 +93,7 @@ Aliases reference a copy of the original method body, so the new name keeps the 
 
 The splat operator collects any number of arguments into an array:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p011vararg.rb
 def foo(*values)
   values.inspect
@@ -105,7 +105,7 @@ puts foo                     # []
 
 You can mix splats with required parameters--Ruby pushes arguments left-to-right--so defaults can reference earlier values:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p012mtdstack.rb
 def mtd(a = 99, b = a + 1)
   [a, b]
@@ -118,7 +118,7 @@ puts mtd.inspect  # [99, 100]
 
 Choose whether your methods mutate the objects you receive:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def downer(str)
   str.downcase
 end

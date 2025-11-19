@@ -23,7 +23,7 @@ Arrays are ordered, mutable lists. Every slot holds a reference to any object (n
 
 ### Constructing and expanding arrays
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p018arrays.rb
 var1 = []                # empty array
 var2 = [5]
@@ -47,7 +47,7 @@ name[6] = [1, 2, 3]
 
 `Array#each` and friends rely on blocks:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 locations = [&quot;Pune&quot;, &quot;Mumbai&quot;, &quot;Bangalore&quot;]
 
 locations.each do |loc|
@@ -64,7 +64,7 @@ Thanks to blocks, you rarely need manual index counters.
 
 Methods can return multiple values; Ruby wraps them in an array automatically:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p019mtdarry.rb
 def mtdarry
   10.times do |num|
@@ -80,7 +80,7 @@ puts square # 36
 
 ### Parallel assignment & splats
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 a = 1, 2, 3, 4   #=&gt; [1, 2, 3, 4]
 a, b = 1, 2, 3, 4 # a=1, b=2 (remaining values ignored)
 c, = 1, 2, 3, 4   # trailing comma lets you grab the first item only
@@ -92,7 +92,7 @@ The splat (`*`) packs or unpacks arrays when you need flexible argument counts.
 
 - `ENV` behaves like a hash of environment variables and is enumerable:
 
-  <pre class="language-ruby"><code class="language-ruby">
+  <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 ENV.each { |k, v| puts &quot;#{k}: #{v}&quot; }
 ENV[&quot;course&quot;] = &quot;FORPC101&quot;
 puts ENV[&quot;course&quot;]
@@ -102,7 +102,7 @@ puts ENV[&quot;course&quot;]
 
 - `ARGV` stores command-line arguments. Access with indexes (`ARGV[0]`) or parse with libraries such as `GetoptLong`:
 
-  <pre class="language-ruby"><code class="language-ruby">
+  <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require &quot;getoptlong&quot;
 
 opts = GetoptLong.new(
@@ -129,7 +129,7 @@ end
 
 `Array(obj)` attempts to wrap or copy the value:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 Array(&quot;hello&quot;).class  #=&gt; Array
 Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
 [1,2,3,4].class.ancestors #=&gt; [Array, Enumerable, Object, Kernel, BasicObject]

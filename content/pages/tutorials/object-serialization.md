@@ -23,7 +23,7 @@ Ruby's `Marshal` module converts objects to byte streams (serialization) and bac
 
 ### Dumping and loading
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 data = { name: "Satish", skills: %w[ruby rails] }
 
 File.open("data.dump", "wb") do |file|
@@ -36,7 +36,7 @@ puts loaded == data  #=> true
 
 You can also dump to a string:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 payload = Marshal.dump(data)
 restored = Marshal.load(payload)
 </code></pre>

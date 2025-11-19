@@ -29,7 +29,7 @@ Ruby treats everything as an object, including numbers. Integers live under `Int
 
 Ruby infers the class from the literal:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 42.class    #=&gt; Integer
 3.14.class  #=&gt; Float
 </code></pre>
@@ -38,7 +38,7 @@ Ruby infers the class from the literal:
 
 Here's the modern take on Satish's `p002rubynumbers.rb`. Mix integers and floats to see how Ruby changes the result type.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # numbers.rb
 =begin
 Ruby Numbers
@@ -62,7 +62,7 @@ When both operands are integers, Ruby performs integer division. Add one float (
 
 Ruby's modulo operator `%` follows the sign of the second operand. That's friendlier than the C/Java approach because you can predict outcomes for negative numbers:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts 5 % 3    # 2
 puts -5 % 3   # 1
 puts 5 % -3   # -1
@@ -73,7 +73,7 @@ puts -5 % -3  # -2
 
 Both operators return the first truthy operand, or the second when the first is `nil`/`false`. Their only difference is precedence.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts nil || 2008   # 2008
 puts false || 2008 # 2008
 puts &quot;ruby&quot; || 2008 # &quot;ruby&quot;
@@ -84,7 +84,7 @@ puts &quot;ruby&quot; || 2008 # &quot;ruby&quot;
 
 Rubyists often combine `||` with assignment to set defaults:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 @token = @token || &quot;default value&quot;
 @token ||= &quot;default value&quot; # idiomatic shorthand
 </code></pre>
@@ -93,7 +93,7 @@ Rubyists often combine `||` with assignment to set defaults:
 
 Low-precedence keywords make it possible to run a series of assignments until one returns a falsey value:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def capture(value)
   value
 end

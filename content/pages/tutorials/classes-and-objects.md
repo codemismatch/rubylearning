@@ -263,7 +263,7 @@ account.check_balance(&quot;secret123&quot;)  # This works as check_balance call
 
 In Ruby, classes are never closed: you can always add methods to an existing class. This applies to the classes you write as well as the standard library classes:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # Adding a method to the existing String class
 class String
   def palindrome?

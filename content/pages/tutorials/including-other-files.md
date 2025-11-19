@@ -29,7 +29,7 @@ As your Ruby programs grow, you'll split code across files. Ruby provides three 
 
 Use `require` for gems, stdlib components, or project files that should load at most once per process.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require &quot;json&quot;                 # stdlib
 require &quot;pg&quot;                   # gem
 require_relative &quot;lib/user&quot;    # project file (see below)
@@ -39,7 +39,7 @@ require_relative &quot;lib/user&quot;    # project file (see below)
 
 Ruby looks through each directory in `$LOAD_PATH` for the requested file. You can inspect or modify the path:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts $LOAD_PATH
 $LOAD_PATH.unshift File.expand_path(&quot;../lib&quot;, __dir__)
 </code></pre>
@@ -48,7 +48,7 @@ $LOAD_PATH.unshift File.expand_path(&quot;../lib&quot;, __dir__)
 
 `load "scripts/setup.rb"` reprocesses the file every time you call it. You can pass a second argument of `true` to wrap the loaded code in an anonymous module:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 load &quot;scripts/setup.rb&quot;, true
 </code></pre>
 
@@ -58,7 +58,7 @@ This is handy for DSLs or when you need the latest version of a file during deve
 
 For project-local files, `require_relative` resolves paths relative to the file containing the call:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require_relative &quot;../models/user&quot;
 </code></pre>
 
@@ -68,7 +68,7 @@ This avoids fiddling with `$LOAD_PATH` and keeps dependencies explicit.
 
 Legacy example: `abbrev.rb` might define methods, and `testabbrev.rb` can reuse them:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # abbrev.rb
 def short_name(full_name)
   full_name.split.first

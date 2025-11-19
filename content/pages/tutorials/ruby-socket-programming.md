@@ -45,7 +45,7 @@ Ruby's threads are lightweight enough for simple demos. Before writing your own 
 
 ### Date-Time server (`p068dtserver.rb`)
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # Date Time Server - server side using thread
 require "socket"
 
@@ -72,7 +72,7 @@ Run the server in one terminal with `ruby p068dtserver.rb`; it will block, waiti
 
 ### Date-Time client (`p069dtclient.rb`)
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require "socket"
 
 socket = TCPSocket.new("127.0.0.1", 20_000)

@@ -26,7 +26,7 @@ Strings are sequences of characters surrounded by quotes. Ruby treats both singl
 
 Here's a modernised take on `p003rubystrings.rb`, highlighting concatenation, escaping, repetition, and constants:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # frozen_string_literal: true
 
 puts "Hello World"
@@ -49,14 +49,14 @@ Key takeaways:
 
 Backticks run shell commands and return their output as a string. The result still flows through Ruby, so you can print it, split it, or test it.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts `ls`   # macOS/Linux: directory listing
 puts `dir`  # Windows: directory listing
 </code></pre>
 
 Ruby also exposes `Kernel#system` when you simply need to execute a command and check success:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 if system("tar xzf data.tgz")
   puts "Archive extracted"
 else

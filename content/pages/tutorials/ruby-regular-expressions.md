@@ -25,14 +25,14 @@ Regular expressions (regexps) describe patterns of text. In Ruby they're first-c
 
 Regular expressions are full-fledged objects, so you can reference or store them just like any other value:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 pattern = /Pune|Ruby/
 pattern.class          #=&gt; Regexp
 </code></pre>
 
 Both regexps and strings respond to `.match`. Successful matches return a `MatchData` object, while failures return `nil`. The `=~` operator instead yields the starting index (or `nil`):
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 m1 = /Ruby/.match("The future is Ruby")
 puts m1.class           # MatchData
 
@@ -53,7 +53,7 @@ puts m2                 # 14 (start index)
 - `.` (dot) matches any character except newline.
 - Character classes (`[]`) limit matches to specific sets or ranges:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 /.ejected/          # matches "dejected", "rejected", "%ejected"
 /[dr]ejected/       # matches "dejected" or "rejected"
 /[a-z]/             # lowercase letter
@@ -76,7 +76,7 @@ Parentheses capture portions of the match. The result is a `MatchData` object wi
 - `[1]`, `[2]`, ... - captures
 - `captures` - array of captures
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p064regexp.rb
 string = "My phone number is (123) 555-1234."
 phone_re = /\((\d{3})\)\s+(\d{3})-(\d{4})/

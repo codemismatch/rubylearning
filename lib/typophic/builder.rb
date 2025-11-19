@@ -468,7 +468,7 @@ module Typophic
         lang = Regexp.last_match(1)
         code_content = Regexp.last_match(2).gsub(/^\s+|\s+$/, '')
         language = lang.empty? ? nil : lang
-        build_code_window(language, code_content, executable: false)
+        build_code_window(language, code_content, executable: (language == 'ruby'))
       end
 
       # Protect all <pre> and <script> blocks from further markdown transforms

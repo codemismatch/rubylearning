@@ -23,7 +23,7 @@ Ruby classes are **open**, meaning you can reopen them at any time to add or ove
 
 ### Simple example: adding to `String`
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class String
   def saysomething
     "Satish " + self
@@ -39,7 +39,7 @@ Reopening `String` lets every string gain the `saysomething` method.
 
 You can extend numeric classes too:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Integer
   def squared
     self * self

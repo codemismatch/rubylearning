@@ -25,7 +25,7 @@ Before diving into control flow and collections, it helps to know how Ruby think
 
 Ruby does not force code to start in a specific column. Feel free to indent to match nested blocks or align related values. Readability still matters, so stick to two-space indentation in this project.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 message =
 if Time.now.hour &lt; 12
   &quot;Morning!&quot;
@@ -44,13 +44,13 @@ Identifiers are case-sensitive: `user_name`, `UserName`, and `USERNAME` are thre
 
 Use `#` for inline comments--Ruby ignores everything to the end of the line:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 total = price * 1.18 # add GST
 </code></pre>
 
 For longer notes, Ruby also supports `=begin` / `=end` blocks. They must start at column 0:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 =begin
 The parser skips every line between =begin and =end.
 Helpful for quick docs or temporarily disabling code.
@@ -61,13 +61,13 @@ Helpful for quick docs or temporarily disabling code.
 
 Line endings usually delimit statements, so semi-colons are optional. Add one only when you truly need multiple statements on a single line:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;Ready?&quot;; puts &quot;Go!&quot;
 </code></pre>
 
 A trailing backslash (`\`) tells Ruby the statement continues on the next line, which can be useful when splitting long expressions:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 book_title = &quot;Ruby &quot; \
 &quot;Learning&quot;
 </code></pre>
@@ -76,7 +76,7 @@ book_title = &quot;Ruby &quot; \
 
 Ruby reserves about 40 keywords (e.g., `if`, `class`, `end`, `yield`). Avoid using them as variable names even if Ruby lets you prefix them with `@`, `@@`, or `$`. When checking truthiness, remember that *only* `false` and `nil` are falsey--`0`, empty strings, and empty collections all evaluate as true.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def logged_in?(token)
   !!token # converts anything except nil/false to true
 end

@@ -17,7 +17,7 @@ related_tutorials:
     url: /rails/
 ---
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # config/routes.rb
 Rails.application.routes.draw do
   root &quot;entries#index&quot;

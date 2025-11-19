@@ -26,7 +26,7 @@ Ranges represent sequences with a start, an end, and a way to produce successive
 - `..` (two dots) creates an inclusive range containing the high value.
 - `...` (three dots) excludes the high value.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 (1..5).to_a    #=&gt; [1, 2, 3, 4, 5]
 (1...5).to_a   #=&gt; [1, 2, 3, 4]
 </code></pre>
@@ -35,7 +35,7 @@ Ranges aren't stored as arrays internally--`1..100_000` keeps just the endpoints
 
 ### Common helpers
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p021ranges.rb
 digits = -1..9
 puts digits.include?(5)          # true
@@ -50,7 +50,7 @@ Because ranges mix in `Enumerable`, you get iterators like `each`, `map`, `rejec
 
 Ranges shine when checking if a value falls within a specific interval. Use the case-equality operator (`===`), which also powers `case` statements:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 (1..10) === 5        # true
 (1..10) === 15       # false
 (1..10) === 3.14159  # true
@@ -60,7 +60,7 @@ Ranges shine when checking if a value falls within a specific interval. Use the 
 
 Drop ranges directly into `case` expressions for readable branching:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 grade = 87
 label = case grade
 when 90..100 then &quot;A&quot;

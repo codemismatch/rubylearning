@@ -23,7 +23,7 @@ When Ruby can't find a method while walking an object's method lookup path, it r
 
 ### Basic pattern
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p012zmm.rb
 class Dummy
   def method_missing(method_name, *args, &block)

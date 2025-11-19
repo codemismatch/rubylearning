@@ -23,7 +23,7 @@ Blocks are anonymous snippets that you pass to methods. `Proc` and `lambda` capt
 
 ### Creating procs
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 square  = Proc.new { |x| x * x }
 doubler = proc { |n| n * 2 }      # same as Proc.new
 
@@ -35,7 +35,7 @@ You can call a proc via `.call`, `.[]`, or `.()`; they're interchangeable.
 
 ### Lambdas vs procs
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 increment = lambda { |n| n + 1 }
 arrow     = -&gt;(n) { n * 3 }
 
@@ -52,7 +52,7 @@ Key differences:
 
 Methods receive blocks implicitly and can invoke them with `yield`:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def call_block
   yield if block_given?
 end
@@ -62,7 +62,7 @@ call_block { puts &quot;Hello from the block&quot; }
 
 To turn a block into a proc parameter, add `&block` to the method signature:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def greet(name, &amp;block)
   block.call(name) if block
 end
@@ -72,7 +72,7 @@ greet(&quot;Satish&quot;) { |n| puts &quot;Welcome, #{n}!&quot; }
 
 ### Passing procs between objects
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Greeter
   def initialize(name)
     @name = name
@@ -89,7 +89,7 @@ Greeter.new("Satish").welcome(greet_proc)
 
 Procs are great for callbacks, iterators (`map`, `select`), and DSLs. Pass them with `&proc_obj` to methods expecting a block:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 numbers = [1, 2, 3]
 printer = -&gt;(n) { puts &quot;Number: #{n}&quot; }
 numbers.each(&amp;printer)

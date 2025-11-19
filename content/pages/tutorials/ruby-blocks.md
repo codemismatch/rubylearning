@@ -26,7 +26,7 @@ Blocks (closures) are chunks of code wrapped in `{}` or `do..end` that travel al
 - Use `{}` for single-line blocks, `do..end` for multi-line.
 - `{}` has higher precedence; `do..end` binds to the method call even without parentheses. Be explicit when in doubt.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 [1, 2, 3].each { |n| puts n }
 [1, 2, 3].each do |n|
   puts n
@@ -37,7 +37,7 @@ end
 
 Any method can take an implicit block. Call it with `yield`:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p022codeblock.rb
 def call_block
   puts "Start of method"
@@ -55,7 +55,7 @@ If no block is provided and you call `yield`, Ruby raises `LocalJumpError`. Guar
 
 `yield` accepts arguments; list block parameters between pipes:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p023codeblock2.rb
 def call_block
   yield("hello", 99)
@@ -66,7 +66,7 @@ call_block { |str, num| puts "#{str} #{num}" }
 
 ### Checking for a block
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def try
   if block_given?
     yield
@@ -84,7 +84,7 @@ try do puts &quot;hello&quot; end  #=&gt; &quot;hello&quot;
 
 Block parameters are local to the block, but referencing outer variables mutates them unless you deliberately shadow them.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = 10
 5.times do |x|
   puts &quot;x inside block: #{x}&quot;
@@ -94,7 +94,7 @@ puts &quot;x outside block: #{x}&quot; # 10 -- outer x untouched
 
 Reassigning `x` inside the block without using it as a parameter will change the outer variable:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = 10
 5.times do |y|
   x = y
@@ -104,7 +104,7 @@ puts x # 4 -- last iteration value
 
 Ruby 1.9+ introduced block-local variables to avoid accidental clobbering:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = 10
 5.times do |y; x|
   x = y

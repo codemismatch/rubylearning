@@ -30,7 +30,7 @@ Ruby's `String` class packs dozens of helpers. You don't need to memorize them a
 
 Each of the case-changing methods has a bang variant (`upcase!`, `downcase!`, etc.) that mutates the receiver to save allocations:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 name = &quot;Ruby&quot;
 name.upcase    #=&gt; &quot;RUBY&quot;  (original unchanged)
 name.upcase!   #=&gt; &quot;RUBY&quot;  (original modified)
@@ -45,7 +45,7 @@ Double-quoted literals handle:
 1. **Escape sequences** (e.g., `\n`, `\t`).
 2. **Interpolation**. The pattern `#{ expression }` evaluates the expression and inserts the result:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p013expint.rb
 def say_goodnight(name)
   "Good night, #{name}"
@@ -63,7 +63,7 @@ Ruby offers multiple equality checks:
 - `==` and `eql?` compare content.
 - `equal?` checks object identity.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p013strcmp.rb
 s1 = "Jonathan"
 s2 = "Jonathan"
@@ -79,7 +79,7 @@ puts s1.equal?(s3)     # true  (same object)
 
 Skip repetitive quotes and commas when you just need an array of bare words:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 names = %w[ann richard william susan pat]
 puts names[0] # ann
 puts names[3] # susan
@@ -95,13 +95,13 @@ Ruby ignores extra whitespace inside `%w{ ... }`.
 
 List supported encodings:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 Encoding.list.each { |enc| puts enc.name }
 </code></pre>
 
 Default source encoding is US-ASCII unless you override it with a magic comment:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # coding: utf-8
 # encoding: utf-8  # equivalent
 </code></pre>
@@ -112,7 +112,7 @@ Ruby also honors UTF-8 byte order marks (`\xEF\xBB\xBF`).
 
 Use `String.methods.sort` to see class-level helpers, and `String.instance_methods.sort` for instance methods. Pass `false` to exclude ancestors:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 String.instance_methods(false).sort.take(10)
 </code></pre>
 

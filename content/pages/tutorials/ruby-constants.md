@@ -25,7 +25,7 @@ Constants behave like variables whose references are meant to stay fixed for the
 
 Constant names start with an uppercase letter. Conventional style uses screaming snake case (`MAX_ATTEMPTS`, `PI`), while class/module names stay in CamelCase. Ruby only creates the constant once it's assigned.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p054constwarn.rb
 A_CONST = 10
 A_CONST = 20
@@ -37,7 +37,7 @@ Running that script emits `warning: already initialized constant A_CONST`. The c
 
 The "no changes" rule applies to the _binding_, not the object. If a constant points at a mutable value (like a string or array), you can mutate that value without touching the binding.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p055constalter.rb
 A_CONST = "Doshi"
 B_CONST = A_CONST
@@ -53,7 +53,7 @@ Rails and other frameworks lean on this behavior: they freeze or mutate structur
 
 Constants live in Ruby's lexical scope. You can read them directly inside the class or module where they're defined. From the outside, reach in with the scope operator.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 OUTER_CONST = 99
 
 class Const
@@ -80,7 +80,7 @@ Key rules:
 
 The original RubyLearning example contrasts globals, class variables, instance variables, and constants in one class. It's noisy, but handy for seeing scoping rules in action.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p057mymethods2.rb
 $glob = 5
 

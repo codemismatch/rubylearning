@@ -23,7 +23,7 @@ Ruby doesn't support traditional method overloading (same name, different signat
 
 ### Optional and default arguments
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def greet(name = &quot;friend&quot;)
   &quot;Hello, #{name}!&quot;
 end
@@ -34,7 +34,7 @@ puts greet(&quot;Satish&quot;) #=&gt; &quot;Hello, Satish!&quot;
 
 ### Variable arguments with `*args`
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def sum(*numbers)
   numbers.inject(0, :+)
 end
@@ -47,7 +47,7 @@ You can inspect `numbers.length` or the class of each argument to branch as need
 
 ### Keyword arguments
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def send_email(to:, subject:, body: &quot;Hello&quot;)
   # ...
 end

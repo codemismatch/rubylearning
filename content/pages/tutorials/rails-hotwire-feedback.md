@@ -35,7 +35,7 @@ related_tutorials:
 </div>
 ```
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # app/models/entry.rb
 class Entry &lt; ApplicationRecord
   after_create_commit -&gt; { broadcast_prepend_to :entries }

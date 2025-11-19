@@ -23,7 +23,7 @@ Ruby's `IO` family (which `File` inherits from) handles disk operations. You can
 
 ### Reading and writing files
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p027readwrite.rb
 # Read a file
 File.open("p014constructs.rb", "r") do |file|
@@ -47,7 +47,7 @@ end
 
 Use the `Find` module to walk a tree:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require &quot;find&quot;
 
 Find.find(&quot;./&quot;) do |path|
@@ -68,7 +68,7 @@ This example prints each file/directory under the current working directory. You
 
 `IO#seek` repositions the file pointer. Use the `IO::SEEK_*` constants to describe relative moves.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p028xrandom.rb
 f = File.new("hellousa.rb")  # read-only by default
 f.seek(12, IO::SEEK_SET)     # absolute seek to byte 12

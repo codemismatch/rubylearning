@@ -23,7 +23,7 @@ Inheritance gives you defaults; overriding lets subclasses tailor those defaults
 
 ### Basic override
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Animal
   def speak
     "generic noise"
@@ -46,7 +46,7 @@ puts Dog.new.speak     #=> "generic noise ruff"
 
 The original lesson used a `Motorcycle` base class and subclasses that override `#info`:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Motorcycle
   def info
     "Two wheels, generic motorcycle"

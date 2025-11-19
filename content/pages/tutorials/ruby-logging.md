@@ -23,7 +23,7 @@ Logging surfaces what your program is doing without halting execution. Ruby ship
 
 ### Quick-and-dirty logging
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;[DEBUG] Starting import...&quot;
 File.open(&quot;app.log&quot;, &quot;a&quot;) { |f| f.puts &quot;#{Time.now} Task finished&quot; }
 </code></pre>
@@ -32,7 +32,7 @@ Useful for tiny scripts, but you'll quickly want log levels, formatting, and rot
 
 ### Using stdlib `Logger`
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require &quot;logger&quot;
 
 logger = Logger.new($stdout)            # or &quot;log/app.log&quot;
@@ -50,7 +50,7 @@ logger.error(&quot;Unhandled exception&quot;, exception: e)
 
 Wrap log calls in helper methods or use keyword arguments:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def log_request(logger, action:, status:)
   logger.info(&quot;[#{action}] status=#{status}&quot;)
 end

@@ -23,7 +23,7 @@ So far you've been printing output with `puts`. To make your scripts interactive
 
 ### Sample prompt script
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p005methods.rb
 # gets and chomp
 puts "In which city do you stay?"

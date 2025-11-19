@@ -30,7 +30,7 @@ A class combines both. Each class is itself an instance of Ruby's `Class`, and c
 
 ### First class: `Dog`
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p029dog.rb
 class Dog
   def initialize(breed, name)

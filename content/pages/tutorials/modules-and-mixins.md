@@ -23,7 +23,7 @@ Modules let you group related methods/constants and mix them into classes withou
 
 ### `include` adds instance methods
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 module Honks
   def honk
     "honk!"
@@ -39,7 +39,7 @@ puts Car.new.honk  #=> "honk!"
 
 ### `extend` adds class-level behavior
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 module Logging
   def log(message)
     puts &quot;[#{name}] #{message}&quot;
@@ -55,7 +55,7 @@ Service.log(&quot;Ready&quot;)  # class method
 
 ### Modules as namespaces
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 module Payments
   class Receipt; end
   end

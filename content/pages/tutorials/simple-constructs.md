@@ -23,7 +23,7 @@ Ruby keeps branching syntax lightweight. Parentheses on `if`/`while` are optiona
 
 ### `if`, nested blocks, and `elsif`
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p014constructs.rb
 var = 5
 
@@ -41,7 +41,7 @@ end
 
 `elsif` cleans up stacked `if`/`else` chains:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p015elsifex.rb
 puts "Hello, what's your name?"
 STDOUT.flush
@@ -66,7 +66,7 @@ Truthiness recap: only `false` and `nil` evaluate as false. `0` and empty string
 
 `unless` is the inverse of `if`:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 unless ARGV.length == 2
   puts &quot;Usage: program.rb 23 45&quot;
   exit
@@ -75,7 +75,7 @@ end
 
 `while` handles simple loops:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 var = 0
 while var &lt; 10
   puts var
@@ -87,7 +87,7 @@ end
 
 Use the ternary operator for compact conditional expressions:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 age = 15
 puts (13...19).include?(age) ? &quot;teenager&quot; : &quot;not a teenager&quot;
 
@@ -98,7 +98,7 @@ person = (13...19).include?(23) ? &quot;teenager&quot; : &quot;not a teenager&qu
 
 When the body is a single expression, place the condition after the statement:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;Enrollments will now stop&quot; if participants &gt; 2500
 warn &quot;Missing args&quot; unless ARGV.any?
 </code></pre>
@@ -107,7 +107,7 @@ warn &quot;Missing args&quot; unless ARGV.any?
 
 `case` is Ruby's flexible multi-branch construct and always returns the last evaluated expression:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 year = 2000
 leap = case
 when year % 400 == 0 then true
@@ -124,7 +124,7 @@ You can also supply a target (`case value`), but the conditionless style above k
 
 Both values are falsy, but they are different objects with different classes and IDs:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts nil.class    # NilClass
 puts false.class  # FalseClass
 puts nil.object_id    # 4

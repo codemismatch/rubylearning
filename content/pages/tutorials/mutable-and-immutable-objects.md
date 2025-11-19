@@ -23,7 +23,7 @@ Ruby stores some objects as mutable containers (strings, arrays, hashes) and oth
 
 ### Mutable example: strings
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 name = "Ruby"
 alias = name
 
@@ -35,7 +35,7 @@ puts alias  #=> "RUBY"
 
 ### Immutable example: numbers
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 count = 10
 other = count
 
@@ -49,7 +49,7 @@ Numeric literals are immutable immediate values; arithmetic always returns a new
 
 Symbols are allocated once and never modified:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 status = :ok
 # :ok is frozen automatically; no bang methods mutate it
 </code></pre>
@@ -58,7 +58,7 @@ status = :ok
 
 Call `freeze` to prevent further modification:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 config = { retries: 3 }.freeze
 config[:timeout] = 10  # raises FrozenError
 </code></pre>

@@ -25,7 +25,7 @@ Scope describes where a variable is visible. Ruby keeps the rules straightforwar
 
 Any identifier that starts with `$` is a **global variable**. It is accessible everywhere in your process and never goes out of scope.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 $app_mode = &quot;demo&quot;
 
 def banner
@@ -45,7 +45,7 @@ Because global state is hard to reason about, most Rubyists limit themselves to 
 
 You can inspect them just like any other variable:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;Running #{$0} (PID #{$$})&quot;
 puts &quot;Load path has #{$:.size} entries&quot;
 </code></pre>
@@ -58,7 +58,7 @@ Locals are far more common than globals. Ruby (MRI) follows three big rules:
 2. Each `class` or `module` block introduces a new local scope. Nested definitions get their own scopes too.
 3. Every `def` creates a brand-new scope. Locals from the outer scope are not automatically visible unless captured in a block or passed in.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 message = &quot;outside&quot;
 
 class ScopeDemo
@@ -80,7 +80,7 @@ Notice how each structural boundary protects its own copy of `message`.
 
 Blocks (`do..end`, `{}`) share their parent's local scope:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 count = 0
 3.times do
   count += 1

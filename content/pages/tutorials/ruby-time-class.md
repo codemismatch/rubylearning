@@ -23,7 +23,7 @@ The `Time` class handles timestamps, duration math, and formatting.
 
 ### Creating times
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 now = Time.now
 birthday = Time.new(2025, 1, 15, 12, 0, 0)   # local time
 utc_time = Time.utc(2025, 1, 15, 12)         # UTC
@@ -31,7 +31,7 @@ utc_time = Time.utc(2025, 1, 15, 12)         # UTC
 
 ### Accessors
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 now = Time.now
 puts now.year   #=&gt; 2025
 puts now.month  #=&gt; 1
@@ -45,7 +45,7 @@ puts now.yday   # day of year
 
 Use `strftime` for custom strings:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 now = Time.now
 now.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)  #=&gt; &quot;2025-01-15 09:30:00&quot;
 now.to_s                           # default formatting
@@ -54,7 +54,7 @@ now.ctime                          # ctime-style string
 
 ### Arithmetic & comparison
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 now = Time.now
 deadline = now + 60      # add seconds
 elapsed = Time.now - now # difference in seconds

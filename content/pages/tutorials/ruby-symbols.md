@@ -28,7 +28,7 @@ Symbols are lightweight, immutable identifiers prefixed with a colon (e.g., `:ac
 
 Use strings when you care about the text itself, and symbols when you just need consistent names or keys.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p039symbol.rb
 puts "string".object_id
 puts "string".object_id
@@ -44,7 +44,7 @@ Ruby automatically creates symbols for method names, class names, instance varia
 
 Symbols are simple `Symbol` objects backed by an internal integer ID. Redefining a method or referencing the same identifier elsewhere reuses the existing symbol:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p039xsymbol.rb
 class Test
   puts :Test.object_id
@@ -63,7 +63,7 @@ Test.new.test
 
 Symbols make expressive flags:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p039xysymbol.rb
 know_ruby = :yes
 
@@ -78,7 +78,7 @@ Comparing strings works too, but every literal allocates a new object, while sym
 
 ### Converting between strings and symbols
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 &quot;string&quot;.to_sym.class #=&gt; Symbol
 :symbol.to_s.class    #=&gt; String
 </code></pre>

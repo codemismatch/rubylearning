@@ -23,7 +23,7 @@ Ruby's syntax hides repetitive boilerplate so you can focus on intent.
 
 ### attr_* helpers
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Person
   attr_accessor :name, :email
 end
@@ -37,7 +37,7 @@ This expands to getter/setter methods--no need to write them manually.
 
 ### Inline modifiers
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;Hello&quot; if logged_in?
 retry_count += 1 while retry_needed?
 </code></pre>

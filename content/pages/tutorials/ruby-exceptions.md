@@ -23,7 +23,7 @@ Ruby uses exceptions to report runtime problems. Use `begin`/`rescue` blocks to 
 
 ### Basic pattern
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 begin
   risky_operation
 rescue ZeroDivisionError => e
@@ -45,7 +45,7 @@ end
 
 `raise` (alias `fail`) triggers an exception:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 raise &quot;Something went wrong&quot;
 raise ArgumentError, &quot;Bad argument&quot;
 raise ArgumentError.new(&quot;Bad argument&quot;)
@@ -55,7 +55,7 @@ Calling `raise` with no arguments inside `rescue` re-raises the current exceptio
 
 ### Legacy example
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def divide(x, y)
   raise ArgumentError, "y must not be zero" if y.zero?
   x / y
@@ -74,7 +74,7 @@ end
 
 Define your own by inheriting from `StandardError`:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class ServiceError &lt; StandardError; end
 
   raise ServiceError, &quot;Remote API unavailable&quot;

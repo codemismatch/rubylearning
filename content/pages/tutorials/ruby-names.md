@@ -23,7 +23,7 @@ Ruby names refer to the labels you use for variables, methods, classes, modules,
 
 ### Variable families at a glance
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 sunil      = &quot;local&quot;      # lowercase or _ prefix
 @count     = 1            # instance variable belongs to self
 @@registry = {}           # class variable shared across instances
@@ -39,7 +39,7 @@ $mode      = &quot;demo&quot;       # global variable (avoid unless necessary)
 
 Constants start with a capital letter:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 module MyMath
   PI = 3.1416
 end
@@ -60,7 +60,7 @@ Ruby allows you to reassign constants but prints a warning. Treat them as immuta
 
 Variables reference objects, and you can bind different object types to the same variable as needed:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p007dt.rb
 # Ruby is dynamic
 x = 7         # Integer
@@ -76,14 +76,14 @@ Ruby automatically manages references and garbage collection, so there is no sep
 
 Ruby handles large numbers transparently by switching between `Integer` (formerly `Fixnum`/`Bignum`) under the hood. Floats live under `Float`, a subclass of `Numeric`, and expose useful constants:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts Float::DIG  # precision in decimal digits
 puts Float::MAX  # largest Float for your architecture
 </code></pre>
 
 Need to scale dramatically? Ruby keeps going:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 rice_on_square = 1
 64.times do |square|
   puts "On square #{square + 1} are #{rice_on_square} grain(s)"
@@ -97,7 +97,7 @@ By the final square you are counting trillions of grains--Ruby handles it seamle
 
 Because everything is an object, you can always ask Ruby about its class or inspect itself:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts "I am in class = #{self.class}"
 puts "I am an object = #{self}"
 puts "My private methods include: #{self.private_methods.sort.take(5)}..."
@@ -105,7 +105,7 @@ puts "My private methods include: #{self.private_methods.sort.take(5)}..."
 
 Blocks enhance readability too:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 5.times { puts "Mice!" }
 "Elephants Like Peanuts".length
 </code></pre>
