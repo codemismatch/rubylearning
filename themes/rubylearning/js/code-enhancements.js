@@ -189,12 +189,53 @@ function initRubyConsoles(vm) {
 
     let lineNumber = 1;
     let pendingBlock = false;
+    
+    // Command history
+    let commandHistory = [];
+    let historyIndex = -1;
+    let currentDraft = '';
+    
+    // Readline kill ring (for yank)
+    let killRing = '';
 
+    // Caret positioning - measure text width up to cursor position
     const updateCaret = () => {
-      const text = ghostEl.textContent || '';
-      // Use ghost width to position caret at end of text
-      const width = ghostEl.offsetWidth || 0;
-      caretEl.style.transform = `translateX(${width}px)`;
+      const cursorPos = input.selectionStart || 0;
+      const textBeforeCursor = input.value.substring(0, cursorPos);
+      
+      // Create a temporary element with the same styling as the ghost to measure width
+      const tempSpan = document.createElement('span');
+      const ghostStyles = window.getComputedStyle(ghostEl);
+      tempSpan.style.position = 'absolute';
+      tempSpan.style.visibility = 'hidden';
+      tempSpan.style.whiteSpace = 'pre';  // Use 'pre' to preserve spaces
+      tempSpan.style.fontFamily = ghostStyles.fontFamily;
+      tempSpan.style.fontSize = ghostStyles.fontSize;
+      tempSpan.style.fontWeight = ghostStyles.fontWeight;
+      tempSpan.style.letterSpacing = ghostStyles.letterSpacing;
+      tempSpan.style.wordSpacing = ghostStyles.wordSpacing;
+      tempSpan.textContent = textBeforeCursor || '\u200B'; // Zero-width space for empty text
+      document.body.appendChild(tempSpan);
+      
+      const width = tempSpan.getBoundingClientRect().width;
+      tempSpan.remove();
+      
+      // Position caret - visibility and display are managed, but not opacity (for blinking)
+      caretEl.style.display = 'block';
+      caretEl.style.visibility = 'visible';
+      caretEl.style.left = `${width}px`;
+      caretEl.style.top = '0.4rem';
+      
+      // Debug mode
+      if (window.location.search.includes('debug=caret')) {
+        console.log('Caret update:', {
+          cursorPos,
+          textBeforeCursor: JSON.stringify(textBeforeCursor),
+          width,
+          left: caretEl.style.left,
+          inputLength: input.value.length
+        });
+      }
     };
 
     const updatePrompt = () => {
@@ -213,7 +254,9 @@ function initRubyConsoles(vm) {
       outputEl.dataset.initialized = 'true';
     }
 
+    // Initialize caret visibility and position
     updatePrompt();
+    updateCaret();
 
     input.addEventListener('input', (e) => {
       const currentValue = input.value;
@@ -230,16 +273,178 @@ function initRubyConsoles(vm) {
       }
       
       ghostEl.innerHTML = highlightRubyInline(input.value || '');
-      updateCaret();
+      requestAnimationFrame(updateCaret);
     });
 
-    input.addEventListener('focus', () => {
-      caretEl.style.visibility = 'visible';
-      updateCaret();
-    });
-
+    input.addEventListener('focus', updateCaret);
     input.addEventListener('blur', () => {
       caretEl.style.visibility = 'hidden';
+    });
+    
+    // Update caret on mouse click
+    input.addEventListener('click', () => {
+      requestAnimationFrame(updateCaret); // Use requestAnimationFrame for smooth updates
+    });
+    
+    // Update caret on selection change (for mouse drag selections)
+    input.addEventListener('select', () => {
+      requestAnimationFrame(updateCaret);
+    });
+    
+    // Update caret position after any key that moves the cursor
+    // This handles arrow keys, Home, End, and any other navigation keys
+    input.addEventListener('keyup', (e) => {
+      // Update caret for any cursor movement key
+      const cursorKeys = ['ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown', 'Home', 'End', 'PageUp', 'PageDown'];
+      if (cursorKeys.includes(e.key) || (e.ctrlKey && ['a', 'e', 'b', 'f'].includes(e.key.toLowerCase()))) {
+        requestAnimationFrame(updateCaret);
+      }
+    });
+    
+    // Also update caret on any selection change (handles mouse clicks, drags, etc.)
+    document.addEventListener('selectionchange', () => {
+      if (document.activeElement === input) {
+        requestAnimationFrame(updateCaret);
+      }
+    });
+
+    // Readline shortcuts and command history
+    input.addEventListener('keydown', (event) => {
+      // Handle Enter for submission (check first to avoid conflicts)
+      if (event.key === 'Enter' && !event.shiftKey && !event.ctrlKey && !event.metaKey) {
+        event.preventDefault();
+        form.dispatchEvent(new Event('submit', { cancelable: true, bubbles: true }));
+        return;
+      }
+      
+      // Readline-style shortcuts (check BEFORE arrow keys to handle Ctrl+Arrow combinations)
+      if (event.ctrlKey || event.metaKey) {
+        switch (event.key.toLowerCase()) {
+          case 'a': // Move to beginning of line
+            event.preventDefault();
+            input.selectionStart = input.selectionEnd = 0;
+            updateCaret();
+            ghostEl.innerHTML = highlightRubyInline(input.value || '');
+            return;
+            
+          case 'e': // Move to end of line
+            event.preventDefault();
+            input.selectionStart = input.selectionEnd = input.value.length;
+            updateCaret();
+            ghostEl.innerHTML = highlightRubyInline(input.value || '');
+            return;
+            
+          case 'k': // Kill (cut) from cursor to end of line
+            event.preventDefault();
+            killRing = input.value.substring(input.selectionStart);
+            input.value = input.value.substring(0, input.selectionStart);
+            ghostEl.innerHTML = highlightRubyInline(input.value || '');
+            updateCaret();
+            return;
+            
+          case 'u': // Kill (cut) from beginning to cursor
+            event.preventDefault();
+            killRing = input.value.substring(0, input.selectionStart);
+            input.value = input.value.substring(input.selectionStart);
+            input.selectionStart = input.selectionEnd = 0;
+            ghostEl.innerHTML = highlightRubyInline(input.value || '');
+            updateCaret();
+            return;
+            
+          case 'y': // Yank (paste) from kill ring
+            event.preventDefault();
+            if (killRing) {
+              const pos = input.selectionStart;
+              input.value = input.value.substring(0, pos) + killRing + input.value.substring(pos);
+              input.selectionStart = input.selectionEnd = pos + killRing.length;
+              ghostEl.innerHTML = highlightRubyInline(input.value || '');
+              updateCaret();
+            }
+            return;
+            
+          case 'w': // Kill word backwards
+            event.preventDefault();
+            const beforeCursor = input.value.substring(0, input.selectionStart);
+            const afterCursor = input.value.substring(input.selectionStart);
+            const wordMatch = beforeCursor.match(/\s*\S+\s*$/);
+            if (wordMatch) {
+              killRing = wordMatch[0];
+              input.value = beforeCursor.substring(0, beforeCursor.length - wordMatch[0].length) + afterCursor;
+              input.selectionStart = input.selectionEnd = beforeCursor.length - wordMatch[0].length;
+              ghostEl.innerHTML = highlightRubyInline(input.value || '');
+              updateCaret();
+            }
+            return;
+            
+          case 'b': // Move backward one character (Ctrl+B)
+            event.preventDefault();
+            if (input.selectionStart > 0) {
+              input.selectionStart = input.selectionEnd = input.selectionStart - 1;
+              updateCaret();
+            }
+            return;
+            
+          case 'f': // Move forward one character (Ctrl+F)
+            event.preventDefault();
+            if (input.selectionStart < input.value.length) {
+              input.selectionStart = input.selectionEnd = input.selectionStart + 1;
+              updateCaret();
+            }
+            return;
+        }
+      }
+      
+      // Command history navigation with Up/Down arrows (only if not modified)
+      if (event.key === 'ArrowUp' && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+        event.preventDefault();
+        if (commandHistory.length === 0) return;
+        
+        // Save current draft when first entering history
+        if (historyIndex === -1) {
+          currentDraft = input.value;
+        }
+        
+        // Move backwards in history
+        if (historyIndex < commandHistory.length - 1) {
+          historyIndex++;
+          input.value = commandHistory[commandHistory.length - 1 - historyIndex];
+          input.selectionStart = input.selectionEnd = input.value.length;
+          ghostEl.innerHTML = highlightRubyInline(input.value || '');
+          updateCaret();
+        }
+        return;
+      }
+      
+      if (event.key === 'ArrowDown' && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+        event.preventDefault();
+        if (historyIndex === -1) return;
+        
+        // Move forward in history
+        historyIndex--;
+        if (historyIndex === -1) {
+          // Restore draft
+          input.value = currentDraft;
+        } else {
+          input.value = commandHistory[commandHistory.length - 1 - historyIndex];
+        }
+        input.selectionStart = input.selectionEnd = input.value.length;
+        ghostEl.innerHTML = highlightRubyInline(input.value || '');
+        updateCaret();
+        return;
+      }
+      
+      // For unmodified arrow keys (left/right only), allow default behavior
+      // The keyup handler will update the caret position
+      if ((event.key === 'ArrowLeft' || event.key === 'ArrowRight') && !event.ctrlKey && !event.metaKey && !event.shiftKey) {
+        // Let browser handle cursor movement, keyup will update our custom caret
+        return;
+      }
+      
+      // For Home/End keys, allow default behavior
+      if ((event.key === 'Home' || event.key === 'End') && !event.ctrlKey && !event.metaKey) {
+        // Let browser handle cursor movement, keyup will update our custom caret
+        return;
+      }
     });
 
     form.addEventListener('submit', event => {
@@ -250,9 +455,16 @@ function initRubyConsoles(vm) {
         return;
       }
 
-      input.value = '';
+      // Add to command history (avoid duplicates)
+      if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== code) {
+        commandHistory.push(code);
+      }
+      // Reset history navigation
+      historyIndex = -1;
+      currentDraft = '';
 
       try {
+        input.value = '';
         const rubyString = JSON.stringify(code);
         const result = vm.eval(`_typophic_eval(${rubyString})`);
         const text = (result && typeof result.toString === 'function')
@@ -506,11 +718,7 @@ function initRubyConsoles(vm) {
               "end",
               "",
               "begin",
-              "  sandbox = Module.new",
-              "  # Explicitly include Kernel so gets/puts/print work in sandbox",
-              "  sandbox.module_eval { include Kernel }",
-              "  ",
-              `  sandbox.module_eval <<-'${heredocTag}'`,
+              `  eval <<-'${heredocTag}'`,
               normalized,
               heredocTag,
               "rescue Exception => e",
