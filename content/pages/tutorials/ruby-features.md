@@ -126,7 +126,7 @@ puts "Go!"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-features"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('#') }"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.size >= 2 && lines.any? { |l| l.include?('Hello') || l.include?('Result') }"><code class="language-ruby">
 # TODO: Write a short Ruby snippet and annotate it with comments
 # explaining each major step.
 </code></pre>
@@ -153,7 +153,7 @@ puts "Result is #{result}"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-features"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[0 \"\" []].all? { |repr| lines.any? { |l| l.include?(repr) } }"><code class="language-ruby">
+     data-test="out = output.string; out.include?('0') && out.include?('true') && out.scan(/true/).size >= 3"><code class="language-ruby">
 # TODO: For each of 0, \"\", and [], compute !!value and print the
 # value and the result to show they are truthy.
 </code></pre>
