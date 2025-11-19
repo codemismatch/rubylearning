@@ -127,7 +127,7 @@ module Typophic
         puts "Watching project directories for changes..."
 
         project_root = Dir.pwd
-        watched_dirs = %w[content themes layouts includes helpers assets data].select { |dir| Dir.exist?(dir) }
+        watched_dirs = %w[content themes layouts includes helpers assets data lib].select { |dir| Dir.exist?(dir) }
         watched_dirs << "."
 
         listener = Listen.to(
@@ -140,7 +140,7 @@ module Typophic
           end
 
           relevant_files = relative_paths.select do |relative|
-            relative.start_with?('content/', 'themes/', 'layouts/', 'includes/', 'helpers/', 'assets/', 'data/') ||
+            relative.start_with?('content/', 'themes/', 'layouts/', 'includes/', 'helpers/', 'assets/', 'data/', 'lib/') ||
               relative == 'config.yml'
           end
 
