@@ -15,12 +15,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763523594">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763523594">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763538450">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763538450">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763523594">
-  <link rel="stylesheet" href="/css/badges.css?v=1763523594">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763538450">
+  <link rel="stylesheet" href="/css/badges.css?v=1763538450">
+  
+  <!-- CodeMirror Import Map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
+      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
+      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
+      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
+      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
+      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
+      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
+      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
+      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
+      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
+      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
+      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
+      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
+      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
+      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
+    }
+  }
+  </script>
+  
+  <!-- ES Module Shims polyfill for older browsers -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -153,7 +179,7 @@ Scope describes where a variable is visible. Ruby keeps the rules straightforwar
 
 Any identifier that starts with <code>$</code> is a **global variable**. It is accessible everywhere in your process and never goes out of scope.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 $app_mode = &quot;demo&quot;
 
 def banner
@@ -170,7 +196,7 @@ Because global state is hard to reason about, most Rubyists limit themselves to 
 
 You can inspect them just like any other variable:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;Running #{$0} (PID #{$$})&quot;
 puts &quot;Load path has #{$:.size} entries&quot;
 </code></pre>
@@ -183,7 +209,7 @@ Locals are far more common than globals. Ruby (MRI) follows three big rules:
 2. Each <code>class</code> or <code>module</code> block introduces a new local scope. Nested definitions get their own scopes too.
 3. Every <code>def</code> creates a brand-new scope. Locals from the outer scope are not automatically visible unless captured in a block or passed in.
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 message = &quot;outside&quot;
 
 class ScopeDemo
@@ -205,7 +231,7 @@ Notice how each structural boundary protects its own copy of <code>message</code
 
 Blocks (<code>do..end</code>, <code>{}</code>) share their parent's local scope:
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 count = 0
 3.times do
   count += 1
@@ -511,12 +537,12 @@ puts "end"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763523594"></script>
-  <script src="/js/prism-ruby.js?v=1763523594"></script>
-  <script src="/js/prism-markdown.js?v=1763523594"></script>
-  <script src="/js/code-enhancements.js?v=1763523594"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763523594"></script>
-  <script src="/js/github-pages-fix.js?v=1763523594"></script>
-  <script src="/js/site.js?v=1763523594"></script>
+  <script src="/js/prism.js?v=1763538450"></script>
+  <script src="/js/prism-ruby.js?v=1763538450"></script>
+  <script src="/js/prism-markdown.js?v=1763538450"></script>
+  <script src="/js/code-enhancements.js?v=1763538450"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763538450"></script>
+  <script src="/js/github-pages-fix.js?v=1763538450"></script>
+  <script src="/js/site.js?v=1763538450"></script>
 </body>
 </html>

@@ -15,12 +15,38 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763523592">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763523592">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763538449">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763538449">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763523592">
-  <link rel="stylesheet" href="/css/badges.css?v=1763523592">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763538449">
+  <link rel="stylesheet" href="/css/badges.css?v=1763538449">
+  
+  <!-- CodeMirror Import Map -->
+  <script type="importmap">
+  {
+    "imports": {
+      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
+      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
+      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
+      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
+      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
+      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
+      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
+      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
+      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
+      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
+      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
+      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
+      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
+      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
+      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
+    }
+  }
+  </script>
+  
+  <!-- ES Module Shims polyfill for older browsers -->
+  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -151,7 +177,7 @@ So far you've been printing output with <code>puts</code>. To make your scripts 
 
 <h3>Sample prompt script</h3>
 
-<pre class="language-ruby"><code class="language-ruby">
+<pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p005methods.rb
 # gets and chomp
 puts "In which city do you stay?"
@@ -477,12 +503,12 @@ end
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763523592"></script>
-  <script src="/js/prism-ruby.js?v=1763523592"></script>
-  <script src="/js/prism-markdown.js?v=1763523592"></script>
-  <script src="/js/code-enhancements.js?v=1763523592"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763523592"></script>
-  <script src="/js/github-pages-fix.js?v=1763523592"></script>
-  <script src="/js/site.js?v=1763523592"></script>
+  <script src="/js/prism.js?v=1763538449"></script>
+  <script src="/js/prism-ruby.js?v=1763538449"></script>
+  <script src="/js/prism-markdown.js?v=1763538449"></script>
+  <script src="/js/code-enhancements.js?v=1763538449"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763538449"></script>
+  <script src="/js/github-pages-fix.js?v=1763538449"></script>
+  <script src="/js/site.js?v=1763538449"></script>
 </body>
 </html>
