@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ Inheritance lets you derive a class from another, sharing behavior while customi
 
 <h3>Defining a hierarchy</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Vehicle
   def start_engine
     &quot;engine on&quot;
@@ -192,13 +176,25 @@ end
 
 puts Motorcycle.new.start_engine  #=&gt; &quot;engine on vroom!&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Use <code>&lt;</code> to specify a superclass.</li></ul><ul><li>Subclasses automatically inherit methods unless you override them.</li></ul><ul><li>Call <code>super</code> (with or without arguments) to invoke the parent implementation.</li></ul>
 
 <h3>Constructor chaining</h3>
 
 <code>initialize</code> follows the same rule: <code>super</code> passes control up the chain.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Animal
   def initialize(name)
     @name = name
@@ -214,6 +210,9 @@ end
 
 puts Dog.new("Benzy", "Labrador").inspect
 </code></pre>
+    </div>
+  </div>
+</div>
 
 If you call <code>super</code> with empty parentheses (<code>super()</code>), Ruby forwards no arguments, giving you precise control.
 
@@ -221,7 +220,16 @@ If you call <code>super</code> with empty parentheses (<code>super()</code>), Ru
 
 Ruby only allows single inheritance, but you can share behavior horizontally with modules. Legacy examples often defined reusable abilities (like <code>Honks</code> or <code>OffRoadable</code>) and mixed them into subclasses:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 module OffRoadable
   def terrain
     "rocks and mud"
@@ -234,19 +242,34 @@ end
 
 puts Jeep.new.terrain  #=> "rocks and mud"
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Modules keep hierarchies shallow while still encouraging code reuse.
 
 <h3>Checking ancestry</h3>
 <ul><li><code>obj.is_a?(ClassOrModule)</code> and its alias <code>kind_of?</code> respect inheritance and mixins.</li></ul><ul><li><code>obj.instance_of?(Class)</code> matches only the exact class--not subclasses.</li></ul>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 dog = Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;)
 
 puts dog.is_a?(Animal)        # true
 puts dog.instance_of?(Animal) # false
 puts dog.instance_of?(Dog)    # true
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Use the right predicate for the question you're asking.
 
@@ -259,7 +282,16 @@ Next: continue to Flow Control & Collections to exercise these hierarchies insid
 
 <p><strong>Goal:</strong> Extend a <code>Vehicle</code> hierarchy with subclasses that override <code>start_engine</code> and call <code>super</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
      data-practice-index="0"
@@ -268,6 +300,9 @@ Next: continue to Flow Control & Collections to exercise these hierarchies insid
 # Car and Motorcycle that override start_engine while calling super.
 # Instantiate each and call start_engine.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
@@ -304,7 +339,16 @@ Motorcycle.new.start_engine
 
 <p><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
      data-practice-index="1"
@@ -312,6 +356,9 @@ Motorcycle.new.start_engine
 # TODO: Build a small example that shows how super and super() behave
 # differently when overriding initialize, and print labelled output.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
@@ -347,7 +394,16 @@ WithoutArgs.new("ignored")
 
 <p><strong>Goal:</strong> Mix a module into a subset of subclasses and confirm <code>is_a?</code> reflects the mixin.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
      data-practice-index="2"
@@ -355,6 +411,9 @@ WithoutArgs.new("ignored")
 # TODO: Define a Flyable module, include it in one subclass, and print
 # a line proving that instance.is_a?(Flyable) is true.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
@@ -381,7 +440,16 @@ puts "is a Flyable? #{plane.is_a?(Flyable)}"
 
 <p><strong>Goal:</strong> Compare <code>instance_of?</code> vs <code>is_a?</code> and see how strict type checks affect control flow.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
      data-practice-index="3"
@@ -389,6 +457,9 @@ puts "is a Flyable? #{plane.is_a?(Flyable)}"
 # TODO: Create a base class and subclass, instantiate the subclass,
 # and print the results of instance_of? and is_a? checks.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
@@ -594,12 +665,12 @@ puts "is_a? Animal: #{dog.is_a?(Animal)}"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

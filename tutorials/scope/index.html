@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562710">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562710">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576648">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576648">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562710">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562710">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576648">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576648">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -179,7 +154,16 @@ Scope describes where a variable is visible. Ruby keeps the rules straightforwar
 
 Any identifier that starts with <code>$</code> is a **global variable**. It is accessible everywhere in your process and never goes out of scope.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 $app_mode = &quot;demo&quot;
 
 def banner
@@ -188,6 +172,9 @@ end
 
 puts banner           #=&gt; &quot;Running in demo mode&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Because global state is hard to reason about, most Rubyists limit themselves to the built-in globals Ruby provides automatically.
 
@@ -196,10 +183,22 @@ Because global state is hard to reason about, most Rubyists limit themselves to 
 
 You can inspect them just like any other variable:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;Running #{$0} (PID #{$$})&quot;
 puts &quot;Load path has #{$:.size} entries&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Local scope rules</h3>
 
@@ -209,7 +208,16 @@ Locals are far more common than globals. Ruby (MRI) follows three big rules:
 2. Each <code>class</code> or <code>module</code> block introduces a new local scope. Nested definitions get their own scopes too.
 3. Every <code>def</code> creates a brand-new scope. Locals from the outer scope are not automatically visible unless captured in a block or passed in.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 message = &quot;outside&quot;
 
 class ScopeDemo
@@ -224,6 +232,9 @@ end
 ScopeDemo.print_messages  # prints &quot;inside method&quot;
 puts message              # prints &quot;outside&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Notice how each structural boundary protects its own copy of <code>message</code>.
 
@@ -231,13 +242,25 @@ Notice how each structural boundary protects its own copy of <code>message</code
 
 Blocks (<code>do..end</code>, <code>{}</code>) share their parent's local scope:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 count = 0
 3.times do
   count += 1
 end
 puts count #=&gt; 3
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Method definitions (<code>def</code>) always start fresh, so read/write outer locals via instance variables, accessors, or closures (e.g., lambdas) when needed.
 
@@ -250,7 +273,16 @@ Next: Apply these scope rules as you branch and iterate inside Flow Control & Co
 
 <p><strong>Goal:</strong> Print <code>$0</code>, <code>$$</code>, and the size of <code>$:</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/scope"
      data-practice-index="0"
@@ -258,6 +290,9 @@ Next: Apply these scope rules as you branch and iterate inside Flow Control & Co
 # TODO: Sketch a small script that prints $0, $$, and $:.size with
 # labels so you can inspect them on your machine.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/scope"
@@ -274,7 +309,16 @@ puts "$:.size: #{$:.size}"
 
 <p><strong>Goal:</strong> Create nested <code>class</code>/<code>module</code> definitions and confirm each maintains its own <code>message</code> local.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/scope"
      data-practice-index="1"
@@ -282,6 +326,9 @@ puts "$:.size: #{$:.size}"
 # TODO: Print an example of nested definitions that each use a
 # different message local variable.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/scope"
@@ -301,7 +348,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Compare a block's behaviour with a method definition using similar code.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/scope"
      data-practice-index="2"
@@ -309,6 +365,9 @@ puts "end"
 # TODO: Show a block that increments an outer local and a method that
 # cannot modify it directly, printing both counts.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/scope"
@@ -325,7 +384,16 @@ puts "def bump(count); count += 1; end # method gets a copy"
 
 <p><strong>Goal:</strong> Refactor a small script to replace a global variable with an instance variable or dependency injection.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/scope"
      data-practice-index="3"
@@ -333,6 +401,9 @@ puts "def bump(count); count += 1; end # method gets a copy"
 # TODO: Print before/after pseudo-code that replaces a global variable
 # with an instance variable.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/scope"
@@ -537,12 +608,12 @@ puts "end"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562710"></script>
-  <script src="/js/prism-ruby.js?v=1763562710"></script>
-  <script src="/js/prism-markdown.js?v=1763562710"></script>
-  <script src="/js/code-enhancements.js?v=1763562710"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562710"></script>
-  <script src="/js/github-pages-fix.js?v=1763562710"></script>
-  <script src="/js/site.js?v=1763562710"></script>
+  <script src="/js/prism.js?v=1763576648"></script>
+  <script src="/js/prism-ruby.js?v=1763576648"></script>
+  <script src="/js/prism-markdown.js?v=1763576648"></script>
+  <script src="/js/code-enhancements.js?v=1763576648"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576648"></script>
+  <script src="/js/github-pages-fix.js?v=1763576648"></script>
+  <script src="/js/site.js?v=1763576648"></script>
 </body>
 </html>

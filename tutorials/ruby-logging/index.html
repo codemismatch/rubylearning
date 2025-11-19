@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,16 +152,37 @@ Logging surfaces what your program is doing without halting execution. Ruby ship
 
 <h3>Quick-and-dirty logging</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;[DEBUG] Starting import...&quot;
 File.open(&quot;app.log&quot;, &quot;a&quot;) { |f| f.puts &quot;#{Time.now} Task finished&quot; }
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Useful for tiny scripts, but you'll quickly want log levels, formatting, and rotation--enter <code>Logger</code>.
 
 <h3>Using stdlib <code>Logger</code></h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require &quot;logger&quot;
 
 logger = Logger.new($stdout)            # or &quot;log/app.log&quot;
@@ -196,17 +192,32 @@ logger.info(&quot;Booting service&quot;)
 logger.warn(&quot;Slow response: #{duration}s&quot;)
 logger.error(&quot;Unhandled exception&quot;, exception: e)
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Pass a file path, IO, or even <code>Logger.new("log/app.log", 10, 1024 * 1024)</code> for rotation (10 files, 1MB each).</li></ul><ul><li>Format messages by setting <code>logger.formatter</code>.</li></ul>
 
 <h3>Structured context</h3>
 
 Wrap log calls in helper methods or use keyword arguments:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def log_request(logger, action:, status:)
   logger.info(&quot;[#{action}] status=#{status}&quot;)
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Best practices</h3>
 <ul><li>Pick consistent levels so operators know what to grep.</li></ul><ul><li>Avoid logging secrets; redact tokens/passwords.</li></ul><ul><li>Combine with exception handling: rescue errors, log them, then re-raise if needed.</li></ul>
@@ -220,7 +231,16 @@ Next: keep building in Flow Control & Collections, now with observability baked 
 
 <p><strong>Goal:</strong> Show how you would construct a rotating logger.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
      data-practice-index="0"
@@ -228,6 +248,9 @@ Next: keep building in Flow Control & Collections, now with observability baked 
 # TODO: Print the Logger.new call that configures rotation for
 # log/dev.log with a few rotated files and a max size.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
@@ -242,7 +265,16 @@ puts 'Logger.new("log/dev.log", 3, 1024 * 1024)'
 
 <p><strong>Goal:</strong> Create a helper that logs start/end times of a block.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
      data-practice-index="1"
@@ -250,6 +282,9 @@ puts 'Logger.new("log/dev.log", 3, 1024 * 1024)'
 # TODO: Print an example helper that logs before and after running a
 # block using logger.info.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
@@ -268,7 +303,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Experiment with a custom <code>logger.formatter</code> that prepends timestamps and thread IDs.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
      data-practice-index="2"
@@ -276,6 +320,9 @@ puts "end"
 # TODO: Print a formatter assignment that includes time and thread id
 # in each log line.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
@@ -292,7 +339,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Pair a <code>begin</code>/<code>rescue</code> block with logging to capture exception messages before re-raising.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
      data-practice-index="3"
@@ -300,6 +356,9 @@ puts "end"
 # TODO: Print a snippet where an exception is logged and then
 # re-raised to bubble up.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
@@ -504,12 +563,12 @@ puts "end"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

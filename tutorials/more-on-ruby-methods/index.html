@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,20 +152,53 @@ If objects are the nouns of Ruby, methods are the verbs. Every method runs in th
 
 <h3>Explicit vs implicit receivers</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 &quot;ruby&quot;.upcase    # receiver is the string literal
 upcase           # same call, but the receiver is implicit
 </code></pre>
+    </div>
+  </div>
+</div>
 
 When you omit the receiver, Ruby sends the message to the object referenced by <code>self</code>. At the top level of a script, <code>self</code> defaults to a special object named <code>main</code> that Ruby creates to represent your program.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts self        #=&gt; main
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Inside classes and modules, <code>self</code> changes depending on where you are:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 class Greeter
   puts &quot;Class body self: #{self}&quot;  # Greeter
 
@@ -201,6 +209,9 @@ end
 
 Greeter.new.greet
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Understanding <code>self</code> helps you decide whether to call helper methods directly, qualify them with <code>self.</code>, or reach out to another object entirely.
 
@@ -208,25 +219,49 @@ Understanding <code>self</code> helps you decide whether to call helper methods 
 
 Everything in Ruby is an object, so every expression you write ends up sending messages:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 42.to_s           # Integer -&gt; String
 [1, 2, 3].length  # Array -&gt; Integer
 ruby = &quot;Ruby&quot;
 ruby.upcase!
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Dot notation (<code>object.method</code>) makes the receiver obvious.</li></ul><ul><li>Bang methods such as <code>upcase!</code> mutate the receiver; their non-bang counterparts return a new object.</li></ul><ul><li>Predicate methods end with <code>?</code> (<code>empty?</code>, <code>include?</code>) and return true/false.</li></ul>
 
 <h3>Inspecting the current object</h3>
 
 Use <code>self</code> whenever you need to check or pass the current receiver:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def log_self
   puts &quot;Currently running inside #{self.class}: #{self.inspect}&quot;
 end
 
 log_self  # top-level =&gt; main
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Later chapters dive deeper into defining your own methods, but for now remember:
 
@@ -243,7 +278,16 @@ Next: apply these ideas in Flow Control & Collections, where you'll combine meth
 
 <p><strong>Goal:</strong> Print <code>self</code> at the top level, inside a class body, and inside an instance method.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="0"
@@ -251,6 +295,9 @@ Next: apply these ideas in Flow Control & Collections, where you'll combine meth
 # TODO: Print self at the top level, inside a class body, and inside
 # an instance method, labelling each line so you can see the context.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="0"></div>
@@ -274,7 +321,16 @@ DemoSelf.new.who_am_i
 
 <p><strong>Goal:</strong> Rewrite explicit receiver calls to use implicit receivers and confirm they still work.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="1"
@@ -283,6 +339,9 @@ DemoSelf.new.who_am_i
 # receiver (self.helper) and once without, printing labelled output
 # for both calls.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="1"></div>
@@ -301,7 +360,16 @@ puts "implicit: #{helper}"
 
 <p><strong>Goal:</strong> Experiment with predicate (<code>?</code>) and bang (<code>!</code>) method variants.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="2"
@@ -309,6 +377,9 @@ puts "implicit: #{helper}"
 # TODO: Use at least one predicate method and one bang method, and
 # print before/after states to show how they differ.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="2"></div>
@@ -328,7 +399,16 @@ puts "after upcase!: #{name}"
 
 <p><strong>Goal:</strong> Define a helper method, call it with and without an explicit receiver, and log <code>self</code> along the way.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="3"
@@ -337,6 +417,9 @@ puts "after upcase!: #{name}"
 # self inside it, then call the helper with both explicit and
 # implicit receivers, printing labelled lines.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="3"></div>
@@ -540,12 +623,12 @@ self.helper_with_self("explicit")
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

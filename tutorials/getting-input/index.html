@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ So far you've been printing output with <code>puts</code>. To make your scripts 
 
 <h3>Sample prompt script</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p005methods.rb
 # gets and chomp
 puts "In which city do you stay?"
@@ -185,6 +169,9 @@ STDOUT.flush
 city = gets.chomp
 puts "The city is #{city}"
 </code></pre>
+    </div>
+  </div>
+</div>
 
 What's happening:
 <ul><li><code>STDOUT</code> is the global constant for the program's standard output stream.</li></ul><ul><li><code>STDOUT.flush</code> forces Ruby to push any buffered output to the console immediately, ensuring the prompt appears before <code>gets</code> blocks. You can skip this if you set <code>STDOUT.sync = true</code> once, which enables auto-flushing.</li></ul><ul><li><code>gets</code> reads a line from standard input (the keyboard) and returns it as a string including the trailing newline.</li></ul><ul><li><code>chomp</code> removes the trailing newline so string concatenation/interpolation behaves as expected.</li></ul>
@@ -202,7 +189,16 @@ Up next: move into Flow Control & Collections to react to the data you just gath
 
 <p><strong>Goal:</strong> Request both city and country from the user and print a combined sentence.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="0"
@@ -212,6 +208,9 @@ Up next: move into Flow Control & Collections to react to the data you just gath
 # Hint:
 #   - The test harness will call sandbox.main with simulated input.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="0"></div>
@@ -233,7 +232,16 @@ end
 
 <p><strong>Goal:</strong> Toggle <code>STDOUT.sync = true</code> and rely on implicit flushing.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="1"
@@ -242,6 +250,9 @@ end
 # without calling flush explicitly, read a value with gets, and then
 # print a confirmation message.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="1"></div>
@@ -263,7 +274,16 @@ end
 
 <p><strong>Goal:</strong> Capture numeric input and use it in a calculation.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="2"
@@ -272,6 +292,9 @@ end
 # an integer, and use it in a simple calculation (for example,
 # doubling it). Print the total.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="2"></div>
@@ -291,7 +314,16 @@ end
 
 <p><strong>Goal:</strong> Experiment mentally with how piped input behaves compared to keyboard input.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="3"
@@ -300,6 +332,9 @@ end
 # might come from a pipe) and prints a message that mentions piped
 # input.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="3"></div>
@@ -503,12 +538,12 @@ end
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

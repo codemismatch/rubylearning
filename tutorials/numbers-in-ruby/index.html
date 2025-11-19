@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -180,16 +155,37 @@ Ruby treats everything as an object, including numbers. Integers live under <cod
 
 Ruby infers the class from the literal:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 42.class    #=&gt; Integer
 3.14.class  #=&gt; Float
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Quick arithmetic tour</h3>
 
 Here's the modern take on Satish's <code>p002rubynumbers.rb</code>. Mix integers and floats to see how Ruby changes the result type.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # numbers.rb
 =begin
 Ruby Numbers
@@ -206,6 +202,9 @@ puts 3 / 2         # 1 (integer division)
 puts 10 - 11       # -1
 puts 1.5 / 2.6     # 0.5769230769230769 (float division)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 When both operands are integers, Ruby performs integer division. Add one float (or call <code>to_f</code>) to get a float result.
 
@@ -213,36 +212,81 @@ When both operands are integers, Ruby performs integer division. Add one float (
 
 Ruby's modulo operator <code>%</code> follows the sign of the second operand. That's friendlier than the C/Java approach because you can predict outcomes for negative numbers:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts 5 % 3    # 2
 puts -5 % 3   # 1
 puts 5 % -3   # -1
 puts -5 % -3  # -2
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Boolean operators: <code>||</code> vs <code>or</code></h3>
 
 Both operators return the first truthy operand, or the second when the first is <code>nil</code>/<code>false</code>. Their only difference is precedence.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts nil || 2008   # 2008
 puts false || 2008 # 2008
 puts &quot;ruby&quot; || 2008 # &quot;ruby&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Use <code>||</code> inside expressions and assignments because it has higher precedence.</li></ul><ul><li>Use the English keywords (<code>or</code>, <code>and</code>) when stringing together whole clauses; they read nicely and have lower precedence than assignment.</li></ul>
 
 Rubyists often combine <code>||</code> with assignment to set defaults:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 @token = @token || &quot;default value&quot;
 @token ||= &quot;default value&quot; # idiomatic shorthand
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Short-circuit assignment chains</h3>
 
 Low-precedence keywords make it possible to run a series of assignments until one returns a falsey value:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def capture(value)
   value
 end
@@ -255,6 +299,9 @@ end
 
 p result # nil because c is false
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Swap <code>and</code> for <code>&&</code> in the snippet above and the assignments no longer behave as intended, because <code>&&</code> binds tighter than <code>=</code>. Use the keyword when you specifically want the assignments to run left-to-right.
 
@@ -265,7 +312,16 @@ Swap <code>and</code> for <code>&&</code> in the snippet above and the assignmen
 
 <p><strong>Goal:</strong> Print examples that show how integer and float division differ.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="0"
@@ -276,6 +332,9 @@ Swap <code>and</code> for <code>&&</code> in the snippet above and the assignmen
 #   - Try expressions like 7 / 2 and 7.0 / 2.
 #   - Print each result on its own line.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="0"></div>
@@ -293,7 +352,16 @@ puts "7.0 / 2 = #{float_div}"
 
 <p><strong>Goal:</strong> Experiment with the <code>%</code> operator using positive and negative operands.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="1"
@@ -304,6 +372,9 @@ puts "7.0 / 2 = #{float_div}"
 #   - Try 10 % 3, -10 % 3, and 10 % -3.
 #   - Print each expression and its result.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="1"></div>
@@ -319,7 +390,16 @@ puts "10 % -3  = #{10 % -3}"
 
 <p><strong>Goal:</strong> Use the <code>||=</code> operator to set default configuration.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="2"
@@ -331,6 +411,9 @@ puts "10 % -3  = #{10 % -3}"
 #   - Use ||= to assign a default only when the value is nil.
 #   - Print the final configuration so you can see the result.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="2"></div>
@@ -351,7 +434,16 @@ puts "host: #{host}"
 
 <p><strong>Goal:</strong> Observe how <code>and</code> and <code>&&</code> differ when used with assignments.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="3"
@@ -362,6 +454,9 @@ puts "host: #{host}"
 #   - Try patterns like: value = true and other = false
 #   - Repeat with && and print the assigned values.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="3"></div>
@@ -570,12 +665,12 @@ Next up: apply these number skills while branching and iterating through collect
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

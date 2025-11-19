@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -199,7 +174,16 @@ Continue to <a href="/tutorials/rails-routes-controllers/">Chapter R2: Routes & 
 
 <p><strong>Goal:</strong> Think through what it means for <code>rails db:prepare</code> to succeed on your machine.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
      data-practice-index="0"
@@ -208,6 +192,9 @@ Continue to <a href="/tutorials/rails-routes-controllers/">Chapter R2: Routes & 
 # `rails db:prepare` to work (database running, config correct, etc.).
 # This script doesn't run Rails, but you can document the steps here.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
      data-practice-index="0"></div>
@@ -224,7 +211,16 @@ puts "- The app's gems installed"
 
 <p><strong>Goal:</strong> Note differences you might see when swapping Tailwind for another CSS framework.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
      data-practice-index="1"
@@ -233,6 +229,9 @@ puts "- The app's gems installed"
 # Tailwind for another CSS framework (class names, build pipeline,
 # design tokens, etc.).
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
      data-practice-index="1"></div>
@@ -247,7 +246,16 @@ puts "Swapping frameworks can change class names and build tooling."
 
 <p><strong>Goal:</strong> Plan the first Git commit for a new Rails app.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
      data-practice-index="2"
@@ -255,6 +263,9 @@ puts "Swapping frameworks can change class names and build tooling."
 # TODO: Describe the Git commands you would use to initialise a
 # repository and commit the pristine app.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/rails-project-setup"
      data-practice-index="2"></div>
@@ -448,12 +459,12 @@ puts "git commit -m 'Initial Rails app'"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

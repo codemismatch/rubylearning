@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562710">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562710">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576648">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576648">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562710">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562710">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576648">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576648">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ Defining a method is as simple as wrapping logic between <code>def</code> and <c
 
 <h3>Basic method shapes</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p008mymethods.rb
 # Methods that act as queries often end with ?
 # Bang methods (!) signal a dangerous or mutating variant
@@ -198,12 +182,24 @@ puts hello
 puts hello1("Satish")
 puts hello2 "Talim"
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Default arguments and interpolation</h3>
 
 Ruby lets you set default values so callers can omit arguments:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p009mymethods1.rb
 def mtd(arg1="Dibya", arg2="Shashank", arg3="Shashank")
   "#{arg1}, #{arg2}, #{arg3}."
@@ -212,12 +208,27 @@ end
 puts mtd
 puts mtd("Ruby")
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Interpolation (<code>#{ ... }</code>) evaluates the expression and inserts the result into the surrounding string:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 puts &quot;100 * 5 = #{100 * 5}&quot;  # =&gt; 100 * 5 = 500
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Ruby still lacks a way to skip the first argument and only override later ones, so order matters.
 
@@ -225,7 +236,16 @@ Ruby still lacks a way to skip the first argument and only override later ones, 
 
 Use <code>alias new_name old_name</code> to keep the original implementation before redefining it:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p010aliasmtd.rb
 def oldmtd
   "old method"
@@ -240,6 +260,9 @@ end
 puts oldmtd   # => "old improved method"
 puts newmtd   # => "old method"
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Aliases reference a copy of the original method body, so the new name keeps the old behavior even after redefinition.
 
@@ -247,7 +270,16 @@ Aliases reference a copy of the original method body, so the new name keeps the 
 
 The splat operator collects any number of arguments into an array:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p011vararg.rb
 def foo(*values)
   values.inspect
@@ -256,10 +288,22 @@ end
 puts foo("hello", "world")  # ["hello", "world"]
 puts foo                     # []
 </code></pre>
+    </div>
+  </div>
+</div>
 
 You can mix splats with required parameters--Ruby pushes arguments left-to-right--so defaults can reference earlier values:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p012mtdstack.rb
 def mtd(a = 99, b = a + 1)
   [a, b]
@@ -267,12 +311,24 @@ end
 
 puts mtd.inspect  # [99, 100]
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Mutating arguments</h3>
 
 Choose whether your methods mutate the objects you receive:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def downer(str)
   str.downcase
 end
@@ -288,6 +344,9 @@ end
 downer!(name)
 puts name  # hello (mutated)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Following Ruby conventions, the bang version (<code>downer!</code>) makes the destructive behavior explicit.
 
@@ -300,7 +359,16 @@ Next: move into Flow Control & Collections to loop over data with the methods yo
 
 <p><strong>Goal:</strong> Create a method that greets users with optional first and last name arguments.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
      data-practice-index="0"
@@ -308,6 +376,9 @@ Next: move into Flow Control & Collections to loop over data with the methods yo
 # TODO: Define greet(first = \"Guest\", last = nil) and print at least
 # one greeting that uses defaults and one that passes both names.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
@@ -325,7 +396,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Alias a helper method, redefine the original, and ensure both behaviours remain available.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
      data-practice-index="1"
@@ -333,6 +413,9 @@ puts "end"
 # TODO: Sketch a method, alias it, then redefine the original while
 # the alias retains the earlier behaviour.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
@@ -349,7 +432,16 @@ puts "def hello; 'hello'; end"
 
 <p><strong>Goal:</strong> Write a <code>log(*messages)</code> method that joins an arbitrary number of arguments and prints them.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
      data-practice-index="2"
@@ -357,6 +449,9 @@ puts "def hello; 'hello'; end"
 # TODO: Define log(*messages) to join its arguments with spaces and
 # print a single line.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
@@ -373,7 +468,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Experiment with pure vs bang-style methods to see how mutating arguments affects callers.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
      data-practice-index="3"
@@ -381,6 +485,9 @@ puts "end"
 # TODO: Print a small example of a pure helper that returns a new
 # value and a bang-style helper that mutates an argument.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
@@ -585,12 +692,12 @@ puts "end"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562710"></script>
-  <script src="/js/prism-ruby.js?v=1763562710"></script>
-  <script src="/js/prism-markdown.js?v=1763562710"></script>
-  <script src="/js/code-enhancements.js?v=1763562710"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562710"></script>
-  <script src="/js/github-pages-fix.js?v=1763562710"></script>
-  <script src="/js/site.js?v=1763562710"></script>
+  <script src="/js/prism.js?v=1763576648"></script>
+  <script src="/js/prism-ruby.js?v=1763576648"></script>
+  <script src="/js/prism-markdown.js?v=1763576648"></script>
+  <script src="/js/code-enhancements.js?v=1763576648"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576648"></script>
+  <script src="/js/github-pages-fix.js?v=1763576648"></script>
+  <script src="/js/site.js?v=1763576648"></script>
 </body>
 </html>

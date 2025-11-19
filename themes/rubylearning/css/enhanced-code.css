@@ -231,13 +231,14 @@ pre.language-shell::before {
   margin: 0;
   padding: 1rem;
   min-height: 150px;
-  /* Allow code windows to expand to show all content - no max-height */
+  /* Keep code windows compact; use scrolling for very long snippets */
+  max-height: 360px;
   height: auto;
   background: #272822;
   color: #f8f8f2;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   border-radius: 4px;
-  overflow: auto; /* Allow scrolling if needed, but no height restriction */
+  overflow: auto;
   pointer-events: none;
   line-height: 1.5;
 }

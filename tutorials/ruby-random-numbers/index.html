@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -178,15 +153,36 @@ Ruby ships with a pseudo-random number generator exposed via <code>rand</code>. 
 <h3>Basic <code>rand</code> usage</h3>
 <ul><li><code>rand</code> with no arguments returns a float between <code>0.0</code> (inclusive) and <code>1.0</code> (exclusive).</li></ul><ul><li><code>rand(n)</code> with an integer argument returns an integer between <code>0</code> (inclusive) and <code>n</code> (exclusive).</li></ul>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 rand          #=&gt; 0.731245...
 rand(5)       #=&gt; 0, 1, 2, 3, or 4
 rand(1.5)     # Ruby converts the argument to an integer, so this behaves like rand(1)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Example: buzzword generator</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p026phrase.rb
 word_list_one = %w[24/7 multi-Tier 30,000-foot B-to-B win-win front-end web-based pervasive smart six-sigma critical-path dynamic]
 word_list_two = %w[empowered sticky value-added oriented centric distributed clustered branded outside-the-box positioned networked focused leveraged aligned targeted shared cooperative accelerated]
@@ -199,6 +195,9 @@ rand3 = rand(word_list_three.length)
 phrase = "#{word_list_one[rand1]} #{word_list_two[rand2]} #{word_list_three[rand3]}"
 puts phrase
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Each call to <code>rand(list.length)</code> picks a valid index, so the script prints a different buzzword combo each run.
 
@@ -211,13 +210,25 @@ Next: head back to Flow Control & Collections, where you'll combine conditionals
 
 <p><strong>Goal:</strong> Print ten floats from <code>rand</code> and confirm they're between 0.0 and 1.0.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
      data-practice-index="0"
      data-test="out = output.string; lines = out.lines.map(&:strip); lines.size >= 10"><code class="language-ruby">
 # TODO: Use a loop to print ten calls to rand.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
@@ -232,7 +243,16 @@ Next: head back to Flow Control & Collections, where you'll combine conditionals
 
 <p><strong>Goal:</strong> Roll a virtual die using <code>rand(6) + 1</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
      data-practice-index="1"
@@ -240,6 +260,9 @@ Next: head back to Flow Control & Collections, where you'll combine conditionals
 # TODO: Print the result of rand(6) + 1 a few times to simulate dice
 # rolls.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
@@ -254,7 +277,16 @@ Next: head back to Flow Control & Collections, where you'll combine conditionals
 
 <p><strong>Goal:</strong> Use <code>rand(range_size)</code> to select random elements from an array.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
      data-practice-index="2"
@@ -262,6 +294,9 @@ Next: head back to Flow Control & Collections, where you'll combine conditionals
 # TODO: Define an array of choices and use rand(array.size) to select
 # a random element, printing the chosen value.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
@@ -278,7 +313,16 @@ puts "chosen: #{choices[index]}"
 
 <p><strong>Goal:</strong> Seed the RNG with <code>srand(1234)</code> and observe a repeating sequence.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
      data-practice-index="3"
@@ -286,6 +330,9 @@ puts "chosen: #{choices[index]}"
 # TODO: Print a snippet that shows calling srand(1234) and then rand a
 # few times, noting that repeating the seed repeats the sequence.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
@@ -486,12 +533,12 @@ puts "3.times { puts rand }"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

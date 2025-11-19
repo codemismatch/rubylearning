@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ Ruby doesn't support traditional method overloading (same name, different signat
 
 <h3>Optional and default arguments</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def greet(name = &quot;friend&quot;)
   &quot;Hello, #{name}!&quot;
 end
@@ -185,10 +169,22 @@ end
 puts greet          #=&gt; &quot;Hello, friend!&quot;
 puts greet(&quot;Satish&quot;) #=&gt; &quot;Hello, Satish!&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Variable arguments with <code>*args</code></h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def sum(*numbers)
   numbers.inject(0, :+)
 end
@@ -196,18 +192,33 @@ end
 puts sum            #=> 0
 puts sum(1, 2, 3)   #=> 6
 </code></pre>
+    </div>
+  </div>
+</div>
 
 You can inspect <code>numbers.length</code> or the class of each argument to branch as needed.
 
 <h3>Keyword arguments</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def send_email(to:, subject:, body: &quot;Hello&quot;)
   # ...
 end
 
 send_email(to: &quot;team@example.com&quot;, subject: &quot;Reminder&quot;)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Keyword args make call sites self-documenting and avoid argument-order bugs.
 
@@ -223,7 +234,16 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
 
 <p><strong>Goal:</strong> Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="0"
@@ -231,6 +251,9 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
 # TODO: Define log(message, level = :info) and print a line showing
 # both the default and an explicit level being used.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
@@ -249,7 +272,16 @@ puts "log('danger', :error)"
 
 <p><strong>Goal:</strong> Build <code>rectangle_area(*args)</code> that accepts either two numbers or a hash of options.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="1"
@@ -257,6 +289,9 @@ puts "log('danger', :error)"
 # TODO: Sketch a rectangle_area(*args) implementation that accepts
 # width/height as either positional args or a hash.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
@@ -279,7 +314,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Use keyword arguments with defaults to simulate constructor overloading.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="2"
@@ -287,6 +331,9 @@ puts "end"
 # TODO: Print a small class whose initialize method uses keyword
 # arguments with defaults to support multiple call styles.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
@@ -306,7 +353,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn't make sense.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="3"
@@ -314,6 +370,9 @@ puts "end"
 # TODO: Print an example of checking args.length and raising
 # ArgumentError for unsupported combinations.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
@@ -515,12 +574,12 @@ puts "end"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

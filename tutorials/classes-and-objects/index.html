@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562707">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562707">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576645">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576645">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562707">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562707">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576645">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576645">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -179,7 +154,16 @@ Ruby classes describe how objects behave. Lean on initializer methods, attribute
 
 So far, the procedural style of programming was used to write our programs. Programming in the object-oriented style allows classes and objects to be the center of the design:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Person
   def initialize(name, age)
     @name = name
@@ -201,10 +185,22 @@ person1 = Person.new(&quot;Alice&quot;, 25)
 person1.introduce
 person1.have_birthday
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="classes">Defining classes</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Course
   attr_reader :title, :chapters
 
@@ -227,10 +223,22 @@ ruby_course.add_chapter(&quot;Meet Ruby&quot;)
 ruby_course.add_chapter(&quot;Flow control&quot;)
 puts ruby_course.describe
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="instance-vars">Instance Variables and Methods</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class BankAccount
   def initialize(account_holder, initial_balance = 0)
     @account_holder = account_holder
@@ -261,10 +269,22 @@ account.deposit(50)
 account.withdraw(25)
 puts &quot;Final balance: $#{account.balance}&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="attribute-accessors">Attribute Accessors</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Book
   # attr_reader :title, :author - creates getter methods only
   # attr_writer :title, :author - creates setter methods only
@@ -287,12 +307,24 @@ puts book.title      # Getter method
 # book.pages = 500   # This would cause an error since we only have a reader for pages
 puts book.pages      # 400
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="inheritance">Inheritance</h3>
 
 Inheritance is a relation between two classes. We know that all cats are mammals, and all mammals are animals. The benefit of inheritance is that the derived classes are a subset of the base class:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Animal
   def initialize(name)
     @name = name
@@ -333,12 +365,24 @@ cat = Cat.new(&quot;Whiskers&quot;)
 cat.eat      # Inherited method
 cat.meow     # Cat&#39;s own method
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="method-overriding">Method Overriding</h3>
 
 Method overriding, in object oriented programming, is a language feature that allows a subclass to provide a specific implementation of a method that is already provided by one of its superclasses:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Shape
   def area
     &quot;Area of shape&quot;
@@ -372,12 +416,24 @@ puts &quot;Rectangle area: #{rect.area}&quot;
 circle = Circle.new(4)
 puts &quot;Circle area: #{circle.area}&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="access-control">Access Control</h3>
 
 The only easy way to change an object's state in Ruby is by calling one of its methods. Control access to the methods:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class BankAccount
   def initialize(account_number, balance = 0)
     @account_number = account_number
@@ -412,12 +468,24 @@ account.deposit(500)
 # account.show_balance  # This would cause an error since show_balance is private
 account.check_balance(&quot;secret123&quot;)  # This works as check_balance calls show_balance internally
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="open-classes">Ruby Open Classes</h3>
 
 In Ruby, classes are never closed: you can always add methods to an existing class. This applies to the classes you write as well as the standard library classes:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # Adding a method to the existing String class
 class String
   def palindrome?
@@ -442,12 +510,24 @@ end
 
 puts 5.factorial # 120
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="duck-typing">Duck Typing</h3>
 
 In Ruby, we rely less on the type (or class) of an object and more on its capabilities. Duck Typing means an object type is defined by what it does, not what it is:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Duck
   def speak
     puts &quot;Quack!&quot;
@@ -479,6 +559,9 @@ dog = Dog.new
 make_it_speak_and_swim.call(duck) # Works because Duck has speak and swim methods
 make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Practice checklist</h3>
 <ul><li>Create a class with instance variables and methods</li></ul><ul><li>Practice inheritance by creating parent and child classes</li></ul><ul><li>Implement method overriding</li></ul><ul><li>Use attribute accessors appropriately</li></ul><ul><li>Try extending existing Ruby classes with new methods</li></ul><ul><li>Experiment with access control using private/protected methods</li></ul>
@@ -487,7 +570,16 @@ make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
 
 <p><strong>Goal:</strong> Create a class with instance variables and methods.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="0"
@@ -501,6 +593,9 @@ make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
 # Define your class in this block; the test harness will try to
 # instantiate sandbox::Person.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="0"></div>
@@ -526,7 +621,16 @@ person.describe
 
 <p><strong>Goal:</strong> Create a parent and child class that share behaviour via inheritance.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="1"
@@ -537,6 +641,9 @@ person.describe
 #   - Use &lt; to declare inheritance: class Car &lt; Vehicle
 #   - Instantiate both and call their methods.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="1"></div>
@@ -571,7 +678,16 @@ car.honk
 
 <p><strong>Goal:</strong> Override a method in a subclass.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="2"
@@ -582,6 +698,9 @@ car.honk
 #   - Define an Animal class with a #sleep method.
 #   - Define a Cat subclass that overrides #sleep.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="2"></div>
@@ -612,7 +731,16 @@ cat.sleep
 
 <p><strong>Goal:</strong> Use attribute accessors to create getters and setters.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="3"
@@ -622,6 +750,9 @@ cat.sleep
 # Hint:
 #   - Use attr_accessor for mutable fields, attr_reader for read-only.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="3"></div>
@@ -649,7 +780,16 @@ puts "Pages: #{book.pages}"
 
 <p><strong>Goal:</strong> Extend an existing Ruby class with a new method.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="4"
@@ -660,6 +800,9 @@ puts "Pages: #{book.pages}"
 #   - For example, define String#shout that returns the string in
 #     uppercase with an exclamation mark.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="4"></div>
@@ -679,7 +822,16 @@ puts "hello from ruby".shout
 
 <p><strong>Goal:</strong> Experiment with private/protected methods and see how they affect access.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="5"
@@ -689,6 +841,9 @@ puts "hello from ruby".shout
 # Hint:
 #   - Use private to hide an implementation detail.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="5"></div>
@@ -906,12 +1061,12 @@ Continue to <a href="/tutorials/modules-and-mixins/">Chapter 5: Modules & mixins
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576645"></script>
+  <script src="/js/prism-ruby.js?v=1763576645"></script>
+  <script src="/js/prism-markdown.js?v=1763576645"></script>
+  <script src="/js/code-enhancements.js?v=1763576645"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576645"></script>
+  <script src="/js/github-pages-fix.js?v=1763576645"></script>
+  <script src="/js/site.js?v=1763576645"></script>
 </body>
 </html>

@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -180,11 +155,23 @@ Ruby's <code>String</code> class packs dozens of helpers. You don't need to memo
 
 Each of the case-changing methods has a bang variant (<code>upcase!</code>, <code>downcase!</code>, etc.) that mutates the receiver to save allocations:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 name = &quot;Ruby&quot;
 name.upcase    #=&gt; &quot;RUBY&quot;  (original unchanged)
 name.upcase!   #=&gt; &quot;RUBY&quot;  (original modified)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Single vs double quotes</h3>
 
@@ -195,7 +182,16 @@ Double-quoted literals handle:
 1. **Escape sequences** (e.g., <code>\n</code>, <code>\t</code>).
 2. **Interpolation**. The pattern <code>#{ expression }</code> evaluates the expression and inserts the result:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p013expint.rb
 def say_goodnight(name)
   "Good night, #{name}"
@@ -203,6 +199,9 @@ end
 
 puts say_goodnight("Satish")
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Each literal creates a new <code>String</code> object, so store reused values in constants when it matters.
 
@@ -211,7 +210,16 @@ Each literal creates a new <code>String</code> object, so store reused values in
 Ruby offers multiple equality checks:
 <ul><li><code>==</code> and <code>eql?</code> compare content.</li></ul><ul><li><code>equal?</code> checks object identity.</li></ul>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p013strcmp.rb
 s1 = "Jonathan"
 s2 = "Jonathan"
@@ -222,16 +230,31 @@ puts s1.eql?(s2)       # true
 puts s1.equal?(s2)     # false (different objects)
 puts s1.equal?(s3)     # true  (same object)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3><code>%w</code> word arrays</h3>
 
 Skip repetitive quotes and commas when you just need an array of bare words:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 names = %w[ann richard william susan pat]
 puts names[0] # ann
 puts names[3] # susan
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Ruby ignores extra whitespace inside <code>%w{ ... }</code>.
 
@@ -240,16 +263,40 @@ Ruby ignores extra whitespace inside <code>%w{ ... }</code>.
 
 List supported encodings:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 Encoding.list.each { |enc| puts enc.name }
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Default source encoding is US-ASCII unless you override it with a magic comment:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # coding: utf-8
 # encoding: utf-8  # equivalent
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Ruby also honors UTF-8 byte order marks (<code>\xEF\xBB\xBF</code>).
 
@@ -257,9 +304,21 @@ Ruby also honors UTF-8 byte order marks (<code>\xEF\xBB\xBF</code>).
 
 Use <code>String.methods.sort</code> to see class-level helpers, and <code>String.instance_methods.sort</code> for instance methods. Pass <code>false</code> to exclude ancestors:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 String.instance_methods(false).sort.take(10)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Practice checklist</h3>
 <ul><li>[ ] Recreate <code>say_goodnight</code> using single quotes and observe how interpolation stops working.</li></ul><ul><li>[ ] Write a script that compares two user inputs with <code>==</code>, <code>eql?</code>, and <code>equal?</code>.</li></ul><ul><li>[ ] Build a <code>%w</code> array of Ruby core types and iterate over it.</li></ul><ul><li>[ ] Print each string's encoding (e.g., <code>"Ola".encoding</code>) and experiment with <code>#encode</code> to convert between UTF-8 and another encoding.</li></ul>
@@ -270,7 +329,16 @@ Next: put these string skills to work while branching and looping through Flow C
 
 <p><strong>Goal:</strong> Recreate <code>say_goodnight</code> using single quotes and observe how interpolation behaves.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="0"
@@ -279,6 +347,9 @@ Next: put these string skills to work while branching and looping through Flow C
 # interpolate a name, and once with single quotes that leave #{name}
 # unchanged. Print both results.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="0"></div>
@@ -301,7 +372,16 @@ puts say_goodnight_single("Rubyist")
 
 <p><strong>Goal:</strong> Compare two strings with <code>==</code>, <code>eql?</code>, and <code>equal?</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="1"
@@ -309,6 +389,9 @@ puts say_goodnight_single("Rubyist")
 # TODO: Read or define two strings, compare them with ==, eql?,
 # and equal?, and print a labelled line for each comparison.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="1"></div>
@@ -329,7 +412,16 @@ puts "equal? (s1,s3): #{s1.equal?(s3)}"
 
 <p><strong>Goal:</strong> Build a <code>%w</code> array of Ruby core types and iterate over it.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="2"
@@ -337,6 +429,9 @@ puts "equal? (s1,s3): #{s1.equal?(s3)}"
 # TODO: Use %w to construct an array of Ruby core type names, then
 # iterate and print each element with a short label.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="2"></div>
@@ -354,7 +449,16 @@ end
 
 <p><strong>Goal:</strong> Print each string's encoding and experiment with <code>#encode</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="3"
@@ -362,6 +466,9 @@ end
 # TODO: Create a couple of strings, print their encoding, and call
 # encode on at least one of them to convert it to a different encoding.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-strings"
      data-practice-index="3"></div>
@@ -564,12 +671,12 @@ puts "Converted encoding: #{converted.encoding}"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

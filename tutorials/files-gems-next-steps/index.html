@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -179,7 +154,16 @@ Real applications interact with files, the command line, and external libraries.
 
 In a typical Ruby environment, you can read/write to files using methods like <code>File.open</code>, <code>File.read</code>, and <code>File.write</code>. Since we're using a browser-based Ruby environment, file operations may be limited to simulated examples:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # In a traditional Ruby environment, you would write:
 # Writing to a file
 # File.open(&quot;sample.txt&quot;, &quot;w&quot;) do |file|
@@ -206,10 +190,22 @@ puts &quot;Sample content: #{content}&quot;  # Fixed interpolation
 lines = content.split(&quot;\n&quot;)
 puts &quot;Lines as array: #{lines.inspect}&quot;  # Fixed interpolation
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="csv">CSV pipelines</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 require &#39;csv&#39;
 
 sample_scores = &lt;&lt;~CSV
@@ -234,12 +230,24 @@ highlight_top_performers.call(scores).each do |record|
   puts &quot;#{record[:name]} - #{record[:score]}&quot;  # Fixed interpolation
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="exceptions">Ruby Exceptions</h3>
 
 An exception is a special kind of object, an instance of the class <code>Exception</code> or a descendant of that class that represents some kind of error:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 divide_numbers = -&gt;(a, b) do
   begin
     result = a / b
@@ -267,12 +275,24 @@ end
 validate_age.call(25)   # Valid
 validate_age.call(-5)   # Triggers ArgumentError
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="logging">Ruby Logging</h3>
 
 The <code>Logger</code> class in the Ruby standard library helps write log messages to a file or stream. It supports time- or size-based rolling of log files:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 require &#39;logger&#39;
 require &#39;stringio&#39;
 
@@ -298,12 +318,24 @@ logger.error(&quot;This error will be shown&quot;)
 
 puts log_output.string
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="time">Ruby Time Class</h3>
 
 The <code>Time</code> class in Ruby has a powerful formatting function which can help you represent the time in a variety of ways:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Getting current time
 now = Time.now
 puts &quot;Current time: #{now}&quot;  # Fixed interpolation
@@ -330,12 +362,24 @@ puts &quot;Time difference in days: #{duration / (60 * 60 * 24)}&quot;
 parsed_time = Time.parse(&quot;2025-12-25 10:30:00&quot;)
 puts &quot;Parsed time: #{parsed_time}&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="serialization">Object Serialization</h3>
 
 Ruby comes with built-in object serialization capabilities similar to Java's serialization:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 require &#39;json&#39;
 require &#39;yaml&#39;
 
@@ -363,12 +407,24 @@ puts &quot;YAML: #{yaml_string}&quot;
 parsed_yaml = YAML.safe_load(yaml_string)
 puts &quot;Parsed from YAML: #{parsed_yaml}&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="regex">Regular Expressions</h3>
 
 Regular expressions, though cryptic, is a powerful tool for working with text. Ruby has this feature built-in. It's used for pattern-matching:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Basic pattern matching
 text = &quot;Contact us at info@example.com or support@company.org&quot;
 email_pattern = /\w+@\w+\.\w+/
@@ -398,12 +454,24 @@ if match = phone.match(/\((\d{3})\) (\d{3})-(\d{4})/)
   puts &quot;Area code: #{area_code}, Exchange: #{exchange}, Number: #{number}&quot;
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="including-files">Including Other Files</h3>
 
 Ruby provides several ways to include code from other files:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # require - includes a file once during execution
 # require &#39;json&#39;  # Example: including a library
 
@@ -416,6 +484,9 @@ Ruby provides several ways to include code from other files:
 # For this example, we&#39;ll demonstrate with a string that represents a module
 # In practice, you would have separate files.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Practice checklist</h3>
 <ul><li>Read and write files using different methods (File.open, File.read, File.write)</li></ul><ul><li>Handle exceptions in your code with begin/rescue/ensure blocks</li></ul><ul><li>Use the Logger class for proper logging in applications</li></ul><ul><li>Work with Time objects to handle dates and times</li></ul><ul><li>Practice object serialization with JSON and YAML</li></ul><ul><li>Experiment with regular expressions for text processing</li></ul><ul><li>Include code from other files using require/require_relative</li></ul>
@@ -427,7 +498,16 @@ Next steps:
 
 <p><strong>Goal:</strong> Outline a small script that uses <code>File.open</code>, <code>File.read</code>, and <code>File.write</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="0"
@@ -437,6 +517,9 @@ Next steps:
 # This environment doesn't touch your real filesystem, so focus on
 # the code you would write, not actually running it.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="0"></div>
@@ -451,7 +534,16 @@ puts 'File.open("output.txt", "w") { |f| f.write(data) }'
 
 <p><strong>Goal:</strong> Show how you would use <code>begin</code>/<code>rescue</code>/<code>ensure</code> around IO.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="1"
@@ -459,6 +551,9 @@ puts 'File.open("output.txt", "w") { |f| f.write(data) }'
 # TODO: Print a minimal begin/rescue/ensure snippet that would wrap a
 # file operation and handle errors gracefully.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="1"></div>
@@ -478,7 +573,16 @@ end
 
 <p><strong>Goal:</strong> Describe how you would use <code>Logger</code> and <code>Time</code> in a small script.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="2"
@@ -486,6 +590,9 @@ end
 # TODO: Print one or two lines that show how you might construct a
 # Logger and log a message with the current time.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="2"></div>
@@ -500,7 +607,16 @@ puts "logger.info(\"Started at \#{Time.now}\")"
 
 <p><strong>Goal:</strong> Sketch how you would serialize data to JSON/YAML and use a regexp to filter text.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="3"
@@ -508,6 +624,9 @@ puts "logger.info(\"Started at \#{Time.now}\")"
 # TODO: Print a small snippet (as plain text) that mentions using
 # JSON/YAML for serialization and a regular expression for filtering.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="3"></div>
@@ -702,12 +821,12 @@ puts 'matches = "Ruby 3.3.0".scan(/\d+\.\d+\.\d+/)'
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

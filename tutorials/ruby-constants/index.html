@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -179,11 +154,23 @@ Constants behave like variables whose references are meant to stay fixed for the
 
 Constant names start with an uppercase letter. Conventional style uses screaming snake case (<code>MAX_ATTEMPTS</code>, <code>PI</code>), while class/module names stay in CamelCase. Ruby only creates the constant once it's assigned.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p054constwarn.rb
 A_CONST = 10
 A_CONST = 20
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Running that script emits <code>warning: already initialized constant A_CONST</code>. The code still runs, but future readers now have to wonder if the change was intentional--treat the warning as a smell, not a feature.
 
@@ -191,7 +178,16 @@ Running that script emits <code>warning: already initialized constant A_CONST</c
 
 The "no changes" rule applies to the _binding_, not the object. If a constant points at a mutable value (like a string or array), you can mutate that value without touching the binding.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p055constalter.rb
 A_CONST = "Doshi"
 B_CONST = A_CONST
@@ -200,6 +196,9 @@ A_CONST[0] = "J"
 puts A_CONST  # Joshi
 puts B_CONST  # Joshi -- both names reference the same object
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Rails and other frameworks lean on this behavior: they freeze or mutate structures referenced by constants during boot to keep configuration in one place.
 
@@ -207,7 +206,16 @@ Rails and other frameworks lean on this behavior: they freeze or mutate structur
 
 Constants live in Ruby's lexical scope. You can read them directly inside the class or module where they're defined. From the outside, reach in with the scope operator.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 OUTER_CONST = 99
 
 class Const
@@ -223,6 +231,9 @@ puts Const::CONST        #=> 100
 puts ::OUTER_CONST       #=> 99
 puts Const::NEW_CONST = 123
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Key rules:
 <ul><li>Use <code>Namespace::CONST</code> to reference constants defined elsewhere.</li></ul><ul><li>You can open an existing class/module and define new constants on it.</li></ul><ul><li>Constants can't be declared inside methods; define them at class/module scope instead.</li></ul>
@@ -231,7 +242,16 @@ Key rules:
 
 The original RubyLearning example contrasts globals, class variables, instance variables, and constants in one class. It's noisy, but handy for seeing scoping rules in action.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p057mymethods2.rb
 $glob = 5
 
@@ -268,6 +288,9 @@ puts TestVar::CONST_VAL
 test.inst = 8
 puts test.inst
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Pick the narrowest scope that communicates intent: prefer constants over globals, prefer readers/writers over directly exposing instance variables, and reserve class variables for data truly shared by every instance of the class.
 
@@ -280,7 +303,16 @@ Next up: keep working through Flow Control & Collections so you can put these na
 
 <p><strong>Goal:</strong> Demonstrate what happens when you reassign a constant.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
      data-practice-index="0"
@@ -288,6 +320,9 @@ Next up: keep working through Flow Control & Collections so you can put these na
 # TODO: Print a short snippet that shows reassigning a constant like
 # PI and noting that Ruby warns about it.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
@@ -303,7 +338,16 @@ puts "PI = 3.14159 # Ruby prints a warning about already initialized constant"
 
 <p><strong>Goal:</strong> Store a mutable object in a constant and show how mutation behaves.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
      data-practice-index="1"
@@ -311,6 +355,9 @@ puts "PI = 3.14159 # Ruby prints a warning about already initialized constant"
 # TODO: Print a snippet where a constant holds a hash or array that is
 # mutated without reassigning the constant itself.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
@@ -327,7 +374,16 @@ puts "# CONFIG mutated in place"
 
 <p><strong>Goal:</strong> Access a constant through nested namespaces using <code>::</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
      data-practice-index="2"
@@ -335,6 +391,9 @@ puts "# CONFIG mutated in place"
 # TODO: Print a couple of examples of constants accessed via the scope
 # operator from nested modules or classes.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
@@ -350,7 +409,16 @@ puts "MyApp::Models::User::DEFAULT_ROLE"
 
 <p><strong>Goal:</strong> Attempt to define a constant inside a method and note Ruby's error.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
      data-practice-index="3"
@@ -358,6 +426,9 @@ puts "MyApp::Models::User::DEFAULT_ROLE"
 # TODO: Print a snippet that tries to define a constant inside a
 # method and mention the dynamic constant assignment error.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
@@ -374,7 +445,16 @@ puts "end"
 
 <p><strong>Goal:</strong> Freeze a constant and try to mutate it to see where immutability is enforced.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
      data-practice-index="4"
@@ -382,6 +462,9 @@ puts "end"
 # TODO: Print a snippet where a constant hash is frozen and a comment
 # about the FrozenError raised when modifying it.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-constants"
@@ -582,12 +665,12 @@ puts "CONFIG[:cache] = false # raises FrozenError"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

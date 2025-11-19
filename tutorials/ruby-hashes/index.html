@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ Hashes (aka associative arrays, maps, dictionaries) pair any object as a **key**
 
 <h3>Hash literals and access</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p040myhash.rb
 h = { "dog" => "canine", "cat" => "feline", "donkey" => "asinine", 12 => "dodecine" }
 
@@ -186,13 +170,25 @@ puts h["dog"]   # canine
 puts h[12]      # dodecine
 puts h          # prints the whole hash
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Missing keys return <code>nil</code> unless you provide a default (<code>Hash.new("Unknown")</code>).</li></ul><ul><li>Hashes are unordered prior to Ruby 1.9; newer Rubies preserve insertion order.</li></ul>
 
 <h3>Symbols as hash keys</h3>
 
 Symbols make efficient, readable keys:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p041symbolhash.rb
 person = {}
 person[:nickname] = "IndianGuru"
@@ -201,26 +197,53 @@ person[:lastname] = "Talim"
 
 puts person[:lastname] # Talim
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Modern Ruby supports the JSON-style literal when keys are symbols:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p0411symbolhash.rb
 person = { :nickname => "IndianGuru", :language => "Marathi", :lastname => "Talim" }
 
 # p0412symbolhash.rb
 person = { nickname: "IndianGuru", language: "Marathi", lastname: "Talim" }
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Both yield <code>{ :nickname=&gt;"IndianGuru", :language=&gt;"Marathi", :lastname=&gt;"Talim" }</code>. The short <code>{ key: value }</code> syntax works only for symbol keys; use the hashrocket (<code>=&gt;</code>) for strings, numbers, or other objects (<code>{ 1 =&gt; "one" }</code>).
 
 <h3>Defaults and lookup</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 counts = Hash.new(0)
 counts[:apples] += 1
 puts counts[:missing]  # 0 instead of nil
 </code></pre>
+    </div>
+  </div>
+</div>
 
 This pattern is handy for tallies and grouping. For nested hashes, consider <code>Hash.new { |h, k| h[k] = {} }</code>.
 
@@ -233,7 +256,16 @@ Next: with symbols and hashes under your belt, continue into Flow Control & Coll
 
 <p><strong>Goal:</strong> Create a hash with a default value and observe missing keys.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="0"
@@ -241,6 +273,9 @@ Next: with symbols and hashes under your belt, continue into Flow Control & Coll
 # TODO: Create a hash with a default value, access a missing key, and
 # print the default along with the hash contents.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
@@ -258,7 +293,16 @@ puts "hash: #{counts.inspect}"
 
 <p><strong>Goal:</strong> Build a hash using both JSON-style and hashrocket syntax and compare them.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="1"
@@ -266,6 +310,9 @@ puts "hash: #{counts.inspect}"
 # TODO: Print two equivalent hashes, one using the newer symbol: value
 # syntax and one using hashrockets, and demonstrate that they are equal.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
@@ -285,7 +332,16 @@ puts "equal?: #{json_style == rocket_style}"
 
 <p><strong>Goal:</strong> Refactor a string-keyed hash to use symbols.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="2"
@@ -294,6 +350,9 @@ puts "equal?: #{json_style == rocket_style}"
 # hash with symbol keys and print both along with a short note about
 # readability.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
@@ -312,7 +371,16 @@ puts "symbol keys: #{symbol_keys.inspect} (symbols improve readability)"
 
 <p><strong>Goal:</strong> Experiment with non-symbol hash keys and equality.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="3"
@@ -320,6 +388,9 @@ puts "symbol keys: #{symbol_keys.inspect} (symbols improve readability)"
 # TODO: Create a hash that uses a number and an array as keys, then
 # access them and print the results.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
@@ -522,12 +593,12 @@ puts "[1, 2] maps to: #{keys[[1, 2]]}"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

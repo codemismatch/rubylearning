@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ Arrays are ordered, mutable lists. Every slot holds a reference to any object (n
 
 <h3>Constructing and expanding arrays</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p018arrays.rb
 var1 = []                # empty array
 var2 = [5]
@@ -192,13 +176,25 @@ name[4] = "Pune"         # extend array
 name[5] = 4.33
 name[6] = [1, 2, 3]
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li><code>size</code> and <code>length</code> return the element count.</li></ul><ul><li><code>first</code>, <code>last</code>, and <code>sort</code> provide quick helpers.</li></ul><ul><li>Accessing beyond the ends returns <code>nil</code> rather than raising.</li></ul>
 
 <h3>Iteration with blocks</h3>
 
 <code>Array#each</code> and friends rely on blocks:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 locations = [&quot;Pune&quot;, &quot;Mumbai&quot;, &quot;Bangalore&quot;]
 
 locations.each do |loc|
@@ -208,6 +204,9 @@ end
 
 locations.delete(&quot;Mumbai&quot;)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Thanks to blocks, you rarely need manual index counters.
 
@@ -215,7 +214,16 @@ Thanks to blocks, you rarely need manual index counters.
 
 Methods can return multiple values; Ruby wraps them in an array automatically:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p019mtdarry.rb
 def mtdarry
   10.times do |num|
@@ -228,29 +236,65 @@ num, square = mtdarry
 puts num    # 6
 puts square # 36
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Parallel assignment & splats</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 a = 1, 2, 3, 4   #=&gt; [1, 2, 3, 4]
 a, b = 1, 2, 3, 4 # a=1, b=2 (remaining values ignored)
 c, = 1, 2, 3, 4   # trailing comma lets you grab the first item only
 </code></pre>
+    </div>
+  </div>
+</div>
 
 The splat (<code>*</code>) packs or unpacks arrays when you need flexible argument counts.
 
 <h3>ENV and ARGV helpers</h3>
 <ul><li><code>ENV</code> behaves like a hash of environment variables and is enumerable:</li></ul>
 
-  <pre class="language-ruby" data-executable="true"><code class="language-ruby">
+  <div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 ENV.each { |k, v| puts &quot;#{k}: #{v}&quot; }
 ENV[&quot;course&quot;] = &quot;FORPC101&quot;
 puts ENV[&quot;course&quot;]
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Ruby reads certain environment variables when it starts, so updates you make later only affect the current process and any child processes you spawn. Setting a value to <code>nil</code> (Ruby 1.9+) removes the variable entirely.</li></ul>
 <ul><li><code>ARGV</code> stores command-line arguments. Access with indexes (<code>ARGV[0]</code>) or parse with libraries such as <code>GetoptLong</code>:</li></ul>
 
-  <pre class="language-ruby" data-executable="true"><code class="language-ruby">
+  <div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 require &quot;getoptlong&quot;
 
 opts = GetoptLong.new(
@@ -270,6 +314,9 @@ opts.each do |opt, arg|
   end
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <code>require</code> pulls in stdlib helpers (and later, gems); here it exposes <code>GetoptLong</code>. We'll dive deeper into <code>require</code> soon.
 
@@ -277,11 +324,23 @@ end
 
 <code>Array(obj)</code> attempts to wrap or copy the value:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 Array(&quot;hello&quot;).class  #=&gt; Array
 Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
 [1,2,3,4].class.ancestors #=&gt; [Array, Enumerable, Object, Kernel, BasicObject]
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Practice checklist</h3>
 <ul><li>[ ] Recreate <code>p018arrays.rb</code>, then add <code>push</code>, <code>pop</code>, and <code>shift</code> calls to see how the array mutates.</li></ul><ul><li>[ ] Write a method that returns multiple values and capture them via parallel assignment.</li></ul><ul><li>[ ] Iterate over <code>ENV</code> to print a subset of variables relevant to your setup.</li></ul><ul><li>[ ] Parse fake CLI arguments with <code>GetoptLong</code> (or Ruby's newer <code>OptionParser</code>) and feed them into a script.</li></ul><ul><li>[ ] Use <code>Array()</code> to wrap non-array objects and inspect <code>Array.ancestors</code> to understand its inheritance chain.</li></ul>
@@ -290,7 +349,16 @@ Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
 
 <p><strong>Goal:</strong> Recreate an array script and add <code>push</code>, <code>pop</code>, and <code>shift</code> calls to observe mutations.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="0"
@@ -300,6 +368,9 @@ Array(&quot;hello\nworld&quot;) #=&gt; [&quot;hello\nworld&quot;]
 # Hint:
 #   - Use puts with Array#inspect so the structure is visible.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="0"></div>
@@ -323,7 +394,16 @@ puts "after shift: #{nums.inspect}"
 
 <p><strong>Goal:</strong> Write a method that returns multiple values and capture them with parallel assignment.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="1"
@@ -334,6 +414,9 @@ puts "after shift: #{nums.inspect}"
 #   - Return an array from the method, then unpack it with
 #     multiple variables on the left-hand side.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="1"></div>
@@ -357,7 +440,16 @@ puts "average: #{average}"
 
 <p><strong>Goal:</strong> Iterate over <code>ENV</code> and print a subset of variables relevant to your setup.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="2"
@@ -367,6 +459,9 @@ puts "average: #{average}"
 # Hint:
 #   - Use ENV.each or ENV.select with a list of keys.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="2"></div>
@@ -385,7 +480,16 @@ end
 
 <p><strong>Goal:</strong> Parse fake CLI arguments and feed them into a script.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="3"
@@ -396,6 +500,9 @@ end
 #   - You can ignore GetoptLong and OptionParser here and just
 #     iterate over an array of flags/values.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="3"></div>
@@ -422,7 +529,16 @@ puts "port: #{port}"
 
 <p><strong>Goal:</strong> Use <code>Array()</code> to wrap non-array objects and inspect <code>Array.ancestors</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="4"
@@ -431,6 +547,9 @@ puts "port: #{port}"
 # then print Array.ancestors to see where Array fits into Ruby's class
 # hierarchy.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-arrays"
      data-practice-index="4"></div>
@@ -635,12 +754,12 @@ Next: armed with arrays and blocks, jump into Flow Control & Collections to comb
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

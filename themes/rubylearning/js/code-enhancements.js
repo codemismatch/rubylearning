@@ -121,8 +121,15 @@ function insertTextAtCursor(textarea, text) {
 }
 
 function initOverlayEditor(pre, codeBlock, initialValue, onChange) {
-  const wrapper = pre.parentElement || pre;
-  wrapper.classList.add('code-editor--overlay');
+  let wrapper = pre.closest('.code-editor');
+  if (!wrapper) {
+    wrapper = document.createElement('div');
+    wrapper.className = 'code-editor';
+    pre.parentNode.insertBefore(wrapper, pre);
+    wrapper.appendChild(pre);
+  }
+
+  pre.classList.add('code-editor__highlight');
 
   const textarea = document.createElement('textarea');
   textarea.className = 'code-editor__input';
@@ -139,14 +146,10 @@ function initOverlayEditor(pre, codeBlock, initialValue, onChange) {
     codeBlock.innerHTML = highlightRubyInline(text);
   };
 
+  // Keep layout stable: let CSS control overall height and scrolling,
+  // and keep the textarea matched to the wrapper height.
   const syncSize = () => {
-    // Set textarea height to match its content
-    textarea.style.height = 'auto';
-    const contentHeight = textarea.scrollHeight;
-    textarea.style.height = `${contentHeight}px`;
-    // Don't set pre height - let CSS handle it naturally
-    // This prevents unnecessary elongation when Run button appears
-    // The pre element will size based on its content via CSS
+    textarea.style.height = '100%';
   };
 
   const emitChange = () => {
@@ -601,7 +604,7 @@ function initRubyConsoles(vm) {
   async function addRubyExecSupport() {
   // Add Ruby execution support when there are runnable code blocks
   // OR when the inline Ruby console drawer is present.
-  const rubyBlocks = document.querySelectorAll('.code-window pre.language-ruby, pre[data-executable="true"], pre[data-practice-chapter]');
+  const rubyBlocks = document.querySelectorAll('.code-window pre[data-executable="true"], pre[data-practice-chapter]');
   const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
   if (rubyBlocks.length === 0 && !hasInlineConsole) return;
   
@@ -716,7 +719,7 @@ function initRubyConsoles(vm) {
           mainButton.classList.add('check-button');
           mainButton.textContent = '✔ Check';
         } else {
-          mainButton.textContent = '▶ Run';
+          mainButton.innerHTML = '▶ &nbsp;Run';
         }
         
         header.appendChild(mainButton);

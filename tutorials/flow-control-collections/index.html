@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562708">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562708">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576646">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576646">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562708">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562708">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576646">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576646">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -177,7 +152,16 @@ Branches and loops let your program respond to data. Ruby's arrays and hashes gi
 
 <h3 id="control-flow">Branching and iteration</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 scores = { &quot;Satish&quot; =&gt; 92, &quot;Matz&quot; =&gt; 99, &quot;Yukihiro&quot; =&gt; 100 }
 
 scores.each do |name, score|
@@ -196,12 +180,24 @@ numbers = [1, 2, 3, 4, 5]
 evens = numbers.select(&amp;:even?)
 puts &quot;Even numbers: #{evens.join(&#39;, &#39;)}&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="strings">Fun with Strings</h3>
 
 String literals are sequences of characters between single or double quotation marks. Ruby provides many methods to work with strings:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating strings
 single_quoted = &#39;This is a string with single quotes&#39;
 double_quoted = &quot;This is a string with double quotes&quot;
@@ -220,10 +216,22 @@ puts phrase.reverse             # &quot;dlroW ybuR olleH&quot;
 puts phrase.include?(&quot;Ruby&quot;) # true
 puts phrase[0, 5] # &quot;Hello&quot; (substring)
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="more-strings">More on Strings</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # String operations
 first_name = &quot;John&quot;
 last_name = &quot;Doe&quot;
@@ -245,12 +253,24 @@ puts text.strip              # Remove leading/trailing whitespace
 puts text.lstrip             # Remove leading whitespace only
 puts text.rstrip             # Remove trailing whitespace only
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="input">Getting Input from User</h3>
 
 So far we have seen methods like <code>puts</code> that write to the screen. How does one accept user input? For this, Ruby provides the <code>gets</code> method (get string). In our interactive environment, you can test this functionality:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 print &#39;What is your name? &#39;
 name = gets.strip
 
@@ -259,6 +279,9 @@ lessons = Integer(gets, exception: false) || 0
 
 puts &quot;Great work, #{name}! Lesson #{lessons + 1} is up next.&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 <ul><li>Local variables start with a lowercase letter or underscore and spring into existence on assignment.</li></ul><ul><li><code>gets</code> reads a line from standard input (including the newline); <code>strip</code> trims it.</li></ul><ul><li>Wrap conversions with <code>Integer(..., exception: false)</code> when you want <code>nil</code> instead of an exception.</li></ul>
 
 <h3 id="names">Names in Ruby</h3>
@@ -268,7 +291,16 @@ Ruby names are used to refer to constants, variables, methods, classes, and modu
 
 <h3 id="constructs">Simple Constructs</h3>
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # if-else-end construct
 age = 20
 
@@ -299,12 +331,24 @@ else
   puts &quot;Needs improvement&quot;
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="arrays">Arrays</h3>
 
 An Array is just a list of items in order. Every slot in the list acts like a variable: you can see what object a particular slot points to, change what it points to, or add and remove slots:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating arrays
 fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;]
 numbers = [1, 2, 3, 4, 5]
@@ -325,12 +369,24 @@ numbers.each do |num|
   puts num * 2
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="ranges">Ranges</h3>
 
 The first and perhaps most natural use of ranges is to express a sequence. Sequences have a start point, an end point, and a way to produce successive values in the sequence:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating ranges
 range1 = 1..5      # Inclusive (1, 2, 3, 4, 5)
 range2 = 1...5     # Exclusive (1, 2, 3, 4)
@@ -352,12 +408,24 @@ when 80..89 then puts &quot;B&quot;
 when 90..100 then puts &quot;A&quot;
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="symbols">Symbols</h3>
 
 A symbol looks like a variable name but it's prefixed with a colon. Examples: <code>:action</code>, <code>:line_items</code>. You don't have to pre-declare a symbol:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Symbols are immutable and unique
 status = :active
 color = :blue
@@ -374,12 +442,24 @@ user = { name: &quot;Alice&quot;, age: 30, active: true }
 puts user[:name]    # &quot;Alice&quot;
 puts user[:age]     # 30
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="hashes">Hashes</h3>
 
 Hashes (sometimes known as associative arrays, maps, or dictionaries) are similar to arrays in that they are indexed collections of objects:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating hashes
 person = { &quot;name&quot; =&gt; &quot;John&quot;, &quot;age&quot; =&gt; 30 }
 user = { name: &quot;Alice&quot;, email: &quot;alice@example.com&quot;, active: true }
@@ -402,12 +482,24 @@ user.each do |key, value|
   puts &quot;#{key}: #{value}&quot;
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3 id="random">Random Numbers</h3>
 
 Ruby comes with a random number generator. The method to get a randomly chosen number is <code>rand</code>:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Random float between 0 and 1
 puts rand
 
@@ -419,6 +511,9 @@ puts rand(1..100)    # Random number from 1 to 100
 srand(12345)
 puts rand            # Will always return the same sequence
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Practice checklist</h3>
 <ul><li>Practice string manipulation methods like <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, <code>include?</code>, etc.</li></ul><ul><li>Experiment with different control structures (<code>if/else</code>, <code>case</code>, <code>unless</code>)</li></ul><ul><li>Create and manipulate arrays and hashes with various methods</li></ul><ul><li>Try using ranges for sequence generation and condition checking</li></ul><ul><li>Work with symbols and understand their difference from strings</li></ul>
@@ -427,7 +522,16 @@ puts rand            # Will always return the same sequence
 
 <p><strong>Goal:</strong> Practise common string methods such as <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, and <code>include?</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="0"
@@ -437,6 +541,9 @@ puts rand            # Will always return the same sequence
 # Hint:
 #   - Show both the method name and the value so it's clear which is which.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="0"></div>
@@ -455,7 +562,16 @@ puts "include? 'Control': #{phrase.include?('Control')}"
 
 <p><strong>Goal:</strong> Experiment with <code>if/else</code>, <code>case</code>, and <code>unless</code> in a single script.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="1"
@@ -465,6 +581,9 @@ puts "include? 'Control': #{phrase.include?('Control')}"
 # Hint:
 #   - Print a line that mentions each construct so you can see it ran.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="1"></div>
@@ -498,7 +617,16 @@ end
 
 <p><strong>Goal:</strong> Create and manipulate arrays and hashes with various methods.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="2"
@@ -506,6 +634,9 @@ end
 # TODO: Build an array and a hash, then apply a few methods to each
 # (such as map, select, merge, or delete_if) and print the results.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="2"></div>
@@ -525,7 +656,16 @@ puts "hash: #{user.inspect}"
 
 <p><strong>Goal:</strong> Use ranges for sequence generation and condition checking.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="3"
@@ -533,6 +673,9 @@ puts "hash: #{user.inspect}"
 # TODO: Generate a sequence using a range and use a range in a
 # condition (for example, to check whether a value falls inside a band).
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="3"></div>
@@ -554,7 +697,16 @@ end
 
 <p><strong>Goal:</strong> Work with symbols and see how they differ from strings.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="4"
@@ -562,6 +714,9 @@ end
 # TODO: Create a hash that uses symbols as keys and compare them to
 # string keys, printing out classes and a couple of lookups.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="4"></div>
@@ -767,12 +922,12 @@ When the logic feels natural, move ahead to <a href="/tutorials/methods-and-bloc
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562708"></script>
-  <script src="/js/prism-ruby.js?v=1763562708"></script>
-  <script src="/js/prism-markdown.js?v=1763562708"></script>
-  <script src="/js/code-enhancements.js?v=1763562708"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562708"></script>
-  <script src="/js/github-pages-fix.js?v=1763562708"></script>
-  <script src="/js/site.js?v=1763562708"></script>
+  <script src="/js/prism.js?v=1763576646"></script>
+  <script src="/js/prism-ruby.js?v=1763576646"></script>
+  <script src="/js/prism-markdown.js?v=1763576646"></script>
+  <script src="/js/code-enhancements.js?v=1763576646"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576646"></script>
+  <script src="/js/github-pages-fix.js?v=1763576646"></script>
+  <script src="/js/site.js?v=1763576646"></script>
 </body>
 </html>

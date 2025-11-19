@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562709">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562709">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562709">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562709">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -178,18 +153,39 @@ Blocks (closures) are chunks of code wrapped in <code>{}</code> or <code>do..end
 <h3>Block syntax and precedence</h3>
 <ul><li>Use <code>{}</code> for single-line blocks, <code>do..end</code> for multi-line.</li></ul><ul><li><code>{}</code> has higher precedence; <code>do..end</code> binds to the method call even without parentheses. Be explicit when in doubt.</li></ul>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 [1, 2, 3].each { |n| puts n }
 [1, 2, 3].each do |n|
   puts n
 end
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Yielding to a block</h3>
 
 Any method can take an implicit block. Call it with <code>yield</code>:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p022codeblock.rb
 def call_block
   puts "Start of method"
@@ -200,6 +196,9 @@ end
 
 call_block { puts "In the block" }
 </code></pre>
+    </div>
+  </div>
+</div>
 
 If no block is provided and you call <code>yield</code>, Ruby raises <code>LocalJumpError</code>. Guard with <code>block_given?</code>.
 
@@ -207,7 +206,16 @@ If no block is provided and you call <code>yield</code>, Ruby raises <code>Local
 
 <code>yield</code> accepts arguments; list block parameters between pipes:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p023codeblock2.rb
 def call_block
   yield("hello", 99)
@@ -215,10 +223,22 @@ end
 
 call_block { |str, num| puts "#{str} #{num}" }
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Checking for a block</h3>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 def try
   if block_given?
     yield
@@ -231,32 +251,68 @@ try                      #=&gt; &quot;no block&quot;
 try { puts &quot;hello&quot; }     #=&gt; &quot;hello&quot;
 try do puts &quot;hello&quot; end  #=&gt; &quot;hello&quot;
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Blocks capture scope</h3>
 
 Block parameters are local to the block, but referencing outer variables mutates them unless you deliberately shadow them.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = 10
 5.times do |x|
   puts &quot;x inside block: #{x}&quot;
 end
 puts &quot;x outside block: #{x}&quot; # 10 -- outer x untouched
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Reassigning <code>x</code> inside the block without using it as a parameter will change the outer variable:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = 10
 5.times do |y|
   x = y
 end
 puts x # 4 -- last iteration value
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Ruby 1.9+ introduced block-local variables to avoid accidental clobbering:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 x = 10
 5.times do |y; x|
   x = y
@@ -264,6 +320,9 @@ x = 10
 end
 puts &quot;outer x: #{x}&quot; # 10
 </code></pre>
+    </div>
+  </div>
+</div>
 
 The semicolon separates block parameters (<code>y</code>) from block-local variables (<code>x</code>).
 
@@ -276,7 +335,16 @@ Next: continue to Flow Control & Collections to iterate with arrays, hashes, and
 
 <p><strong>Goal:</strong> Write a method that yields twice and pass it a block that prints a message with iteration counts.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="0"
@@ -284,6 +352,9 @@ Next: continue to Flow Control & Collections to iterate with arrays, hashes, and
 # TODO: Define a method that yields at least twice and pass it a block
 # that prints a message including the iteration number.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="0"></div>
@@ -305,7 +376,16 @@ end
 
 <p><strong>Goal:</strong> Experiment with <code>block_given?</code> by calling a method with and without a block.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="1"
@@ -313,6 +393,9 @@ end
 # TODO: Write a method that behaves differently depending on whether
 # block_given? is true, then call it with and without a block.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="1"></div>
@@ -336,7 +419,16 @@ maybe_yield { puts "block ran" }
 
 <p><strong>Goal:</strong> Use a block to iterate over a range and collect values, then rewrite the same logic with <code>Enumerable#map</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="2"
@@ -345,6 +437,9 @@ maybe_yield { puts "block ran" }
 # block to collect values, then do the same with map and print both
 # results.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="2"></div>
@@ -367,7 +462,16 @@ puts "map:    #{mapped.inspect}"
 
 <p><strong>Goal:</strong> Demonstrate the difference between block parameters, outer variables, and block-local variables using <code>;</code> syntax.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="3"
@@ -375,6 +479,9 @@ puts "map:    #{mapped.inspect}"
 # TODO: Use a block with block-local variables to contrast the values
 # of a parameter, an outer variable, and a block-local variable.
 </code></pre>
+    </div>
+  </div>
+</div>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-blocks"
      data-practice-index="3"></div>
@@ -582,12 +689,12 @@ puts "outer x after: #{x}"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562709"></script>
-  <script src="/js/prism-ruby.js?v=1763562709"></script>
-  <script src="/js/prism-markdown.js?v=1763562709"></script>
-  <script src="/js/code-enhancements.js?v=1763562709"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562709"></script>
-  <script src="/js/github-pages-fix.js?v=1763562709"></script>
-  <script src="/js/site.js?v=1763562709"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>

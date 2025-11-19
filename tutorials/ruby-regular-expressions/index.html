@@ -15,38 +15,13 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763562710">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763562710">
+  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763576647">
+  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763576647">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763562710">
-  <link rel="stylesheet" href="/css/badges.css?v=1763562710">
+  <link rel="stylesheet" href="/css/tutorials.css?v=1763576647">
+  <link rel="stylesheet" href="/css/badges.css?v=1763576647">
   
-  <!-- CodeMirror Import Map -->
-  <script type="importmap">
-  {
-    "imports": {
-      "codemirror": "https://cdn.jsdelivr.net/npm/codemirror@6.0.1/dist/index.js",
-      "@codemirror/state": "https://cdn.jsdelivr.net/npm/@codemirror/state@6.0.0/dist/index.js",
-      "@codemirror/view": "https://cdn.jsdelivr.net/npm/@codemirror/view@6.0.0/dist/index.js",
-      "@codemirror/language": "https://cdn.jsdelivr.net/npm/@codemirror/language@6.0.0/dist/index.js",
-      "@codemirror/commands": "https://cdn.jsdelivr.net/npm/@codemirror/commands@6.0.0/dist/index.js",
-      "@codemirror/search": "https://cdn.jsdelivr.net/npm/@codemirror/search@6.0.0/dist/index.js",
-      "@codemirror/autocomplete": "https://cdn.jsdelivr.net/npm/@codemirror/autocomplete@6.0.0/dist/index.js",
-      "@codemirror/lint": "https://cdn.jsdelivr.net/npm/@codemirror/lint@6.0.0/dist/index.js",
-      "@codemirror/lang-javascript": "https://cdn.jsdelivr.net/npm/@codemirror/lang-javascript@6.0.0/dist/index.js",
-      "@codemirror/theme-one-dark": "https://cdn.jsdelivr.net/npm/@codemirror/theme-one-dark@6.0.0/dist/index.js",
-      "@lezer/common": "https://cdn.jsdelivr.net/npm/@lezer/common@1.0.0/dist/index.js",
-      "@lezer/highlight": "https://cdn.jsdelivr.net/npm/@lezer/highlight@1.0.0/dist/index.js",
-      "@lezer/lr": "https://cdn.jsdelivr.net/npm/@lezer/lr@1.0.0/dist/index.js",
-      "style-mod": "https://cdn.jsdelivr.net/npm/style-mod@4.0.0/src/style-mod.js",
-      "w3c-keyname": "https://cdn.jsdelivr.net/npm/w3c-keyname@2.2.4/+esm"
-    }
-  }
-  </script>
-  
-  <!-- ES Module Shims polyfill for older browsers -->
-  <script async src="https://ga.jspm.io/npm:es-module-shims@1.10.0/dist/es-module-shims.js" crossorigin="anonymous"></script>
 </head>
 <body>
   
@@ -179,14 +154,35 @@ Regular expressions (regexps) describe patterns of text. In Ruby they're first-c
 
 Regular expressions are full-fledged objects, so you can reference or store them just like any other value:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 pattern = /Pune|Ruby/
 pattern.class          #=&gt; Regexp
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Both regexps and strings respond to <code>.match</code>. Successful matches return a <code>MatchData</code> object, while failures return <code>nil</code>. The <code>=~</code> operator instead yields the starting index (or <code>nil</code>):
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 m1 = /Ruby/.match("The future is Ruby")
 puts m1.class           # MatchData
 
@@ -195,6 +191,9 @@ puts m2                 # 14 (start index)
 
 /a/.match("b")          # nil
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <h3>Literal characters and escaping</h3>
 <ul><li>Literal characters match themselves: <code>/a/</code> finds the letter "a".</li></ul><ul><li>The <code>|</code> operator means "either/or": <code>/Pune|Ruby/</code>.</li></ul><ul><li>Special characters (<code>^</code>, <code>$</code>, <code>.</code>, <code>?</code>, <code>+</code>, <code>*</code>, <code>(</code>, <code>)</code>, <code>[</code>, <code>]</code>, <code>{</code>, <code>}</code>, <code>|</code>, <code>/</code>, <code>\</code>) must be escaped with <code>\</code> when you want their literal meaning: <code>/\?/</code> matches a question mark.</li></ul>
@@ -202,13 +201,25 @@ puts m2                 # 14 (start index)
 <h3>Wildcards and character classes</h3>
 <ul><li><code>.</code> (dot) matches any character except newline.</li></ul><ul><li>Character classes (<code>[]</code>) limit matches to specific sets or ranges:</li></ul>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 /.ejected/          # matches "dejected", "rejected", "%ejected"
 /[dr]ejected/       # matches "dejected" or "rejected"
 /[a-z]/             # lowercase letter
 /[A-Fa-f0-9]/       # hexadecimal digit
 /[^A-Fa-f0-9]/      # anything that is NOT a hexadecimal digit
 </code></pre>
+    </div>
+  </div>
+</div>
 
 Ruby also provides shorthand escapes for common classes:
 <ul><li><code>\d</code> / <code>\D</code> -> digit / non-digit</li></ul><ul><li><code>\w</code> / <code>\W</code> -> word character (letters, digits, underscore) / non-word</li></ul><ul><li><code>\s</code> / <code>\S</code> -> whitespace / non-whitespace</li></ul>
@@ -218,7 +229,16 @@ Ruby also provides shorthand escapes for common classes:
 Parentheses capture portions of the match. The result is a <code>MatchData</code> object with useful helpers:
 <ul><li><code>string</code> - original string</li></ul><ul><li><code>[0]</code> - entire match</li></ul><ul><li><code>[1]</code>, <code>[2]</code>, ... - captures</li></ul><ul><li><code>captures</code> - array of captures</li></ul>
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
 # p064regexp.rb
 string = "My phone number is (123) 555-1234."
 phone_re = /\((\d{3})\)\s+(\d{3})-(\d{4})/
@@ -235,6 +255,9 @@ puts "Area code: #{m[1]}"
 puts "Exchange:  #{m[2]}"
 puts "Number:    #{m[3]}"
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <code>MatchData</code> objects are truthy, so you can use them directly in conditionals, whereas <code>nil</code> (the failure case) behaves like false.
 
@@ -247,7 +270,16 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
 
 <p><strong>Goal:</strong> Test <code>=~</code> with and without matches to see an index vs <code>nil</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
      data-practice-index="0"
@@ -255,6 +287,9 @@ Next: return to Flow Control & Collections to combine regex-based parsing with l
 # TODO: Use =~ on a string where the pattern matches and one where it
 # does not, and print the index and nil results.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
@@ -272,7 +307,16 @@ puts "no match: #{no_match.inspect}"
 
 <p><strong>Goal:</strong> Write a regexp that matches lowercase hex digits, then negate it with <code>[^...]</code>.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
      data-practice-index="1"
@@ -280,6 +324,9 @@ puts "no match: #{no_match.inspect}"
 # TODO: Print two regexps: one that matches lowercase hex digits and
 # one that matches any character that's not a lowercase hex digit.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
@@ -295,7 +342,16 @@ puts "/[^a-f0-9]/"
 
 <p><strong>Goal:</strong> Capture month/day/year from a date string using groups and print the captures.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
      data-practice-index="2"
@@ -303,6 +359,9 @@ puts "/[^a-f0-9]/"
 # TODO: Use a regexp with capture groups on a date string like
 # 2024-01-31 or 31/01/2024 and print the components with labels.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
@@ -321,7 +380,16 @@ end
 
 <p><strong>Goal:</strong> Experiment with <code>String#sub</code> and <code>String#gsub</code> to replace text using regexps.</p>
 
-<pre class="language-ruby"
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
      data-practice-index="3"
@@ -329,6 +397,9 @@ end
 # TODO: Print a before string, then show the results of sub and gsub
 # for a simple pattern.
 </code></pre>
+    </div>
+  </div>
+</div>
 
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-regular-expressions"
@@ -530,12 +601,12 @@ puts "gsub: #{text.gsub(/Ruby/, 'Rails')}"
 
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763562710"></script>
-  <script src="/js/prism-ruby.js?v=1763562710"></script>
-  <script src="/js/prism-markdown.js?v=1763562710"></script>
-  <script src="/js/code-enhancements.js?v=1763562710"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763562710"></script>
-  <script src="/js/github-pages-fix.js?v=1763562710"></script>
-  <script src="/js/site.js?v=1763562710"></script>
+  <script src="/js/prism.js?v=1763576647"></script>
+  <script src="/js/prism-ruby.js?v=1763576647"></script>
+  <script src="/js/prism-markdown.js?v=1763576647"></script>
+  <script src="/js/code-enhancements.js?v=1763576647"></script>
+  <script src="/js/tutorial-enhancements.js?v=1763576647"></script>
+  <script src="/js/github-pages-fix.js?v=1763576647"></script>
+  <script src="/js/site.js?v=1763576647"></script>
 </body>
 </html>
