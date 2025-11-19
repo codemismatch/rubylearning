@@ -77,16 +77,21 @@ console.log('Syntax highlighting only');
 
 ### 3. `ruby_exec`
 
-Processes special ` ```ruby-exec ` markdown code blocks.
+Processes special ` ```ruby-exec ` markdown code blocks. Additionally, all regular ` ```ruby ` fenced blocks are automatically made executable during the build process.
 
 **Syntax:**
 ````markdown
 ```ruby-exec
 puts "This will be executable"
 ```
+
+```ruby
+# Regular Ruby blocks are also executable
+puts "This also gets a Run button"
+```
 ````
 
-**Output:** Interactive Ruby code block with a "Run" button.
+**Output:** Interactive Ruby code block with a "Run" button. Both `ruby-exec` and `ruby` blocks become executable with `data-executable="true"` attribute.
 
 ### 4. `markdown`
 

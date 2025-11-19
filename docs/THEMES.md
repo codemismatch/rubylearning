@@ -115,7 +115,11 @@ Existing Markdown that uses the legacy ```ruby-exec``` fenced syntax continues t
 ```
 ```
 
-and converts it to the same kind of executable code window. Going forward, new runnable examples should prefer the hash-prefixed form:
+and converts it to the same kind of executable code window.
+
+**Note**: As of recent updates, all regular ```ruby``` fenced blocks are automatically made executable (with `data-executable="true"`), so they also get "Run" buttons. The ```ruby-exec``` syntax is now primarily for explicit marking, though both forms work identically.
+
+Going forward, new runnable examples should prefer the hash-prefixed form:
 
 ```text
 #> ruby: run
