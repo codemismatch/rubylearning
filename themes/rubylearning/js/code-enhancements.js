@@ -961,7 +961,8 @@ function addCopyButtonsToCodeBlocks() {
     }
 
     // Force Prism to (re)highlight after DOM changes to this block
-    if (typeof Prism !== 'undefined') {
+    // Skip contenteditable blocks (ruby-exec) which have their own live highlighting
+    if (typeof Prism !== 'undefined' && pre.getAttribute('contenteditable') !== 'true') {
       Prism.highlightElement(codeBlock);
     }
 
