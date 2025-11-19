@@ -9,6 +9,8 @@ require "erb"
 require "uri"
 require "ostruct"
 require "set"
+require "etc"
+require "thread"
 
 require_relative "tutorial_formatter"
 
@@ -39,6 +41,9 @@ module Typophic
       @site_layouts_dir  = options[:layouts_dir]  || "layouts"
       @site_includes_dir = options[:includes_dir] || "includes"
       @site_assets_dir   = options[:assets_dir]   || "assets"
+      @parallel     = options.fetch(:parallel, true)
+      @thread_count = options.fetch(:thread_count, [Etc.nprocessors, 4].min)
+      @verbose      = options.fetch(:verbose, true)
 
       @config = load_config
 
@@ -52,7 +57,8 @@ module Typophic
     end
 
     def build
-      puts "Building site..."
+      start_time = Time.now
+      puts "Building site#{@parallel ? " (parallel: #{@thread_count} threads)" : " (sequential)"}..."
 
       normalize_content_quotes
 
@@ -63,7 +69,8 @@ module Typophic
       process_content_files
       write_collection_indexes
 
-      puts "Site built successfully!"
+      elapsed = Time.now - start_time
+      puts "Site built successfully! (#{elapsed.round(2)}s)"
     end
 
     private
@@ -220,21 +227,44 @@ module Typophic
     end
 
     def copy_static_assets
+      copy_tasks = []
+
       @theme_paths.each do |theme_name, path|
         %w[css js images].each do |asset_dir|
-          destination = theme_asset_destination(theme_name, asset_dir)
-          copy_asset_tree(File.join(path, asset_dir), destination, "theme: #{theme_name}")
+          copy_tasks << [File.join(path, asset_dir), theme_asset_destination(theme_name, asset_dir), "theme: #{theme_name}"]
         end
       end
 
       # Back-compat: also copy the default theme to root-level asset dirs
       %w[css js images].each do |asset_dir|
-        copy_asset_tree(File.join(@theme_path, asset_dir), asset_dir, "default theme (root)")
+        copy_tasks << [File.join(@theme_path, asset_dir), asset_dir, "default theme (root)"]
       end
 
       %w[css js images].each do |asset_dir|
-        copy_asset_tree(File.join(@site_assets_dir, asset_dir), asset_dir, "site")
+        copy_tasks << [File.join(@site_assets_dir, asset_dir), asset_dir, "site"]
       end
+
+      if @parallel && copy_tasks.length > 1
+        copy_assets_parallel(copy_tasks)
+      else
+        copy_tasks.each { |source, dest, label| copy_asset_tree(source, dest, label) }
+      end
+    end
+
+    def copy_assets_parallel(copy_tasks)
+      queue = Queue.new
+      copy_tasks.each { |task| queue << task }
+
+      threads = Array.new([@thread_count, copy_tasks.length].min) do
+        Thread.new do
+          while (task = queue.pop(true) rescue nil)
+            source, dest, label = task
+            copy_asset_tree(source, dest, label)
+          end
+        end
+      end
+
+      threads.each(&:join)
     end
 
     def copy_asset_tree(source, destination_dir, label)
@@ -243,27 +273,92 @@ module Typophic
       destination = File.join(@output_dir, destination_dir)
       FileUtils.mkdir_p(destination)
 
-      Dir.glob(File.join(source, "**", "*")) do |file|
-        next if File.directory?(file)
+      files = Dir.glob(File.join(source, "**", "*")).select { |f| File.file?(f) }
+      return if files.empty?
 
+      files.each do |file|
         relative = file.delete_prefix("#{source}/")
         target = File.join(destination, relative)
         FileUtils.mkdir_p(File.dirname(target))
         FileUtils.cp(file, target)
-        puts "Copied #{label} asset: #{file}"
       end
+
+      puts "Copied #{files.length} #{label} asset(s)" if @verbose
     end
 
     def process_content_files
-      entries = Dir.glob(File.join(@source_dir, "**", "*"))
-                   .select { |path| File.file?(path) && supported_content_file?(path) }
-                   .sort
-                   .map { |file| parse_page(file) }
+      files = Dir.glob(File.join(@source_dir, "**", "*"))
+                 .select { |path| File.file?(path) && supported_content_file?(path) }
+                 .sort
+
+      if @parallel && files.length > 1
+        process_content_files_parallel(files)
+      else
+        process_content_files_sequential(files)
+      end
+    end
+
+    def process_content_files_sequential(files)
+      entries = files.map { |file| parse_page(file) }
 
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
 
       entries.each { |entry| render_page(entry) }
+    end
+
+    def process_content_files_parallel(files)
+      # Phase 1: Parse all files in parallel
+      entries = if @parallel
+                  parse_files_parallel(files)
+                else
+                  files.map { |file| parse_page(file) }
+                end
+
+      # Phase 2: Index pages (must be sequential due to shared state)
+      entries.each { |entry| index_page(entry[:meta]) }
+      inject_collection_data_into_site
+
+      # Phase 3: Render pages in parallel
+      if @parallel
+        render_pages_parallel(entries)
+      else
+        entries.each { |entry| render_page(entry) }
+      end
+    end
+
+    def parse_files_parallel(files)
+      entries = []
+      mutex = Mutex.new
+      queue = Queue.new
+      files.each { |f| queue << f }
+
+      threads = Array.new(@thread_count) do
+        Thread.new do
+          while (file = queue.pop(true) rescue nil)
+            entry = parse_page(file)
+            mutex.synchronize { entries << entry }
+          end
+        end
+      end
+
+      threads.each(&:join)
+      entries.sort_by { |e| e[:meta]["source"] }
+    end
+
+    def render_pages_parallel(entries)
+      queue = Queue.new
+      entries.each { |e| queue << e }
+
+      threads = Array.new(@thread_count) do
+        Thread.new do
+          while (entry = queue.pop(true) rescue nil)
+            render_page(entry)
+          end
+        end
+      end
+
+      threads.each(&:join)
     end
 
     def parse_page(file)
@@ -294,7 +389,7 @@ module Typophic
       FileUtils.mkdir_p(File.dirname(output_path))
       File.write(output_path, rendered, encoding: Encoding::UTF_8)
 
-      puts "Generated: #{output_path}"
+      puts "Generated: #{output_path}" if @verbose
     end
 
     def format_tutorials

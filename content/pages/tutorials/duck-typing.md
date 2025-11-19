@@ -194,7 +194,7 @@ puts "responds to :swim? #{proxy.respond_to?(:swim)}"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/duck-typing"
      data-practice-index="3"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; out = output.string; assert out.lines.any? { |l| l.include?('quacks') }; true"><code class="language-ruby">
+     data-test="out = output.string; out.lines.any? { |l| l.include?('quacks') }"><code class="language-ruby">
 # TODO: Write a small snippet that checks whether an object responds
 # to the methods you care about and prints a confirmation instead of
 # inspecting its class.

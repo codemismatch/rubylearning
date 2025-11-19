@@ -36,13 +36,20 @@ module Typophic
           host: "localhost",
           build: false,
           watch: true,  # Enable watch by default for development
-          livereload: true  # Enable livereload by default for development
+          livereload: true,  # Enable livereload by default for development
+          parallel: true,
+          thread_count: nil
         }
 
         parser(options).parse!(argv)
 
         if options[:build]
-          Typophic::Builder.new.build
+          builder_options = {
+            verbose: true,
+            parallel: options[:parallel]
+          }
+          builder_options[:thread_count] = options[:thread_count] if options[:thread_count]
+          Typophic::Builder.new(builder_options).build
           update_last_build_time(Time.now)
         end
 
@@ -88,6 +95,15 @@ module Typophic
 
           opts.on("--no-livereload", "Disable live reload (live reload is enabled by default)") do
             options[:livereload] = false
+          end
+
+          opts.on("--no-parallel", "Disable parallel processing during builds (slower but more predictable)") do
+            options[:parallel] = false
+          end
+
+          opts.on("--threads COUNT", Integer, "Number of threads for parallel processing (default: auto-detect)") do |count|
+            options[:thread_count] = count
+            options[:parallel] = true
           end
 
           opts.on("-h", "--help", "Show this help message") do
@@ -151,7 +167,12 @@ module Typophic
 
           begin
             puts "Rebuilding site..."
-            Typophic::Builder.new.build
+            builder_options = {
+              verbose: false,  # Less verbose during watch mode
+              parallel: options[:parallel]
+            }
+            builder_options[:thread_count] = options[:thread_count] if options[:thread_count]
+            Typophic::Builder.new(builder_options).build
             puts "Site rebuilt successfully!"
 
             # Update the last build time to trigger refresh

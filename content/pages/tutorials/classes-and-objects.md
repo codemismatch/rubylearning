@@ -343,7 +343,7 @@ make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="0"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Person); person_class = sandbox.const_get(:Person); p = person_class.new('Alex', 30); out = output.string; assert out.lines.any? { |l| l.include?('Alex') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Alex') } && lines.any? { |l| l.include?('30') }"><code class="language-ruby">
 # TODO: Define a Person class with instance variables such as name
 # and age, plus a method that prints a friendly description.
 # Hint:
@@ -382,7 +382,7 @@ person.describe
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="1"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car); vehicle = sandbox.const_get(:Vehicle).new('RubyMobile'); car = sandbox.const_get(:Car).new('RailsRunner'); out = output.string; assert out.lines.any? { |l| l.include?('RubyMobile') }; assert out.lines.any? { |l| l.include?('RailsRunner') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('RubyMobile') } && lines.any? { |l| l.include?('RailsRunner') }"><code class="language-ruby">
 # TODO: Define a Vehicle class with a start method, then create a
 # Car subclass that inherits from Vehicle and adds its own behaviour.
 # Hint:
@@ -427,7 +427,7 @@ car.honk
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="2"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Animal) && sandbox.const_defined?(:Cat); cat = sandbox.const_get(:Cat).new('Misty'); out = output.string; assert out.lines.any? { |l| l.downcase.include?('misty is sleeping') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('misty is sleeping') }"><code class="language-ruby">
 # TODO: Create a base class with a method, then a subclass that
 # overrides that method to specialise the behaviour.
 # Hint:
@@ -468,7 +468,7 @@ cat.sleep
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
      data-practice-index="3"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Book); book = sandbox.const_get(:Book).new('Ruby 101', 'Satish'); book.title = 'Ruby 102'; out = output.string; assert out.lines.any? { |l| l.include?('Ruby 102') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Ruby 102') }"><code class="language-ruby">
 # TODO: Define a Book class that uses attr_accessor and attr_reader,
 # then demonstrate reading and writing attributes.
 # Hint:

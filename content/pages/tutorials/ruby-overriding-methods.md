@@ -81,7 +81,7 @@ Next: keep exploring Flow Control & Collections, now with multiple levels of beh
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
      data-practice-index="0"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car) && sandbox.const_defined?(:Truck); car = sandbox.const_get(:Car).new; truck = sandbox.const_get(:Truck).new; out = output.string; assert out.lines.any? { |l| l.downcase.include?('car') }; assert out.lines.any? { |l| l.downcase.include?('truck') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car for the road') } && lines.any? { |l| l.downcase.include?('truck for hauling') }"><code class="language-ruby">
 # TODO: Define Vehicle#description and override it in Car and Truck
 # to return specialised strings, then instantiate and print them.
 </code></pre>

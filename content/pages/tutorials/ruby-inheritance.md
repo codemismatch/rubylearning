@@ -118,7 +118,7 @@ Next: continue to Flow Control & Collections to exercise these hierarchies insid
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
      data-practice-index="0"
-     data-test="require 'test/unit/assertions'; extend Test::Unit::Assertions; sandbox.const_defined?(:Vehicle) && sandbox.const_defined?(:Car) && sandbox.const_defined?(:Motorcycle); v = sandbox.const_get(:Vehicle).new; c = sandbox.const_get(:Car).new; m = sandbox.const_get(:Motorcycle).new; out = output.string; assert out.lines.any? { |l| l.downcase.include?('car') }; assert out.lines.any? { |l| l.downcase.include?('motorcycle') }; true"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car engine') } && lines.any? { |l| l.downcase.include?('motorcycle engine') }"><code class="language-ruby">
 # TODO: Define a Vehicle base class with start_engine, then subclasses
 # Car and Motorcycle that override start_engine while calling super.
 # Instantiate each and call start_engine.

@@ -11,7 +11,9 @@ module Typophic
         options = {
           clean: true,
           verbose: true,
-          deploy: false
+          deploy: false,
+          parallel: true,
+          thread_count: nil
         }
 
         parser(options).parse!(argv)
@@ -19,7 +21,13 @@ module Typophic
         puts "==== Typophic: Build ====" if options[:verbose]
         clean_public_directory if options[:clean]
 
-        Typophic::Builder.new.build
+        builder_options = {
+          verbose: options[:verbose],
+          parallel: options[:parallel]
+        }
+        builder_options[:thread_count] = options[:thread_count] if options[:thread_count]
+
+        Typophic::Builder.new(builder_options).build
 
         create_deploy_artifacts if options[:deploy]
         create_htaccess
@@ -41,6 +49,15 @@ module Typophic
 
           opts.on("--deploy", "Add deployment-specific artifacts (.nojekyll, 404.html)") do
             options[:deploy] = true
+          end
+
+          opts.on("--no-parallel", "Disable parallel processing (slower but more predictable)") do
+            options[:parallel] = false
+          end
+
+          opts.on("--threads COUNT", Integer, "Number of threads for parallel processing (default: auto-detect)") do |count|
+            options[:thread_count] = count
+            options[:parallel] = true
           end
 
           opts.on("-h", "--help", "Show this help message") do

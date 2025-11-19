@@ -182,8 +182,8 @@ puts "end"
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-procs:2">
-puts "callback = Proc.new { |name| puts \"called callback for \#{name}\" }"
-puts "[\"a\", \"b\"].each(&callback)"
+callback = Proc.new { |name| puts "called callback for #{name}" }
+["a", "b"].each(&callback)
 </script>
 
 #### Practice 4 - Validating callbacks with Proc#arity

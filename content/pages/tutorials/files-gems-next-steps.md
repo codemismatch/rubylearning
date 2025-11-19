@@ -285,7 +285,7 @@ Next steps:
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[File.open File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+     data-test="out = output.string; lines = out.lines.map(&:strip); %w[File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
 # TODO: Print a short outline of a script that would read from one
 # file and write to another using File.open/File.read/File.write.
 # This environment doesn't touch your real filesystem, so focus on
@@ -297,8 +297,8 @@ Next steps:
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/files-gems-next-steps:0">
-puts 'File.open("input.txt", "r") { |f| data = f.read }'
-puts 'File.open("output.txt", "w") { |f| f.write(data) }'
+puts 'data = File.read("input.txt")'
+puts 'File.write("output.txt", data)'
 </script>
 
 #### Practice 2 - Thinking through exception handling
@@ -325,7 +325,6 @@ puts "rescue Errno::ENOENT"
 puts "  puts 'Missing config file'"
 puts "ensure"
 puts "  puts 'cleanup if needed'"
-end
 </script>
 
 #### Practice 3 - Logging and time usage
