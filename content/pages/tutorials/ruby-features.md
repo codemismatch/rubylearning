@@ -134,11 +134,11 @@ puts "Go!"
      data-practice-chapter="rl:chapter:/tutorials/ruby-features"
      data-practice-index="1"></div>
 
-<script type="text/plain" data-practice-solution="rl:chapter:/tutorials/ruby-features:1">&#35; Print a greeting
+<script type="text/plain" data-practice-solution="rl:chapter:/tutorials/ruby-features:1"># Print a greeting
 name = "Rubyist"
 puts "Hello, #{name}"
 
-&#35; Compute a simple result
+# Compute a simple result
 result = 1 + 2
 puts "Result is #{result}"</script>
 

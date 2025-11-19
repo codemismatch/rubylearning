@@ -471,11 +471,18 @@ module Typophic
         build_code_window(language, code_content, executable: false)
       end
 
-      # Protect all <pre> blocks from further markdown transforms
+      # Protect all <pre> and <script> blocks from further markdown transforms
       pre_blocks = []
       html.gsub!(%r{<pre[^>]*>.*?</pre>}m) do |block|
         token = "\x00PRE_#{pre_blocks.length}\x00"
         pre_blocks << block
+        token
+      end
+      
+      script_blocks = []
+      html.gsub!(%r{<script[^>]*>.*?</script>}m) do |block|
+        token = "\x00SCRIPT_#{script_blocks.length}\x00"
+        script_blocks << block
         token
       end
 
@@ -517,6 +524,11 @@ module Typophic
       # Restore protected <pre> blocks
       pre_blocks.each_with_index do |block, i|
         html.gsub!("\x00PRE_#{i}\x00", block)
+      end
+      
+      # Restore protected <script> blocks
+      script_blocks.each_with_index do |block, i|
+        html.gsub!("\x00SCRIPT_#{i}\x00", block)
       end
 
       "<div class='markdown'>#{html}</div>"

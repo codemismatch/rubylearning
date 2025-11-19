@@ -816,13 +816,7 @@ function initRubyConsoles(vm) {
                       }
 
                       // Always restore from the stored solution
-                      let solution = solutionNode.textContent.replace(/^\s+|\s+$/g, '');
-                      
-                      // Decode HTML entities (in case Markdown processor escaped them)
-                      const textarea = document.createElement('textarea');
-                      textarea.innerHTML = solution;
-                      solution = textarea.value;
-                      
+                      const solution = solutionNode.textContent.replace(/^\s+|\s+$/g, '');
                       codeBlock.textContent = solution;
                       if (typeof Prism !== 'undefined') {
                         Prism.highlightElement(codeBlock);
