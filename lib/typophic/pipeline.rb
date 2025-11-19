@@ -36,7 +36,7 @@ module Typophic
       end
 
       def default_steps
-        %w[rubocop_ruby_blocks hash_blocks ruby_exec markdown]
+        %w[rubocop_ruby_blocks hash_blocks ruby_exec ruby_pre_blocks markdown]
       end
     end
 

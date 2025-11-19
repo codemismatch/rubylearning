@@ -29,4 +29,5 @@ pipeline:
   - rubocop_ruby_blocks  # Auto-format Ruby code blocks with RuboCop
   - hash_blocks          # Process #> ... #! style blocks
   - ruby_exec            # Process ```ruby-exec blocks
+  - ruby_pre_blocks      # Wrap legacy <pre data-executable> blocks in code windows
   - markdown             # Convert Markdown to HTML

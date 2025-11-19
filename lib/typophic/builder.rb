@@ -583,6 +583,33 @@ module Typophic
       html
     end
 
+    # Wrap legacy inline Ruby <pre> blocks that were authored directly in
+    # Markdown as executable code windows so they pick up the same UI and
+    # overlay behaviour as ruby-exec fences.
+    def pipeline_ruby_pre_blocks(content, _page)
+      html = content.dup
+
+      html.gsub!(%r{<pre\s+class="language-ruby"\s+data-executable="true"[^>]*>.*?</pre>}m) do |pre_block|
+        <<~HTML.chomp
+          <div class="code-window">
+            <div class="code-header">
+              <span class="window-btn red"></span>
+              <span class="window-btn yellow"></span>
+              <span class="window-btn green"></span>
+              <span class="window-title">ruby.rb</span>
+            </div>
+            <div class="code-content">
+              <div class="code-editor">
+                #{pre_block}
+              </div>
+            </div>
+          </div>
+        HTML
+      end
+
+      html
+    end
+
     def pipeline_ruby_exec(content, _page)
       html = content.dup
 
