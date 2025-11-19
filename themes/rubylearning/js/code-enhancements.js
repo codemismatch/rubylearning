@@ -639,6 +639,18 @@ function initRubyConsoles(vm) {
           // Get plain text content (preserve newlines)
           const code = codeBlock.textContent;
           
+          // If content is empty, just clear and put cursor at start
+          if (!code || code.trim().length === 0) {
+            codeBlock.textContent = code; // Preserve whitespace
+            const newRange = document.createRange();
+            const textNode = codeBlock.firstChild || codeBlock.appendChild(document.createTextNode(''));
+            newRange.setStart(textNode, Math.min(cursorOffset, textNode.length));
+            newRange.collapse(true);
+            selection.removeAllRanges();
+            selection.addRange(newRange);
+            return;
+          }
+          
           // Re-highlight using the same function as initial highlighting
           codeBlock.innerHTML = highlightRubyInline(code);
           
@@ -666,6 +678,24 @@ function initRubyConsoles(vm) {
               charCount += nodeLength;
             }
             
+            // If no target node found (cursor beyond content), place at end
+            if (!targetNode) {
+              // Get last text node
+              const walker2 = document.createTreeWalker(
+                codeBlock,
+                NodeFilter.SHOW_TEXT,
+                null
+              );
+              let lastNode = null;
+              while (walker2.nextNode()) {
+                lastNode = walker2.currentNode;
+              }
+              if (lastNode) {
+                targetNode = lastNode;
+                targetOffset = lastNode.length;
+              }
+            }
+            
             if (targetNode) {
               const newRange = document.createRange();
               newRange.setStart(targetNode, Math.min(targetOffset, targetNode.length));
@@ -674,8 +704,23 @@ function initRubyConsoles(vm) {
               selection.addRange(newRange);
             }
           } catch (e) {
-            // Cursor restoration failed, just continue
-            console.warn('Cursor restoration failed:', e);
+            // Cursor restoration failed, try to place at end of content
+            try {
+              const lastChild = codeBlock.lastChild;
+              if (lastChild) {
+                const newRange = document.createRange();
+                if (lastChild.nodeType === Node.TEXT_NODE) {
+                  newRange.setStart(lastChild, lastChild.length);
+                } else {
+                  newRange.setStartAfter(lastChild);
+                }
+                newRange.collapse(true);
+                selection.removeAllRanges();
+                selection.addRange(newRange);
+              }
+            } catch (e2) {
+              console.warn('Cursor restoration completely failed:', e2);
+            }
           }
         };
         
