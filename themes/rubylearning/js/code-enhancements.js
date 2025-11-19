@@ -636,11 +636,11 @@ function initRubyConsoles(vm) {
           preCaretRange.setEnd(range.endContainer, range.endOffset);
           const cursorOffset = preCaretRange.toString().length;
           
-          // Get plain text content
+          // Get plain text content (preserve newlines)
           const code = codeBlock.textContent;
           
-          // Re-highlight
-          codeBlock.innerHTML = Prism.highlight(code, Prism.languages.ruby, 'ruby');
+          // Re-highlight using the same function as initial highlighting
+          codeBlock.innerHTML = highlightRubyInline(code);
           
           // Restore cursor position
           try {
