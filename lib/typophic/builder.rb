@@ -309,22 +309,14 @@ module Typophic
 
     def process_content_files_parallel(files)
       # Phase 1: Parse all files in parallel
-      entries = if @parallel
-                  parse_files_parallel(files)
-                else
-                  files.map { |file| parse_page(file) }
-                end
+      entries = parse_files_parallel(files)
 
       # Phase 2: Index pages (must be sequential due to shared state)
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
 
       # Phase 3: Render pages in parallel
-      if @parallel
-        render_pages_parallel(entries)
-      else
-        entries.each { |entry| render_page(entry) }
-      end
+      render_pages_parallel(entries)
     end
 
     def parse_files_parallel(files)
