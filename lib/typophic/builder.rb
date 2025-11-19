@@ -607,9 +607,11 @@ module Typophic
       pre_attributes = []
       pre_attributes << 'class="language-ruby"' if lang == 'ruby'
       pre_attributes << 'data-executable="true"' if executable
-      pre_attributes << 'contenteditable="true"' if executable
       pre_attributes << 'style="white-space: pre-wrap; outline: none;"'
       pre_attr = pre_attributes.any? ? ' ' + pre_attributes.join(' ') : ''
+      code_attributes = ["class=\"#{code_classes.join(' ')}\""]
+      code_attributes << 'contenteditable="true"' if executable
+      code_attr = code_attributes.join(' ')
       escaped_code = ERB::Util.html_escape(code_body)
 
       <<~HTML.chomp
@@ -621,7 +623,7 @@ module Typophic
             <span class="window-title">#{window_title}</span>
           </div>
           <div class="code-content">
-            <pre#{pre_attr}><code class="#{code_classes.join(' ')}">#{escaped_code}
+            <pre#{pre_attr}><code #{code_attr}>#{escaped_code}
             </code></pre>
           </div>
         </div>

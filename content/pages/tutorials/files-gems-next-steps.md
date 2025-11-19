@@ -22,7 +22,7 @@ Real applications interact with files, the command line, and external libraries.
 
 In a typical Ruby environment, you can read/write to files using methods like `File.open`, `File.read`, and `File.write`. Since we're using a browser-based Ruby environment, file operations may be limited to simulated examples:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # In a traditional Ruby environment, you would write:
 # Writing to a file
 # File.open(&quot;sample.txt&quot;, &quot;w&quot;) do |file|
@@ -52,7 +52,7 @@ puts &quot;Lines as array: #{lines.inspect}&quot;  # Fixed interpolation
 
 ### CSV pipelines {#csv}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 require &#39;csv&#39;
 
 sample_scores = &lt;&lt;~CSV
@@ -82,7 +82,7 @@ end
 
 An exception is a special kind of object, an instance of the class `Exception` or a descendant of that class that represents some kind of error:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 divide_numbers = -&gt;(a, b) do
   begin
     result = a / b
@@ -115,7 +115,7 @@ validate_age.call(-5)   # Triggers ArgumentError
 
 The `Logger` class in the Ruby standard library helps write log messages to a file or stream. It supports time- or size-based rolling of log files:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 require &#39;logger&#39;
 require &#39;stringio&#39;
 
@@ -146,7 +146,7 @@ puts log_output.string
 
 The `Time` class in Ruby has a powerful formatting function which can help you represent the time in a variety of ways:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Getting current time
 now = Time.now
 puts &quot;Current time: #{now}&quot;  # Fixed interpolation
@@ -178,7 +178,7 @@ puts &quot;Parsed time: #{parsed_time}&quot;
 
 Ruby comes with built-in object serialization capabilities similar to Java's serialization:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 require &#39;json&#39;
 require &#39;yaml&#39;
 
@@ -211,7 +211,7 @@ puts &quot;Parsed from YAML: #{parsed_yaml}&quot;
 
 Regular expressions, though cryptic, is a powerful tool for working with text. Ruby has this feature built-in. It's used for pattern-matching:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Basic pattern matching
 text = &quot;Contact us at info@example.com or support@company.org&quot;
 email_pattern = /\w+@\w+\.\w+/
@@ -246,7 +246,7 @@ end
 
 Ruby provides several ways to include code from other files:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # require - includes a file once during execution
 # require &#39;json&#39;  # Example: including a library
 

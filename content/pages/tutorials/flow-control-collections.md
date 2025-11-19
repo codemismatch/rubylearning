@@ -23,7 +23,7 @@ Branches and loops let your program respond to data. Ruby's arrays and hashes gi
 
 ### Branching and iteration {#control-flow}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 scores = { &quot;Satish&quot; =&gt; 92, &quot;Matz&quot; =&gt; 99, &quot;Yukihiro&quot; =&gt; 100 }
 
 scores.each do |name, score|
@@ -47,7 +47,7 @@ puts &quot;Even numbers: #{evens.join(&#39;, &#39;)}&quot;
 
 String literals are sequences of characters between single or double quotation marks. Ruby provides many methods to work with strings:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating strings
 single_quoted = &#39;This is a string with single quotes&#39;
 double_quoted = &quot;This is a string with double quotes&quot;
@@ -69,7 +69,7 @@ puts phrase[0, 5] # &quot;Hello&quot; (substring)
 
 ### More on Strings {#more-strings}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # String operations
 first_name = &quot;John&quot;
 last_name = &quot;Doe&quot;
@@ -96,7 +96,7 @@ puts text.rstrip             # Remove trailing whitespace only
 
 So far we have seen methods like `puts` that write to the screen. How does one accept user input? For this, Ruby provides the `gets` method (get string). In our interactive environment, you can test this functionality:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 print &#39;What is your name? &#39;
 name = gets.strip
 
@@ -123,7 +123,7 @@ Ruby names are used to refer to constants, variables, methods, classes, and modu
 
 ### Simple Constructs {#constructs}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # if-else-end construct
 age = 20
 
@@ -159,7 +159,7 @@ end
 
 An Array is just a list of items in order. Every slot in the list acts like a variable: you can see what object a particular slot points to, change what it points to, or add and remove slots:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating arrays
 fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;]
 numbers = [1, 2, 3, 4, 5]
@@ -185,7 +185,7 @@ end
 
 The first and perhaps most natural use of ranges is to express a sequence. Sequences have a start point, an end point, and a way to produce successive values in the sequence:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating ranges
 range1 = 1..5      # Inclusive (1, 2, 3, 4, 5)
 range2 = 1...5     # Exclusive (1, 2, 3, 4)
@@ -212,7 +212,7 @@ end
 
 A symbol looks like a variable name but it's prefixed with a colon. Examples: `:action`, `:line_items`. You don't have to pre-declare a symbol:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Symbols are immutable and unique
 status = :active
 color = :blue
@@ -234,7 +234,7 @@ puts user[:age]     # 30
 
 Hashes (sometimes known as associative arrays, maps, or dictionaries) are similar to arrays in that they are indexed collections of objects:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating hashes
 person = { &quot;name&quot; =&gt; &quot;John&quot;, &quot;age&quot; =&gt; 30 }
 user = { name: &quot;Alice&quot;, email: &quot;alice@example.com&quot;, active: true }
@@ -262,7 +262,7 @@ end
 
 Ruby comes with a random number generator. The method to get a randomly chosen number is `rand`:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Random float between 0 and 1
 puts rand
 

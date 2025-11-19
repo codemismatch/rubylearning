@@ -25,7 +25,7 @@ Methods package behaviour, and Ruby's blocks let you pass snippets of work into 
 
 If objects (such as strings, integers and floats) are the nouns of Ruby, then methods are the verbs. Methods define what actions an object can perform:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Methods on strings
 name = &quot;ruby&quot;
 puts name.upcase # &quot;RUBY&quot;
@@ -49,7 +49,7 @@ puts arr.length       # 3
 
 Let's look at writing our own methods in Ruby:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Basic method definition
 def greet
   puts &quot;Hello, World!&quot;
@@ -75,7 +75,7 @@ add_numbers(5, 3)
 
 ### Method Parameters and Return Values {#method-parameters}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Methods return the last evaluated expression
 def square(x)
   x * x
@@ -106,7 +106,7 @@ puts divide(10, 0)  # Cannot divide by zero!
 
 Scope refers to the reach or visibility of variables. Different types of variables have different scoping rules:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Global variables (accessible everywhere, prefixed with $)
 $global_var = &quot;I&#39;m global&quot;
 
@@ -146,7 +146,7 @@ obj.show_instance
 
 Ruby Code blocks (called closures in other languages) are definitely one of the coolest features of Ruby and are chunks of code between braces `{}` or between `do` and `end`:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Block with braces
 3.times { puts &quot;Hello from block!&quot; }
 
@@ -171,7 +171,7 @@ end
 
 ### Blocks and Yields {#blocks-yield}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 def repeat(times, message)
   times.times do |index|
     yield(index + 1, message)
@@ -193,7 +193,7 @@ puts wrap(&quot;Ruby blocks rock&quot;)
 
 Blocks are not objects, but they can be converted into objects of class Proc:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating a Proc
 my_proc = Proc.new { |x| puts x * 2 }
 
@@ -217,7 +217,7 @@ process_numbers([1, 2, 3], doubler)
 
 Lambdas are similar to Procs but with stricter argument checking:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 # Creating a lambda
 my_lambda = lambda { |x| x * 2 }
 # Alternative syntax

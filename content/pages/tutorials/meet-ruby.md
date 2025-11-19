@@ -43,7 +43,7 @@ His guiding philosophy was the "Principle of Least Surprise" - meaning that Ruby
 
 One of the best ways to see Ruby's elegance is to look at its code. Here's a classic example: a program that prints "Hello, World!" to the screen.
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 puts &quot;Hello, Ruby learner!&quot;
 answer = 40 + 2
 puts &quot;The answer is #{answer}.&quot;
@@ -55,7 +55,7 @@ puts greeting.class
 Compare this to other languages, and you'll immediately notice its simplicity. The puts command is a simple, intuitive way to output a line.
 
 Here's another example that highlights its object-oriented nature:
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 5.times { puts &quot;We love Ruby!&quot; }
 </code></pre>
 

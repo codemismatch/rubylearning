@@ -25,7 +25,7 @@ Ruby classes describe how objects behave. Lean on initializer methods, attribute
 
 So far, the procedural style of programming was used to write our programs. Programming in the object-oriented style allows classes and objects to be the center of the design:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Person
   def initialize(name, age)
     @name = name
@@ -50,7 +50,7 @@ person1.have_birthday
 
 ### Defining classes {#classes}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Course
   attr_reader :title, :chapters
 
@@ -76,7 +76,7 @@ puts ruby_course.describe
 
 ### Instance Variables and Methods {#instance-vars}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class BankAccount
   def initialize(account_holder, initial_balance = 0)
     @account_holder = account_holder
@@ -110,7 +110,7 @@ puts &quot;Final balance: $#{account.balance}&quot;
 
 ### Attribute Accessors {#attribute-accessors}
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Book
   # attr_reader :title, :author - creates getter methods only
   # attr_writer :title, :author - creates setter methods only
@@ -138,7 +138,7 @@ puts book.pages      # 400
 
 Inheritance is a relation between two classes. We know that all cats are mammals, and all mammals are animals. The benefit of inheritance is that the derived classes are a subset of the base class:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Animal
   def initialize(name)
     @name = name
@@ -184,7 +184,7 @@ cat.meow     # Cat&#39;s own method
 
 Method overriding, in object oriented programming, is a language feature that allows a subclass to provide a specific implementation of a method that is already provided by one of its superclasses:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Shape
   def area
     &quot;Area of shape&quot;
@@ -223,7 +223,7 @@ puts &quot;Circle area: #{circle.area}&quot;
 
 The only easy way to change an object's state in Ruby is by calling one of its methods. Control access to the methods:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class BankAccount
   def initialize(account_number, balance = 0)
     @account_number = account_number
@@ -293,7 +293,7 @@ puts 5.factorial # 120
 
 In Ruby, we rely less on the type (or class) of an object and more on its capabilities. Duck Typing means an object type is defined by what it does, not what it is:
 
-<pre class="language-ruby" data-executable="true" contenteditable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
 class Duck
   def speak
     puts &quot;Quack!&quot;
