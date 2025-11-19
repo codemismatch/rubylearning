@@ -255,11 +255,6 @@ pre.language-shell::before {
   z-index: 2;
 }
 
-.code-editor__input:focus {
-  outline: 2px solid rgba(249, 115, 22, 0.3);
-  outline-offset: 0;
-}
-
 /* CodeMirror editor styling to match theme */
 .codemirror-editor-container {
   margin: 0;
