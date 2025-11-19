@@ -255,6 +255,10 @@ pre.language-shell::before {
   z-index: 2;
 }
 
+.code-editor__input:focus {
+  outline: none;
+}
+
 /* CodeMirror editor styling to match theme */
 .codemirror-editor-container {
   margin: 0;
