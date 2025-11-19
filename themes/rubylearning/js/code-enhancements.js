@@ -630,14 +630,27 @@ function initRubyConsoles(vm) {
           const selection = window.getSelection();
           if (!selection.rangeCount) return;
           
-          const range = selection.getRangeAt(0);
-          const preCaretRange = range.cloneRange();
-          preCaretRange.selectNodeContents(codeBlock);
-          preCaretRange.setEnd(range.endContainer, range.endOffset);
-          const cursorOffset = preCaretRange.toString().length;
+          // Save cursor position by counting characters from start
+          let cursorOffset = 0;
+          try {
+            const range = selection.getRangeAt(0);
+            const preCaretRange = range.cloneRange();
+            preCaretRange.selectNodeContents(codeBlock);
+            preCaretRange.setEnd(range.endContainer, range.endOffset);
+            
+            // Use textContent length for accurate position
+            cursorOffset = preCaretRange.toString().length;
+          } catch (e) {
+            // If we can't get cursor position, default to 0
+            console.warn('Could not determine cursor position:', e);
+            cursorOffset = 0;
+          }
           
           // Get plain text content (preserve newlines)
           const code = codeBlock.textContent;
+          
+          console.log('Before highlight - cursor offset:', cursorOffset, 'code length:', code.length);
+          console.log('Code content:', JSON.stringify(code));
           
           // If content is empty, just clear and put cursor at start
           if (!code || code.trim().length === 0) {
@@ -653,6 +666,8 @@ function initRubyConsoles(vm) {
           
           // Re-highlight using the same function as initial highlighting
           codeBlock.innerHTML = highlightRubyInline(code);
+          
+          console.log('After highlight - innerHTML length:', codeBlock.innerHTML.length);
           
           // Restore cursor position
           try {
@@ -697,11 +712,14 @@ function initRubyConsoles(vm) {
             }
             
             if (targetNode) {
+              console.log('Restoring cursor - targetNode:', targetNode.textContent.substring(0, 20), 'offset:', targetOffset);
               const newRange = document.createRange();
               newRange.setStart(targetNode, Math.min(targetOffset, targetNode.length));
               newRange.collapse(true);
               selection.removeAllRanges();
               selection.addRange(newRange);
+            } else {
+              console.warn('No target node found for cursor offset:', cursorOffset);
             }
           } catch (e) {
             // Cursor restoration failed, try to place at end of content
@@ -726,9 +744,25 @@ function initRubyConsoles(vm) {
         
         // Debounce to avoid excessive re-highlighting
         let highlightTimeout;
-        pre.addEventListener('input', () => {
+        let lastEnterTime = 0;
+        
+        // Track Enter key presses to handle newlines better
+        pre.addEventListener('keydown', (e) => {
+          if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && !e.metaKey) {
+            lastEnterTime = Date.now();
+          }
+        });
+        
+        pre.addEventListener('input', (e) => {
           clearTimeout(highlightTimeout);
-          highlightTimeout = setTimeout(addLiveHighlighting, 100);
+          
+          // If Enter was just pressed (within 200ms), use longer debounce to let user continue typing
+          const timeSinceEnter = Date.now() - lastEnterTime;
+          const debounceTime = timeSinceEnter < 200 ? 300 : 100;
+          
+          highlightTimeout = setTimeout(() => {
+            addLiveHighlighting();
+          }, debounceTime);
         });
         
         // Initial highlight
