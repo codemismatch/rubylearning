@@ -23,3 +23,10 @@ repository:
 collections:
   posts:
     permalink: /blog/:slug/
+# Content processing pipeline (processes content in order)
+pipeline:
+  steps:
+  - rubocop_ruby_blocks  # Auto-format Ruby code blocks with RuboCop
+  - hash_blocks          # Process #> ... #! style blocks
+  - ruby_exec            # Process ```ruby-exec blocks
+  - markdown             # Convert Markdown to HTML

@@ -25,13 +25,13 @@ Each section has a code window. Read the comment, hit **Run**, then change somet
 
 ### Ruby as a friendly calculator
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 puts 1 + 2        # addition
 puts 3 * 7        # multiplication
 puts 10 / 4.0     # division (float)
 puts 2**8         # exponent (2 to the power 8)
 puts 5 + 3 * 10   # normal math precedence
-</code></pre>
+```
 
 Ruby only shows results when you ask it to, so we use `puts` to print the answers like a tiny calculator.
 
@@ -39,12 +39,12 @@ Ruby only shows results when you ask it to, so we use `puts` to print the answer
 
 ### Everything is an object
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 42.class          # => Integer
 "hello".upcase   # call a method on a String
 :symbol.to_s     # convert a Symbol to a String
 nil.class        # => NilClass
-</code></pre>
+```
 
 Numbers, strings, symbols, and `nil` are all real objects with methods you can call.
 
@@ -54,16 +54,14 @@ Try adding `.methods.sort.take(5)` after one of the lines to peek at what it can
 
 ### Strings and interpolation
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 name = "Ruby"     # local variable
 age  = 30
-
 puts "Hello, #{name}!"                 # insert name into the string
 puts "Ruby has been around for #{age} years."
-
 multiline = "Line 1\nLine 2\nLine 3"   # \n makes a new line
 puts multiline
-</code></pre>
+```
 
 `#{...}` lets you inject any expression into a string. This is one of the reasons Ruby code often reads like a sentence.
 
@@ -73,16 +71,14 @@ Change the text and try adding your own variables.
 
 ### Arrays, blocks, and Enumerable
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 numbers = [1, 2, 3, 4, 5]                 # an Array
-
 evens   = numbers.select { |n| n.even? }  # keep only even numbers
 squares = numbers.map    { |n| n * n }    # transform each number
-
 puts "Original: #{numbers.inspect}"
 puts "Evens:    #{evens.inspect}"
 puts "Squares:  #{squares.inspect}"
-</code></pre>
+```
 
 Blocks (`{ |n| ... }` or `do ... end`) are little anonymous functions you can hand to methods like `map`, `select`, and `each`. Ruby's `Enumerable` module gives you a whole toolbox of these.
 
@@ -92,19 +88,17 @@ Change the block to double only the odd numbers, or to build a new array of stri
 
 ### Hashes and symbols
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 scores = {
   ruby:   10,   # key is a Symbol, value is an Integer
   python: 9,
   java:   7
 }
-
 scores[:go] = 8  # add a new key/value pair
-
 scores.each do |language, score|
   puts "#{language} => #{score}"
 end
-</code></pre>
+```
 
 Hashes are Ruby's flexible key/value store. Symbols like `:ruby` are lightweight, reusable identifiers that make great hash keys.
 
@@ -114,7 +108,7 @@ Try adding a new language or changing the scoring.
 
 ### Methods: naming tiny ideas
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 def greet(name)
   "Hello, #{name}!"         # last expression is the return value
 end
@@ -125,7 +119,7 @@ end
 
 puts greet("Ruby")
 puts loud_greet("Ruby")
-</code></pre>
+```
 
 Methods let you give names to behaviour and build bigger ideas out of smaller ones.
 
@@ -135,7 +129,7 @@ Rename the methods or add a new one (for example `whisper_greet`) and call it.
 
 ### Classes and objects: your own types
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class Greeter
   def initialize(name)
     @name = name            # instance variable belongs to this object
@@ -148,7 +142,7 @@ end
 
 g = Greeter.new("Rubyist")  # create a new Greeter object
 puts g.hello
-</code></pre>
+```
 
 Classes bundle data and behaviour. `Greeter.new("Rubyist")` creates an object with its own `@name`.
 
@@ -158,7 +152,7 @@ Add a `goodbye` method or change the greeting message.
 
 ### Open classes: teaching old classes new tricks
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class String
   def shout
     upcase + "!!!"          # use existing String methods
@@ -167,7 +161,7 @@ end
 
 puts "ruby".shout
 puts "hello, world".shout
-</code></pre>
+```
 
 In Ruby you can reopen existing classes and add behaviour. This is one of Ruby's most famous "superpowers". Use it with care in real applications, but it is great for exploration.
 
@@ -177,7 +171,7 @@ Try adding `def title_case` to `String` and use it on a sentence.
 
 ### Blocks as little callbacks
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 def with_logging
   puts "Starting work..."                 # runs before the block
   result = yield                          # run the block and capture result
@@ -190,7 +184,7 @@ value = with_logging do
 end
 
 puts "Outside we still have: #{value}"
-</code></pre>
+```
 
 The `yield` keyword "calls" the block that was passed to the method. This is how many Ruby libraries let you write neat internal DSLs.
 
@@ -200,7 +194,7 @@ Change the block to do something more interesting, like building an array, and s
 
 ### Lambdas and closures: functions that remember
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 def make_counter
   count = 0          # local to this method, but captured by the lambda
   -> do
@@ -212,7 +206,7 @@ counter = make_counter   # each call gets its own captured count
 puts counter.call
 puts counter.call
 puts counter.call
-</code></pre>
+```
 
 The lambda remembers the `count` variable from the method where it was created. This "remembering" is called a closure and is used all over Ruby code.
 
@@ -222,7 +216,7 @@ Try creating two separate counters and call them in different orders.
 
 ### Enumerable pipelines: small steps, big power
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 numbers = (1..20).to_a           # turn a Range into an Array
 
 result = numbers
@@ -231,7 +225,7 @@ result = numbers
   .reject { |n| n > 200 }        # drop big ones
 
 puts result.inspect              # show the final Array
-</code></pre>
+```
 
 Chaining `select`, `map`, and `reject` lets you express "what" you want to do without drowning in loops.
 
@@ -241,7 +235,7 @@ Experiment with other steps like `group_by` or `sum`.
 
 ### A tiny configuration DSL
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class Config
   attr_reader :settings
 
@@ -261,7 +255,7 @@ config = Config.new do
 end
 
 puts config.settings.inspect
-</code></pre>
+```
 
 Inside the block, `self` is the config object, so calling `set` reads like a tiny Ruby DSL. Many gems and frameworks use this pattern.
 
@@ -271,7 +265,7 @@ Change the configuration keys or print them in a prettier way.
 
 ### A small interactive script with gets
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 print "What city do you live in? "   # print without a newline
 city = gets.chomp                    # ask the user and remove the newline
 
@@ -279,7 +273,7 @@ print "What country is that in? "
 country = gets.chomp
 
 puts "You live in #{city}, #{country}. Nice!"
-</code></pre>
+```
 
 In this playground `gets` is wired to a browser prompt, so when the code runs you will see a popup asking for input. You can type any city or country you like; the script only cares that it gets some text back.
 
@@ -293,7 +287,7 @@ These are more advanced and a bit cheeky. They show off Ruby's flexible object m
 
 ### Teaching Integer some math slang
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class Integer
   def squared
     self * self     # "self" is the Integer we are calling on
@@ -311,7 +305,7 @@ end
 puts 5.squared
 puts 2.minutes
 puts 10.minutes + 5.seconds
-</code></pre>
+```
 
 Monkey patching `Integer` like this makes tiny scripts read closer to English. In real apps, do this only in very clear, well-named places.
 
@@ -319,7 +313,7 @@ Monkey patching `Integer` like this makes tiny scripts read closer to English. I
 
 ### A tiny Money class with overloaded operators
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class Money
   attr_reader :cents   # expose the amount in cents
 
@@ -345,7 +339,7 @@ sandwich = Money.new(550)
 
 puts coffee + sandwich
 puts (coffee + sandwich) * 3
-</code></pre>
+```
 
 Operators like `+` and `*` are just methods. You can give your own classes natural-feeling arithmetic.
 
@@ -353,7 +347,7 @@ Operators like `+` and `*` are just methods. You can give your own classes natur
 
 ### Bang methods that wrap safer ones
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class String
   def shout!
     replace(upcase + "!!!")   # mutate the original string in-place
@@ -363,7 +357,7 @@ end
 name = "ruby"
 name.shout!
 puts name
-</code></pre>
+```
 
 By convention, `!` means "dangerous" or "mutating". Here `shout!` permanently changes the string instead of returning a new one.
 
@@ -371,7 +365,7 @@ By convention, `!` means "dangerous" or "mutating". Here `shout!` permanently ch
 
 ### Auto-logging every method call
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class Logged
   def self.log_calls!
     instance_methods(false).each do |name|
@@ -400,7 +394,7 @@ end
 calc = Calculator.new
 puts calc.add(2, 3)
 puts calc.mul(4, 5)
-</code></pre>
+```
 
 Metaprogramming lets you wrap every method on a class in one go and add cross-cutting behaviour like logging.
 
@@ -408,7 +402,7 @@ Metaprogramming lets you wrap every method on a class in one go and add cross-cu
 
 ### Auto-vivifying nested hashes
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 tree = Hash.new { |hash, key| hash[key] = Hash.new(&hash.default_proc) }
   # for any missing key, create another hash with the same behaviour
 
@@ -416,7 +410,7 @@ tree[:europe][:france][:paris] = "Eiffel Tower"
 tree[:asia][:japan][:tokyo]    = "Skytree"
 
 p tree
-</code></pre>
+```
 
 The default block calls itself, so missing keys automatically get another hash. You can build deep structures without `||=` everywhere.
 
@@ -424,7 +418,7 @@ The default block calls itself, so missing keys automatically get another hash. 
 
 ### The mysterious flip-flop operator
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 lines = [
   "noise",
   "START",
@@ -437,7 +431,7 @@ lines = [
 lines.each do |line|
   puts line if (line == "START")..(line == "STOP")
 end
-</code></pre>
+```
 
 The range `(cond1)..(cond2)` inside `if` or `unless` acts like a tiny state machine, flipping on at `cond1` and off after `cond2`.
 
@@ -445,13 +439,13 @@ The range `(cond1)..(cond2)` inside `if` or `unless` acts like a tiny state mach
 
 ### Splat in parallel assignment
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 first, *middle, last = [1, 2, 3, 4, 5]
 
 p first   # => 1
 p middle  # => [2, 3, 4]
 p last    # => 5
-</code></pre>
+```
 
 The splat (`*`) lets you capture "the rest" of a list. It feels a bit like pattern matching for arrays.
 
@@ -459,7 +453,7 @@ The splat (`*`) lets you capture "the rest" of a list. It feels a bit like patte
 
 ### tap and the safe navigation operator
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 user = { name: "Rubyist", email: "ruby@example.com" }
 
 handle = user
@@ -469,7 +463,7 @@ handle = user
   &.first
 
 puts "Handle is: #{handle.inspect}"
-</code></pre>
+```
 
 `tap` gives you a place to log or tweak an object in the middle of a chain. `&.` ("lonely operator") calls methods only when the receiver is not `nil`.
 
@@ -477,7 +471,7 @@ puts "Handle is: #{handle.inspect}"
 
 ### Methods with operator-like names
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 class MagicArray < Array
   def <<(value)
     puts "Pushing #{value.inspect}"  # extra behaviour
@@ -494,7 +488,7 @@ m = MagicArray.new
 puts m.empty?
 m << 1
 puts m.empty?
-</code></pre>
+```
 
 Ruby lets you define methods like `<<` and `empty?`, which makes APIs and DSLs read naturally.
 
@@ -502,7 +496,11 @@ Ruby lets you define methods like `<<` and `empty?`, which makes APIs and DSLs r
 
 ### Conditional superclass at runtime
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
+# Clear previous definitions (so you can re-run this example)
+Object.send(:remove_const, :Base) if defined?(Base)
+Object.send(:remove_const, :Greeter) if defined?(Greeter)
+
 verbose = true
 
 Base = verbose ? Struct.new(:name) : Object
@@ -519,7 +517,7 @@ end
 
 puts Greeter.new("Ruby").hello   # if Base is Struct
 puts Greeter.new.hello           # if Base is Object
-</code></pre>
+```
 
 Ruby evaluates the superclass expression when the class is defined, so you can choose behaviour at runtime.
 
@@ -527,14 +525,20 @@ Ruby evaluates the superclass expression when the class is defined, so you can c
 
 ### A tiny CLI-inspired script
 
-<pre class="language-ruby"><code class="language-ruby">
+```ruby-exec
 line_no = 0
 
-File.foreach(__FILE__) do |line|
-  line_no += 1                     # $. is the built-in line counter; we roll our own here
-  print "#{line_no}: #{line}"      # print line number and the original line
+lines = [
+  "First line",
+  "Another line",
+  "Yet another line"
+]
+
+lines.each do |line|
+  line_no += 1                     # our own line counter
+  print "#{line_no}: #{line}\n"      # print line number and the original line
 end
-</code></pre>
+```
 
 This is similar to what Ruby's `-n` and `-p` command-line flags do: wrap your code in a loop that reads each line, optionally printing it.
 

@@ -46,7 +46,7 @@ puts person.greet
 
 You can also run this code:
 
-```ruby-exec
+#> ruby: run
 class Calculator
   def add(a, b)
     a + b
@@ -60,6 +60,6 @@ end
 calc = Calculator.new
 puts "10 + 5 = #{calc.add(10, 5)}"
 puts "10 - 5 = #{calc.subtract(10, 5)}"
-```
+#!
 
 Need more structured guidance? Head back to the [tutorials overview](/tutorials/) for the full chapter list, or visit the [resources page](/pages/resources/) to find supporting courses, videos, and reference material.

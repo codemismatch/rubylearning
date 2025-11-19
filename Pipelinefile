@@ -1,0 +1,10 @@
+# Define the ordered content pipeline.
+# Each name maps to a Ruby function on the builder:
+#   pipeline_<name>(content, page)
+
+content %w[
+  rubocop_ruby_blocks
+  hash_blocks
+  ruby_exec
+  markdown
+]

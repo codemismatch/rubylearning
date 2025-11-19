@@ -55,7 +55,6 @@ module Typophic
       puts "Building site..."
 
       normalize_content_quotes
-      format_tutorials
 
       FileUtils.rm_rf(Dir.glob(File.join(@output_dir, "*")))
 
@@ -281,7 +280,7 @@ module Typophic
       theme_name = theme_for_page(page)
       html_content = case entry[:renderer]
                      when :markdown
-                       render_markdown(entry[:body])
+                       run_content_pipeline(page, entry[:body])
                      when :erb
                        render_inline_template(entry[:body], page, theme_name)
                      when :html
@@ -462,21 +461,10 @@ module Typophic
 
     def render_markdown(content)
       html = content.dup
-
       # Handle code blocks BEFORE any other markdown transforms so that
       # content inside fenced blocks (like lines starting with '#') does not
       # get interpreted as headings or lists.
-      # Process ruby-exec separately from regular code blocks.
-      # Protect ruby-exec blocks first to avoid interference from other processing
-      ruby_exec_blocks = []
-      html.gsub!(/```ruby-exec\n(.*?)```/m) do
-        code_content = Regexp.last_match(1).gsub(/^\s+|\s+$/, '')
-        placeholder = "\x00RUBYEXEC_#{ruby_exec_blocks.length}\x00"
-        ruby_exec_blocks << build_code_window('ruby', code_content, executable: true)
-        placeholder
-      end
-
-      html.gsub!(/```([a-z]*)\n(.*?)```/m) do
+      html.gsub!(/```([a-z]*)[ \t]*\r?\n(.*?)```/m) do
         lang = Regexp.last_match(1)
         code_content = Regexp.last_match(2).gsub(/^\s+|\s+$/, '')
         language = lang.empty? ? nil : lang
@@ -531,12 +519,71 @@ module Typophic
         html.gsub!("\x00PRE_#{i}\x00", block)
       end
 
-      # Restore ruby-exec blocks last
-      ruby_exec_blocks.each_with_index do |replacement, i|
-        html.gsub!("\x00RUBYEXEC_#{i}\x00", replacement)
+      "<div class='markdown'>#{html}</div>"
+    end
+
+    def run_content_pipeline(page, body)
+      steps = Typophic::Pipeline.content_steps
+      steps.reduce(body) do |content, step_name|
+        method = "pipeline_#{step_name}"
+        respond_to?(method, true) ? send(method, content, page) : content
+      end
+    end
+
+    def pipeline_rubocop_ruby_blocks(content, page)
+      return content unless defined?(Typophic::InlineRuboCop)
+
+      formatter = Typophic::InlineRuboCop.instance
+
+      content.gsub(/^#>\s*ruby(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+        options_raw = Regexp.last_match(1).to_s
+        code_body   = Regexp.last_match(2)
+
+        tokens = options_raw.split
+        if tokens.include?("format")
+          formatted = formatter.format(code_body, file: page["source"] || "(ruby-block)")
+          options_out = (tokens - ["format"]).join(" ")
+          options_suffix = options_out.empty? ? "" : ": #{options_out}"
+          "#> ruby#{options_suffix}\n#{formatted.rstrip}\n#!"
+        else
+          Regexp.last_match(0)
+        end
+      end
+    rescue
+      content
+    end
+
+    def pipeline_hash_blocks(content, _page)
+      html = content.dup
+
+      html.gsub!(/^#>\s*([A-Za-z0-9_+\-]+)(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+        lang          = Regexp.last_match(1)
+        options_raw   = Regexp.last_match(2).to_s
+        code_body_raw = Regexp.last_match(3)
+
+        code_body     = code_body_raw.strip
+        tokens        = options_raw.split
+        executable    = tokens.include?("run")
+
+        build_code_window(lang, code_body, executable: executable)
       end
 
-      "<div class='markdown'>#{html}</div>"
+      html
+    end
+
+    def pipeline_ruby_exec(content, _page)
+      html = content.dup
+
+      html.gsub!(/```ruby-exec[ \t]*\r?\n(.*?)```/m) do
+        code_content = Regexp.last_match(1).strip
+        build_code_window('ruby', code_content, executable: true)
+      end
+
+      html
+    end
+
+    def pipeline_markdown(content, _page)
+      render_markdown(content)
     end
 
     def build_code_window(language, code_body, executable: false)
@@ -620,6 +667,7 @@ module Typophic
       glue_fixed = glue_fixed.gsub(/end(?=\S)/, "end\n")
       glue_fixed = glue_fixed.gsub(/\.new(?=[A-Za-z_])/, ".new\n")
       glue_fixed = glue_fixed.gsub(/((?:\"[^\"]*\")|(?:'[^']*'))(?=[A-Za-z_])/, "\\1\n")
+      glue_fixed = glue_fixed.gsub(/(\d)(?=puts\b)/, "\\1\n")
 
       lines = glue_fixed.split("\n")
       indent_level = 0

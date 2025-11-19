@@ -80,3 +80,59 @@ Then customize the generated files under `themes/bonsaiblog/`. For inspiration, 
 
 That’s it — `typophic serve --build` will render the main site using the default theme and `/blog` + `/posts/*` with the blog theme.
 
+## Code windows and runnable examples
+
+Typophic can render decorated "code window" blocks (with the ruby.rb-style header) directly from Markdown content via a lightweight hash-prefixed syntax. This only applies to content that passes through `render_markdown` (files under `content/` that are rendered as Markdown).
+
+### `#> lang: options … #!` blocks
+
+To create a code window in Markdown, wrap your code with a `#>` opener and a `#!` closer on their own lines:
+
+```text
+#> ruby
+puts "Hello, Ruby!"
+#!
+```
+
+- **Opener**: `#> ruby` or `#> ruby: run name=example` must start at the beginning of a line.
+- **Body**: all following lines up to a line that is exactly `#!` (ignoring surrounding whitespace) are treated as the code body.
+- **Closer**: `#!` must be on its own line.
+
+The `lang` token (for example `ruby`) is forwarded to Typophic’s internal `build_code_window(language, code_body, executable: …)` helper, which produces the standard window chrome and `<pre><code>` markup.
+
+Options are parsed as space-separated tokens after the colon:
+
+- **`run`**: marks the window as executable, equivalent to the legacy ```ruby-exec``` fenced block. Internally this sets `executable: true`, which adds `data-executable="true"`, `contenteditable="true"`, and the `ruby-exec` CSS class.
+- **Other flags**: future options like `name=example` can be mapped to `data-*` attributes; for now they are accepted but ignored.
+
+### Relationship to ```ruby-exec``` blocks
+
+Existing Markdown that uses the legacy ```ruby-exec``` fenced syntax continues to work. The builder still recognizes:
+
+```text
+```ruby-exec
+# Ruby code…
+```
+```
+
+and converts it to the same kind of executable code window. Going forward, new runnable examples should prefer the hash-prefixed form:
+
+```text
+#> ruby: run
+# Ruby code…
+#!
+```
+
+This keeps Markdown portable while still giving Typophic enough structure to render the richer window UI.
+
+### ERB layouts and the homepage hero
+
+Layouts such as `themes/rubylearning/layouts/home.html` are rendered as ERB templates via `TemplateContext.render` and do **not** pass through `render_markdown`, except for the injected `content` slot. The homepage hero console is a hand-written `<div class="code-window"><pre><code>…` block inside that ERB template, so it cannot use the `#> ruby: … #!` syntax directly.
+
+If you want the hero to be driven by Markdown in the future, you can:
+
+1. Move the hero console content into a Markdown snippet (for example `content/partials/hero-greeter.md`) using the `#>` syntax.
+2. Render that snippet through `render_markdown` during build and expose it to the layout (for example via a helper or partial).
+3. Inject the rendered HTML into the homepage layout.
+
+Until that refactor is made, keep the hero window as static HTML and use `#> ruby: run` blocks for runnable examples in Markdown-driven content.

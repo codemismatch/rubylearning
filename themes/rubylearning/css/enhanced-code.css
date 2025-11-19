@@ -413,11 +413,17 @@ pre.language-shell::before {
 /* Tint the diamond emoji to ruby red */
 .tinted-diamond {
   filter: hue-rotate(154deg) saturate(2.9) brightness(0.9) contrast(1.5) sepia(0) invert(0) grayscale(0) opacity(1);
-  font-size: 36px; /* smaller */
+  font-size: 36px; /* default large diamond */
   line-height: 1;
   display: inline-block;
   vertical-align: -0.15em;
   margin-right: 0.25rem;
+}
+
+/* Use a smaller diamond in the Mini Ruby console intro */
+.ruby-irb-line--intro .tinted-diamond {
+  font-size: 24px;
+  vertical-align: -0.1em;
 }
 
 /* Ruby SVG icon for console heading */
@@ -453,7 +459,7 @@ pre.language-shell::before {
 }
 
 .ruby-irb-prompt {
-  color: #22c55e;
+  color: #22c55e; /* green prompt */
   font-weight: 600;
   font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
   font-size: 0.9rem;
@@ -469,21 +475,28 @@ pre.language-shell::before {
   position: absolute;
   top: 0.4rem;
   left: 0.1rem;
-  width: 0.6ch;
-  height: 1.2em;
-  background-color: #f97373;
+  width: 1.1ch;
+  height: 1.1em;
+  background-color: #f97316; /* orange to match prompt */
+  border: none;
   pointer-events: none;
-  opacity: 1;
-  animation: ruby-caret-blink 1s steps(1) infinite;
+  z-index: 9999;
+  animation: ruby-caret-blink 1s ease-in-out infinite;
 }
 
 @keyframes ruby-caret-blink {
-  0%, 50% { opacity: 1; }
-  50.01%, 100% { opacity: 0; }
+  0%, 49% {
+    opacity: 1;
+  }
+  50%, 100% {
+    opacity: 0;
+  }
 }
 
 .ruby-irb-ghost {
   display: inline-block;
+  position: relative;
+  z-index: 1;
   margin: 0;
   padding: 0.4rem 0.1rem;
   font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
@@ -506,7 +519,9 @@ pre.language-shell::before {
   font-size: 0.9rem;
   line-height: 1.4;
   font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
-  caret-color: transparent; /* hide native caret */
+  caret-color: transparent; /* hide native caret; we render a block caret */
+  resize: none;
+  z-index: 0;
 }
 
 .ruby-irb-input:focus {
