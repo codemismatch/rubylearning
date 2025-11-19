@@ -40,10 +40,10 @@ Ruby only shows results when you ask it to, so we use `puts` to print the answer
 ### Everything is an object
 
 ```ruby-exec
-42.class          # => Integer
-"hello".upcase   # call a method on a String
-:symbol.to_s     # convert a Symbol to a String
-nil.class        # => NilClass
+p 42.class          # => Integer
+p "hello".upcase    # call a method on a String
+p :symbol.to_s      # convert a Symbol to a String
+p nil.class         # => NilClass
 ```
 
 Numbers, strings, symbols, and `nil` are all real objects with methods you can call.
