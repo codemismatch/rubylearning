@@ -21,21 +21,57 @@ function initRubyConsoles(vm) {
 
           begin
             old_stdout = $stdout
-            # Create a simple IO-like object that captures output to string
-            $stdout = Object.new
-            def $stdout.puts(*args)
-              if args.empty?
-                $typ_irb_output << "\\n"
-              else
-                args.each { |arg| $typ_irb_output << arg.to_s << "\\n" }
+            # Create a proper IO-like object using StringIO pattern
+            # This ensures $stdout has all required IO methods
+            $stdout = Class.new do
+              def initialize(buffer)
+                @buffer = buffer
               end
-            end
-            def $stdout.print(*args)
-              $typ_irb_output << args.join
-            end
-            def $stdout.write(str)
-              $typ_irb_output << str.to_s
-            end
+              
+              def puts(*args)
+                if args.empty?
+                  @buffer << "\\n"
+                else
+                  args.each { |arg| @buffer << arg.to_s << "\\n" }
+                end
+                nil
+              end
+              
+              def print(*args)
+                @buffer << args.join
+                nil
+              end
+              
+              def write(str)
+                @buffer << str.to_s
+                str.to_s.length
+              end
+              
+              def <<(str)
+                @buffer << str.to_s
+                self
+              end
+              
+              def flush
+                # No-op for string buffer
+              end
+              
+              def sync
+                true
+              end
+              
+              def sync=(val)
+                val
+              end
+              
+              def tty?
+                false
+              end
+              
+              def isatty
+                false
+              end
+            end.new($typ_irb_output)
             
             $typ_irb_buffer << line << "\\n"
             begin
