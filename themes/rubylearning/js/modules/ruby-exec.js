@@ -17,11 +17,23 @@ async function addRubyExecSupport() {
     // Initialize stdlib polyfills (Time, JSON, StringIO)
     if (window.RubyStdlibPolyfills) {
       window.RubyStdlibPolyfills.initializeRubyStdlibPolyfills(vm);
+      // Test that require override is working
+      try {
+        const requireTest = vm.eval('$__socket_require_test__');
+        console.log('[Ruby Exec] Socket require test:', requireTest ? requireTest.toString() : 'not set');
+      } catch (e) {
+        console.warn('[Ruby Exec] Could not test socket require:', e);
+      }
     }
     
     // Initialize test framework
     if (window.RubyTestFramework) {
       window.RubyTestFramework.initializeRubyTestFramework(vm);
+    }
+    
+    // Initialize WebSocket polyfill for socket classes
+    if (window.RubyWebSocketPolyfill) {
+      window.RubyWebSocketPolyfill.initializeRubyWebSocketPolyfill(vm);
     }
 
     // Wire interactive stdin via Ruby's JS bridge
@@ -186,14 +198,33 @@ async function addRubyExecSupport() {
               "module Kernel",
               "  # Capture output to string buffer",
               "  def puts(*args)",
-              "    if args.empty?",
-              "      $__exec_output_buffer__ << \"\\n\"",
-              "      $__last_prompt_line__ = nil",
-              "    else",
-              "      args.each do |arg|",
-              "        $__exec_output_buffer__ << arg.to_s << \"\\n\"",
-              "        $__last_prompt_line__ = arg.to_s",
+              "    begin",
+              "      if args.empty?",
+              "        $__exec_output_buffer__ << \"\\n\"",
+              "        $__last_prompt_line__ = nil",
+              "      else",
+              "        args.each do |arg|",
+              "          # Convert to string safely, avoiding async IO",
+              "          str = if arg.nil?",
+              "            'nil'",
+              "          elsif arg.is_a?(String)",
+              "            arg",
+              "          elsif arg.respond_to?(:to_s)",
+              "            begin",
+              "              arg.to_s",
+              "            rescue => e",
+              "              arg.inspect rescue '[object]'",
+              "            end",
+              "          else",
+              "            arg.inspect rescue '[object]'",
+              "          end",
+              "          $__exec_output_buffer__ << str << \"\\n\"",
+              "          $__last_prompt_line__ = str",
+              "        end",
               "      end",
+              "    rescue => e",
+              "      # Fallback if conversion fails",
+              "      $__exec_output_buffer__ << \"[Error in puts: \#{e.message}]\\n\"",
               "    end",
               "    nil",
               "  end",
@@ -322,8 +353,25 @@ async function addRubyExecSupport() {
               );
             }
 
-            const result = vm.eval(programLines.join("\n"));
-            let outputText = result?.toString?.() ?? '';
+            let result;
+            let outputText = '';
+            try {
+              result = vm.eval(programLines.join("\n"));
+              outputText = result?.toString?.() ?? '';
+              
+              // Handle undefined result
+              if (result === undefined || result === null) {
+                outputText = '>> (no output)';
+              } else if (outputText === '' || outputText === 'undefined') {
+                outputText = '>> (empty result)';
+              }
+            } catch (evalError) {
+              // Better error handling
+              const errorMsg = evalError?.message || evalError?.toString() || String(evalError) || 'Unknown error';
+              const errorName = evalError?.name || evalError?.constructor?.name || 'Error';
+              outputText = `Error: ${errorName}: ${errorMsg}`;
+              console.error('Ruby eval error:', evalError);
+            }
 
             let testPassed = null;
             if (isPracticeCheck) {
@@ -384,7 +432,11 @@ async function addRubyExecSupport() {
               }
             }
           } catch (err) {
-            outputContent.textContent = `Error: ${err.message}`;
+            const errorMsg = err?.message || err?.toString() || String(err) || 'Unknown error';
+            const errorName = err?.name || err?.constructor?.name || 'Error';
+            outputContent.textContent = `Error: ${errorName}: ${errorMsg}`;
+            console.error('Failed to execute Ruby code:', err);
+            console.error('Error stack:', err?.stack);
           }
         };
 

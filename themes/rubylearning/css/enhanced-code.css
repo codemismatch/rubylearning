@@ -184,9 +184,13 @@ pre.language-shell::before {
 
 .code-content pre {
   margin: 0;
-  /* Allow pre elements to expand to show all content */
+  /* Allow pre elements to automatically fit content height */
   white-space: pre;
   word-wrap: normal;
+  height: auto;
+  min-height: auto;
+  max-height: none;
+  overflow: visible;
 }
 
 /* Syntax highlighting override for Ruby's common elements */
@@ -230,15 +234,15 @@ pre.language-shell::before {
 .code-editor__highlight {
   margin: 0;
   padding: 1rem;
-  min-height: 150px;
-  /* Keep code windows compact; use scrolling for very long snippets */
-  max-height: 360px;
+  min-height: auto;
+  /* Allow code windows to automatically fit content height */
+  max-height: none;
   height: auto;
   background: #272822;
   color: #f8f8f2;
   font-family: 'JetBrains Mono', 'Fira Code', monospace;
   border-radius: 4px;
-  overflow: auto;
+  overflow: visible;
   pointer-events: none;
   line-height: 1.5;
 }
@@ -265,66 +269,6 @@ pre.language-shell::before {
 
 .code-editor__input:focus {
   outline: none;
-}
-
-/* CodeMirror editor styling to match theme */
-.codemirror-editor-container {
-  margin: 0;
-  padding: 0;
-  min-height: 150px;
-  /* Removed max-height: 600px to allow code windows to expand fully and show all content */
-  /* Use auto to allow scrolling for very long content, but no artificial height limit */
-  overflow: auto;
-  border-radius: 0 0 8px 8px;
-}
-
-.code-window .cm-editor {
-  background: #272822 !important;
-  border: none;
-  outline: none;
-  font-size: 14px;
-  min-height: 150px;
-  height: auto !important;
-}
-
-.code-window .cm-scroller {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-  line-height: 1.5;
-  /* Allow scroller to expand - CodeMirror will handle overflow internally */
-  overflow: auto !important;
-}
-
-.code-window .cm-content {
-  padding: 1rem;
-  color: #f8f8f2;
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
-.code-window .cm-gutters {
-  background: #272822;
-  border: none;
-  color: #90908a;
-}
-
-.code-window .cm-activeLineGutter {
-  background: #3e3d32;
-}
-
-.code-window .cm-activeLine {
-  background: rgba(255, 255, 255, 0.05);
-}
-
-.code-window .cm-line {
-  font-family: 'JetBrains Mono', 'Fira Code', monospace;
-}
-
-.code-window .cm-cursor {
-  border-left-color: #f97316;
-  border-left-width: 2px;
-}
-
-.code-window .cm-selectionBackground {
-  background: rgba(249, 115, 22, 0.3) !important;
 }
 
 .output-area {

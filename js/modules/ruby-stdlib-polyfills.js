@@ -249,46 +249,84 @@ function initializeRubyStdlibPolyfills(vm) {
     
     // Time class polyfill using JavaScript Date
     vm.eval(`
+      # Ensure Time class exists as a top-level constant
+      # Remove any existing Time if it's causing issues
+      Object.send(:remove_const, :Time) if defined?(Time)
+      
       class Time
         include Comparable
         
+        def initialize(js_date = nil, utc = false)
+          @js_date = js_date || JS.global.eval("new Date()")
+          @utc = utc
+        end
+        
+        @@_creating_instance = false
+        
+        def self._create_instance(js_date, utc = false)
+          # Internal method to create instances without recursion
+          # Use a flag to prevent recursion when calling new
+          return nil if @@_creating_instance
+          
+          @@_creating_instance = true
+          begin
+            # Create anonymous class that bypasses Time.new
+            time_class = Class.new(Time) do
+              # Override new to call superclass allocate directly
+              def self.new(*args)
+                # If called with our special args (js_date, utc), use them
+                if args.length == 2 && args[0].respond_to?(:call) && args[0].respond_to?(:getTime)
+                  instance = allocate
+                  instance.instance_variable_set(:@js_date, args[0])
+                  instance.instance_variable_set(:@utc, args[1])
+                  instance
+                else
+                  # Otherwise call parent
+                  super(*args)
+                end
+              end
+            end
+            
+            # Create instance using the anonymous class
+            instance = time_class.new(js_date, utc)
+            
+            # Verify it's an instance
+            unless instance.is_a?(Time) && !instance.is_a?(Class)
+              raise "Failed to create Time instance"
+            end
+            
+            instance
+          ensure
+            @@_creating_instance = false
+          end
+        end
+        
         def self.now
           js_date = JS.global.eval("new Date()")
-          time = allocate
-          time.instance_variable_set(:@js_date, js_date)
-          time.instance_variable_set(:@utc, false)
-          time
+          _create_instance(js_date, false)
         end
         
         def self.new(year = nil, month = nil, day = nil, hour = nil, min = nil, sec = nil, usec = nil)
-          if year.nil?
-            now
-          else
-            # Create JS Date from components
-            js_str = "\#{year}-\#{month.to_s.rjust(2, '0')}-\#{day.to_s.rjust(2, '0')}T\#{hour.to_s.rjust(2, '0')}:\#{min.to_s.rjust(2, '0')}:\#{sec.to_s.rjust(2, '0')}"
-            js_date = JS.global.eval("new Date('\#{js_str}')")
-            time = allocate
-            time.instance_variable_set(:@js_date, js_date)
-            time.instance_variable_set(:@utc, false)
-            time
+          # If called with no args, delegate to now
+          if year.nil? && month.nil? && day.nil? && hour.nil? && min.nil? && sec.nil? && usec.nil?
+            return now
           end
+          
+          # Create JS Date from components
+          js_str = "\#{year}-\#{month.to_s.rjust(2, '0')}-\#{day.to_s.rjust(2, '0')}T\#{hour.to_s.rjust(2, '0')}:\#{min.to_s.rjust(2, '0')}:\#{sec.to_s.rjust(2, '0')}"
+          js_date = JS.global.eval("new Date('\#{js_str}')")
+          _create_instance(js_date, false)
         end
         
         def self.utc(year, month = 1, day = 1, hour = 0, min = 0, sec = 0, usec = 0)
           js_str = "\#{year}-\#{month.to_s.rjust(2, '0')}-\#{day.to_s.rjust(2, '0')}T\#{hour.to_s.rjust(2, '0')}:\#{min.to_s.rjust(2, '0')}:\#{sec.to_s.rjust(2, '0')}Z"
           js_date = JS.global.eval("new Date('\#{js_str}')")
-          time = allocate
-          time.instance_variable_set(:@js_date, js_date)
-          time.instance_variable_set(:@utc, true)
-          time
+          _create_instance(js_date, true)
         end
         
         def self.parse(str)
           js_date = JS.global.eval("new Date('\#{str}')")
-          time = allocate
-          time.instance_variable_set(:@js_date, js_date)
-          time.instance_variable_set(:@utc, false)
-          time
+          _create_instance(js_date, false)
         end
         
         def initialize_copy(other)
@@ -352,7 +390,19 @@ function initializeRubyStdlibPolyfills(vm) {
         end
         
         def to_s
-          strftime("%Y-%m-%d %H:%M:%S")
+          begin
+            result = strftime("%Y-%m-%d %H:%M:%S")
+            # Ensure we return a string, not nil or undefined
+            if result.nil? || result == ""
+              # Fallback format
+              "\#{year}-\#{month.to_s.rjust(2, '0')}-\#{day.to_s.rjust(2, '0')} \#{hour.to_s.rjust(2, '0')}:\#{min.to_s.rjust(2, '0')}:\#{sec.to_s.rjust(2, '0')}"
+            else
+              result
+            end
+          rescue => e
+            # Last resort fallback
+            "\#{year}-\#{month}-\#{day} \#{hour}:\#{min}:\#{sec}"
+          end
         end
         
         def ctime
@@ -363,10 +413,7 @@ function initializeRubyStdlibPolyfills(vm) {
         
         def +(seconds)
           new_js_date = JS.global.eval("new Date(\#{@js_date.call(:getTime).to_i + (seconds * 1000)})")
-          new_time = Time.allocate
-          new_time.instance_variable_set(:@js_date, new_js_date)
-          new_time.instance_variable_set(:@utc, @utc)
-          new_time
+          Time._create_instance(new_js_date, @utc)
         end
         
         def -(other)
@@ -374,10 +421,7 @@ function initializeRubyStdlibPolyfills(vm) {
             (@js_date.call(:getTime).to_i - other.instance_variable_get(:@js_date).call(:getTime).to_i) / 1000.0
           else
             new_js_date = JS.global.eval("new Date(\#{@js_date.call(:getTime).to_i - (other * 1000)})")
-            new_time = Time.allocate
-            new_time.instance_variable_set(:@js_date, new_js_date)
-            new_time.instance_variable_set(:@utc, @utc)
-            new_time
+            Time._create_instance(new_js_date, @utc)
           end
         end
         
@@ -396,10 +440,7 @@ function initializeRubyStdlibPolyfills(vm) {
           else
             js_str = @js_date.call(:toISOString).to_s
             js_date = JS.global.eval("new Date('\#{js_str}')")
-            time = Time.allocate
-            time.instance_variable_set(:@js_date, js_date)
-            time.instance_variable_set(:@utc, true)
-            time
+            Time._create_instance(js_date, true)
           end
         end
         
@@ -407,20 +448,278 @@ function initializeRubyStdlibPolyfills(vm) {
           if utc?
             js_str = @js_date.call(:toISOString).to_s
             js_date = JS.global.eval("new Date('\#{js_str}')")
-            time = Time.allocate
-            time.instance_variable_set(:@js_date, js_date)
-            time.instance_variable_set(:@utc, false)
-            time
+            Time._create_instance(js_date, false)
           else
             self
           end
+        end
+        
+        def to_f
+          # Return seconds since epoch as float
+          @js_date.call(:getTime).to_i / 1000.0
+        end
+        
+        def to_i
+          # Return seconds since epoch as integer
+          (@js_date.call(:getTime).to_i / 1000).to_i
         end
         
         def inspect
           "\#<Time: \#{to_s}>"
         end
       end
+      
+      # Ensure Time is available as a top-level constant
+      Object.const_set(:Time, Time) unless Object.const_defined?(:Time)
+      
+      # Verify Time is accessible
+      unless defined?(Time)
+        raise "Time class not properly defined"
+      end
+      
+      # Test that Time.now works
+      begin
+        test_time = Time.now
+        unless test_time.is_a?(Time)
+          raise "Time.now did not return Time instance"
+        end
+      rescue => e
+        puts "Warning: Time.now test failed: \#{e.message}"
+      end
+      
+
+      # Make require "socket" work - classes are defined below
+      module Kernel
+        alias_method :__original_require__, :require if method_defined?(:require)
+
+        def require(name)
+          name_str = name.to_s
+          if name_str == "socket" || name_str == "socket.rb"
+            return true
+          end
+          if name_str == "js" || name_str == "js.rb"
+            return true
+          end
+
+          if method_defined?(:__original_require__)
+            begin
+              return __original_require__(name)
+            rescue LoadError => e
+              if name_str == "socket" || name_str == "socket.rb"
+                return true
+              end
+              if name_str == "js" || name_str == "js.rb"
+                return true
+              end
+              raise e
+            end
+          end
+
+          raise LoadError, "cannot load such file -- #{name_str}"
+        end
+
+        module_function :require
+      end
+
+      def require(name)
+        Kernel.require(name)
+      end
+
+      begin
+        test_result = require("socket")
+        $__socket_require_test__ = test_result ? "socket_require_works" : "socket_require_failed"
+      rescue => e
+        $__socket_require_test__ = "socket_require_error: #{e.message}"
+      end
+
+      class TCPSocket
+        def initialize(host, port)
+          @host = host.to_s
+          @port = port.to_i
+          @closed = false
+          @connected = false
+
+          ws_url = "wss://echo.websocket.org"
+          @socket_id = "#{@host}:#{@port}:#{Time.now.to_f}"
+
+          JS.global.eval("
+            if (!window.__ruby_ws_buffers__) window.__ruby_ws_buffers__ = {};
+            if (!window.__ruby_ws_connections__) window.__ruby_ws_connections__ = {};
+            if (!window.__ruby_ws_sockets__) window.__ruby_ws_sockets__ = {};
+            window.__ruby_ws_buffers__['#{@socket_id}'] = [];
+            window.__ruby_ws_connections__['#{@socket_id}'] = { connected: false };
+          ")
+
+          @ws = JS.global.eval("
+            (function() {
+              var ws = new WebSocket('#{ws_url}');
+              ws.onopen = function() {
+                window.__ruby_ws_connections__['#{@socket_id}'].connected = true;
+              };
+              ws.onmessage = function(event) {
+                window.__ruby_ws_buffers__['#{@socket_id}'].push(event.data);
+              };
+              ws.onclose = function() {
+                window.__ruby_ws_connections__['#{@socket_id}'].connected = false;
+              };
+              window.__ruby_ws_sockets__['#{@socket_id}'] = ws;
+              return ws;
+            })()
+          ")
+
+          start_time = Time.now
+          loop do
+            ready_state = @ws[:readyState] || @ws['readyState']
+            break if ready_state == 1
+            break if (Time.now - start_time) > 5.0
+            sleep(0.01)
+          end
+
+          ready_state = @ws[:readyState] || @ws['readyState']
+          if ready_state == 1
+            @connected = true
+          else
+            raise "Connection failed"
+          end
+        end
+
+        def write(data)
+          raise "Not connected" unless @connected
+          data_str = data.to_s
+          escaped = data_str.gsub("\\", "\\\\").gsub("'", "\\'").gsub('"', '\\"')
+
+          result = JS.global.eval("
+            var ws = window.__ruby_ws_sockets__['#{@socket_id}'];
+            if (ws && ws.readyState === 1) {
+              ws.send('#{escaped}');
+              true;
+            } else {
+              false;
+            }
+          ")
+
+          unless result
+            raise "Send failed"
+          end
+          data_str.length
+        end
+
+        def gets(sep = $/)
+          raise "Not connected" unless @connected
+
+          start_time = Time.now
+          loop do
+            data = JS.global.eval("window.__ruby_ws_buffers__['#{@socket_id}']?.shift()")
+            return data.to_s if data
+
+            break if (Time.now - start_time) > 5.0
+            sleep(0.01)
+          end
+          nil
+        end
+
+        def close
+          @closed = true
+          @connected = false
+          JS.global.eval("
+            var ws = window.__ruby_ws_sockets__['#{@socket_id}'];
+            if (ws) ws.close();
+            delete window.__ruby_ws_sockets__['#{@socket_id}'];
+          ")
+        end
+
+        def closed?
+          @closed || !@connected
+        end
+      end
+
+      class TCPServer
+        def initialize(host, port)
+          @host = host.to_s
+          @port = port.to_i
+          @closed = false
+        end
+
+        def accept
+          socket = TCPSocket.new(@host, @port)
+          socket
+        end
+
+        def close
+          @closed = true
+        end
+
+        def closed?
+          @closed
+        end
+      end
+
+      class Thread
+        @@threads = []
+
+        def self.start(*args, &block)
+          thread = Thread.new(*args, &block)
+          @@threads << thread
+          thread
+        end
+
+        def self.new(*args, &block)
+          thread_obj = allocate
+          thread_obj.instance_variable_set(:@alive, true)
+          thread_obj.instance_variable_set(:@value, nil)
+          thread_obj.instance_variable_set(:@completed, false)
+          thread_obj.instance_variable_set(:@thread_id, Thread.object_id)
+
+          begin
+            thread_obj.instance_variable_set(:@value, block.call(*args)) if block
+            thread_obj.instance_variable_set(:@completed, true)
+          rescue => e
+            thread_obj.instance_variable_set(:@error, e)
+            thread_obj.instance_variable_set(:@completed, true)
+          ensure
+            thread_obj.instance_variable_set(:@alive, false)
+          end
+
+          thread_obj
+        end
+
+        def join
+          self
+        end
+
+        def alive?
+          @alive
+        end
+
+        def value
+          @value
+        end
+
+        def self.current
+          @current_thread ||= begin
+            thread = allocate
+            thread.instance_variable_set(:@alive, true)
+            thread.instance_variable_set(:@thread_id, 0)
+            thread
+          end
+          @current_thread
+        end
+
+        def self.list
+          @@threads
+        end
+      end
+
+      "time_polyfill_ready"
     `);
+    
+    // Verify Time was initialized
+    try {
+      const timeCheck = vm.eval('defined?(Time)');
+      console.log('Time class defined:', timeCheck.toString());
+    } catch (err) {
+      console.warn('Could not verify Time class:', err);
+    }
     
     // JSON polyfill using JavaScript JSON
     vm.eval(`
