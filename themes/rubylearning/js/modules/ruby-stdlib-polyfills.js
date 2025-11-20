@@ -84,6 +84,169 @@ function initializeRubyStdlibPolyfills(vm) {
       end
     `);
     
+    // String methods polyfill - ensure common string methods work
+    // Note: The 'iupcase' error suggests methods might be getting corrupted
+    // We'll ensure all common methods exist and work correctly
+    vm.eval(`
+      # Ensure String class has all common methods
+      # Add implementations using JavaScript for reliability
+      class String
+        # Always ensure upcase works - use JS for reliability
+        alias_method :__original_upcase, :upcase if method_defined?(:upcase)
+        def upcase
+          if defined?(JS) && JS.respond_to?(:global)
+            begin
+              JS.global.eval("('\#{self}').toUpperCase()").to_s
+            rescue
+              # Fallback to original if it exists
+              if method_defined?(:__original_upcase)
+                __original_upcase
+              else
+                self.tr('a-z', 'A-Z')
+              end
+            end
+          elsif method_defined?(:__original_upcase)
+            __original_upcase
+          else
+            self.tr('a-z', 'A-Z')
+          end
+        end
+        
+        alias_method :__original_downcase, :downcase if method_defined?(:downcase)
+        def downcase
+          if defined?(JS) && JS.respond_to?(:global)
+            begin
+              JS.global.eval("('\#{self}').toLowerCase()").to_s
+            rescue
+              method_defined?(:__original_downcase) ? __original_downcase : self.tr('A-Z', 'a-z')
+            end
+          elsif method_defined?(:__original_downcase)
+            __original_downcase
+          else
+            self.tr('A-Z', 'a-z')
+          end
+        end
+        
+        unless method_defined?(:capitalize)
+          def capitalize
+            if self.empty?
+              self
+            else
+              self[0].upcase + self[1..-1].downcase
+            end
+          end
+        end
+        
+        unless method_defined?(:reverse)
+          def reverse
+            if defined?(JS) && JS.respond_to?(:global)
+              JS.global.eval("('\#{self}').split('').reverse().join('')").to_s
+            else
+              # Fallback implementation
+              result = ""
+              (self.length - 1).downto(0) { |i| result << self[i] }
+              result
+            end
+          end
+        end
+        
+        unless method_defined?(:strip)
+          def strip
+            if defined?(JS) && JS.respond_to?(:global)
+              JS.global.eval("('\#{self}').trim()").to_s
+            else
+              self.gsub(/^\\s+|\\s+$/, '')
+            end
+          end
+        end
+        
+        unless method_defined?(:lstrip)
+          def lstrip
+            if defined?(JS) && JS.respond_to?(:global)
+              JS.global.eval("('\#{self}').replace(/^\\s+/, '')").to_s
+            else
+              self.gsub(/^\\s+/, '')
+            end
+          end
+        end
+        
+        unless method_defined?(:rstrip)
+          def rstrip
+            if defined?(JS) && JS.respond_to?(:global)
+              JS.global.eval("('\#{self}').replace(/\\s+$/, '')").to_s
+            else
+              self.gsub(/\\s+$/, '')
+            end
+          end
+        end
+        
+        unless method_defined?(:length)
+          def length
+            if defined?(JS) && JS.respond_to?(:global)
+              JS.global.eval("('\#{self}').length").to_i
+            else
+              # Fallback - count bytes/characters
+              self.bytesize
+            end
+          end
+        end
+        
+        unless method_defined?(:size)
+          alias_method :size, :length
+        end
+        
+        unless method_defined?(:empty?)
+          def empty?
+            self.length == 0
+          end
+        end
+        
+        unless method_defined?(:include?)
+          def include?(substr)
+            self.index(substr) != nil
+          end
+        end
+        
+        unless method_defined?(:start_with?)
+          def start_with?(*prefixes)
+            prefixes.any? { |prefix| self[0, prefix.length] == prefix }
+          end
+        end
+        
+        unless method_defined?(:end_with?)
+          def end_with?(*suffixes)
+            suffixes.any? { |suffix| self[-suffix.length..-1] == suffix }
+          end
+        end
+        
+        unless method_defined?(:gsub)
+          def gsub(pattern, replacement = nil, &block)
+            if block_given?
+              self.split(pattern).map { |part| block.call(part) }.join
+            elsif replacement
+              self.split(pattern).join(replacement.to_s)
+            else
+              self
+            end
+          end
+        end
+        
+        unless method_defined?(:sub)
+          def sub(pattern, replacement = nil, &block)
+            if block_given?
+              parts = self.split(pattern, 2)
+              parts.length > 1 ? parts[0] + block.call(parts[1]) + parts[2..-1].join : self
+            elsif replacement
+              parts = self.split(pattern, 2)
+              parts.length > 1 ? parts[0] + replacement.to_s + parts[2..-1].join : self
+            else
+              self
+            end
+          end
+        end
+      end
+    `);
+    
     // Time class polyfill using JavaScript Date
     vm.eval(`
       class Time
