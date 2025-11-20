@@ -210,12 +210,28 @@ puts "host: #{host}"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/and result: (true|false|nil)/) } && lines.any? { |l| l.match?(/&& result: (true|false|nil)/) }"><code class="language-ruby">
+     data-test="
+# Test that student code demonstrates and/&& precedence differences
+# Variables a, b, c, d should be set by student code and available here
+
+# Check that student demonstrated 'and' precedence
+# a = true and b = false means: (a = true) and (b = false)
+# So a gets true, b gets false
+assert_equal true, a, 'and has lower precedence, so a should be true'
+assert_equal false, b, 'b should be false'
+
+# Check that student demonstrated '&&' precedence  
+# c = true && d = false means: c = (true && (d = false))
+# So d gets false, then true && false evaluates to false, so c gets false
+assert_equal false, c, '&& has higher precedence, so c should be false (result of true && false)'
+assert_equal false, d, 'd should be false'
+"><code class="language-ruby">
 # TODO: Write a small script that uses both `and` and `&&` with
 # assignments, then print out the results to compare.
 # Hint:
 #   - Try patterns like: value = true and other = false
 #   - Repeat with && and print the assigned values.
+#   - Store results in variables so tests can verify them
 </code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/numbers-in-ruby"
