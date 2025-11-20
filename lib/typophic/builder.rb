@@ -553,9 +553,12 @@ module Typophic
       # get interpreted as headings or lists.
       html.gsub!(/```([a-z]*)[ \t]*\r?\n(.*?)```/m) do
         lang = Regexp.last_match(1)
-        code_content = Regexp.last_match(2).gsub(/^\s+|\s+$/, '')
+        code_content = Regexp.last_match(2)
+        # Only strip trailing whitespace from the entire block, preserve newlines
+        code_content = code_content.rstrip
         language = lang.empty? ? nil : lang
-        build_code_window(language, code_content, executable: (language == 'ruby'))
+        # Don't make ruby blocks executable by default - they're just code examples
+        build_code_window(language, code_content, executable: false)
       end
 
       # Protect all <pre> and <script> blocks from further markdown transforms
@@ -634,7 +637,8 @@ module Typophic
 
       formatter = Typophic::InlineRuboCop.instance
 
-      content.gsub(/^#>\s*ruby(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+      # Process #> ruby blocks
+      content = content.gsub(/^#>\s*ruby(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
         options_raw = Regexp.last_match(1).to_s
         code_body   = Regexp.last_match(2)
 
@@ -648,6 +652,31 @@ module Typophic
           Regexp.last_match(0)
         end
       end
+
+      # Process standard markdown ```ruby blocks
+      # Match ```ruby followed by code and closing ```
+      # Note: This must run BEFORE markdown processing to preserve newlines
+      content = content.gsub(/^```ruby\s*\r?\n(.*?)\r?\n```\s*$/m) do |match|
+        code_body = Regexp.last_match(1)
+        
+        # Preserve the code structure - only remove trailing whitespace, keep all newlines
+        code_body = code_body.rstrip
+        
+        # Format with RuboCop (this preserves newlines)
+        formatted = formatter.format(code_body, file: page["source"] || "(ruby-block)")
+        
+        # Remove frozen_string_literal comment if RuboCop added it
+        formatted = formatted.gsub(/^# frozen_string_literal: true\s*\n?/, '')
+        
+        # Preserve all newlines - only strip trailing whitespace from the end
+        formatted = formatted.rstrip
+        
+        # Ensure we have a newline after the opening ```ruby and before closing ```
+        # This preserves the structure that markdown expects
+        "```ruby\n#{formatted}\n```"
+      end
+
+      content
     rescue
       content
     end

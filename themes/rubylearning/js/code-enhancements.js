@@ -44,6 +44,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadScript(basePath + 'modules/ruby-wasm-loader.js');
     await loadScript(basePath + 'modules/ruby-stdlib-polyfills.js');
     await loadScript(basePath + 'modules/ruby-test-framework.js');
+    await loadScript(basePath + 'modules/ruby-websocket-polyfill.js');
     
     // Load Ruby console module if inline console is present
     // (ruby-exec.js will initialize it, but we need the module loaded first)
