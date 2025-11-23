@@ -8,8 +8,8 @@ layout: default
       <h1>Build confidence with <span class="text-ruby">Ruby</span></h1>
       <p class="hero-subtitle">Short, purposeful lessons paired with runnable examples so you can go from &ldquo;Hello World&rdquo; to production-ready Ruby.</p>
       <div class="hero-actions">
-        <a href="<%= url_for('tutorials/') %>" class="btn btn-primary">Browse tutorials</a>
-        <a href="<%= url_for('tutorials/quick-intro/') %>" class="btn btn-secondary">Quick intro</a>
+        <a href="{{ 'tutorials/' | url_for }}" class="btn btn-primary">Browse tutorials</a>
+        <a href="{{ 'tutorials/quick-intro/' | url_for }}" class="btn btn-secondary">Quick intro</a>
       </div>
     </div>
     <div class="hero-image">
@@ -87,7 +87,7 @@ greeter.say_hello</code></pre>
           </div>
           <h3>Ruby foundations</h3>
           <p>Master expressions, flow, and Ruby idioms with curated guides and runnable examples.</p>
-          <a class="read-more" href="<%= url_for('ruby/') %>">
+          <a class="read-more" href="{{ 'ruby/' | url_for }}">
             Explore Ruby
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -98,7 +98,7 @@ greeter.say_hello</code></pre>
           </div>
           <h3>Rails fundamentals</h3>
           <p>Learn MVC, routing, and modern Rails tooling through project-based lessons.</p>
-          <a class="read-more" href="<%= url_for('rails/') %>">
+          <a class="read-more" href="{{ 'rails/' | url_for }}">
             Explore Rails
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -109,7 +109,7 @@ greeter.say_hello</code></pre>
           </div>
           <h3>Project playbooks</h3>
           <p>Follow structured paths to build apps, practice testing, and ship polished features.</p>
-          <a class="read-more" href="<%= url_for('blog/') %>">
+          <a class="read-more" href="{{ 'blog/' | url_for }}">
             Read the blog
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
@@ -122,38 +122,44 @@ greeter.say_hello</code></pre>
   <section class="latest-tutorials">
     <div class="container">
       <h2 class="section-title">Latest Tutorials</h2>
-      <% latest_posts = Array(site.collections&.posts || [])
-        .sort_by { |post| post.date || Date.today }
-        .reverse
-        .first(3) %>
-
-      <div class="post-grid">
-        <% latest_posts.each do |post| %>
-          <div class="post-card">
-            <h3><a href="<%= url_for(post.permalink) %>"><%= post.title %></a></h3>
-            <div class="post-meta">
-              <% if post.date %>
-                <span class="post-date"><%= post.date.strftime(site.date_format || '%B %-d, %Y') %></span>
-              <% end %>
-              <% Array(post.tags).first(3).each do |tag| %>
-                <span class="post-tag"><%= tag %></span>
-              <% end %>
+      {% assign posts = site.collections.posts %}
+      {% if posts %}
+        <div class="post-grid">
+          {% for post in posts %}
+            {% if forloop.index0 < 3 %}
+            <div class="post-card">
+              <h3><a href="{{ post.permalink | url_for }}">{{ post.title }}</a></h3>
+              <div class="post-meta">
+                {% if post.date %}
+                  <span class="post-date">{{ post.date | date: "%B %-d, %Y" }}</span>
+                {% endif %}
+                {% if post.tags %}
+                  {% for tag in post.tags %}
+                    {% if forloop.index0 < 3 %}
+                      <span class="post-tag">{{ tag }}</span>
+                    {% endif %}
+                  {% endfor %}
+                {% endif %}
+              </div>
+              {% if post.description %}
+                <p>{{ post.description }}</p>
+              {% elsif post.summary %}
+                <p>{{ post.summary }}</p>
+              {% endif %}
+              <a href="{{ post.permalink | url_for }}" class="read-more">
+                Read more
+                <span class="icon-arrow" aria-hidden="true">&gt;</span>
+              </a>
             </div>
-            <% if post.description %>
-              <p><%= post.description %></p>
-            <% elsif post.summary %>
-              <p><%= post.summary %></p>
-            <% end %>
-            <a href="<%= url_for(post.permalink) %>" class="read-more">
-              Read more
-              <span class="icon-arrow" aria-hidden="true">&gt;</span>
-            </a>
-          </div>
-        <% end %>
-      </div>
-      <div class="section-action">
-        <a href="<%= url_for('blog/') %>" class="btn btn-secondary">Browse the blog</a>
-      </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <div class="section-action">
+          <a href="{{ 'blog/' | url_for }}" class="btn btn-secondary">Browse the blog</a>
+        </div>
+      {% else %}
+        <p>No posts yet.</p>
+      {% endif %}
     </div>
   </section>
 
@@ -165,7 +171,7 @@ greeter.say_hello</code></pre>
         <div class="path-item">
           <div class="path-number">1</div>
           <div class="path-content">
-            <h3><a href="<%= url_for('tutorials/meet-ruby/') %>">Ruby fundamentals</a></h3>
+            <h3><a href="{{ 'tutorials/meet-ruby/' | url_for }}">Ruby fundamentals</a></h3>
             <p>Start with the basics: values, methods, conditionals, and loops. Each lesson ends with a runnable snippet.</p>
           </div>
         </div>
@@ -173,7 +179,7 @@ greeter.say_hello</code></pre>
         <div class="path-item">
           <div class="path-number">2</div>
           <div class="path-content">
-            <h3><a href="<%= url_for('tutorials/classes-and-objects/') %>">Object-oriented Ruby</a></h3>
+            <h3><a href="{{ 'tutorials/classes-and-objects/' | url_for }}">Object-oriented Ruby</a></h3>
             <p>Model real objects with classes and modules, and see how Ruby uses mixins to share behaviour.</p>
           </div>
         </div>
@@ -181,7 +187,7 @@ greeter.say_hello</code></pre>
         <div class="path-item">
           <div class="path-number">3</div>
           <div class="path-content">
-            <h3><a href="<%= url_for('tutorials/flow-control-collections/') %>">Collections &amp; blocks</a></h3>
+            <h3><a href="{{ 'tutorials/flow-control-collections/' | url_for }}">Collections &amp; blocks</a></h3>
             <p>Practise the Enumerable toolkit, block passing, and iterators so you can transform data with confidence.</p>
           </div>
         </div>
@@ -234,5 +240,5 @@ greeter.say_hello</code></pre>
   </section>
   
   <!-- Dynamic content from page -->
-  <%= content %>
+  {{ content }}
 </div>

@@ -13,6 +13,8 @@ require "etc"
 require "thread"
 
 require_relative "tutorial_formatter"
+require_relative "pipeline"
+require_relative "renderer/markdown"
 
 module Typophic
   # Core static-site builder that transforms Markdown content and ERB templates
@@ -547,90 +549,13 @@ module Typophic
     end
 
     def render_markdown(content)
-      html = content.dup
-      # Handle code blocks BEFORE any other markdown transforms so that
-      # content inside fenced blocks (like lines starting with '#') does not
-      # get interpreted as headings or lists.
-      html.gsub!(/```([a-z]*)[ \t]*\r?\n(.*?)```/m) do
-        lang = Regexp.last_match(1)
-        code_content = Regexp.last_match(2)
-        # Only strip trailing whitespace from the entire block, preserve newlines
-        code_content = code_content.rstrip
-        language = lang.empty? ? nil : lang
-        # Don't make ruby blocks executable by default - they're just code examples
-        build_code_window(language, code_content, executable: false)
+      builder = lambda do |language, code_body, executable|
+        build_code_window(language, code_body, executable: executable)
       end
 
-      # Protect all <pre> and <script> blocks from further markdown transforms
-      pre_blocks = []
-      html.gsub!(%r{<pre[^>]*>.*?</pre>}m) do |block|
-        token = "\x00PRE_#{pre_blocks.length}\x00"
-        pre_blocks << block
-        token
-      end
-      
-      script_blocks = []
-      html.gsub!(%r{<script[^>]*>.*?</script>}m) do |block|
-        token = "\x00SCRIPT_#{script_blocks.length}\x00"
-        script_blocks << block
-        token
-      end
-
-      # Now apply the rest of the lightweight markdown transforms
-      # (headings, inline code, links, lists, etc.) safely
-      html.gsub!(/^(#+)\s+(.+)$/m) do
-        level = Regexp.last_match(1).length
-        heading_text = Regexp.last_match(2)
-        slug = nil
-
-        if heading_text =~ /\s*\{#([^}]+)\}\s*$/
-          slug = Regexp.last_match(1)
-          heading_text = heading_text.sub(/\s*\{#([^}]+)\}\s*$/, "")
-        end
-
-        heading_text = heading_text.strip
-
-        if slug
-          "<h#{level} id=\"#{slug}\">#{heading_text}</h#{level}>"
-        else
-          "<h#{level}>#{heading_text}</h#{level}>"
-        end
-      end
-
-      html = "<p>" + html + "</p>"
-      html.gsub!(/<\/p>\s*\n+\s*<p>/, "</p>\n<p>")
-      # Remove <p> tags around block elements - match full tags with content
-      html.gsub!(/<p>(<(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)[^>]*>.*?<\/(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)>)\s*<\/p>/m, "\\1")
-      html.gsub!(/<p>(<\/?(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)[^>]*>)<\/p>/m, "\\1")
-      html.gsub!(/<p>\s*(<\/(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)>)\s*<\/p>/m, "\\1")
-      
-      # Convert markdown bold syntax (**text**) to <strong> tags
-      # This must happen after paragraph wrapping but before other inline transforms
-      html.gsub!(/\*\*([^*]+)\*\*/) do
-        "<strong>#{Regexp.last_match(1)}</strong>"
-      end
-      
-      html.gsub!(/`([^`]+)`/) do
-        code_content = Regexp.last_match(1).gsub("<", "&lt;").gsub(">", "&gt;")
-        "<code>#{code_content}</code>"
-      end
-      html.gsub!(/\[([^\]]+)\]\(([^\)]+)\)/, '<a href="\2">\1</a>')
-      # Lists: convert only pure list lines outside of code blocks
-      html.gsub!(/^\-\s+(.+)$/) { "<li>#{$1}</li>" }
-      # Wrap consecutive <li> groups with <ul>
-      html.gsub!(%r{(?:\A|\n)(<li>.+?</li>)(?=\n|\z)}m) { "<ul>#{$1}</ul>" }
-
-      # Restore protected <pre> blocks
-      pre_blocks.each_with_index do |block, i|
-        html.gsub!("\x00PRE_#{i}\x00", block)
-      end
-      
-      # Restore protected <script> blocks
-      script_blocks.each_with_index do |block, i|
-        html.gsub!("\x00SCRIPT_#{i}\x00", block)
-      end
-
-      "<div class='markdown'>#{html}</div>"
+      Typophic::Renderer::Markdown
+        .new(content, code_window_builder: builder)
+        .render
     end
 
     def run_content_pipeline(page, body)
@@ -712,10 +637,16 @@ module Typophic
     # Wrap legacy inline Ruby <pre> blocks that were authored directly in
     # Markdown as executable code windows so they pick up the same UI and
     # overlay behaviour as ruby-exec fences.
+    # IMPORTANT: Skip pre blocks that are already inside code-window divs or have practice attributes
     def pipeline_ruby_pre_blocks(content, _page)
       html = content.dup
 
+      # Skip pre blocks that already have practice attributes or are inside code-window divs
       html.gsub!(%r{<pre\s+class="language-ruby"\s+data-executable="true"[^>]*>.*?</pre>}m) do |pre_block|
+        # Skip if this pre block has practice attributes (it's already a practice block)
+        next pre_block if pre_block.include?('data-practice')
+        # Skip if this pre block is already inside a code-window div
+        next pre_block if pre_block.include?('code-window')
         <<~HTML.chomp
           <div class="code-window">
             <div class="code-header">
@@ -742,9 +673,11 @@ module Typophic
       # Match practice blocks: #> ruby :practice ... #!
       # Pattern matches from #> ruby :practice to #!
       practice_index = 0
+      pattern = /(^|\n)#>\s*ruby\s*:practice\s*\r?\n([\s\S]*?)^#!\s*$/m
       
-      html.gsub!(/^#>\s*ruby\s*:practice\s*\r?\n([\s\S]*?)^#!\s*$/m) do |practice_block|
-        inner_content = Regexp.last_match(1) || ""
+      html.gsub!(pattern) do
+        prefix = Regexp.last_match(1).to_s
+        inner_content = Regexp.last_match(2) || ""
         
         # Extract TODO/initial code (everything before ```solution)
         # This includes any markdown content like **Goal:** lines and TODO comments
@@ -780,7 +713,7 @@ module Typophic
         escaped_todo = CGI.escapeHTML(todo_code)
         
         # Build the HTML structure for practice block
-        <<~HTML
+        replacement = <<~HTML
           <pre class="language-ruby"
                data-executable="true"
                data-practice-chapter="#{practice_chapter}"
@@ -795,6 +728,7 @@ module Typophic
           #{solution_code}
           </script>
         HTML
+        "#{prefix}#{replacement}"
       end
       
       html

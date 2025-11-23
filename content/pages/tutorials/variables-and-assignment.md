@@ -21,10 +21,10 @@ related_tutorials:
 
 When you *assign* a value, Ruby creates the variable on the fly:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 s = "Hello World!"
 x = 10
-</code></pre>
+```
 
 Ruby doesn't need a declaration keyword&mdash;the interpreter simply sees an assignment and allocates the variable.
 
@@ -38,11 +38,11 @@ A bareword is any unadorned identifier (letters, digits, underscores). Ruby inte
 
 > Reference: <https://web.archive.org/web/20181219143329/http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html> -- local variables and barewords share the same syntax, so prefer lowercase snake_case names and avoid Ruby keywords to keep intent clear.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 puts greeting        # method call (will raise NameError if undefined)
 answer = 42          # local variable assignment
-class_name = &quot;User&quot;  # still a variable; keywords must be exact matches
-</code></pre>
+class_name = "User"  # still a variable; keywords must be exact matches
+```
 
 Because method calls and barewords share syntax, name collisions can be confusing. Stick to snake_case for locals, avoid Ruby keywords, and favour descriptive verbs for methods.
 
@@ -50,7 +50,7 @@ Because method calls and barewords share syntax, name collisions can be confusin
 
 Satish's `p004stringusage.rb` script still makes a great tour of assignments:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # frozen_string_literal: true
 
 PI = 3.1416              # constant: name starts with uppercase
@@ -62,7 +62,7 @@ puts my_string
 var1 = 5
 var2 = "2"
 puts var1 + var2.to_i    # convert string to integer
-</code></pre>
+```
 
 Ruby ships with `.to_i`, `.to_f`, and `.to_s` on most core classes so you can convert as needed before combining values.
 
@@ -70,21 +70,21 @@ Ruby ships with `.to_i`, `.to_f`, and `.to_s` on most core classes so you can co
 
 Use the shovel operator `<<` to mutate a string in place:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 message = "hello "
 message << "world.\nI love this world..."
 puts message
-</code></pre>
+```
 
 For multi-line strings, reach for a heredoc:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-story = &lt;&lt; END_STR
+```ruby-exec
+story = << END_STR
  This is the string And a second line
 END_STR
 
 puts story
-</code></pre>
+```
 
 The line containing `END_STR` must be flush-left and match the opening identifier exactly.
 
@@ -92,9 +92,9 @@ The line containing `END_STR` must be flush-left and match the opening identifie
 
 Method calls read as "send this **message** to that **receiver**." The dot connects the two:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 x = "200.0".to_f
-</code></pre>
+```
 
 Here the string `"200.0"` is the receiver and `to_f` is the message. Ruby evaluates the expression on the left of the dot first, then calls the method named on the right.
 
@@ -109,94 +109,86 @@ Next: put these variables to work while branching through Flow Control & Collect
 
 #### Practice 1 - Bareword precedence
 
-<p><strong>Goal:</strong> Assign the same bareword as both a local and a method to observe precedence rules.</p>
+**Goal:** Assign the same bareword as both a local and a method to observe precedence rules.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('status =') } && lines.any? { |l| l.downcase.include?('def status') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that assigns status = \"new\" and also defines
 # def status; \"ok\"; end, then inspect which one is used where.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:0">
+```solution
 puts "status = 'new'"
 puts "def status; 'ok'; end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('status =') } && lines.any? { |l| l.downcase.include?('def status') }
+```
+
+#!
+
 
 #### Practice 2 - Casting with to_s and to_f
 
-<p><strong>Goal:</strong> Extend `p004stringusage.rb` with `.to_s` and `.to_f` examples.</p>
+**Goal:** Extend `p004stringusage.rb` with `.to_s` and `.to_f` examples.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a couple of conversions using to_s and to_f on numeric
 # and string values.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:1">
+```solution
 puts "42.to_s"
 puts "'3.14'.to_f"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| lines.any? { |l| l.include?(m) } }
+```
+
+#!
+
 
 #### Practice 3 - << vs +
 
-<p><strong>Goal:</strong> Append to a string with `<<` and compare the result to concatenation with `+`.</p>
+**Goal:** Append to a string with `<<` and compare the result to concatenation with `+`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<') } && lines.any? { |l| l.include?(' + ') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Show how << mutates a string while + returns a new string,
 # printing both results.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:2">
+```solution
 puts "greeting = 'hi'"
 puts "greeting << ' there'"
 puts "greeting + ' again'"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<') } && lines.any? { |l| l.include?(' + ') }
+```
+
+#!
+
 
 #### Practice 4 - Heredocs with interpolation
 
-<p><strong>Goal:</strong> Define a heredoc that includes interpolation and respects quotation style.</p>
+**Goal:** Define a heredoc that includes interpolation and respects quotation style.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<~') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a simple heredoc using <<~ that interpolates a variable.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:3">
+```solution
 puts "name = 'Ruby'"
 puts "message = <<~TEXT"
 puts "  Hello, \#{name}"
 puts "TEXT"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<~') }
+```
+
+#!
+

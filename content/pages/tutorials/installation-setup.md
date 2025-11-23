@@ -31,31 +31,36 @@ rbenv is lightweight and unobtrusive - perfect for most developers.
 
 #### 1. Install rbenv & Dependencies {#rbenv-dependencies}
 
-macOS:
+**macOS:**
 - `brew install rbenv openssl readline`
-Ubuntu/Debian:
 
-  ```bash
-  sudo apt update && sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev
-  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
-  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
-  exec $SHELL
-  ```
+**Windows:**
+- Use [RubyInstaller](https://rubyinstaller.org/) or [WSL (Windows Subsystem for Linux)](https://learn.microsoft.com/en-us/windows/wsl/) to run Linux-based tools like rbenv
+- For WSL: Follow the Ubuntu/Debian instructions below
+
+**Ubuntu/Debian:**
+
+```bash
+sudo apt update && sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+exec $SHELL
+```
 
 
 #### 2. Install ruby-build plugin {#ruby-build}
 
 ```bash
-`git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build`
+git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
 ```
 
 #### 3. Install & Use Ruby {#install-ruby}
 
 ```bash
-`rbenv install 3.3.0`
-`rbenv global 3.3.0`
-`ruby -v  # Verify installation`
+rbenv install 3.3.0
+rbenv global 3.3.0
+ruby -v  # Verify installation
 ```
 
 ### Alternative: RVM {#rvm-installation}
@@ -66,10 +71,10 @@ One-line install:
 <p></p>
 
 ```bash
-`\curl -sSL https://get.rvm.io | bash -s stable`
-`source ~/.rvm/scripts/rvm`
-`rvm install 3.3.0`
-`rvm use 3.3.0 --default`
+\curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 3.3.0
+rvm use 3.3.0 --default
 ```
 
 #### Verify & Use {#verify-installation}
@@ -78,9 +83,9 @@ Test your installation with these commands:
 <p></p>
 
 ```bash
-`ruby -v    # Should show ruby 3.3.0+`
-`gem -v     # Check gem manager`
-`gem install rails  # Test gem installation`
+ruby -v    # Should show ruby 3.3.0+
+gem -v     # Check gem manager
+gem install rails  # Test gem installation
 ```
 
 #### Which Should You Choose? {#which-to-choose}

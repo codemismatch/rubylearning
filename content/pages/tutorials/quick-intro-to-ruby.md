@@ -21,9 +21,8 @@ related_tutorials:
 
 Each section has a code window. Read the comment, hit **Run**, then change something and run it again.
 
----
 
-### Ruby as a friendly calculator
+#### Ruby as a friendly calculator
 
 ```ruby-exec
 puts 1 + 2        # addition
@@ -35,9 +34,9 @@ puts 5 + 3 * 10   # normal math precedence
 
 Ruby only shows results when you ask it to, so we use `puts` to print the answers like a tiny calculator.
 
----
 
-### Everything is an object
+
+#### Everything is an object
 
 ```ruby-exec
 p 42.class          # => Integer
@@ -50,9 +49,8 @@ Numbers, strings, symbols, and `nil` are all real objects with methods you can c
 
 Try adding `.methods.sort.take(5)` after one of the lines to peek at what it can do.
 
----
 
-### Strings and interpolation
+#### Strings and interpolation
 
 ```ruby-exec
 name = "Ruby"     # local variable
@@ -67,7 +65,6 @@ puts multiline
 
 Change the text and try adding your own variables.
 
----
 
 ### Arrays, blocks, and Enumerable
 
@@ -84,7 +81,6 @@ Blocks (`{ |n| ... }` or `do ... end`) are little anonymous functions you can ha
 
 Change the block to double only the odd numbers, or to build a new array of strings like `"Number: 3"`.
 
----
 
 ### Hashes and symbols
 
@@ -104,7 +100,6 @@ Hashes are Ruby's flexible key/value store. Symbols like `:ruby` are lightweight
 
 Try adding a new language or changing the scoring.
 
----
 
 ### Methods: naming tiny ideas
 
@@ -125,7 +120,6 @@ Methods let you give names to behaviour and build bigger ideas out of smaller on
 
 Rename the methods or add a new one (for example `whisper_greet`) and call it.
 
----
 
 ### Classes and objects: your own types
 
@@ -148,7 +142,6 @@ Classes bundle data and behaviour. `Greeter.new("Rubyist")` creates an object wi
 
 Add a `goodbye` method or change the greeting message.
 
----
 
 ### Open classes: teaching old classes new tricks
 
@@ -167,7 +160,6 @@ In Ruby you can reopen existing classes and add behaviour. This is one of Ruby's
 
 Try adding `def title_case` to `String` and use it on a sentence.
 
----
 
 ### Blocks as little callbacks
 
@@ -190,7 +182,7 @@ The `yield` keyword "calls" the block that was passed to the method. This is how
 
 Change the block to do something more interesting, like building an array, and see how the logging changes.
 
----
+
 
 ### Lambdas and closures: functions that remember
 
@@ -212,7 +204,7 @@ The lambda remembers the `count` variable from the method where it was created. 
 
 Try creating two separate counters and call them in different orders.
 
----
+
 
 ### Enumerable pipelines: small steps, big power
 
@@ -231,7 +223,7 @@ Chaining `select`, `map`, and `reject` lets you express "what" you want to do wi
 
 Experiment with other steps like `group_by` or `sum`.
 
----
+
 
 ### A tiny configuration DSL
 
@@ -261,7 +253,7 @@ Inside the block, `self` is the config object, so calling `set` reads like a tin
 
 Change the configuration keys or print them in a prettier way.
 
----
+
 
 ### A small interactive script with gets
 
@@ -277,13 +269,13 @@ puts "You live in #{city}, #{country}. Nice!"
 
 In this playground `gets` is wired to a browser prompt, so when the code runs you will see a popup asking for input. You can type any city or country you like; the script only cares that it gets some text back.
 
----
+
 
 ### Bonus: Ruby party tricks (extra 20 minutes)
 
 These are more advanced and a bit cheeky. They show off Ruby's flexible object model and syntax.
 
----
+
 
 ### Teaching Integer some math slang
 
@@ -309,7 +301,7 @@ puts 10.minutes + 5.seconds
 
 Monkey patching `Integer` like this makes tiny scripts read closer to English. In real apps, do this only in very clear, well-named places.
 
----
+
 
 ### A tiny Money class with overloaded operators
 
@@ -343,7 +335,7 @@ puts (coffee + sandwich) * 3
 
 Operators like `+` and `*` are just methods. You can give your own classes natural-feeling arithmetic.
 
----
+
 
 ### Bang methods that wrap safer ones
 
@@ -361,7 +353,7 @@ puts name
 
 By convention, `!` means "dangerous" or "mutating". Here `shout!` permanently changes the string instead of returning a new one.
 
----
+
 
 ### Auto-logging every method call
 
@@ -398,7 +390,7 @@ puts calc.mul(4, 5)
 
 Metaprogramming lets you wrap every method on a class in one go and add cross-cutting behaviour like logging.
 
----
+
 
 ### Auto-vivifying nested hashes
 
@@ -414,7 +406,7 @@ p tree
 
 The default block calls itself, so missing keys automatically get another hash. You can build deep structures without `||=` everywhere.
 
----
+
 
 ### The mysterious flip-flop operator
 
@@ -435,7 +427,7 @@ end
 
 The range `(cond1)..(cond2)` inside `if` or `unless` acts like a tiny state machine, flipping on at `cond1` and off after `cond2`.
 
----
+
 
 ### Splat in parallel assignment
 
@@ -449,7 +441,7 @@ p last    # => 5
 
 The splat (`*`) lets you capture "the rest" of a list. It feels a bit like pattern matching for arrays.
 
----
+
 
 ### tap and the safe navigation operator
 
@@ -467,7 +459,7 @@ puts "Handle is: #{handle.inspect}"
 
 `tap` gives you a place to log or tweak an object in the middle of a chain. `&.` ("lonely operator") calls methods only when the receiver is not `nil`.
 
----
+
 
 ### Methods with operator-like names
 
@@ -492,7 +484,7 @@ puts m.empty?
 
 Ruby lets you define methods like `<<` and `empty?`, which makes APIs and DSLs read naturally.
 
----
+
 
 ### Conditional superclass at runtime
 
@@ -521,7 +513,7 @@ puts Greeter.new.hello           # if Base is Object
 
 Ruby evaluates the superclass expression when the class is defined, so you can choose behaviour at runtime.
 
----
+
 
 ### A tiny CLI-inspired script
 
@@ -542,7 +534,7 @@ end
 
 This is similar to what Ruby's `-n` and `-p` command-line flags do: wrap your code in a loop that reads each line, optionally printing it.
 
----
+
 
 ### Where to go next
 

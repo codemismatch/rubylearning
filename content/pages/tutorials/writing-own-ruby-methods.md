@@ -23,7 +23,7 @@ Defining a method is as simple as wrapping logic between `def` and `end`. The la
 
 ### Basic method shapes
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p008mymethods.rb
 # Methods that act as queries often end with ?
 # Bang methods (!) signal a dangerous or mutating variant
@@ -43,13 +43,13 @@ end
 puts hello
 puts hello1("Satish")
 puts hello2 "Talim"
-</code></pre>
+```
 
 ### Default arguments and interpolation
 
 Ruby lets you set default values so callers can omit arguments:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p009mymethods1.rb
 def mtd(arg1="Dibya", arg2="Shashank", arg3="Shashank")
   "#{arg1}, #{arg2}, #{arg3}."
@@ -57,13 +57,13 @@ end
 
 puts mtd
 puts mtd("Ruby")
-</code></pre>
+```
 
 Interpolation (`#{ ... }`) evaluates the expression and inserts the result into the surrounding string:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts &quot;100 * 5 = #{100 * 5}&quot;  # =&gt; 100 * 5 = 500
-</code></pre>
+```ruby-exec
+puts "100 * 5 = #{100 * 5}"  # => 100 * 5 = 500
+```
 
 Ruby still lacks a way to skip the first argument and only override later ones, so order matters.
 
@@ -71,7 +71,7 @@ Ruby still lacks a way to skip the first argument and only override later ones, 
 
 Use `alias new_name old_name` to keep the original implementation before redefining it:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p010aliasmtd.rb
 def oldmtd
   "old method"
@@ -85,7 +85,7 @@ end
 
 puts oldmtd   # => "old improved method"
 puts newmtd   # => "old method"
-</code></pre>
+```
 
 Aliases reference a copy of the original method body, so the new name keeps the old behavior even after redefinition.
 
@@ -93,7 +93,7 @@ Aliases reference a copy of the original method body, so the new name keeps the 
 
 The splat operator collects any number of arguments into an array:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p011vararg.rb
 def foo(*values)
   values.inspect
@@ -101,29 +101,29 @@ end
 
 puts foo("hello", "world")  # ["hello", "world"]
 puts foo                     # []
-</code></pre>
+```
 
 You can mix splats with required parameters--Ruby pushes arguments left-to-right--so defaults can reference earlier values:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p012mtdstack.rb
 def mtd(a = 99, b = a + 1)
   [a, b]
 end
 
 puts mtd.inspect  # [99, 100]
-</code></pre>
+```
 
 ### Mutating arguments
 
 Choose whether your methods mutate the objects you receive:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def downer(str)
   str.downcase
 end
 
-name = &quot;HELLO&quot;
+name = "HELLO"
 downer(name)
 puts name  # HELLO (original unchanged)
 
@@ -133,7 +133,7 @@ end
 
 downer!(name)
 puts name  # hello (mutated)
-</code></pre>
+```
 
 Following Ruby conventions, the bang version (`downer!`) makes the destructive behavior explicit.
 
@@ -148,100 +148,92 @@ Next: move into Flow Control & Collections to loop over data with the methods yo
 
 #### Practice 1 - Greeting with optional arguments
 
-<p><strong>Goal:</strong> Create a method that greets users with optional first and last name arguments.</p>
+**Goal:** Create a method that greets users with optional first and last name arguments.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello') } && lines.any? { |l| l.downcase.include?('guest') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define greet(first = \"Guest\", last = nil) and print at least
 # one greeting that uses defaults and one that passes both names.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:0">
+```solution
 puts "def greet(first = 'Guest', last = nil)"
 puts "  name = [first, last].compact.join(' ')"
 puts "  puts \"Hello, #{name}\""
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello') } && lines.any? { |l| l.downcase.include?('guest') }
+```
+
+#!
+
 
 #### Practice 2 - Aliasing and redefining methods
 
-<p><strong>Goal:</strong> Alias a helper method, redefine the original, and ensure both behaviours remain available.</p>
+**Goal:** Alias a helper method, redefine the original, and ensure both behaviours remain available.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('alias') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a method, alias it, then redefine the original while
 # the alias retains the earlier behaviour.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:1">
+```solution
 puts "def hello; 'hi'; end"
 puts "alias old_hello hello"
 puts "def hello; 'hello'; end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('alias') }
+```
+
+#!
+
 
 #### Practice 3 - Variadic log(*messages)
 
-<p><strong>Goal:</strong> Write a `log(*messages)` method that joins an arbitrary number of arguments and prints them.</p>
+**Goal:** Write a `log(*messages)` method that joins an arbitrary number of arguments and prints them.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define log(*messages) to join its arguments with spaces and
 # print a single line.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:2">
+```solution
 puts "def log(*messages)"
 puts "  puts \"log: #{messages.join(' ')}\""
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }
+```
+
+#!
+
 
 #### Practice 4 - Pure vs bang-style methods
 
-<p><strong>Goal:</strong> Experiment with pure vs bang-style methods to see how mutating arguments affects callers.</p>
+**Goal:** Experiment with pure vs bang-style methods to see how mutating arguments affects callers.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('pure') } && lines.any? { |l| l.include?('bang') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small example of a pure helper that returns a new
 # value and a bang-style helper that mutates an argument.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-own-ruby-methods"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-own-ruby-methods:3">
+```solution
 puts "def pure_upcase(str)"
 puts "  str.upcase"
 puts "end"
 puts "def bang_upcase!(str)"
 puts "  str.upcase!"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('pure') } && lines.any? { |l| l.include?('bang') }
+```
+
+#!
+

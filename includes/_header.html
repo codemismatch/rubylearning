@@ -1,35 +1,40 @@
-<% data_store = site.data || {} %>
-<% nav_data = data_store['navigation'] || data_store[:navigation] || {} %>
+{% assign nav_data = site.data.navigation %}
 <header class="site-header">
   <div class="container">
-    <a href="<%= url_for('/') %>" class="site-logo">
+    <a href="{{ '/' | url_for }}" class="site-logo">
       <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
       <span class="logo-text">Ruby</span>
       <span class="logo-accent">Learning</span>
     </a>
     <nav class="site-nav">
-      <% primary_nav = Array(nav_data['primary'] || nav_data[:primary]) %>
+      {% assign primary_nav = nav_data.primary | default: empty %}
       <ul>
-        <% if primary_nav.any? %>
-          <% primary_nav.each do |item| %>
-            <% label = item['label'] || item[:label] %>
-            <% path = item['path'] || item[:path] %>
-            <% url = item['url'] || item[:url] %>
-            <% external = item['external'] || item[:external] %>
-            <% nav_href = url || (path ? url_for(path) : '#') %>
+        {% if primary_nav and primary_nav.size > 0 %}
+          {% for item in primary_nav %}
+            {% assign label = item.label %}
+            {% assign path = item.path %}
+            {% assign url = item.url %}
+            {% assign external = item.external %}
+            {% if url %}
+              {% assign nav_href = url %}
+            {% elsif path %}
+              {% assign nav_href = path | url_for %}
+            {% else %}
+              {% assign nav_href = "#" %}
+            {% endif %}
             <li>
-              <a href="<%= nav_href %>" <%= 'target="_blank" rel="noopener"' if external %>><%= label %></a>
+              <a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a>
             </li>
-          <% end %>
-        <% else %>
-          <li><a href="<%= url_for('/') %>">Home</a></li>
-          <li><a href="<%= url_for('pages/about/') %>">About</a></li>
-          <li><a href="<%= url_for('tutorials/') %>#ruby-track">Learn Ruby</a></li>
-          <li><a href="<%= url_for('tutorials/') %>#rails-track">Learn Rails</a></li>
-          <li><a href="<%= url_for('tutorials/') %>">Tutorials</a></li>
-          <li><a href="<%= url_for('blog/') %>">Blog</a></li>
-          <li><a href="<%= url_for('pages/resources/') %>">Resources</a></li>
-        <% end %>
+          {% endfor %}
+        {% else %}
+          <li><a href="{{ '/' | url_for }}">Home</a></li>
+          <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
+          <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
+          <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
+          <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+          <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
+          <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
+        {% endif %}
       </ul>
     </nav>
     <button class="menu-toggle" aria-label="Toggle menu">

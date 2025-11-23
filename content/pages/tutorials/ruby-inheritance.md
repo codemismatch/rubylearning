@@ -23,21 +23,21 @@ Inheritance lets you derive a class from another, sharing behavior while customi
 
 ### Defining a hierarchy
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Vehicle
   def start_engine
-    &quot;engine on&quot;
+    "engine on"
   end
 end
 
-class Motorcycle &lt; Vehicle
+class Motorcycle < Vehicle
   def start_engine
-    super + &quot; vroom!&quot;
+    super + " vroom!"
   end
 end
 
-puts Motorcycle.new.start_engine  #=&gt; &quot;engine on vroom!&quot;
-</code></pre>
+puts Motorcycle.new.start_engine  #=> "engine on vroom!"
+```
 
 - Use `<` to specify a superclass.
 - Subclasses automatically inherit methods unless you override them.
@@ -47,14 +47,14 @@ puts Motorcycle.new.start_engine  #=&gt; &quot;engine on vroom!&quot;
 
 `initialize` follows the same rule: `super` passes control up the chain.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Animal
   def initialize(name)
     @name = name
   end
 end
 
-class Dog &lt; Animal
+class Dog < Animal
   def initialize(name, breed)
     super(name)   # pass the name up to Animal
     @breed = breed
@@ -62,7 +62,7 @@ class Dog &lt; Animal
 end
 
 puts Dog.new("Benzy", "Labrador").inspect
-</code></pre>
+```
 
 If you call `super` with empty parentheses (`super()`), Ruby forwards no arguments, giving you precise control.
 
@@ -70,7 +70,7 @@ If you call `super` with empty parentheses (`super()`), Ruby forwards no argumen
 
 Ruby only allows single inheritance, but you can share behavior horizontally with modules. Legacy examples often defined reusable abilities (like `Honks` or `OffRoadable`) and mixed them into subclasses:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 module OffRoadable
   def terrain
     "rocks and mud"
@@ -82,7 +82,7 @@ class Jeep < Vehicle
 end
 
 puts Jeep.new.terrain  #=> "rocks and mud"
-</code></pre>
+```
 
 Modules keep hierarchies shallow while still encouraging code reuse.
 
@@ -91,13 +91,13 @@ Modules keep hierarchies shallow while still encouraging code reuse.
 - `obj.is_a?(ClassOrModule)` and its alias `kind_of?` respect inheritance and mixins.
 - `obj.instance_of?(Class)` matches only the exact class--not subclasses.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-dog = Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;)
+```ruby-exec
+dog = Dog.new("Benzy", "Labrador")
 
 puts dog.is_a?(Animal)        # true
 puts dog.instance_of?(Animal) # false
 puts dog.instance_of?(Dog)    # true
-</code></pre>
+```
 
 Use the right predicate for the question you're asking.
 
@@ -112,24 +112,15 @@ Next: continue to Flow Control & Collections to exercise these hierarchies insid
 
 #### Practice 1 - Extending the Vehicle hierarchy
 
-<p><strong>Goal:</strong> Extend a `Vehicle` hierarchy with subclasses that override `start_engine` and call `super`.</p>
+**Goal:** Extend a `Vehicle` hierarchy with subclasses that override `start_engine` and call `super`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car engine') } && lines.any? { |l| l.downcase.include?('motorcycle engine') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a Vehicle base class with start_engine, then subclasses
 # Car and Motorcycle that override start_engine while calling super.
 # Instantiate each and call start_engine.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:0">
+```solution
 class Vehicle
   def start_engine
     puts "Starting generic engine"
@@ -153,27 +144,25 @@ end
 Vehicle.new.start_engine
 Car.new.start_engine
 Motorcycle.new.start_engine
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car engine') } && lines.any? { |l| l.downcase.include?('motorcycle engine') }
+```
+
+#!
+
 
 #### Practice 2 - super vs super()
 
-<p><strong>Goal:</strong> Override `initialize` in a subclass and experiment with `super` vs `super()`.</p>
+**Goal:** Override `initialize` in a subclass and experiment with `super` vs `super()`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('with args') } && lines.any? { |l| l.downcase.include?('without args') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Build a small example that shows how super and super() behave
 # differently when overriding initialize, and print labelled output.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:1">
+```solution
 class Base
   def initialize(arg = "default")
     puts "Base initialized with #{arg}"
@@ -196,27 +185,25 @@ end
 
 WithArgs.new("with args")
 WithoutArgs.new("ignored")
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('with args') } && lines.any? { |l| l.downcase.include?('without args') }
+```
+
+#!
+
 
 #### Practice 3 - Mixins and is_a?
 
-<p><strong>Goal:</strong> Mix a module into a subset of subclasses and confirm `is_a?` reflects the mixin.</p>
+**Goal:** Mix a module into a subset of subclasses and confirm `is_a?` reflects the mixin.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('can fly') } && lines.any? { |l| l.downcase.include?('is a flyable') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a Flyable module, include it in one subclass, and print
 # a line proving that instance.is_a?(Flyable) is true.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:2">
+```solution
 module Flyable
   def fly
     puts "#{self.class} can fly"
@@ -230,27 +217,25 @@ end
 plane = Plane.new
 plane.fly
 puts "is a Flyable? #{plane.is_a?(Flyable)}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('can fly') } && lines.any? { |l| l.downcase.include?('is a flyable') }
+```
+
+#!
+
 
 #### Practice 4 - instance_of? vs is_a?
 
-<p><strong>Goal:</strong> Compare `instance_of?` vs `is_a?` and see how strict type checks affect control flow.</p>
+**Goal:** Compare `instance_of?` vs `is_a?` and see how strict type checks affect control flow.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('instance_of?') } && lines.any? { |l| l.include?('is_a?') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Create a base class and subclass, instantiate the subclass,
 # and print the results of instance_of? and is_a? checks.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-inheritance"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-inheritance:3">
+```solution
 class Animal; end
 class Dog < Animal; end
 
@@ -258,4 +243,11 @@ dog = Dog.new
 puts "instance_of? Dog: #{dog.instance_of?(Dog)}"
 puts "instance_of? Animal: #{dog.instance_of?(Animal)}"
 puts "is_a? Animal: #{dog.is_a?(Animal)}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('instance_of?') } && lines.any? { |l| l.include?('is_a?') }
+```
+
+#!
+

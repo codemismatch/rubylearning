@@ -23,88 +23,88 @@ Branches and loops let your program respond to data. Ruby's arrays and hashes gi
 
 ### Branching and iteration {#control-flow}
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-scores = { &quot;Satish&quot; =&gt; 92, &quot;Matz&quot; =&gt; 99, &quot;Yukihiro&quot; =&gt; 100 }
+```ruby-exec
+scores = { "Satish" => 92, "Matz" => 99, "Yukihiro" => 100 }
 
 scores.each do |name, score|
-  level = if score &gt;= 95
-  &quot;expert&quot;
-elsif score &gt;= 80
-  &quot;intermediate&quot;
+  level = if score >= 95
+  "expert"
+elsif score >= 80
+  "intermediate"
 else
-  &quot;beginner&quot;
+  "beginner"
 end
 
-puts &quot;#{name} is an #{level}.&quot;
+puts "#{name} is an #{level}."
 end
 
 numbers = [1, 2, 3, 4, 5]
-evens = numbers.select(&amp;:even?)
-puts &quot;Even numbers: #{evens.join(&#39;, &#39;)}&quot;
-</code></pre>
+evens = numbers.select(&:even?)
+puts "Even numbers: #{evens.join(', ')}"
+```
 
 ### Fun with Strings {#strings}
 
 String literals are sequences of characters between single or double quotation marks. Ruby provides many methods to work with strings:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # Creating strings
-single_quoted = &#39;This is a string with single quotes&#39;
-double_quoted = &quot;This is a string with double quotes&quot;
+single_quoted = 'This is a string with single quotes'
+double_quoted = "This is a string with double quotes"
 
 # String interpolation only works with double quotes
-name = &quot;Ruby&quot;
-greeting = &quot;Hello, #{name}!&quot;
+name = "Ruby"
+greeting = "Hello, #{name}!"
 puts greeting
 
 # Common string methods
-phrase = &quot;Hello Ruby World&quot;
+phrase = "Hello Ruby World"
 puts phrase.length              # 17
-puts phrase.upcase              # &quot;HELLO RUBY WORLD&quot;
-puts phrase.downcase            # &quot;hello ruby world&quot;
-puts phrase.reverse             # &quot;dlroW ybuR olleH&quot;
-puts phrase.include?(&quot;Ruby&quot;) # true
-puts phrase[0, 5] # &quot;Hello&quot; (substring)
-</code></pre>
+puts phrase.upcase              # "HELLO RUBY WORLD"
+puts phrase.downcase            # "hello ruby world"
+puts phrase.reverse             # "dlroW ybuR olleH"
+puts phrase.include?("Ruby") # true
+puts phrase[0, 5] # "Hello" (substring)
+```
 
 ### More on Strings {#more-strings}
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # String operations
-first_name = &quot;John&quot;
-last_name = &quot;Doe&quot;
-full_name = first_name + &quot; &quot; + last_name  # String concatenation
+first_name = "John"
+last_name = "Doe"
+full_name = first_name + " " + last_name  # String concatenation
 puts full_name
 
 # Using string interpolation (preferred approach)
-full_name = &quot;#{first_name} #{last_name}&quot;
+full_name = "#{first_name} #{last_name}"
 puts full_name
 
 # Splitting and joining strings
-sentence = &quot;Ruby is awesome&quot;
-words = sentence.split(&quot; &quot;)  # Split by space
-puts words.join(&quot;-&quot;)         # Join with hyphens
+sentence = "Ruby is awesome"
+words = sentence.split(" ")  # Split by space
+puts words.join("-")         # Join with hyphens
 
 # More string methods
-text = &quot;  Ruby Programming  &quot;
+text = "  Ruby Programming  "
 puts text.strip              # Remove leading/trailing whitespace
 puts text.lstrip             # Remove leading whitespace only
 puts text.rstrip             # Remove trailing whitespace only
-</code></pre>
+```
 
 ### Getting Input from User {#input}
 
 So far we have seen methods like `puts` that write to the screen. How does one accept user input? For this, Ruby provides the `gets` method (get string). In our interactive environment, you can test this functionality:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-print &#39;What is your name? &#39;
+```ruby-exec
+print 'What is your name? '
 name = gets.strip
 
-print &#39;How many lessons have you finished? &#39;
+print 'How many lessons have you finished? '
 lessons = Integer(gets, exception: false) || 0
 
-puts &quot;Great work, #{name}! Lesson #{lessons + 1} is up next.&quot;
-</code></pre>
+puts "Great work, #{name}! Lesson #{lessons + 1} is up next."
+```
 
 - Local variables start with a lowercase letter or underscore and spring into existence on assignment.
 - `gets` reads a line from standard input (including the newline); `strip` trims it.
@@ -123,69 +123,69 @@ Ruby names are used to refer to constants, variables, methods, classes, and modu
 
 ### Simple Constructs {#constructs}
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # if-else-end construct
 age = 20
 
-if age &gt;= 18
-  puts &quot;You are an adult&quot;
+if age >= 18
+  puts "You are an adult"
 else
-  puts &quot;You are a minor&quot;
+  puts "You are a minor"
 end
 
 # unless construct (opposite of if)
 temperature = 5
 
-unless temperature &gt; 20
-  puts &quot;It&#39;s cold outside&quot;
+unless temperature > 20
+  puts "It's cold outside"
 end
 
 # case statement
-grade = &#39;B&#39;
+grade = 'B'
 
 case grade
-when &#39;A&#39;
-  puts &quot;Excellent!&quot;
-when &#39;B&#39;
-  puts &quot;Good job!&quot;
-when &#39;C&#39;
-  puts &quot;Average&quot;
+when 'A'
+  puts "Excellent!"
+when 'B'
+  puts "Good job!"
+when 'C'
+  puts "Average"
 else
-  puts &quot;Needs improvement&quot;
+  puts "Needs improvement"
 end
-</code></pre>
+```
 
 ### Arrays {#arrays}
 
 An Array is just a list of items in order. Every slot in the list acts like a variable: you can see what object a particular slot points to, change what it points to, or add and remove slots:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # Creating arrays
-fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;]
+fruits = ["apple", "banana", "orange"]
 numbers = [1, 2, 3, 4, 5]
-mixed = [&quot;hello&quot;, 42, true, 3.14]
+mixed = ["hello", 42, true, 3.14]
 
 # Accessing array elements (0-indexed)
-puts fruits[0]    # &quot;apple&quot;
-puts fruits[-1] # &quot;orange&quot; (last element)
+puts fruits[0]    # "apple"
+puts fruits[-1] # "orange" (last element)
 
 # Common array methods
-fruits &lt;&lt; &quot;grape&quot;      # Add element to end
-fruits.push(&quot;mango&quot;)   # Another way to add
+fruits << "grape"      # Add element to end
+fruits.push("mango")   # Another way to add
 puts fruits.length     # Size of array
-puts fruits.include?(&quot;banana&quot;)  # Check if element exists
+puts fruits.include?("banana")  # Check if element exists
 
 # Iterating through arrays
 numbers.each do |num|
   puts num * 2
 end
-</code></pre>
+```
 
 ### Ranges {#ranges}
 
 The first and perhaps most natural use of ranges is to express a sequence. Sequences have a start point, an end point, and a way to produce successive values in the sequence:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # Creating ranges
 range1 = 1..5      # Inclusive (1, 2, 3, 4, 5)
 range2 = 1...5     # Exclusive (1, 2, 3, 4)
@@ -195,24 +195,24 @@ puts range2.to_a   # Convert to array: [1, 2, 3, 4]
 
 # Range methods
 puts (1..10).include?(5)  # true
-puts (&#39;a&#39;..&#39;e&#39;).to_a      # [&quot;a&quot;, &quot;b&quot;, &quot;c&quot;, &quot;d&quot;, &quot;e&quot;]
+puts ('a'..'e').to_a      # ["a", "b", "c", "d", "e"]
 
 # Using ranges in conditionals
 score = 85
 case score
-when 0..59 then puts &quot;F&quot;
-when 60..69 then puts &quot;D&quot;
-when 70..79 then puts &quot;C&quot;
-when 80..89 then puts &quot;B&quot;
-when 90..100 then puts &quot;A&quot;
+when 0..59 then puts "F"
+when 60..69 then puts "D"
+when 70..79 then puts "C"
+when 80..89 then puts "B"
+when 90..100 then puts "A"
 end
-</code></pre>
+```
 
 ### Symbols {#symbols}
 
 A symbol looks like a variable name but it's prefixed with a colon. Examples: `:action`, `:line_items`. You don't have to pre-declare a symbol:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # Symbols are immutable and unique
 status = :active
 color = :blue
@@ -222,30 +222,30 @@ puts color.class   # Symbol
 
 # Symbols vs strings
 puts :name.object_id == :name.object_id  # true (same object)
-puts &quot;name&quot;.object_id == &quot;name&quot;.object_id  # false (different objects)
+puts "name".object_id == "name".object_id  # false (different objects)
 
 # Symbols are often used as hash keys
-user = { name: &quot;Alice&quot;, age: 30, active: true }
-puts user[:name]    # &quot;Alice&quot;
+user = { name: "Alice", age: 30, active: true }
+puts user[:name]    # "Alice"
 puts user[:age]     # 30
-</code></pre>
+```
 
 ### Hashes {#hashes}
 
 Hashes (sometimes known as associative arrays, maps, or dictionaries) are similar to arrays in that they are indexed collections of objects:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # Creating hashes
-person = { &quot;name&quot; =&gt; &quot;John&quot;, &quot;age&quot; =&gt; 30 }
-user = { name: &quot;Alice&quot;, email: &quot;alice@example.com&quot;, active: true }
+person = { "name" => "John", "age" => 30 }
+user = { name: "Alice", email: "alice@example.com", active: true }
 
 # Accessing hash values
-puts person[&quot;name&quot;]   # &quot;John&quot;
-puts user[:name]      # &quot;Alice&quot;
+puts person["name"]   # "John"
+puts user[:name]      # "Alice"
 
 # Adding and modifying hash values
-person[&quot;city&quot;] = &quot;New York&quot;
-user[:role] = &quot;admin&quot;
+person["city"] = "New York"
+user[:role] = "admin"
 
 # Common hash methods
 puts user.keys        # Array of all keys
@@ -254,15 +254,15 @@ puts user.length      # Number of key-value pairs
 
 # Iterating through hashes
 user.each do |key, value|
-  puts &quot;#{key}: #{value}&quot;
+  puts "#{key}: #{value}"
 end
-</code></pre>
+```
 
 ### Random Numbers {#random}
 
 Ruby comes with a random number generator. The method to get a randomly chosen number is `rand`:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 # Random float between 0 and 1
 puts rand
 
@@ -273,7 +273,7 @@ puts rand(1..100)    # Random number from 1 to 100
 # Setting a seed for reproducible random numbers
 srand(12345)
 puts rand            # Will always return the same sequence
-</code></pre>
+```
 
 ### Practice checklist
 
@@ -285,52 +285,43 @@ puts rand            # Will always return the same sequence
 
 #### Practice 1 - String manipulation drills
 
-<p><strong>Goal:</strong> Practise common string methods such as `upcase`, `downcase`, `reverse`, and `include?`.</p>
+**Goal:** Practise common string methods such as `upcase`, `downcase`, `reverse`, and `include?`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[upcase downcase reverse include?].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Pick a base string and call upcase, downcase, reverse, and
 # include? on it, printing a short label and the result for each call.
 # Hint:
 #   - Show both the method name and the value so it's clear which is which.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:0">
+```solution
 phrase = "Flow Control"
 
 puts "upcase:   #{phrase.upcase}"
 puts "downcase: #{phrase.downcase}"
 puts "reverse:  #{phrase.reverse}"
 puts "include? 'Control': #{phrase.include?('Control')}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); %w[upcase downcase reverse include?].all? { |word| lines.any? { |l| l.downcase.include?(word) } }
+```
+
+#!
+
 
 #### Practice 2 - Playing with control structures
 
-<p><strong>Goal:</strong> Experiment with `if/else`, `case`, and `unless` in a single script.</p>
+**Goal:** Experiment with `if/else`, `case`, and `unless` in a single script.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[if case unless].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Write a small script that uses if/else, case, and unless to
 # branch based on a value (for example, a score or a role).
 # Hint:
 #   - Print a line that mentions each construct so you can see it ran.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:1">
+```solution
 score = 82
 
 if score >= 90
@@ -352,26 +343,25 @@ logged_in = true
 unless logged_in == false
   puts "unless: user is logged in"
 end
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); %w[if case unless].all? { |word| lines.any? { |l| l.downcase.include?(word) } }
+```
+
+#!
+
 
 #### Practice 3 - Arrays and hashes in action
 
-<p><strong>Goal:</strong> Create and manipulate arrays and hashes with various methods.</p>
+**Goal:** Create and manipulate arrays and hashes with various methods.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('array:') } && lines.any? { |l| l.downcase.include?('hash:') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Build an array and a hash, then apply a few methods to each
 # (such as map, select, merge, or delete_if) and print the results.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:2">
+```solution
 nums = [1, 2, 3, 4, 5]
 evens = nums.select(&:even?)
 puts "array: even numbers: #{evens.inspect}"
@@ -379,26 +369,25 @@ puts "array: even numbers: #{evens.inspect}"
 user = { name: "Ruby", role: "learner", points: 10 }
 user[:points] += 5
 puts "hash: #{user.inspect}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('array:') } && lines.any? { |l| l.downcase.include?('hash:') }
+```
+
+#!
+
 
 #### Practice 4 - Using ranges for sequences and conditions
 
-<p><strong>Goal:</strong> Use ranges for sequence generation and condition checking.</p>
+**Goal:** Use ranges for sequence generation and condition checking.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..5') } && lines.any? { |l| l.downcase.include?('in range') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Generate a sequence using a range and use a range in a
 # condition (for example, to check whether a value falls inside a band).
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:3">
+```solution
 range = 1..5
 puts "1..5 as array: #{range.to_a.inspect}"
 
@@ -408,32 +397,38 @@ if range.include?(value)
 else
   puts "#{value} is outside range"
 end
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..5') } && lines.any? { |l| l.downcase.include?('in range') }
+```
+
+#!
+
 
 #### Practice 5 - Working with symbols
 
-<p><strong>Goal:</strong> Work with symbols and see how they differ from strings.</p>
+**Goal:** Work with symbols and see how they differ from strings.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="4"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':name') } && lines.any? { |l| l.downcase.include?('symbol') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Create a hash that uses symbols as keys and compare them to
 # string keys, printing out classes and a couple of lookups.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
-     data-practice-index="4"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/flow-control-collections:4">
+```solution
 person = { name: "Rubyist", role: "student" }
 
 puts "Keys: #{person.keys.inspect}"
 puts "name value: #{person[:name]}"
 puts "Key class: #{person.keys.first.class} (symbol)"
 puts "String key equal? #{:name == 'name'}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':name') } && lines.any? { |l| l.downcase.include?('symbol') }
+```
+
+#!
+
 
 When the logic feels natural, move ahead to [Chapter 3: Methods & blocks](/tutorials/methods-and-blocks/).

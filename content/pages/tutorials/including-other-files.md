@@ -29,28 +29,28 @@ As your Ruby programs grow, you'll split code across files. Ruby provides three 
 
 Use `require` for gems, stdlib components, or project files that should load at most once per process.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-require &quot;json&quot;                 # stdlib
-require &quot;pg&quot;                   # gem
-require_relative &quot;lib/user&quot;    # project file (see below)
-</code></pre>
+```ruby-exec
+require "json"                 # stdlib
+require "pg"                   # gem
+require_relative "lib/user"    # project file (see below)
+```
 
 `require` returns `true` when it loads a file, `false` when the file was already loaded, and raises `LoadError` if it can't find the file.
 
 Ruby looks through each directory in `$LOAD_PATH` for the requested file. You can inspect or modify the path:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 puts $LOAD_PATH
-$LOAD_PATH.unshift File.expand_path(&quot;../lib&quot;, __dir__)
-</code></pre>
+$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+```
 
 ### `load`
 
 `load "scripts/setup.rb"` reprocesses the file every time you call it. You can pass a second argument of `true` to wrap the loaded code in an anonymous module:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-load &quot;scripts/setup.rb&quot;, true
-</code></pre>
+```ruby-exec
+load "scripts/setup.rb", true
+```
 
 This is handy for DSLs or when you need the latest version of a file during development.
 
@@ -58,9 +58,9 @@ This is handy for DSLs or when you need the latest version of a file during deve
 
 For project-local files, `require_relative` resolves paths relative to the file containing the call:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-require_relative &quot;../models/user&quot;
-</code></pre>
+```ruby-exec
+require_relative "../models/user"
+```
 
 This avoids fiddling with `$LOAD_PATH` and keeps dependencies explicit.
 
@@ -68,16 +68,16 @@ This avoids fiddling with `$LOAD_PATH` and keeps dependencies explicit.
 
 Legacy example: `abbrev.rb` might define methods, and `testabbrev.rb` can reuse them:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # abbrev.rb
 def short_name(full_name)
   full_name.split.first
 end
 
 # testabbrev.rb
-require_relative &quot;abbrev&quot;
-puts short_name(&quot;Satish Talim&quot;)
-</code></pre>
+require_relative "abbrev"
+puts short_name("Satish Talim")
+```
 
 ### Practice checklist
 
@@ -90,93 +90,87 @@ Next: return to Flow Control & Collections to keep building on these reusable bu
 
 #### Practice 1 - Thinking through require_relative
 
-<p><strong>Goal:</strong> Describe how you would split code across two files and use `require_relative`.</p>
+**Goal:** Describe how you would split code across two files and use `require_relative`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('require_relative') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a tiny example that shows a helper defined in one file
 # and required from another using require_relative.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/including-other-files:0">
+```solution
 puts 'require_relative "helpers/string_helpers"'
 puts 'include StringHelpers'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('require_relative') }
+```
+
+#!
+
 
 #### Practice 2 - $LOAD_PATH and lib
 
-<p><strong>Goal:</strong> Show how you would modify `$LOAD_PATH` to include a `lib/` directory.</p>
+**Goal:** Show how you would modify `$LOAD_PATH` to include a `lib/` directory.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$LOAD_PATH') } && lines.any? { |l| l.include?('lib') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that pushes 'lib' onto $LOAD_PATH and requires
 # a file from there.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/including-other-files:1">
+```solution
 puts "$LOAD_PATH.unshift(File.expand_path('lib', __dir__))"
 puts "require 'my_library'"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$LOAD_PATH') } && lines.any? { |l| l.include?('lib') }
+```
+
+#!
+
 
 #### Practice 3 - load and rerunning top-level code
 
-<p><strong>Goal:</strong> Use `load` to execute a script twice and understand that top-level code reruns.</p>
+**Goal:** Use `load` to execute a script twice and understand that top-level code reruns.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('load ') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a short example that shows calling load twice on the
 # same file.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/including-other-files:2">
+```solution
 puts "load 'scripts/setup.rb'"
 puts "load 'scripts/setup.rb' # runs again"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('load ') }
+```
+
+#!
+
 
 #### Practice 4 - Rescuing LoadError
 
-<p><strong>Goal:</strong> Show how you would rescue `LoadError` for an optional dependency.</p>
+**Goal:** Show how you would rescue `LoadError` for an optional dependency.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('LoadError') } && lines.any? { |l| l.include?('require') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a begin/rescue snippet that rescues LoadError around a
 # require call and prints a friendly message.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/including-other-files"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/including-other-files:3">
+```solution
 puts "begin"
 puts "  require 'optional_gem'"
 puts "rescue LoadError"
 puts "  puts 'Install optional_gem for extra features'"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('LoadError') } && lines.any? { |l| l.include?('require') }
+```
+
+#!
+

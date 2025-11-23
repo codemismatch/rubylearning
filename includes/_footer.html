@@ -1,5 +1,4 @@
-<% data_store = site.data || {} %>
-<% nav_data = data_store['navigation'] || data_store[:navigation] || {} %>
+{% assign nav_data = site.data.navigation %}
 <footer class="site-footer">
   <div class="container">
     <div class="footer-grid">
@@ -9,50 +8,56 @@
       </div>
       <div class="footer-links">
         <h3>Quick Links</h3>
-        <% footer_quick = Array(nav_data['footer_quick'] || nav_data[:footer_quick]) %>
+        {% assign footer_quick = nav_data.footer_quick | default: empty %}
         <ul>
-          <% if footer_quick.any? %>
-            <% footer_quick.each do |item| %>
-              <% label = item['label'] || item[:label] %>
-              <% path = item['path'] || item[:path] %>
-              <% url = item['url'] || item[:url] %>
-              <% external = item['external'] || item[:external] %>
-              <% nav_href = url || (path ? url_for(path) : '#') %>
-              <li><a href="<%= nav_href %>" <%= 'target="_blank" rel="noopener"' if external %>><%= label %></a></li>
-            <% end %>
-          <% else %>
-            <li><a href="<%= url_for('/') %>">Home</a></li>
-            <li><a href="<%= url_for('pages/about/') %>">About</a></li>
-            <li><a href="<%= url_for('tutorials/') %>#ruby-track">Learn Ruby</a></li>
-            <li><a href="<%= url_for('tutorials/') %>#rails-track">Learn Rails</a></li>
-              <li><a href="<%= url_for('tutorials/') %>">Tutorials</a></li>
-              <li><a href="<%= url_for('blog/') %>">Blog</a></li>
-            <li><a href="<%= url_for('pages/resources/') %>">Resources</a></li>
-          <% end %>
+          {% if footer_quick and footer_quick.size > 0 %}
+            {% for item in footer_quick %}
+              {% assign label = item.label %}
+              {% assign path = item.path %}
+              {% assign url = item.url %}
+              {% assign external = item.external %}
+              {% if url %}
+                {% assign nav_href = url %}
+              {% elsif path %}
+                {% assign nav_href = path | url_for %}
+              {% else %}
+                {% assign nav_href = "#" %}
+              {% endif %}
+              <li><a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a></li>
+            {% endfor %}
+          {% else %}
+            <li><a href="{{ '/' | url_for }}">Home</a></li>
+            <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+            <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
+            <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
+          {% endif %}
         </ul>
       </div>
       <div class="footer-resources">
         <h3>Ruby Resources</h3>
-        <% footer_resources = Array(nav_data['footer_resources'] || nav_data[:footer_resources]) %>
+        {% assign footer_resources = nav_data.footer_resources | default: empty %}
         <ul>
-          <% if footer_resources.any? %>
-            <% footer_resources.each do |item| %>
-              <% label = item['label'] || item[:label] %>
-              <% url = item['url'] || item[:url] %>
-              <% nav_href = url || '#' %>
-              <li><a href="<%= nav_href %>" target="_blank" rel="noopener"><%= label %></a></li>
-            <% end %>
-          <% else %>
+          {% if footer_resources and footer_resources.size > 0 %}
+            {% for item in footer_resources %}
+              {% assign label = item.label %}
+              {% assign url = item.url %}
+              {% assign nav_href = url | default: "#" %}
+              <li><a href="{{ nav_href }}" target="_blank" rel="noopener">{{ label }}</a></li>
+            {% endfor %}
+          {% else %}
             <li><a href="https://ruby-lang.org" target="_blank">Ruby Official Site</a></li>
             <li><a href="https://ruby-doc.org" target="_blank">Ruby Documentation</a></li>
             <li><a href="https://rubygems.org" target="_blank">RubyGems</a></li>
-          <% end %>
+          {% endif %}
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
         <p>
-          &copy; <%= Time.now.year %> Ruby Learning.
+          &copy; {{ site.build_year }} Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by

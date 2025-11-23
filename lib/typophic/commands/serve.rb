@@ -128,6 +128,9 @@ module Typophic
         # Store server instance to access it from the file watcher
         server = build_server(options)
         @@server_instance = server if options[:livereload]
+        
+        # Store listeners for cleanup
+        listeners = nil
 
         # Start the HTTP server in a background thread
         server_thread = Thread.new do
@@ -143,21 +146,33 @@ module Typophic
         puts "Watching project directories for changes..."
 
         project_root = Dir.pwd
-        watched_dirs = %w[content themes layouts includes helpers assets data lib].select { |dir| Dir.exist?(dir) }
-        watched_dirs << "."
+        # Only watch specific project directories - don't watch '.' or 'lib' to avoid crystal/lib conflicts
+        # Use absolute paths to be explicit about what we're watching
+        watched_dirs = %w[content themes layouts includes helpers assets data]
+          .map { |dir| File.expand_path(dir, project_root) }
+          .select { |dir| Dir.exist?(dir) }
 
-        listener = Listen.to(
-          *watched_dirs,
-          ignore: [/\.swp$/, /\.swx$/, /^\.[^\/]*\/tmp\//, /public\//],
-          only: [/\.(md|html|yml|yaml|rb|erb|css|scss|js)\z/]
-        ) do |modified, added, removed|
+        # Build ignore patterns - be very explicit about excluding crystal and nested lib directories
+        ignore_patterns = [
+          /\.swp$/,
+          /\.swx$/,
+          /^\.[^\/]*\/tmp\//,
+          /\/public\//
+        ]
+
+        # Create a shared callback handler
+        change_handler = proc do |modified, added, removed|
+          # Filter out any paths from crystal directory (shouldn't happen, but safety check)
+          modified = modified.reject { |p| p.include?('/crystal/') }
+          added = added.reject { |p| p.include?('/crystal/') }
+          removed = removed.reject { |p| p.include?('/crystal/') }
+          
           relative_paths = (modified + added + removed).map do |path|
             path.start_with?("#{project_root}/") ? path.sub("#{project_root}/", "") : path
           end
 
           relevant_files = relative_paths.select do |relative|
-            relative.start_with?('content/', 'themes/', 'layouts/', 'includes/', 'helpers/', 'assets/', 'data/', 'lib/') ||
-              relative == 'config.yml'
+            relative.start_with?('content/', 'themes/', 'layouts/', 'includes/', 'helpers/', 'assets/', 'data/')
           end
 
           next if relevant_files.empty?
@@ -185,7 +200,58 @@ module Typophic
           end
         end
 
-        listener.start
+        # Watch each directory separately to avoid nested directory conflicts
+        # This prevents Listen from trying to watch parent directories
+        listeners = watched_dirs.map do |dir|
+          Listen.to(
+            dir,
+            ignore: ignore_patterns,
+            only: [/\.(md|html|yml|yaml|rb|erb|css|scss|js)\z/],
+            wait_for_delay: 0.5
+          ) do |modified, added, removed|
+            change_handler.call(modified, added, removed)
+          end
+        end
+
+        # Start all listeners
+        listeners.each(&:start)
+
+        # Watch config.yml using polling to avoid watching the project root (which includes crystal/lib)
+        config_poll_thread = nil
+        if File.exist?("config.yml")
+          config_poll_thread = Thread.new do
+            config_path = File.expand_path("config.yml")
+            last_mtime = File.mtime(config_path)
+            loop do
+              sleep 1
+              begin
+                current_mtime = File.mtime(config_path)
+                if current_mtime > last_mtime
+                  last_mtime = current_mtime
+                  puts "\nDetected change in config.yml"
+                  begin
+                    puts "Rebuilding site..."
+                    builder_options = {
+                      verbose: false,
+                      parallel: options[:parallel]
+                    }
+                    builder_options[:thread_count] = options[:thread_count] if options[:thread_count]
+                    Typophic::Builder.new(builder_options).build
+                    puts "Site rebuilt successfully!"
+                    Typophic::Commands::Serve.update_last_build_time(Time.now)
+                    notify_livereload_clients if options[:livereload]
+                  rescue => e
+                    warn "Build failed: #{e.message}"
+                  end
+                end
+              rescue Errno::ENOENT
+                # Config file was deleted, skip
+              rescue => e
+                warn "Error checking config.yml: #{e.message}"
+              end
+            end
+          end
+        end
 
         # Coordinate graceful shutdown outside of the signal trap context.
         stop_requested = false
@@ -204,9 +270,15 @@ module Typophic
         # interacting with Mutexes and other primitives from a signal
         # handler (which Listen warns against).
         begin
-          listener.stop
+          listeners.each(&:stop) if listeners
         rescue => e
-          warn "Error stopping file watcher: #{e.message}"
+          warn "Error stopping file watchers: #{e.message}"
+        end
+
+        begin
+          config_poll_thread.kill if config_poll_thread
+        rescue => e
+          warn "Error stopping config poller: #{e.message}"
         end
 
         begin

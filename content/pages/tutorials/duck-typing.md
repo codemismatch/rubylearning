@@ -23,7 +23,7 @@ Duck typing says: *if it quacks like a duck, treat it like a duck.* Ruby cares a
 
 ### Simple example
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def make_it_quack(thing)
   thing.quack
 end
@@ -42,7 +42,7 @@ end
 
 make_it_quack(Duck.new)
 make_it_quack(Person.new)
-</code></pre>
+```
 
 Both objects implement `#quack`, so the method works for either type.
 
@@ -50,15 +50,15 @@ Both objects implement `#quack`, so the method works for either type.
 
 Use `respond_to?` when you want to guard against missing behavior:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def notify(target, message)
   if target.respond_to?(:notify)
     target.notify(message)
   else
-    raise ArgumentError, &quot;Target must respond to #notify&quot;
+    raise ArgumentError, "Target must respond to #notify"
   end
 end
-</code></pre>
+```
 
 Adapters can wrap third-party objects to conform to the expected interface.
 
@@ -73,22 +73,14 @@ Next: keep iterating through Flow Control & Collections, now coding to behavior 
 
 #### Practice 1 - Calling duck-typed #swim
 
-<p><strong>Goal:</strong> Write a function that calls `#swim` on different objects.</p>
+**Goal:** Write a function that calls `#swim` on different objects.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('swimming') } >= 2"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define two simple classes that each implement #swim, then
 # write a helper that accepts any object and calls swim on it.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/duck-typing:0">
+```solution
 class Fish
   def swim
     puts "Fish is swimming"
@@ -107,26 +99,25 @@ end
 
 make_it_swim(Fish.new)
 make_it_swim(Robot.new)
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.count { |l| l.downcase.include?('swimming') } >= 2
+```
+
+#!
+
 
 #### Practice 2 - Building an adapter with #notify
 
-<p><strong>Goal:</strong> Build a wrapper that adds `#notify` to an object lacking it.</p>
+**Goal:** Build a wrapper that adds `#notify` to an object lacking it.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('notified') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Wrap a basic object in an adapter that provides a #notify
 # method which delegates to an underlying implementation.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/duck-typing:1">
+```solution
 class BasicClient
   def send_message(text)
     puts "sending: #{text}"
@@ -146,27 +137,26 @@ end
 
 wrapped = NotifyingClient.new(BasicClient.new)
 wrapped.notify("Hello")
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('notified') }
+```
+
+#!
+
 
 #### Practice 3 - Duck-typed method_missing
 
-<p><strong>Goal:</strong> Use `respond_to_missing?` and `method_missing` together to provide duck-typed behaviour.</p>
+**Goal:** Use `respond_to_missing?` and `method_missing` together to provide duck-typed behaviour.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('handling swim') } && lines.any? { |l| l.downcase.include?('responds to :swim') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Create a proxy object that handles a small set of dynamic
 # methods via method_missing and accurately reports respond_to?
 # using respond_to_missing?.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/duck-typing:2">
+```solution
 class SwimProxy
   def method_missing(name, *args, &block)
     if name == :swim
@@ -184,27 +174,26 @@ end
 proxy = SwimProxy.new
 proxy.swim
 puts "responds to :swim? #{proxy.respond_to?(:swim)}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('handling swim') } && lines.any? { |l| l.downcase.include?('responds to :swim') }
+```
+
+#!
+
 
 #### Practice 4 - Focusing tests on behaviour
 
-<p><strong>Goal:</strong> Combine duck typing with tests that check behaviour, not classes.</p>
+**Goal:** Combine duck typing with tests that check behaviour, not classes.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="3"
-     data-test="out = output.string; out.lines.any? { |l| l.include?('quacks') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Write a small snippet that checks whether an object responds
 # to the methods you care about and prints a confirmation instead of
 # inspecting its class.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/duck-typing"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/duck-typing:3">
+```solution
 class DuckLike
   def quack
     "quacks"
@@ -218,4 +207,11 @@ if obj.respond_to?(:quack)
 else
   puts "object cannot quack"
 end
-</script>
+```
+
+```test
+out = output.string; out.lines.any? { |l| l.include?('quacks') }
+```
+
+#!
+

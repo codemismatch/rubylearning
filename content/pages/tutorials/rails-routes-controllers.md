@@ -17,15 +17,15 @@ related_tutorials:
     url: /rails/
 ---
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # config/routes.rb
 Rails.application.routes.draw do
-  root &quot;entries#index&quot;
+  root "entries#index"
   resources :entries
 end
 
 # app/controllers/entries_controller.rb
-class EntriesController &lt; ApplicationController
+class EntriesController < ApplicationController
   def index
     @entries = Entry.order(created_at: :desc)
   end
@@ -33,7 +33,7 @@ class EntriesController &lt; ApplicationController
   def create
     @entry = Entry.new(entry_params)
     if @entry.save
-      redirect_to entries_path, notice: &quot;Saved your update!&quot;
+      redirect_to entries_path, notice: "Saved your update!"
     else
       render :new, status: :unprocessable_entity
     end
@@ -45,7 +45,7 @@ class EntriesController &lt; ApplicationController
     params.require(:entry).permit(:title, :body)
   end
 end
-</code></pre>
+```
 
 ### Practice checklist
 
@@ -57,67 +57,64 @@ When you&rsquo;re comfortable with the request cycle, carry on to [Chapter R3: H
 
 #### Practice 1 - Thinking through scaffolding and migrations
 
-<p><strong>Goal:</strong> Outline what scaffolding the `Entry` model and running migrations involves.</p>
+**Goal:** Outline what scaffolding the `Entry` model and running migrations involves.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rails generate scaffold') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print the commands and steps you would use to scaffold the
 # Entry model and run migrations in your Rails app.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/rails-routes-controllers:0">
+```solution
 puts "rails generate scaffold Entry title:string body:text"
 puts "rails db:migrate"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rails generate scaffold') }
+```
+
+#!
+
 
 #### Practice 2 - Validations and failure handling
 
-<p><strong>Goal:</strong> Describe how validations affect controller behaviour on failure.</p>
+**Goal:** Describe how validations affect controller behaviour on failure.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('validates') } && lines.any? { |l| l.downcase.include?('unprocessable_entity') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a short example of a validation and note how the
 # controller might respond when validations fail (rendering with
 # status :unprocessable_entity).
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/rails-routes-controllers:1">
+```solution
 puts "Example: validates :title, presence: true"
 puts "On failure, the controller can render :new with status :unprocessable_entity"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('validates') } && lines.any? { |l| l.downcase.include?('unprocessable_entity') }
+```
+
+#!
+
 
 #### Practice 3 - Request specs or system tests
 
-<p><strong>Goal:</strong> Capture the idea of writing request or system tests for the happy path.</p>
+**Goal:** Capture the idea of writing request or system tests for the happy path.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('request spec') } || lines.any? { |l| l.downcase.include?('system test') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print one or two sentences about what a happy-path request
 # spec or system test would assert in this journal app.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/rails-routes-controllers"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/rails-routes-controllers:2">
+```solution
 puts "A request spec would POST a valid entry and expect a redirect."
 puts "A system test would fill in the form, submit it, and expect to see the new entry."
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('request spec') } || lines.any? { |l| l.downcase.include?('system test') }
+```
+
+#!
+

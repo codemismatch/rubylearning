@@ -27,7 +27,7 @@ Ruby offers three visibility levels for instance methods:
 
 ### Basic example
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Account
   attr_reader :balance
 
@@ -36,22 +36,22 @@ class Account
   end
 
   def richer_than?(other)
-    balance &gt; other.balance  # allowed because accessors are public
+    balance > other.balance  # allowed because accessors are public
   end
 
   private
 
   def audit!
-    puts &quot;Checking balance...&quot;
+    puts "Checking balance..."
   end
 end
-</code></pre>
+```
 
 Move `attr_reader` under `protected` if you want only account instances to compare balances:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 protected :balance
-</code></pre>
+```
 
 Now outside callers can't do `account.balance`, but other `Account` objects still can inside methods like `richer_than?`.
 
@@ -59,7 +59,7 @@ Now outside callers can't do `account.balance`, but other `Account` objects stil
 
 Private methods can't be called with an explicit receiver--even `self`.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Motorcycle
   def start
     warm_up_engine
@@ -74,7 +74,7 @@ class Motorcycle
 end
 
 Motorcycle.new.start
-</code></pre>
+```
 
 Calling `bike.warm_up_engine` would raise `NoMethodError` because it uses an explicit receiver.
 
@@ -82,21 +82,21 @@ Calling `bike.warm_up_engine` would raise `NoMethodError` because it uses an exp
 
 Protected shines when comparing internal state:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Person
   def initialize(age)
     @age = age
   end
 
   def older_than?(other)
-    age &gt; other.age
+    age > other.age
   end
 
   protected
 
   attr_reader :age
 end
-</code></pre>
+```
 
 Here `other.age` works because both objects are `Person` instances.
 
@@ -111,48 +111,37 @@ Next: continue into Flow Control & Collections where encapsulation keeps your it
 
 #### Practice 1 - Protected attribute readers
 
-<p><strong>Goal:</strong> Turn `attr_reader` into a protected method and confirm outside callers fail.</p>
+**Goal:** Turn `attr_reader` into a protected method and confirm outside callers fail.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('protected') } && lines.any? { |l| l.downcase.include?('no method') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a class that defines attr_reader, marks it protected,
 # and show (via a comment or output) that outside callers would fail.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-access-control:0">
+```solution
 puts "class Account"
 puts "  protected attr_reader :balance"
 puts "end"
 puts "# Account.new.balance # => NoMethodError from outside the class"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('protected') } && lines.any? { |l| l.downcase.include?('no method') }
+```
+
+#!
+
 
 #### Practice 2 - Private helpers and explicit receivers
 
-<p><strong>Goal:</strong> Create a private helper and see what happens when you call it with an explicit receiver.</p>
+**Goal:** Create a private helper and see what happens when you call it with an explicit receiver.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('private') } && lines.any? { |l| l.downcase.include?('nomethoderror') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small example showing a private helper and a comment
 # about the NoMethodError raised when using an explicit receiver.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-access-control:1">
+```solution
 puts "class Greeter"
 puts "  def call"
 puts "    hello"
@@ -164,27 +153,25 @@ puts "    puts 'hello'"
 puts "  end"
 puts "end"
 puts "# Greeter.new.hello # => NoMethodError (private method `hello' called)"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('private') } && lines.any? { |l| l.downcase.include?('nomethoderror') }
+```
+
+#!
+
 
 #### Practice 3 - Comparison with protected getters
 
-<p><strong>Goal:</strong> Build a comparison method that uses protected getters to keep state hidden.</p>
+**Goal:** Build a comparison method that uses protected getters to keep state hidden.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('greater balance') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a short snippet where two instances compare balances
 # using a protected reader, without exposing it publicly.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-access-control:2">
+```solution
 puts "class Account"
 puts "  protected attr_reader :balance"
 puts ""
@@ -197,31 +184,36 @@ puts "    balance > other.balance"
 puts "  end"
 puts "end"
 puts "puts 'greater balance? -> ' + Account.new(10).richer_than?(Account.new(5)).to_s"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('greater balance') }
+```
+
+#!
+
 
 #### Practice 4 - private_class_method factory
 
-<p><strong>Goal:</strong> Use `private_class_method` to restrict a class-level factory method.</p>
+**Goal:** Use `private_class_method` to restrict a class-level factory method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('private_class_method') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example of a factory method made private at the
 # class level using private_class_method.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-access-control"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-access-control:3">
+```solution
 puts "class Token"
 puts "  def self.generate"
 puts "    new"
 puts "  end"
 puts "  private_class_method :generate"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('private_class_method') }
+```
+
+#!
+

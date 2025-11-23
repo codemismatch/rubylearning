@@ -25,7 +25,7 @@ Ruby classes describe how objects behave. Lean on initializer methods, attribute
 
 So far, the procedural style of programming was used to write our programs. Programming in the object-oriented style allows classes and objects to be the center of the design:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class Person
   def initialize(name, age)
     @name = name
@@ -33,24 +33,24 @@ class Person
   end
 
   def introduce
-    puts &quot;Hi, I&#39;m #{@name} and I&#39;m #{@age} years old.&quot;
+    puts "Hi, I'm #{@name} and I'm #{@age} years old."
   end
 
   def have_birthday
     @age += 1
-    puts &quot;Happy birthday! Now I&#39;m #{@age}.&quot;
+    puts "Happy birthday! Now I'm #{@age}."
   end
 end
 
 # Creating objects (instances) of the Person class
-person1 = Person.new(&quot;Alice&quot;, 25)
+person1 = Person.new("Alice", 25)
 person1.introduce
 person1.have_birthday
-</code></pre>
+```
 
 ### Defining classes {#classes}
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class Course
   attr_reader :title, :chapters
 
@@ -60,23 +60,23 @@ class Course
   end
 
   def add_chapter(name)
-    chapters &lt;&lt; name
+    chapters << name
   end
 
   def describe
-    &quot;#{title} covers: #{chapters.join(&#39;, &#39;)}&quot;
+    "#{title} covers: #{chapters.join(', ')}"
   end
 end
 
-ruby_course = Course.new(&quot;Ruby Essentials&quot;)
-ruby_course.add_chapter(&quot;Meet Ruby&quot;)
-ruby_course.add_chapter(&quot;Flow control&quot;)
+ruby_course = Course.new("Ruby Essentials")
+ruby_course.add_chapter("Meet Ruby")
+ruby_course.add_chapter("Flow control")
 puts ruby_course.describe
-</code></pre>
+```
 
 ### Instance Variables and Methods {#instance-vars}
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class BankAccount
   def initialize(account_holder, initial_balance = 0)
     @account_holder = account_holder
@@ -84,16 +84,16 @@ class BankAccount
   end
 
   def deposit(amount)
-    @balance += amount if amount &gt; 0
-    puts &quot;Deposited $#{amount}. New balance: $#{@balance}&quot;
+    @balance += amount if amount > 0
+    puts "Deposited $#{amount}. New balance: $#{@balance}"
   end
 
   def withdraw(amount)
-    if amount &gt; 0 &amp;&amp; @balance &gt;= amount
+    if amount > 0 &&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&& @balance >= amount
       @balance -= amount
-      puts &quot;Withdrew $#{amount}. New balance: $#{@balance}&quot;
+      puts "Withdrew $#{amount}. New balance: $#{@balance}"
     else
-      puts &quot;Insufficient funds or invalid amount&quot;
+      puts "Insufficient funds or invalid amount"
     end
   end
 
@@ -102,15 +102,15 @@ class BankAccount
   end
 end
 
-account = BankAccount.new(&quot;John Doe&quot;, 100)
+account = BankAccount.new("John Doe", 100)
 account.deposit(50)
 account.withdraw(25)
-puts &quot;Final balance: $#{account.balance}&quot;
-</code></pre>
+puts "Final balance: $#{account.balance}"
+```
 
 ### Attribute Accessors {#attribute-accessors}
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class Book
   # attr_reader :title, :author - creates getter methods only
   # attr_writer :title, :author - creates setter methods only
@@ -126,104 +126,104 @@ class Book
   end
 end
 
-book = Book.new(&quot;The Ruby Programming Language&quot;, &quot;Matz&quot;, 400)
+book = Book.new("The Ruby Programming Language", "Matz", 400)
 puts book.title      # Getter method
-book.title = &quot;New Title&quot;  # Setter method
+book.title = "New Title"  # Setter method
 puts book.title      # Getter method
 # book.pages = 500   # This would cause an error since we only have a reader for pages
 puts book.pages      # 400
-</code></pre>
+```
 
 ### Inheritance {#inheritance}
 
 Inheritance is a relation between two classes. We know that all cats are mammals, and all mammals are animals. The benefit of inheritance is that the derived classes are a subset of the base class:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class Animal
   def initialize(name)
     @name = name
   end
 
   def eat
-    puts &quot;#{@name} is eating.&quot;
+    puts "#{@name} is eating."
   end
 
   def sleep
-    puts &quot;#{@name} is sleeping.&quot;
+    puts "#{@name} is sleeping."
   end
 end
 
-class Dog &lt; Animal
+class Dog < Animal
   def bark
-    puts &quot;#{@name} is barking: Woof!&quot;
+    puts "#{@name} is barking: Woof!"
   end
 
   def sleep  # Overriding parent method
     super  # Call parent implementation
-    puts &quot;#{@name} is sleeping soundly.&quot;
+    puts "#{@name} is sleeping soundly."
   end
 end
 
-class Cat &lt; Animal
+class Cat < Animal
   def meow
-    puts &quot;#{@name} is meowing: Meow!&quot;
+    puts "#{@name} is meowing: Meow!"
   end
 end
 
-dog = Dog.new(&quot;Buddy&quot;)
+dog = Dog.new("Buddy")
 dog.eat      # Inherited method
-dog.bark     # Dog&#39;s own method
+dog.bark     # Dog's own method
 dog.sleep    # Overridden method
 
-cat = Cat.new(&quot;Whiskers&quot;)
+cat = Cat.new("Whiskers")
 cat.eat      # Inherited method
-cat.meow     # Cat&#39;s own method
-</code></pre>
+cat.meow     # Cat's own method
+```
 
 ### Method Overriding {#method-overriding}
 
 Method overriding, in object oriented programming, is a language feature that allows a subclass to provide a specific implementation of a method that is already provided by one of its superclasses:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class Shape
   def area
-    &quot;Area of shape&quot;
+    "Area of shape"
   end
 end
 
-class Rectangle &lt; Shape
+class Rectangle < Shape
   def initialize(width, height)
     @width = width
     @height = height
   end
 
-  def area  # Overriding the parent&#39;s area method
+  def area  # Overriding the parent's area method
     @width * @height
   end
 end
 
-class Circle &lt; Shape
+class Circle < Shape
   def initialize(radius)
     @radius = radius
   end
 
-  def area  # Overriding the parent&#39;s area method
+  def area  # Overriding the parent's area method
     3.14159 * @radius * @radius
   end
 end
 
 rect = Rectangle.new(5, 3)
-puts &quot;Rectangle area: #{rect.area}&quot;
+puts "Rectangle area: #{rect.area}"
 
 circle = Circle.new(4)
-puts &quot;Circle area: #{circle.area}&quot;
-</code></pre>
+puts "Circle area: #{circle.area}"
+```
 
 ### Access Control {#access-control}
 
 The only easy way to change an object's state in Ruby is by calling one of its methods. Control access to the methods:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class BankAccount
   def initialize(account_number, balance = 0)
     @account_number = account_number
@@ -231,10 +231,10 @@ class BankAccount
   end
 
   def check_balance(password)
-    if password == &quot;secret123&quot;
+    if password == "secret123"
       show_balance
     else
-      puts &quot;Access denied&quot;
+      puts "Access denied"
     end
   end
 
@@ -245,25 +245,25 @@ class BankAccount
   private  # Methods after this are private by default
 
   def show_balance
-    puts &quot;Balance: $#{@balance}&quot;
+    puts "Balance: $#{@balance}"
   end
 
   def valid_amount?(amount)
-    amount &gt; 0
+    amount > 0
   end
 end
 
-account = BankAccount.new(&quot;12345&quot;, 1000)
+account = BankAccount.new("12345", 1000)
 account.deposit(500)
 # account.show_balance  # This would cause an error since show_balance is private
-account.check_balance(&quot;secret123&quot;)  # This works as check_balance calls show_balance internally
-</code></pre>
+account.check_balance("secret123")  # This works as check_balance calls show_balance internally
+```
 
 ### Ruby Open Classes {#open-classes}
 
 In Ruby, classes are never closed: you can always add methods to an existing class. This applies to the classes you write as well as the standard library classes:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # Adding a method to the existing String class
 class String
   def palindrome?
@@ -275,42 +275,42 @@ class String
   end
 end
 
-puts &quot;racecar&quot;.palindrome? # true
-puts &quot;hello world&quot;.word_count # 2
+puts "racecar".palindrome? # true
+puts "hello world".word_count # 2
 
 # Adding a method to the existing Integer class
 class Integer
   def factorial
-    return 1 if self &lt;= 1
+    return 1 if self <= 1
     (1..self).reduce(:*)
   end
 end
 
 puts 5.factorial # 120
-</code></pre>
+```
 
 ### Duck Typing {#duck-typing}
 
 In Ruby, we rely less on the type (or class) of an object and more on its capabilities. Duck Typing means an object type is defined by what it does, not what it is:
 
-<pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
+```ruby-exec
 class Duck
   def speak
-    puts &quot;Quack!&quot;
+    puts "Quack!"
   end
 
   def swim
-    puts &quot;Paddling through the water&quot;
+    puts "Paddling through the water"
   end
 end
 
 class Dog
   def speak
-    puts &quot;Woof!&quot;
+    puts "Woof!"
   end
 
   def swim
-    puts &quot;Doggy paddle&quot;
+    puts "Doggy paddle"
   end
 end
 
@@ -324,7 +324,7 @@ dog = Dog.new
 
 make_it_speak_and_swim.call(duck) # Works because Duck has speak and swim methods
 make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
-</code></pre>
+```
 
 ### Practice checklist
 
@@ -337,13 +337,10 @@ make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
 
 #### Practice 1 - Defining a simple class
 
-<p><strong>Goal:</strong> Create a class with instance variables and methods.</p>
+**Goal:** Create a class with instance variables and methods.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Alex') } && lines.any? { |l| l.include?('30') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a Person class with instance variables such as name
 # and age, plus a method that prints a friendly description.
 # Hint:
@@ -352,13 +349,8 @@ make_it_speak_and_swim.call(dog) # Works because Dog has speak and swim methods
 #
 # Define your class in this block; the test harness will try to
 # instantiate sandbox::Person.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:0">
+```solution
 class Person
   def initialize(name, age)
     @name = name
@@ -372,29 +364,28 @@ end
 
 person = Person.new("Alex", 30)
 person.describe
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Alex') } && lines.any? { |l| l.include?('30') }
+```
+
+#!
+
 
 #### Practice 2 - Practising inheritance
 
-<p><strong>Goal:</strong> Create a parent and child class that share behaviour via inheritance.</p>
+**Goal:** Create a parent and child class that share behaviour via inheritance.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('RubyMobile') } && lines.any? { |l| l.include?('RailsRunner') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a Vehicle class with a start method, then create a
 # Car subclass that inherits from Vehicle and adds its own behaviour.
 # Hint:
-#   - Use &lt; to declare inheritance: class Car &lt; Vehicle
+#   - Use < to declare inheritance: class Car < Vehicle
 #   - Instantiate both and call their methods.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:1">
+```solution
 class Vehicle
   def initialize(name)
     @name = name
@@ -405,7 +396,7 @@ class Vehicle
   end
 end
 
-class Car &lt; Vehicle
+class Car < Vehicle
   def honk
     puts "#{@name} says: Beep!"
   end
@@ -417,29 +408,28 @@ vehicle.start
 car = Car.new("RailsRunner")
 car.start
 car.honk
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('RubyMobile') } && lines.any? { |l| l.include?('RailsRunner') }
+```
+
+#!
+
 
 #### Practice 3 - Implementing method overriding
 
-<p><strong>Goal:</strong> Override a method in a subclass.</p>
+**Goal:** Override a method in a subclass.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('misty is sleeping') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Create a base class with a method, then a subclass that
 # overrides that method to specialise the behaviour.
 # Hint:
 #   - Define an Animal class with a #sleep method.
 #   - Define a Cat subclass that overrides #sleep.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:2">
+```solution
 class Animal
   def initialize(name)
     @name = name
@@ -450,7 +440,7 @@ class Animal
   end
 end
 
-class Cat &lt; Animal
+class Cat < Animal
   def sleep
     puts "#{@name} is sleeping on the keyboard."
   end
@@ -458,28 +448,27 @@ end
 
 cat = Cat.new("Misty")
 cat.sleep
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('misty is sleeping') }
+```
+
+#!
+
 
 #### Practice 4 - Using attribute accessors
 
-<p><strong>Goal:</strong> Use attribute accessors to create getters and setters.</p>
+**Goal:** Use attribute accessors to create getters and setters.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Ruby 102') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a Book class that uses attr_accessor and attr_reader,
 # then demonstrate reading and writing attributes.
 # Hint:
 #   - Use attr_accessor for mutable fields, attr_reader for read-only.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:3">
+```solution
 class Book
   attr_accessor :title, :author
   attr_reader :pages
@@ -495,29 +484,28 @@ book = Book.new("Ruby 101", "Satish", 200)
 book.title = "Ruby 102"
 puts "Title: #{book.title}"
 puts "Pages: #{book.pages}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Ruby 102') }
+```
+
+#!
+
 
 #### Practice 5 - Extending existing classes
 
-<p><strong>Goal:</strong> Extend an existing Ruby class with a new method.</p>
+**Goal:** Extend an existing Ruby class with a new method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="4"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello from ruby') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Open an existing class (such as String) and add a small
 # helper method, then call it.
 # Hint:
 #   - For example, define String#shout that returns the string in
 #     uppercase with an exclamation mark.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="4"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:4">
+```solution
 class String
   def shout
     upcase + "!"
@@ -525,28 +513,27 @@ class String
 end
 
 puts "hello from ruby".shout
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello from ruby') }
+```
+
+#!
+
 
 #### Practice 6 - Access control with private/protected
 
-<p><strong>Goal:</strong> Experiment with private/protected methods and see how they affect access.</p>
+**Goal:** Experiment with private/protected methods and see how they affect access.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="5"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('balance:') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a class that has a public method using a private helper
 # and experiment with calling the helper from outside the class.
 # Hint:
 #   - Use private to hide an implementation detail.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/classes-and-objects"
-     data-practice-index="5"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/classes-and-objects:5">
+```solution
 class Account
   def initialize(balance)
     @balance = balance
@@ -565,6 +552,13 @@ end
 
 account = Account.new(100)
 account.print_balance
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('balance:') }
+```
+
+#!
+
 
 Continue to [Chapter 5: Modules & mixins](/tutorials/modules-and-mixins/) to share behaviour across objects.

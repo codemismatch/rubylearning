@@ -139,7 +139,7 @@ Summary: Ruby sockets piggyback on familiar IO primitives, so once you understan
 
 #### Practice 1 - Sketching client-server flow
 
-<p><strong>Goal:</strong> Sketch the client-server flow for an app and label which side initiates the connection.</p>
+**Goal:** Sketch the client-server flow for an app and label which side initiates the connection.
 
 ```ruby
 # TODO: Print a brief pseudo-flow describing which side (client or
@@ -158,7 +158,7 @@ puts "Client: TCPSocket.new('localhost', 3000) initiates connection"
 
 #### Practice 2 - LAN IP vs localhost
 
-<p><strong>Goal:</strong> Show how you would replace `localhost` with a LAN IP.</p>
+**Goal:** Show how you would replace `localhost` with a LAN IP.
 
 ```ruby
 # TODO: Print an example client connection line using a private LAN IP
@@ -176,7 +176,7 @@ puts "TCPSocket.new('192.168.1.10', 3000)"
 
 #### Practice 3 - Simple message and acknowledgement
 
-<p><strong>Goal:</strong> Send a full sentence from the server and have the client acknowledge receipt.</p>
+**Goal:** Send a full sentence from the server and have the client acknowledge receipt.
 
 ```ruby
 # TODO: Sketch send/receive/ack behaviour in a comment-style snippet.
@@ -194,7 +194,7 @@ puts "# client: message = socket.gets; socket.puts 'ACK'"
 
 #### Practice 4 - Threads vs sequential handling
 
-<p><strong>Goal:</strong> Contrast `Thread.start` with sequential handling in a server loop.</p>
+**Goal:** Contrast `Thread.start` with sequential handling in a server loop.
 
 ```ruby
 # TODO: Print pseudo-code that shows a threaded server loop using
@@ -218,7 +218,7 @@ puts "end"
 
 #### Practice 5 - Logging and exception handling
 
-<p><strong>Goal:</strong> Wrap the server loop with logging and exception handling.</p>
+**Goal:** Wrap the server loop with logging and exception handling.
 
 ```ruby
 # TODO: Print a small example that pairs a server loop with logging

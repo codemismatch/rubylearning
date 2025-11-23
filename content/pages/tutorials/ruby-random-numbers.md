@@ -26,15 +26,15 @@ Ruby ships with a pseudo-random number generator exposed via `rand`. Use it for 
 - `rand` with no arguments returns a float between `0.0` (inclusive) and `1.0` (exclusive).
 - `rand(n)` with an integer argument returns an integer between `0` (inclusive) and `n` (exclusive).
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-rand          #=&gt; 0.731245...
-rand(5)       #=&gt; 0, 1, 2, 3, or 4
+```ruby-exec
+rand          #=> 0.731245...
+rand(5)       #=> 0, 1, 2, 3, or 4
 rand(1.5)     # Ruby converts the argument to an integer, so this behaves like rand(1)
-</code></pre>
+```
 
 ### Example: buzzword generator
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p026phrase.rb
 word_list_one = %w[24/7 multi-Tier 30,000-foot B-to-B win-win front-end web-based pervasive smart six-sigma critical-path dynamic]
 word_list_two = %w[empowered sticky value-added oriented centric distributed clustered branded outside-the-box positioned networked focused leveraged aligned targeted shared cooperative accelerated]
@@ -46,7 +46,7 @@ rand3 = rand(word_list_three.length)
 
 phrase = "#{word_list_one[rand1]} #{word_list_two[rand2]} #{word_list_three[rand3]}"
 puts phrase
-</code></pre>
+```
 
 Each call to `rand(list.length)` picks a valid index, so the script prints a different buzzword combo each run.
 
@@ -61,90 +61,82 @@ Next: head back to Flow Control & Collections, where you'll combine conditionals
 
 #### Practice 1 - Ten floats between 0.0 and 1.0
 
-<p><strong>Goal:</strong> Print ten floats from `rand` and confirm they're between 0.0 and 1.0.</p>
+**Goal:** Print ten floats from `rand` and confirm they're between 0.0 and 1.0.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.size >= 10"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Use a loop to print ten calls to rand.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-random-numbers:0">
+```solution
 10.times { puts rand }
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.size >= 10
+```
+
+#!
+
 
 #### Practice 2 - Virtual die
 
-<p><strong>Goal:</strong> Roll a virtual die using `rand(6) + 1`.</p>
+**Goal:** Roll a virtual die using `rand(6) + 1`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.to_i.between?(1, 6) }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print the result of rand(6) + 1 a few times to simulate dice
 # rolls.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-random-numbers:1">
+```solution
 5.times { puts rand(6) + 1 }
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.to_i.between?(1, 6) }
+```
+
+#!
+
 
 #### Practice 3 - Random element from an array
 
-<p><strong>Goal:</strong> Use `rand(range_size)` to select random elements from an array.</p>
+**Goal:** Use `rand(range_size)` to select random elements from an array.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('chosen') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define an array of choices and use rand(array.size) to select
 # a random element, printing the chosen value.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-random-numbers:2">
+```solution
 choices = %w[red green blue]
 index = rand(choices.size)
 puts "chosen: #{choices[index]}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('chosen') }
+```
+
+#!
+
 
 #### Practice 4 - Seeding the RNG
 
-<p><strong>Goal:</strong> Seed the RNG with `srand(1234)` and observe a repeating sequence.</p>
+**Goal:** Seed the RNG with `srand(1234)` and observe a repeating sequence.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('srand(1234)') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that shows calling srand(1234) and then rand a
 # few times, noting that repeating the seed repeats the sequence.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-random-numbers"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-random-numbers:3">
+```solution
 puts "srand(1234)"
 puts "3.times { puts rand }"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('srand(1234)') }
+```
+
+#!
+

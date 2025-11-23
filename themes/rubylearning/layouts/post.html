@@ -3,29 +3,30 @@ layout: default
 ---
 <article class="post">
   <header class="post-header">
+    {% assign date_format = site.date_format | default: '%B %-d, %Y' %}
     <h1>
-      <%= page.title %>
-      <% if page.difficulty %>
-        <span class="difficulty difficulty-<%= page.difficulty %>"><%= page.difficulty.capitalize %></span>
-      <% end %>
+      {{ page.title }}
+      {% if page.difficulty %}
+        <span class="difficulty difficulty-{{ page.difficulty }}">{{ page.difficulty | capitalize }}</span>
+      {% endif %}
     </h1>
     <div class="post-meta">
-      <% if page.date %>
-      <time datetime="<%= page.date.strftime('%Y-%m-%d') %>">
-        <%= page.date.strftime(site.date_format || '%B %-d, %Y') %>
+      {% if page.date %}
+      <time datetime="{{ page.date | date: '%Y-%m-%d' }}">
+        {{ page.date | date: date_format }}
       </time>
-      <% end %>
-      <% if page.tags && !page.tags.empty? %>
+      {% endif %}
+      {% if page.tags and page.tags.size > 0 %}
       <div class="tags">
-        <% page.tags.each do |tag| %>
-        <span class="tag"><a href="<%= url_for("tags/#{tag}/") %>"><%= tag %></a></span>
-        <% end %>
+        {% for tag in page.tags %}
+        <span class="tag"><a href="{{ 'tags/' | append: tag | append: '/' | url_for }}">{{ tag }}</a></span>
+        {% endfor %}
       </div>
-      <% end %>
+      {% endif %}
     </div>
   </header>
   
   <div class="post-content">
-    <%= content %>
+    {{ content }}
   </div>
 </article>

@@ -23,14 +23,14 @@ So far you've been printing output with `puts`. To make your scripts interactive
 
 ### Sample prompt script
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p005methods.rb
 # gets and chomp
 puts "In which city do you stay?"
 STDOUT.flush
 city = gets.chomp
 puts "The city is #{city}"
-</code></pre>
+```
 
 What's happening:
 
@@ -54,24 +54,16 @@ Up next: move into Flow Control & Collections to react to the data you just gath
 
 #### Practice 1 - Reading multiple text inputs
 
-<p><strong>Goal:</strong> Request both city and country from the user and print a combined sentence.</p>
+**Goal:** Request both city and country from the user and print a combined sentence.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="0"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string.downcase; out.include?('you live in') && !out.include?('null')"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a class method self.main that asks for city and country
 # using gets.chomp and prints a single sentence including both values.
 # Hint:
 #   - The test harness will call sandbox.main with simulated input.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/getting-input:0">
+```solution
 def self.main
   print "Which city do you live in? "
   city = gets.chomp
@@ -81,27 +73,25 @@ def self.main
 
   puts "You live in #{city}, #{country}."
 end
-</script>
+```
+
+```test
+self.main if self.respond_to?(:main); out = output.string.downcase; out.include?('you live in') && !out.include?('null')
+```
+
+#!
 
 #### Practice 2 - Using STDOUT.sync
 
-<p><strong>Goal:</strong> Toggle `STDOUT.sync = true` and rely on implicit flushing.</p>
+**Goal:** Toggle `STDOUT.sync = true` and rely on implicit flushing.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="1"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('STDOUT.sync') } && lines.any? { |l| l.downcase.start_with?('hello,') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define self.main to set STDOUT.sync = true, print a prompt
 # without calling flush explicitly, read a value with gets, and then
 # print a confirmation message.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/getting-input:1">
+```solution
 def self.main
   STDOUT.sync = true
 
@@ -111,27 +101,25 @@ def self.main
   puts "STDOUT.sync is now true"
   puts "Hello, #{name}!"
 end
-</script>
+```
+
+```test
+self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('STDOUT.sync') } && lines.any? { |l| l.downcase.start_with?('hello,') }
+```
+
+#!
 
 #### Practice 3 - Numeric input and calculations
 
-<p><strong>Goal:</strong> Capture numeric input and use it in a calculation.</p>
+**Goal:** Capture numeric input and use it in a calculation.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="2"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/total:/i) } && !lines.any? { |l| l.downcase.include?('null') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define self.main to ask the user for a number, convert it to
 # an integer, and use it in a simple calculation (for example,
 # doubling it). Print the total.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/getting-input:2">
+```solution
 def self.main
   print "How many lessons have you completed? "
   count = gets.chomp.to_i
@@ -139,31 +127,35 @@ def self.main
   total = count * 2
   puts "Total: #{total}"
 end
-</script>
+```
+
+```test
+self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/total:/i) } && !lines.any? { |l| l.downcase.include?('null') }
+```
+
+#!
 
 #### Practice 4 - Thinking about piped input
 
-<p><strong>Goal:</strong> Experiment mentally with how piped input behaves compared to keyboard input.</p>
+**Goal:** Experiment mentally with how piped input behaves compared to keyboard input.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="3"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('piped') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define self.main so it reads a single line from STDIN (which
 # might come from a pipe) and prints a message that mentions piped
 # input.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/getting-input"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/getting-input:3">
+```solution
 def self.main
   city = gets&.chomp
 
   puts "Received city from piped input or keyboard: #{city.inspect}"
   puts "You could run: echo \"Pune\" | ruby prompt.rb"
 end
-</script>
+```
+
+```test
+self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('piped') }
+```
+
+#!

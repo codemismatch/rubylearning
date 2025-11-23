@@ -25,15 +25,15 @@ Scope describes where a variable is visible. Ruby keeps the rules straightforwar
 
 Any identifier that starts with `$` is a **global variable**. It is accessible everywhere in your process and never goes out of scope.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-$app_mode = &quot;demo&quot;
+```ruby-exec
+$app_mode = "demo"
 
 def banner
-  &quot;Running in #{$app_mode} mode&quot;
+  "Running in #{$app_mode} mode"
 end
 
-puts banner           #=&gt; &quot;Running in demo mode&quot;
-</code></pre>
+puts banner           #=> "Running in demo mode"
+```
 
 Because global state is hard to reason about, most Rubyists limit themselves to the built-in globals Ruby provides automatically.
 
@@ -45,10 +45,10 @@ Because global state is hard to reason about, most Rubyists limit themselves to 
 
 You can inspect them just like any other variable:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts &quot;Running #{$0} (PID #{$$})&quot;
-puts &quot;Load path has #{$:.size} entries&quot;
-</code></pre>
+```ruby-exec
+puts "Running #{$0} (PID #{$$})"
+puts "Load path has #{$:.size} entries"
+```
 
 ### Local scope rules
 
@@ -58,21 +58,21 @@ Locals are far more common than globals. Ruby (MRI) follows three big rules:
 2. Each `class` or `module` block introduces a new local scope. Nested definitions get their own scopes too.
 3. Every `def` creates a brand-new scope. Locals from the outer scope are not automatically visible unless captured in a block or passed in.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-message = &quot;outside&quot;
+```ruby-exec
+message = "outside"
 
 class ScopeDemo
-  message = &quot;inside class&quot;
+  message = "inside class"
 
   def self.print_messages
-    message = &quot;inside method&quot;
+    message = "inside method"
     puts message
   end
 end
 
-ScopeDemo.print_messages  # prints &quot;inside method&quot;
-puts message              # prints &quot;outside&quot;
-</code></pre>
+ScopeDemo.print_messages  # prints "inside method"
+puts message              # prints "outside"
+```
 
 Notice how each structural boundary protects its own copy of `message`.
 
@@ -80,13 +80,13 @@ Notice how each structural boundary protects its own copy of `message`.
 
 Blocks (`do..end`, `{}`) share their parent's local scope:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 count = 0
 3.times do
   count += 1
 end
-puts count #=&gt; 3
-</code></pre>
+puts count #=> 3
+```
 
 Method definitions (`def`) always start fresh, so read/write outer locals via instance variables, accessors, or closures (e.g., lambdas) when needed.
 
@@ -101,102 +101,94 @@ Next: Apply these scope rules as you branch and iterate inside Flow Control & Co
 
 #### Practice 1 - Global special variables
 
-<p><strong>Goal:</strong> Print `$0`, `$$`, and the size of `$:`.</p>
+**Goal:** Print `$0`, `$$`, and the size of `$:`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[$0 $$ $:].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a small script that prints $0, $$, and $:.size with
 # labels so you can inspect them on your machine.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/scope:0">
+```solution
 puts "$0: #{$0}"
 puts "$$: #{$$}"
 puts "$:.size: #{$:.size}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); %w[$0 $$ $:].all? { |tok| lines.any? { |l| l.include?(tok) } }
+```
+
+#!
+
 
 #### Practice 2 - Nested class/module locals
 
-<p><strong>Goal:</strong> Create nested `class`/`module` definitions and confirm each maintains its own `message` local.</p>
+**Goal:** Create nested `class`/`module` definitions and confirm each maintains its own `message` local.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Outer') } && lines.any? { |l| l.include?('Inner') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example of nested definitions that each use a
 # different message local variable.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/scope:1">
+```solution
 puts "module Outer"
 puts "  message = 'outer'"
 puts "  class Inner"
 puts "    message = 'inner'"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Outer') } && lines.any? { |l| l.include?('Inner') }
+```
+
+#!
+
 
 #### Practice 3 - Block vs method scope
 
-<p><strong>Goal:</strong> Compare a block's behaviour with a method definition using similar code.</p>
+**Goal:** Compare a block's behaviour with a method definition using similar code.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('block count') } && lines.any? { |l| l.downcase.include?('method count') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Show a block that increments an outer local and a method that
 # cannot modify it directly, printing both counts.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/scope:2">
+```solution
 puts "count = 0"
 puts "3.times { count += 1 } # block can see outer variable"
 puts "def bump(count); count += 1; end # method gets a copy"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('block count') } && lines.any? { |l| l.downcase.include?('method count') }
+```
+
+#!
+
 
 #### Practice 4 - Refactoring globals
 
-<p><strong>Goal:</strong> Refactor a small script to replace a global variable with an instance variable or dependency injection.</p>
+**Goal:** Refactor a small script to replace a global variable with an instance variable or dependency injection.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$global') } && lines.any? { |l| l.include?('@value') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print before/after pseudo-code that replaces a global variable
 # with an instance variable.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/scope"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/scope:3">
+```solution
 puts "$global = 1"
 puts "class Refactored"
 puts "  def initialize(value)"
 puts "    @value = value"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$global') } && lines.any? { |l| l.include?('@value') }
+```
+
+#!
+

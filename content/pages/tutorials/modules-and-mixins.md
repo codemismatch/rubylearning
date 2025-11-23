@@ -23,7 +23,7 @@ Modules let you group related methods/constants and mix them into classes withou
 
 ### `include` adds instance methods
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 module Honks
   def honk
     "honk!"
@@ -35,14 +35,14 @@ class Car
 end
 
 puts Car.new.honk  #=> "honk!"
-</code></pre>
+```
 
 ### `extend` adds class-level behavior
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 module Logging
   def log(message)
-    puts &quot;[#{name}] #{message}&quot;
+    puts "[#{name}] #{message}"
   end
 end
 
@@ -50,18 +50,18 @@ class Service
   extend Logging
 end
 
-Service.log(&quot;Ready&quot;)  # class method
-</code></pre>
+Service.log("Ready")  # class method
+```
 
 ### Modules as namespaces
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 module Payments
   class Receipt; end
   end
 
   Payments::Receipt.new
-</code></pre>
+```
 
 Modules keep related classes/constants organized and prevent name clashes.
 
@@ -76,22 +76,14 @@ Next: head back to Flow Control & Collections to deploy these shared behaviors i
 
 #### Practice 1 - Sharing behaviour with an included module
 
-<p><strong>Goal:</strong> Create a module with shared methods and include it in two unrelated classes.</p>
+**Goal:** Create a module with shared methods and include it in two unrelated classes.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('taking off') } >= 2"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a Flyable module with a take_off method, include it in
 # two classes, and call the shared method on instances of each class.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:0">
+```solution
 module Flyable
   def take_off
     puts "#{self.class} is taking off"
@@ -108,26 +100,25 @@ end
 
 Plane.new.take_off
 Drone.new.take_off
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.count { |l| l.downcase.include?('taking off') } >= 2
+```
+
+#!
+
 
 #### Practice 2 - Using extend for class-level helpers
 
-<p><strong>Goal:</strong> Use `extend` to add a class-level logging helper.</p>
+**Goal:** Use `extend` to add a class-level logging helper.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Create a module with a log class method and extend it into
 # a class so you can call MyClass.log directly.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:1">
+```solution
 module ClassLogger
   def log(message)
     puts "LOG: #{message}"
@@ -139,26 +130,25 @@ class Service
 end
 
 Service.log("starting up")
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }
+```
+
+#!
+
 
 #### Practice 3 - Defining a namespace module
 
-<p><strong>Goal:</strong> Define a namespace module containing multiple classes.</p>
+**Goal:** Define a namespace module containing multiple classes.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Inventory::Product') } && lines.any? { |l| l.include?('Inventory::Order') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Build an Inventory module that contains Product and Order
 # classes, then instantiate them using the namespace.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:2">
+```solution
 module Inventory
   class Product
     def initialize(name)
@@ -183,27 +173,26 @@ end
 
 puts Inventory::Product.new("Book").label
 puts Inventory::Order.new(1).label
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Inventory::Product') } && lines.any? { |l| l.include?('Inventory::Order') }
+```
+
+#!
+
 
 #### Practice 4 - Combining modules with inheritance
 
-<p><strong>Goal:</strong> Include different mixins in subclasses to tailor behaviour.</p>
+**Goal:** Include different mixins in subclasses to tailor behaviour.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('emailing') } && lines.any? { |l| l.downcase.include?('logging') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Create a base class and two subclasses that each include
 # different mixins to provide extra behaviour, then show the
 # combined effects when you call their methods.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/modules-and-mixins"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/modules-and-mixins:3">
+```solution
 module EmailNotifications
   def notify(email)
     puts "emailing #{email}"
@@ -229,4 +218,11 @@ end
 
 SignupJob.new.notify("user@example.com")
 AuditJob.new.log("user signed up")
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('emailing') } && lines.any? { |l| l.downcase.include?('logging') }
+```
+
+#!
+

@@ -2,51 +2,83 @@
 layout: default
 ---
 <div class="tutorial-wrapper">
-  <% if partial?("breadcrumbs") && page['breadcrumbs'] != false %>
-    <%= render_partial("breadcrumbs") %>
-  <% end %>
+  {% if page.breadcrumbs != false %}
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="{{ '/' | url_for }}">Home</a></li>
+        {% if page.layout == 'tutorial' %}
+        <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+        <li>{{ page.title }}</li>
+        {% elsif page.layout == 'post' %}
+        <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+        <li>{{ page.title }}</li>
+        {% elsif page.permalink == '/tutorials' or page.url == '/tutorials/' or page.title == 'Ruby Tutorials' %}
+        <li>Tutorials</li>
+        {% else %}
+        <li>{{ page.title }}</li>
+        {% endif %}
+      </ol>
+    </nav>
+  {% endif %}
 
   <article class="tutorial">
     <header class="tutorial-header">
       <h1>
-        <%= page.title %>
-        <% if page.difficulty %>
-          <span class="difficulty difficulty-<%= page.difficulty %>"><%= page.difficulty.capitalize %></span>
-        <% end %>
+        {{ page.title }}
+        {% if page.difficulty %}
+          <span class="difficulty difficulty-{{ page.difficulty }}">{{ page.difficulty | capitalize }}</span>
+        {% endif %}
       </h1>
-      <% if page.summary %>
-        <p class="tutorial-summary"><%= page.summary %></p>
-      <% end %>
+      {% if page.summary %}
+        <p class="tutorial-summary">{{ page.summary }}</p>
+      {% endif %}
     </header>
 
     <div class="tutorial-content">
-      <%= content %>
+      {{ content }}
     </div>
 
-    <% if (page.previous_tutorial || page.next_tutorial) %>
+    {% if page.previous_tutorial or page.next_tutorial %}
       <nav class="tutorial-nav">
-        <% if page.previous_tutorial %>
-          <% prev = page.previous_tutorial %>
-          <% prev_href = prev['url'] || prev[:url] %>
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="<%= url_for(prev_href) %>">
+        {% if page.previous_tutorial %}
+          {% assign prev = page.previous_tutorial %}
+          {% assign prev_href = prev.url | default: prev["url"] %}
+          <a class="tutorial-nav__link tutorial-nav__link--prev" href="{{ prev_href | url_for }}">
             <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-            <span><%= prev['title'] || prev[:title] %></span>
+            <span>{{ prev.title | default: prev["title"] }}</span>
           </a>
-        <% end %>
-        <% if page.next_tutorial %>
-          <% nxt = page.next_tutorial %>
-          <% next_href = nxt['url'] || nxt[:url] %>
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="<%= url_for(next_href) %>">
-            <span><%= nxt['title'] || nxt[:title] %></span>
+        {% endif %}
+        {% if page.next_tutorial %}
+          {% assign nxt = page.next_tutorial %}
+          {% assign next_href = nxt.url | default: nxt["url"] %}
+          <a class="tutorial-nav__link tutorial-nav__link--next" href="{{ next_href | url_for }}">
+            <span>{{ nxt.title | default: nxt["title"] }}</span>
             <span class="icon-arrow" aria-hidden="true">&gt;</span>
           </a>
-        <% end %>
+        {% endif %}
       </nav>
-    <% end %>
+    {% endif %}
 
-    <% if page.related_tutorials && page.related_tutorials.any? %>
-      <%= render_partial('related_tutorials') %>
-    <% end %>
+    {% if page.related_tutorials and page.related_tutorials.size > 0 %}
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          {% for tutorial in page.related_tutorials %}
+          {% if tutorial.url and tutorial.url | slice: 0,4 == "http" %}
+            {% assign href = tutorial.url %}
+          {% else %}
+            {% assign href = tutorial.url | url_for %}
+          {% endif %}
+          <li>
+            <a href="{{ href }}">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>{{ tutorial.title }}</span>
+            </a>
+          </li>
+          {% endfor %}
+        </ul>
+      </div>
+    {% endif %}
   </article>
 
   <div class="ruby-console-drawer">

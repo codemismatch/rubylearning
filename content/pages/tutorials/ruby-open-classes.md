@@ -23,7 +23,7 @@ Ruby classes are **open**, meaning you can reopen them at any time to add or ove
 
 ### Simple example: adding to `String`
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class String
   def saysomething
     "Satish " + self
@@ -31,7 +31,7 @@ class String
 end
 
 puts "Talim".saysomething   #=> "Satish Talim"
-</code></pre>
+```
 
 Reopening `String` lets every string gain the `saysomething` method.
 
@@ -39,15 +39,15 @@ Reopening `String` lets every string gain the `saysomething` method.
 
 You can extend numeric classes too:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Integer
   def squared
     self * self
   end
 end
 
-puts 3.squared   #=&gt; 9
-</code></pre>
+puts 3.squared   #=> 9
+```
 
 This pattern explains why built-in methods like `2.times { ... }` work--the core `Integer` class defines them. Any method you add becomes available to every object of that class.
 
@@ -68,105 +68,90 @@ Next: keep building in Flow Control & Collections, combining your augmented clas
 
 #### Practice 1 - Adding Array#middle
 
-<p><strong>Goal:</strong> Add a method to `Array` that returns the middle element, behaving sensibly for odd/even sizes.</p>
+**Goal:** Add a method to `Array` that returns the middle element, behaving sensibly for odd/even sizes.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Array') } && lines.any? { |l| l.include?('def middle') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Reopen Array and define #middle so that it returns the middle
 # element for odd sizes and one of the two middle elements for even
 # sizes (you can choose which).
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:0">
+```solution
 puts "class Array"
 puts "  def middle"
 puts "    return nil if empty?"
 puts "    self[(size - 1) / 2]"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Array') } && lines.any? { |l| l.include?('def middle') }
+```
+
+#!
+
 
 #### Practice 2 - Overriding String#to_s
 
-<p><strong>Goal:</strong> Override `String#to_s` in a small script and observe the impact.</p>
+**Goal:** Override `String#to_s` in a small script and observe the impact.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class String') } && lines.any? { |l| l.include?('def to_s') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small example that reopens String to override to_s and
 # mention in a comment that this is only for experimentation.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:1">
+```solution
 puts "class String"
 puts "  def to_s"
 puts "    \"[string: \#{inspect}]\""
 puts "  end"
 puts "end"
 puts "# Override only in small scripts; avoid in real apps."
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class String') } && lines.any? { |l| l.include?('def to_s') }
+```
+
+#!
+
 
 #### Practice 3 - Custom numeric helper
 
-<p><strong>Goal:</strong> Implement a custom numeric helper (e.g., `5.minutes` returning seconds).</p>
+**Goal:** Implement a custom numeric helper (e.g., `5.minutes` returning seconds).
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Integer') } && lines.any? { |l| l.include?('def minutes') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Reopen Integer and define minutes (and optionally seconds,
 # hours) so that 5.minutes returns 300.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:2">
+```solution
 puts "class Integer"
 puts "  def minutes"
 puts "    self * 60"
 puts "  end"
 puts "end"
 puts "puts 5.minutes # => 300"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Integer') } && lines.any? { |l| l.include?('def minutes') }
+```
+
+#!
+
 
 #### Practice 4 - Exploring refinements
 
-<p><strong>Goal:</strong> Explore refinements for safer, scoped patches.</p>
+**Goal:** Explore refinements for safer, scoped patches.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('refine String') } && lines.any? { |l| l.include?('using') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a simple refinement that patches String inside a module
 # and show how to activate it with using.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-open-classes"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-open-classes:3">
+```solution
 puts "module StringRefinements"
 puts "  refine String do"
 puts "    def shout; upcase + '!'; end"
@@ -174,4 +159,11 @@ puts "  end"
 puts "end"
 puts "using StringRefinements"
 puts "\"hello\".shout # works only where refinement is active"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('refine String') } && lines.any? { |l| l.include?('using') }
+```
+
+#!
+

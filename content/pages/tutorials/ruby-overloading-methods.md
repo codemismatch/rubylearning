@@ -23,37 +23,37 @@ Ruby doesn't support traditional method overloading (same name, different signat
 
 ### Optional and default arguments
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def greet(name = &quot;friend&quot;)
-  &quot;Hello, #{name}!&quot;
+```ruby-exec
+def greet(name = "friend")
+  "Hello, #{name}!"
 end
 
-puts greet          #=&gt; &quot;Hello, friend!&quot;
-puts greet(&quot;Satish&quot;) #=&gt; &quot;Hello, Satish!&quot;
-</code></pre>
+puts greet          #=> "Hello, friend!"
+puts greet("Satish") #=> "Hello, Satish!"
+```
 
 ### Variable arguments with `*args`
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def sum(*numbers)
   numbers.inject(0, :+)
 end
 
 puts sum            #=> 0
 puts sum(1, 2, 3)   #=> 6
-</code></pre>
+```
 
 You can inspect `numbers.length` or the class of each argument to branch as needed.
 
 ### Keyword arguments
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def send_email(to:, subject:, body: &quot;Hello&quot;)
+```ruby-exec
+def send_email(to:, subject:, body: "Hello")
   # ...
 end
 
-send_email(to: &quot;team@example.com&quot;, subject: &quot;Reminder&quot;)
-</code></pre>
+send_email(to: "team@example.com", subject: "Reminder")
+```
 
 Keyword args make call sites self-documenting and avoid argument-order bugs.
 
@@ -74,49 +74,38 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
 
 #### Practice 1 - log with optional level
 
-<p><strong>Goal:</strong> Write a `log(message, level = :info)` method and call it with/without the second argument.</p>
+**Goal:** Write a `log(message, level = :info)` method and call it with/without the second argument.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('level=:info') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define log(message, level = :info) and print a line showing
 # both the default and an explicit level being used.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:0">
+```solution
 puts "def log(message, level = :info)"
 puts "  puts \"[\#{level}] \#{message}\""
 puts "end"
 puts "log('hello')"
 puts "log('danger', :error)"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('level=:info') }
+```
+
+#!
+
 
 #### Practice 2 - rectangle_area with *args
 
-<p><strong>Goal:</strong> Build `rectangle_area(*args)` that accepts either two numbers or a hash of options.</p>
+**Goal:** Build `rectangle_area(*args)` that accepts either two numbers or a hash of options.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rectangle_area') } && lines.any? { |l| l.downcase.include?('hash') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a rectangle_area(*args) implementation that accepts
 # width/height as either positional args or a hash.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:1">
+```solution
 puts "def rectangle_area(*args)"
 puts "  if args.first.is_a?(Hash)"
 puts "    w = args.first.fetch(:width)"
@@ -126,55 +115,58 @@ puts "    w, h = args"
 puts "  end"
 puts "  w * h"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rectangle_area') } && lines.any? { |l| l.downcase.include?('hash') }
+```
+
+#!
+
 
 #### Practice 3 - Constructor keyword overloading
 
-<p><strong>Goal:</strong> Use keyword arguments with defaults to simulate constructor overloading.</p>
+**Goal:** Use keyword arguments with defaults to simulate constructor overloading.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('initialize(') } && lines.any? { |l| l.include?('**opts') || l.include?('name:') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small class whose initialize method uses keyword
 # arguments with defaults to support multiple call styles.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:2">
+```solution
 puts "class User"
 puts "  def initialize(name:, admin: false)"
 puts "    @name = name"
 puts "    @admin = admin"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('initialize(') } && lines.any? { |l| l.include?('**opts') || l.include?('name:') }
+```
+
+#!
+
 
 #### Practice 4 - Argument validation with ArgumentError
 
-<p><strong>Goal:</strong> Inspect `args.length` in a method and raise `ArgumentError` when the combination doesn't make sense.</p>
+**Goal:** Inspect `args.length` in a method and raise `ArgumentError` when the combination doesn't make sense.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ArgumentError') } && lines.any? { |l| l.include?('args.length') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example of checking args.length and raising
 # ArgumentError for unsupported combinations.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:3">
+```solution
 puts "def overloaded(*args)"
 puts "  raise ArgumentError, 'expected 1 or 2 args' unless [1, 2].include?(args.length)"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ArgumentError') } && lines.any? { |l| l.include?('args.length') }
+```
+
+#!
+

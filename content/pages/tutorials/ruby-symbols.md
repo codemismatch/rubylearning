@@ -28,13 +28,13 @@ Symbols are lightweight, immutable identifiers prefixed with a colon (e.g., `:ac
 
 Use strings when you care about the text itself, and symbols when you just need consistent names or keys.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p039symbol.rb
 puts "string".object_id
 puts "string".object_id
 puts :symbol.object_id
 puts :symbol.object_id
-</code></pre>
+```
 
 The second string has a different `object_id`; the symbol doesn't.
 
@@ -44,7 +44,7 @@ Ruby automatically creates symbols for method names, class names, instance varia
 
 Symbols are simple `Symbol` objects backed by an internal integer ID. Redefining a method or referencing the same identifier elsewhere reuses the existing symbol:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p039xsymbol.rb
 class Test
   puts :Test.object_id
@@ -57,13 +57,13 @@ class Test
 end
 
 Test.new.test
-</code></pre>
+```
 
 ### Predicate-style flags
 
 Symbols make expressive flags:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p039xysymbol.rb
 know_ruby = :yes
 
@@ -72,16 +72,16 @@ if know_ruby == :yes
 else
   puts "Start learning Ruby"
 end
-</code></pre>
+```
 
 Comparing strings works too, but every literal allocates a new object, while symbols do not.
 
 ### Converting between strings and symbols
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-&quot;string&quot;.to_sym.class #=&gt; Symbol
-:symbol.to_s.class    #=&gt; String
-</code></pre>
+```ruby-exec
+"string".to_sym.class #=> Symbol
+:symbol.to_s.class    #=> String
+```
 
 This is handy when bridging user input (strings) and internal identifiers (symbols).
 
@@ -100,96 +100,88 @@ Next: build on these naming primitives as you dive deeper into Flow Control & Co
 
 #### Practice 1 - Symbol table growth
 
-<p><strong>Goal:</strong> Observe `Symbol.all_symbols.size` before and after defining a new method.</p>
+**Goal:** Observe `Symbol.all_symbols.size` before and after defining a new method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Symbol.all_symbols.size') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print the calls you would run in IRB to measure the symbol
 # table size before and after defining a method.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-symbols:0">
+```solution
 puts "before = Symbol.all_symbols.size"
 puts "def new_method; end"
 puts "after = Symbol.all_symbols.size"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Symbol.all_symbols.size') }
+```
+
+#!
+
 
 #### Practice 2 - Rewriting config hashes with symbols
 
-<p><strong>Goal:</strong> Rewrite a configuration hash using symbol keys instead of strings.</p>
+**Goal:** Rewrite a configuration hash using symbol keys instead of strings.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':host') } && lines.any? { |l| l.include?(':port') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a before/after example of a hash that uses string keys
 # and then symbol keys for configuration.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-symbols:1">
+```solution
 puts 'config_str = { "host" => "localhost", "port" => 3000 }'
 puts 'config_sym = { host: "localhost", port: 3000 }'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':host') } && lines.any? { |l| l.include?(':port') }
+```
+
+#!
+
 
 #### Practice 3 - object_id for strings vs symbols
 
-<p><strong>Goal:</strong> Compare `object_id` for repeated strings vs repeated symbols.</p>
+**Goal:** Compare `object_id` for repeated strings vs repeated symbols.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('string object_id') } && lines.any? { |l| l.downcase.include?('symbol object_id') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print object_ids for repeated strings and symbols to show that
 # strings allocate new objects but symbols do not.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-symbols:2">
+```solution
 puts '"hello".object_id  # string object_id'
 puts '"hello".object_id  # different from previous'
 puts ':hello.object_id   # symbol object_id (same each time)'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('string object_id') } && lines.any? { |l| l.downcase.include?('symbol object_id') }
+```
+
+#!
+
 
 #### Practice 4 - Safe to_sym usage
 
-<p><strong>Goal:</strong> Convert user-supplied strings to symbols safely with `.to_sym`.</p>
+**Goal:** Convert user-supplied strings to symbols safely with `.to_sym`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.to_sym') } && lines.any? { |l| l.downcase.include?('validate') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that validates a user-supplied string against
 # a whitelist before calling to_sym and send.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-symbols:3">
+```solution
 puts "allowed = %w[name email]"
 puts "if allowed.include?(input)"
 puts "  key = input.to_sym"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.to_sym') } && lines.any? { |l| l.downcase.include?('validate') }
+```
+
+#!
+

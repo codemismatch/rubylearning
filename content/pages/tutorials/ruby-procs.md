@@ -23,25 +23,25 @@ Blocks are anonymous snippets that you pass to methods. `Proc` and `lambda` capt
 
 ### Creating procs
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 square  = Proc.new { |x| x * x }
 doubler = proc { |n| n * 2 }      # same as Proc.new
 
-square.call(4)   #=&gt; 16
-doubler.call(5)  #=&gt; 10
-</code></pre>
+square.call(4)   #=> 16
+doubler.call(5)  #=> 10
+```
 
 You can call a proc via `.call`, `.[]`, or `.()`; they're interchangeable.
 
 ### Lambdas vs procs
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 increment = lambda { |n| n + 1 }
-arrow     = -&gt;(n) { n * 3 }
+arrow     = ->(n) { n * 3 }
 
-increment.call(2) #=&gt; 3
-arrow.call(3)     #=&gt; 9
-</code></pre>
+increment.call(2) #=> 3
+arrow.call(3)     #=> 9
+```
 
 Key differences:
 
@@ -52,27 +52,27 @@ Key differences:
 
 Methods receive blocks implicitly and can invoke them with `yield`:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def call_block
   yield if block_given?
 end
 
-call_block { puts &quot;Hello from the block&quot; }
-</code></pre>
+call_block { puts "Hello from the block" }
+```
 
 To turn a block into a proc parameter, add `&block` to the method signature:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def greet(name, &amp;block)
+```ruby-exec
+def greet(name, &block)
   block.call(name) if block
 end
 
-greet(&quot;Satish&quot;) { |n| puts &quot;Welcome, #{n}!&quot; }
-</code></pre>
+greet("Satish") { |n| puts "Welcome, #{n}!" }
+```
 
 ### Passing procs between objects
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Greeter
   def initialize(name)
     @name = name
@@ -85,15 +85,15 @@ end
 
 greet_proc = Proc.new { |n| puts "Welcome, #{n}!" }
 Greeter.new("Satish").welcome(greet_proc)
-</code></pre>
+```
 
 Procs are great for callbacks, iterators (`map`, `select`), and DSLs. Pass them with `&proc_obj` to methods expecting a block:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 numbers = [1, 2, 3]
-printer = -&gt;(n) { puts &quot;Number: #{n}&quot; }
-numbers.each(&amp;printer)
-</code></pre>
+printer = ->(n) { puts "Number: #{n}" }
+numbers.each(&printer)
+```
 
 ### Handy helpers
 
@@ -111,46 +111,35 @@ Next: continue into Flow Control & Collections where these callable objects shin
 
 #### Practice 1 - Capturing blocks in a hash
 
-<p><strong>Goal:</strong> Capture a block with `Proc.new` and store it in a hash for later use.</p>
+**Goal:** Capture a block with `Proc.new` and store it in a hash for later use.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('callbacks') } && lines.any? { |l| l.downcase.include?('proc.new') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that captures a block with Proc.new and stores
 # it in a hash of callbacks.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-procs:0">
+```solution
 puts "callbacks = {}"
 puts "callbacks[:success] = Proc.new { |msg| puts msg }"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('callbacks') } && lines.any? { |l| l.downcase.include?('proc.new') }
+```
+
+#!
+
 
 #### Practice 2 - return in lambda vs proc
 
-<p><strong>Goal:</strong> Compare a lambda and a plain proc that both `return` from inside a method.</p>
+**Goal:** Compare a lambda and a plain proc that both `return` from inside a method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('lambda result') } && lines.any? { |l| l.downcase.include?('proc result') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch two methods, one that uses a lambda with return and one
 # that uses a plain proc with return, and print labelled results.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-procs:1">
+```solution
 puts "def lambda_example"
 puts "  l = -> { return 'from lambda' }"
 puts "  l.call"
@@ -161,51 +150,54 @@ puts "  p = Proc.new { return 'from proc' }"
 puts "  p.call"
 puts "  'proc result (never reached)'"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('lambda result') } && lines.any? { |l| l.downcase.include?('proc result') }
+```
+
+#!
+
 
 #### Practice 3 - Passing the same proc with & syntax
 
-<p><strong>Goal:</strong> Pass the same proc to multiple methods using `&`.</p>
+**Goal:** Pass the same proc to multiple methods using `&`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('called callback') } >= 2"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet where a single proc is passed into two
 # different methods using &callback.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-procs:2">
+```solution
 callback = Proc.new { |name| puts "called callback for #{name}" }
 ["a", "b"].each(&callback)
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.count { |l| l.downcase.include?('called callback') } >= 2
+```
+
+#!
+
 
 #### Practice 4 - Validating callbacks with Proc#arity
 
-<p><strong>Goal:</strong> Use `Proc#arity` to validate dynamic callbacks.</p>
+**Goal:** Use `Proc#arity` to validate dynamic callbacks.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('arity') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small example that checks a proc's arity before
 # accepting it as a callback.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-procs"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-procs:3">
+```solution
 puts "def register(callback)"
 puts "  raise ArgumentError unless callback.arity == 1"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('arity') }
+```
+
+#!
+

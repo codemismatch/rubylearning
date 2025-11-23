@@ -30,7 +30,7 @@ A class combines both. Each class is itself an instance of Ruby's `Class`, and c
 
 ### First class: `Dog`
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p029dog.rb
 class Dog
   def initialize(breed, name)
@@ -58,7 +58,7 @@ end
 
 d.bark
 d.display
-</code></pre>
+```
 
 Key takeaways:
 
@@ -89,100 +89,92 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
 
 #### Practice 1 - Extending Dog with #talk
 
-<p><strong>Goal:</strong> Extend `Dog` with a `talk` method and watch `respond_to?` change.</p>
+**Goal:** Extend `Dog` with a `talk` method and watch `respond_to?` change.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('talk') } && lines.any? { |l| l.include?('respond_to?') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Show a Dog class gaining a talk method and demonstrate
 # respond_to? :talk returning true.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:0">
+```solution
 puts "class Dog"
 puts "  def talk"
 puts "    'woof'"
 puts "  end"
 puts "end"
 puts "Dog.new.respond_to?(:talk)"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('talk') } && lines.any? { |l| l.include?('respond_to?') }
+```
+
+#!
+
 
 #### Practice 2 - Reader/writer methods
 
-<p><strong>Goal:</strong> Add reader/writer methods (or `attr_accessor`) for instance variables so callers can rename dogs.</p>
+**Goal:** Add reader/writer methods (or `attr_accessor`) for instance variables so callers can rename dogs.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor :name') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a Dog class that uses attr_accessor for name and shows
 # renaming a dog.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:1">
+```solution
 puts "class Dog"
 puts "  attr_accessor :name"
 puts "end"
 puts "dog = Dog.new"
 puts "dog.name = 'Lassie'"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor :name') }
+```
+
+#!
+
 
 #### Practice 3 - Shared references to the same object
 
-<p><strong>Goal:</strong> Create two references to the same `Dog`, mutate via one, and verify the other sees the change.</p>
+**Goal:** Create two references to the same `Dog`, mutate via one, and verify the other sees the change.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('same object') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a short example where two variables point at the same
 # Dog instance and a change via one is visible via the other.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:2">
+```solution
 puts "dog1 = Dog.new"
 puts "dog2 = dog1"
 puts "dog1.object_id == dog2.object_id # same object"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('same object') }
+```
+
+#!
+
 
 #### Practice 4 - Class and object_id
 
-<p><strong>Goal:</strong> Print `Dog.new(\"Alsatian\", \"Lassie\").class` and `object_id`.</p>
+**Goal:** Print `Dog.new(\"Alsatian\", \"Lassie\").class` and `object_id`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('object_id') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Show the class and object_id for a freshly instantiated Dog.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:3">
+```solution
 puts "dog = Dog.new('Alsatian', 'Lassie')"
 puts "dog.class"
 puts "dog.object_id"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('object_id') }
+```
+
+#!
+

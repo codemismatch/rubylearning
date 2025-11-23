@@ -23,7 +23,7 @@ Ruby's `IO` family (which `File` inherits from) handles disk operations. You can
 
 ### Reading and writing files
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p027readwrite.rb
 # Read a file
 File.open("p014constructs.rb", "r") do |file|
@@ -37,7 +37,7 @@ File.open("test.rb", "w") do |file|
   file.puts "Created by Satish"
   file.puts "Thank God!"
 end
-</code></pre>
+```
 
 - Modes: `"r"` (read), `"r+"` (read/write), `"w"` (write, truncates/creates), `"a"` (append). You can also specify encodings (`"r:UTF-16LE:UTF-8"`).
 - Passing a block ensures the file closes automatically when the block exits. Otherwise call `file.close`.
@@ -47,20 +47,20 @@ end
 
 Use the `Find` module to walk a tree:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-require &quot;find&quot;
+```ruby-exec
+require "find"
 
-Find.find(&quot;./&quot;) do |path|
+Find.find("./") do |path|
   type = if File.file?(path)
-  &quot;F&quot;
+  "F"
 elsif File.directory?(path)
-  &quot;D&quot;
+  "D"
 else
-  &quot;?&quot;
+  "?"
 end
-puts &quot;#{type}: #{path}&quot;
+puts "#{type}: #{path}"
 end
-</code></pre>
+```
 
 This example prints each file/directory under the current working directory. You'll learn more about `require` soon--it loads stdlib modules like `Find`.
 
@@ -68,13 +68,13 @@ This example prints each file/directory under the current working directory. You
 
 `IO#seek` repositions the file pointer. Use the `IO::SEEK_*` constants to describe relative moves.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p028xrandom.rb
 f = File.new("hellousa.rb")  # read-only by default
 f.seek(12, IO::SEEK_SET)     # absolute seek to byte 12
 puts f.readline              # prints from byte 12 onward
 f.close
-</code></pre>
+```
 
 `IO::SEEK_CUR` seeks relative to the current position, `IO::SEEK_END` seeks relative to the end (use negative offsets), and `IO::SEEK_SET` is absolute.
 
@@ -93,91 +93,83 @@ Next: continue to Flow Control & Collections to keep combining IO with loops, ra
 
 #### Practice 1 - Appending a timestamped entry
 
-<p><strong>Goal:</strong> Sketch how you would append a timestamped entry to a log file.</p>
+**Goal:** Sketch how you would append a timestamped entry to a log file.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.open') } && lines.any? { |l| l.include?('\"a\"') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that opens a file in \"a\" mode and writes a
 # timestamped line.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/read-write-files:0">
+```solution
 puts 'File.open("log.txt", "a") { |f| f.puts("[\#{Time.now}] Started app") }'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.open') } && lines.any? { |l| l.include?('\
+```
+
+#!
+
 
 #### Practice 2 - Counting matching lines
 
-<p><strong>Goal:</strong> Describe how you would use `File.readlines` to count matching lines.</p>
+**Goal:** Describe how you would use `File.readlines` to count matching lines.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.readlines') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example that reads all lines from a file and counts
 # those matching a pattern.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/read-write-files:1">
+```solution
 puts 'count = File.readlines("log.txt").count { |line| line.include?("ERROR") }'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.readlines') }
+```
+
+#!
+
 
 #### Practice 3 - Traversing directories with Find.find
 
-<p><strong>Goal:</strong> Use `Find.find` to traverse a directory tree and select `.rb` files.</p>
+**Goal:** Use `Find.find` to traverse a directory tree and select `.rb` files.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Find.find') } && lines.any? { |l| l.include?('.rb') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet that walks a directory tree and prints only
 # Ruby files.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/read-write-files:2">
+```solution
 puts 'Find.find(".") { |path| puts path if path.end_with?(".rb") }'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Find.find') } && lines.any? { |l| l.include?('.rb') }
+```
+
+#!
+
 
 #### Practice 4 - Seeking within a file
 
-<p><strong>Goal:</strong> Show how you would seek to the middle of a file and read the remainder.</p>
+**Goal:** Show how you would seek to the middle of a file and read the remainder.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.seek(') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example that uses IO#seek to move to a position and
 # then reads the rest of the file.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/read-write-files"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/read-write-files:3">
+```solution
 puts 'File.open("data.txt", "r") do |f|'
 puts '  f.seek(f.size / 2)'
 puts '  tail = f.read'
 puts 'end'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.seek(') }
+```
+
+#!
+

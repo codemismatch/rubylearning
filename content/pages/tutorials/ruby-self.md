@@ -25,10 +25,10 @@ related_tutorials:
 
 At the top level of a file:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts self        #=&gt; main
-puts self.class  #=&gt; Object
-</code></pre>
+```ruby-exec
+puts self        #=> main
+puts self.class  #=> Object
+```
 
 `main` is an instance of `Object` that Ruby uses to evaluate top-level code.
 
@@ -36,21 +36,21 @@ puts self.class  #=&gt; Object
 
 Within the class body (outside instance methods), `self` is the class object:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Person
-  puts self        #=&gt; Person
+  puts self        #=> Person
   def instance_method
     puts self.inspect
   end
 
   def self.class_method
-    puts self      #=&gt; Person
+    puts self      #=> Person
   end
 end
 
-Person.new.instance_method #=&gt; #&lt;Person:...&gt;
-Person.class_method        #=&gt; Person
-</code></pre>
+Person.new.instance_method #=> #<Person:...>
+Person.class_method        #=> Person
+```
 
 - Instance methods: `self` is the receiver (the instance).
 - Class methods: `self` is the class itself.
@@ -66,23 +66,14 @@ Next: keep iterating through Flow Control & Collections, now confident about who
 
 #### Practice 1 - self in common contexts
 
-<p><strong>Goal:</strong> Print `self` in top-level code, inside a class body, inside an instance method, and inside a class method.</p>
+**Goal:** Print `self` in top-level code, inside a class body, inside an instance method, and inside a class method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[top-level class-body instance-method class-method].all? { |label| lines.any? { |l| l.downcase.include?(label) } }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print labelled lines for self in the four contexts described
 # above so you can compare them.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-self:0">
+```solution
 puts "top-level: #{self.inspect}"
 
 class SelfDemo
@@ -99,51 +90,47 @@ end
 
 SelfDemo.new.instance_example
 SelfDemo.class_example
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); %w[top-level class-body instance-method class-method].all? { |label| lines.any? { |l| l.downcase.include?(label) } }
+```
+
+#!
+
 
 #### Practice 2 - self in module scope
 
-<p><strong>Goal:</strong> Define a module and print `self` within module scope.</p>
+**Goal:** Define a module and print `self` within module scope.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('module scope') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a module that prints self from within its body to show
 # that self is the module object there.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-self:1">
+```solution
 puts "module ModuleDemo"
 puts "  puts \"module scope: \#{self.inspect}\""
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('module scope') }
+```
+
+#!
+
 
 #### Practice 3 - instance_eval and class << self
 
-<p><strong>Goal:</strong> Use `instance_eval` or `class << self` to explore how `self` shifts in singleton/class contexts.</p>
+**Goal:** Use `instance_eval` or `class << self` to explore how `self` shifts in singleton/class contexts.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('instance_eval') } && lines.any? { |l| l.downcase.include?('class << self') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example using instance_eval and class << self that
 # shows self changing inside each context.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-self:2">
+```solution
 puts "obj = Object.new"
 puts "obj.instance_eval { puts \"instance_eval self: \#{self.inspect}\" }"
 puts "class SingletonDemo"
@@ -151,28 +138,33 @@ puts "  class << self"
 puts "    puts \"class << self: \#{self.inspect}\""
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('instance_eval') } && lines.any? { |l| l.downcase.include?('class << self') }
+```
+
+#!
+
 
 #### Practice 4 - self with dynamic behaviour
 
-<p><strong>Goal:</strong> Combine `self` with `respond_to?` to see how `self` affects dynamic behavior.</p>
+**Goal:** Combine `self` with `respond_to?` to see how `self` affects dynamic behavior.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('respond_to?') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small dynamic call that uses respond_to? on self before
 # sending a message.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-self"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-self:3">
+```solution
 puts "if self.respond_to?(:to_str)"
 puts "  puts 'self responds to to_str'"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('respond_to?') }
+```
+
+#!
+

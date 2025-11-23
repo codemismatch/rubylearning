@@ -1,0 +1,22 @@
+name: typophic
+version: 1.1.0
+
+authors:
+  - Typophic Contributors
+
+crystal: ">= 1.11.0"
+
+license: MIT
+
+dependencies:
+  # Template engine
+  liquid:
+    github: amberframework/liquid.cr
+    version: ~> 1.0.0 # Use a stable version
+
+  # File watching for serve command
+  file_watcher:
+    github: stephannv/file_watcher
+
+development_dependencies:
+  # Linter (optional)

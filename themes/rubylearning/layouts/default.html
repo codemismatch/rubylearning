@@ -3,11 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title><%= page.title %> - <%= site.title %></title>
-  <meta name="description" content="<%= page.description || site.description %>">
-  <link rel="icon" type="image/x-icon" href="<%= asset_path('images/favicon.ico') %>">
+  <title>{{ page.title }} - {{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
+  <link rel="icon" type="image/x-icon" href="{{ 'images/favicon.ico' | relative_url }}">
   
-  <link rel="stylesheet" href="<%= asset_path('css/style.css') %>">
+  <link rel="stylesheet" href="{{ 'css/style.css' | theme_asset: page.theme }}">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,32 +15,144 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="<%= asset_path('css/prism-monokai.css') %>?v=<%= Time.now.to_i %>">
-  <link rel="stylesheet" href="<%= asset_path('css/enhanced-code.css') %>?v=<%= Time.now.to_i %>">
+  <link rel="stylesheet" href="{{ 'css/prism-monokai.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
+  <link rel="stylesheet" href="{{ 'css/enhanced-code.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="<%= asset_path('css/tutorials.css') %>?v=<%= Time.now.to_i %>">
-  <link rel="stylesheet" href="<%= asset_path('css/badges.css') %>?v=<%= Time.now.to_i %>">
+  <link rel="stylesheet" href="{{ 'css/tutorials.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
+  <link rel="stylesheet" href="{{ 'css/badges.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
   
 </head>
 <body>
-  <%= render_partial '_header' %>
+  <header class="site-header">
+    <div class="container">
+      <a href="{{ '/' | url_for }}" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        {% assign nav_data = site.data.navigation %}
+        {% assign primary_nav = nav_data.primary | default: empty %}
+        <ul>
+          {% if primary_nav and primary_nav.size > 0 %}
+            {% for item in primary_nav %}
+              {% assign label = item.label %}
+              {% assign path = item.path %}
+              {% assign url = item.url %}
+              {% assign external = item.external %}
+              {% if url %}
+                {% assign nav_href = url %}
+              {% elsif path %}
+                {% assign nav_href = path | url_for %}
+              {% else %}
+                {% assign nav_href = "#" %}
+              {% endif %}
+              <li>
+                <a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a>
+              </li>
+            {% endfor %}
+          {% else %}
+            <li><a href="{{ '/' | url_for }}">Home</a></li>
+            <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+            <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
+            <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
-      <%= content %>
+      {{ content }}
     </div>
   </main>
   
-  <%= render_partial '_footer' %>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          {% assign nav_data = site.data.navigation %}
+          {% assign footer_quick = nav_data.footer_quick | default: empty %}
+          <ul>
+            {% if footer_quick and footer_quick.size > 0 %}
+              {% for item in footer_quick %}
+                {% assign label = item.label %}
+                {% assign path = item.path %}
+                {% assign url = item.url %}
+                {% assign external = item.external %}
+                {% if url %}
+                  {% assign nav_href = url %}
+                {% elsif path %}
+                  {% assign nav_href = path | url_for %}
+                {% else %}
+                  {% assign nav_href = "#" %}
+                {% endif %}
+                <li><a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><a href="{{ '/' | url_for }}">Home</a></li>
+              <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
+              <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
+              <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
+              <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+              <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
+              <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
+            {% endif %}
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          {% assign footer_resources = nav_data.footer_resources | default: empty %}
+          <ul>
+            {% if footer_resources and footer_resources.size > 0 %}
+              {% for item in footer_resources %}
+                {% assign label = item.label %}
+                {% assign url = item.url %}
+                {% assign nav_href = url | default: "#" %}
+                <li><a href="{{ nav_href }}" target="_blank" rel="noopener">{{ label }}</a></li>
+              {% endfor %}
+            {% else %}
+              <li><a href="https://ruby-lang.org" target="_blank">Ruby Official Site</a></li>
+              <li><a href="https://ruby-doc.org" target="_blank">Ruby Documentation</a></li>
+              <li><a href="https://rubygems.org" target="_blank">RubyGems</a></li>
+            {% endif %}
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; {{ site.build_year }} Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
 
   <!-- Scripts -->
-  <script src="<%= asset_path('js/prism.js') %>?v=<%= Time.now.to_i %>"></script>
-  <script src="<%= asset_path('js/prism-ruby.js') %>?v=<%= Time.now.to_i %>"></script>
-  <script src="<%= asset_path('js/prism-markdown.js') %>?v=<%= Time.now.to_i %>"></script>
-  <script src="<%= asset_path('js/code-enhancements.js') %>?v=<%= Time.now.to_i %>"></script>
-  <script src="<%= asset_path('js/tutorial-enhancements.js') %>?v=<%= Time.now.to_i %>"></script>
-  <script src="<%= asset_path('js/github-pages-fix.js') %>?v=<%= Time.now.to_i %>"></script>
-  <script src="<%= asset_path('js/site.js') %>?v=<%= Time.now.to_i %>"></script>
+  <script src="{{ 'js/prism.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/prism-ruby.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/prism-markdown.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/code-enhancements.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/tutorial-enhancements.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/github-pages-fix.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/site.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
 </body>
 </html>

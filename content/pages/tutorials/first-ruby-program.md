@@ -51,12 +51,12 @@ Create files with Ruby code that you can save and run repeatedly.
 
 Create a file called `hello.rb:`
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 #!/usr/bin/env ruby
 # My first Ruby program
-puts &quot;Hello, World!&quot;
-puts &quot;Welcome to Ruby programming!&quot;
-</code></pre>
+puts "Hello, World!"
+puts "Welcome to Ruby programming!"
+```
 
 #### Creating Your First Program
 

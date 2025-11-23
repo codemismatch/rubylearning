@@ -23,7 +23,7 @@ When Ruby can't find a method while walking an object's method lookup path, it r
 
 ### Basic pattern
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p012zmm.rb
 class Dummy
   def method_missing(method_name, *args, &block)
@@ -32,7 +32,7 @@ class Dummy
 end
 
 Dummy.new.anything
-</code></pre>
+```
 
 Output:
 
@@ -71,51 +71,40 @@ Next: continue to Flow Control & Collections to keep exercising these dynamic te
 
 #### Practice 1 - Logging unknown methods
 
-<p><strong>Goal:</strong> Add `method_missing` to a class and log unknown methods before calling `super`.</p>
+**Goal:** Add `method_missing` to a class and log unknown methods before calling `super`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('method_missing') } && lines.any? { |l| l.downcase.include?('unknown') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a class definition that implements method_missing,
 # logs the unknown method name, and calls super.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:0">
+```solution
 puts "class LoggerProxy"
 puts "  def method_missing(name, *args, &block)"
 puts "    puts \"unknown method: \#{name}\""
 puts "    super"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('method_missing') } && lines.any? { |l| l.downcase.include?('unknown') }
+```
+
+#!
+
 
 #### Practice 2 - Simple dynamic finder
 
-<p><strong>Goal:</strong> Build a simple dynamic finder using `method_missing`.</p>
+**Goal:** Build a simple dynamic finder using `method_missing`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('find_by_name') } && lines.any? { |l| l.downcase.include?('parsed') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small sketch of a UserRepository class that responds
 # to methods like find_by_name via method_missing by parsing the
 # method name.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:1">
+```solution
 puts "class UserRepository"
 puts "  def method_missing(name, *args)"
 puts "    if name.to_s.start_with?('find_by_')"
@@ -126,51 +115,47 @@ puts "      super"
 puts "    end"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('find_by_name') } && lines.any? { |l| l.downcase.include?('parsed') }
+```
+
+#!
+
 
 #### Practice 3 - Keeping respond_to? honest
 
-<p><strong>Goal:</strong> Override `respond_to_missing?` so `respond_to?` stays in sync with dynamic methods.</p>
+**Goal:** Override `respond_to_missing?` so `respond_to?` stays in sync with dynamic methods.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('respond_to_missing?') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example respond_to_missing? implementation that
 # recognises your dynamic finder methods.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:2">
+```solution
 puts "def respond_to_missing?(name, include_private = false)"
 puts "  name.to_s.start_with?('find_by_') || super"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('respond_to_missing?') }
+```
+
+#!
+
 
 #### Practice 4 - Passing blocks through handlers
 
-<p><strong>Goal:</strong> Experiment with passing blocks through `&block` inside a `method_missing` handler.</p>
+**Goal:** Experiment with passing blocks through `&block` inside a `method_missing` handler.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('yielded from block') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a short example showing method_missing capturing a
 # block argument and calling it.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-method-missing"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-method-missing:3">
+```solution
 puts "def method_missing(name, *args, &block)"
 puts "  if block"
 puts "    block.call('yielded from block')"
@@ -178,4 +163,11 @@ puts "  else"
 puts "    super"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('yielded from block') }
+```
+
+#!
+

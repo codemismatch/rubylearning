@@ -23,44 +23,44 @@ The `Time` class handles timestamps, duration math, and formatting.
 
 ### Creating times
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 now = Time.now
 birthday = Time.new(2025, 1, 15, 12, 0, 0)   # local time
 utc_time = Time.utc(2025, 1, 15, 12)         # UTC
-</code></pre>
+```
 
 ### Accessors
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 now = Time.now
-puts now.year   #=&gt; 2025
-puts now.month  #=&gt; 1
-puts now.day    #=&gt; 15
-puts now.hour   #=&gt; 9 (depends on TZ)
+puts now.year   #=> 2025
+puts now.month  #=> 1
+puts now.day    #=> 15
+puts now.hour   #=> 9 (depends on TZ)
 puts now.wday   # 0 = Sunday
 puts now.yday   # day of year
-</code></pre>
+```
 
 ### Formatting
 
 Use `strftime` for custom strings:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 now = Time.now
-now.strftime(&quot;%Y-%m-%d %H:%M:%S&quot;)  #=&gt; &quot;2025-01-15 09:30:00&quot;
+now.strftime("%Y-%m-%d %H:%M:%S")  #=> "2025-01-15 09:30:00"
 now.to_s                           # default formatting
 now.ctime                          # ctime-style string
-</code></pre>
+```
 
 ### Arithmetic & comparison
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 now = Time.now
 deadline = now + 60      # add seconds
 elapsed = Time.now - now # difference in seconds
 
-puts &quot;deadline passed&quot; if Time.now &gt; deadline
-</code></pre>
+puts "deadline passed" if Time.now > deadline
+```
 
 `Time` objects include `Comparable`, so you get `<`, `<=`, `>=`, etc.
 
@@ -80,96 +80,88 @@ Next: keep building in Flow Control & Collections, now with timestamps for loggi
 
 #### Practice 1 - Formatting the current time
 
-<p><strong>Goal:</strong> Format the current time as `YYYY/MM/DD HH:MM`.</p>
+**Goal:** Format the current time as `YYYY/MM/DD HH:MM`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match(/\\d{4}\\/\\d{2}\\/\\d{2} \\d{2}:\\d{2}/) }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Use Time.now.strftime to print the current time as
 # YYYY/MM/DD HH:MM.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:0">
+```solution
 puts Time.now.strftime("%Y/%m/%d %H:%M")
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match(/\\d{4}\\/\\d{2}\\/\\d{2} \\d{2}:\\d{2}/) }
+```
+
+#!
+
 
 #### Practice 2 - Seconds until midnight
 
-<p><strong>Goal:</strong> Compute how many seconds remain until midnight.</p>
+**Goal:** Compute how many seconds remain until midnight.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('seconds until midnight') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Calculate the time difference between now and the next
 # midnight, and print it in seconds.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:1">
+```solution
 now = Time.now
 midnight = Time.new(now.year, now.month, now.day) + 24 * 60 * 60
 seconds = (midnight - now).to_i
 puts "seconds until midnight: #{seconds}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('seconds until midnight') }
+```
+
+#!
+
 
 #### Practice 3 - Converting to UTC and back
 
-<p><strong>Goal:</strong> Convert `Time.now` to UTC, then back to local.</p>
+**Goal:** Convert `Time.now` to UTC, then back to local.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('utc') } && lines.any? { |l| l.downcase.include?('local') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print both the UTC and local representations of the current
 # time.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:2">
+```solution
 now = Time.now
 puts "utc:   #{now.utc}"
 puts "local: #{now.localtime}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('utc') } && lines.any? { |l| l.downcase.include?('local') }
+```
+
+#!
+
 
 #### Practice 4 - Measuring block duration
 
-<p><strong>Goal:</strong> Measure how long a block takes using `Time.now` before and after.</p>
+**Goal:** Measure how long a block takes using `Time.now` before and after.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('elapsed') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Capture start = Time.now, run some work, then print the
 # elapsed seconds.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-time-class"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-time-class:3">
+```solution
 start = Time.now
 sleep 0.1
 elapsed = Time.now - start
 puts "elapsed: #{elapsed} seconds"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('elapsed') }
+```
+
+#!
+

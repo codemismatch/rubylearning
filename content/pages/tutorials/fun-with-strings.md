@@ -26,7 +26,7 @@ Strings are sequences of characters surrounded by quotes. Ruby treats both singl
 
 Here's a modernised take on `p003rubystrings.rb`, highlighting concatenation, escaping, repetition, and constants:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # frozen_string_literal: true
 
 puts "Hello World"
@@ -37,7 +37,7 @@ puts 'It\s my Ruby'           # escape quotes
 
 PI = 3.1416
 puts PI
-</code></pre>
+```
 
 Key takeaways:
 
@@ -49,20 +49,20 @@ Key takeaways:
 
 Backticks run shell commands and return their output as a string. The result still flows through Ruby, so you can print it, split it, or test it.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 puts `ls`   # macOS/Linux: directory listing
 puts `dir`  # Windows: directory listing
-</code></pre>
+```
 
 Ruby also exposes `Kernel#system` when you simply need to execute a command and check success:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 if system("tar xzf data.tgz")
   puts "Archive extracted"
 else
   warn "Extraction failed"
 end
-</code></pre>
+```
 
 `system` returns `true` when the command exits successfully, `false` when it runs but fails, and `nil` if the command is missing.
 
@@ -75,54 +75,45 @@ end
 	
 #### Practice 1 - Interpolation and concatenation
 
-<p><strong>Goal:</strong> Print two greeting lines using both interpolation and concatenation.</p>
+**Goal:** Print two greeting lines using both interpolation and concatenation.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&amp;:strip).reject(&amp;:empty?); lines.size &gt;= 2 &amp;&amp; lines.all? { |l| l.include?('Hello') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Write Ruby code that prints at least two greeting lines.
 # Hint:
 #   - Use string interpolation for one line: "Hello #{name}"
 #   - Use string concatenation for another: "Hello " + name
 #   - Try using ENV["USER"] or a hard-coded name.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/fun-with-strings:0">
+```solution
 name = ENV["USER"] || "Rubyist"
 
 puts "Hello #{name}"        # interpolation
 greeting = "Hello " + name  # concatenation
 puts greeting
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.size >= 2 && lines.all? { |l| l.include?('Hello') }
+```
+
+#!
+
 
 #### Practice 2 - Freezing and dup
 
-<p><strong>Goal:</strong> Show two different strings derived from the same frozen base literal.</p>
+**Goal:** Show two different strings derived from the same frozen base literal.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&amp;:strip).reject(&amp;:empty?); lines.include?('hello world!') &amp;&amp; lines.include?('hello from Ruby')"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Start from a frozen string literal and produce two *different* strings.
 # Hint:
 #   - Use `base = "hello"` with `# frozen_string_literal: true`.
 #   - Use `base + " world!"` for one result.
 #   - Use `base.dup` and `<<` for another.
 #   - Print both results so they appear on separate lines.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/fun-with-strings:1">
+```solution
 base = "hello"
 
 with_world = base + " world!"
@@ -132,17 +123,21 @@ copy << " from Ruby"
 
 puts with_world
 puts copy
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.include?('hello world!') && lines.include?('hello from Ruby')
+```
+
+#!
+
 
 #### Practice 3 - Parsing a version string
 
-<p><strong>Goal:</strong> Extract the Ruby version number from a version string.</p>
+**Goal:** Extract the Ruby version number from a version string.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.match?(/Parsed:\\s+\\d+\\.\\d+\\.\\d+/) }"><code class="language-ruby">
+#> ruby :practice
+
 # Simulated output from `ruby -v`
 version_output = "ruby 3.3.0p0 (2024-01-01 revision 12345) [arm64-darwin23]"
 
@@ -150,30 +145,29 @@ version_output = "ruby 3.3.0p0 (2024-01-01 revision 12345) [arm64-darwin23]"
 #   - Extract just the version number (e.g. 3.3.0) into `version`.
 #   - Print both the full string and the parsed version.
 # Hint: a regex like `/ruby\s+([\d.]+)/` can capture the version.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/fun-with-strings:2">
+```solution
 version_output = "ruby 3.3.0p0 (2024-01-01 revision 12345) [arm64-darwin23]"
 
 version = version_output[/ruby\s+([\d.]+)/, 1]
 
 puts "Full:   #{version_output.strip}"
 puts "Parsed: #{version}"  # expecting: Parsed: 3.3.0
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/Parsed:\\s+\\d+\\.\\d+\\.\\d+/) }
+```
+
+#!
+
 
 #### Practice 4 - Branching on command success
 
-<p><strong>Goal:</strong> Simulate a system command and branch based on its success.</p>
+**Goal:** Simulate a system command and branch based on its success.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.include?('Command succeeded')"><code class="language-ruby">
+#> ruby :practice
+
 # In a real script you might call: system("echo Done")
 # Here we'll simulate the result with a boolean flag.
 
@@ -181,13 +175,8 @@ puts "Parsed: #{version}"  # expecting: Parsed: 3.3.0
 #   - Set `command_succeeded` to true or false.
 #   - Print a different message for success vs failure.
 # Hint: follow the structure of an if/else that prints a checkmark on success.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/fun-with-strings"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/fun-with-strings:3">
+```solution
 command_succeeded = true  # change to false to test the other branch
 
 if command_succeeded
@@ -195,6 +184,13 @@ if command_succeeded
 else
   puts "Command failed"
 end
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.include?('Command succeeded')
+```
+
+#!
+
 
 Next up: apply what you know about numbers and strings while branching through Flow Control & Collections.

@@ -23,30 +23,30 @@ If objects are the nouns of Ruby, methods are the verbs. Every method runs in th
 
 ### Explicit vs implicit receivers
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-&quot;ruby&quot;.upcase    # receiver is the string literal
+```ruby-exec
+"ruby".upcase    # receiver is the string literal
 upcase           # same call, but the receiver is implicit
-</code></pre>
+```
 
 When you omit the receiver, Ruby sends the message to the object referenced by `self`. At the top level of a script, `self` defaults to a special object named `main` that Ruby creates to represent your program.
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts self        #=&gt; main
-</code></pre>
+```ruby-exec
+puts self        #=> main
+```
 
 Inside classes and modules, `self` changes depending on where you are:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Greeter
-  puts &quot;Class body self: #{self}&quot;  # Greeter
+  puts "Class body self: #{self}"  # Greeter
 
   def greet
-    puts &quot;Instance method self: #{self.inspect}&quot;
+    puts "Instance method self: #{self.inspect}"
   end
 end
 
 Greeter.new.greet
-</code></pre>
+```
 
 Understanding `self` helps you decide whether to call helper methods directly, qualify them with `self.`, or reach out to another object entirely.
 
@@ -54,12 +54,12 @@ Understanding `self` helps you decide whether to call helper methods directly, q
 
 Everything in Ruby is an object, so every expression you write ends up sending messages:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-42.to_s           # Integer -&gt; String
-[1, 2, 3].length  # Array -&gt; Integer
-ruby = &quot;Ruby&quot;
+```ruby-exec
+42.to_s           # Integer -> String
+[1, 2, 3].length  # Array -> Integer
+ruby = "Ruby"
 ruby.upcase!
-</code></pre>
+```
 
 - Dot notation (`object.method`) makes the receiver obvious.
 - Bang methods such as `upcase!` mutate the receiver; their non-bang counterparts return a new object.
@@ -69,13 +69,13 @@ ruby.upcase!
 
 Use `self` whenever you need to check or pass the current receiver:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def log_self
-  puts &quot;Currently running inside #{self.class}: #{self.inspect}&quot;
+  puts "Currently running inside #{self.class}: #{self.inspect}"
 end
 
-log_self  # top-level =&gt; main
-</code></pre>
+log_self  # top-level => main
+```
 
 Later chapters dive deeper into defining your own methods, but for now remember:
 
@@ -94,22 +94,14 @@ Next: apply these ideas in Flow Control & Collections, where you'll combine meth
 
 #### Practice 1 - Watching self in different contexts
 
-<p><strong>Goal:</strong> Print `self` at the top level, inside a class body, and inside an instance method.</p>
+**Goal:** Print `self` at the top level, inside a class body, and inside an instance method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('top level') } && lines.any? { |l| l.downcase.include?('class body') } && lines.any? { |l| l.downcase.include?('instance method') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print self at the top level, inside a class body, and inside
 # an instance method, labelling each line so you can see the context.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:0">
+```solution
 puts "top level: #{self.inspect}"
 
 class DemoSelf
@@ -121,53 +113,51 @@ class DemoSelf
 end
 
 DemoSelf.new.who_am_i
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('top level') } && lines.any? { |l| l.downcase.include?('class body') } && lines.any? { |l| l.downcase.include?('instance method') }
+```
+
+#!
+
 
 #### Practice 2 - Explicit vs implicit receivers
 
-<p><strong>Goal:</strong> Rewrite explicit receiver calls to use implicit receivers and confirm they still work.</p>
+**Goal:** Rewrite explicit receiver calls to use implicit receivers and confirm they still work.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('explicit') } && lines.any? { |l| l.downcase.include?('implicit') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define a helper method and call it once with an explicit
 # receiver (self.helper) and once without, printing labelled output
 # for both calls.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:1">
+```solution
 def helper
   "helper called"
 end
 
 puts "explicit: #{self.helper}"
 puts "implicit: #{helper}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('explicit') } && lines.any? { |l| l.downcase.include?('implicit') }
+```
+
+#!
+
 
 #### Practice 3 - Predicate and bang methods
 
-<p><strong>Goal:</strong> Experiment with predicate (`?`) and bang (`!`) method variants.</p>
+**Goal:** Experiment with predicate (`?`) and bang (`!`) method variants.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('empty?') } && lines.any? { |l| l.include?('upcase!') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Use at least one predicate method and one bang method, and
 # print before/after states to show how they differ.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:2">
+```solution
 name = "ruby"
 
 puts "empty? before: #{name.empty?}"
@@ -175,31 +165,37 @@ puts "empty? before: #{name.empty?}"
 puts "before upcase!: #{name}"
 name.upcase!
 puts "after upcase!: #{name}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('empty?') } && lines.any? { |l| l.include?('upcase!') }
+```
+
+#!
+
 
 #### Practice 4 - Logging self through helper calls
 
-<p><strong>Goal:</strong> Define a helper method, call it with and without an explicit receiver, and log `self` along the way.</p>
+**Goal:** Define a helper method, call it with and without an explicit receiver, and log `self` along the way.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('helper called') } && lines.any? { |l| l.downcase.include?('self is') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Build a short script that defines a helper method and logs
 # self inside it, then call the helper with both explicit and
 # implicit receivers, printing labelled lines.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/more-on-ruby-methods:3">
+```solution
 def helper_with_self(label)
   puts "#{label}: helper called, self is #{self.inspect}"
 end
 
 helper_with_self("implicit")
 self.helper_with_self("explicit")
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('helper called') } && lines.any? { |l| l.downcase.include?('self is') }
+```
+
+#!
+

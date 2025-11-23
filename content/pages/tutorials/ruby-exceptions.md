@@ -23,7 +23,7 @@ Ruby uses exceptions to report runtime problems. Use `begin`/`rescue` blocks to 
 
 ### Basic pattern
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 begin
   risky_operation
 rescue ZeroDivisionError => e
@@ -35,7 +35,7 @@ else
 ensure
   puts "Always runs"
 end
-</code></pre>
+```
 
 - `rescue SpecificError => e` lets you branch per exception type.
 - `else` executes only when no exception was raised.
@@ -45,17 +45,17 @@ end
 
 `raise` (alias `fail`) triggers an exception:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-raise &quot;Something went wrong&quot;
-raise ArgumentError, &quot;Bad argument&quot;
-raise ArgumentError.new(&quot;Bad argument&quot;)
-</code></pre>
+```ruby-exec
+raise "Something went wrong"
+raise ArgumentError, "Bad argument"
+raise ArgumentError.new("Bad argument")
+```
 
 Calling `raise` with no arguments inside `rescue` re-raises the current exception.
 
 ### Legacy example
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def divide(x, y)
   raise ArgumentError, "y must not be zero" if y.zero?
   x / y
@@ -68,17 +68,17 @@ rescue ArgumentError => e
 ensure
   puts "Division attempted"
 end
-</code></pre>
+```
 
 ### Custom exceptions
 
 Define your own by inheriting from `StandardError`:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-class ServiceError &lt; StandardError; end
+```ruby-exec
+class ServiceError < StandardError; end
 
-  raise ServiceError, &quot;Remote API unavailable&quot;
-</code></pre>
+  raise ServiceError, "Remote API unavailable"
+```
 
 ### Practice checklist
 
@@ -91,49 +91,38 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
 
 #### Practice 1 - Rescuing Errno::ENOENT
 
-<p><strong>Goal:</strong> Wrap a file read in `begin`/`rescue` to catch `Errno::ENOENT` and print a friendly message.</p>
+**Goal:** Wrap a file read in `begin`/`rescue` to catch `Errno::ENOENT` and print a friendly message.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Errno::ENOENT') } && lines.any? { |l| l.downcase.include?('missing') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a begin/rescue example that rescues Errno::ENOENT around
 # a File.read call and prints a friendly message.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:0">
+```solution
 puts "begin"
 puts "  File.read('missing.txt')"
 puts "rescue Errno::ENOENT"
 puts "  puts 'Missing file; please create missing.txt'"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Errno::ENOENT') } && lines.any? { |l| l.downcase.include?('missing') }
+```
+
+#!
+
 
 #### Practice 2 - Using ensure to close files
 
-<p><strong>Goal:</strong> Show how `ensure` runs even when an exception occurs, to close a file handle.</p>
+**Goal:** Show how `ensure` runs even when an exception occurs, to close a file handle.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ensure') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a begin/rescue/ensure block that opens a file and
 # guarantees some cleanup work in ensure.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:1">
+```solution
 puts "begin"
 puts "  f = File.open('data.txt', 'r')"
 puts "  # work with f"
@@ -142,52 +131,48 @@ puts "  puts \"Error: \#{e.message}\""
 puts "ensure"
 puts "  f.close if f && !f.closed?"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ensure') }
+```
+
+#!
+
 
 #### Practice 3 - Custom exceptions
 
-<p><strong>Goal:</strong> Define a custom exception and raise it from a validation method.</p>
+**Goal:** Define a custom exception and raise it from a validation method.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class InvalidDataError') } && lines.any? { |l| l.downcase.include?('raise') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small custom exception class and a validation method
 # that raises it when data is invalid.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:2">
+```solution
 puts "class InvalidDataError < StandardError; end"
 puts "def validate!(value)"
 puts "  raise InvalidDataError, 'value must be positive' if value <= 0"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class InvalidDataError') } && lines.any? { |l| l.downcase.include?('raise') }
+```
+
+#!
+
 
 #### Practice 4 - retry with caution
 
-<p><strong>Goal:</strong> Experiment with `retry` inside `rescue` to re-run a block after handling an error.</p>
+**Goal:** Experiment with `retry` inside `rescue` to re-run a block after handling an error.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('retry') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small example that uses retry inside a rescue clause,
 # with a guard to avoid infinite loops.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-exceptions"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-exceptions:3">
+```solution
 puts "attempts = 0"
 puts "begin"
 puts "  attempts += 1"
@@ -195,4 +180,11 @@ puts "  raise 'boom' if attempts < 2"
 puts "rescue => e"
 puts "  retry if attempts < 3"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('retry') }
+```
+
+#!
+

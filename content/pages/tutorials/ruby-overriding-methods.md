@@ -23,7 +23,7 @@ Inheritance gives you defaults; overriding lets subclasses tailor those defaults
 
 ### Basic override
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Animal
   def speak
     "generic noise"
@@ -38,7 +38,7 @@ end
 
 puts Animal.new.speak  #=> "generic noise"
 puts Dog.new.speak     #=> "generic noise ruff"
-</code></pre>
+```
 
 `super` with no parentheses forwards the original arguments automatically. Use `super()` to forward none, or `super(arg1, arg2)` for explicit control.
 
@@ -46,7 +46,7 @@ puts Dog.new.speak     #=> "generic noise ruff"
 
 The original lesson used a `Motorcycle` base class and subclasses that override `#info`:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 class Motorcycle
   def info
     "Two wheels, generic motorcycle"
@@ -60,7 +60,7 @@ class SportsBike < Motorcycle
 end
 
 puts SportsBike.new.info
-</code></pre>
+```
 
 Feel free to stack overrides across multiple generations; each call to `super` climbs one level up the hierarchy.
 
@@ -75,23 +75,14 @@ Next: keep exploring Flow Control & Collections, now with multiple levels of beh
 
 #### Practice 1 - Overriding #description
 
-<p><strong>Goal:</strong> Build a `Vehicle` hierarchy with a base `#description` and override it in `Car` and `Truck`.</p>
+**Goal:** Build a `Vehicle` hierarchy with a base `#description` and override it in `Car` and `Truck`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car for the road') } && lines.any? { |l| l.downcase.include?('truck for hauling') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Define Vehicle#description and override it in Car and Truck
 # to return specialised strings, then instantiate and print them.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:0">
+```solution
 class Vehicle
   def description
     "A generic vehicle"
@@ -112,27 +103,25 @@ end
 
 puts Car.new.description
 puts Truck.new.description
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car for the road') } && lines.any? { |l| l.downcase.include?('truck for hauling') }
+```
+
+#!
+
 
 #### Practice 2 - Overriding initialize with super variants
 
-<p><strong>Goal:</strong> Override `initialize` in a subclass and experiment with `super`, `super()`, and explicit argument lists.</p>
+**Goal:** Override `initialize` in a subclass and experiment with `super`, `super()`, and explicit argument lists.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('super()') } && lines.any? { |l| l.downcase.include?('super with args') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a base/subclass pair where the subclass uses both
 # super and super() in different contexts and print labelled lines.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:1">
+```solution
 puts "class Base"
 puts "  def initialize(msg = 'default')"
 puts "    puts \"Base: \#{msg}\""
@@ -144,27 +133,25 @@ puts "    super(msg)"
 puts "    super() # uses default argument"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('super()') } && lines.any? { |l| l.downcase.include?('super with args') }
+```
+
+#!
+
 
 #### Practice 3 - Logging around super
 
-<p><strong>Goal:</strong> Add logging to an overridden method by printing before/after calling `super`.</p>
+**Goal:** Add logging to an overridden method by printing before/after calling `super`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('before super') } && lines.any? { |l| l.downcase.include?('after super') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an override that logs before and after calling super in
 # a method such as #save.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:2">
+```solution
 puts "class Model"
 puts "  def save"
 puts "    puts 'Saving record'"
@@ -177,28 +164,26 @@ puts "    super"
 puts "    puts 'after super'"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('before super') } && lines.any? { |l| l.downcase.include?('after super') }
+```
+
+#!
+
 
 #### Practice 4 - Overrides plus modules
 
-<p><strong>Goal:</strong> Combine overrides with modules: include a module defining a method, then override it in the class.</p>
+**Goal:** Combine overrides with modules: include a module defining a method, then override it in the class.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('module') } && lines.any? { |l| l.downcase.include?('override') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a simple module with a greeting method, include it in a
 # class, and override the method to tweak output while still calling
 # super.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-overriding-methods"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-overriding-methods:3">
+```solution
 puts "module Greeter"
 puts "  def greet"
 puts "    'hello'"
@@ -210,4 +195,11 @@ puts "  def greet"
 puts "    super + ', friend'"
 puts "  end"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('module') } && lines.any? { |l| l.downcase.include?('override') }
+```
+
+#!
+

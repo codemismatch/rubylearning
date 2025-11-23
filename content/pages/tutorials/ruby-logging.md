@@ -23,25 +23,25 @@ Logging surfaces what your program is doing without halting execution. Ruby ship
 
 ### Quick-and-dirty logging
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts &quot;[DEBUG] Starting import...&quot;
-File.open(&quot;app.log&quot;, &quot;a&quot;) { |f| f.puts &quot;#{Time.now} Task finished&quot; }
-</code></pre>
+```ruby-exec
+puts "[DEBUG] Starting import..."
+File.open("app.log", "a") { |f| f.puts "#{Time.now} Task finished" }
+```
 
 Useful for tiny scripts, but you'll quickly want log levels, formatting, and rotation--enter `Logger`.
 
 ### Using stdlib `Logger`
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-require &quot;logger&quot;
+```ruby-exec
+require "logger"
 
-logger = Logger.new($stdout)            # or &quot;log/app.log&quot;
+logger = Logger.new($stdout)            # or "log/app.log"
 logger.level = Logger::INFO             # DEBUG, INFO, WARN, ERROR, FATAL, UNKNOWN
 
-logger.info(&quot;Booting service&quot;)
-logger.warn(&quot;Slow response: #{duration}s&quot;)
-logger.error(&quot;Unhandled exception&quot;, exception: e)
-</code></pre>
+logger.info("Booting service")
+logger.warn("Slow response: #{duration}s")
+logger.error("Unhandled exception", exception: e)
+```
 
 - Pass a file path, IO, or even `Logger.new("log/app.log", 10, 1024 * 1024)` for rotation (10 files, 1MB each).
 - Format messages by setting `logger.formatter`.
@@ -50,11 +50,11 @@ logger.error(&quot;Unhandled exception&quot;, exception: e)
 
 Wrap log calls in helper methods or use keyword arguments:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 def log_request(logger, action:, status:)
-  logger.info(&quot;[#{action}] status=#{status}&quot;)
+  logger.info("[#{action}] status=#{status}")
 end
-</code></pre>
+```
 
 ### Best practices
 
@@ -73,99 +73,91 @@ Next: keep building in Flow Control & Collections, now with observability baked 
 
 #### Practice 1 - Logger rotation
 
-<p><strong>Goal:</strong> Show how you would construct a rotating logger.</p>
+**Goal:** Show how you would construct a rotating logger.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Logger.new(\"log/dev.log\", 3, 1024 * 1024)') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print the Logger.new call that configures rotation for
 # log/dev.log with a few rotated files and a max size.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-logging:0">
+```solution
 puts 'Logger.new("log/dev.log", 3, 1024 * 1024)'
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Logger.new(\
+```
+
+#!
+
 
 #### Practice 2 - Logging block start/end
 
-<p><strong>Goal:</strong> Create a helper that logs start/end times of a block.</p>
+**Goal:** Create a helper that logs start/end times of a block.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('start') } && lines.any? { |l| l.downcase.include?('finish') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example helper that logs before and after running a
 # block using logger.info.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-logging:1">
+```solution
 puts "def with_logging(logger, message)"
 puts "  logger.info(\"start: \#{message}\")"
 puts "  yield"
 puts "  logger.info(\"finish: \#{message}\")"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('start') } && lines.any? { |l| l.downcase.include?('finish') }
+```
+
+#!
+
 
 #### Practice 3 - Custom logger.formatter
 
-<p><strong>Goal:</strong> Experiment with a custom `logger.formatter` that prepends timestamps and thread IDs.</p>
+**Goal:** Experiment with a custom `logger.formatter` that prepends timestamps and thread IDs.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('formatter') } && lines.any? { |l| l.downcase.include?('thread') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a formatter assignment that includes time and thread id
 # in each log line.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-logging:2">
+```solution
 puts "logger.formatter = proc do |severity, time, progname, msg|"
 puts "  \"[\#{time.iso8601}] [\#{Thread.current.object_id}] \#{severity}: \#{msg}\\n\""
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('formatter') } && lines.any? { |l| l.downcase.include?('thread') }
+```
+
+#!
+
 
 #### Practice 4 - Logging exceptions before re-raising
 
-<p><strong>Goal:</strong> Pair a `begin`/`rescue` block with logging to capture exception messages before re-raising.</p>
+**Goal:** Pair a `begin`/`rescue` block with logging to capture exception messages before re-raising.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('logger.error') } && lines.any? { |l| l.downcase.include?('raise') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a snippet where an exception is logged and then
 # re-raised to bubble up.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-logging"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-logging:3">
+```solution
 puts "begin"
 puts "  risky_operation"
 puts "rescue => e"
 puts "  logger.error(\"Failure: \#{e.message}\")"
 puts "  raise"
 puts "end"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('logger.error') } && lines.any? { |l| l.downcase.include?('raise') }
+```
+
+#!
+

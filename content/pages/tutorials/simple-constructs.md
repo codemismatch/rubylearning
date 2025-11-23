@@ -23,7 +23,7 @@ Ruby keeps branching syntax lightweight. Parentheses on `if`/`while` are optiona
 
 ### `if`, nested blocks, and `elsif`
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p014constructs.rb
 var = 5
 
@@ -37,11 +37,11 @@ if var > 4
 else
   puts "Variable is not greater than 4"
 end
-</code></pre>
+```
 
 `elsif` cleans up stacked `if`/`else` chains:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p015elsifex.rb
 puts "Hello, what's your name?"
 STDOUT.flush
@@ -58,7 +58,7 @@ puts "Hello again..."
 if name == "Satish" || name == "Sunil"
   puts "Still a great name!"
 end
-</code></pre>
+```
 
 Truthiness recap: only `false` and `nil` evaluate as false. `0` and empty strings are truthy.
 
@@ -66,48 +66,48 @@ Truthiness recap: only `false` and `nil` evaluate as false. `0` and empty string
 
 `unless` is the inverse of `if`:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 unless ARGV.length == 2
-  puts &quot;Usage: program.rb 23 45&quot;
+  puts "Usage: program.rb 23 45"
   exit
 end
-</code></pre>
+```
 
 `while` handles simple loops:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 var = 0
-while var &lt; 10
+while var < 10
   puts var
   var += 1
 end
-</code></pre>
+```
 
 ### Ternary operator (`?:`)
 
 Use the ternary operator for compact conditional expressions:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 age = 15
-puts (13...19).include?(age) ? &quot;teenager&quot; : &quot;not a teenager&quot;
+puts (13...19).include?(age) ? "teenager" : "not a teenager"
 
-person = (13...19).include?(23) ? &quot;teenager&quot; : &quot;not a teenager&quot;
-</code></pre>
+person = (13...19).include?(23) ? "teenager" : "not a teenager"
+```
 
 ### Statement modifiers
 
 When the body is a single expression, place the condition after the statement:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts &quot;Enrollments will now stop&quot; if participants &gt; 2500
-warn &quot;Missing args&quot; unless ARGV.any?
-</code></pre>
+```ruby-exec
+puts "Enrollments will now stop" if participants > 2500
+warn "Missing args" unless ARGV.any?
+```
 
 ### `case` expressions
 
 `case` is Ruby's flexible multi-branch construct and always returns the last evaluated expression:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 year = 2000
 leap = case
 when year % 400 == 0 then true
@@ -115,8 +115,8 @@ when year % 100 == 0 then false
 else year % 4 == 0
 end
 
-puts leap #=&gt; true
-</code></pre>
+puts leap #=> true
+```
 
 You can also supply a target (`case value`), but the conditionless style above keeps things flexible.
 
@@ -124,12 +124,12 @@ You can also supply a target (`case value`), but the conditionless style above k
 
 Both values are falsy, but they are different objects with different classes and IDs:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 puts nil.class    # NilClass
 puts false.class  # FalseClass
 puts nil.object_id    # 4
 puts false.object_id  # 0
-</code></pre>
+```
 
 Remember: `nil` is a real object (`NilClass`) and responds to methods just like any other object.
 
@@ -142,25 +142,17 @@ Remember: `nil` is a real object (`NilClass`) and responds to methods just like 
 
 #### Practice 1 - Refactoring nested conditionals
 
-<p><strong>Goal:</strong> Rewrite a nested `if`/`else` tree using `elsif` or logical operators to reduce nesting.</p>
+**Goal:** Rewrite a nested `if`/`else` tree using `elsif` or logical operators to reduce nesting.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('eligible') } && lines.any? { |l| l.downcase.include?('not eligible') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Start from a nested conditional (e.g., age + country checks)
 # and refactor it to use elsif or logical operators so it's easier to
 # read.
 # Hint:
 #   - Print a message for the 'eligible' and 'not eligible' cases.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="0"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/simple-constructs:0">
+```solution
 age = 20
 country = "IN"
 
@@ -169,55 +161,53 @@ if age >= 18 && country == "IN"
 else
   puts "Not eligible to vote"
 end
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('eligible') } && lines.any? { |l| l.downcase.include?('not eligible') }
+```
+
+#!
+
 
 #### Practice 2 - Using unless for guard clauses
 
-<p><strong>Goal:</strong> Use `unless` to validate command-line arguments and compare readability with `if`.</p>
+**Goal:** Use `unless` to validate command-line arguments and compare readability with `if`.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('usage') } || lines.any? { |l| l.downcase.include?('missing') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Check ARGV for at least one argument, using `unless` to
 # display a usage message when none are provided.
 # Hint:
 #   - After trying with unless, rewrite the same logic with if.
 #   - Print a clear usage or error message.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="1"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/simple-constructs:1">
+```solution
 unless ARGV.any?
   puts "Usage: ruby script.rb <name>"
 end
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('usage') } || lines.any? { |l| l.downcase.include?('missing') }
+```
+
+#!
+
 
 #### Practice 3 - Ternary expression vs if/else
 
-<p><strong>Goal:</strong> Convert a small `if/else` assignment into a ternary expression and back.</p>
+**Goal:** Convert a small `if/else` assignment into a ternary expression and back.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/status:/i) }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Assign a status string based on a condition using an if/else
 # block, then rewrite it as a ternary expression.
 # Hint:
 #   - Use something like status = condition ? 'ok' : 'error'
 #   - Print the final status.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="2"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/simple-constructs:2">
+```solution
 score = 75
 
 status = if score >= 60
@@ -229,28 +219,27 @@ end
 status = score >= 60 ? "pass" : "fail"
 
 puts "Status: #{status}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/status:/i) }
+```
+
+#!
+
 
 #### Practice 4 - Case expression for range categories
 
-<p><strong>Goal:</strong> Build a `case` expression that categorizes numeric ranges.</p>
+**Goal:** Build a `case` expression that categorizes numeric ranges.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/cold/i) } && lines.any? { |l| l.match?(/hot/i) }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Use a case expression to categorize a temperature into ranges
 # such as 'cold', 'warm', and 'hot'.
 # Hint:
 #   - Choose a temperature value and print the category.
-</code></pre>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/simple-constructs"
-     data-practice-index="3"></div>
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/simple-constructs:3">
+```solution
 temp = 28
 
 label = case temp
@@ -263,6 +252,13 @@ else
 end
 
 puts "Temperature #{temp}°C feels #{label}"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/cold/i) } && lines.any? { |l| l.match?(/hot/i) }
+```
+
+#!
+
 
 Next: dive deeper into Flow Control & Collections to combine these constructs with loops, arrays, and hashes.

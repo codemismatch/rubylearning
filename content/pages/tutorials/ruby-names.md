@@ -23,12 +23,12 @@ Ruby names refer to the labels you use for variables, methods, classes, modules,
 
 ### Variable families at a glance
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
-sunil      = &quot;local&quot;      # lowercase or _ prefix
+```ruby-exec
+sunil      = "local"      # lowercase or _ prefix
 @count     = 1            # instance variable belongs to self
 @@registry = {}           # class variable shared across instances
-$mode      = &quot;demo&quot;       # global variable (avoid unless necessary)
-</code></pre>
+$mode      = "demo"       # global variable (avoid unless necessary)
+```
 
 - **Local variables** start with a lowercase letter or underscore (`_transactions`). They spring into existence the first time you assign to them.
 - **Instance variables** begin with `@` and always belong to the current object referenced by `self`.
@@ -39,14 +39,14 @@ $mode      = &quot;demo&quot;       # global variable (avoid unless necessary)
 
 Constants start with a capital letter:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 module MyMath
   PI = 3.1416
 end
 
 class MyPune
 end
-</code></pre>
+```
 
 Ruby allows you to reassign constants but prints a warning. Treat them as immutable configuration or types such as class/module names.
 
@@ -60,7 +60,7 @@ Ruby allows you to reassign constants but prints a warning. Treat them as immuta
 
 Variables reference objects, and you can bind different object types to the same variable as needed:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 # p007dt.rb
 # Ruby is dynamic
 x = 7         # Integer
@@ -68,7 +68,7 @@ x = "house"   # String
 x = 7.5       # Float
 
 'I love Ruby'.length
-</code></pre>
+```
 
 Ruby automatically manages references and garbage collection, so there is no separate "primitive" vs "object" concept--everything is an object.
 
@@ -76,20 +76,20 @@ Ruby automatically manages references and garbage collection, so there is no sep
 
 Ruby handles large numbers transparently by switching between `Integer` (formerly `Fixnum`/`Bignum`) under the hood. Floats live under `Float`, a subclass of `Numeric`, and expose useful constants:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 puts Float::DIG  # precision in decimal digits
 puts Float::MAX  # largest Float for your architecture
-</code></pre>
+```
 
 Need to scale dramatically? Ruby keeps going:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 rice_on_square = 1
 64.times do |square|
   puts "On square #{square + 1} are #{rice_on_square} grain(s)"
   rice_on_square *= 2
 end
-</code></pre>
+```
 
 By the final square you are counting trillions of grains--Ruby handles it seamlessly.
 
@@ -97,18 +97,18 @@ By the final square you are counting trillions of grains--Ruby handles it seamle
 
 Because everything is an object, you can always ask Ruby about its class or inspect itself:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 puts "I am in class = #{self.class}"
 puts "I am an object = #{self}"
 puts "My private methods include: #{self.private_methods.sort.take(5)}..."
-</code></pre>
+```
 
 Blocks enhance readability too:
 
-<pre class="language-ruby" data-executable="true"><code class="language-ruby">
+```ruby-exec
 5.times { puts "Mice!" }
 "Elephants Like Peanuts".length
-</code></pre>
+```
 
 ### Practice checklist
 
@@ -121,97 +121,82 @@ Next: move into Flow Control & Collections to apply these naming rules inside lo
 
 #### Practice 1 - Variable scopes
 
-<p><strong>Goal:</strong> Declare variables of each scope type and log them from inside a class.</p>
+**Goal:** Declare variables of each scope type and log them from inside a class.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[local @instance @@class $global].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Sketch a snippet that uses a local, @instance, @@class, and
 # $global variable and prints which ones are visible from where.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="0"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-names:0">
+```solution
 puts "local = 'local'"
 puts "@instance = 'instance'"
 puts "@@class = 'class'"
 puts "$global = 'global'"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); %w[local @instance @@class $global].all? { |tok| lines.any? { |l| l.include?(tok) } }
+```
+
+#!
+
 
 #### Practice 2 - Module constants and warnings
 
-<p><strong>Goal:</strong> Create a module with a constant and try reassigning it.</p>
+**Goal:** Create a module with a constant and try reassigning it.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('MyModule::NAME') } && lines.any? { |l| l.downcase.include?('warning') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print an example that defines and then reassigns a module
 # constant, noting Ruby will warn about it.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="1"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-names:1">
+```solution
 puts "module MyModule"
 puts "  NAME = 'original'"
 puts "end"
 puts "MyModule::NAME = 'changed' # Ruby warns about already initialized constant"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('MyModule::NAME') } && lines.any? { |l| l.downcase.include?('warning') }
+```
+
+#!
+
 
 #### Practice 3 - Float limits and big integers
 
-<p><strong>Goal:</strong> Print `Float::DIG`, `Float::MAX`, and the class of a huge integer.</p>
+**Goal:** Print `Float::DIG`, `Float::MAX`, and the class of a huge integer.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Float::DIG') } && lines.any? { |l| l.downcase.include?('bignum') || l.downcase.include?('integer') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print Float::DIG, Float::MAX, and inspect the class of a very
 # large integer literal.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-names:2">
+```solution
 puts "Float::DIG"
 puts "Float::MAX"
 puts "(10**50).class # Integer/Bignum depending on Ruby version"
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Float::DIG') } && lines.any? { |l| l.downcase.include?('bignum') || l.downcase.include?('integer') }
+```
+
+#!
+
 
 #### Practice 4 - Rice-on-a-chessboard growth
 
-<p><strong>Goal:</strong> Reproduce the rice-on-a-chessboard example and experiment with growth.</p>
+**Goal:** Reproduce the rice-on-a-chessboard example and experiment with growth.
 
-<pre class="language-ruby"
-     data-executable="true"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('square') } && lines.any? { |l| l.downcase.include?('total') }"><code class="language-ruby">
+#> ruby :practice
+
 # TODO: Print a small script that doubles grains each square and
 # prints the total at the end.
-</code></pre>
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-names"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-names:3">
+```solution
 puts "total = 0"
 puts "grains = 1"
 puts "64.times do |square|"
@@ -219,4 +204,11 @@ puts "  total += grains"
 puts "  grains *= 2"
 puts "end"
 puts "puts \"total grains: \#{total}\""
-</script>
+```
+
+```test
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('square') } && lines.any? { |l| l.downcase.include?('total') }
+```
+
+#!
+
