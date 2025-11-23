@@ -1,38 +1,26 @@
 ---
-layout: tutorial
-title: "Test Ruby Exec"
+layout: page
+title: Test Ruby Exec
 permalink: /test-ruby-exec/
 ---
 
-### Test 1: Simple ruby-exec block
+### Test File Operations and Shell Emulation
 
 ```ruby-exec
-puts "Hello from ruby-exec"
+File.write("test.txt", "Hello from VFS!")
+puts "File written."
+
+puts "--- ls output ---"
+puts `ls`
+
+puts "--- cat output ---"
+puts `cat test.txt`
+
+puts "--- pwd output ---"
+puts `pwd`
+
+File.delete("test.txt")
+puts "File deleted."
+puts "--- ls output after delete ---"
+puts `ls`
 ```
-
-### Test 2: Another ruby-exec block
-
-```ruby-exec
-x = 5
-puts x * 2
-```
-
-### Test 3: Practice block
-
-#### Practice 1 - Test practice
-
-**Goal:** Test practice block.
-
-#> ruby :practice
-
-# TODO: Write code here
-
-```solution
-puts "Solution code"
-```
-
-```test
-output.string.include?('Solution')
-```
-
-#!

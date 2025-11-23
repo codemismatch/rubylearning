@@ -193,7 +193,7 @@ puts "host: #{host}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('port') } && lines.any? { |l| l.match?(/\\d+/) }
+out = output.string; out.include?('port: 3000') && out.include?('host: localhost')
 ```
 
 #!

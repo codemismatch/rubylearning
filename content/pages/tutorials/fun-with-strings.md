@@ -156,7 +156,7 @@ puts "Parsed: #{version}"  # expecting: Parsed: 3.3.0
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/Parsed:\\s+\\d+\\.\\d+\\.\\d+/) }
+out = output.string; out.include?('Parsed: 3.3.0')
 ```
 
 #!
