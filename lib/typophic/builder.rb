@@ -578,7 +578,7 @@ module Typophic
 
       # Now apply the rest of the lightweight markdown transforms
       # (headings, inline code, links, lists, etc.) safely
-      html.gsub!(/^(#+)\s+(.+)$/) do
+      html.gsub!(/^(#+)\s+(.+)$/m) do
         level = Regexp.last_match(1).length
         heading_text = Regexp.last_match(2)
         slug = nil
@@ -599,8 +599,17 @@ module Typophic
 
       html = "<p>" + html + "</p>"
       html.gsub!(/<\/p>\s*\n+\s*<p>/, "</p>\n<p>")
-      html.gsub!(/<p>(<\/?(?:h[1-6]|pre|ul|ol|li|div|p)[^>]*>)<\/p>/m, "\\1")
-      html.gsub!(/<p>\s*(<\/(?:h[1-6]|pre|ul|ol|li|div|p)>)\s*<\/p>/m, "\\1")
+      # Remove <p> tags around block elements - match full tags with content
+      html.gsub!(/<p>(<(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)[^>]*>.*?<\/(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)>)\s*<\/p>/m, "\\1")
+      html.gsub!(/<p>(<\/?(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)[^>]*>)<\/p>/m, "\\1")
+      html.gsub!(/<p>\s*(<\/(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)>)\s*<\/p>/m, "\\1")
+      
+      # Convert markdown bold syntax (**text**) to <strong> tags
+      # This must happen after paragraph wrapping but before other inline transforms
+      html.gsub!(/\*\*([^*]+)\*\*/) do
+        "<strong>#{Regexp.last_match(1)}</strong>"
+      end
+      
       html.gsub!(/`([^`]+)`/) do
         code_content = Regexp.last_match(1).gsub("<", "&lt;").gsub(">", "&gt;")
         "<code>#{code_content}</code>"
@@ -626,10 +635,11 @@ module Typophic
 
     def run_content_pipeline(page, body)
       steps = Typophic::Pipeline.content_steps
-      steps.reduce(body) do |content, step_name|
+      content = steps.reduce(body) do |content, step_name|
         method = "pipeline_#{step_name}"
         respond_to?(method, true) ? send(method, content, page) : content
       end
+      normalize_code_windows(content)
     end
 
     def pipeline_rubocop_ruby_blocks(content, page)
@@ -726,6 +736,70 @@ module Typophic
       html
     end
 
+    def pipeline_practice_blocks(content, page)
+      html = content.dup
+      
+      # Match practice blocks: #> ruby :practice ... #!
+      # Pattern matches from #> ruby :practice to #!
+      practice_index = 0
+      
+      html.gsub!(/^#>\s*ruby\s*:practice\s*\r?\n([\s\S]*?)^#!\s*$/m) do |practice_block|
+        inner_content = Regexp.last_match(1) || ""
+        
+        # Extract TODO/initial code (everything before ```solution)
+        # This includes any markdown content like **Goal:** lines and TODO comments
+        todo_match = inner_content.match(/^([\s\S]*?)(?=```solution)/m)
+        todo_content = todo_match ? todo_match[1] : ""
+        
+        # Filter out non-code lines (like **Goal:** markdown) - keep only lines that look like code/TODO comments
+        # Keep lines that start with # (comments) or are blank, remove markdown formatting lines
+        todo_lines = todo_content.lines.select do |line|
+          stripped = line.strip
+          stripped.empty? || stripped.start_with?("#") || !stripped.match(/^\*\*/)
+        end
+        todo_code = todo_lines.join("").strip
+        
+        # Extract solution code block
+        solution_match = inner_content.match(/```solution\s*\r?\n([\s\S]*?)```/m)
+        solution_code = solution_match ? solution_match[1].strip : ""
+        
+        # Extract test code block
+        test_match = inner_content.match(/```test\s*\r?\n([\s\S]*?)```/m)
+        test_code = test_match ? test_match[1].strip : ""
+        
+        # Generate practice chapter identifier from page permalink
+        permalink = page["permalink"] || ""
+        practice_chapter = "rl:chapter:#{permalink.chomp('/')}"
+        
+        current_index = practice_index
+        practice_index += 1
+        
+        # HTML escape the test code and todo code for attributes
+        require 'cgi'
+        escaped_test = CGI.escapeHTML(test_code)
+        escaped_todo = CGI.escapeHTML(todo_code)
+        
+        # Build the HTML structure for practice block
+        <<~HTML
+          <pre class="language-ruby"
+               data-executable="true"
+               data-practice-chapter="#{practice_chapter}"
+               data-practice-index="#{current_index}"
+               data-test="#{escaped_test}"><code class="language-ruby">#{escaped_todo}</code></pre>
+          <div class="practice-feedback"
+               data-practice-chapter="#{practice_chapter}"
+               data-practice-index="#{current_index}"></div>
+          
+          <script type="text/plain"
+                  data-practice-solution="#{practice_chapter}:#{current_index}">
+          #{solution_code}
+          </script>
+        HTML
+      end
+      
+      html
+    end
+
     def pipeline_ruby_exec(content, _page)
       html = content.dup
 
@@ -739,6 +813,26 @@ module Typophic
 
     def pipeline_markdown(content, _page)
       render_markdown(content)
+    end
+
+    # Collapse nested code-window wrappers to avoid double windows.
+    # Keeps the inner window (with the actual <pre> block).
+    def normalize_code_windows(html)
+      pattern = /
+        <div\s+class="code-window">\s*
+          <div\s+class="code-header">.*?<\/div>\s*
+          <div\s+class="code-content">\s*
+            <div\s+class="code-editor">\s*
+              (?<inner><div\s+class="code-window">.*?<\/div>)\s*
+            <\/div>\s*
+          <\/div>\s*
+        <\/div>
+      /mx
+
+      html.gsub(pattern) do |match|
+        m = pattern.match(match)
+        m && m[:inner] ? m[:inner] : match
+      end
     end
 
     def build_code_window(language, code_body, executable: false)
