@@ -439,7 +439,7 @@ async function addRubyExecSupport() {
                   // Append return value if not nil
                   if (inspectResult !== 'nil') {
                     if (outputText && !outputText.endsWith('\n')) outputText += '\n';
-                    outputText += `=> ${inspectResult}`;
+                    outputText += inspectResult;
                   }
                 } else {
                   outputText = rawStr;
@@ -480,11 +480,7 @@ async function addRubyExecSupport() {
 
             // Strip ANSI codes before displaying
             const cleanedOutput = stripAnsiCodes(outputText);
-            if (cleanedOutput && !cleanedOutput.startsWith('=>')) {
-              outputContent.textContent = `=> ${cleanedOutput}`;
-            } else {
-              outputContent.textContent = cleanedOutput || '';
-            }
+            outputContent.textContent = cleanedOutput || '';
 
             if (isPracticeCheck && practiceChapter && testPassed !== null) {
               const feedback = document.querySelector(

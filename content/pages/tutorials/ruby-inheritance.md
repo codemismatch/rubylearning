@@ -49,13 +49,13 @@ puts Motorcycle.new.start_engine  #=> "engine on vroom!"
 
 ```ruby-exec
 class Animal
-  def initialize(name)
+  def initialize(name = nil)
     @name = name
   end
 end
 
 class Dog < Animal
-  def initialize(name, breed)
+  def initialize(name = nil, breed = nil)
     super(name)   # pass the name up to Animal
     @breed = breed
   end
@@ -171,19 +171,19 @@ end
 
 class WithArgs < Base
   def initialize(arg)
-    puts "WithArgs before super"
+    puts "WithArgs calling super with args: #{arg}"
     super
   end
 end
 
 class WithoutArgs < Base
   def initialize(arg)
-    puts "WithoutArgs before super()"
+    puts "WithoutArgs calling super() without args (ignoring #{arg})"
     super()
   end
 end
 
-WithArgs.new("with args")
+WithArgs.new("custom")
 WithoutArgs.new("ignored")
 ```
 
@@ -236,13 +236,13 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # and print the results of instance_of? and is_a? checks.
 
 ```solution
-class Animal; end
-class Dog < Animal; end
+class Creature; end
+class Cat < Creature; end
 
-dog = Dog.new
-puts "instance_of? Dog: #{dog.instance_of?(Dog)}"
-puts "instance_of? Animal: #{dog.instance_of?(Animal)}"
-puts "is_a? Animal: #{dog.is_a?(Animal)}"
+cat = Cat.new
+puts "instance_of? Cat: #{cat.instance_of?(Cat)}"
+puts "instance_of? Creature: #{cat.instance_of?(Creature)}"
+puts "is_a? Creature: #{cat.is_a?(Creature)}"
 ```
 
 ```test
@@ -250,4 +250,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 ```
 
 #!
-

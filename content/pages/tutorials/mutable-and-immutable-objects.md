@@ -25,10 +25,10 @@ Ruby stores some objects as mutable containers (strings, arrays, hashes) and oth
 
 ```ruby-exec
 name = "Ruby"
-alias = name
+copy = name
 
 name.upcase!
-puts alias  #=> "RUBY"
+puts copy  #=> "RUBY"
 ```
 
 `alias` changed because both variables point to the same mutable string object.
@@ -118,11 +118,14 @@ begin
   greeting << " world"
 rescue FrozenError => e
   puts "Caught FrozenError: #{e.message}"
+ensure
+  puts "String frozen? #{greeting.frozen?}"
 end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('frozenerror') }
+out = output.string
+out.include?('Caught FrozenError') && out.include?('String frozen? true')
 ```
 
 #!
@@ -147,7 +150,8 @@ puts "Symbols are immutable and reused, so hash keys like :name don't need cloni
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':name') } && lines.any? { |l| l.downcase.include?('immutable') }
+out = output.string
+out.include?(':name') && out.downcase.include?('immutable')
 ```
 
 #!
@@ -177,4 +181,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 ```
 
 #!
-

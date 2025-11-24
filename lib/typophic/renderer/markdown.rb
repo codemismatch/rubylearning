@@ -141,8 +141,12 @@ module Typophic
       def remove_block_paragraphs
         block_regex = /<p>(<\/?(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)[^>]*>)<\/p>/m
         closing_regex = /<p>\s*(<\/(?:h[1-6]|pre|ul|ol|li|div|p|script|hr)>)\s*<\/p>/m
+        wrapped_div_regex = /<p>\s*(<div[^>]*>[\s\S]*?<\/div>)\s*<\/p>/m
+        wrapped_pre_regex = /<p>\s*(<pre[^>]*>[\s\S]*?<\/pre>)\s*<\/p>/m
         @content = @content.gsub(block_regex, "\\1")
         @content = @content.gsub(closing_regex, "\\1")
+        @content = @content.gsub(wrapped_div_regex, "\\1")
+        @content = @content.gsub(wrapped_pre_regex, "\\1")
       end
 
       def close_heading_tags

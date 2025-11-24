@@ -37,6 +37,7 @@ puts loaded == data  #=> true
 You can also dump to a string:
 
 ```ruby-exec
+data = { name: "Satish", skills: %w[ruby rails] }
 payload = Marshal.dump(data)
 restored = Marshal.load(payload)
 ```
@@ -60,16 +61,34 @@ Next: continue to Flow Control & Collections, now with simple persistence techni
 
 #> ruby :practice
 
-# TODO: Print a short example showing Marshal.dump and Marshal.load
-# used with a custom class instance and a file.
+# TODO: Serialize a custom class instance to disk and load it back.
 
 ```solution
-puts "File.open('user.dump', 'wb') { |f| Marshal.dump(user, f) }"
-puts "user = File.open('user.dump', 'rb') { |f| Marshal.load(f) }"
+class User
+  attr_accessor :name, :email
+  
+  def initialize(name, email)
+    @name = name
+    @email = email
+  end
+end
+
+path = "user.dump"
+
+user = User.new("Alice", "alice@example.com")
+
+File.open(path, "wb") { |f| Marshal.dump(user, f) }
+loaded = File.open(path, "rb") { |f| Marshal.load(f) }
+
+puts "Original: #{user.name}, #{user.email}"
+puts "Loaded: #{loaded.name}, #{loaded.email}"
+puts "Equal: #{user.name == loaded.name && user.email == loaded.email}"
+
+File.delete(path) if File.exist?(path)
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Marshal.dump') } && lines.any? { |l| l.include?('Marshal.load') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Original:') } && lines.any? { |l| l.include?('Loaded:') } && lines.any? { |l| l.include?('Equal: true') }
 ```
 
 #!
@@ -81,19 +100,19 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 #> ruby :practice
 
-# TODO: Print a snippet that shows attempting to Marshal.dump a proc
-# and rescuing TypeError with a friendly message.
+# TODO: Attempt to marshal a proc and rescue the TypeError.
 
 ```solution
-puts "begin"
-puts "  Marshal.dump(-> { puts 'hi' })"
-puts "rescue TypeError"
-puts "  puts 'Cannot marshal procs'"
-puts "end"
+begin
+  Marshal.dump(-> { puts 'hi' })
+  puts "Successfully marshaled"
+rescue TypeError => e
+  puts "Cannot marshal procs: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('TypeError') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('cannot marshal') }
 ```
 
 #!
@@ -105,18 +124,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 #> ruby :practice
 
-# TODO: Print an example using StringIO.new as an in-memory buffer for
-# Marshal.dump and Marshal.load.
+# TODO: Use StringIO as an in-memory buffer for Marshal operations.
 
 ```solution
-puts "buffer = StringIO.new"
-puts "Marshal.dump(obj, buffer)"
-puts "buffer.rewind"
-puts "copy = Marshal.load(buffer)"
+require "stringio"
+
+data = { name: "Ruby", version: 3.2 }
+
+buffer = StringIO.new
+Marshal.dump(data, buffer)
+buffer.rewind
+copy = Marshal.load(buffer)
+
+puts "Original: #{data.inspect}"
+puts "Copied: #{copy.inspect}"
+puts "Equal: #{data == copy}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('StringIO') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Original:') } && lines.any? { |l| l.include?('Equal: true') }
 ```
 
 #!
@@ -128,20 +154,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 #> ruby :practice
 
-# TODO: Print a short example that shows using Logger inside
-# begin/rescue around serialization calls.
+# TODO: Wrap dump/load in begin/rescue and handle failures.
 
 ```solution
-puts "begin"
-puts "  Marshal.dump(config, File.open('config.dump', 'wb'))"
-puts "rescue => e"
-puts "  logger.error(\"Failed to serialize config: \#{e.message}\")"
-puts "end"
+config = { host: "localhost", port: 3000 }
+path = "config.dump"
+
+begin
+  File.open(path, "wb") { |f| Marshal.dump(config, f) }
+  loaded = File.open(path, "rb") { |f| Marshal.load(f) }
+  puts "Serialization successful: #{loaded.inspect}"
+rescue => e
+  puts "Failed to serialize: #{e.class} - #{e.message}"
+ensure
+  File.delete(path) if File.exist?(path)
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('logger') } && lines.any? { |l| l.include?('rescue') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('serialization successful') }
 ```
 
 #!
-

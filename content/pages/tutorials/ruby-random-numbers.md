@@ -130,13 +130,19 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # few times, noting that repeating the seed repeats the sequence.
 
 ```solution
-puts "srand(1234)"
-puts "3.times { puts rand }"
+srand(1234)
+sequence_one = Array.new(3) { rand }
+
+srand(1234)
+sequence_two = Array.new(3) { rand }
+
+puts "sequence one: #{sequence_one.inspect}"
+puts "sequence two: #{sequence_two.inspect}"
+puts "identical? #{sequence_one == sequence_two}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('srand(1234)') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('sequence one') } && lines.any? { |l| l.include?('identical? true') }
 ```
 
 #!
-

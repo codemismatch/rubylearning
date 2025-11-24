@@ -52,7 +52,7 @@ locations = ["Pune", "Mumbai", "Bangalore"]
 
 locations.each do |loc|
   puts "I love #{loc}!"
-  puts "Don&#39;t you?"
+  puts "Don't you?"
 end
 
 locations.delete("Mumbai")
@@ -100,30 +100,26 @@ puts ENV["course"]
 
 - Ruby reads certain environment variables when it starts, so updates you make later only affect the current process and any child processes you spawn. Setting a value to `nil` (Ruby 1.9+) removes the variable entirely.
 
-- `ARGV` stores command-line arguments. Access with indexes (`ARGV[0]`) or parse with libraries such as `GetoptLong`:
+- `ARGV` stores command-line arguments. Access with indexes (`ARGV[0]`) or parse them manually before reaching for heavier libraries:
 
   ```ruby-exec
-require "getoptlong"
-
-opts = GetoptLong.new(
-["--hostname", "-h", GetoptLong::REQUIRED_ARGUMENT],
-["--port", "-n", GetoptLong::REQUIRED_ARGUMENT],
-["--username", "-u", GetoptLong::REQUIRED_ARGUMENT],
-["--pass", "-p", GetoptLong::REQUIRED_ARGUMENT]
-)
+args = %w[--hostname example.com --port 443 --username demo --pass secret]
 
 host = port = user = pass = nil
-opts.each do |opt, arg|
-  case opt
-  when "--hostname" then host = arg
-  when "--port"     then port = arg
-  when "--username" then user = arg
-  when "--pass"     then pass = arg
+
+args.each_slice(2) do |flag, value|
+  case flag
+  when "--hostname" then host = value
+  when "--port"     then port = value.to_i
+  when "--username" then user = value
+  when "--pass"     then pass = value
   end
 end
+
+puts "Connecting to #{host}:#{port} as #{user} (pass length: #{pass.size})"
 ```
 
-`require` pulls in stdlib helpers (and later, gems); here it exposes `GetoptLong`. We'll dive deeper into `require` soon.
+When your scripts grow, reach for helpers such as `OptionParser` via `require` so you can support short/long flags, defaults, and help text automatically.
 
 ### Coercing values to arrays
 
@@ -229,7 +225,7 @@ end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.any? { |l| l.match?(/env/i) } || lines.size >= 1
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); %w[PATH HOME SHELL].any? { |key| lines.any? { |line| line.start_with?("#{key}=") } }
 ```
 
 #!
@@ -282,15 +278,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # hierarchy.
 
 ```solution
-puts "Array('hello')      => #{Array('hello').inspect}"
-puts "Array(1..3)         => #{Array(1..3).inspect}"
-puts "Array([:a, :b, :c]) => #{Array([:a, :b, :c]).inspect}"
+samples = ["hello", 1..3, [:a, :b, :c]]
 
-puts "Array ancestors: #{Array.ancestors.inspect}"
+samples.each do |value|
+  wrapped = Array(value)
+  puts "Array(#{value.inspect}) => #{wrapped.inspect}"
+end
+
+ancestors = Array.ancestors.map(&:name).join(" -> ")
+puts "Array ancestors: #{ancestors}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('ancestors') }
+out = output.string
+lines = out.lines.map(&:strip)
+has_wrapped = ["Array(\"hello\")", "Array(1..3)", "Array([:a, :b, :c])"].all? do |label|
+  lines.any? { |line| line.start_with?(label) }
+end
+has_ancestors = lines.any? { |line| line.downcase.include?("ancestors") }
+has_wrapped && has_ancestors
 ```
 
 #!

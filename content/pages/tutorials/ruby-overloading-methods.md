@@ -82,15 +82,16 @@ Next: keep applying these dynamic dispatch techniques inside Flow Control & Coll
 # both the default and an explicit level being used.
 
 ```solution
-puts "def log(message, level = :info)"
-puts "  puts \"[\#{level}] \#{message}\""
-puts "end"
-puts "log('hello')"
-puts "log('danger', :error)"
+def log(message, level = :info)
+  puts "[#{level}] #{message}"
+end
+
+log("hello")
+log("danger", :error)
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('level=:info') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[info] hello') } && lines.any? { |l| l.include?('[error] danger') }
 ```
 
 #!
@@ -106,19 +107,24 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # width/height as either positional args or a hash.
 
 ```solution
-puts "def rectangle_area(*args)"
-puts "  if args.first.is_a?(Hash)"
-puts "    w = args.first.fetch(:width)"
-puts "    h = args.first.fetch(:height)"
-puts "  else"
-puts "    w, h = args"
-puts "  end"
-puts "  w * h"
-puts "end"
+def rectangle_area(*args)
+  if args.first.is_a?(Hash)
+    options = args.first
+    width = options.fetch(:width)
+    height = options.fetch(:height)
+  else
+    width, height = args
+  end
+
+  width * height
+end
+
+puts "area (positional): #{rectangle_area(4, 5)}"
+puts "area (hash): #{rectangle_area(width: 2, height: 6)}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rectangle_area') } && lines.any? { |l| l.downcase.include?('hash') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('area (positional): 20') } && lines.any? { |l| l.include?('area (hash): 12') }
 ```
 
 #!
@@ -134,16 +140,23 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # arguments with defaults to support multiple call styles.
 
 ```solution
-puts "class User"
-puts "  def initialize(name:, admin: false)"
-puts "    @name = name"
-puts "    @admin = admin"
-puts "  end"
-puts "end"
+class User
+  def initialize(name:, admin: false)
+    @name = name
+    @admin = admin
+  end
+
+  def info
+    "User #{@name}, admin=#{@admin}"
+  end
+end
+
+puts User.new(name: "Ruby").info
+puts User.new(name: "Satish", admin: true).info
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('initialize(') } && lines.any? { |l| l.include?('**opts') || l.include?('name:') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('admin=false') } && lines.any? { |l| l.include?('admin=true') }
 ```
 
 #!
@@ -159,14 +172,22 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # ArgumentError for unsupported combinations.
 
 ```solution
-puts "def overloaded(*args)"
-puts "  raise ArgumentError, 'expected 1 or 2 args' unless [1, 2].include?(args.length)"
-puts "end"
+def overloaded(*args)
+  raise ArgumentError, "expected 1 or 2 args" unless [1, 2].include?(args.length)
+  args.join(", ")
+end
+
+puts "call with 1 arg: #{overloaded('only')}"
+
+begin
+  overloaded
+rescue ArgumentError => e
+  puts "Raised ArgumentError: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ArgumentError') } && lines.any? { |l| l.include?('args.length') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('call with 1 arg') } && lines.any? { |l| l.include?('Raised ArgumentError') }
 ```
 
 #!
-

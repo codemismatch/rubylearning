@@ -77,16 +77,19 @@ Next: keep building in Flow Control & Collections, combining your augmented clas
 # sizes (you can choose which).
 
 ```solution
-puts "class Array"
-puts "  def middle"
-puts "    return nil if empty?"
-puts "    self[(size - 1) / 2]"
-puts "  end"
-puts "end"
+class Array
+  def middle
+    return nil if empty?
+    self[(size - 1) / 2]
+  end
+end
+
+puts "odd middle: #{[1, 2, 3].middle}"
+puts "even middle: #{[10, 20, 30, 40].middle}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Array') } && lines.any? { |l| l.include?('def middle') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('odd middle: 2') } && lines.any? { |l| l.include?('even middle: 20') }
 ```
 
 #!
@@ -102,16 +105,29 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # mention in a comment that this is only for experimentation.
 
 ```solution
-puts "class String"
-puts "  def to_s"
-puts "    \"[string: \#{inspect}]\""
-puts "  end"
-puts "end"
-puts "# Override only in small scripts; avoid in real apps."
+class String
+  alias_method :__original_to_s__, :to_s
+
+  def to_s
+    original = __original_to_s__
+    "[string: #{original.inspect}]"
+  end
+end
+
+value = "experimental"
+puts value.to_s
+puts value
+
+class String
+  alias_method :to_s, :__original_to_s__
+  remove_method :__original_to_s__
+end
+
+puts "restored behavior: #{'demo'}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class String') } && lines.any? { |l| l.include?('def to_s') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[string: "experimental"]') } && lines.any? { |l| l.include?('restored behavior') }
 ```
 
 #!
@@ -127,16 +143,17 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # hours) so that 5.minutes returns 300.
 
 ```solution
-puts "class Integer"
-puts "  def minutes"
-puts "    self * 60"
-puts "  end"
-puts "end"
-puts "puts 5.minutes # => 300"
+class Integer
+  def minutes
+    self * 60
+  end
+end
+
+puts "5 minutes in seconds: #{5.minutes}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class Integer') } && lines.any? { |l| l.include?('def minutes') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('5 minutes in seconds: 300') }
 ```
 
 #!
@@ -152,18 +169,20 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # and show how to activate it with using.
 
 ```solution
-puts "module StringRefinements"
-puts "  refine String do"
-puts "    def shout; upcase + '!'; end"
-puts "  end"
-puts "end"
-puts "using StringRefinements"
-puts "\"hello\".shout # works only where refinement is active"
+module StringRefinements
+  refine String do
+    def shout
+      upcase + "!"
+    end
+  end
+end
+
+using StringRefinements
+puts "hello".shout
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('refine String') } && lines.any? { |l| l.include?('using') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('HELLO!') }
 ```
 
 #!
-

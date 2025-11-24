@@ -92,7 +92,7 @@ puts Time.now.strftime("%Y/%m/%d %H:%M")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match(/\\d{4}\\/\\d{2}\\/\\d{2} \\d{2}:\\d{2}/) }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/\d{4}\/\d{2}\/\d{2} \d{2}:\d{2}/) }
 ```
 
 #!
@@ -109,8 +109,9 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match(/\
 
 ```solution
 now = Time.now
-midnight = Time.new(now.year, now.month, now.day) + 24 * 60 * 60
-seconds = (midnight - now).to_i
+# Calculate next midnight: today's date + 1 day at 00:00:00
+next_midnight = Time.new(now.year, now.month, now.day + 1)
+seconds = (next_midnight - now).to_i
 puts "seconds until midnight: #{seconds}"
 ```
 
@@ -154,9 +155,10 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 
 ```solution
 start = Time.now
-sleep 0.1
+total = 0
+200_000.times { total += 1 }  # some work
 elapsed = Time.now - start
-puts "elapsed: #{elapsed} seconds"
+puts "elapsed: #{elapsed.round(4)} seconds"
 ```
 
 ```test
@@ -164,4 +166,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 ```
 
 #!
-

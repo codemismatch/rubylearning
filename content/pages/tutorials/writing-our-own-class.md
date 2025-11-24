@@ -97,16 +97,24 @@ Next: proceed to Flow Control & Collections to put your new objects to work insi
 # respond_to? :talk returning true.
 
 ```solution
-puts "class Dog"
-puts "  def talk"
-puts "    'woof'"
-puts "  end"
-puts "end"
-puts "Dog.new.respond_to?(:talk)"
+class Dog
+  def initialize(breed = "Mixed", name = "Unknown")
+    @breed = breed
+    @name = name
+  end
+  
+  def talk
+    "woof"
+  end
+end
+
+dog = Dog.new
+puts "Has talk method: #{dog.respond_to?(:talk)}"
+puts "Talk result: #{dog.talk}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('talk') } && lines.any? { |l| l.include?('respond_to?') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Has talk method') } && lines.any? { |l| l.include?('true') }
 ```
 
 #!
@@ -122,15 +130,22 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # renaming a dog.
 
 ```solution
-puts "class Dog"
-puts "  attr_accessor :name"
-puts "end"
-puts "dog = Dog.new"
-puts "dog.name = 'Lassie'"
+class Dog
+  attr_accessor :name
+  
+  def initialize(name = "Unknown")
+    @name = name
+  end
+end
+
+dog = Dog.new
+puts "Initial name: #{dog.name}"
+dog.name = "Lassie"
+puts "Renamed to: #{dog.name}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor :name') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Renamed to: Lassie') }
 ```
 
 #!
@@ -146,13 +161,23 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # Dog instance and a change via one is visible via the other.
 
 ```solution
-puts "dog1 = Dog.new"
-puts "dog2 = dog1"
-puts "dog1.object_id == dog2.object_id # same object"
+class Dog
+  attr_accessor :name
+  
+  def initialize(name = "Unknown")
+    @name = name
+  end
+end
+
+dog1 = Dog.new("Rex")
+dog2 = dog1
+puts "Same object: #{dog1.object_id == dog2.object_id}"
+dog1.name = "Max"
+puts "dog2.name after changing dog1: #{dog2.name}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('same object') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Same object: true') } && lines.any? { |l| l.include?('dog2.name after changing dog1: Max') }
 ```
 
 #!
@@ -167,13 +192,20 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # TODO: Show the class and object_id for a freshly instantiated Dog.
 
 ```solution
-puts "dog = Dog.new('Alsatian', 'Lassie')"
-puts "dog.class"
-puts "dog.object_id"
+class Dog
+  def initialize(breed, name)
+    @breed = breed
+    @name = name
+  end
+end
+
+dog = Dog.new("Alsatian", "Lassie")
+puts "Class: #{dog.class}"
+puts "Object ID: #{dog.object_id}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('object_id') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Class: Dog') } && lines.any? { |l| l.include?('Object ID:') }
 ```
 
 #!

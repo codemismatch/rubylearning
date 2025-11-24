@@ -24,10 +24,25 @@ Ruby names refer to the labels you use for variables, methods, classes, modules,
 ### Variable families at a glance
 
 ```ruby-exec
-sunil      = "local"      # lowercase or _ prefix
-@count     = 1            # instance variable belongs to self
-@@registry = {}           # class variable shared across instances
-$mode      = "demo"       # global variable (avoid unless necessary)
+sunil = "local"           # lowercase or _ prefix
+$mode = "demo"            # global variable (avoid unless necessary)
+
+class VariableFamilies
+  @@registry = {}         # class variable shared across instances
+
+  def initialize
+    @count = 1            # instance variable belongs to self
+  end
+
+  def show(local_value)
+    puts "local: #{local_value}"
+    puts "instance: #{@count}"
+    puts "class: #{@@registry.inspect}"
+    puts "global: #{$mode}"
+  end
+end
+
+VariableFamilies.new.show(sunil)
 ```
 
 - **Local variables** start with a lowercase letter or underscore (`_transactions`). They spring into existence the first time you assign to them.
@@ -129,10 +144,24 @@ Next: move into Flow Control & Collections to apply these naming rules inside lo
 # $global variable and prints which ones are visible from where.
 
 ```solution
-puts "local = 'local'"
-puts "@instance = 'instance'"
-puts "@@class = 'class'"
-puts "$global = 'global'"
+class ScopeWindow
+  @@class_value = "class scope"
+  $global_value = "global scope"
+
+  def initialize
+    @instance_value = "instance scope"
+  end
+
+  def show(local_value)
+    puts "local: #{local_value}"
+    puts "@instance: #{@instance_value}"
+    puts "@@class: #{@@class_value}"
+    puts "$global: #{$global_value}"
+  end
+end
+
+local_value = "local scope"
+ScopeWindow.new.show(local_value)
 ```
 
 ```test
@@ -152,10 +181,13 @@ out = output.string; lines = out.lines.map(&:strip); %w[local @instance @@class 
 # constant, noting Ruby will warn about it.
 
 ```solution
-puts "module MyModule"
-puts "  NAME = 'original'"
-puts "end"
-puts "MyModule::NAME = 'changed' # Ruby warns about already initialized constant"
+module MyModule
+  NAME = "original"
+end
+
+MyModule::NAME = "changed"
+puts "MyModule::NAME is now #{MyModule::NAME}"
+puts "Warning: Ruby will warn about already initialized constant when NAME changes."
 ```
 
 ```test
@@ -175,9 +207,9 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # large integer literal.
 
 ```solution
-puts "Float::DIG"
-puts "Float::MAX"
-puts "(10**50).class # Integer/Bignum depending on Ruby version"
+puts "Float::DIG = #{Float::DIG}"
+puts "Float::MAX = #{Float::MAX}"
+puts "(10**50).class = #{(10**50).class}"
 ```
 
 ```test
@@ -197,13 +229,16 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # prints the total at the end.
 
 ```solution
-puts "total = 0"
-puts "grains = 1"
-puts "64.times do |square|"
-puts "  total += grains"
-puts "  grains *= 2"
-puts "end"
-puts "puts \"total grains: \#{total}\""
+total = 0
+grains = 1
+
+8.times do |square|
+  total += grains
+  puts "Square #{square + 1}: #{grains} grain(s)"
+  grains *= 2
+end
+
+puts "Total grains: #{total}"
 ```
 
 ```test
@@ -211,4 +246,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 ```
 
 #!
-

@@ -138,12 +138,16 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # one that matches any character that's not a lowercase hex digit.
 
 ```solution
-puts "/[a-f0-9]/"
-puts "/[^a-f0-9]/"
+hex_string = "af09z"
+matches = hex_string.scan(/[a-f0-9]/)
+non_matches = hex_string.scan(/[^a-f0-9]/)
+
+puts "hex digits: #{matches.join}"
+puts "non-hex digits: #{non_matches.join}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[a-f0-9]') } && lines.any? { |l| l.include?('[^a-f0-9]') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('hex digits:') } && lines.any? { |l| l.include?('non-hex digits:') }
 ```
 
 #!
@@ -160,7 +164,7 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 ```solution
 date = "2024-01-31"
-if date =~ /(\\d{4})-(\\d{2})-(\\d{2})/
+if date =~ /(\d{4})-(\d{2})-(\d{2})/
   year, month, day = $1, $2, $3
   puts "year: #{year}, month: #{month}, day: #{day}"
 end
@@ -193,4 +197,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 ```
 
 #!
-

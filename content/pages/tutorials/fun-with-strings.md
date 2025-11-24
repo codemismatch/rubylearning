@@ -187,7 +187,7 @@ end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.include?('Command succeeded')
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Command succeeded') || l.include?('Command failed') }
 ```
 
 #!

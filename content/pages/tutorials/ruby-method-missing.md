@@ -79,16 +79,24 @@ Next: continue to Flow Control & Collections to keep exercising these dynamic te
 # logs the unknown method name, and calls super.
 
 ```solution
-puts "class LoggerProxy"
-puts "  def method_missing(name, *args, &block)"
-puts "    puts \"unknown method: \#{name}\""
-puts "    super"
-puts "  end"
-puts "end"
+class LoggerProxy
+  def method_missing(name, *args, &block)
+    puts "unknown method: #{name} args=#{args.inspect}"
+    super
+  end
+end
+
+proxy = LoggerProxy.new
+
+begin
+  proxy.undefined_method(42)
+rescue NoMethodError => e
+  puts "Raised: #{e.class}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('method_missing') } && lines.any? { |l| l.downcase.include?('unknown') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('unknown method') } && lines.any? { |l| l.include?('Raised: NoMethodError') }
 ```
 
 #!
@@ -105,20 +113,33 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # method name.
 
 ```solution
-puts "class UserRepository"
-puts "  def method_missing(name, *args)"
-puts "    if name.to_s.start_with?('find_by_')"
-puts "      field = name.to_s.sub('find_by_', '')"
-puts "      puts \"parsed dynamic finder for \#{field}\""
-puts "    else"
-puts "      super"
-puts "    end"
-puts "  end"
-puts "end"
+class UserRepository
+  USERS = [
+    { name: "Satish", email: "satish@example.com" },
+    { name: "Ruby", email: "ruby@example.com" }
+  ]
+
+  def method_missing(name, *args)
+    if name.to_s.start_with?("find_by_")
+      field = name.to_s.sub("find_by_", "")
+      match = USERS.find { |user| user[field.to_sym] == args.first }
+      puts "dynamic finder for #{field} => #{match.inspect}"
+    else
+      super
+    end
+  end
+
+  def respond_to_missing?(name, include_private = false)
+    name.to_s.start_with?("find_by_") || super
+  end
+end
+
+repo = UserRepository.new
+repo.find_by_name("Satish")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('find_by_name') } && lines.any? { |l| l.downcase.include?('parsed') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('dynamic finder for name') }
 ```
 
 #!
@@ -134,13 +155,24 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # recognises your dynamic finder methods.
 
 ```solution
-puts "def respond_to_missing?(name, include_private = false)"
-puts "  name.to_s.start_with?('find_by_') || super"
-puts "end"
+class DynamicFinder
+  def method_missing(name, *args)
+    return super unless name.to_s.start_with?("find_by_")
+    puts "handling #{name}"
+  end
+
+  def respond_to_missing?(name, include_private = false)
+    name.to_s.start_with?("find_by_") || super
+  end
+end
+
+finder = DynamicFinder.new
+puts "respond_to?(:find_by_email) => #{finder.respond_to?(:find_by_email)}"
+puts "respond_to?(:foo) => #{finder.respond_to?(:foo)}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('respond_to_missing?') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('respond_to?(:find_by_email) => true') } && lines.any? { |l| l.include?('respond_to?(:foo) => false') }
 ```
 
 #!
@@ -156,18 +188,23 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # block argument and calling it.
 
 ```solution
-puts "def method_missing(name, *args, &block)"
-puts "  if block"
-puts "    block.call('yielded from block')"
-puts "  else"
-puts "    super"
-puts "  end"
-puts "end"
+class BlockForwarder
+  def method_missing(name, *args, &block)
+    if block
+      block.call("yielded from block")
+    else
+      super
+    end
+  end
+end
+
+BlockForwarder.new.undefined do |message|
+  puts "Block received: #{message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('yielded from block') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Block received: yielded from block') }
 ```
 
 #!
-

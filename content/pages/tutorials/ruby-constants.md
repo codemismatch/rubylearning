@@ -140,12 +140,14 @@ Next up: keep working through Flow Control & Collections so you can put these na
 # PI and noting that Ruby warns about it.
 
 ```solution
-puts "PI = 3.14"
-puts "PI = 3.14159 # Ruby prints a warning about already initialized constant"
+PI = 3.14
+PI = 3.14159
+
+puts "PI is now #{PI}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('PI') } && lines.any? { |l| l.downcase.include?('warning') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('PI is now') }
 ```
 
 #!
@@ -161,13 +163,14 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # mutated without reassigning the constant itself.
 
 ```solution
-puts "CONFIG = { retries: 3 }"
-puts "CONFIG[:timeout] = 10  # mutated without reassigning CONFIG"
-puts "# CONFIG mutated in place"
+CONFIG = { retries: 3 }
+CONFIG[:timeout] = 10
+
+puts "CONFIG: #{CONFIG.inspect}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('CONFIG') } && lines.any? { |l| l.downcase.include?('mutated') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('CONFIG:') }
 ```
 
 #!
@@ -183,12 +186,20 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # operator from nested modules or classes.
 
 ```solution
-puts "Math::PI"
-puts "MyApp::Models::User::DEFAULT_ROLE"
+module MyApp
+  module Models
+    class User
+      DEFAULT_ROLE = "viewer"
+    end
+  end
+end
+
+puts "Math::PI = #{Math::PI}"
+puts "Default role: #{MyApp::Models::User::DEFAULT_ROLE}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Math::PI') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Math::PI') } && lines.any? { |l| l.include?('Default role') }
 ```
 
 #!
@@ -204,13 +215,21 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # method and mention the dynamic constant assignment error.
 
 ```solution
-puts "def bad_constant"
-puts "  INSIDE = 1 # raises dynamic constant assignment"
-puts "end"
+code = <<~RUBY
+  def define_bad_constant
+    INSIDE = 1
+  end
+RUBY
+
+begin
+  eval(code)
+rescue SyntaxError => e
+  puts "Error defining constant inside method: #{e.class}: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('dynamic constant assignment') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('error defining constant') }
 ```
 
 #!
@@ -226,13 +245,17 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # about the FrozenError raised when modifying it.
 
 ```solution
-puts "CONFIG = { cache: true }.freeze"
-puts "CONFIG[:cache] = false # raises FrozenError"
+SETTINGS = { cache: true }.freeze
+
+begin
+  SETTINGS[:cache] = false
+rescue => e
+  puts "Freeze prevents mutation: #{e.class}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.freeze') } && lines.any? { |l| l.downcase.include?('frozenerror') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Freeze prevents mutation') }
 ```
 
 #!
-

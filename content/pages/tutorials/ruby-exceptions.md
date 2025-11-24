@@ -99,15 +99,15 @@ Next: keep iterating through Flow Control & Collections, now with robust error h
 # a File.read call and prints a friendly message.
 
 ```solution
-puts "begin"
-puts "  File.read('missing.txt')"
-puts "rescue Errno::ENOENT"
-puts "  puts 'Missing file; please create missing.txt'"
-puts "end"
+begin
+  File.read("missing.txt")
+rescue Errno::ENOENT
+  puts "Missing file; please create missing.txt"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Errno::ENOENT') } && lines.any? { |l| l.downcase.include?('missing') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('missing file') }
 ```
 
 #!
@@ -123,18 +123,28 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # guarantees some cleanup work in ensure.
 
 ```solution
-puts "begin"
-puts "  f = File.open('data.txt', 'r')"
-puts "  # work with f"
-puts "rescue => e"
-puts "  puts \"Error: \#{e.message}\""
-puts "ensure"
-puts "  f.close if f && !f.closed?"
-puts "end"
+path = "ensure-demo.txt"
+File.write(path, "temporary line\n")
+
+file = nil
+
+begin
+  file = File.open(path, "r")
+  puts file.readline.strip
+  raise "simulated failure"
+rescue => e
+  puts "Error: #{e.message}"
+ensure
+  if file && !file.closed?
+    file.close
+    puts "File closed in ensure"
+  end
+  File.delete(path) if File.exist?(path)
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ensure') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('file closed') }
 ```
 
 #!
@@ -150,14 +160,22 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # that raises it when data is invalid.
 
 ```solution
-puts "class InvalidDataError < StandardError; end"
-puts "def validate!(value)"
-puts "  raise InvalidDataError, 'value must be positive' if value <= 0"
-puts "end"
+class InvalidDataError < StandardError; end
+
+def validate!(value)
+  raise InvalidDataError, "value must be positive" if value <= 0
+  true
+end
+
+begin
+  validate!(-1)
+rescue InvalidDataError => e
+  puts "Validation failed: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('class InvalidDataError') } && lines.any? { |l| l.downcase.include?('raise') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Validation failed') }
 ```
 
 #!
@@ -173,18 +191,20 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # with a guard to avoid infinite loops.
 
 ```solution
-puts "attempts = 0"
-puts "begin"
-puts "  attempts += 1"
-puts "  raise 'boom' if attempts < 2"
-puts "rescue => e"
-puts "  retry if attempts < 3"
-puts "end"
+attempts = 0
+
+begin
+  attempts += 1
+  puts "Attempt ##{attempts}"
+  raise "boom" if attempts < 2
+rescue => e
+  puts "Rescued: #{e.message}"
+  retry if attempts < 3
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('retry') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Attempt') } && lines.any? { |l| l.include?('Rescued') }
 ```
 
 #!
-

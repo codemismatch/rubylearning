@@ -156,14 +156,18 @@ Next: move into Flow Control & Collections to loop over data with the methods yo
 # one greeting that uses defaults and one that passes both names.
 
 ```solution
-puts "def greet(first = 'Guest', last = nil)"
-puts "  name = [first, last].compact.join(' ')"
-puts "  puts \"Hello, #{name}\""
-puts "end"
+def greet(first = "Guest", last = nil)
+  name = [first, last].compact.join(" ").strip
+  name = "Guest" if name.empty?
+  "Hello, #{name}"
+end
+
+puts greet
+puts greet("Ruby", "Learner")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello') } && lines.any? { |l| l.downcase.include?('guest') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Hello, Guest') } && lines.any? { |l| l.include?('Hello, Ruby Learner') }
 ```
 
 #!
@@ -179,13 +183,22 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # the alias retains the earlier behaviour.
 
 ```solution
-puts "def hello; 'hi'; end"
-puts "alias old_hello hello"
-puts "def hello; 'hello'; end"
+def hello
+  "hi"
+end
+
+alias old_hello hello
+
+def hello
+  "hello"
+end
+
+puts "old: #{old_hello}"
+puts "new: #{hello}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('alias') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('old:') } && lines.any? { |l| l.include?('new:') }
 ```
 
 #!
@@ -201,13 +214,16 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # print a single line.
 
 ```solution
-puts "def log(*messages)"
-puts "  puts \"log: #{messages.join(' ')}\""
-puts "end"
+def log(*messages)
+  puts "log: #{messages.join(' ')}"
+end
+
+log("ruby")
+log("write", "tests", "daily")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('log:') }
+out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.start_with?('log:') } >= 2
 ```
 
 #!
@@ -223,17 +239,23 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # value and a bang-style helper that mutates an argument.
 
 ```solution
-puts "def pure_upcase(str)"
-puts "  str.upcase"
-puts "end"
-puts "def bang_upcase!(str)"
-puts "  str.upcase!"
-puts "end"
+def pure_upcase(str)
+  str.upcase
+end
+
+def bang_upcase!(str)
+  str.upcase!
+end
+
+word = "ruby"
+
+puts "pure: #{pure_upcase(word)} (original: #{word})"
+bang_upcase!(word)
+puts "bang!: #{word}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('pure') } && lines.any? { |l| l.include?('bang') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('pure:') } && lines.any? { |l| l.include?('bang!') }
 ```
 
 #!
-

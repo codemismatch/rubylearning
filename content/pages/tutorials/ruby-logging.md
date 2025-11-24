@@ -33,6 +33,19 @@ Useful for tiny scripts, but you'll quickly want log levels, formatting, and rot
 ### Using stdlib `Logger`
 
 ```ruby-exec
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
 require "logger"
 
 logger = Logger.new($stdout)            # or "log/app.log"
@@ -81,11 +94,30 @@ Next: keep building in Flow Control & Collections, now with observability baked 
 # log/dev.log with a few rotated files and a max size.
 
 ```solution
-puts 'Logger.new("log/dev.log", 3, 1024 * 1024)'
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
+require "logger"
+require "fileutils"
+
+FileUtils.mkdir_p("log")
+logger = Logger.new("log/dev.log", 3, 1024 * 1024)
+logger.info("Logger rotation configured")
+puts "Logger destination: #{logger.instance_variable_get(:@logdev).filename}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Logger.new(\
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Logger destination') }
 ```
 
 #!
@@ -101,15 +133,34 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # block using logger.info.
 
 ```solution
-puts "def with_logging(logger, message)"
-puts "  logger.info(\"start: \#{message}\")"
-puts "  yield"
-puts "  logger.info(\"finish: \#{message}\")"
-puts "end"
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
+require "logger"
+
+def with_logging(logger, message)
+  logger.info("start: #{message}")
+  yield
+ensure
+  logger.info("finish: #{message}")
+end
+
+logger = Logger.new($stdout)
+with_logging(logger, "demo task") { puts "running task" }
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('start') } && lines.any? { |l| l.downcase.include?('finish') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('start: demo task') } && lines.any? { |l| l.downcase.include?('finish: demo task') }
 ```
 
 #!
@@ -125,13 +176,32 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # in each log line.
 
 ```solution
-puts "logger.formatter = proc do |severity, time, progname, msg|"
-puts "  \"[\#{time.iso8601}] [\#{Thread.current.object_id}] \#{severity}: \#{msg}\\n\""
-puts "end"
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
+require "logger"
+require "time"
+
+logger = Logger.new($stdout)
+logger.formatter = proc do |severity, time, _progname, msg|
+  "[#{time.iso8601}] [#{Thread.current.object_id}] #{severity}: #{msg}\n"
+end
+
+logger.info("formatted log entry")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('formatter') } && lines.any? { |l| l.downcase.include?('thread') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('formatted log entry') } && lines.any? { |l| l.include?('INFO:') }
 ```
 
 #!
@@ -147,17 +217,41 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # re-raised to bubble up.
 
 ```solution
-puts "begin"
-puts "  risky_operation"
-puts "rescue => e"
-puts "  logger.error(\"Failure: \#{e.message}\")"
-puts "  raise"
-puts "end"
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
+require "logger"
+
+def risky_operation
+  raise "boom"
+end
+
+logger = Logger.new($stdout)
+
+begin
+  begin
+    risky_operation
+  rescue => e
+    logger.error("Failure: #{e.message}")
+    raise
+  end
+rescue => e
+  puts "Outer rescue caught: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('logger.error') } && lines.any? { |l| l.downcase.include?('raise') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Failure: boom') } && lines.any? { |l| l.include?('Outer rescue caught') }
 ```
 
 #!
-

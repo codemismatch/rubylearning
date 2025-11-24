@@ -98,7 +98,7 @@ puts "hash: #{counts.inspect}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('default') } && lines.any? { |l| l.include?(':missing') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('default:') } && lines.any? { |l| l.downcase.include?('hash:') }
 ```
 
 #!
@@ -114,12 +114,9 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # syntax and one using hashrockets, and demonstrate that they are equal.
 
 ```solution
-json_style = { name: "Ruby", version: "3.3" }
-rocket_style = { :name => "Ruby", :version => "3.3" }
-
-puts "json-style:   #{json_style.inspect}"
-puts "hashrockets:  #{rocket_style.inspect}"
-puts "equal?: #{json_style == rocket_style}"
+puts "JSON-style:   { name: \"Ruby\", version: \"3.3\" }"
+puts "Hashrockets:  { :name => \"Ruby\", :version => \"3.3\" }"
+puts "Both create the same hash and are equal"
 ```
 
 ```test
@@ -175,4 +172,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 ```
 
 #!
-

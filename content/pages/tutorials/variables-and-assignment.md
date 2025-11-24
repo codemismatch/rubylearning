@@ -39,7 +39,11 @@ A bareword is any unadorned identifier (letters, digits, underscores). Ruby inte
 > Reference: <https://web.archive.org/web/20181219143329/http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html> -- local variables and barewords share the same syntax, so prefer lowercase snake_case names and avoid Ruby keywords to keep intent clear.
 
 ```ruby-exec
-puts greeting        # method call (will raise NameError if undefined)
+def greeting
+  "Hello!"
+end
+
+puts greeting        # method call (uses the method defined above)
 answer = 42          # local variable assignment
 class_name = "User"  # still a variable; keywords must be exact matches
 ```
@@ -79,7 +83,7 @@ puts message
 For multi-line strings, reach for a heredoc:
 
 ```ruby-exec
-story = << END_STR
+story = <<END_STR
  This is the string And a second line
 END_STR
 
@@ -117,12 +121,21 @@ Next: put these variables to work while branching through Flow Control & Collect
 # def status; \"ok\"; end, then inspect which one is used where.
 
 ```solution
-puts "status = 'new'"
-puts "def status; 'ok'; end"
+status = "new"
+
+def status
+  "ok"
+end
+
+puts "Local variable -> #{status}"
+puts "Method call   -> #{status()}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('status =') } && lines.any? { |l| l.downcase.include?('def status') }
+out = output.string
+lines = out.lines.map(&:strip)
+lines.any? { |l| l.include?('Local variable ->') } &&
+  lines.any? { |l| l.include?('Method call') }
 ```
 
 #!
@@ -138,12 +151,15 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # and string values.
 
 ```solution
-puts "42.to_s"
-puts "'3.14'.to_f"
+number = 42
+decimal_text = "3.14"
+
+puts "Integer to string: #{number.to_s} (#{number.to_s.class})"
+puts "String to float: #{decimal_text.to_f} (#{decimal_text.to_f.class})"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| lines.any? { |l| l.include?(m) } }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Integer to string') } && lines.any? { |l| l.include?('String to float') }
 ```
 
 #!
@@ -159,13 +175,19 @@ out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| li
 # printing both results.
 
 ```solution
-puts "greeting = 'hi'"
-puts "greeting << ' there'"
-puts "greeting + ' again'"
+greeting = "hi"
+
+mutable = greeting.dup
+mutable << " there"
+puts "After << : #{mutable}"
+
+combined = greeting + " there"
+puts "Using + result: #{combined}"
+puts "Original greeting after +: #{greeting}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<') } && lines.any? { |l| l.include?(' + ') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('After <<') } && lines.any? { |l| l.include?('Using + result') }
 ```
 
 #!
@@ -180,15 +202,18 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # TODO: Print a simple heredoc using <<~ that interpolates a variable.
 
 ```solution
-puts "name = 'Ruby'"
-puts "message = <<~TEXT"
-puts "  Hello, \#{name}"
-puts "TEXT"
+name = "Ruby"
+
+message = <<~TEXT
+  Hello, #{name}!
+  Welcome to heredocs.
+TEXT
+
+puts message
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<~') }
+out = output.string; out.include?('Hello, Ruby!')
 ```
 
 #!
-

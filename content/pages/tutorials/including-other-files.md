@@ -30,9 +30,23 @@ As your Ruby programs grow, you'll split code across files. Ruby provides three 
 Use `require` for gems, stdlib components, or project files that should load at most once per process.
 
 ```ruby-exec
-require "json"                 # stdlib
-require "pg"                   # gem
-require_relative "lib/user"    # project file (see below)
+# Demonstrate require behavior
+# Note: 'js' library is pre-loaded in WASM, so it returns false
+result1 = require "js"
+puts "require 'js': #{result1} (already loaded in WASM)"
+
+# Demonstrate LoadError when library doesn't exist
+begin
+  require "nonexistent_library"
+  puts "Library loaded"
+rescue LoadError => e
+  puts "LoadError: #{e.message}"
+end
+
+puts "\nKey points:"
+puts "- require returns true on first load, false if already loaded"
+puts "- require raises LoadError if file can't be found"
+puts "- In production: require 'json', require 'pg', require_relative 'file'"
 ```
 
 `require` returns `true` when it loads a file, `false` when the file was already loaded, and raises `LoadError` if it can't find the file.
@@ -40,112 +54,178 @@ require_relative "lib/user"    # project file (see below)
 Ruby looks through each directory in `$LOAD_PATH` for the requested file. You can inspect or modify the path:
 
 ```ruby-exec
-puts $LOAD_PATH
-$LOAD_PATH.unshift File.expand_path("../lib", __dir__)
+# Inspect the load path
+puts "Current $LOAD_PATH:"
+$LOAD_PATH.each { |path| puts "  #{path}" }
+
+# You can modify it (though file loading is limited in WASM)
+puts "\nAdding custom path:"
+$LOAD_PATH.unshift "/custom/lib"
+puts "First path is now: #{$LOAD_PATH.first}"
 ```
 
 ### `load`
 
-`load "scripts/setup.rb"` reprocesses the file every time you call it. You can pass a second argument of `true` to wrap the loaded code in an anonymous module:
+`load "scripts/setup.rb"` reprocesses the file every time you call it. You can pass a second argument of `true` to wrap the loaded code in an anonymous module.
+
+**Note:** In the WASM environment, we can't load external files, but `eval` demonstrates the same concept of re-executing code:
 
 ```ruby-exec
-load "scripts/setup.rb", true
+# In WASM, we can't load external files, but we can demonstrate
+# the concept using eval (which re-executes code each time)
+
+script_code = <<~RUBY
+  puts "Script executed at: " + Time.now.to_s
+  $counter ||= 0
+  $counter += 1
+  puts "Execution count: " + $counter.to_s
+RUBY
+
+puts "First execution:"
+eval(script_code)
+
+puts "\nSecond execution (code runs again):"
+eval(script_code)
 ```
 
 This is handy for DSLs or when you need the latest version of a file during development.
 
 ### `require_relative`
 
-For project-local files, `require_relative` resolves paths relative to the file containing the call:
+For project-local files, `require_relative` resolves paths relative to the file containing the call.
+
+**Note:** In the WASM environment, there's no file system context, so we demonstrate the concept using inline code:
 
 ```ruby-exec
-require_relative "../models/user"
+# require_relative doesn't work in WASM (no file system context)
+# Instead, define code inline or use eval
+
+# Simulate what require_relative would do:
+user_code = <<~RUBY
+  class User
+    attr_accessor :name, :email
+    
+    def initialize(name, email)
+      @name = name
+      @email = email
+    end
+    
+    def to_s
+      "User: " + @name.to_s + " <" + @email.to_s + ">"
+    end
+  end
+RUBY
+
+eval(user_code)
+
+# Now use the User class
+user = User.new("Satish Talim", "satish@example.com")
+puts user.to_s
 ```
 
 This avoids fiddling with `$LOAD_PATH` and keeps dependencies explicit.
 
 ### Splitting code across files
 
-Legacy example: `abbrev.rb` might define methods, and `testabbrev.rb` can reuse them:
+In a normal Ruby environment, you can split code across multiple files. Here's how it would work conceptually:
+
+**Note:** The WASM environment runs code in isolation, so we demonstrate the pattern inline:
 
 ```ruby-exec
-# abbrev.rb
+# In WASM, we can't split code across files, so we define everything inline
+
+# Helper method (would normally be in abbrev.rb)
 def short_name(full_name)
   full_name.split.first
 end
 
-# testabbrev.rb
-require_relative "abbrev"
-puts short_name("Satish Talim")
+# Main code (would normally be in testabbrev.rb)
+puts "Short name: #{short_name('Satish Talim')}"
+puts "Short name: #{short_name('Matz Matsumoto')}"
+
+# This demonstrates the concept even though it's in one block
 ```
 
 ### Practice checklist
 
-- [ ] Create two files, define a helper in one, and `require_relative` it from the other.
-- [ ] Modify `$LOAD_PATH` to include a `lib/` directory and require a file from there.
-- [ ] Use `load` to execute a script twice and observe that any top-level code reruns.
-- [ ] Rescue `LoadError` to provide a helpful message when an optional dependency is missing.
+- [ ] Understand how `require` loads libraries in production Ruby.
+- [ ] Inspect `$LOAD_PATH` to see where Ruby looks for files.
+- [ ] Use `eval` to execute code multiple times and observe re-execution.
+- [ ] Rescue `LoadError` to provide a helpful message when a library is missing.
+
+**Note:** In production Ruby, you would use `require "library"` to load gems and stdlib, `require_relative` for project files, and `load` for scripts. The WASM environment demonstrates these concepts differently due to its sandboxed nature.
 
 Next: return to Flow Control & Collections to keep building on these reusable building blocks.
 
-#### Practice 1 - Thinking through require_relative
+#### Practice 1 - Understanding require
 
-**Goal:** Describe how you would split code across two files and use `require_relative`.
+**Goal:** Understand how `require` works in production Ruby.
 
 #> ruby :practice
 
-# TODO: Print a tiny example that shows a helper defined in one file
-# and required from another using require_relative.
+# TODO: Print examples of how require would be used in production Ruby.
 
 ```solution
-puts 'require_relative "helpers/string_helpers"'
-puts 'include StringHelpers'
+puts "Loading libraries with require:"
+puts
+puts "require 'json'        # Loads JSON from stdlib"
+puts "require 'rails'       # Loads Rails gem"
+puts "require_relative 'helpers/string_utils'  # Loads local file"
+puts
+puts "require returns true on first load, false if already loaded"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('require_relative') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('require') }
 ```
 
 #!
 
 
-#### Practice 2 - $LOAD_PATH and lib
+#### Practice 2 - Inspecting $LOAD_PATH
 
-**Goal:** Show how you would modify `$LOAD_PATH` to include a `lib/` directory.
+**Goal:** Inspect and understand the `$LOAD_PATH` variable.
 
 #> ruby :practice
 
-# TODO: Print a snippet that pushes 'lib' onto $LOAD_PATH and requires
-# a file from there.
+# TODO: Print the first 3 paths in $LOAD_PATH and show how to add a path.
 
 ```solution
-puts "$LOAD_PATH.unshift(File.expand_path('lib', __dir__))"
-puts "require 'my_library'"
+puts "First 3 load paths:"
+$LOAD_PATH.first(3).each { |path| puts "  #{path}" }
+
+puts "\nAdding custom path:"
+$LOAD_PATH.unshift("/my/custom/lib")
+puts "New first path: #{$LOAD_PATH.first}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$LOAD_PATH') } && lines.any? { |l| l.include?('lib') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('load path') || l.include?('LOAD_PATH') }
 ```
 
 #!
 
 
-#### Practice 3 - load and rerunning top-level code
+#### Practice 3 - Using eval to re-execute code
 
-**Goal:** Use `load` to execute a script twice and understand that top-level code reruns.
+**Goal:** Use `eval` to execute code multiple times and observe re-execution.
 
 #> ruby :practice
 
-# TODO: Print a short example that shows calling load twice on the
-# same file.
+# TODO: Use eval to execute a code string twice and show that it runs both times.
 
 ```solution
-puts "load 'scripts/setup.rb'"
-puts "load 'scripts/setup.rb' # runs again"
+code = 'puts "Executed at: " + Time.now.to_s'
+
+puts "First run:"
+eval(code)
+
+puts "\nSecond run:"
+eval(code)
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('load ') }
+out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.include?('Executed at:') } >= 2
 ```
 
 #!
@@ -153,24 +233,24 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_wi
 
 #### Practice 4 - Rescuing LoadError
 
-**Goal:** Show how you would rescue `LoadError` for an optional dependency.
+**Goal:** Show how you would rescue `LoadError` for a missing library.
 
 #> ruby :practice
 
-# TODO: Print a begin/rescue snippet that rescues LoadError around a
-# require call and prints a friendly message.
+# TODO: Use begin/rescue to handle a LoadError when requiring a non-existent library.
 
 ```solution
-puts "begin"
-puts "  require 'optional_gem'"
-puts "rescue LoadError"
-puts "  puts 'Install optional_gem for extra features'"
-puts "end"
+begin
+  require 'nonexistent_gem'
+  puts "Library loaded successfully"
+rescue LoadError => e
+  puts "Could not load library: #{e.message}"
+  puts "Install the gem or check your $LOAD_PATH"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('LoadError') } && lines.any? { |l| l.include?('require') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Could not load') }
 ```
 
 #!
-

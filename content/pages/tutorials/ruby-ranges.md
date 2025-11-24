@@ -131,13 +131,16 @@ out = output.string; lines = out.lines.map(&:strip); %w[include? min max].all? {
 # its even numbers with select.
 
 ```solution
-puts "def evens(range)"
-puts "  range.select(&:even?)"
-puts "end"
+def evens(range)
+  range.select(&:even?)
+end
+
+result = evens(1..10)
+puts "even numbers: #{result.inspect}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('even') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('even numbers') } && out.include?('2') && out.include?('10')
 ```
 
 #!
@@ -153,16 +156,21 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # cold, mild, or hot using range intervals.
 
 ```solution
-puts "case temp"
-puts "when -50...10 then 'cold'"
-puts "when 10...25 then 'mild'"
-puts "else 'hot'"
-puts "end"
+def classify_temperature(temp)
+  case temp
+  when -50...10 then "cold"
+  when 10...25 then "mild"
+  else "hot"
+  end
+end
+
+puts "5°C -> #{classify_temperature(5)}"
+puts "15°C -> #{classify_temperature(15)}"
+puts "30°C -> #{classify_temperature(30)}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('cold') } && lines.any? { |l| l.downcase.include?('hot') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('cold') } && lines.any? { |l| l.include?('mild') } && lines.any? { |l| l.include?('hot') }
 ```
 
 #!
-

@@ -1231,6 +1231,8 @@ module Typophic
       html = html.gsub(/<p>\s*(<\/(?:h[1-6]|pre|ul|ol|li|div|p)>)\s*<\/p>/m, "\\1")
       # Also handle cases where block element is at start/end of p content
       html = html.gsub(/<p>\s*(<(?:h[1-6]|pre|ul|ol|li|div|p)[^>]*>.*?<\/(?:h[1-6]|pre|ul|ol|li|div|p)>)\s*<\/p>/m, "\\1")
+      html = html.gsub(/<p>\s*(<div[^>]*>[\s\S]*?<\/div>)\s*<\/p>/m, "\\1")
+      html = html.gsub(/<p>\s*(<pre[^>]*>[\s\S]*?<\/pre>)\s*<\/p>/m, "\\1")
 
       # Bold (**text**)
       html = html.gsub(/\*\*([^*]+)\*\*/) do |match|

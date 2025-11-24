@@ -99,8 +99,11 @@ person = (13...19).include?(23) ? "teenager" : "not a teenager"
 When the body is a single expression, place the condition after the statement:
 
 ```ruby-exec
-puts "Enrollments will now stop" if participants > 2500
-warn "Missing args" unless ARGV.any?
+participants = 3_200
+puts "Enrollments will now stop" if participants > 2_500
+
+missing_args = ARGV.empty?
+warn "Missing args" unless missing_args
 ```
 
 ### `case` expressions
@@ -156,15 +159,32 @@ Remember: `nil` is a real object (`NilClass`) and responds to methods just like 
 age = 20
 country = "IN"
 
-if age >= 18 && country == "IN"
-  puts "Eligible to vote"
+message = if age >= 18
+  if country == "IN"
+    "Eligible to vote"
+  else
+    "Must vote in your own country"
+  end
 else
-  puts "Not eligible to vote"
+  "Not eligible to vote"
 end
+
+puts message
+
+country = "US"
+age = 20
+
+message = if age >= 18 && country == "IN"
+  "Eligible to vote"
+else
+  "Not eligible to vote"
+end
+
+puts message
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('eligible') } && lines.any? { |l| l.downcase.include?('not eligible') }
+out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.downcase.include?('eligible') } >= 1 && lines.any? { |l| l.downcase.include?('not eligible') }
 ```
 
 #!
@@ -252,10 +272,23 @@ else
 end
 
 puts "Temperature #{temp}°C feels #{label}"
+
+temp = 18
+
+label = case temp
+when -Float::INFINITY...10
+  "cold"
+when 10...25
+  "mild"
+else
+  "hot"
+end
+
+puts "Temperature #{temp}°C feels #{label}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/cold/i) } && lines.any? { |l| l.match?(/hot/i) }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/hot/i) } && lines.any? { |l| l.match?(/mild/i) }
 ```
 
 #!

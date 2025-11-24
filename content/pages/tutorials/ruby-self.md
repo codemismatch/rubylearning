@@ -109,9 +109,9 @@ out = output.string; lines = out.lines.map(&:strip); %w[top-level class-body ins
 # that self is the module object there.
 
 ```solution
-puts "module ModuleDemo"
-puts "  puts \"module scope: \#{self.inspect}\""
-puts "end"
+module ModuleDemo
+  puts "module scope: #{self.inspect}"
+end
 ```
 
 ```test
@@ -131,13 +131,14 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # shows self changing inside each context.
 
 ```solution
-puts "obj = Object.new"
-puts "obj.instance_eval { puts \"instance_eval self: \#{self.inspect}\" }"
-puts "class SingletonDemo"
-puts "  class << self"
-puts "    puts \"class << self: \#{self.inspect}\""
-puts "  end"
-puts "end"
+obj = Object.new
+obj.instance_eval { puts "instance_eval self: #{self.inspect}" }
+
+class SingletonDemo
+  class << self
+    puts "class << self: #{self.inspect}"
+  end
+end
 ```
 
 ```test
@@ -157,14 +158,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # sending a message.
 
 ```solution
-puts "if self.respond_to?(:to_str)"
-puts "  puts 'self responds to to_str'"
-puts "end"
+class DynamicResponder
+  def to_str
+    "dynamic"
+  end
+
+  def check_to_str
+    if self.respond_to?(:to_str)
+      puts "self responds to to_str"
+    else
+      puts "self does NOT respond to to_str"
+    end
+  end
+end
+
+DynamicResponder.new.check_to_str
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('respond_to?') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('responds to to_str') }
 ```
 
 #!
-

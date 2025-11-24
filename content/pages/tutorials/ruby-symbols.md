@@ -46,17 +46,17 @@ Symbols are simple `Symbol` objects backed by an internal integer ID. Redefining
 
 ```ruby-exec
 # p039xsymbol.rb
-class Test
-  puts :Test.object_id
+class TestClass
+  puts "Symbol :TestClass object_id: #{:TestClass.object_id}"
 
   def test
-    puts :test.object_id
+    puts "Symbol :test object_id: #{:test.object_id}"
     @test = 10
-    puts :test.object_id
+    puts "Symbol :test object_id (same): #{:test.object_id}"
   end
 end
 
-Test.new.test
+TestClass.new.test
 ```
 
 ### Predicate-style flags
@@ -108,13 +108,23 @@ Next: build on these naming primitives as you dive deeper into Flow Control & Co
 # table size before and after defining a method.
 
 ```solution
-puts "before = Symbol.all_symbols.size"
-puts "def new_method; end"
-puts "after = Symbol.all_symbols.size"
+class SymbolSandbox; end
+
+unique_name = :"dynamic_method_#{Process.clock_gettime(Process::CLOCK_MONOTONIC).to_s.gsub('.', '_')}"
+
+before = Symbol.all_symbols.size
+
+SymbolSandbox.define_method(unique_name) { :ok }
+
+after = Symbol.all_symbols.size
+
+puts "before: #{before}"
+puts "after:  #{after}"
+puts "difference: #{after - before}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Symbol.all_symbols.size') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('before:') } && lines.any? { |l| l.start_with?('after:') }
 ```
 
 #!
@@ -130,12 +140,15 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # and then symbol keys for configuration.
 
 ```solution
-puts 'config_str = { "host" => "localhost", "port" => 3000 }'
-puts 'config_sym = { host: "localhost", port: 3000 }'
+string_keys = { "host" => "localhost", "port" => 3000 }
+symbol_keys = string_keys.transform_keys(&:to_sym)
+
+puts "string keys: #{string_keys.inspect}"
+puts "symbol keys: #{symbol_keys.inspect}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':host') } && lines.any? { |l| l.include?(':port') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('string keys') } && lines.any? { |l| l.include?('symbol keys') }
 ```
 
 #!
@@ -151,13 +164,17 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # strings allocate new objects but symbols do not.
 
 ```solution
-puts '"hello".object_id  # string object_id'
-puts '"hello".object_id  # different from previous'
-puts ':hello.object_id   # symbol object_id (same each time)'
+str1 = "hello"
+str2 = "hello"
+sym1 = :hello
+sym2 = :hello
+
+puts "string object_ids: #{str1.object_id} vs #{str2.object_id}"
+puts "symbol object_ids: #{sym1.object_id} vs #{sym2.object_id}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('string object_id') } && lines.any? { |l| l.downcase.include?('symbol object_id') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('string object_ids') } && lines.any? { |l| l.include?('symbol object_ids') }
 ```
 
 #!
@@ -173,15 +190,19 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # a whitelist before calling to_sym and send.
 
 ```solution
-puts "allowed = %w[name email]"
-puts "if allowed.include?(input)"
-puts "  key = input.to_sym"
-puts "end"
+allowed = %w[name email]
+input = "name"
+
+if allowed.include?(input)
+  key = input.to_sym
+  puts "safe symbol: #{key.inspect}"
+else
+  puts "input rejected"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.to_sym') } && lines.any? { |l| l.downcase.include?('validate') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('safe symbol') }
 ```
 
 #!
-

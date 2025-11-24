@@ -24,11 +24,21 @@ If objects are the nouns of Ruby, methods are the verbs. Every method runs in th
 ### Explicit vs implicit receivers
 
 ```ruby-exec
-"ruby".upcase    # receiver is the string literal
-upcase           # same call, but the receiver is implicit
+message = "ruby"
+
+puts message.upcase    # receiver is the string stored in message
 ```
 
-When you omit the receiver, Ruby sends the message to the object referenced by `self`. At the top level of a script, `self` defaults to a special object named `main` that Ruby creates to represent your program.
+When you omit the receiver, Ruby sends the message to the object referenced by `self`. At the top level of a script, `self` defaults to a special object named `main` that Ruby creates to represent your program. You can see it in action by defining a helper and calling it with and without an explicit receiver:
+
+```ruby-exec
+def announce
+  "Ruby Learning!"
+end
+
+puts self.announce     # explicit receiver (self)
+puts announce          # implicit receiver (still self)
+```
 
 ```ruby-exec
 puts self        #=> main
@@ -198,4 +208,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 ```
 
 #!
-

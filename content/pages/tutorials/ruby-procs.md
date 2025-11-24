@@ -119,12 +119,16 @@ Next: continue into Flow Control & Collections where these callable objects shin
 # it in a hash of callbacks.
 
 ```solution
-puts "callbacks = {}"
-puts "callbacks[:success] = Proc.new { |msg| puts msg }"
+callbacks = {}
+callbacks[:success] = Proc.new { |msg| puts "SUCCESS: #{msg}" }
+callbacks[:error] = Proc.new { |msg| puts "ERROR: #{msg}" }
+
+callbacks[:success].call("Saved record")
+callbacks[:error].call("Failed to save")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('callbacks') } && lines.any? { |l| l.downcase.include?('proc.new') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('SUCCESS:') } && lines.any? { |l| l.include?('ERROR:') }
 ```
 
 #!
@@ -140,20 +144,24 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # that uses a plain proc with return, and print labelled results.
 
 ```solution
-puts "def lambda_example"
-puts "  l = -> { return 'from lambda' }"
-puts "  l.call"
-puts "  'lambda result'"
-puts "end"
-puts "def proc_example"
-puts "  p = Proc.new { return 'from proc' }"
-puts "  p.call"
-puts "  'proc result (never reached)'"
-puts "end"
+def lambda_example
+  l = -> { return "from lambda" }
+  l.call
+  "lambda result"
+end
+
+def proc_example
+  p = Proc.new { return "from proc" }
+  p.call
+  "proc result (never reached)"
+end
+
+puts "lambda_example => #{lambda_example}"
+puts "proc_example => #{proc_example}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('lambda result') } && lines.any? { |l| l.downcase.include?('proc result') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('lambda_example => lambda result') } && lines.any? { |l| l.include?('proc_example => from proc') }
 ```
 
 #!
@@ -170,11 +178,13 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 
 ```solution
 callback = Proc.new { |name| puts "called callback for #{name}" }
-["a", "b"].each(&callback)
+
+["alpha", "beta"].each(&callback)
+{ foo: "bar", baz: "qux" }.each_key(&callback)
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.count { |l| l.downcase.include?('called callback') } >= 2
+out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.count { |l| l.downcase.include?('called callback') } >= 4
 ```
 
 #!
@@ -190,14 +200,22 @@ out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.coun
 # accepting it as a callback.
 
 ```solution
-puts "def register(callback)"
-puts "  raise ArgumentError unless callback.arity == 1"
-puts "end"
+def register(callback)
+  raise ArgumentError, "callback must accept 1 arg" unless callback.arity == 1
+  puts "Callback registered"
+end
+
+register(->(name) { puts "Hi #{name}" })
+
+begin
+  register(Proc.new { |a, b| puts a + b })
+rescue ArgumentError => e
+  puts "Rejected: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('arity') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Callback registered') } && lines.any? { |l| l.include?('Rejected:') }
 ```
 
 #!
-

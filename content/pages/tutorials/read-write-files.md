@@ -25,18 +25,28 @@ Ruby's `IO` family (which `File` inherits from) handles disk operations. You can
 
 ```ruby-exec
 # p027readwrite.rb
-# Read a file
-File.open("p014constructs.rb", "r") do |file|
+# First, create a sample file to read
+File.open("sample.txt", "w") do |file|
+  file.puts "Line 1: Hello Ruby"
+  file.puts "Line 2: File I/O is easy"
+  file.puts "Line 3: Reading files"
+end
+
+# Read the file
+puts "Reading sample.txt:"
+File.open("sample.txt", "r") do |file|
   while line = file.gets
     puts line
   end
 end
 
-# Write a file
-File.open("test.rb", "w") do |file|
+# Write a new file
+File.open("output.txt", "w") do |file|
   file.puts "Created by Satish"
   file.puts "Thank God!"
 end
+
+puts "\nWrote to output.txt successfully!"
 ```
 
 - Modes: `"r"` (read), `"r+"` (read/write), `"w"` (write, truncates/creates), `"a"` (append). You can also specify encodings (`"r:UTF-16LE:UTF-8"`).
@@ -45,24 +55,39 @@ end
 
 ### Traversing directories
 
-Use the `Find` module to walk a tree:
+Use `Dir.entries` and `Dir` methods to walk directory structures:
 
 ```ruby-exec
-require "find"
+# Create a simple directory structure
+Dir.mkdir("test_dir") unless Dir.exist?("test_dir")
+File.write("test_dir/file1.rb", "# Ruby file")
+File.write("test_dir/file2.txt", "Text file")
 
-Find.find("./") do |path|
+# Traverse directories using Dir methods (Find module not available in WASM)
+puts "Current directory contents:"
+Dir.entries(".").each do |entry|
+  next if entry.start_with?(".")
+  path = File.join(".", entry)
   type = if File.file?(path)
-  "F"
-elsif File.directory?(path)
-  "D"
-else
-  "?"
+    "F"
+  elsif File.directory?(path)
+    "D"
+  else
+    "?"
+  end
+  puts "#{type}: #{path}"
 end
-puts "#{type}: #{path}"
+
+puts "\ntest_dir contents:"
+Dir.entries("test_dir").each do |entry|
+  next if entry.start_with?(".")
+  path = File.join("test_dir", entry)
+  type = File.file?(path) ? "F" : "D"
+  puts "#{type}: #{path}"
 end
 ```
 
-This example prints each file/directory under the current working directory. You'll learn more about `require` soon--it loads stdlib modules like `Find`.
+This example creates a test directory structure and prints each file/directory. `Dir.entries` returns an array of filenames in the given directory. You'll learn more about `require` soon--it loads stdlib modules.
 
 ### Random file access
 
@@ -70,7 +95,16 @@ This example prints each file/directory under the current working directory. You
 
 ```ruby-exec
 # p028xrandom.rb
+# First create a sample file
+File.write("hellousa.rb", "puts 'Hello USA!'\nputs 'Welcome to Ruby'\nputs 'File I/O demo'")
+
+# Now demonstrate random access
 f = File.new("hellousa.rb")  # read-only by default
+puts "Full file content:"
+puts f.read
+f.rewind
+
+puts "\nSeeking to byte 12:"
 f.seek(12, IO::SEEK_SET)     # absolute seek to byte 12
 puts f.readline              # prints from byte 12 onward
 f.close
@@ -86,7 +120,7 @@ Ruby supports object serialization via `Marshal.dump`/`Marshal.load`. We'll revi
 
 - [ ] Open a text file in `"a"` (append) mode and log a timestamped entry.
 - [ ] Use `File.readlines` to count the number of lines matching a pattern.
-- [ ] Traverse a directory with `Find.find`, filtering only `.rb` files.
+- [ ] Traverse a directory with `Dir.entries`, filtering only `.rb` files.
 - [ ] Seek to the middle of a file and read the remainder to understand pointer positioning.
 
 Next: continue to Flow Control & Collections to keep combining IO with loops, ranges, and data structures.
@@ -101,11 +135,19 @@ Next: continue to Flow Control & Collections to keep combining IO with loops, ra
 # timestamped line.
 
 ```solution
-puts 'File.open("log.txt", "a") { |f| f.puts("[\#{Time.now}] Started app") }'
+# Create a log file and append to it
+log_path = "app.log"
+
+# Append a timestamped entry
+File.open(log_path, "a") { |f| f.puts("[#{Time.now}] Started app") }
+
+# Read and display the log
+puts "Log contents:"
+puts File.read(log_path)
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.open') } && lines.any? { |l| l.include?('\
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Started app') }
 ```
 
 #!
@@ -121,19 +163,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # those matching a pattern.
 
 ```solution
-puts 'count = File.readlines("log.txt").count { |line| line.include?("ERROR") }'
+# Create a log file with sample data
+log_path = "server.log"
+File.write(log_path, "INFO boot\nERROR failure\nINFO finish\nERROR timeout\n")
+
+# Count lines matching a pattern
+count = File.readlines(log_path).count { |line| line.include?("ERROR") }
+puts "error lines: #{count}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.readlines') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('error lines:') }
 ```
 
 #!
 
 
-#### Practice 3 - Traversing directories with Find.find
+#### Practice 3 - Traversing directories with Dir.entries
 
-**Goal:** Use `Find.find` to traverse a directory tree and select `.rb` files.
+**Goal:** Use `Dir.entries` to traverse a directory and select `.rb` files.
 
 #> ruby :practice
 
@@ -141,11 +189,23 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # Ruby files.
 
 ```solution
-puts 'Find.find(".") { |path| puts path if path.end_with?(".rb") }'
+# Create a test directory with files
+test_dir = "project"
+Dir.mkdir(test_dir) unless Dir.exist?(test_dir)
+File.write(File.join(test_dir, "example.rb"), "# sample")
+File.write(File.join(test_dir, "notes.txt"), "ignore")
+File.write(File.join(test_dir, "main.rb"), "# main file")
+
+# Walk directory and filter .rb files
+Dir.entries(test_dir).each do |entry|
+  next if entry.start_with?(".")
+  path = File.join(test_dir, entry)
+  puts "ruby file: #{path}" if path.end_with?(".rb")
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Find.find') } && lines.any? { |l| l.include?('.rb') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ruby file:') }
 ```
 
 #!
@@ -161,15 +221,20 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # then reads the rest of the file.
 
 ```solution
-puts 'File.open("data.txt", "r") do |f|'
-puts '  f.seek(f.size / 2)'
-puts '  tail = f.read'
-puts 'end'
+# Create a data file
+data_path = "alphabet.txt"
+File.write(data_path, "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+# Seek to the middle and read the remainder
+File.open(data_path, "r") do |f|
+  file_size = File.size(data_path)
+  f.seek(file_size / 2, IO::SEEK_SET)
+  puts "tail: #{f.read}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.seek(') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('tail:') }
 ```
 
 #!
-

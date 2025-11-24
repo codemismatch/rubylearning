@@ -50,7 +50,10 @@ end
 Move `attr_reader` under `protected` if you want only account instances to compare balances:
 
 ```ruby-exec
-protected :balance
+class Account
+  attr_reader :balance
+  protected :balance
+end
 ```
 
 Now outside callers can't do `account.balance`, but other `Account` objects still can inside methods like `richer_than?`.
@@ -115,18 +118,37 @@ Next: continue into Flow Control & Collections where encapsulation keeps your it
 
 #> ruby :practice
 
-# TODO: Sketch a class that defines attr_reader, marks it protected,
-# and show (via a comment or output) that outside callers would fail.
+# TODO: Define a class with protected attr_reader and show that outside callers fail.
 
 ```solution
-puts "class Account"
-puts "  protected attr_reader :balance"
-puts "end"
-puts "# Account.new.balance # => NoMethodError from outside the class"
+class Account
+  def initialize(balance)
+    @balance = balance
+  end
+
+  def show_balance
+    balance  # works - called without explicit receiver
+  end
+
+  protected
+
+  attr_reader :balance
+end
+
+account = Account.new(100)
+
+begin
+  account.balance
+rescue NoMethodError => e
+  puts "Cannot access protected method from outside: #{e.message}"
+end
+
+puts "Balance via public method: #{account.show_balance}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('protected') } && lines.any? { |l| l.downcase.include?('no method') }
+out = output.string
+out.downcase.include?('cannot access protected') && out.include?('Balance via public method: 100')
 ```
 
 #!
@@ -138,25 +160,38 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 
 #> ruby :practice
 
-# TODO: Print a small example showing a private helper and a comment
-# about the NoMethodError raised when using an explicit receiver.
+# TODO: Create a private helper and show what happens when called with an explicit receiver.
 
 ```solution
-puts "class Greeter"
-puts "  def call"
-puts "    hello"
-puts "  end"
-puts ""
-puts "  private"
-puts "  def hello"
-puts "    puts 'hello'"
-puts "  end"
-puts "end"
-puts "# Greeter.new.hello # => NoMethodError (private method `hello' called)"
+class Greeter
+  def call
+    hello  # works - called without explicit receiver
+  end
+
+  def direct_call
+    self.hello
+  end
+
+  private
+
+  def hello
+    "hello"
+  end
+end
+
+greeter = Greeter.new
+puts "Via public method: #{greeter.call}"
+
+begin
+  greeter.direct_call
+rescue NoMethodError => e
+  puts "Cannot call private method with explicit receiver: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('private') } && lines.any? { |l| l.downcase.include?('nomethoderror') }
+out = output.string
+out.include?('Via public method: hello') && out.downcase.include?('cannot call private method')
 ```
 
 #!
@@ -168,26 +203,37 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 
 #> ruby :practice
 
-# TODO: Print a short snippet where two instances compare balances
-# using a protected reader, without exposing it publicly.
+# TODO: Build a comparison method using protected getters to keep state hidden.
 
 ```solution
-puts "class Account"
-puts "  protected attr_reader :balance"
-puts ""
-puts "  def initialize(balance)"
-puts "    @balance = balance"
-puts "  end"
-puts ""
-puts "  def richer_than?(other)"
-puts "    balance > other.balance"
-puts "  end"
-puts "end"
-puts "puts 'greater balance? -> ' + Account.new(10).richer_than?(Account.new(5)).to_s"
+class Account
+  def initialize(balance)
+    @balance = balance
+  end
+  
+  def richer_than?(other)
+    balance > other.balance  # protected allows access from same class
+  end
+  
+  protected
+  
+  attr_reader :balance
+end
+
+account1 = Account.new(100)
+account2 = Account.new(50)
+
+puts "Account1 richer than Account2? #{account1.richer_than?(account2)}"
+
+begin
+  account1.balance  # fails - protected from outside
+rescue NoMethodError
+  puts "Balance is protected and not accessible from outside"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('greater balance') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Account1 richer than Account2? true') } && lines.any? { |l| l.downcase.include?('balance is protected') }
 ```
 
 #!
@@ -199,21 +245,36 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 
 #> ruby :practice
 
-# TODO: Print an example of a factory method made private at the
-# class level using private_class_method.
+# TODO: Use private_class_method to restrict a class-level factory method.
 
 ```solution
-puts "class Token"
-puts "  def self.generate"
-puts "    new"
-puts "  end"
-puts "  private_class_method :generate"
-puts "end"
+class Token
+  class << self
+    private :generate
+  end
+
+  def self.generate
+    new
+  end
+  
+  def self.create
+    generate  # works - called from within the class
+  end
+end
+
+token = Token.create
+puts "Token created via public method: #{token.class}"
+
+begin
+  Token.generate  # fails - private class method
+rescue NoMethodError => e
+  puts "Cannot call private class method: #{e.message}"
+end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('private_class_method') }
+out = output.string
+out.include?('Token created via public method: Token') && out.downcase.include?('cannot call private class method')
 ```
 
 #!
-

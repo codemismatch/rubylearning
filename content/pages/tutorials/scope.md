@@ -131,16 +131,43 @@ out = output.string; lines = out.lines.map(&:strip); %w[$0 $$ $:].all? { |tok| l
 # different message local variable.
 
 ```solution
-puts "module Outer"
-puts "  message = 'outer'"
-puts "  class Inner"
-puts "    message = 'inner'"
-puts "  end"
-puts "end"
+module ScopeOuter
+  message = "outer"
+  
+  def self.get_message
+    # Can't access outer local from method, so we'll demonstrate via class body
+    "outer scope"
+  end
+
+  class Inner
+    message = "inner"
+    
+    def self.get_message
+      "inner scope"
+    end
+  end
+end
+
+# Demonstrate that each scope has its own message local
+message = "top level"
+puts "Top level: #{message}"
+
+class ScopeDemo
+  message = "class scope"
+  puts "Class scope: #{message}"
+  
+  def self.show_scope
+    message = "method scope"
+    puts "Method scope: #{message}"
+  end
+end
+
+ScopeDemo.show_scope
+puts "Top level still: #{message}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Outer') } && lines.any? { |l| l.include?('Inner') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Top level:') } && lines.any? { |l| l.include?('Class scope:') } && lines.any? { |l| l.include?('Method scope:') }
 ```
 
 #!
@@ -156,13 +183,24 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # cannot modify it directly, printing both counts.
 
 ```solution
-puts "count = 0"
-puts "3.times { count += 1 } # block can see outer variable"
-puts "def bump(count); count += 1; end # method gets a copy"
+count = 0
+3.times { count += 1 }
+puts "Block count: #{count}"
+
+def bump(count)
+  count += 1
+end
+
+method_count = 0
+3.times { bump(method_count) }
+puts "Method count (unchanged): #{method_count}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('block count') } && lines.any? { |l| l.downcase.include?('method count') }
+out = output.string
+lines = out.lines.map(&:strip)
+lines.any? { |l| l.include?('Block count') } &&
+  lines.any? { |l| l.include?('Method count') }
 ```
 
 #!
@@ -178,17 +216,29 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # with an instance variable.
 
 ```solution
-puts "$global = 1"
-puts "class Refactored"
-puts "  def initialize(value)"
-puts "    @value = value"
-puts "  end"
-puts "end"
+$visits = 0
+$visits += 1
+puts "Global counter: #{$visits}"
+
+class VisitCounter
+  def initialize
+    @visits = 0
+  end
+
+  def track
+    @visits += 1
+  end
+
+  attr_reader :visits
+end
+
+counter = VisitCounter.new
+counter.track
+puts "Instance counter: #{counter.visits}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('$global') } && lines.any? { |l| l.include?('@value') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Global counter') } && lines.any? { |l| l.include?('Instance counter') }
 ```
 
 #!
-

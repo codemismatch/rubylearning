@@ -140,12 +140,17 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 # gives you offline docs.
 
 ```solution
-puts "Generating HTML with rdoc into ./doc lets you open docs in a browser without internet access."
+def cache_docs(output_dir = "doc")
+  command = "rdoc -o #{output_dir} ."
+  puts "Run: #{command}"
+  puts "This caches HTML + ri data locally so you can browse offline docs later."
+end
+
+cache_docs
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('offline docs') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rdoc -o') } && lines.any? { |l| l.downcase.include?('offline docs') }
 ```
 
 #!
-

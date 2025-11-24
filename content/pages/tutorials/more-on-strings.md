@@ -127,7 +127,7 @@ Next: put these string skills to work while branching and looping through Flow C
 
 #### Practice 1 - Interpolation vs single quotes
 
-**Goal:** Recreate `say_goodnight` using single quotes and observe how interpolation behaves.</p>
+**Goal:** Recreate `say_goodnight` using single quotes and observe how interpolation behaves.
 
 #> ruby :practice
 
@@ -149,7 +149,7 @@ puts say_goodnight_single("Rubyist")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(\
+out = output.string; lines = out.lines.map(&:strip); lines.include?("Good night, Rubyist") && lines.include?('Good night, #{name}')
 ```
 
 #!
@@ -228,4 +228,3 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 ```
 
 #!
-

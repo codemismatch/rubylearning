@@ -38,8 +38,19 @@ This expands to getter/setter methods--no need to write them manually.
 ### Inline modifiers
 
 ```ruby-exec
+def logged_in?
+  true
+end
+
+def retry_needed?(count)
+  count < 3
+end
+
+retry_count = 0
+
 puts "Hello" if logged_in?
-retry_count += 1 while retry_needed?
+retry_count += 1 while retry_needed?(retry_count)
+puts "Retries: #{retry_count}"
 ```
 
 Single-line conditionals keep intent obvious.
@@ -66,17 +77,20 @@ Next: continue through Flow Control & Collections, now armed with concise Ruby i
 
 #> ruby :practice
 
-# TODO: Print a small class definition before/after showing how
-# attr_accessor replaces handwritten getter/setter methods.
+# TODO: Show how attr_accessor replaces handwritten getter/setter methods.
 
 ```solution
-puts "class User"
-puts "  attr_accessor :name"
-puts "end"
+class User
+  attr_accessor :name
+end
+
+user = User.new
+user.name = "Alice"
+puts "Name: #{user.name}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Name: Alice') }
 ```
 
 #!
@@ -88,16 +102,22 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 #> ruby :practice
 
-# TODO: Print an array of string literals, then show the equivalent
-# using %w.
+# TODO: Use %w to create an array of strings without repetitive quotes.
 
 ```solution
-puts 'names = ["ann", "bob", "carla"]'
-puts 'names = %w[ann bob carla]'
+# Traditional way
+names1 = ["ann", "bob", "carla"]
+
+# Using %w syntactic sugar
+names2 = %w[ann bob carla]
+
+puts "Traditional: #{names1.inspect}"
+puts "With %w: #{names2.inspect}"
+puts "Equal: #{names1 == names2}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('%w[') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('With %w:') } && lines.any? { |l| l.include?('Equal: true') }
 ```
 
 #!
@@ -109,15 +129,22 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 #> ruby :practice
 
-# TODO: Print a before/after example where a single-line action with
-# an if modifier reads more cleanly than a full if/end block.
+# TODO: Show an inline if modifier example.
 
 ```solution
-puts 'notify_admin if user.admin?'
+user_admin = true
+
+# Multi-line version
+if user_admin
+  puts "Admin access granted"
+end
+
+# Inline modifier version (more concise)
+puts "Admin access granted" if user_admin
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('if user.admin?') }
+out = output.string; lines = out.lines.map(&:strip); lines.count { |l| l.include?('Admin access granted') } >= 2
 ```
 
 #!
@@ -129,24 +156,31 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 #> ruby :practice
 
-# TODO: Print a class that defines << to append values to an internal
-# array, returning self for chaining.
+# TODO: Define a class that implements << to append items, returning self for chaining.
 
 ```solution
-puts "class Bag"
-puts "  def initialize"
-puts "    @items = []"
-puts "  end"
-puts "  def <<(item)"
-puts "    @items << item"
-puts "    self"
-puts "  end"
-puts "end"
+class Bag
+  def initialize
+    @items = []
+  end
+  
+  def <<(item)
+    @items << item
+    self
+  end
+  
+  def items
+    @items
+  end
+end
+
+bag = Bag.new
+bag << "apple" << "banana" << "cherry"
+puts "Items: #{bag.items.inspect}"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('def <<') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Items:') } && lines.any? { |l| l.include?('apple') }
 ```
 
 #!
-

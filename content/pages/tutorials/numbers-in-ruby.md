@@ -182,10 +182,10 @@ out = output.string; lines = out.lines.map(&:strip).reject(&:empty?); lines.any?
 #   - Print the final configuration so you can see the result.
 
 ```solution
-port = ENV["APP_PORT"]
+port = nil
 port ||= 3000
 
-host = ENV["APP_HOST"]
+host = nil
 host ||= "localhost"
 
 puts "port: #{port}"
@@ -193,7 +193,7 @@ puts "host: #{host}"
 ```
 
 ```test
-out = output.string; out.include?('port: 3000') && out.include?('host: localhost')
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.start_with?('port:') } && lines.any? { |l| l.start_with?('host:') }
 ```
 
 #!

@@ -91,13 +91,13 @@ end
 
 class Car < Vehicle
   def description
-    "A car for the road"
+    super + " built for the road"
   end
 end
 
 class Truck < Vehicle
   def description
-    "A truck for hauling"
+    super + " built for hauling cargo"
   end
 end
 
@@ -106,7 +106,7 @@ puts Truck.new.description
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('car for the road') } && lines.any? { |l| l.downcase.include?('truck for hauling') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('built for the road') } && lines.any? { |l| l.include?('hauling cargo') }
 ```
 
 #!
@@ -122,21 +122,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # super and super() in different contexts and print labelled lines.
 
 ```solution
-puts "class Base"
-puts "  def initialize(msg = 'default')"
-puts "    puts \"Base: \#{msg}\""
-puts "  end"
-puts "end"
-puts "class Child < Base"
-puts "  def initialize(msg)"
-puts "    super(msg)"
-puts "    super() # uses default argument"
-puts "  end"
-puts "end"
+class Base
+  def initialize(msg = "default")
+    puts "Base initialized with #{msg}"
+  end
+end
+
+class Child < Base
+  def initialize(msg)
+    puts "Child received: #{msg}"
+    super(msg.upcase)
+    super()
+  end
+end
+
+Child.new("custom")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('super()') } && lines.any? { |l| l.downcase.include?('super with args') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Child received') } && lines.count { |l| l.include?('Base initialized') } == 2
 ```
 
 #!
@@ -152,22 +156,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # a method such as #save.
 
 ```solution
-puts "class Model"
-puts "  def save"
-puts "    puts 'Saving record'"
-puts "  end"
-puts "end"
-puts "class LoggedModel < Model"
-puts "  def save"
-puts "    puts 'before super'"
-puts "    super"
-puts "    puts 'after super'"
-puts "  end"
-puts "end"
+class Model
+  def save
+    puts "Saving record"
+  end
+end
+
+class LoggedModel < Model
+  def save
+    puts "before super"
+    super
+    puts "after super"
+  end
+end
+
+LoggedModel.new.save
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('before super') } && lines.any? { |l| l.downcase.include?('after super') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('before super') } && lines.any? { |l| l.include?('after super') }
 ```
 
 #!
@@ -184,22 +191,25 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 # super.
 
 ```solution
-puts "module Greeter"
-puts "  def greet"
-puts "    'hello'"
-puts "  end"
-puts "end"
-puts "class Friendly"
-puts "  include Greeter"
-puts "  def greet"
-puts "    super + ', friend'"
-puts "  end"
-puts "end"
+module Greeter
+  def greet
+    "hello"
+  end
+end
+
+class Friendly
+  include Greeter
+
+  def greet
+    super + ", friend"
+  end
+end
+
+puts Friendly.new.greet
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('module') } && lines.any? { |l| l.downcase.include?('override') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('hello, friend') }
 ```
 
 #!
-

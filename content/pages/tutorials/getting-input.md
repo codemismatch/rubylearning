@@ -66,10 +66,10 @@ Up next: move into Flow Control & Collections to react to the data you just gath
 ```solution
 def self.main
   print "Which city do you live in? "
-  city = gets.chomp
+  city = (gets&.chomp).to_s
 
   print "Which country is that in? "
-  country = gets.chomp
+  country = (gets&.chomp).to_s
 
   puts "You live in #{city}, #{country}."
 end
@@ -96,7 +96,7 @@ def self.main
   STDOUT.sync = true
 
   print "Enter your name: "
-  name = gets.chomp
+  name = (gets&.chomp).to_s
 
   puts "STDOUT.sync is now true"
   puts "Hello, #{name}!"
@@ -122,7 +122,7 @@ self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map
 ```solution
 def self.main
   print "How many lessons have you completed? "
-  count = gets.chomp.to_i
+  count = (gets&.chomp).to_i
 
   total = count * 2
   puts "Total: #{total}"
@@ -147,7 +147,7 @@ self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map
 
 ```solution
 def self.main
-  city = gets&.chomp
+  city = (gets&.chomp).to_s
 
   puts "Received city from piped input or keyboard: #{city.inspect}"
   puts "You could run: echo \"Pune\" | ruby prompt.rb"
