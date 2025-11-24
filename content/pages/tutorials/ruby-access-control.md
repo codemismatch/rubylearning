@@ -233,7 +233,8 @@ end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Account1 richer than Account2? true') } && lines.any? { |l| l.downcase.include?('balance is protected') }
+out = output.string
+out.include?('Account1 richer than Account2? true') && out.downcase.include?('balance is protected')
 ```
 
 #!
@@ -249,13 +250,10 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 
 ```solution
 class Token
-  class << self
-    private :generate
-  end
-
   def self.generate
     new
   end
+  private_class_method :generate
   
   def self.create
     generate  # works - called from within the class
