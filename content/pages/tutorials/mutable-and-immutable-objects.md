@@ -143,15 +143,17 @@ out.include?('Caught FrozenError') && out.include?('String frozen? true')
 
 ```solution
 person = { name: "Rubyist", city: "Pune" }
+symbol_id = :name.object_id
 
 puts "Keys: #{person.keys.inspect}"
 puts "name: #{person[:name]}"
+puts "Symbol object_id stable? #{symbol_id == :name.object_id}"
 puts "Symbols are immutable and reused, so hash keys like :name don't need cloning."
 ```
 
 ```test
 out = output.string
-out.include?(':name') && out.downcase.include?('immutable')
+out.include?('Symbol object_id stable? true') && out.downcase.include?('immutable')
 ```
 
 #!

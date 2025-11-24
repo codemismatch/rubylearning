@@ -108,12 +108,10 @@ unless defined?(MonitorMixin)
 end
 
 require "logger"
-require "fileutils"
-
-FileUtils.mkdir_p("log")
-logger = Logger.new("log/dev.log", 3, 1024 * 1024)
+log_path = "dev.log"
+logger = Logger.new(log_path, 3, 1024 * 1024)
 logger.info("Logger rotation configured")
-puts "Logger destination: #{logger.instance_variable_get(:@logdev).filename}"
+puts "Logger destination: #{log_path}"
 ```
 
 ```test
@@ -156,7 +154,7 @@ ensure
 end
 
 logger = Logger.new($stdout)
-with_logging(logger, "demo task") { puts "running task" }
+with_logging(logger, "demo task") { logger.info("running task") }
 ```
 
 ```test
@@ -190,18 +188,19 @@ unless defined?(MonitorMixin)
 end
 
 require "logger"
-require "time"
+require "date"
 
 logger = Logger.new($stdout)
 logger.formatter = proc do |severity, time, _progname, msg|
-  "[#{time.iso8601}] [#{Thread.current.object_id}] #{severity}: #{msg}\n"
+  "[#{time.strftime('%Y-%m-%d %H:%M:%S')}] [#{Thread.current.object_id}] #{severity}: #{msg}\n"
 end
 
 logger.info("formatted log entry")
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('formatted log entry') } && lines.any? { |l| l.include?('INFO:') }
+out = output.string
+out.include?('formatted log entry') && out.include?('INFO:')
 ```
 
 #!
@@ -246,12 +245,14 @@ begin
     raise
   end
 rescue => e
+  logger.warn("Outer rescue caught: #{e.message}")
   puts "Outer rescue caught: #{e.message}"
 end
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Failure: boom') } && lines.any? { |l| l.include?('Outer rescue caught') }
+out = output.string
+out.include?('Failure: boom') && out.include?('Outer rescue caught')
 ```
 
 #!

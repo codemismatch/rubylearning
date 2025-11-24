@@ -142,8 +142,8 @@ Summary: Ruby sockets piggyback on familiar IO primitives, so once you understan
 **Goal:** Sketch the client-server flow for an app and label which side initiates the connection.
 
 ```ruby
-# TODO: Print a brief pseudo-flow describing which side (client or
-# server) opens the socket and which accepts connections.
+puts "Server: TCPServer.new('localhost', 3000) then accept connections"
+puts "Client: TCPSocket.new('localhost', 3000) initiates connection"
 ```
 
 <div class="practice-feedback"
@@ -161,8 +161,8 @@ puts "Client: TCPSocket.new('localhost', 3000) initiates connection"
 **Goal:** Show how you would replace `localhost` with a LAN IP.
 
 ```ruby
-# TODO: Print an example client connection line using a private LAN IP
-# such as 192.168.x.x.
+lan_ip = "192.168.1.10"
+puts "TCPSocket.new('#{lan_ip}', 3000)"
 ```
 
 <div class="practice-feedback"
@@ -179,7 +179,38 @@ puts "TCPSocket.new('192.168.1.10', 3000)"
 **Goal:** Send a full sentence from the server and have the client acknowledge receipt.
 
 ```ruby
-# TODO: Sketch send/receive/ack behaviour in a comment-style snippet.
+class MockConnection
+  def initialize
+    @server_inbox = []
+    @client_inbox = []
+  end
+
+  def server_puts(message)
+    @client_inbox << message
+  end
+
+  def client_gets
+    @client_inbox.shift
+  end
+
+  def client_puts(message)
+    @server_inbox << message
+  end
+
+  def server_gets
+    @server_inbox.shift
+  end
+end
+
+conn = MockConnection.new
+conn.server_puts("Hello from server")
+
+message = conn.client_gets
+puts "Client received: #{message}"
+
+conn.client_puts("ACK")
+ack = conn.server_gets
+puts "Server received acknowledgement: #{ack}"
 ```
 
 <div class="practice-feedback"
@@ -188,8 +219,36 @@ puts "TCPSocket.new('192.168.1.10', 3000)"
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:2">
-puts "# server: client.puts 'Hello from server'"
-puts "# client: message = socket.gets; socket.puts 'ACK'"
+class MockConnection
+  def initialize
+    @server_inbox = []
+    @client_inbox = []
+  end
+
+  def server_puts(message)
+    @client_inbox << message
+  end
+
+  def client_gets
+    @client_inbox.shift
+  end
+
+  def client_puts(message)
+    @server_inbox << message
+  end
+
+  def server_gets
+    @server_inbox.shift
+  end
+end
+
+conn = MockConnection.new
+conn.server_puts("Hello from server")
+message = conn.client_gets
+puts "Client received: #{message}"
+conn.client_puts("ACK")
+ack = conn.server_gets
+puts "Server received acknowledgement: #{ack}"
 </script>
 
 #### Practice 4 - Threads vs sequential handling
@@ -197,8 +256,21 @@ puts "# client: message = socket.gets; socket.puts 'ACK'"
 **Goal:** Contrast `Thread.start` with sequential handling in a server loop.
 
 ```ruby
-# TODO: Print pseudo-code that shows a threaded server loop using
-# Thread.start for each client.
+clients = %w[alpha beta gamma]
+
+puts "Sequential handling:"
+clients.each do |client|
+  puts "Handling #{client} sequentially"
+end
+
+puts "Threaded handling:"
+threads = clients.map do |client|
+  Thread.new do
+    puts "Handling #{client} in thread #{Thread.current.object_id}"
+  end
+end
+
+threads.each(&:join)
 ```
 
 <div class="practice-feedback"
@@ -207,13 +279,21 @@ puts "# client: message = socket.gets; socket.puts 'ACK'"
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:3">
-puts "server = TCPServer.new(3000)"
-puts "loop do"
-puts "  client = server.accept"
-puts "  Thread.start(client) do |sock|"
-puts "    # handle client"
-puts "  end"
-puts "end"
+clients = %w[alpha beta gamma]
+
+puts "Sequential handling:"
+clients.each do |client|
+  puts "Handling #{client} sequentially"
+end
+
+puts "Threaded handling:"
+threads = clients.map do |client|
+  Thread.new do
+    puts "Handling #{client} in thread #{Thread.current.object_id}"
+  end
+end
+
+threads.each(&:join)
 </script>
 
 #### Practice 5 - Logging and exception handling
@@ -221,8 +301,49 @@ puts "end"
 **Goal:** Wrap the server loop with logging and exception handling.
 
 ```ruby
-# TODO: Print a small example that pairs a server loop with logging
-# and exception handling to keep the process alive on failure.
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
+require "logger"
+
+class FakeServer
+  def initialize(events)
+    @events = events.dup
+  end
+
+  def pending?
+    !@events.empty?
+  end
+
+  def accept
+    raise IOError, "no clients waiting" if @events.empty?
+    event = @events.shift
+    raise IOError, "simulated failure" if event == :error
+    "client:#{event}"
+  end
+end
+
+server = FakeServer.new([:alpha, :error, :beta])
+logger = Logger.new($stdout)
+
+while server.pending?
+  begin
+    client = server.accept
+    logger.info("accepted #{client}")
+  rescue => e
+    logger.error("socket error: #{e.message}")
+  end
+end
 ```
 
 <div class="practice-feedback"
@@ -231,12 +352,47 @@ puts "end"
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:4">
-puts "loop do"
-puts "  begin"
-puts "    client = server.accept"
-puts "    logger.info('accepted connection')"
-puts "  rescue => e"
-puts "    logger.error(\"socket error: \#{e.message}\")"
-puts "  end"
-puts "end"
+begin
+  require "monitor"
+rescue LoadError
+end
+
+unless defined?(MonitorMixin)
+  module MonitorMixin
+    def mon_initialize; end
+    def mon_enter; end
+    def mon_exit; end
+  end
+end
+
+require "logger"
+
+class FakeServer
+  def initialize(events)
+    @events = events.dup
+  end
+
+  def pending?
+    !@events.empty?
+  end
+
+  def accept
+    raise IOError, "no clients waiting" if @events.empty?
+    event = @events.shift
+    raise IOError, "simulated failure" if event == :error
+    "client:#{event}"
+  end
+end
+
+server = FakeServer.new([:alpha, :error, :beta])
+logger = Logger.new($stdout)
+
+while server.pending?
+  begin
+    client = server.accept
+    logger.info("accepted #{client}")
+  rescue => e
+    logger.error("socket error: #{e.message}")
+  end
+end
 </script>
