@@ -145,7 +145,7 @@ puts "symbol keys: #{symbol_keys.inspect} (symbols improve readability)"
 ```
 
 ```test
-out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':title') } && lines.any? { |l| l.downcase.include?('symbols') }
+out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('title:') } && lines.any? { |l| l.downcase.include?('symbols') }
 ```
 
 #!

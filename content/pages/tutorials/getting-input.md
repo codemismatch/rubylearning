@@ -76,7 +76,23 @@ end
 ```
 
 ```test
-self.main if self.respond_to?(:main); out = output.string.downcase; out.include?('you live in') && !out.include?('null')
+result = false
+if self.respond_to?(:main)
+  require "stringio"
+  original_stdin = $stdin
+  $stdin = StringIO.new("London\nUnited Kingdom\n")
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?('you live in') && !out.include?('null')
+else
+  output.puts("Define self.main to read input.")
+end
+result
 ```
 
 #!
@@ -104,7 +120,23 @@ end
 ```
 
 ```test
-self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('STDOUT.sync') } && lines.any? { |l| l.downcase.start_with?('hello,') }
+result = false
+if self.respond_to?(:main)
+  require "stringio"
+  original_stdin = $stdin
+  $stdin = StringIO.new("Typist\n")
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?('stdout.sync') && out.include?('hello, typist')
+else
+  output.puts("Define self.main to toggle STDOUT.sync.")
+end
+result
 ```
 
 #!
@@ -130,7 +162,23 @@ end
 ```
 
 ```test
-self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/total:/i) } && !lines.any? { |l| l.downcase.include?('null') }
+result = false
+if self.respond_to?(:main)
+  require "stringio"
+  original_stdin = $stdin
+  $stdin = StringIO.new("5\n")
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?('total:') && !out.include?('null')
+else
+  output.puts("Define self.main to read numeric input.")
+end
+result
 ```
 
 #!
@@ -155,7 +203,23 @@ end
 ```
 
 ```test
-self.main if self.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('piped') }
+result = false
+if self.respond_to?(:main)
+  require "stringio"
+  original_stdin = $stdin
+  $stdin = StringIO.new("Pune\n")
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?('piped input') || out.include?('piped')
+else
+  output.puts("Define self.main so it reads STDIN once.")
+end
+result
 ```
 
 #!
