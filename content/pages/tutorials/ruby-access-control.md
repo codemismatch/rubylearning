@@ -148,7 +148,8 @@ puts "Balance via public method: #{account.show_balance}"
 
 ```test
 out = output.string
-out.downcase.include?('cannot access protected') && out.include?('Balance via public method: 100')
+raise "expected protected message" unless out.include?("Cannot access protected method from outside")
+raise "expected balance output" unless out.include?("Balance via public method: 100")
 ```
 
 #!
@@ -168,10 +169,6 @@ class Greeter
     hello  # works - called without explicit receiver
   end
 
-  def direct_call
-    self.hello
-  end
-
   private
 
   def hello
@@ -183,7 +180,7 @@ greeter = Greeter.new
 puts "Via public method: #{greeter.call}"
 
 begin
-  greeter.direct_call
+  greeter.hello  # explicit receiver triggers NoMethodError
 rescue NoMethodError => e
   puts "Cannot call private method with explicit receiver: #{e.message}"
 end
@@ -191,7 +188,8 @@ end
 
 ```test
 out = output.string
-out.include?('Via public method: hello') && out.downcase.include?('cannot call private method')
+raise "missing hello call" unless out.include?("Via public method:")
+raise "missing private error" unless out.include?("Cannot call private method with explicit receiver:")
 ```
 
 #!
@@ -234,7 +232,8 @@ end
 
 ```test
 out = output.string
-out.include?('Account1 richer than Account2? true') && out.downcase.include?('balance is protected')
+raise "missing comparison output" unless out.include?("Account1 richer than Account2? true")
+raise "missing protected warning" unless out.include?("Balance is protected and not accessible from outside")
 ```
 
 #!
@@ -272,7 +271,8 @@ end
 
 ```test
 out = output.string
-out.include?('Token created via public method: Token') && out.downcase.include?('cannot call private class method')
+raise "missing public factory message" unless out.include?("Token created via public method: Token")
+raise "missing private factory warning" unless out.include?("Cannot call private class method")
 ```
 
 #!
