@@ -96,16 +96,17 @@ function initializeRubyStdlibPolyfills(vm) {
         def upcase
           if defined?(JS) && JS.respond_to?(:global)
             begin
-              JS.global.eval("('\#{self}').toUpperCase()").to_s
+              # Use inspect to safely quote the string for JS eval
+              JS.global.eval("#{self.inspect}.toUpperCase()").to_s
             rescue
               # Fallback to original if it exists
-              if method_defined?(:__original_upcase)
+              if self.class.method_defined?(:__original_upcase)
                 __original_upcase
               else
                 self.tr('a-z', 'A-Z')
               end
             end
-          elsif method_defined?(:__original_upcase)
+          elsif self.class.method_defined?(:__original_upcase)
             __original_upcase
           else
             self.tr('a-z', 'A-Z')
@@ -116,11 +117,12 @@ function initializeRubyStdlibPolyfills(vm) {
         def downcase
           if defined?(JS) && JS.respond_to?(:global)
             begin
-              JS.global.eval("('\#{self}').toLowerCase()").to_s
+              # Use inspect to safely quote the string for JS eval
+              JS.global.eval("#{self.inspect}.toLowerCase()").to_s
             rescue
-              method_defined?(:__original_downcase) ? __original_downcase : self.tr('A-Z', 'a-z')
+              self.class.method_defined?(:__original_downcase) ? __original_downcase : self.tr('A-Z', 'a-z')
             end
-          elsif method_defined?(:__original_downcase)
+          elsif self.class.method_defined?(:__original_downcase)
             __original_downcase
           else
             self.tr('A-Z', 'a-z')
