@@ -1,0 +1,13 @@
+#!/bin/bash
+# Wrapper to run the Crystal implementation of Typophic
+
+# Ensure the binary exists
+if [ ! -f "crystal/bin/typophic" ]; then
+  echo "Building Crystal binary..."
+  cd crystal
+  shards build
+  cd ..
+fi
+
+# Run the binary with arguments
+./crystal/bin/typophic "$@"

@@ -1,98 +1,83 @@
-# Hugo to Typophic Theme Converter
+# Typophic Development Tools
 
-This Ruby script converts Hugo themes to Typophic-compatible themes. Typophic is a static site generator that uses ERB templates instead of Hugo's Go templates.
+This directory contains development and testing utilities for the Typophic project.
 
-## Features
+## Active Tools
 
-- Converts Hugo template syntax (`{{ .Variable }}`) to Typophic ERB syntax (`<%= variable %>`)
-- Maps Hugo variables to Typophic equivalents:
-  - `.Site.Params.variable` → `site["variable"]`
-  - `.Params.variable` → `page["variable"]`
-  - `.Content` → `content`
-  - `.Title` → `page["title"]`
-- Converts Hugo partials to Typophic includes
-- Handles conditional statements, loops, and template functions
-- Creates appropriate Typophic directory structure
+### [dev_watcher.cr](file:///Users/pankajdoharey/Development/rubylearning/tools/dev_watcher.cr)
+Crystal-based file watcher for development. Monitors file changes and triggers rebuilds.
 
-## Usage
-
+**Usage:**
 ```bash
-ruby hugo_to_typophic_converter.rb <hugo_theme_path> <new_typophic_theme_name>
+crystal run tools/dev_watcher.cr
 ```
 
-Example:
+### [test_inline_rubocop.rb](file:///Users/pankajdoharey/Development/rubylearning/tools/test_inline_rubocop.rb)
+Tests RuboCop integration for formatting inline Ruby code blocks.
+
+**Usage:**
 ```bash
-ruby hugo_to_typophic_converter.rb themes/hugo-serif-theme hugo-serif-typophic
+ruby tools/test_inline_rubocop.rb
 ```
 
-## What Gets Converted
+### [verify_practice_inputs.py](file:///Users/pankajdoharey/Development/rubylearning/tools/verify_practice_inputs.py)
+Python script for verifying practice input validation.
 
-- **Template structure**: Hugo layouts are mapped to Typophic layouts
-- **Partials**: Hugo partials become Typophic includes (with `_` prefix)
-- **Variables**: Hugo template variables are converted to ERB syntax
-- **Conditionals**: `{{ if }}` statements become `<% if %>` statements
-- **Loops**: `{{ range }}` loops become `<% .each do |item| %>` loops
-- **Partials**: `{{ partial }}` calls become `<%= render_partial() %>` calls
-- **Assets**: CSS, JS, and images are copied to appropriate directories
-
-## Manual Review Required
-
-Some complex Hugo features require manual review and adjustment:
-
-1. **Complex template operations** - Variables like `{{ $services := where ... }}` need manual implementation
-2. **Advanced functions** - Complex where clauses and sorting operations
-3. **Nested partial contexts** - Partials with complex context dictionaries
-4. **Template definitions** - Hugo template blocks and named templates
-5. **Custom functions** - Hugo-specific template functions
-
-Look for `<%# Manual review required %>` and `<%# REVIEW: Context ... %>` comments in converted files.
-
-## Typophic Theme Structure
-
-After conversion, the theme will have this structure:
-```
-themes/your-theme/
-├── layouts/
-│   ├── default.html
-│   ├── home.html
-│   └── page.html
-├── includes/
-│   ├── _header.html
-│   └── _footer.html
-├── css/
-├── js/
-└── images/
+**Usage:**
+```bash
+python tools/verify_practice_inputs.py
 ```
 
-## Manual Fixes After Conversion
+## Integrated CLI Commands
 
-Some manual fixes are often needed to make the converted theme work properly:
+The following utilities have been integrated into the main `typophic` CLI for easier access:
 
-1. **Create proper layout structure**: Create base `default.html` layout that other pages can inherit from
-2. **Fix complex Hugo constructs**: Convert complex Hugo template logic to Ruby code
-3. **Add missing partials**: Create partials that are referenced in the main layouts
-4. **Adjust asset references**: Ensure CSS, JS, and image paths are correct
+### Verify Chapter Integrity
+Previously: `tools/verify_chapters.rb`  
+Now: `bin/typophic verify [files]`
 
-## Example: Hugo Serif Theme Implementation
+Runs solution/test blocks to verify chapter integrity.
 
-The `hugo-serif-typophic` theme demonstrates a successful conversion with:
-- Proper layout structure using Typophic's ERB templating
-- Fixed complex Hugo template logic to Ruby enumerable operations
-- All required partials created for proper functionality
-- Working CSS and JS assets
+**Example:**
+```bash
+bin/typophic verify content/pages/tutorials/ruby-symbols.md
+```
 
-## Limitations
+### Format Tutorials
+Previously: `tools/format_tutorials.rb`  
+Now: `bin/typophic format`
 
-- Some complex Hugo template logic cannot be automatically converted
-- Data filtering and sorting operations require manual implementation
-- Advanced Hugo functions like scratch variables are not supported
-- Manual review is needed for complex templates
+Formats tutorial content.
 
-## Best Practices After Conversion
+**Example:**
+```bash
+bin/typophic format
+```
 
-1. Review all templates with "Manual review" comments
-2. Test the converted theme with actual content
-3. Adjust CSS/JS if class names or HTML structure changed
-4. Update the site configuration to use the new theme
-5. Add any missing Typophic-specific helper functions
-6. Create a proper base layout structure that follows Typophic conventions
+### Check Pipeline Configuration
+Previously: `tools/test_pipeline_config.rb`  
+Now: `bin/typophic check_pipeline`
+
+Tests your pipeline configuration.
+
+**Example:**
+```bash
+bin/typophic check_pipeline
+```
+
+## Removed Tools
+
+The following tools have been removed as they are no longer needed:
+
+- **Migration tools**: `hugo_to_typophic_converter.rb`, `hugo_to_typophic_converter_v2.rb`, `convert_tutorials_to_new_format.rb` - One-time migration scripts
+- **Redundant**: `normalize_quotes.rb` - Functionality built into `Typophic::Builder`
+- **Test files**: `test_inline_rubocop_debug.rb`, `test_rubocop_api.rb`, `test_rubocop_runner.rb` - Development test scripts
+
+If you need these in the future, they are available in git history.
+
+## See Also
+
+For a complete list of available commands, run:
+```bash
+bin/typophic help
+```

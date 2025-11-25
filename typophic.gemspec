@@ -9,16 +9,15 @@ Gem::Specification.new do |spec|
   spec.email         = ["maintainers@rubylearning.in"]
 
   spec.summary       = "Typophic static site generator"
-  spec.description   = "A dogfooded static site generator powering rubylearning and other ERB-driven themes."
+  spec.description   = "A static site generator powering rubylearning and other themes."
   spec.license       = "MIT"
 
   spec.homepage      = "https://github.com/codemismatch/rubylearning"
 
   lib_files   = Dir.glob("lib/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
-  theme_files = Dir.glob("themes/**/*", File::FNM_DOTMATCH).reject { |f| File.directory?(f) }
-  spec.files         = lib_files + theme_files +
+  spec.files         = lib_files +
                       Dir.glob("bin/typophic") +
-                      ["README.md", "typophic.gemspec", "config.yml"]
+                      ["README.md", "typophic.gemspec"]
   spec.bindir        = "bin"
   spec.executables   = ["typophic"]
   spec.require_paths = ["lib"]
@@ -29,6 +28,7 @@ Gem::Specification.new do |spec|
   spec.add_runtime_dependency "listen", "~> 3.0"
   spec.add_runtime_dependency "ostruct", "~> 0.6.3"
   spec.add_runtime_dependency "logger", "~> 1.7.0"
+  spec.add_runtime_dependency "liquid", "~> 5.0"
 
   spec.metadata = {
     "bug_tracker_uri" => "https://github.com/codemismatch/rubylearning/issues",

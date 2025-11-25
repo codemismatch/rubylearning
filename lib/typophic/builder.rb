@@ -6,6 +6,7 @@ require "date"
 require "time"
 require "json"
 require "erb"
+require "liquid"
 require "uri"
 require "ostruct"
 require "set"
@@ -15,6 +16,8 @@ require "thread"
 require_relative "tutorial_formatter"
 require_relative "pipeline"
 require_relative "renderer/markdown"
+require_relative "renderer/liquid"
+require_relative "renderer/diagram"
 
 module Typophic
   # Core static-site builder that transforms Markdown content and ERB templates
@@ -33,7 +36,7 @@ module Typophic
                 :site_includes_dir,
                 :site_assets_dir
 
-    SUPPORTED_CONTENT_EXTENSIONS = %w[.md .markdown .html .htm .erb].freeze
+    SUPPORTED_CONTENT_EXTENSIONS = %w[.md .markdown .html .htm .erb .liquid].freeze
 
     def initialize(options = {})
       @source_dir   = options[:source_dir] || "content"
@@ -400,6 +403,7 @@ module Typophic
 
     def renderer_for(path)
       return :erb if path.end_with?(".html.erb")
+      return :liquid if path.end_with?(".liquid")
 
       case File.extname(path).downcase
       when ".md", ".markdown"
@@ -408,6 +412,8 @@ module Typophic
         :html
       when ".erb"
         :erb
+      when ".liquid"
+        :liquid
       else
         :markdown
       end
@@ -416,7 +422,7 @@ module Typophic
     def strip_supported_extensions(filename)
       base = filename.dup
       base = base.sub(/\.html\.erb\z/i, "")
-      base = base.sub(/\.(md|markdown|html|htm|erb)\z/i, "")
+      base = base.sub(/\.(md|markdown|html|htm|erb|liquid)\z/i, "")
       base
     end
 
@@ -624,6 +630,9 @@ module Typophic
         options_raw   = Regexp.last_match(2).to_s
         code_body_raw = Regexp.last_match(3)
 
+        # Skip diagram blocks - they're handled by dedicated pipeline steps
+        next Regexp.last_match(0) if %w[mermaid ditaa].include?(lang.downcase)
+
         code_body     = code_body_raw.strip
         tokens        = options_raw.split
         executable    = tokens.include?("run")
@@ -632,6 +641,52 @@ module Typophic
       end
 
       html
+    end
+
+    def pipeline_mermaid_blocks(content, _page)
+      html = content.dup
+
+      html.gsub!(/^#>\s*mermaid(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+        options_raw = Regexp.last_match(1).to_s
+        diagram_content = Regexp.last_match(2)
+
+        # Parse options like caption="My Diagram" class="custom-class"
+        options = parse_block_options(options_raw)
+
+        Typophic::Renderer::Diagram.mermaid(diagram_content, options)
+      end
+
+      html
+    end
+
+    def pipeline_ditaa_blocks(content, _page)
+      html = content.dup
+
+      html.gsub!(/^#>\s*ditaa(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+        options_raw = Regexp.last_match(1).to_s
+        diagram_content = Regexp.last_match(2)
+
+        # Parse options like output=media/images/diagram.png caption="My Diagram"
+        options = parse_block_options(options_raw)
+
+        Typophic::Renderer::Diagram.ditaa(diagram_content, options)
+      end
+
+      html
+    end
+
+    def parse_block_options(options_string)
+      options = {}
+      return options if options_string.nil? || options_string.empty?
+
+      # Split by spaces but respect quotes
+      tokens = options_string.scan(/(\w+)=(?:"([^"]*)"|(\S+))/)
+
+      tokens.each do |key, quoted_val, unquoted_val|
+        options[key] = quoted_val || unquoted_val
+      end
+
+      options
     end
 
     # Wrap legacy inline Ruby <pre> blocks that were authored directly in
@@ -811,18 +866,56 @@ module Typophic
       front_matter, template_body = extract_front_matter(File.read(layout_path))
 
       layout_theme_path = theme_path_for_layout(layout_path)
+      includes_dir = layout_theme_path ? File.join(layout_theme_path, "includes") : nil
 
-      context = TemplateContext.new(
-        site: @site,
-        page: page_data,
-        content: content,
-        site_includes_dir: @site_includes_dir,
-        theme_includes_dir: layout_theme_path ? File.join(layout_theme_path, "includes") : nil,
-        helpers: @helper_modules,
-        current_theme: theme_name
-      )
+      # Check if it's a Liquid layout
+      if layout_path.end_with?(".liquid") || layout_path.end_with?(".html") # Assume .html in layouts might be Liquid if they contain {{ }}
+         # Simple heuristic: if it has Liquid tags, treat as Liquid.
+         # Or better: if the file extension is .liquid OR if we are in a theme that uses Liquid.
+         # Since we are standardizing on Liquid for themes, we should try Liquid first or fallback.
+         # However, for now, let's look at the extension or content.
+         # The rubylearning theme uses .html for layouts but they are Liquid.
+         # So we should treat .html layouts as Liquid if they don't look like ERB.
+         is_liquid = layout_path.end_with?(".liquid") || !template_body.include?("<%")
 
-      rendered = context.render(template_body)
+         if is_liquid
+           renderer = Typophic::Renderer::Liquid.new(
+             site: @site,
+             page: page_data,
+             content: content,
+             site_includes_dir: @site_includes_dir,
+             theme_includes_dir: includes_dir,
+             helpers: @helper_modules,
+             current_theme: theme_name,
+             builder: self
+           )
+           rendered = renderer.render(template_body)
+         else
+           # ERB fallback
+           context = TemplateContext.new(
+             site: @site,
+             page: page_data,
+             content: content,
+             site_includes_dir: @site_includes_dir,
+             theme_includes_dir: includes_dir,
+             helpers: @helper_modules,
+             current_theme: theme_name
+           )
+           rendered = context.render(template_body)
+         end
+      else
+        # ERB
+        context = TemplateContext.new(
+          site: @site,
+          page: page_data,
+          content: content,
+          site_includes_dir: @site_includes_dir,
+          theme_includes_dir: includes_dir,
+          helpers: @helper_modules,
+          current_theme: theme_name
+        )
+        rendered = context.render(template_body)
+      end
 
       parent_layout = front_matter.fetch("layout", nil)
       parent_layout ? render_layout(parent_layout, rendered, page_data, theme_name) : rendered
@@ -830,18 +923,35 @@ module Typophic
 
     def render_inline_template(template_body, page_data, theme_name)
       theme_path = @theme_paths[theme_name]
-      context = TemplateContext.new(
-        site: @site,
-        page: page_data,
-        content: "",
-        site_includes_dir: @site_includes_dir,
-        theme_includes_dir: File.join(theme_path, "includes"),
-        helpers: @helper_modules,
-        current_theme: theme_name
-      )
+      includes_dir = File.join(theme_path, "includes")
 
-      context.render(template_body)
+      # Heuristic for Liquid vs ERB
+      if template_body.include?("{{") || template_body.include?("{%")
+        renderer = Typophic::Renderer::Liquid.new(
+          site: @site,
+          page: page_data,
+          content: "",
+          site_includes_dir: @site_includes_dir,
+          theme_includes_dir: includes_dir,
+          helpers: @helper_modules,
+          current_theme: theme_name,
+          builder: self
+        )
+        renderer.render(template_body)
+      else
+        context = TemplateContext.new(
+          site: @site,
+          page: page_data,
+          content: "",
+          site_includes_dir: @site_includes_dir,
+          theme_includes_dir: includes_dir,
+          helpers: @helper_modules,
+          current_theme: theme_name
+        )
+        context.render(template_body)
+      end
     end
+
 
     # Insert missing newlines between Ruby tokens that often get jammed
     # during content edits or Markdown conversions.
@@ -898,25 +1008,32 @@ module Typophic
 
       if @site_layouts_dir && File.directory?(@site_layouts_dir)
         candidates << File.join(@site_layouts_dir, "#{layout_name}.html")
+        candidates << File.join(@site_layouts_dir, "#{layout_name}.liquid")
       end
 
       # Primary: current page/theme
       theme_path = @theme_paths[theme_name]
-      candidates << File.join(theme_path, "layouts", "#{layout_name}.html") if theme_path
+      if theme_path
+        candidates << File.join(theme_path, "layouts", "#{layout_name}.html")
+        candidates << File.join(theme_path, "layouts", "#{layout_name}.liquid")
+      end
 
       # Secondary: known good fallback theme(s)
       if @theme_paths["rubylearning"]
         candidates << File.join(@theme_paths["rubylearning"], "layouts", "#{layout_name}.html")
+        candidates << File.join(@theme_paths["rubylearning"], "layouts", "#{layout_name}.liquid")
       end
 
       # Tertiary: any other theme we know about
       @theme_paths.each do |name, path|
         next if name == theme_name || name == "rubylearning"
         candidates << File.join(path, "layouts", "#{layout_name}.html")
+        candidates << File.join(path, "layouts", "#{layout_name}.liquid")
       end
 
       # Legacy default
       candidates << File.join(@theme_path, "layouts", "#{layout_name}.html")
+      candidates << File.join(@theme_path, "layouts", "#{layout_name}.liquid")
 
       candidates.find { |path| File.exist?(path) }
     end
@@ -1220,4 +1337,5 @@ module Typophic
       end
     end
   end
+
 end

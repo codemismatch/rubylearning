@@ -7,7 +7,6 @@ gem "webrick"
 
 group :development do
   gem "rake"
-  gem "listen", "~> 3.0"
   gem "rubocop", require: false
 end
 

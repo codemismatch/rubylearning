@@ -154,5 +154,11 @@
   <script src="{{ 'js/tutorial-enhancements.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/github-pages-fix.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/site.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

@@ -10,6 +10,9 @@ require_relative "commands/theme"
 require_relative "commands/blog"
 require_relative "commands/clean"
 require_relative "commands/doctor"
+require_relative "commands/verify"
+require_relative "commands/format"
+require_relative "commands/check_pipeline"
 
 module Typophic
   class CLI
@@ -22,7 +25,10 @@ module Typophic
       "theme" => Commands::Theme,
       "blog" => Commands::Blog,
       "clean" => Commands::Clean,
-      "doctor" => Commands::Doctor
+      "doctor" => Commands::Doctor,
+      "verify" => Commands::Verify,
+      "format" => Commands::Format,
+      "check_pipeline" => Commands::CheckPipeline
     }.freeze
 
     def self.start(argv)
@@ -79,6 +85,9 @@ module Typophic
           blog        Manage blog posts (new/publish/list/delete)
           clean       Remove generated artifacts (cleans public/)
           doctor      Validate project structure and configuration
+          verify      Verify chapter integrity (runs solution/test blocks)
+          format      Format tutorial content
+          check_pipeline Test pipeline configuration
 
         Quick examples:
           typophic new site mysite --theme rubylearning
