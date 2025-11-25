@@ -1,0 +1,14 @@
+#!/bin/bash
+# Wrapper to run the Crystal dev watcher
+
+# Ensure we're in the crystal directory where shard.yml is located
+cd "$(dirname "$0")/../crystal"
+
+# Check if crystal is installed
+if ! command -v crystal &> /dev/null; then
+    echo "❌ Crystal is not installed or not in PATH."
+    exit 1
+fi
+
+echo "🔮 Running Typophic Dev Watcher..."
+crystal run ../tools/dev_watcher.cr -- "$@"

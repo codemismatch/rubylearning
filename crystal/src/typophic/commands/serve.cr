@@ -155,7 +155,13 @@ module Typophic
           Log.info { "Starting server at http://#{host}:#{port}" }
           server.listen(host, port)
         rescue ex : IO::Error
-          Log.error(exception: ex) { "Failed to start server: #{ex.message}. Is the port already in use?" }
+          if ex.message.try(&.includes?("Address already in use")) || ex.os_error.try(&.== Errno::EADDRINUSE)
+            Log.error { "❌ Port #{port} is already in use!" }
+            Log.error { "Please stop the other process running on port #{port} or use a different port with --port." }
+            Log.error { "To find what's using the port: lsof -i :#{port}" }
+          else
+            Log.error(exception: ex) { "Failed to start server: #{ex.message}" }
+          end
           exit 1
         end
       end
@@ -168,7 +174,13 @@ module Typophic
             Log.info { "Starting server at http://#{options[:host]}:#{options[:port]}" }
             server.listen(options[:host].as(String), options[:port].as(Int32))
           rescue ex : IO::Error
-            Log.error(exception: ex) { "Server fiber failed to listen: #{ex.message}" }
+            if ex.message.try(&.includes?("Address already in use")) || ex.os_error.try(&.== Errno::EADDRINUSE)
+              Log.error { "❌ Port #{options[:port]} is already in use!" }
+              Log.error { "Please stop the other process running on port #{options[:port]} or use a different port with --port." }
+              exit 1
+            else
+              Log.error(exception: ex) { "Server fiber failed to listen: #{ex.message}" }
+            end
           rescue ex
             Log.error(exception: ex) { "Server fiber error" }
           end
@@ -184,49 +196,22 @@ module Typophic
         
         # Build absolute paths for directories to watch - only watch specific project directories
         # We watch each directory separately to avoid nested watching issues
-        watch_dirs = [] of String
+        watch_dirs = [] of String | Path
         
         %w[content themes layouts includes assets data].each do |dir|
           abs_path = File.join(project_root, dir)
-          watch_dirs << abs_path if Dir.exists?(abs_path)
+          if Dir.exists?(abs_path)
+            watch_dirs << abs_path
+            # Recursively add all subdirectories to ensure we catch changes even if FileWatcher isn't recursive
+            Dir.glob(File.join(abs_path, "**", "*")).each do |file|
+              watch_dirs << file if File.directory?(file)
+            end
+          end
         end
         
-        # Start file watcher in a fiber - watch each directory separately
+        # Start file watcher in a single fiber - watch all directories together
         watcher_fiber = spawn do
           begin
-            # Watch each directory separately to avoid nested directory conflicts
-            # Each watch runs in its own fiber to prevent conflicts
-            watch_dirs.each do |watch_dir|
-              spawn do
-                begin
-                  FileWatcher.watch(watch_dir) do |event|
-                    event_path = event.path
-                    
-                    # Double-check it's actually in our watched directory
-                    next unless event_path.starts_with?(watch_dir)
-                    
-                    Log.info { "Detected change in #{event_path}, rebuilding..." }
-                    begin
-                      builder_options = {
-                        "verbose" => false.to_s,
-                        "parallel" => options[:parallel].as(Bool).to_s,  # Use same parallel setting as initial build
-                      }
-                      if options[:thread_count]?
-                        builder_options["thread_count"] = options[:thread_count].as(Int32).to_s
-                      end
-                      Typophic::Builder.new(builder_options).build
-                      self.last_build_time = Time.local
-                      Log.info { "Rebuild complete." }
-                    rescue ex
-                      Log.error(exception: ex) { "Rebuild failed" }
-                    end
-                  end
-                rescue ex
-                  Log.error(exception: ex) { "Watcher error for #{watch_dir}: #{ex.message}" }
-                end
-              end
-            end
-            
             # Watch config.yml by using a simple file polling approach
             # This avoids watching the project root which would pick up crystal/lib
             config_path = File.join(project_root, "config.yml")
@@ -267,11 +252,70 @@ module Typophic
                 end
               end
             end
+
+            Log.info { "👀 Watching #{watch_dirs.size} directories (polling)..." }
             
-            # Keep the watcher fiber alive
-            sleep
+            # Initial scan to get mtimes
+            mtimes = Hash(String, Time).new
+            watch_dirs.each do |dir|
+              Dir.glob(File.join(dir, "*")).each do |file|
+                next if File.directory?(file)
+                mtimes[file] = File.info(file).modification_time
+              end
+            end
+            
+            loop do
+              sleep 1.second
+              
+              changes_detected = false
+              changed_file = ""
+              
+              # Check for changes
+              watch_dirs.each do |dir|
+                # Check for new or modified files
+                Dir.glob(File.join(dir, "*")).each do |file|
+                  next if File.directory?(file)
+                  
+                  begin
+                    current_mtime = File.info(file).modification_time
+                    if !mtimes.has_key?(file) || current_mtime > mtimes[file]
+                      mtimes[file] = current_mtime
+                      changes_detected = true
+                      changed_file = file
+                      break
+                    end
+                  rescue File::NotFoundError
+                    # File deleted
+                    mtimes.delete(file)
+                    changes_detected = true
+                    changed_file = file
+                    break
+                  end
+                end
+                break if changes_detected
+              end
+              
+              if changes_detected
+                Log.info { "📝 File change detected: #{changed_file}" }
+                Log.info { "Rebuilding..." }
+                begin
+                  builder_options = {
+                    "verbose" => false.to_s,
+                    "parallel" => options[:parallel].as(Bool).to_s,
+                  }
+                  if options[:thread_count]?
+                    builder_options["thread_count"] = options[:thread_count].as(Int32).to_s
+                  end
+                  Typophic::Builder.new(builder_options).build
+                  self.last_build_time = Time.local
+                  Log.info { "Rebuild complete." }
+                rescue ex
+                  Log.error(exception: ex) { "Rebuild failed" }
+                end
+              end
+            end
           rescue ex
-            Log.error(exception: ex) { "File watcher error: #{ex.message}" }
+            Log.error(exception: ex) { "Watcher error: #{ex.message}" }
           end
         end
 
@@ -294,11 +338,10 @@ module Typophic
         
         Log.info { "Serving from document_root: #{document_root}, exists: #{Dir.exists?(document_root)}, index.html exists: #{File.exists?(File.join(document_root, "index.html"))}" }
         
-        handler_chain = StaticFileHandler.new(document_root, File.join(document_root, "404.html"), verbose)
+        livereload_enabled = options[:livereload]?.try(&.as(Bool)) || false
+        handler_chain = StaticFileHandler.new(document_root, File.join(document_root, "404.html"), verbose, livereload_enabled)
         
-        if options[:livereload]?.try(&.as(Bool)) || false
-          handler_chain = LiveReloadHandler.new(handler_chain)
-        end
+        # LiveReloadHandler removed as injection is now in StaticFileHandler
         
         handler_chain = NoCacheHandler.new(handler_chain)
 
@@ -326,7 +369,7 @@ module Typophic
       class StaticFileHandler
         include HTTP::Handler
 
-        def initialize(@document_root : String, @not_found_file : String, @verbose : Bool = false)
+        def initialize(@document_root : String, @not_found_file : String, @verbose : Bool = false, @livereload : Bool = false)
         end
 
         def call(context)
@@ -352,7 +395,14 @@ module Typophic
           if exists
             begin
               content = File.read(file_path)
-              context.response.headers["Content-Type"] = MIME.from_filename(file_path)
+              mime_type = MIME.from_filename(file_path)
+              context.response.headers["Content-Type"] = mime_type
+              
+              # Inject Live Reload script if enabled and it's an HTML file
+              if @livereload && (mime_type == "text/html" || file_path.ends_with?(".html"))
+                content = inject_livereload_script(content)
+              end
+              
               context.response.print content
             rescue ex : IO::Error
               Log.error(exception: ex) { "Error reading file #{file_path}" }
@@ -364,7 +414,13 @@ module Typophic
             begin
               context.response.status = HTTP::Status::NOT_FOUND
               context.response.headers["Content-Type"] = "text/html"
-              context.response.print File.read(@not_found_file)
+              content = File.read(@not_found_file)
+              
+              if @livereload
+                content = inject_livereload_script(content)
+              end
+              
+              context.response.print content
             rescue ex : IO::Error
               Log.error(exception: ex) { "Error reading 404 file #{@not_found_file}" }
               context.response.status = HTTP::Status::INTERNAL_SERVER_ERROR
@@ -377,30 +433,8 @@ module Typophic
             context.response.print "404 Not Found"
           end
         end
-      end
-
-      class LiveReloadHandler
-        include HTTP::Handler
-
-        def initialize(@next_handler : HTTP::Handler)
-        end
-
-        def call(context : HTTP::Server::Context)
-          @next_handler.call(context)
-          # Note: Live reload injection not yet implemented
-          # content_type = context.response.headers["Content-Type"]?
-          # if content_type && content_type.starts_with?("text/html")
-          #   inject_livereload(context.response)
-          # end
-        end
-
-        private def inject_livereload(response : HTTP::Server::Response)
-          # TODO: Implement live reload injection
-          # This requires buffering the response body, which is complex in Crystal's HTTP::Server
-          # For now, live reload is disabled - can be implemented later with a custom IO wrapper
-        end
-
-        private def append_livereload_script(html)
+        
+        private def inject_livereload_script(html : String) : String
           script = LiveReloadScript.script
           if html.includes?("</body>")
             html.sub("</body>", "#{script}</body>")
@@ -409,6 +443,9 @@ module Typophic
           end
         end
       end
+
+      # LiveReloadHandler is no longer needed as injection is done in StaticFileHandler
+      # Keeping the class definition empty or removed would be cleaner, but for now we just remove it from the chain construction.
 
       module LiveReloadScript
         def self.script
