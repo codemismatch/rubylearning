@@ -1,14 +1,25 @@
 #!/bin/bash
-# Wrapper to run the Crystal dev watcher
+# Dev helper: build the Crystal CLI and start the dev server, or run the watcher via --watcher.
 
-# Ensure we're in the crystal directory where shard.yml is located
-cd "$(dirname "$0")/../crystal"
+set -e
 
-# Check if crystal is installed
+ROOT_DIR="$(cd "$(dirname "$0")/.." && pwd)"
+CRYSTAL_DIR="$ROOT_DIR/crystal"
+
 if ! command -v crystal &> /dev/null; then
     echo "❌ Crystal is not installed or not in PATH."
     exit 1
 fi
 
-echo "🔮 Running Typophic Dev Watcher..."
-crystal run ../tools/dev_watcher.cr -- "$@"
+if [[ "$1" == "--watcher" || "$1" == "watcher" ]]; then
+    shift
+    echo "🔮 Running Typophic Dev Watcher..."
+    cd "$CRYSTAL_DIR"
+    exec crystal run ../tools/dev_watcher.cr -- "$@"
+fi
+
+echo "🔨 Building Typophic Crystal binary..."
+(cd "$CRYSTAL_DIR" && crystal build src/bin/typophic.cr -o bin/typophic)
+
+echo "🚀 Starting Typophic (Crystal) dev server on :3000 (build + watch)..."
+exec "$CRYSTAL_DIR/bin/typophic" s --build --port 3000 --watch "$@"
