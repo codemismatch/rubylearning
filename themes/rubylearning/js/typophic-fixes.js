@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', function() {
   // Fix template variables that weren't rendered
   fixTemplateVariables();
   
-  // Apply syntax highlighting to code blocks
+  // Apply syntax highlighting to code blocks (Prism)
   applySyntaxHighlighting();
   
   // Add copy buttons to code blocks
@@ -35,9 +35,9 @@ function fixTemplateVariables() {
  * Applies syntax highlighting to code blocks
  */
 function applySyntaxHighlighting() {
-  // Check if highlight.js is already loaded
-  if (typeof hljs === 'undefined') {
-    console.warn('Highlight.js is not loaded. Syntax highlighting will not be applied.');
+  // Check if Prism is already loaded
+  if (typeof Prism === 'undefined') {
+    console.warn('Prism is not loaded. Syntax highlighting will not be applied.');
     return;
   }
   
@@ -79,7 +79,7 @@ function applySyntaxHighlighting() {
     }
     
     // Apply highlighting
-    hljs.highlightElement(block);
+    Prism.highlightElement(block);
   });
 }
 
