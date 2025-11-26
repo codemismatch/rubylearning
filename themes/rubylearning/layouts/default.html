@@ -1,69 +1,10 @@
 <!DOCTYPE html>
-<html lang="{{ page.lang | default: site.lang | default: 'en' }}">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  {% assign base_url = site.base_url | default: site.url | default: 'https://rubylearning.in' %}
-  {% assign page_title = page.title | default: site.title %}
-  {% assign full_title = page_title %}
-  {% if site.title and page_title and page_title != site.title %}
-    {% assign full_title = page_title | append: ' - ' | append: site.title %}
-  {% endif %}
-  {% assign page_desc = page.description | default: page.summary | default: site.description | default: 'Learn Ruby step-by-step with runnable examples, curated lessons, and community-driven resources.' %}
-  {% assign canonical_url = page.url | default: page.permalink | default: '/' %}
-  {% if canonical_url contains '://' %}
-    {% assign canonical_href = canonical_url %}
-  {% elsif base_url != '' %}
-    {% assign canonical_href = base_url | append: canonical_url %}
-  {% else %}
-    {% assign canonical_href = canonical_url %}
-  {% endif %}
-  {% assign robots_directive = page.robots %}
-  {% if robots_directive == nil %}
-    {% if page.noindex or site.noindex %}
-      {% assign robots_directive = 'noindex, nofollow' %}
-    {% else %}
-      {% assign robots_directive = 'index, follow' %}
-    {% endif %}
-  {% endif %}
-  {% assign social_image = page.social_image | default: site.social_image %}
-  {% if social_image %}
-    {% if social_image contains '://' %}
-      {% assign social_image_url = social_image %}
-    {% elsif base_url != '' %}
-      {% assign social_image_url = base_url | append: social_image %}
-    {% else %}
-      {% assign social_image_url = social_image %}
-    {% endif %}
-  {% endif %}
-
-  <title>{{ full_title }}</title>
-  <meta name="description" content="{{ page_desc }}">
-  <meta name="robots" content="{{ robots_directive }}">
-  <link rel="canonical" href="{{ canonical_href }}">
-  <meta name="referrer" content="strict-origin-when-cross-origin">
-  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.jsdelivr.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; connect-src 'self'; frame-ancestors 'self'; base-uri 'self'; form-action 'self'; upgrade-insecure-requests;">
-  <meta http-equiv="Cross-Origin-Opener-Policy" content="same-origin">
-  
-  <!-- Open Graph / Facebook -->
-  <meta property="og:type" content="website">
-  <meta property="og:url" content="{{ canonical_href }}">
-  <meta property="og:title" content="{{ full_title }}">
-  <meta property="og:description" content="{{ page_desc }}">
-  <meta property="og:site_name" content="{{ site.title }}">
-  {% if social_image_url %}
-  <meta property="og:image" content="{{ social_image_url }}">
-  {% endif %}
-  
-  <!-- Twitter -->
-  <meta name="twitter:card" content="summary_large_image">
-  <meta name="twitter:url" content="{{ canonical_href }}">
-  <meta name="twitter:title" content="{{ full_title }}">
-  <meta name="twitter:description" content="{{ page_desc }}">
-  {% if social_image_url %}
-  <meta name="twitter:image" content="{{ social_image_url }}">
-  {% endif %}
-  
+  <title>{{ page.title }} - {{ site.title }}</title>
+  <meta name="description" content="{{ page.description | default: site.description }}">
   <link rel="icon" type="image/x-icon" href="{{ 'images/favicon.ico' | relative_url }}">
   
   <link rel="stylesheet" href="{{ 'css/style.css' | theme_asset: page.theme }}">
@@ -130,7 +71,7 @@
     </div>
   </header>
   
-  <main class="site-content" role="main">
+  <main class="site-content">
     <div class="container">
       {{ content }}
     </div>

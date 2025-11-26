@@ -6,8 +6,7 @@ description: A beautiful static website for learning Ruby
 url: https://rubylearning.in
 theme:
   default: rubylearning
-  sections:
-    zolan: zolan
+  sections: {}
 permalink_style: pretty
 date_format: "%B %-d, %Y"
 markdown_extensions:
