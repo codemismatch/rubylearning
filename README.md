@@ -87,6 +87,9 @@ bundle exec typophic build
 
 # Serve locally
 bundle exec typophic serve
+
+# Crystal CLI (build + serve with watch on :3000)
+bin/dev
 ```
 
 ## CLI Commands
