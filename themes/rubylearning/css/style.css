@@ -517,7 +517,7 @@
   --background-color: #ffffff;
   --background-alt: #f8f9fa;
   --text-color: #333333;
-  --text-light: #6c757d;
+  --text-light: #4b5563;
   --border-color: #e9ecef;
   --code-bg: #272822; /* Monokai background */
   --code-color: #f8f8f2;
@@ -598,13 +598,22 @@ p, ul, ol {
 
 a {
   color: var(--primary-color);
-  text-decoration: none;
+  text-decoration: underline;
+  text-decoration-thickness: 0.08em;
+  text-underline-offset: 0.12em;
   transition: color 0.2s ease-in-out;
+  font-weight: 600;
 }
 
 a:hover {
   color: var(--primary-dark);
   text-decoration: underline;
+}
+
+a:focus-visible {
+  outline: 2px solid var(--primary-color);
+  outline-offset: 2px;
+  text-decoration: none;
 }
 
 ul, ol {
