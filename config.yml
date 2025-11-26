@@ -6,31 +6,31 @@ description: A beautiful static website for learning Ruby
 url: https://rubylearning.in
 theme:
   default: rubylearning
-  sections:
-    blog: rubylearning
-    posts: rubylearning
-    pages: rubylearning
+  sections: {}
 permalink_style: pretty
 date_format: "%B %-d, %Y"
 markdown_extensions:
 - tables
 - fenced_code_blocks
 - autolink
+protocss:
+  css:
+  - themes/rubylearning/css/*.css
+  - themes/hydejack/assets/css/hydejack-9.2.1.css
 repository:
   url: git@github.com:metacritical/rubylearning.git
   branch: main
   deploy_branch: gh-pages
 collections:
   posts:
-    permalink: /blog/:slug/
-# Content processing pipeline (processes content in order)
+    permalink: "/blog/:slug/"
 pipeline:
   steps:
-  - rubocop_ruby_blocks  # Auto-format Ruby code blocks with RuboCop
-  - hash_blocks          # Process #> ... #! style blocks
-  - mermaid_blocks       # Process #> mermaid ... #! diagram blocks
-  - ditaa_blocks         # Process #> ditaa ... #! ASCII diagram blocks
-  - ruby_exec            # Process ```ruby-exec blocks
-  - practice_blocks      # Process #> ruby :practice ... #! practice exercise blocks
-  - ruby_pre_blocks      # Wrap legacy <pre data-executable> blocks in code windows
-  - markdown             # Convert Markdown to HTML
+  - rubocop_ruby_blocks
+  - hash_blocks
+  - mermaid_blocks
+  - ditaa_blocks
+  - ruby_exec
+  - practice_blocks
+  - ruby_pre_blocks
+  - markdown

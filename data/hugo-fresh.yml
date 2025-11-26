@@ -1,0 +1,48 @@
+hero:
+  title: "Fresh Theme"
+  subtitle: "A beautiful, responsive theme for Typophic"
+  buttontext: "Get Started"
+  buttonlink: "#"
+  image: "illustrations/worker.svg"
+
+section1:
+  title: "Features"
+  subtitle: "What makes this theme great"
+  tiles:
+    - title: "Responsive"
+      icon: "mobile-feed"
+      text: "Looks great on all devices"
+    - title: "Fast"
+      icon: "laptop-cloud"
+      text: "Optimized for speed"
+    - title: "Clean"
+      icon: "doc-sync"
+      text: "Easy to customize"
+
+section2:
+  title: "About Us"
+  subtitle: "Our story"
+  content: "We build great themes."
+
+section3:
+  title: "Services"
+  subtitle: "What we do"
+  image: "illustrations/mockups/app-mockup.png"
+  buttontext: "Learn More"
+  buttonlink: "#"
+
+section4:
+  title: "Portfolio"
+  subtitle: "Our work"
+
+section5:
+  title: "Contact"
+  subtitle: "Get in touch"
+
+footer:
+  copyright: "© 2025 Typophic"
+
+sidebar: true
+navbarlogo:
+  image: "logos/fresh.svg"
+  link: "/"

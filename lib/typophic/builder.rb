@@ -17,6 +17,8 @@ require_relative "tutorial_formatter"
 require_relative "pipeline"
 require_relative "renderer/markdown"
 require_relative "renderer/liquid"
+require_relative "renderer/sass"
+require_relative "renderer/protocss"
 require_relative "renderer/diagram"
 
 module Typophic
@@ -34,7 +36,9 @@ module Typophic
                 :data_dir,
                 :site_layouts_dir,
                 :site_includes_dir,
-                :site_assets_dir
+                :site_assets_dir,
+                :sass_renderer,
+                :protocss_renderer
 
     SUPPORTED_CONTENT_EXTENSIONS = %w[.md .markdown .html .htm .erb .liquid].freeze
 
@@ -138,6 +142,28 @@ module Typophic
       @theme_paths.each do |name, path|
         raise "Theme '#{name}' not found at #{path}" unless Dir.exist?(path)
       end
+      
+      # Setup Sass renderer
+      sass_paths = []
+      @theme_paths.each_value do |path|
+        %w[_sass assets/_sass assets/css assets/scss].each do |relative|
+          candidate = File.join(path, relative)
+          sass_paths << candidate if Dir.exist?(candidate)
+        end
+      end
+      # Also add site _sass if exists
+      %w[_sass assets/_sass assets/css assets/scss].each do |relative|
+        candidate = File.join(@source_dir, relative)
+        sass_paths << candidate if Dir.exist?(candidate)
+      end
+
+      @sass_renderer = Typophic::Renderer::Sass.new(sass_paths)
+
+      protocss_config = @config["protocss"] || {}
+      tailwind_config = protocss_config["tailwind_config"]
+      @protocss_renderer = Typophic::Renderer::Protocss.new(tailwind_config: tailwind_config)
+      css_allowlist = protocss_config["css"] || protocss_config[:css]
+      @protocss_css_patterns = Array(css_allowlist).map(&:to_s)
     end
 
     
@@ -169,11 +195,32 @@ module Typophic
 
     
 
-            def load_config
-              config = YAML.load_file("config.yml")
-              override = ENV["TYPOPHIC_URL_OVERRIDE"].to_s.strip
-              config["url"] = override unless override.empty?
-              config
+    def load_config
+      config = File.exist?("config.yml") ? YAML.load_file("config.yml") : {}
+
+      # Merge theme configuration if available
+      if config["theme"]
+        theme_name = config["theme"].is_a?(Hash) ? config["theme"]["default"] : config["theme"]
+        # @theme_root is initialized in initialize, but load_config is called inside initialize.
+        # We need to use the passed options or default.
+        # But load_config doesn't take options.
+        # We can use @theme_root if it's already set?
+        # initialize calls load_config BEFORE setting @theme_root?
+        # No, @theme_root is set BEFORE load_config in initialize.
+        
+        theme_config_path = File.join(@theme_root, theme_name, "_config.yml")
+        if File.exist?(theme_config_path)
+          puts "Merging theme configuration from #{theme_config_path}"
+          theme_config = YAML.load_file(theme_config_path) || {}
+          # Simple merge (theme defaults + user overrides)
+          # Note: For deep merge, we'd need a helper, but top-level merge covers most cases.
+          config = theme_config.merge(config)
+        end
+      end
+
+      override = ENV["TYPOPHIC_URL_OVERRIDE"].to_s.strip
+      config["url"] = override unless override.empty?
+      config
     rescue Errno::ENOENT
       {}
     end
@@ -233,19 +280,21 @@ module Typophic
 
     def copy_static_assets
       copy_tasks = []
+      
+      asset_dirs = %w[css js images assets]
 
       @theme_paths.each do |theme_name, path|
-        %w[css js images].each do |asset_dir|
+        asset_dirs.each do |asset_dir|
           copy_tasks << [File.join(path, asset_dir), theme_asset_destination(theme_name, asset_dir), "theme: #{theme_name}"]
         end
       end
 
       # Back-compat: also copy the default theme to root-level asset dirs
-      %w[css js images].each do |asset_dir|
+      asset_dirs.each do |asset_dir|
         copy_tasks << [File.join(@theme_path, asset_dir), asset_dir, "default theme (root)"]
       end
 
-      %w[css js images].each do |asset_dir|
+      asset_dirs.each do |asset_dir|
         copy_tasks << [File.join(@site_assets_dir, asset_dir), asset_dir, "site"]
       end
 
@@ -285,10 +334,97 @@ module Typophic
         relative = file.delete_prefix("#{source}/")
         target = File.join(destination, relative)
         FileUtils.mkdir_p(File.dirname(target))
-        FileUtils.cp(file, target)
+        
+        if file =~ /\.s[ac]ss$/
+          # Compile SCSS/Sass
+          target = target.sub(/\.s[ac]ss$/, ".css")
+          content = File.read(file)
+          
+          # Check for front matter and render Liquid if present
+          if content =~ /\A---\s*\n/
+            front_matter, body = extract_front_matter(content)
+            content = render_liquid_asset(body, relative, label)
+          end
+          
+          syntax = file.end_with?(".sass") ? :sass : :scss
+          
+          css = @sass_renderer.compile(content, syntax: syntax, filename: file)
+          if css
+            File.write(target, css)
+          else
+            warn "  ⚠️ Failed to compile #{relative}"
+          end
+        elsif file.end_with?(".pcss")
+          target = target.sub(/\.pcss$/, ".css")
+          content = File.read(file)
+          if content =~ /\A---\s*\n/
+            front_matter, body = extract_front_matter(content)
+            content = render_liquid_asset(body, relative, label)
+          end
+          compiled = compile_with_protocss(content, from: file, to: target)
+          File.write(target, compiled || content)
+        elsif file.end_with?(".css")
+          content = File.read(file)
+          if content =~ /\A---\s*\n/
+            # Process CSS with Liquid if front matter is present
+            front_matter, body = extract_front_matter(content)
+            content = render_liquid_asset(body, relative, label)
+          end
+          if use_protocss_for_css?(relative)
+            compiled = compile_with_protocss(content, from: file, to: target)
+            File.write(target, compiled || content)
+          else
+            File.write(target, content)
+          end
+        else
+          FileUtils.cp(file, target)
+        end
       end
 
       puts "Copied #{files.length} #{label} asset(s)" if @verbose
+    end
+
+    private
+
+    def render_liquid_asset(body, relative_path, label)
+      # Determine theme name from label
+      theme_name = if label.start_with?("theme: ")
+                     label.sub("theme: ", "")
+                   elsif label == "default theme (root)"
+                     @default_theme_name
+                   else
+                     nil
+                   end
+      
+      theme_includes = @theme_paths[theme_name] ? File.join(@theme_paths[theme_name], "includes") : nil
+
+      page_context = { "path" => relative_path, "url" => "/#{relative_path}" }
+      
+      renderer = Typophic::Renderer::Liquid.new(
+        content: "",
+        site: @site,
+        page: page_context,
+        current_theme: theme_name,
+        site_includes_dir: @site_includes_dir,
+        theme_includes_dir: theme_includes,
+        builder: self
+      )
+      renderer.render(body)
+    end
+
+    def compile_with_protocss(content, from:, to:)
+      return content unless @protocss_renderer
+
+      css = @protocss_renderer.compile(content, from: from, to: to)
+      css || content
+    end
+
+    def use_protocss_for_css?(relative_path)
+      return false unless @protocss_css_patterns && !@protocss_css_patterns.empty?
+
+      @protocss_css_patterns.any? do |pattern|
+        pattern == "*" || File.fnmatch?(pattern, relative_path, File::FNM_PATHNAME | File::FNM_EXTGLOB)
+      end
     end
 
     def process_content_files
@@ -370,6 +506,8 @@ module Typophic
     def render_page(entry)
       page = entry[:meta]
       theme_name = theme_for_page(page)
+      page["theme"] = theme_name
+      # # puts "[DEBUG] Rendering #{page["source"]} with theme=#{theme_name} layout=#{page["layout"]}" if @verbose
       html_content = case entry[:renderer]
                      when :markdown
                        run_content_pipeline(page, entry[:body])
@@ -449,12 +587,17 @@ module Typophic
     end
 
     def extract_front_matter(raw)
-      if raw =~ /\A---\n(.+?)\n---\n(.*)/m
-        data = YAML.safe_load(
-          Regexp.last_match(1),
-          permitted_classes: [Date, Time],
-          aliases: true
-        ) || {}
+      if raw =~ /\A---\s*\n(.*?)---\s*\n(.*)/m
+        yaml_content = Regexp.last_match(1)
+        data = if yaml_content.strip.empty?
+                 {}
+               else
+                 YAML.safe_load(
+                   yaml_content,
+                   permitted_classes: [Date, Time],
+                   aliases: true
+                 ) || {}
+               end
         [data, Regexp.last_match(2)]
       else
         [{}, raw]
@@ -903,6 +1046,13 @@ module Typophic
            )
            rendered = context.render(template_body)
          end
+         
+         # Handle layout inheritance
+         if front_matter["layout"] && !front_matter["layout"].empty?
+           return render_layout(front_matter["layout"], rendered, page_data, theme_name)
+         end
+         
+         rendered
       else
         # ERB
         context = TemplateContext.new(

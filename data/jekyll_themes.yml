@@ -1,0 +1,106 @@
+metadata:
+  source: "https://jekyllthemes.io/"
+  generated: "2025-11-26"
+  total_themes: 10
+
+themes:
+  # === Top Jekyll Themes ===
+  - name: "Just the Docs"
+    github_url: "https://github.com/just-the-docs/just-the-docs"
+    preview_url: "https://just-the-docs.com/"
+    description: "A modern, highly customizable, and responsive Jekyll theme for documentation"
+    author: "Patrick Marsceill"
+    license: "MIT"
+    stars: 7800
+    last_updated: "2025-11-20"
+    tags: ["docs", "documentation", "search", "responsive"]
+
+  - name: "Minimal Mistakes"
+    github_url: "https://github.com/mmistakes/minimal-mistakes"
+    preview_url: "https://mmistakes.github.io/minimal-mistakes/"
+    description: "A flexible two-column Jekyll theme with perfect for building personal sites, blogs, and portfolios"
+    author: "Michael Rose"
+    license: "MIT"
+    stars: 12500
+    last_updated: "2025-11-15"
+    tags: ["blog", "portfolio", "dark", "light", "popular"]
+
+  - name: "Beautiful Jekyll"
+    github_url: "https://github.com/daattali/beautiful-jekyll"
+    preview_url: "https://beautifuljekyll.com/"
+    description: "Build a beautiful and simple website in literally minutes"
+    author: "Dean Attali"
+    license: "MIT"
+    stars: 5400
+    last_updated: "2025-10-28"
+    tags: ["blog", "personal", "simple", "popular"]
+
+  - name: "Chirpy"
+    github_url: "https://github.com/cotes2020/jekyll-theme-chirpy"
+    preview_url: "https://chirpy.cotes.page/"
+    description: "A minimal, responsive, and feature-rich Jekyll theme for technical writing"
+    author: "Cotes Chung"
+    license: "MIT"
+    stars: 8200
+    last_updated: "2025-11-18"
+    tags: ["blog", "dark", "light", "technical", "popular"]
+
+  - name: "Hydejack"
+    github_url: "https://github.com/hydecorp/hydejack"
+    preview_url: "https://hydejack.com/"
+    description: "A boutique Jekyll theme for hackers, nerds, and academics"
+    author: "Florian Klampfer"
+    license: "GPL-3.0"
+    stars: 1700
+    last_updated: "2025-09-12"
+    tags: ["blog", "portfolio", "resume"]
+
+  - name: "Type on Strap"
+    github_url: "https://github.com/sylhare/Type-on-Strap"
+    preview_url: "https://sylhare.github.io/Type-on-Strap/"
+    description: "A simple and responsive jekyll theme template"
+    author: "Sylhare"
+    license: "MIT"
+    stars: 900
+    last_updated: "2025-08-20"
+    tags: ["blog", "portfolio", "responsive"]
+
+  - name: "Basically Basic"
+    github_url: "https://github.com/mmistakes/jekyll-theme-basically-basic"
+    preview_url: "https://mmistakes.github.io/jekyll-theme-basically-basic/"
+    description: "A Jekyll theme for your résumé and portfolio"
+    author: "Michael Rose"
+    license: "MIT"
+    stars: 450
+    last_updated: "2025-07-15"
+    tags: ["minimal", "portfolio", "resume"]
+
+  - name: "Lanyon"
+    github_url: "https://github.com/poole/lanyon"
+    preview_url: "http://lanyon.getpoole.com/"
+    description: "A content-first, sliding sidebar theme for Jekyll"
+    author: "Mark Otto"
+    license: "MIT"
+    stars: 2000
+    last_updated: "2024-12-10"
+    tags: ["blog", "sidebar", "minimal"]
+
+  - name: "Hydeout"  
+    github_url: "https://github.com/fongandrew/hydeout"
+    preview_url: "https://fongandrew.github.io/hydeout/"
+    description: "A refreshed version of Hyde for Jekyll 3.x with improved sidebar"
+    author: "Andrew Fong"
+    license: "MIT"
+    stars: 700
+    last_updated: "2025-05-08"
+    tags: ["blog", "sidebar"]
+
+  - name: "Minima"
+    github_url: "https://github.com/jekyll/minima"
+    preview_url: "https://jekyll.github.io/minima/"
+    description: "Minima is a one-size-fits-all Jekyll theme for writers"
+    author: "Jekyll Contributors"
+    license: "MIT"
+    stars: 3200
+    last_updated: "2025-10-05"
+    tags: ["blog", "minimal", "default"]

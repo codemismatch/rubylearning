@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>ProtoCss Tailwind Demo</title>
+  <link rel="stylesheet" href="output.css">
+</head>
+<body class="bg-gray-50 dark:bg-gray-900">
+  
+  <!-- Header with responsive design and hover effects -->
+  <header class="bg-white dark:bg-gray-800 shadow-lg">
+    <nav class="container mx-auto px-6 py-4">
+      <div class="flex justify-between items-center">
+        <h1 class="text-2xl font-bold text-primary dark:text-blue-400 transition-colors duration-300">
+          ProtoCss Demo
+        </h1>
+        <button class="md:hidden p-2 rounded-lg hover:bg-gray-100 dark:hover:bg-gray-700 transition-all">
+          <span class="sr-only">Menu</span>
+          ☰
+        </button>
+      </div>
+    </nav>
+  </header>
+
+  <!-- Hero Section with Transforms and Animations -->
+  <section class="container mx-auto px-6 py-16">
+    <div class="text-center">
+      <h2 class="text-4xl md:text-6xl font-extrabold text-gray-900 dark:text-white mb-6 animate-pulse">
+        Welcome to ProtoCss
+      </h2>
+      <p class="text-lg md:text-xl text-gray-600 dark:text-gray-300 mb-8">
+        A powerful PostCSS port in Ruby with full Tailwind support
+      </p>
+      <div class="flex flex-col sm:flex-row gap-4 justify-center">
+        <button class="px-8 py-3 bg-primary text-white rounded-lg shadow-md hover:shadow-xl hover:scale-105 transform transition-all duration-300 cursor-pointer">
+          Get Started
+        </button>
+        <button class="px-8 py-3 bg-white dark:bg-gray-800 text-primary dark:text-blue-400 border-2 border-primary rounded-lg hover:bg-primary hover:text-white dark:hover:bg-primary transition-all duration-300 cursor-pointer">
+          Learn More
+        </button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid with Responsive Layout -->
+  <section class="container mx-auto px-6 py-16">
+    <h3 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">
+      Features
+    </h3>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      
+      <!-- Feature Card 1 - JIT Mode -->
+      <div class="group bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+        <div class="w-12 h-12 bg-blue-500 rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
+          <span class="text-2xl text-white">⚡</span>
+        </div>
+        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          JIT Mode
+        </h4>
+        <p class="text-gray-600 dark:text-gray-300">
+          Generate only the CSS you use for lightning-fast builds
+        </p>
+      </div>
+
+      <!-- Feature Card 2 - Variants -->
+      <div class="group bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+        <div class="w-12 h-12 bg-purple-500 rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
+          <span class="text-2xl text-white">🎨</span>
+        </div>
+        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          Full Variant Support
+        </h4>
+        <p class="text-gray-600 dark:text-gray-300">
+          Responsive, hover, focus, dark mode, and 20+ other variants
+        </p>
+      </div>
+
+      <!-- Feature Card 3 - Utilities -->
+      <div class="group bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2">
+        <div class="w-12 h-12 bg-green-500 rounded-lg flex items-center justify-center mb-4 group-hover:rotate-12 transition-transform">
+          <span class="text-2xl text-white">🛠️</span>
+        </div>
+        <h4 class="text-xl font-semibold text-gray-900 dark:text-white mb-2">
+          Comprehensive Utilities
+        </h4>
+        <p class="text-gray-600 dark:text-gray-300">
+          Transforms, animations, filters, and everything you need
+        </p>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- Interactive Demo Section -->
+  <section class="container mx-auto px-6 py-16">
+    <h3 class="text-3xl font-bold text-center text-gray-900 dark:text-white mb-12">
+      Interactive Examples
+    </h3>
+    
+    <!-- Transform Examples -->
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg mb-8">
+      <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+        Transforms & Transitions
+      </h4>
+      <div class="flex flex-wrap gap-4">
+        <div class="w-20 h-20 bg-blue-500 rounded-lg hover:rotate-45 transition-transform duration-500 cursor-pointer"></div>
+        <div class="w-20 h-20 bg-purple-500 rounded-lg hover:scale-150 transition-transform duration-500 cursor-pointer"></div>
+        <div class="w-20 h-20 bg-green-500 rounded-lg hover:translate-x-4 hover:translate-y-4 transition-transform duration-500 cursor-pointer"></div>
+        <div class="w-20 h-20 bg-red-500 rounded-lg hover:skew-x-12 transition-transform duration-500 cursor-pointer"></div>
+      </div>
+    </div>
+
+    <!-- Filter Examples -->
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg mb-8">
+      <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+        Filters & Effects
+      </h4>
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <div class="text-center">
+          <div class="w-full h-32 bg-gradient-to-r from-blue-500 to-purple-500 rounded-lg mb-2 hover:blur-sm transition-all cursor-pointer"></div>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Blur</p>
+        </div>
+        <div class="text-center">
+          <div class="w-full h-32 bg-gradient-to-r from-green-500 to-blue-500 rounded-lg mb-2 hover:brightness-150 transition-all cursor-pointer"></div>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Brightness</p>
+        </div>
+        <div class="text-center">
+          <div class="w-full h-32 bg-gradient-to-r from-purple-500 to-pink-500 rounded-lg mb-2 hover:grayscale transition-all cursor-pointer"></div>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Grayscale</p>
+        </div>
+        <div class="text-center">
+          <div class="w-full h-32 bg-gradient-to-r from-yellow-500 to-red-500 rounded-lg mb-2 hover:sepia transition-all cursor-pointer"></div>
+          <p class="text-sm text-gray-600 dark:text-gray-300">Sepia</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Animation Examples -->
+    <div class="bg-white dark:bg-gray-800 p-8 rounded-xl shadow-lg">
+      <h4 class="text-2xl font-semibold text-gray-900 dark:text-white mb-6">
+        Animations
+      </h4>
+      <div class="flex flex-wrap gap-8 items-center">
+        <div class="w-16 h-16 bg-blue-500 rounded-full animate-spin"></div>
+        <div class="w-16 h-16 bg-purple-500 rounded-full animate-ping"></div>
+        <div class="w-16 h-16 bg-green-500 rounded-full animate-pulse"></div>
+        <div class="w-16 h-16 bg-red-500 rounded-full animate-bounce"></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="bg-gray-900 text-white py-8 mt-16">
+    <div class="container mx-auto px-6 text-center">
+      <p class="text-gray-400">
+        Built with ProtoCss - A Ruby PostCSS Implementation
+      </p>
+      <div class="mt-4 flex justify-center gap-4">
+        <a href="#" class="text-gray-400 hover:text-white transition-colors cursor-pointer">GitHub</a>
+        <a href="#" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Documentation</a>
+        <a href="#" class="text-gray-400 hover:text-white transition-colors cursor-pointer">Examples</a>
+      </div>
+    </div>
+  </footer>
+
+</body>
+</html>

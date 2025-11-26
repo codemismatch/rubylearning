@@ -1,5 +1,4 @@
-# require "./theme_converter" # TODO: Create theme_converter.cr
-require "../theme_importer"
+require "./theme_converter"
 
 module Typophic
   module Commands
@@ -28,8 +27,6 @@ module Typophic
           Remove.new(args).run
         when "convert"
           Convert.new(args).run
-        when "import"
-          Import.new(args).run
         when "help", "--help", "-h"
           puts help_text
         else
@@ -288,7 +285,32 @@ module Typophic
           end
           puts "Installed theme to #{target}"
           
-          # TODO: Add theme import/convert support in Crystal CLI to mirror Ruby ThemeImporter
+          # Auto-convert if it looks like a Hugo theme (has config.toml/yaml/json or layouts dir with {{)
+          # Since we are installing from Hugo registry or generic git, we assume it might need conversion.
+          # We'll run the converter in-place.
+          
+          puts "Checking for Hugo theme structure..."
+          if is_hugo_theme?(target)
+            puts "Hugo theme detected. Auto-converting to Typophic format..."
+            begin
+              # We need to convert in-place. ThemeConverter expects source != target usually,
+              # but we can hack it or modify ThemeConverter.
+              # Let's move to a temp dir and convert back.
+              temp_source = "#{target}_hugo_source"
+              FileUtils.mv(target, temp_source)
+              
+              converter = Typophic::ThemeConverter.new(temp_source, target)
+              converter.run
+              
+              FileUtils.rm_rf(temp_source)
+              puts "Auto-conversion complete."
+            rescue ex
+              puts "Conversion failed: #{ex.message}"
+              puts "Restoring original files..."
+              FileUtils.rm_rf(target) if Dir.exists?(target)
+              FileUtils.mv(temp_source.as(String), target) if Dir.exists?(temp_source.as(String))
+            end
+          end
         end
 
         private def is_hugo_theme?(path)
@@ -430,52 +452,6 @@ module Typophic
         end
       end
 
-      class Import
-        @source : String
-        @name : String?
-        @staging : String
-
-        def initialize(args : Array(String))
-          @source = ""
-          @name = nil
-          @staging = File.join("tmp", "theme-import")
-          
-          parser = OptionParser.new do |opts|
-            opts.banner = "Usage: typophic theme import SOURCE [options]"
-            opts.on("--name NAME", "Target theme directory name") { |v| @name = v }
-            opts.on("--staging DIR", "Temporary staging directory (default: tmp/theme-import)") { |dir| @staging = dir }
-            opts.on("-h", "--help", "Show help") { puts opts; exit }
-          end
-          parser.parse(args)
-          
-          @source = args.shift? || ""
-          if @source.strip.empty?
-            puts "Source required (path to a theme directory)"
-            puts parser
-            exit 1
-          end
-        end
-
-        def run
-          importer = Typophic::ThemeImporter.new(
-            target_root: "themes",
-            staging_root: @staging
-          )
-
-          result = importer.import(@source, name: @name)
-          puts "Imported theme '#{result.name}' to #{result.target_path}"
-          result.summary_lines.each { |line| puts "  - #{line}" }
-
-          return if result.warnings.empty?
-
-          puts "Warnings:"
-          result.warnings.each { |warning| puts "  - #{warning}" }
-        rescue ex
-          STDERR.puts "Import failed: #{ex.message}"
-          exit 1
-        end
-      end
-
       class Convert
         @source : String
         @name : String?
@@ -504,14 +480,9 @@ module Typophic
           source_path = File.expand_path(@source)
           theme_name = @name || File.basename(source_path)
           target_path = File.join("themes", theme_name)
-
-          # TODO: Implement ThemeImporter/ThemeConverter in Crystal to mirror Ruby CLI
-          puts "Theme conversion not yet available in Crystal CLI. Copying source to #{target_path} instead."
-          if Dir.exists?(target_path)
-            puts "Target already exists: #{target_path}"
-            exit 1
-          end
-          FileUtils.cp_r(source_path, target_path)
+          
+          converter = Typophic::ThemeConverter.new(source_path, target_path)
+          converter.run
         rescue ex
           puts "Error: #{ex.message}"
           exit 1

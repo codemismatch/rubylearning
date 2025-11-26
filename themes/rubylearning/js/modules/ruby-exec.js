@@ -151,8 +151,13 @@ async function addRubyExecSupport() {
 
         header.appendChild(mainButton);
 
-        // Insert output area after the <pre>
-        editorWrapper.parentNode.insertBefore(outputArea, editorWrapper.nextSibling);
+        // Insert output area inside the code window (after the editor)
+        const codeWindow = header.closest('.code-window') || editorWrapper.closest('.code-window');
+        if (codeWindow) {
+          codeWindow.appendChild(outputArea);
+        } else {
+          editorWrapper.parentNode.insertBefore(outputArea, editorWrapper.nextSibling);
+        }
 
         // Shared execution logic
         const executeCode = async (runTests) => {

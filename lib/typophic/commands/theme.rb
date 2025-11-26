@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
 require "optparse"
-
-require_relative "../theme_scaffolder"
+require "fileutils"
+require_relative "../theme_importer"
 
 module Typophic
   module Commands
@@ -19,8 +19,10 @@ module Typophic
           Use.new(argv).run
         when "install"
           Install.new(argv).run
+        when "import"
+          Import.new(argv).run
         when "list"
-          List.run
+          List.run(argv)
         when "remove", "rm"
           Remove.new(argv).run
         when nil, "help", "--help", "-h"
@@ -32,6 +34,11 @@ module Typophic
         end
       end
 
+      # Helper method to slugify theme names (e.g., "Minimal Mistakes" -> "minimal-mistakes")
+      def self.slugify_theme_name(name)
+        name.to_s.strip.downcase.gsub(/[\s_]+/, "-").gsub(/[^a-z0-9\-]/, "")
+      end
+
       def help_text
         <<~HELP
           Usage: typophic theme <command> [options]
@@ -41,6 +48,8 @@ module Typophic
             use NAME [options]    Set default or section theme in config.yml
             install URL|OWNER/REPO[#ref] [--name NAME]
                                   Install a theme from GitHub into themes/NAME
+            import SOURCE [--name NAME] [--staging DIR]
+                                  Convert a local theme folder into Typophic layout
             list                  List installed themes
             remove NAME           Remove an installed theme directory
 
@@ -140,8 +149,12 @@ module Typophic
         end
 
         def run
-          unless Dir.exist?(File.join("themes", @theme))
-            warn "Theme '#{@theme}' does not exist under themes/#{@theme}"
+          # Normalize theme name to match directory name (e.g., "Minimal Mistakes" -> "minimal-mistakes")
+          theme_dir = Theme.slugify_theme_name(@theme)
+          
+          unless Dir.exist?(File.join("themes", theme_dir))
+            warn "Theme '#{@theme}' does not exist under themes/#{theme_dir}"
+            warn "Install it first with: bin/typophic theme install \"#{@theme}\""
             exit 1
           end
 
@@ -149,13 +162,13 @@ module Typophic
           config["theme"] = normalize_theme_config(config["theme"])
 
           if @options[:section]
-            config["theme"]["sections"][@options[:section].to_s] = @theme
-            puts "Applied theme '#{@theme}' to section '#{@options[:section]}'"
+            config["theme"]["sections"][@options[:section].to_s] = theme_dir
+            puts "Applied theme '#{theme_dir}' to section '#{@options[:section]}' (from '#{@theme}')"
           end
 
           if @options[:default] || !@options[:section]
-            config["theme"]["default"] = @theme
-            puts "Set default theme to '#{@theme}'"
+            config["theme"]["default"] = theme_dir
+            puts "Set default theme to '#{theme_dir}' (from '#{@theme}')"
           end
 
           File.write("config.yml", config.to_yaml)
@@ -203,35 +216,47 @@ module Typophic
         end
 
         def run
-          url, name, ref = normalize_source(@source)
+          url, name, ref = resolve_source(@source)
           name = @options[:name] || name
           target = File.join("themes", name)
+          
           if Dir.exist?(target)
-            warn "Theme directory already exists: #{target}"
+            puts "Theme directory already exists: #{target}"
             exit 1
           end
-          system("git", "clone", "--depth", "1", url, target) || abort("git clone failed")
-          if ref && !ref.to_s.strip.empty?
-            system("git", "-C", target, "fetch", "--all")
-            system("git", "-C", target, "checkout", ref) || warn("Failed to checkout ref '#{ref}', staying on default branch")
+          
+          puts "Installing #{name} from #{url}..."
+          unless system("git clone --depth 1 #{url} #{target}")
+            abort("git clone failed")
           end
+          
+          if ref && !ref.strip.empty?
+            system("git -C #{target} fetch --all")
+            unless system("git -C #{target} checkout #{ref}")
+              puts "Failed to checkout ref '#{ref}', staying on default branch"
+            end
+          end
+          
           puts "Installed theme to #{target}"
         end
 
         private
 
-        def normalize_source(src)
-          # Accept full https/git URLs or shorthand OWNER/REPO[#ref]
+        def resolve_source(src)
+          # 1. Check if it's a direct URL or shorthand
           if src =~ %r{^https?://} || src =~ %r{^git@}
-            name = infer_name_from_url(src)
-            url, ref = src, nil
-            [url, name, ref]
-          else
-            owner, repo_ref = src.split("/", 2)
-            abort("Invalid shorthand; use OWNER/REPO or URL") unless owner && repo_ref
-            repo, ref = repo_ref.split("#", 2)
-            ["https://github.com/#{owner}/#{repo}.git", repo, ref]
+            return [src, infer_name_from_url(src), nil]
           end
+          
+          if src.include?("/") && !src.include?(" ") # Simple heuristic for owner/repo
+            parts = src.split("/", 2)
+            owner, repo_ref = parts[0], parts[1]
+            repo_parts = repo_ref.split("#", 2)
+            repo = repo_parts[0]
+            ref = repo_parts[1]
+            return ["https://github.com/#{owner}/#{repo}.git", repo, ref]
+          end
+          abort("Could not resolve theme source: '#{src}'. Provide a URL or OWNER/REPO[#ref].")
         end
 
         def infer_name_from_url(url)
@@ -239,34 +264,91 @@ module Typophic
         end
       end
 
-      module List
-        module_function
-        def run
-          themes_dir = "themes"
-          unless Dir.exist?(themes_dir)
-            puts "No themes/ directory"
-            return
+      class Import
+        def initialize(argv)
+          @options = { name: nil, staging: File.join("tmp", "theme-import") }
+          @parser = OptionParser.new do |opts|
+            opts.banner = "Usage: typophic theme import SOURCE [options]"
+            opts.on("--name NAME", "Target theme directory name") { |v| @options[:name] = v }
+            opts.on("--staging DIR", "Temporary staging directory (default: tmp/theme-import)") { |dir| @options[:staging] = dir }
+            opts.on("-h", "--help", "Show help") { puts opts; exit }
           end
-          names = Dir.children(themes_dir).select { |n| File.directory?(File.join(themes_dir, n)) }
-          if names.empty?
-            puts "No themes installed"
-          else
-            names.sort.each { |n| puts n }
+          @parser.parse!(argv)
+          @source = argv.shift
+          if @source.to_s.strip.empty?
+            warn "Source required (path to a theme directory)"
+            puts @parser
+            exit 1
           end
         end
+
+        def run
+          importer = Typophic::ThemeImporter.new(
+            target_root: "themes",
+            staging_root: @options[:staging]
+          )
+
+          result = importer.import(@source, name: @options[:name])
+          puts "Imported theme '#{result.name}' to #{result.target_path}"
+          result.summary_lines.each { |line| puts "  - #{line}" }
+
+          return if result.warnings.empty?
+
+          puts "Warnings:"
+          result.warnings.each { |warning| puts "  - #{warning}" }
+        rescue StandardError => e
+          warn "Import failed: #{e.message}"
+          exit 1
+        end
+      end
+
+      module List
+        extend self
+
+        def run(argv = [])
+          parser = OptionParser.new do |opts|
+            opts.banner = "Usage: typophic theme list"
+            opts.on("-h", "--help", "Show help") { puts opts; exit }
+          end
+          parser.parse!(argv)
+
+          list_installed_themes
+        end
+
+        def list_installed_themes
+          themes_dir = "themes"
+          unless Dir.exist?(themes_dir)
+            puts "No themes directory found."
+            return
+          end
+
+          themes = Dir.children(themes_dir).select { |child| File.directory?(File.join(themes_dir, child)) }
+          
+          if themes.empty?
+            puts "No themes installed."
+          else
+            puts "Installed themes:"
+            themes.each do |theme|
+              puts "  - #{theme}"
+            end
+          end
+        end
+
       end
 
       class Remove
         def initialize(argv)
-          @parser = OptionParser.new do |opts|
+          @name = nil
+          parser = OptionParser.new do |opts|
             opts.banner = "Usage: typophic theme remove NAME"
             opts.on("-h", "--help", "Show help") { puts opts; exit }
           end
-          @parser.parse!(argv)
+          parser.parse!(argv)
+          
           @name = argv.shift
-          if @name.to_s.strip.empty?
-            warn "Theme NAME is required"
-            puts @parser
+          if @name.nil? || @name.strip.empty?
+            puts "Theme NAME is required"
+            puts parser
             exit 1
           end
         end
@@ -274,15 +356,15 @@ module Typophic
         def run
           path = File.join("themes", @name)
           if Dir.exist?(path)
-            require "fileutils"
             FileUtils.rm_rf(path)
             puts "Removed theme #{path}"
           else
-            warn "Theme not found: #{path}"
+            puts "Theme not found: #{path}"
             exit 1
           end
         end
       end
+
     end
   end
 end

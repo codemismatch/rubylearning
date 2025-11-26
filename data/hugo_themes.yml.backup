@@ -1,0 +1,251 @@
+metadata:
+  source: "https://themes.gohugo.io/"
+  generated: "2025-11-25"
+  total_themes: 265
+
+themes:
+  # === Top Themes with Complete Details ===
+  - name: "PaperMod"
+    info_url: "https://themes.gohugo.io/themes/hugo-papermod/"
+    github_url: "https://github.com/adityatelange/hugo-PaperMod"
+    preview_url: "https://adityatelange.github.io/hugo-PaperMod/"
+    description: "A fast, clean, responsive Hugo theme"
+    author: "Aditya Telange"
+    license: "MIT"
+    stars: 12683
+    last_updated: "2025-10-26"
+    tags: ["blog", "dark", "light", "minimal", "popular"]
+
+  - name: "Hugo Blox - Tailwind"
+    info_url: "https://themes.gohugo.io/themes/blox-tailwind/"
+    github_url: "https://github.com/HugoBlox/hugo-blox-builder"
+    preview_url: "https://hugo-academic-pages.netlify.app/"
+    description: "Create any kind of website with fully customizable widgets - 50+ light/dark color themes"
+    author: "George Cushen"
+    license: "MIT"
+    stars: 9081
+    forks: 2000
+    last_updated: "2025-11-08"
+    tags: ["blog", "company", "dark", "landing", "minimal", "multilingual", "portfolio", "popular"]
+
+  - name: "Stack"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-stack/"
+    github_url: "https://github.com/CaiJimmy/hugo-theme-stack"
+    preview_url: "https://demo.stack.jimmycai.com/"
+    description: "Card-style Hugo theme designed for bloggers"
+    author: "Jimmy Cai"
+    license: "GPL-3.0-only"
+    stars: 6067
+    last_updated: "2025-11-01"
+    tags: ["blog", "dark", "light", "personal", "popular"]
+
+  - name: "Book"
+    info_url: "https://themes.gohugo.io/themes/hugo-book/"
+    github_url: "https://github.com/alex-shpak/hugo-book"
+    preview_url: "https://hugo-book-demo.netlify.app/"
+    description: "Hugo documentation theme as simple as plain book"
+    author: "Alex Shpak"
+    license: "MIT"
+    stars: 3856
+    forks: 1300
+    last_updated: "2025-11-18"
+    tags: ["docs", "multilingual", "popular"]
+
+  - name: "LoveIt"
+    info_url: "https://themes.gohugo.io/themes/loveit/"
+    github_url: "https://github.com/dillonzq/LoveIt"
+    preview_url: "https://hugoloveit.com/"
+    description: "A Clean, Elegant but Advanced Hugo Theme"
+    author: "Dillon"
+    license: "MIT"
+    stars: 3753
+    last_updated: "2025-02-12"
+    tags: ["blog", "dark", "popular"]
+
+  - name: "Coder"
+    info_url: "https://themes.gohugo.io/themes/hugo-coder/"
+    github_url: "https://github.com/luizdepra/hugo-coder"
+    preview_url: "https://hugo-coder.netlify.app/"
+    description: "A simple and clean blog theme for Hugo"
+    author: "Luiz F. A. de Prá"
+    license: "MIT"
+    stars: 2993
+    last_updated: "2025-08-29"
+    tags: ["blog", "dark", "dark mode", "light", "minimal", "personal", "popular"]
+
+  - name: "Docsy"
+    info_url: "https://themes.gohugo.io/themes/docsy/"
+    github_url: "https://github.com/google/docsy"
+    preview_url: "https://example.docsy.dev/"
+    description: "A Hugo theme for technical documentation sites"
+    author: "The Docsy Authors"
+    license: "Apache 2.0"
+    stars: 2867
+    last_updated: "2025-05-27"
+    tags: ["docs", "multilingual", "popular"]
+
+  - name: "Terminal"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-terminal/"
+    github_url: "https://github.com/panr/hugo-theme-terminal"
+    preview_url: "https://panr.github.io/hugo-theme-terminal-demo/"
+    description: "A simple, retro theme for Hugo"
+    author: "panr"
+    license: "MIT"
+    stars: 2551
+    last_updated: "2025-05-10"
+    tags: ["blog", "dark", "landing", "minimal", "multilingual", "personal", "popular"]
+
+  - name: "Blowfish"
+    info_url: "https://themes.gohugo.io/themes/blowfish/"
+    github_url: "https://github.com/nunocoracao/blowfish"
+    preview_url: "https://blowfish.page/"
+    description: "A powerful, lightweight theme for Hugo built with Tailwind CSS"
+    author: "Nuno Coracao"
+    license: "MIT"
+    stars: 2418
+    last_updated: "2025-11-03"
+    tags: ["blog", "dark", "dark mode", "light", "minimal", "personal", "tailwind", "popular"]
+
+  - name: "Paper"
+    info_url: "https://themes.gohugo.io/themes/hugo-paper/"
+    github_url: "https://github.com/nanxiaobei/hugo-paper"
+    preview_url: "https://hugo-paper.vercel.app/"
+    description: "A simple, clean, flexible Hugo theme"
+    author: "nanxiaobei"
+    license: "MIT"
+    stars: 2352
+    last_updated: "2025-04-19"
+    tags: ["blog", "light", "popular"]
+
+  - name: "Doks"
+    info_url: "https://themes.gohugo.io/themes/doks/"
+    github_url: "https://github.com/thuliteio/doks"
+    preview_url: "https://doks.netlify.app/"
+    description: "Build beautiful, high-performance documentation websites with Doks"
+    author: "Henk Verlinde"
+    license: "MIT"
+    stars: 2307
+    last_updated: "2025-07-28"
+    tags: ["blog", "bootstrap", "dark mode", "docs", "landing", "minimal", "popular"]
+
+  - name: "Hextra"
+    info_url: "https://themes.gohugo.io/themes/hextra/"
+    github_url: "https://github.com/imfing/hextra"
+    preview_url: "https://imfing.github.io/hextra/"
+    description: "Modern, responsive, batteries-included Hugo theme for creating beautiful static websites"
+    author: "Xin"
+    license: "MIT"
+    stars: 1759
+    last_updated: "2025-09-06"
+    tags: ["blog", "dark", "docs", "light", "minimal", "popular"]
+
+  - name: "Hugo Fresh"
+    info_url: "https://themes.gohugo.io/themes/hugo-fresh/"
+    github_url: "https://github.com/StefMa/hugo-fresh"
+    preview_url: "https://hugo-fresh.vercel.app"
+    description: "A Hugo adaptation of the Fresh theme from CSS Ninja"
+    author: "Stefan M."
+    license: "MIT"
+    stars: 679
+    forks: 398
+    last_updated: "2024-10-14"
+    tags: ["company", "landing", "light"]
+
+  - name: "Demius"
+    info_url: "https://themes.gohugo.io/themes/demius/"
+    github_url: "https://github.com/demius782/demius"
+    preview_url: "https://blog.demius.tech/"
+    description: "三栏瀑布流 + 数据组件 + PJAX 的现代化 Hugo 主题"
+    author: "demius782"
+    license: "MIT"
+    stars: 6
+    forks: 0
+    last_updated: "2025-11-22"
+    tags: ["blog", "gallery", "multilingual"]
+
+  - name: "Gallery"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-gallery/"
+    github_url: "https://github.com/nicokaiser/hugo-theme-gallery"
+    preview_url: "https://nicokaiser.github.io/hugo-theme-gallery/"
+    description: "A very simple and opinionated photo gallery theme for Hugo"
+    author: "Nico Kaiser"
+    license: "MIT"
+    stars: 635
+    last_updated: "2025-10-04"
+    tags: ["dark", "gallery", "minimal"]
+
+  - name: "Diary"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-diary/"
+    github_url: "https://github.com/AmazingRise/hugo-theme-diary"
+    description: "Moments piled up. A simple, elegant blog theme"
+    author: "amazingrise"
+    license: "MIT"
+    stars: 648
+    last_updated: "2024-12-12"
+    tags: ["blog"]
+
+  - name: "hugo-theme-console"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-console/"
+    github_url: "https://github.com/mrmierzejewski/hugo-theme-console"
+    description: "minimal and responsive Hugo theme inspired by the system console"
+    author: "Marcin Mierzejewski"
+    license: "MIT"
+    stars: 604
+    last_updated: "2025-11-11"
+    tags: ["blog", "gallery", "landing", "minimal", "personal", "portfolio"]
+
+  # === Additional Themes (Basic Info) ===
+  - name: "hello-friend-ng"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-hello-friend-ng/"
+  - name: "congo"
+    info_url: "https://themes.gohugo.io/themes/congo/"
+  - name: "Hugoplate"
+    info_url: "https://themes.gohugo.io/themes/hugoplate/"
+  - name: "Ananke Gohugo Theme"
+    info_url: "https://themes.gohugo.io/themes/gohugo-theme-ananke/"
+  - name: "Hugo Bear Blog"
+    info_url: "https://themes.gohugo.io/themes/hugo-bearblog/"
+  - name: "Archie"
+    info_url: "https://themes.gohugo.io/themes/archie/"
+  - name: "Beautiful Hugo"
+    info_url: "https://themes.gohugo.io/themes/beautifulhugo/"
+  - name: "Toha"
+    info_url: "https://themes.gohugo.io/themes/toha/"
+  - name: "FixIt"
+    info_url: "https://themes.gohugo.io/themes/fixit/"
+  - name: "Mainroad"
+    info_url: "https://themes.gohugo.io/themes/mainroad/"
+  - name: "Hugo Profile"
+    info_url: "https://themes.gohugo.io/themes/hugo-profile/"
+  - name: "Jane"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-jane/"
+  - name: "DoIt"
+    info_url: "https://themes.gohugo.io/themes/doit/"
+  - name: "XMin"
+    info_url: "https://themes.gohugo.io/themes/hugo-xmin/"
+  - name: "Universal"
+    info_url: "https://themes.gohugo.io/themes/hugo-universal-theme/"
+  - name: "Clean White"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-cleanwhite/"
+  - name: "DocuAPI"
+    info_url: "https://themes.gohugo.io/themes/docuapi/"
+  - name: "Hugo blog awesome"
+    info_url: "https://themes.gohugo.io/themes/hugo-blog-awesome/"
+  - name: "reveal-hugo"
+    info_url: "https://themes.gohugo.io/themes/reveal-hugo/"
+  - name: "Anatole"
+    info_url: "https://themes.gohugo.io/themes/anatole/"
+  - name: "Introduction"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-introduction/"
+  - name: "Github Style"
+    info_url: "https://themes.gohugo.io/themes/github-style/"
+  - name: "Clarity"
+    info_url: "https://themes.gohugo.io/themes/hugo-clarity/"
+  - name: "Hyde"
+    info_url: "https://themes.gohugo.io/themes/hyde/"
+  - name: "Relearn"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-relearn/"
+  - name: "Lotus Docs"
+    info_url: "https://themes.gohugo.io/themes/lotusdocs/"
+  - name: "Bootstrap Theme for Personal Blog and Documentations"
+    info_url: "https://themes.gohugo.io/themes/hugo-theme-bootstrap/"

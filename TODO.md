@@ -52,3 +52,11 @@
 50. writing-our-own-class.md
 51. writing-own-ruby-methods.md
 
+## Theme importer follow-ups
+
+- [x] Extend `typophic theme import` to handle archives/Git sources, richer rewrites (filters/tags, asset URL adjustments), and friendlier reports.
+- [ ] Mirror the Ruby theme import workflow in the Crystal CLI (`crystal/src/typophic/commands/theme.cr`).
+- [x] Assess themes/ to pick the best candidate for Typophic augmentation vs pulling a fresh theme from GitHub.
+- [x] Converted via ThemeImporter: `hydejack-typophic`, `minimal-mistakes-typophic` (new copies under themes/).
+- [x] Add compatibility passes for lightweight themes (`hugo-serif-typophic`, `hugo-serif-typophic-v2`, `mria`, `bonsaiblog`) to align with rubylearning layout and validate with debug logs during build.
+- [ ] Resolve remaining Sass compilation errors (seen during build: “expected '{'” in theme assets).
