@@ -12,6 +12,7 @@ require "ostruct"
 require "set"
 require "etc"
 require "thread"
+require "cgi"
 
 require_relative "tutorial_formatter"
 require_relative "pipeline"
@@ -63,10 +64,13 @@ module Typophic
       @archives    = Hash.new { |hash, key| hash[key] = [] }
       @taxonomies  = { tags: Hash.new { |hash, key| hash[key] = [] } }
       @helper_modules = load_helpers
+      @pages_for_sitemap = []
     end
 
     def build
       start_time = Time.now
+      @site["build_time"] = start_time.utc.iso8601
+      @site["build_year"] = start_time.year
       puts "Building site#{@parallel ? " (parallel: #{@thread_count} threads)" : " (sequential)"}..."
 
       normalize_content_quotes
@@ -77,6 +81,7 @@ module Typophic
       copy_static_assets
       process_content_files
       write_collection_indexes
+      write_support_files
 
       elapsed = Time.now - start_time
       puts "Site built successfully! (#{elapsed.round(2)}s)"
@@ -272,8 +277,10 @@ module Typophic
 
       config.merge(
         "base_url" => base_url,
+        "url" => base_url,  # Alias for compatibility with templates
         "base_path" => base_path,
         "title" => config["site_name"] || config["title"] || "Typophic Site",
+        "description" => config.fetch("description", "A beautiful static website for learning Ruby"),
         "data" => data_files
       )
     end
@@ -442,6 +449,7 @@ module Typophic
     def process_content_files_sequential(files)
       entries = files.map { |file| parse_page(file) }
 
+      @pages_for_sitemap = entries.map { |entry| entry[:meta] }
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
 
@@ -452,6 +460,7 @@ module Typophic
       # Phase 1: Parse all files in parallel
       entries = parse_files_parallel(files)
 
+      @pages_for_sitemap = entries.map { |entry| entry[:meta] }
       # Phase 2: Index pages (must be sequential due to shared state)
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
@@ -1239,6 +1248,92 @@ module Typophic
       end
 
       inject_collection_data_into_site
+    end
+
+    def write_support_files
+      FileUtils.mkdir_p(@output_dir)
+      write_sitemap
+      write_htaccess
+      write_robots_txt
+    end
+
+    def write_sitemap
+      return if @pages_for_sitemap.nil? || @pages_for_sitemap.empty?
+
+      base_url = @site["base_url"].to_s.strip
+      base_url = base_url.chomp("/")
+      return if base_url.empty?
+
+      seen = {}
+      urls = @pages_for_sitemap.map do |page|
+        loc = page["url"] || build_url(page["permalink"] || "/")
+        next if loc.to_s.strip.empty?
+        next if seen[loc]
+
+        seen[loc] = true
+        lastmod = sitemap_lastmod_for(page)
+        changefreq = page["changefreq"] || "weekly"
+        priority = page["priority"] || (page["permalink"].to_s == "/" ? "1.0" : "0.6")
+
+        { loc: loc, lastmod: lastmod, changefreq: changefreq, priority: priority }
+      end.compact
+
+      return if urls.empty?
+
+      xml = +"<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n"
+      xml << "<urlset xmlns=\"http://www.sitemaps.org/schemas/sitemap/0.9\">\n"
+      urls.each do |entry|
+        xml << "  <url>\n"
+        xml << "    <loc>#{escape_xml(entry[:loc])}</loc>\n"
+        xml << "    <lastmod>#{entry[:lastmod].utc.iso8601}</lastmod>\n" if entry[:lastmod]
+        xml << "    <changefreq>#{entry[:changefreq]}</changefreq>\n" if entry[:changefreq]
+        xml << "    <priority>#{entry[:priority]}</priority>\n" if entry[:priority]
+        xml << "  </url>\n"
+      end
+      xml << "</urlset>\n"
+
+      File.write(File.join(@output_dir, "sitemap.xml"), xml)
+    end
+
+    def write_htaccess
+      File.write(File.join(@output_dir, ".htaccess"), <<~HTACCESS)
+        RewriteEngine On
+        RewriteCond %{REQUEST_FILENAME} !-f
+        RewriteCond %{REQUEST_FILENAME} !-d
+        RewriteRule ^(.*)$ index.html [L]
+      HTACCESS
+    end
+
+    def write_robots_txt
+      base_url = @site["base_url"].to_s.strip
+      base_url = base_url.chomp("/")
+      sitemap_line = base_url.empty? ? "" : "Sitemap: #{base_url}/sitemap.xml\n"
+
+      robots_content = <<~ROBOTS
+        User-agent: *
+        Allow: /
+      ROBOTS
+      robots_content << "\n#{sitemap_line}" unless sitemap_line.empty?
+
+      File.write(File.join(@output_dir, "robots.txt"), robots_content)
+    end
+
+    def sitemap_lastmod_for(page)
+      lastmod = page["lastmod"] || page["updated_at"] || page["date"]
+      lastmod = lastmod.to_time if lastmod.respond_to?(:to_time)
+
+      if lastmod.nil? && page["source"]
+        source_path = File.join(@source_dir, page["source"])
+        lastmod = File.mtime(source_path) if File.exist?(source_path)
+      end
+
+      lastmod
+    rescue
+      nil
+    end
+
+    def escape_xml(text)
+      CGI.escapeHTML(text.to_s)
     end
 
     def inject_collection_data_into_site

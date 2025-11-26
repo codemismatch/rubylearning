@@ -1,0 +1,85 @@
+---
+layout: default
+---
+{% assign hero_title = page.hero_title | default: "Hello, I’m Alex Rodriguez" %}
+{% assign hero_subtitle = page.hero_subtitle | default: "Designs, writes, and builds for the web. This hero text is editable in Markdown/front matter." %}
+{% assign hero_image = page.hero_image | default: site.hero_image %}
+{% assign hero_social = page.social | default: site.social | default: empty %}
+
+<section class="zl-hero">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <h1 class="hero-title">{{ hero_title }}</h1>
+      <p class="hero-subtitle">{{ hero_subtitle }}</p>
+      {% if hero_social and hero_social.size > 0 %}
+        <div class="hero-social">
+          <span class="hero-social__title">Follow</span>
+          <ul class="hero-social__list">
+            {% for profile in hero_social %}
+              {% assign social_url = profile.url | default: '#' %}
+              {% assign social_label = profile.label | default: 'Social' %}
+              <li><a href="{{ social_url }}" target="_blank" rel="noopener">{{ social_label }}</a></li>
+            {% endfor %}
+          </ul>
+        </div>
+      {% endif %}
+    </div>
+    <div class="hero-image">
+      {% if hero_image %}
+        <div class="hero-image__frame" style="background-image: url('{{ hero_image | url_for }}');"></div>
+      {% else %}
+        <div class="hero-image__frame hero-image__placeholder">
+          <span>Image Placeholder</span>
+        </div>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+{% assign posts = site.collections.posts | default: empty %}
+{% if posts and posts.size > 0 %}
+  <section class="zl-section">
+    <div class="container">
+      <p class="section-kicker">Latest Posts</p>
+      <div class="article-grid">
+        {% for post in posts limit:6 %}
+          <article class="article-card">
+            {% assign cover = post.cover | default: post.image | default: post.featured_image %}
+            {% if cover %}
+              <a class="article-card__image" href="{{ post.permalink | url_for }}" style="background-image: url('{{ cover | url_for }}');">
+                <span class="sr-only">{{ post.title }}</span>
+              </a>
+            {% else %}
+              <a class="article-card__image article-card__placeholder" href="{{ post.permalink | url_for }}">
+                <span class="sr-only">{{ post.title }}</span>
+                <span class="placeholder-label">Photo</span>
+              </a>
+            {% endif %}
+            <div class="article-card__body">
+              {% if post.tags and post.tags.size > 0 %}
+                <p class="article-card__tag">{{ post.tags[0] }}</p>
+              {% endif %}
+              <h2 class="article-card__title"><a href="{{ post.permalink | url_for }}">{{ post.title }}</a></h2>
+              {% if post.date %}
+                <p class="article-card__meta">{{ post.date | date: "%B %-d, %Y" }}</p>
+              {% endif %}
+              {% assign excerpt = post.description | default: post.summary %}
+              {% if excerpt %}
+                <p class="article-card__excerpt">{{ excerpt }}</p>
+              {% endif %}
+              <a class="read-more" href="{{ post.permalink | url_for }}">Read more →</a>
+            </div>
+          </article>
+        {% endfor %}
+      </div>
+    </div>
+  </section>
+{% endif %}
+
+{% if content %}
+  <section class="zl-section">
+    <div class="container prose">
+      {{ content }}
+    </div>
+  </section>
+{% endif %}

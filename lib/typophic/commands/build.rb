@@ -2,6 +2,7 @@
 
 require "optparse"
 require "fileutils"
+require "yaml"
 require_relative "../builder"
 
 module Typophic
@@ -30,7 +31,6 @@ module Typophic
         Typophic::Builder.new(builder_options).build
 
         create_deploy_artifacts if options[:deploy]
-        create_htaccess
 
         puts "Site ready in public/." if options[:verbose]
       end
@@ -71,15 +71,6 @@ module Typophic
         return unless Dir.exist?("public")
 
         FileUtils.rm_rf(Dir.glob("public/*"))
-      end
-
-      def self.create_htaccess
-        File.write("public/.htaccess", <<~HTACCESS)
-          RewriteEngine On
-          RewriteCond %{REQUEST_FILENAME} !-f
-          RewriteCond %{REQUEST_FILENAME} !-d
-          RewriteRule ^(.*)$ index.html [L]
-        HTACCESS
       end
 
       def self.create_deploy_artifacts
@@ -130,7 +121,7 @@ module Typophic
         HTML
       end
 
-      private_class_method :clean_public_directory, :create_htaccess, :create_deploy_artifacts
+      private_class_method :clean_public_directory, :create_deploy_artifacts
     end
   end
 end

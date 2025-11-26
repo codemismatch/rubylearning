@@ -1,0 +1,29 @@
+---
+layout: default
+---
+{% assign cover = page.cover | default: page.image | default: page.featured_image %}
+{% assign author = page.author | default: site.author | default: "Author" %}
+<header class="post-hero">
+  <div class="container">
+    <p class="section-kicker">Article</p>
+    <h1 class="post-title">{{ page.title }}</h1>
+    <div class="post-meta">
+      <span>{{ page.date | date: "%B %-d, %Y" }}</span>
+      <span aria-hidden="true">•</span>
+      <span>{{ author }}</span>
+      {% if page.tags and page.tags.size > 0 %}
+        <span aria-hidden="true">•</span>
+        <span>{{ page.tags | join: ", " }}</span>
+      {% endif %}
+    </div>
+  </div>
+  {% if cover %}
+    <div class="post-cover" style="background-image: url('{{ cover | url_for }}');">
+      <span class="sr-only">{{ page.title }}</span>
+    </div>
+  {% endif %}
+</header>
+
+<article class="post-content container prose">
+  {{ content }}
+</article>
