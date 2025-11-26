@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612125">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612125">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612125">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612125">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 7 &ndash; Variables & Assignment</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 7 &ndash; Variables & Assignment</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's original RubyLearning lesson on variables, modernised for this Typophic site.
+      <div class='markdown'><p>> Adapted from Satish Talim's original RubyLearning lesson on variables, modernised for this Typophic site.
 
 When you *assign* a value, Ruby creates the variable on the fly:
 
@@ -159,10 +153,9 @@ When you *assign* a value, Ruby creates the variable on the fly:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-s = "Hello World!"
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">s = &quot;Hello World!&quot;
 x = 10
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -173,9 +166,9 @@ Ruby doesn't need a declaration keyword&mdash;the interpreter simply sees an ass
 
 A bareword is any unadorned identifier (letters, digits, underscores). Ruby interprets barewords in this order:
 
-1. If an equals sign follows the bareword, it becomes a **local variable** receiving a value.
-2. If it matches a reserved word, Ruby treats it as a **keyword** (e.g., <code>if</code>, <code>end</code>, <code>class</code>).
-3. Otherwise, Ruby assumes it's a **method call** on the current object.
+1. If an equals sign follows the bareword, it becomes a <strong>local variable</strong> receiving a value.
+2. If it matches a reserved word, Ruby treats it as a <strong>keyword</strong> (e.g., <code>if</code>, <code>end</code>, <code>class</code>).
+3. Otherwise, Ruby assumes it's a <strong>method call</strong> on the current object.
 
 > Reference: <https://web.archive.org/web/20181219143329/http://alumnus.caltech.edu/~svhwan/prodScript/avoidBarewords.html> -- local variables and barewords share the same syntax, so prefer lowercase snake_case names and avoid Ruby keywords to keep intent clear.
 
@@ -188,11 +181,14 @@ A bareword is any unadorned identifier (letters, digits, underscores). Ruby inte
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts greeting        # method call (will raise NameError if undefined)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def greeting
+  &quot;Hello!&quot;
+end
+
+puts greeting        # method call (uses the method defined above)
 answer = 42          # local variable assignment
 class_name = &quot;User&quot;  # still a variable; keywords must be exact matches
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -212,19 +208,18 @@ Satish's <code>p004stringusage.rb</code> script still makes a great tour of assi
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# frozen_string_literal: true
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># frozen_string_literal: true
 
 PI = 3.1416              # constant: name starts with uppercase
 puts PI
 
-my_string = "I love my city, Pune"
+my_string = &quot;I love my city, Pune&quot;
 puts my_string
 
 var1 = 5
-var2 = "2"
+var2 = &quot;2&quot;
 puts var1 + var2.to_i    # convert string to integer
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -244,11 +239,10 @@ Use the shovel operator <code>&lt;&lt;</code> to mutate a string in place:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-message = "hello "
-message << "world.\nI love this world..."
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">message = &quot;hello &quot;
+message &lt;&lt; &quot;world.\nI love this world...&quot;
 puts message
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -264,13 +258,12 @@ For multi-line strings, reach for a heredoc:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-story = &lt;&lt; END_STR
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">story = &lt;&lt;END_STR
  This is the string And a second line
 END_STR
 
 puts story
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -279,7 +272,7 @@ The line containing <code>END_STR</code> must be flush-left and match the openin
 
 <h3>Messages, receivers, and dots</h3>
 
-Method calls read as "send this **message** to that **receiver**." The dot connects the two:
+Method calls read as "send this <strong>message</strong> to that <strong>receiver</strong>." The dot connects the two:
 
 <div class="code-window">
   <div class="code-header">
@@ -290,9 +283,8 @@ Method calls read as "send this **message** to that **receiver**." The dot conne
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-x = "200.0".to_f
-</code></pre>
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">x = &quot;200.0&quot;.to_f
+      </code></pre>
     </div>
   </div>
 </div>
@@ -300,152 +292,117 @@ x = "200.0".to_f
 Here the string <code>"200.0"</code> is the receiver and <code>to_f</code> is the message. Ruby evaluates the expression on the left of the dot first, then calls the method named on the right.
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Write a script that assigns the same bareword both as a local (<code>status = "new"</code>) and as a method (<code>def status; "ok"; end</code>) to observe the precedence rules.</li></ul><ul><li>[ ] Recreate <code>p004stringusage.rb</code> and extend it with <code>.to_s</code> and <code>.to_f</code> examples.</li></ul><ul><li>[ ] Append to a string with <code>&lt;&lt;</code> and compare the result to concatenation with <code>+</code>.</li></ul><ul><li>[ ] Define a heredoc that includes interpolation and confirm it respects the surrounding quotation style (<code>&lt;&lt;~</code> for indentation stripping is handy).</li></ul>
+<ul><li>[ ] Write a script that assigns the same bareword both as a local (<code>status = "new"</code>) and as a method (<code>def status; "ok"; end</code>) to observe the precedence rules.
+- [ ] Recreate <code>p004stringusage.rb</code> and extend it with <code>.to_s</code> and <code>.to_f</code> examples.
+- [ ] Append to a string with <code>&lt;&lt;</code> and compare the result to concatenation with <code>+</code>.
+- [ ] Define a heredoc that includes interpolation and confirm it respects the surrounding quotation style (<code>&lt;&lt;~</code> for indentation stripping is handy).
 
 Next: put these variables to work while branching through Flow Control & Collections.
 
 <h4>Practice 1 - Bareword precedence</h4>
 
-<p><strong>Goal:</strong> Assign the same bareword as both a local and a method to observe precedence rules.</p>
+<strong>Goal:</strong> Assign the same bareword as both a local and a method to observe precedence rules.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('status =') } && lines.any? { |l| l.downcase.include?('def status') }"><code class="language-ruby">
-# TODO: Print a snippet that assigns status = \"new\" and also defines
-# def status; \"ok\"; end, then inspect which one is used where.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string
+lines = out.lines.map(&amp;:strip)
+lines.any? { |l| l.include?(&#39;Local variable -&gt;&#39;) } &amp;&amp;
+  lines.any? { |l| l.include?(&#39;Method call&#39;) }"><code class="language-ruby"># TODO: Print a snippet that assigns status =  PRE_6 quot;new PRE_6 quot; and also defines
+# def status;  PRE_6 quot;ok PRE_6 quot;; end, then inspect which one is used where.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="0"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:0">
-puts "status = 'new'"
-puts "def status; 'ok'; end"
+status = "new"
+
+def status
+  "ok"
+end
+
+puts "Local variable -> #{status}"
+puts "Method call   -> #{status()}"
 </script>
 
 <h4>Practice 2 - Casting with to_s and to_f</h4>
 
-<p><strong>Goal:</strong> Extend <code>p004stringusage.rb</code> with <code>.to_s</code> and <code>.to_f</code> examples.</p>
+<strong>Goal:</strong> Extend <code>p004stringusage.rb</code> with <code>.to_s</code> and <code>.to_f</code> examples.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[to_s to_f].all? { |m| lines.any? { |l| l.include?(m) } }"><code class="language-ruby">
-# TODO: Print a couple of conversions using to_s and to_f on numeric
-# and string values.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Integer to string&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;String to float&#39;) }"><code class="language-ruby"># TODO: Print a couple of conversions using to_s and to_f on numeric
+# and string values.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="1"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:1">
-puts "42.to_s"
-puts "'3.14'.to_f"
+number = 42
+decimal_text = "3.14"
+
+puts "Integer to string: #{number.to_s} (#{number.to_s.class})"
+puts "String to float: #{decimal_text.to_f} (#{decimal_text.to_f.class})"
 </script>
 
 <h4>Practice 3 - << vs +</h4>
 
-<p><strong>Goal:</strong> Append to a string with <code>&lt;&lt;</code> and compare the result to concatenation with <code>+</code>.</p>
+<strong>Goal:</strong> Append to a string with <code>&lt;&lt;</code> and compare the result to concatenation with <code>+</code>.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<') } && lines.any? { |l| l.include?(' + ') }"><code class="language-ruby">
-# TODO: Show how << mutates a string while + returns a new string,
-# printing both results.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;After &lt;&lt;&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;Using + result&#39;) }"><code class="language-ruby"># TODO: Show how &lt;&lt; mutates a string while + returns a new string,
+# printing both results.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="2"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:2">
-puts "greeting = 'hi'"
-puts "greeting << ' there'"
-puts "greeting + ' again'"
+greeting = "hi"
+
+mutable = greeting.dup
+mutable << " there"
+puts "After << : #{mutable}"
+
+combined = greeting + " there"
+puts "Using + result: #{combined}"
+puts "Original greeting after +: #{greeting}"
 </script>
 
 <h4>Practice 4 - Heredocs with interpolation</h4>
 
-<p><strong>Goal:</strong> Define a heredoc that includes interpolation and respects quotation style.</p>
+<strong>Goal:</strong> Define a heredoc that includes interpolation and respects quotation style.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('<<~') }"><code class="language-ruby">
-# TODO: Print a simple heredoc using <<~ that interpolates a variable.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; out.include?(&#39;Hello, Ruby!&#39;)"><code class="language-ruby"># TODO: Print a simple heredoc using &lt;&lt;~ that interpolates a variable.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/variables-and-assignment"
      data-practice-index="3"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/variables-and-assignment:3">
-puts "name = 'Ruby'"
-puts "message = <<~TEXT"
-puts "  Hello, \#{name}"
-puts "TEXT"
+name = "Ruby"
+
+message = <<~TEXT
+  Hello, #{name}!
+  Welcome to heredocs.
+TEXT
+
+puts message
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -470,33 +427,28 @@ puts "TEXT"
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-features/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Features</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/numbers-in-ruby/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Numbers in Ruby</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-features/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Features</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/numbers-in-ruby/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Numbers in Ruby</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -529,118 +481,122 @@ puts "TEXT"
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612125"></script>
-  <script src="/js/prism-ruby.js?v=1763612125"></script>
-  <script src="/js/prism-markdown.js?v=1763612125"></script>
-  <script src="/js/code-enhancements.js?v=1763612125"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612125"></script>
-  <script src="/js/github-pages-fix.js?v=1763612125"></script>
-  <script src="/js/site.js?v=1763612125"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

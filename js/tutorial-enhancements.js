@@ -259,6 +259,11 @@ function trackLessonReading() {
   if (!hasMarkedRead) {
     const checkScroll = () => {
       const scrollTop = window.scrollY || document.documentElement.scrollTop;
+      // Require the user to actually scroll before marking as read.
+      // This prevents short lessons that fit entirely in the viewport
+      // from being auto-marked complete on first paint.
+      if (scrollTop <= 0) return;
+
       const articleHeight = article.offsetHeight;
       const articleTop = article.offsetTop;
       const windowHeight = window.innerHeight;

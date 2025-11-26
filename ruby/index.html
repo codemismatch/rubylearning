@@ -6,25 +6,33 @@
   <title>Ruby Learning Hub - Ruby Learning</title>
   <meta name="description" content="Curated guidance for mastering Ruby fundamentals with structured notes and hands-on practice.">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  <link rel="stylesheet" href="/css/style.css">
+  
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
+  
+  <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612122">
-  <link rel="stylesheet" href="/css/enhanced-code.css">
-  <link rel="stylesheet" href="/css/badges.css">
-  <link rel="stylesheet" href="/css/tutorials.css">
+  
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
+  
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
+  
 </head>
 <body>
-  
-  
   <header class="site-header">
     <div class="container">
       <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
         <span class="logo-text">Ruby</span>
         <span class="logo-accent">Learning</span>
       </a>
       <nav class="site-nav">
+        
         
         <ul>
           
@@ -105,10 +113,9 @@
   
   <main class="site-content">
     <div class="container">
-      
       <div class="page">
-        <div class='markdown'><p>
-<h1>Ruby learning hub</h1>
+  
+  <div class='markdown'><p><h1>Ruby learning hub</h1>
 
 Ruby rewards developers who start with strong fundamentals and practise writing expressive code every day. Use this hub to find the essentials, plan your study sessions, and keep growing.
 
@@ -116,21 +123,27 @@ Ruby rewards developers who start with strong fundamentals and practise writing 
 
 RubyLearning maintains a comprehensive collection of study notes that walk newcomers through Ruby syntax, object orientation, and idiomatic patterns. The lessons are crafted for people who want a solid foundation before diving into frameworks.
 
-**Suggested plan:**
-<ul><li>Skim the introductory chapters to understand how Ruby treats classes, modules, and blocks.</li></ul><ul><li>Work through each interactive example locally or in an online REPL&mdash;pausing to tweak and rerun code until the concept sticks.</li></ul><ul><li>Keep the downloadable reference handy for quick refreshers on syntax and standard library nuggets.</li></ul>
+<strong>Suggested plan:</strong>
+<ul><li>Skim the introductory chapters to understand how Ruby treats classes, modules, and blocks.
+- Work through each interactive example locally or in an online REPL&mdash;pausing to tweak and rerun code until the concept sticks.
+- Keep the downloadable reference handy for quick refreshers on syntax and standard library nuggets.
 
 <h2>Practise with focused exercises</h2>
 
 Pair the notes with your own experiments:
-<ul><li>Recreate the sample scripts, replacing method names and data to see how Ruby handles flexibility in typing.</li></ul><ul><li>Set small daily goals (for example, &ldquo;loop over arrays three different ways&rdquo;) and log your findings.</li></ul><ul><li>Share questions with the RubyLearning community or a local Ruby group to accelerate feedback.</li></ul>
+
+- Recreate the sample scripts, replacing method names and data to see how Ruby handles flexibility in typing.
+- Set small daily goals (for example, &ldquo;loop over arrays three different ways&rdquo;) and log your findings.
+- Share questions with the RubyLearning community or a local Ruby group to accelerate feedback.
 
 <h2>Build a personal Ruby playbook</h2>
 
 As you progress, document patterns you rely on often&mdash;collection helpers, file utilities, and common gems. Treat the RubyLearning topics as checkpoints, and revisit them whenever you notice a gap in your understanding.
 
 Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on our <a href="/blog/">blog</a> or keep exploring the <a href="/tutorials/">tutorials</a>.
-</p></div>
-      </div>
+</p></li></ul></div>
+</div>
+
     </div>
   </main>
   
@@ -143,6 +156,7 @@ Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on o
         </div>
         <div class="footer-links">
           <h3>Quick Links</h3>
+          
           
           <ul>
             
@@ -226,7 +240,7 @@ Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on o
       </div>
       <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
@@ -236,26 +250,19 @@ Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on o
     </div>
   </footer>
 
-  <script src="/js/prism.js?v=1763612122"></script>
-  <script src="/js/prism-ruby.js?v=1763612122"></script>
-  <script src="/js/prism-markdown.js?v=1763612122"></script>
-  <script src="/js/code-enhancements.js"></script>
+  <!-- Scripts -->
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
-    document.addEventListener('DOMContentLoaded', function() {
-      const menuToggle = document.querySelector('.menu-toggle');
-      const siteNav = document.querySelector('.site-nav');
-      
-      if (menuToggle) {
-        menuToggle.addEventListener('click', function() {
-          siteNav.classList.toggle('active');
-          menuToggle.classList.toggle('active');
-        });
-      }
-
-      if (typeof Prism !== 'undefined') {
-        Prism.highlightAll();
-      }
-    });
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
   </script>
 </body>
 </html>

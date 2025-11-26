@@ -48,6 +48,22 @@
     "tags": []
   },
   {
+    "title": "Diagram Testing",
+    "description": null,
+    "permalink": "/test-diagrams/",
+    "url": "https://rubylearning.in/test-diagrams/",
+    "date": null,
+    "tags": []
+  },
+  {
+    "title": "Test Ruby Exec",
+    "description": null,
+    "permalink": "/test-ruby-exec/",
+    "url": "https://rubylearning.in/test-ruby-exec/",
+    "date": null,
+    "tags": []
+  },
+  {
     "title": "Ruby Tutorials",
     "description": null,
     "permalink": "/tutorials/",

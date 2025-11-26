@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612125">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612125">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612125">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612125">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 24 &ndash; Writing Our Own Class</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 24 &ndash; Writing Our Own Class</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,13 +140,13 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's "Writing our own Class" lesson.
+      <div class='markdown'><p>> Adapted from Satish Talim's "Writing our own Class" lesson.
 
-Procedural code focuses on steps. Object-oriented Ruby focuses on **objects**--small agents that know things (state) and do things (behavior). A **class** is a blueprint for those objects: it defines the instance variables an object carries and the methods it can respond to.
+Procedural code focuses on steps. Object-oriented Ruby focuses on <strong>objects</strong>--small agents that know things (state) and do things (behavior). A <strong>class</strong> is a blueprint for those objects: it defines the instance variables an object carries and the methods it can respond to.
 
 <h3>Objects know things and do things</h3>
-<ul><li>What an object **knows** -> instance variables (state). Each object can hold different values.</li></ul><ul><li>What an object **does** -> methods. Methods expose behavior to the rest of the program.</li></ul>
+<ul><li>What an object <strong>knows</strong> -> instance variables (state). Each object can hold different values.
+- What an object <strong>does</strong> -> methods. Methods expose behavior to the rest of the program.
 
 A class combines both. Each class is itself an instance of Ruby's <code>Class</code>, and calling <code>ClassName.new</code> allocates memory then calls the instance's <code>initialize</code> method. Construction (<code>new</code>) and initialization (<code>initialize</code>) are separate steps you can override independently.
 
@@ -166,8 +161,7 @@ A class combines both. Each class is itself an instance of Ruby's <code>Class</c
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p029dog.rb
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p029dog.rb
 class Dog
   def initialize(breed, name)
     @breed = breed      # instance variables
@@ -175,193 +169,177 @@ class Dog
   end
 
   def bark
-    puts "Ruff! Ruff!"
+    puts &quot;Ruff! Ruff!&quot;
   end
 
   def display
-    puts "I am of #{@breed} breed and my name is #{@name}"
+    puts &quot;I am of #{@breed} breed and my name is #{@name}&quot;
   end
 end
 
-d = Dog.new("Labrador", "Benzy")
-puts "The id of d is #{d.object_id}."
+d = Dog.new(&quot;Labrador&quot;, &quot;Benzy&quot;)
+puts &quot;The id of d is #{d.object_id}.&quot;
 
 if d.respond_to?(:talk)
   d.talk
 else
-  puts "Sorry, d doesn't understand the 'talk' message."
+  puts &quot;Sorry, d doesn&#39;t understand the &#39;talk&#39; message.&quot;
 end
 
 d.bark
 d.display
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
 
 Key takeaways:
-<ul><li>Instance variables start with <code>@</code> and are private to the object.</li></ul><ul><li>Methods like <code>bark</code> and <code>display</code> form the public API.</li></ul><ul><li><code>object_id</code> shows the unique identifier Ruby assigns each object.</li></ul><ul><li><code>respond_to?</code> lets you ask whether an object understands a message before sending it--handy for duck typing.</li></ul>
+
+- Instance variables start with <code>@</code> and are private to the object.
+- Methods like <code>bark</code> and <code>display</code> form the public API.
+- <code>object_id</code> shows the unique identifier Ruby assigns each object.
+- <code>respond_to?</code> lets you ask whether an object understands a message before sending it--handy for duck typing.
 
 Multiple variables can reference the same object, and setting a variable to <code>nil</code> simply drops that reference. When no references remain, Ruby's garbage collector reclaims the object.
 
 <h3>Introspection helpers</h3>
 
 Ruby ships lots of methods on every object. Try <code>d.methods.sort</code> (commented out above) to see them. A few particularly useful ones:
-<ul><li><code>object_id</code> - unique ID for the object.</li></ul><ul><li><code>respond_to?</code> - whether a method is defined.</li></ul><ul><li><code>class</code> - the object's class name.</li></ul><ul><li><code>instance_of?</code> - whether the object is an instance of a specific class (e.g., <code>num.instance_of?(Integer)</code>).</li></ul>
+
+- <code>object_id</code> - unique ID for the object.
+- <code>respond_to?</code> - whether a method is defined.
+- <code>class</code> - the object's class name.
+- <code>instance_of?</code> - whether the object is an instance of a specific class (e.g., <code>num.instance_of?(Integer)</code>).
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Extend <code>Dog</code> with a <code>talk</code> method and watch <code>respond_to?</code> flip from false to true.</li></ul><ul><li>[ ] Add reader/writer methods (or <code>attr_accessor</code>) for the instance variables so callers can rename dogs.</li></ul><ul><li>[ ] Create two references to the same <code>Dog</code>, mutate via one reference, and verify the other sees the change.</li></ul><ul><li>[ ] Print <code>Dog.new("Alsatian", "Lassie").class</code> and <code>object_id</code> to reinforce how Ruby manages objects.</li></ul>
+
+- [ ] Extend <code>Dog</code> with a <code>talk</code> method and watch <code>respond_to?</code> flip from false to true.
+- [ ] Add reader/writer methods (or <code>attr_accessor</code>) for the instance variables so callers can rename dogs.
+- [ ] Create two references to the same <code>Dog</code>, mutate via one reference, and verify the other sees the change.
+- [ ] Print <code>Dog.new("Alsatian", "Lassie").class</code> and <code>object_id</code> to reinforce how Ruby manages objects.
 
 Next: proceed to Flow Control & Collections to put your new objects to work inside loops and iterators.
 
 <h4>Practice 1 - Extending Dog with #talk</h4>
 
-<p><strong>Goal:</strong> Extend <code>Dog</code> with a <code>talk</code> method and watch <code>respond_to?</code> change.</p>
+<strong>Goal:</strong> Extend <code>Dog</code> with a <code>talk</code> method and watch <code>respond_to?</code> change.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('talk') } && lines.any? { |l| l.include?('respond_to?') }"><code class="language-ruby">
-# TODO: Show a Dog class gaining a talk method and demonstrate
-# respond_to? :talk returning true.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Has talk method&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;true&#39;) }"><code class="language-ruby"># TODO: Show a Dog class gaining a talk method and demonstrate
+# respond_to? :talk returning true.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="0"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:0">
-puts "class Dog"
-puts "  def talk"
-puts "    'woof'"
-puts "  end"
-puts "end"
-puts "Dog.new.respond_to?(:talk)"
+class Dog
+  def initialize(breed = "Mixed", name = "Unknown")
+    @breed = breed
+    @name = name
+  end
+  
+  def talk
+    "woof"
+  end
+end
+
+dog = Dog.new
+puts "Has talk method: #{dog.respond_to?(:talk)}"
+puts "Talk result: #{dog.talk}"
 </script>
 
 <h4>Practice 2 - Reader/writer methods</h4>
 
-<p><strong>Goal:</strong> Add reader/writer methods (or <code>attr_accessor</code>) for instance variables so callers can rename dogs.</p>
+<strong>Goal:</strong> Add reader/writer methods (or <code>attr_accessor</code>) for instance variables so callers can rename dogs.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('attr_accessor :name') }"><code class="language-ruby">
-# TODO: Sketch a Dog class that uses attr_accessor for name and shows
-# renaming a dog.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Renamed to: Lassie&#39;) }"><code class="language-ruby"># TODO: Sketch a Dog class that uses attr_accessor for name and shows
+# renaming a dog.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="1"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:1">
-puts "class Dog"
-puts "  attr_accessor :name"
-puts "end"
-puts "dog = Dog.new"
-puts "dog.name = 'Lassie'"
+class Dog
+  attr_accessor :name
+  
+  def initialize(name = "Unknown")
+    @name = name
+  end
+end
+
+dog = Dog.new
+puts "Initial name: #{dog.name}"
+dog.name = "Lassie"
+puts "Renamed to: #{dog.name}"
 </script>
 
 <h4>Practice 3 - Shared references to the same object</h4>
 
-<p><strong>Goal:</strong> Create two references to the same <code>Dog</code>, mutate via one, and verify the other sees the change.</p>
+<strong>Goal:</strong> Create two references to the same <code>Dog</code>, mutate via one, and verify the other sees the change.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('same object') }"><code class="language-ruby">
-# TODO: Print a short example where two variables point at the same
-# Dog instance and a change via one is visible via the other.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Same object: true&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;dog2.name after changing dog1: Max&#39;) }"><code class="language-ruby"># TODO: Print a short example where two variables point at the same
+# Dog instance and a change via one is visible via the other.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="2"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:2">
-puts "dog1 = Dog.new"
-puts "dog2 = dog1"
-puts "dog1.object_id == dog2.object_id # same object"
+class Dog
+  attr_accessor :name
+  
+  def initialize(name = "Unknown")
+    @name = name
+  end
+end
+
+dog1 = Dog.new("Rex")
+dog2 = dog1
+puts "Same object: #{dog1.object_id == dog2.object_id}"
+dog1.name = "Max"
+puts "dog2.name after changing dog1: #{dog2.name}"
 </script>
 
 <h4>Practice 4 - Class and object_id</h4>
 
-<p><strong>Goal:</strong> Print <code>Dog.new(\"Alsatian\", \"Lassie\").class</code> and <code>object_id</code>.</p>
+<strong>Goal:</strong> Print <code>Dog.new(\"Alsatian\", \"Lassie\").class</code> and <code>object_id</code>.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('object_id') }"><code class="language-ruby">
-# TODO: Show the class and object_id for a freshly instantiated Dog.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Class: Dog&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;Object ID:&#39;) }"><code class="language-ruby"># TODO: Show the class and object_id for a freshly instantiated Dog.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/writing-our-own-class"
      data-practice-index="3"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/writing-our-own-class:3">
-puts "dog = Dog.new('Alsatian', 'Lassie')"
-puts "dog.class"
-puts "dog.object_id"
+class Dog
+  def initialize(breed, name)
+    @breed = breed
+    @name = name
+  end
+end
+
+dog = Dog.new("Alsatian", "Lassie")
+puts "Class: #{dog.class}"
+puts "Object ID: #{dog.object_id}"
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -386,33 +364,28 @@ puts "dog.object_id"
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-symbols/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Symbols</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-hashes/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Hashes</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-symbols/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Symbols</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-hashes/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Hashes</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -445,118 +418,122 @@ puts "dog.object_id"
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612125"></script>
-  <script src="/js/prism-ruby.js?v=1763612125"></script>
-  <script src="/js/prism-markdown.js?v=1763612125"></script>
-  <script src="/js/code-enhancements.js?v=1763612125"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612125"></script>
-  <script src="/js/github-pages-fix.js?v=1763612125"></script>
-  <script src="/js/site.js?v=1763612125"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

@@ -399,18 +399,25 @@
 .ruby-console-body {
   max-height: 0;
   overflow: hidden;
-  transition: max-height 0.25s ease;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+              opacity 0.3s ease-out,
+              transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
   background-color: #111827;
   border: 1px solid #4b5563;
   border-top: none;
   border-radius: 8px 0 0 0;
-  pointer-events: auto;
+  pointer-events: none;
   width: 100%;
 }
 
 .ruby-console-drawer--open .ruby-console-body {
   max-height: 85vh; /* allow taller drawer */
   min-height: 300px; /* ensure meaningful open height */
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
 }
 
 
@@ -430,10 +437,14 @@
   font-weight: 600;
   cursor: pointer;
   margin-bottom: 0;
-  transition: background-color 0.2s ease, border-color 0.2s ease;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+}
+
+.ruby-console-toggle:active {
+  transform: scale(0.98);
 }
 
 .ruby-console-toggle:hover {
@@ -447,7 +458,7 @@
 
 .ruby-console-toggle-icon {
   display: inline-block;
-  transition: transform 0.2s ease;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   font-size: 0.75rem;
   line-height: 1;
 }

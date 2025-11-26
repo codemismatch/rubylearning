@@ -9,11 +9,36 @@ async function addRubyExecSupport() {
   const rubyBlocks = document.querySelectorAll('.code-window pre[data-executable="true"], pre[data-practice-chapter]');
   const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
   if (rubyBlocks.length === 0 && !hasInlineConsole) return;
-  
+
+  // Show loading indicators on all code windows immediately
+  rubyBlocks.forEach((pre) => {
+    const header = pre.closest('.code-window')?.querySelector('.code-header') || pre.parentElement?.querySelector('.code-header');
+    if (header && !header.querySelector('.run-button') && !header.querySelector('.loading-indicator')) {
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.className = 'loading-indicator';
+      loadingIndicator.innerHTML = `
+        <span class="loading-spinner"></span>
+        <span class="loading-text">Loading RubyVM</span>
+      `;
+      header.appendChild(loadingIndicator);
+    }
+  });
+
   try {
     // Use the Ruby WASM loader module
     const vm = await window.RubyWasmLoader.initializeRubyVM();
-    
+
+    // Remove loading indicators now that VM is ready
+    rubyBlocks.forEach((pre) => {
+      const header = pre.closest('.code-window')?.querySelector('.code-header') || pre.parentElement?.querySelector('.code-header');
+      if (header) {
+        const loadingIndicator = header.querySelector('.loading-indicator');
+        if (loadingIndicator) {
+          loadingIndicator.remove();
+        }
+      }
+    });
+
     // Initialize stdlib polyfills (Time, JSON, StringIO)
     if (window.RubyStdlibPolyfills) {
       window.RubyStdlibPolyfills.initializeRubyStdlibPolyfills(vm);
@@ -25,12 +50,12 @@ async function addRubyExecSupport() {
         console.warn('[Ruby Exec] Could not test socket require:', e);
       }
     }
-    
+
     // Initialize test framework
     if (window.RubyTestFramework) {
       window.RubyTestFramework.initializeRubyTestFramework(vm);
     }
-    
+
     // Initialize WebSocket polyfill for socket classes
     if (window.RubyWebSocketPolyfill) {
       window.RubyWebSocketPolyfill.initializeRubyWebSocketPolyfill(vm);
@@ -62,7 +87,7 @@ async function addRubyExecSupport() {
         "gets_override_ready"
       `);
       console.log('stdin override installed:', setupResult.toString());
-      
+
       const getsTest = vm.eval('$gets_test');
       console.log('gets method status:', getsTest.toString());
     } catch (err) {
@@ -94,7 +119,7 @@ async function addRubyExecSupport() {
       let currentPlainText = (codeBlock.textContent || '').replace(/\s+$/, '');
       codeBlock.dataset.plainText = currentPlainText;
       const editorWrapper = pre.parentElement;
-      
+
       // Use the overlay editor module
       const overlay = window.CodeOverlayEditor.initOverlayEditor(pre, codeBlock, currentPlainText, (latestValue) => {
         currentPlainText = latestValue;
@@ -116,18 +141,23 @@ async function addRubyExecSupport() {
         // For non-practice blocks, show Run button
         const mainButton = document.createElement('button');
         mainButton.className = 'run-button';
-        
+
         if (isPracticeCheck) {
           mainButton.classList.add('check-button');
           mainButton.textContent = '✔ Check';
         } else {
           mainButton.innerHTML = '▶ &nbsp;Run';
         }
-        
+
         header.appendChild(mainButton);
 
-        // Insert output area after the <pre>
-        editorWrapper.parentNode.insertBefore(outputArea, editorWrapper.nextSibling);
+        // Insert output area inside the code window (after the editor)
+        const codeWindow = header.closest('.code-window') || editorWrapper.closest('.code-window');
+        if (codeWindow) {
+          codeWindow.appendChild(outputArea);
+        } else {
+          editorWrapper.parentNode.insertBefore(outputArea, editorWrapper.nextSibling);
+        }
 
         // Shared execution logic
         const executeCode = async (runTests) => {
@@ -150,9 +180,48 @@ async function addRubyExecSupport() {
             const programLines = [
               "require 'js'",
               "",
+              "# Monkey patch system commands for WASM to emulate a shell",
+              "module Kernel",
+              "  def `(cmd)",
+              "    cmd = cmd.strip",
+              "    case cmd",
+              "    when 'ls'",
+              "      Dir.entries('.').reject { |f| f.start_with?('.') }.join(\"\\n\") + \"\\n\"",
+              "    when 'pwd'",
+              "      Dir.pwd + \"\\n\"",
+              "    when /^cat\\s+(.+)$/",
+              "      file = $1",
+              "      if File.exist?(file)",
+              "        File.read(file)",
+              "      else",
+              "        \"cat: \#{file}: No such file or directory\\n\"",
+              "      end",
+              "    when /^echo\\s+(.+)$/",
+              "      $1 + \"\\n\"",
+              "    when /^mkdir\\s+(.+)$/",
+              "      Dir.mkdir($1)",
+              "      \"\"",
+              "    when /^rm\\s+(.+)$/",
+              "      File.delete($1)",
+              "      \"\"",
+              "    else",
+              "      \"(mock output for: \#{cmd})\\n\"",
+              "    end",
+              "  rescue => e",
+              "    \"Error: \#{e.message}\\n\"",
+              "  end",
+              "",
+              "  def system(cmd)",
+              "    # Simple system emulation",
+              "    output = `\#{cmd}`",
+              "    $__exec_output_buffer__ << output",
+              "    true",
+              "  end",
+              "end",
+              "",
               // Include test framework for practice tests
-              ...(isPracticeCheck && practiceTest.trim().length > 0 && window.RubyTestFramework 
-                ? [window.RubyTestFramework.getTestFrameworkCode()] 
+              ...(isPracticeCheck && practiceTest.trim().length > 0 && window.RubyTestFramework
+                ? [window.RubyTestFramework.getTestFrameworkCode()]
                 : []),
               "",
               "$__exec_output_buffer__ = +\"\"",
@@ -262,16 +331,16 @@ async function addRubyExecSupport() {
             // For practice blocks, always run tests (Check button)
             if (isPracticeCheck && practiceTest.trim().length > 0) {
               // Detect test format: unit test (uses assertions) vs regex (checks output.string)
-              const isUnitTest = practiceTest.includes('assert') || 
-                                 practiceTest.includes('assert_equal') ||
-                                 practiceTest.includes('assert_includes') ||
-                                 practiceTest.includes('assert_match') ||
-                                 practiceTest.includes('assert_respond_to') ||
-                                 practiceTest.includes('assert_kind_of') ||
-                                 practiceTest.includes('assert_raises');
-              
+              const isUnitTest = practiceTest.includes('assert') ||
+                practiceTest.includes('assert_equal') ||
+                practiceTest.includes('assert_includes') ||
+                practiceTest.includes('assert_match') ||
+                practiceTest.includes('assert_respond_to') ||
+                practiceTest.includes('assert_kind_of') ||
+                practiceTest.includes('assert_raises');
+
               const testTag = 'RUBYTEST';
-              
+
               if (isUnitTest) {
                 // Unit test format: execute student code and test code in the same eval block
                 // This ensures they share the same binding so variables are accessible
@@ -341,15 +410,15 @@ async function addRubyExecSupport() {
               // Non-practice blocks: execute student code and return output
               programLines.push(
                 "begin",
-                `  eval <<-'${heredocTag}'`,
+                `  __eval_result__ = eval <<-'${heredocTag}'`,
                 normalized,
                 heredocTag,
                 "rescue Exception => e",
                 "  $__exec_output_buffer__ << \"Error: \#{e.class}: \#{e.message}\\n\"",
+                "  nil",
                 "end",
                 "",
-                "# Return the string buffer directly for non-practice blocks",
-                "$__exec_output_buffer__"
+                "$__exec_output_buffer__ + \"|||RUBY_EXEC_SEP|||\" + __eval_result__.inspect"
               );
             }
 
@@ -357,13 +426,34 @@ async function addRubyExecSupport() {
             let outputText = '';
             try {
               result = vm.eval(programLines.join("\n"));
-              outputText = result?.toString?.() ?? '';
-              
-              // Handle undefined result
-              if (result === undefined || result === null) {
-                outputText = '>> (no output)';
-              } else if (outputText === '' || outputText === 'undefined') {
-                outputText = '>> (empty result)';
+
+              if (isPracticeCheck) {
+                outputText = result?.toString?.() ?? '';
+              } else {
+                // Parse result using separator
+                const rawStr = result?.toString?.() ?? '';
+                const separator = "|||RUBY_EXEC_SEP|||";
+
+                if (rawStr.includes(separator)) {
+                  const parts = rawStr.split(separator);
+                  const buffer = parts[0];
+                  // Join rest in case separator appears in output (unlikely for inspect)
+                  const inspectResult = parts.slice(1).join(separator);
+
+                  outputText = buffer || '';
+                  // Append return value if not nil
+                  if (inspectResult !== 'nil') {
+                    if (outputText && !outputText.endsWith('\n')) outputText += '\n';
+                    outputText += inspectResult;
+                  }
+                } else {
+                  outputText = rawStr;
+                }
+              }
+
+              // Handle empty output
+              if (!outputText || outputText === 'undefined') {
+                outputText = '(no output)';
               }
             } catch (evalError) {
               // Better error handling
@@ -372,6 +462,17 @@ async function addRubyExecSupport() {
               outputText = `Error: ${errorName}: ${errorMsg}`;
               console.error('Ruby eval error:', evalError);
             }
+
+            // Strip ANSI escape codes from output
+            // ANSI escape codes: \x1b[...m or \033[...m or [\d+[;\d+]*m
+            const stripAnsiCodes = (text) => {
+              if (!text) return text;
+              // Remove ANSI escape sequences: [\d+[;\d+]*m or \x1b[...m or \033[...m
+              return text
+                .replace(/\x1b\[[\d;]*m/g, '')  // \x1b[...m format
+                .replace(/\033\[[\d;]*m/g, '')  // \033[...m format
+                .replace(/\[[\d;]+m/g, '');     // [\d+[;\d+]*m format (visible in output)
+            };
 
             let testPassed = null;
             if (isPracticeCheck) {
@@ -382,7 +483,9 @@ async function addRubyExecSupport() {
               }
             }
 
-            outputContent.textContent = outputText ? `>> ${outputText}` : '>>';
+            // Strip ANSI codes before displaying
+            const cleanedOutput = stripAnsiCodes(outputText);
+            outputContent.textContent = cleanedOutput || '';
 
             if (isPracticeCheck && practiceChapter && testPassed !== null) {
               const feedback = document.querySelector(
@@ -390,8 +493,8 @@ async function addRubyExecSupport() {
               );
               if (feedback) {
                 feedback.textContent = testPassed
-                  ? '✅ Challenge passed! Practice item marked complete.'
-                  : '❌ Not yet. Adjust your code and try again.';
+                  ? '🟢 Challenge passed! Practice item marked complete.'
+                  : '🔴 Not yet. Adjust your code and try again.';
               }
 
               if (testPassed) {
@@ -434,7 +537,16 @@ async function addRubyExecSupport() {
           } catch (err) {
             const errorMsg = err?.message || err?.toString() || String(err) || 'Unknown error';
             const errorName = err?.name || err?.constructor?.name || 'Error';
-            outputContent.textContent = `Error: ${errorName}: ${errorMsg}`;
+            // Strip ANSI codes from error messages too
+            const stripAnsiCodes = (text) => {
+              if (!text) return text;
+              return text
+                .replace(/\x1b\[[\d;]*m/g, '')
+                .replace(/\033\[[\d;]*m/g, '')
+                .replace(/\[[\d;]+m/g, '');
+            };
+            const cleanedError = stripAnsiCodes(`Error: ${errorName}: ${errorMsg}`);
+            outputContent.textContent = cleanedError;
             console.error('Failed to execute Ruby code:', err);
             console.error('Error stack:', err?.stack);
           }
@@ -445,13 +557,13 @@ async function addRubyExecSupport() {
           await executeCode(isPracticeCheck);
           // Mark example as executed for progress tracking
           if (!isPracticeCheck && exampleIndex != null) {
-            try { window.localStorage.setItem(`${chapterKeyPrefix}:example:${exampleIndex}`, '1'); } catch (_) {}
+            try { window.localStorage.setItem(`${chapterKeyPrefix}:example:${exampleIndex}`, '1'); } catch (_) { }
           }
         });
       }
     });
     // Persist examples total count for progress rings on index page
-    try { window.localStorage.setItem(`${chapterKeyPrefix}:examples_total`, String(exampleCounter)); } catch (_) {}
+    try { window.localStorage.setItem(`${chapterKeyPrefix}:examples_total`, String(exampleCounter)); } catch (_) { }
   } catch (error) {
     console.warn('Ruby execution support failed to initialize:', error);
   }

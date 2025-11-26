@@ -400,6 +400,52 @@ function initRubyConsoles(vm) {
         return;
       }
 
+      // Handle exit/quit commands - show output then minimize drawer
+      const trimmedCode = code.trim().toLowerCase();
+      if (trimmedCode === 'exit' || trimmedCode === 'quit' || trimmedCode === 'q') {
+        // Add to command history
+        if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== code) {
+          commandHistory.push(code);
+        }
+        historyIndex = -1;
+        currentDraft = '';
+        
+        // Display the command in output
+        const label = String(lineNumber).padStart(3, '0');
+        const inputLine = document.createElement('div');
+        inputLine.className = 'ruby-irb-line ruby-irb-line--input';
+        inputLine.innerHTML = `<span class="ruby-irb-label">mrc(main):${label}&gt;</span> <span class="ruby-irb-code">${highlightRubyInline(code)}</span>`;
+        outputEl.appendChild(inputLine);
+        outputEl.scrollTop = outputEl.scrollHeight;
+        lineNumber += 1;
+        
+        // Show SystemExit output
+        const exitLine = document.createElement('div');
+        exitLine.className = 'ruby-irb-line ruby-irb-line--error';
+        exitLine.textContent = `SystemExit: ${code.trim()}`;
+        outputEl.appendChild(exitLine);
+        outputEl.scrollTop = outputEl.scrollHeight;
+        
+        // Clear input and update prompt
+        input.value = '';
+        ghostEl.innerHTML = '';
+        updatePrompt();
+        
+        // Minimize drawer after a short delay to show the output
+        setTimeout(() => {
+          const drawer = container.closest('.ruby-console-drawer');
+          if (drawer) {
+            drawer.classList.remove('ruby-console-drawer--open');
+            const toggle = drawer.querySelector('.ruby-console-toggle');
+            if (toggle) {
+              toggle.setAttribute('aria-expanded', 'false');
+            }
+          }
+        }, 300); // Small delay to show the output before minimizing
+        
+        return;
+      }
+
       // Add to command history
       if (commandHistory.length === 0 || commandHistory[commandHistory.length - 1] !== code) {
         commandHistory.push(code);

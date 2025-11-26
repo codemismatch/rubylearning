@@ -83,7 +83,7 @@ function initializeRubyStdlibPolyfills(vm) {
         end
       end
     `);
-    
+
     // String methods polyfill - ensure common string methods work
     // Note: The 'iupcase' error suggests methods might be getting corrupted
     // We'll ensure all common methods exist and work correctly
@@ -96,16 +96,17 @@ function initializeRubyStdlibPolyfills(vm) {
         def upcase
           if defined?(JS) && JS.respond_to?(:global)
             begin
-              JS.global.eval("('\#{self}').toUpperCase()").to_s
+              # Use inspect to safely quote the string for JS eval
+              JS.global.eval("#{self.inspect}.toUpperCase()").to_s
             rescue
               # Fallback to original if it exists
-              if method_defined?(:__original_upcase)
+              if self.class.method_defined?(:__original_upcase)
                 __original_upcase
               else
                 self.tr('a-z', 'A-Z')
               end
             end
-          elsif method_defined?(:__original_upcase)
+          elsif self.class.method_defined?(:__original_upcase)
             __original_upcase
           else
             self.tr('a-z', 'A-Z')
@@ -116,11 +117,12 @@ function initializeRubyStdlibPolyfills(vm) {
         def downcase
           if defined?(JS) && JS.respond_to?(:global)
             begin
-              JS.global.eval("('\#{self}').toLowerCase()").to_s
+              # Use inspect to safely quote the string for JS eval
+              JS.global.eval("#{self.inspect}.toLowerCase()").to_s
             rescue
-              method_defined?(:__original_downcase) ? __original_downcase : self.tr('A-Z', 'a-z')
+              self.class.method_defined?(:__original_downcase) ? __original_downcase : self.tr('A-Z', 'a-z')
             end
-          elsif method_defined?(:__original_downcase)
+          elsif self.class.method_defined?(:__original_downcase)
             __original_downcase
           else
             self.tr('A-Z', 'a-z')
@@ -246,7 +248,7 @@ function initializeRubyStdlibPolyfills(vm) {
         end
       end
     `);
-    
+
     // Time class polyfill using JavaScript Date
     vm.eval(`
       # Ensure Time class exists as a top-level constant
@@ -488,16 +490,16 @@ function initializeRubyStdlibPolyfills(vm) {
       end
       
 
-      # Make require "socket" work - classes are defined below
+      # Make require "socket", "json", "stringio" work - classes are defined above
       module Kernel
         alias_method :__original_require__, :require if method_defined?(:require)
 
         def require(name)
           name_str = name.to_s
-          if name_str == "socket" || name_str == "socket.rb"
-            return true
-          end
-          if name_str == "js" || name_str == "js.rb"
+          # Polyfilled libraries that are available
+          polyfilled = ["socket", "socket.rb", "js", "js.rb", "json", "json.rb", "stringio", "stringio.rb"]
+          
+          if polyfilled.include?(name_str)
             return true
           end
 
@@ -505,10 +507,8 @@ function initializeRubyStdlibPolyfills(vm) {
             begin
               return __original_require__(name)
             rescue LoadError => e
-              if name_str == "socket" || name_str == "socket.rb"
-                return true
-              end
-              if name_str == "js" || name_str == "js.rb"
+              # Check again in case of .rb extension
+              if polyfilled.include?(name_str)
                 return true
               end
               raise e
@@ -712,7 +712,7 @@ function initializeRubyStdlibPolyfills(vm) {
 
       "time_polyfill_ready"
     `);
-    
+
     // Verify Time was initialized
     try {
       const timeCheck = vm.eval('defined?(Time)');
@@ -720,7 +720,7 @@ function initializeRubyStdlibPolyfills(vm) {
     } catch (err) {
       console.warn('Could not verify Time class:', err);
     }
-    
+
     // JSON polyfill using JavaScript JSON
     vm.eval(`
       module JSON
@@ -799,7 +799,7 @@ function initializeRubyStdlibPolyfills(vm) {
         end
       end
     `);
-    
+
     console.log('Ruby stdlib polyfills initialized');
   } catch (err) {
     console.warn('Failed to initialize Ruby stdlib polyfills:', err);

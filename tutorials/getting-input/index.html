@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612122">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612122">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 9 &ndash; Getting Input</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 9 &ndash; Getting Input</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's original RubyLearning lesson on user input, refreshed for Typophic.
+      <div class='markdown'><p>> Adapted from Satish Talim's original RubyLearning lesson on user input, refreshed for Typophic.
 
 So far you've been printing output with <code>puts</code>. To make your scripts interactive you need to read input from the keyboard (standard input). Ruby ships the <code>gets</code> method for this and a companion <code>String#chomp</code> helper to trim trailing newlines.
 
@@ -161,56 +155,64 @@ So far you've been printing output with <code>puts</code>. To make your scripts 
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p005methods.rb
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p005methods.rb
 # gets and chomp
-puts "In which city do you stay?"
+puts &quot;In which city do you stay?&quot;
 STDOUT.flush
 city = gets.chomp
-puts "The city is #{city}"
-</code></pre>
+puts &quot;The city is #{city}&quot;
+      </code></pre>
     </div>
   </div>
 </div>
 
 What's happening:
-<ul><li><code>STDOUT</code> is the global constant for the program's standard output stream.</li></ul><ul><li><code>STDOUT.flush</code> forces Ruby to push any buffered output to the console immediately, ensuring the prompt appears before <code>gets</code> blocks. You can skip this if you set <code>STDOUT.sync = true</code> once, which enables auto-flushing.</li></ul><ul><li><code>gets</code> reads a line from standard input (the keyboard) and returns it as a string including the trailing newline.</li></ul><ul><li><code>chomp</code> removes the trailing newline so string concatenation/interpolation behaves as expected.</li></ul>
+<ul><li><code>STDOUT</code> is the global constant for the program's standard output stream.
+- <code>STDOUT.flush</code> forces Ruby to push any buffered output to the console immediately, ensuring the prompt appears before <code>gets</code> blocks. You can skip this if you set <code>STDOUT.sync = true</code> once, which enables auto-flushing.
+- <code>gets</code> reads a line from standard input (the keyboard) and returns it as a string including the trailing newline.
+- <code>chomp</code> removes the trailing newline so string concatenation/interpolation behaves as expected.
 
 <h3>Input sources in Rails land</h3>
 
 Rails apps rarely call <code>gets</code> because web requests provide parameters and data comes from databases. Still, understanding Ruby's core IO helps when you write scripts, background jobs, or quick prototypes outside the request/response cycle.
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Modify the sample script to request both city and country, and print a combined sentence.</li></ul><ul><li>[ ] Toggle <code>STDOUT.sync = true</code> at the top of your script and remove manual <code>flush</code> calls to see the effect.</li></ul><ul><li>[ ] Capture numeric input (<code>gets.chomp.to_i</code>) and use it in a calculation.</li></ul><ul><li>[ ] Experiment with piping data into your script (<code>echo "Pune" | ruby prompt.rb</code>) to see how standard input differs from keyboard typing.</li></ul>
+
+- [ ] Modify the sample script to request both city and country, and print a combined sentence.
+- [ ] Toggle <code>STDOUT.sync = true</code> at the top of your script and remove manual <code>flush</code> calls to see the effect.
+- [ ] Capture numeric input (<code>gets.chomp.to_i</code>) and use it in a calculation.
+- [ ] Experiment with piping data into your script (<code>echo "Pune" | ruby prompt.rb</code>) to see how standard input differs from keyboard typing.
 
 Up next: move into Flow Control & Collections to react to the data you just gathered.
 
 <h4>Practice 1 - Reading multiple text inputs</h4>
 
-<p><strong>Goal:</strong> Request both city and country from the user and print a combined sentence.</p>
+<strong>Goal:</strong> Request both city and country from the user and print a combined sentence.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="0"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string.downcase; out.include?('you live in') && !out.include?('null')"><code class="language-ruby">
-# TODO: Define a class method self.main that asks for city and country
+     data-test="result = false
+if self.respond_to?(:main)
+  require &quot;stringio&quot;
+  original_stdin = $stdin
+  $stdin = StringIO.new(&quot;London\nUnited Kingdom\n&quot;)
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?(&#39;you live in&#39;) &amp;&amp; !out.include?(&#39;null&#39;)
+else
+  output.puts(&quot;Define self.main to read input.&quot;)
+end
+result"><code class="language-ruby"># TODO: Define a class method self.main that asks for city and country
 # using gets.chomp and prints a single sentence including both values.
 # Hint:
-#   - The test harness will call sandbox.main with simulated input.
-</code></pre>
-    </div>
-  </div>
-</div>
+#   - The test harness will call sandbox.main with simulated input.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="0"></div>
@@ -219,10 +221,10 @@ Up next: move into Flow Control & Collections to react to the data you just gath
         data-practice-solution="rl:chapter:/tutorials/getting-input:0">
 def self.main
   print "Which city do you live in? "
-  city = gets.chomp
+  city = (gets&.chomp).to_s
 
   print "Which country is that in? "
-  country = gets.chomp
+  country = (gets&.chomp).to_s
 
   puts "You live in #{city}, #{country}."
 end
@@ -230,29 +232,31 @@ end
 
 <h4>Practice 2 - Using STDOUT.sync</h4>
 
-<p><strong>Goal:</strong> Toggle <code>STDOUT.sync = true</code> and rely on implicit flushing.</p>
+<strong>Goal:</strong> Toggle <code>STDOUT.sync = true</code> and rely on implicit flushing.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="1"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('STDOUT.sync') } && lines.any? { |l| l.downcase.start_with?('hello,') }"><code class="language-ruby">
-# TODO: Define self.main to set STDOUT.sync = true, print a prompt
+     data-test="result = false
+if self.respond_to?(:main)
+  require &quot;stringio&quot;
+  original_stdin = $stdin
+  $stdin = StringIO.new(&quot;Typist\n&quot;)
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?(&#39;stdout.sync&#39;) &amp;&amp; out.include?(&#39;hello, typist&#39;)
+else
+  output.puts(&quot;Define self.main to toggle STDOUT.sync.&quot;)
+end
+result"><code class="language-ruby"># TODO: Define self.main to set STDOUT.sync = true, print a prompt
 # without calling flush explicitly, read a value with gets, and then
-# print a confirmation message.
-</code></pre>
-    </div>
-  </div>
-</div>
+# print a confirmation message.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="1"></div>
@@ -263,7 +267,7 @@ def self.main
   STDOUT.sync = true
 
   print "Enter your name: "
-  name = gets.chomp
+  name = (gets&.chomp).to_s
 
   puts "STDOUT.sync is now true"
   puts "Hello, #{name}!"
@@ -272,29 +276,31 @@ end
 
 <h4>Practice 3 - Numeric input and calculations</h4>
 
-<p><strong>Goal:</strong> Capture numeric input and use it in a calculation.</p>
+<strong>Goal:</strong> Capture numeric input and use it in a calculation.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="2"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.match?(/total:/i) } && !lines.any? { |l| l.downcase.include?('null') }"><code class="language-ruby">
-# TODO: Define self.main to ask the user for a number, convert it to
+     data-test="result = false
+if self.respond_to?(:main)
+  require &quot;stringio&quot;
+  original_stdin = $stdin
+  $stdin = StringIO.new(&quot;5\n&quot;)
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?(&#39;total:&#39;) &amp;&amp; !out.include?(&#39;null&#39;)
+else
+  output.puts(&quot;Define self.main to read numeric input.&quot;)
+end
+result"><code class="language-ruby"># TODO: Define self.main to ask the user for a number, convert it to
 # an integer, and use it in a simple calculation (for example,
-# doubling it). Print the total.
-</code></pre>
-    </div>
-  </div>
-</div>
+# doubling it). Print the total.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="2"></div>
@@ -303,7 +309,7 @@ end
         data-practice-solution="rl:chapter:/tutorials/getting-input:2">
 def self.main
   print "How many lessons have you completed? "
-  count = gets.chomp.to_i
+  count = (gets&.chomp).to_i
 
   total = count * 2
   puts "Total: #{total}"
@@ -312,29 +318,31 @@ end
 
 <h4>Practice 4 - Thinking about piped input</h4>
 
-<p><strong>Goal:</strong> Experiment mentally with how piped input behaves compared to keyboard input.</p>
+<strong>Goal:</strong> Experiment mentally with how piped input behaves compared to keyboard input.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="3"
-     data-test="sandbox.main if sandbox.respond_to?(:main); out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('piped') }"><code class="language-ruby">
-# TODO: Define self.main so it reads a single line from STDIN (which
+     data-test="result = false
+if self.respond_to?(:main)
+  require &quot;stringio&quot;
+  original_stdin = $stdin
+  $stdin = StringIO.new(&quot;Pune\n&quot;)
+  begin
+    self.main
+  ensure
+    $stdin = original_stdin
+    singleton_class.send(:remove_method, :main) rescue nil
+  end
+  out = output.string.downcase
+  result = out.include?(&#39;piped input&#39;) || out.include?(&#39;piped&#39;)
+else
+  output.puts(&quot;Define self.main so it reads STDIN once.&quot;)
+end
+result"><code class="language-ruby"># TODO: Define self.main so it reads a single line from STDIN (which
 # might come from a pipe) and prints a message that mentions piped
-# input.
-</code></pre>
-    </div>
-  </div>
-</div>
+# input.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/getting-input"
      data-practice-index="3"></div>
@@ -342,13 +350,13 @@ end
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/getting-input:3">
 def self.main
-  city = gets&.chomp
+  city = (gets&.chomp).to_s
 
   puts "Received city from piped input or keyboard: #{city.inspect}"
   puts "You could run: echo \"Pune\" | ruby prompt.rb"
 end
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -373,33 +381,28 @@ end
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/variables-and-assignment/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Variables & Assignment</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-features/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Features</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/variables-and-assignment/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Variables & Assignment</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-features/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Features</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -432,118 +435,122 @@ end
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612122"></script>
-  <script src="/js/prism-ruby.js?v=1763612122"></script>
-  <script src="/js/prism-markdown.js?v=1763612122"></script>
-  <script src="/js/code-enhancements.js?v=1763612122"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612122"></script>
-  <script src="/js/github-pages-fix.js?v=1763612122"></script>
-  <script src="/js/site.js?v=1763612122"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

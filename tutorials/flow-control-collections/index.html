@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612122">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612122">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 2 &ndash; Flow control & collections</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 2 &ndash; Flow control & collections</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
+      <div class='markdown'><p>> Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
 
 Branches and loops let your program respond to data. Ruby's arrays and hashes give you flexible containers for organising that data. Try the examples and then tweak them&mdash;Ruby's dynamic nature makes experimentation fast.
 
@@ -161,8 +155,7 @@ Branches and loops let your program respond to data. Ruby's arrays and hashes gi
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-scores = { &quot;Satish&quot; =&gt; 92, &quot;Matz&quot; =&gt; 99, &quot;Yukihiro&quot; =&gt; 100 }
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">scores = { &quot;Satish&quot; =&gt; 92, &quot;Matz&quot; =&gt; 99, &quot;Yukihiro&quot; =&gt; 100 }
 
 scores.each do |name, score|
   level = if score &gt;= 95
@@ -179,7 +172,7 @@ end
 numbers = [1, 2, 3, 4, 5]
 evens = numbers.select(&amp;:even?)
 puts &quot;Even numbers: #{evens.join(&#39;, &#39;)}&quot;
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -197,8 +190,7 @@ String literals are sequences of characters between single or double quotation m
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Creating strings
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Creating strings
 single_quoted = &#39;This is a string with single quotes&#39;
 double_quoted = &quot;This is a string with double quotes&quot;
 
@@ -215,7 +207,7 @@ puts phrase.downcase            # &quot;hello ruby world&quot;
 puts phrase.reverse             # &quot;dlroW ybuR olleH&quot;
 puts phrase.include?(&quot;Ruby&quot;) # true
 puts phrase[0, 5] # &quot;Hello&quot; (substring)
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -231,8 +223,7 @@ puts phrase[0, 5] # &quot;Hello&quot; (substring)
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# String operations
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># String operations
 first_name = &quot;John&quot;
 last_name = &quot;Doe&quot;
 full_name = first_name + &quot; &quot; + last_name  # String concatenation
@@ -252,7 +243,7 @@ text = &quot;  Ruby Programming  &quot;
 puts text.strip              # Remove leading/trailing whitespace
 puts text.lstrip             # Remove leading whitespace only
 puts text.rstrip             # Remove trailing whitespace only
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -270,24 +261,31 @@ So far we have seen methods like <code>puts</code> that write to the screen. How
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-print &#39;What is your name? &#39;
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">print &#39;What is your name? &#39;
 name = gets.strip
 
 print &#39;How many lessons have you finished? &#39;
 lessons = Integer(gets, exception: false) || 0
 
 puts &quot;Great work, #{name}! Lesson #{lessons + 1} is up next.&quot;
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
-<ul><li>Local variables start with a lowercase letter or underscore and spring into existence on assignment.</li></ul><ul><li><code>gets</code> reads a line from standard input (including the newline); <code>strip</code> trims it.</li></ul><ul><li>Wrap conversions with <code>Integer(..., exception: false)</code> when you want <code>nil</code> instead of an exception.</li></ul>
+<ul><li>Local variables start with a lowercase letter or underscore and spring into existence on assignment.
+- <code>gets</code> reads a line from standard input (including the newline); <code>strip</code> trims it.
+- Wrap conversions with <code>Integer(..., exception: false)</code> when you want <code>nil</code> instead of an exception.
 
 <h3 id="names">Names in Ruby</h3>
 
 Ruby names are used to refer to constants, variables, methods, classes, and modules. The first character of a name helps Ruby distinguish between different types:
-<ul><li>**Local variables** start with a lowercase letter or underscore (<code>name</code>, <code>_temp</code>)</li></ul><ul><li>**Instance variables** start with <code>@</code> (<code>@name</code>, <code>@email</code>)</li></ul><ul><li>**Class variables** start with <code>@@</code> (<code>@@count</code>, <code>@@total</code>)</li></ul><ul><li>**Global variables** start with <code>$</code> (<code>$stdout</code>, <code>$LOAD_PATH</code>)</li></ul><ul><li>**Constants** start with an uppercase letter (<code>Name</code>, <code>PI</code>)</li></ul><ul><li>**Methods** follow the same naming rules as local variables</li></ul>
+
+- <strong>Local variables</strong> start with a lowercase letter or underscore (<code>name</code>, <code>_temp</code>)
+- <strong>Instance variables</strong> start with <code>@</code> (<code>@name</code>, <code>@email</code>)
+- <strong>Class variables</strong> start with <code>@@</code> (<code>@@count</code>, <code>@@total</code>)
+- <strong>Global variables</strong> start with <code>$</code> (<code>$stdout</code>, <code>$LOAD_PATH</code>)
+- <strong>Constants</strong> start with an uppercase letter (<code>Name</code>, <code>PI</code>)
+- <strong>Methods</strong> follow the same naming rules as local variables
 
 <h3 id="constructs">Simple Constructs</h3>
 
@@ -300,8 +298,7 @@ Ruby names are used to refer to constants, variables, methods, classes, and modu
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# if-else-end construct
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># if-else-end construct
 age = 20
 
 if age &gt;= 18
@@ -330,7 +327,7 @@ when &#39;C&#39;
 else
   puts &quot;Needs improvement&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -348,8 +345,7 @@ An Array is just a list of items in order. Every slot in the list acts like a va
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Creating arrays
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Creating arrays
 fruits = [&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;]
 numbers = [1, 2, 3, 4, 5]
 mixed = [&quot;hello&quot;, 42, true, 3.14]
@@ -368,7 +364,7 @@ puts fruits.include?(&quot;banana&quot;)  # Check if element exists
 numbers.each do |num|
   puts num * 2
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -386,8 +382,7 @@ The first and perhaps most natural use of ranges is to express a sequence. Seque
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Creating ranges
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Creating ranges
 range1 = 1..5      # Inclusive (1, 2, 3, 4, 5)
 range2 = 1...5     # Exclusive (1, 2, 3, 4)
 
@@ -407,7 +402,7 @@ when 70..79 then puts &quot;C&quot;
 when 80..89 then puts &quot;B&quot;
 when 90..100 then puts &quot;A&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -425,8 +420,7 @@ A symbol looks like a variable name but it's prefixed with a colon. Examples: <c
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Symbols are immutable and unique
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Symbols are immutable and unique
 status = :active
 color = :blue
 
@@ -441,7 +435,7 @@ puts &quot;name&quot;.object_id == &quot;name&quot;.object_id  # false (differen
 user = { name: &quot;Alice&quot;, age: 30, active: true }
 puts user[:name]    # &quot;Alice&quot;
 puts user[:age]     # 30
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -459,8 +453,7 @@ Hashes (sometimes known as associative arrays, maps, or dictionaries) are simila
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Creating hashes
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Creating hashes
 person = { &quot;name&quot; =&gt; &quot;John&quot;, &quot;age&quot; =&gt; 30 }
 user = { name: &quot;Alice&quot;, email: &quot;alice@example.com&quot;, active: true }
 
@@ -481,7 +474,7 @@ puts user.length      # Number of key-value pairs
 user.each do |key, value|
   puts &quot;#{key}: #{value}&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -499,8 +492,7 @@ Ruby comes with a random number generator. The method to get a randomly chosen n
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Random float between 0 and 1
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Random float between 0 and 1
 puts rand
 
 # Random integer between 0 and specified number (exclusive)
@@ -510,40 +502,31 @@ puts rand(1..100)    # Random number from 1 to 100
 # Setting a seed for reproducible random numbers
 srand(12345)
 puts rand            # Will always return the same sequence
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
 
 <h3>Practice checklist</h3>
-<ul><li>Practice string manipulation methods like <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, <code>include?</code>, etc.</li></ul><ul><li>Experiment with different control structures (<code>if/else</code>, <code>case</code>, <code>unless</code>)</li></ul><ul><li>Create and manipulate arrays and hashes with various methods</li></ul><ul><li>Try using ranges for sequence generation and condition checking</li></ul><ul><li>Work with symbols and understand their difference from strings</li></ul>
+
+- Practice string manipulation methods like <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, <code>include?</code>, etc.
+- Experiment with different control structures (<code>if/else</code>, <code>case</code>, <code>unless</code>)
+- Create and manipulate arrays and hashes with various methods
+- Try using ranges for sequence generation and condition checking
+- Work with symbols and understand their difference from strings
 
 <h4>Practice 1 - String manipulation drills</h4>
 
-<p><strong>Goal:</strong> Practise common string methods such as <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, and <code>include?</code>.</p>
+<strong>Goal:</strong> Practise common string methods such as <code>upcase</code>, <code>downcase</code>, <code>reverse</code>, and <code>include?</code>.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[upcase downcase reverse include?].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
-# TODO: Pick a base string and call upcase, downcase, reverse, and
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); %w[upcase downcase reverse include?].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby"># TODO: Pick a base string and call upcase, downcase, reverse, and
 # include? on it, printing a short label and the result for each call.
 # Hint:
-#   - Show both the method name and the value so it's clear which is which.
-</code></pre>
-    </div>
-  </div>
-</div>
+#   - Show both the method name and the value so it&#39;s clear which is which.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="0"></div>
@@ -560,30 +543,16 @@ puts "include? 'Control': #{phrase.include?('Control')}"
 
 <h4>Practice 2 - Playing with control structures</h4>
 
-<p><strong>Goal:</strong> Experiment with <code>if/else</code>, <code>case</code>, and <code>unless</code> in a single script.</p>
+<strong>Goal:</strong> Experiment with <code>if/else</code>, <code>case</code>, and <code>unless</code> in a single script.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[if case unless].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby">
-# TODO: Write a small script that uses if/else, case, and unless to
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); %w[if case unless].all? { |word| lines.any? { |l| l.downcase.include?(word) } }"><code class="language-ruby"># TODO: Write a small script that uses if/else, case, and unless to
 # branch based on a value (for example, a score or a role).
 # Hint:
-#   - Print a line that mentions each construct so you can see it ran.
-</code></pre>
-    </div>
-  </div>
-</div>
+#   - Print a line that mentions each construct so you can see it ran.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="1"></div>
@@ -615,28 +584,14 @@ end
 
 <h4>Practice 3 - Arrays and hashes in action</h4>
 
-<p><strong>Goal:</strong> Create and manipulate arrays and hashes with various methods.</p>
+<strong>Goal:</strong> Create and manipulate arrays and hashes with various methods.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('array:') } && lines.any? { |l| l.downcase.include?('hash:') }"><code class="language-ruby">
-# TODO: Build an array and a hash, then apply a few methods to each
-# (such as map, select, merge, or delete_if) and print the results.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;array:&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;hash:&#39;) }"><code class="language-ruby"># TODO: Build an array and a hash, then apply a few methods to each
+# (such as map, select, merge, or delete_if) and print the results.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="2"></div>
@@ -654,28 +609,14 @@ puts "hash: #{user.inspect}"
 
 <h4>Practice 4 - Using ranges for sequences and conditions</h4>
 
-<p><strong>Goal:</strong> Use ranges for sequence generation and condition checking.</p>
+<strong>Goal:</strong> Use ranges for sequence generation and condition checking.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('1..5') } && lines.any? { |l| l.downcase.include?('in range') }"><code class="language-ruby">
-# TODO: Generate a sequence using a range and use a range in a
-# condition (for example, to check whether a value falls inside a band).
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;1..5&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;in range&#39;) }"><code class="language-ruby"># TODO: Generate a sequence using a range and use a range in a
+# condition (for example, to check whether a value falls inside a band).</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="3"></div>
@@ -695,28 +636,14 @@ end
 
 <h4>Practice 5 - Working with symbols</h4>
 
-<p><strong>Goal:</strong> Work with symbols and see how they differ from strings.</p>
+<strong>Goal:</strong> Work with symbols and see how they differ from strings.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="4"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':name') } && lines.any? { |l| l.downcase.include?('symbol') }"><code class="language-ruby">
-# TODO: Create a hash that uses symbols as keys and compare them to
-# string keys, printing out classes and a couple of lookups.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;:name&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;symbol&#39;) }"><code class="language-ruby"># TODO: Create a hash that uses symbols as keys and compare them to
+# string keys, printing out classes and a couple of lookups.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/flow-control-collections"
      data-practice-index="4"></div>
@@ -732,7 +659,7 @@ puts "String key equal? #{:name == 'name'}"
 </script>
 
 When the logic feels natural, move ahead to <a href="/tutorials/methods-and-blocks/">Chapter 3: Methods & blocks</a>.
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -757,33 +684,28 @@ When the logic feels natural, move ahead to <a href="/tutorials/methods-and-bloc
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/methods-and-blocks/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Methods & blocks</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/blog/ruby-examples/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby practice examples</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/methods-and-blocks/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Methods & blocks</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/blog/ruby-examples/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby practice examples</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -816,118 +738,122 @@ When the logic feels natural, move ahead to <a href="/tutorials/methods-and-bloc
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612122"></script>
-  <script src="/js/prism-ruby.js?v=1763612122"></script>
-  <script src="/js/prism-markdown.js?v=1763612122"></script>
-  <script src="/js/code-enhancements.js?v=1763612122"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612122"></script>
-  <script src="/js/github-pages-fix.js?v=1763612122"></script>
-  <script src="/js/site.js?v=1763612122"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

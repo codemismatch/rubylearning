@@ -156,6 +156,42 @@ pre.language-shell::before {
   margin-left: 8px;
 }
 
+/* Loading indicator for RubyVM initialization */
+.loading-indicator {
+  position: absolute;
+  right: 80px; /* Same position as Run button */
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  color: #ddd;
+  font-size: 0.85rem;
+  font-family: 'JetBrains Mono', monospace;
+  z-index: 1;
+}
+
+.loading-spinner {
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(221, 221, 221, 0.3);
+  border-top-color: #27c93f;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+  flex-shrink: 0;
+}
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.loading-text {
+  color: #ddd;
+  white-space: nowrap;
+}
+
 .copy-button {
   position: absolute;
   right: 10px;

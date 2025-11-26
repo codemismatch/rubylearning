@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612122">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612122">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 3 &ndash; Methods & blocks</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 3 &ndash; Methods & blocks</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
+      <div class='markdown'><p>> Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
 
 Methods package behaviour, and Ruby's blocks let you pass snippets of work into those methods. Together they keep scripts readable and expressive.
 
@@ -163,8 +157,7 @@ If objects (such as strings, integers and floats) are the nouns of Ruby, then me
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Methods on strings
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Methods on strings
 name = &quot;ruby&quot;
 puts name.upcase # &quot;RUBY&quot;
 puts name.capitalize  # &quot;Ruby&quot;
@@ -181,7 +174,7 @@ arr = [1, 2, 3]
 puts arr.first        # 1
 puts arr.last         # 3
 puts arr.length       # 3
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -199,8 +192,7 @@ Let's look at writing our own methods in Ruby:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Basic method definition
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Basic method definition
 def greet
   puts &quot;Hello, World!&quot;
 end
@@ -221,7 +213,7 @@ def add_numbers(a, b)
 end
 
 add_numbers(5, 3)
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -237,8 +229,7 @@ add_numbers(5, 3)
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Methods return the last evaluated expression
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Methods return the last evaluated expression
 def square(x)
   x * x
 end
@@ -262,7 +253,7 @@ end
 
 puts divide(10, 2)  # 5
 puts divide(10, 0)  # Cannot divide by zero!
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -280,8 +271,7 @@ Scope refers to the reach or visibility of variables. Different types of variabl
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Global variables (accessible everywhere, prefixed with $)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Global variables (accessible everywhere, prefixed with $)
 $global_var = &quot;I&#39;m global&quot;
 
 def show_global
@@ -314,7 +304,7 @@ end
 
 obj = Example.new
 obj.show_instance
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -332,8 +322,7 @@ Ruby Code blocks (called closures in other languages) are definitely one of the 
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Block with braces
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Block with braces
 3.times { puts &quot;Hello from block!&quot; }
 
 # Block with do/end
@@ -353,7 +342,7 @@ end
   puts &quot;Number: #{num}&quot;
   puts &quot;Square: #{num * num}&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -369,8 +358,7 @@ end
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-def repeat(times, message)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def repeat(times, message)
   times.times do |index|
     yield(index + 1, message)
   end
@@ -385,7 +373,7 @@ def wrap(value)
 end
 
 puts wrap(&quot;Ruby blocks rock&quot;)
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -403,8 +391,7 @@ Blocks are not objects, but they can be converted into objects of class Proc:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Creating a Proc
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Creating a Proc
 my_proc = Proc.new { |x| puts x * 2 }
 
 # Calling a Proc
@@ -421,7 +408,7 @@ end
 
 doubler = Proc.new { |x| puts x * 2 }
 process_numbers([1, 2, 3], doubler)
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -439,8 +426,7 @@ Lambdas are similar to Procs but with stricter argument checking:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Creating a lambda
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Creating a lambda
 my_lambda = lambda { |x| x * 2 }
 # Alternative syntax
 my_lambda = -&gt;(x) { x * 2 }
@@ -459,39 +445,29 @@ lambda_example = -&gt;(x, y) { [x, y] }
 
 puts proc_example.call(1)     # [1, nil] - no error
 puts lambda_example.call(1)   # ArgumentError - too few arguments
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
 
 <h3>Practice checklist</h3>
-<ul><li>Write methods with different numbers of parameters</li></ul><ul><li>Experiment with default parameters and return values</li></ul><ul><li>Practice using blocks with array methods like <code>each</code>, <code>map</code>, <code>select</code></li></ul><ul><li>Create and use Procs and lambdas</li></ul><ul><li>Understand the differences between Procs and lambdas</li></ul>
+<ul><li>Write methods with different numbers of parameters
+- Experiment with default parameters and return values
+- Practice using blocks with array methods like <code>each</code>, <code>map</code>, <code>select</code>
+- Create and use Procs and lambdas
+- Understand the differences between Procs and lambdas
 
 <h4>Practice 1 - Writing methods with parameters</h4>
 
-<p><strong>Goal:</strong> Define methods with different numbers of parameters and call them.</p>
+<strong>Goal:</strong> Define methods with different numbers of parameters and call them.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('hello') } && lines.any? { |l| l.downcase.include?('sum') }"><code class="language-ruby">
-# TODO: Define at least two methods: one that takes a single
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;hello&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;sum&#39;) }"><code class="language-ruby"># TODO: Define at least two methods: one that takes a single
 # parameter, and another that takes two or more parameters. Call
-# them and print the results.
-</code></pre>
-    </div>
-  </div>
-</div>
+# them and print the results.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="0"></div>
@@ -512,28 +488,14 @@ puts "Sum: #{add(2, 3)}"
 
 <h4>Practice 2 - Default parameters and return values</h4>
 
-<p><strong>Goal:</strong> Experiment with default parameters and explicit return values.</p>
+<strong>Goal:</strong> Experiment with default parameters and explicit return values.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('guest') } && lines.any? { |l| l.downcase.include?('alex') }"><code class="language-ruby">
-# TODO: Write a method that uses a default parameter, call it with
-# and without an explicit value, and print the returned values.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;guest&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;alex&#39;) }"><code class="language-ruby"># TODO: Write a method that uses a default parameter, call it with
+# and without an explicit value, and print the returned values.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="1"></div>
@@ -550,28 +512,14 @@ puts welcome("Alex")
 
 <h4>Practice 3 - Using blocks with array methods</h4>
 
-<p><strong>Goal:</strong> Practise using blocks with <code>each</code>, <code>map</code>, and <code>select</code>.</p>
+<strong>Goal:</strong> Practise using blocks with <code>each</code>, <code>map</code>, and <code>select</code>.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('mapped') } && lines.any? { |l| l.downcase.include?('selected') }"><code class="language-ruby">
-# TODO: Create an array and use blocks with each, map, and select to
-# transform and filter it, printing each step with a label.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;mapped&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;selected&#39;) }"><code class="language-ruby"># TODO: Create an array and use blocks with each, map, and select to
+# transform and filter it, printing each step with a label.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="2"></div>
@@ -591,28 +539,14 @@ puts "selected: #{selected.inspect}"
 
 <h4>Practice 4 - Creating and using Procs and lambdas</h4>
 
-<p><strong>Goal:</strong> Create Procs and lambdas and invoke them.</p>
+<strong>Goal:</strong> Create Procs and lambdas and invoke them.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('proc') } && lines.any? { |l| l.downcase.include?('lambda') }"><code class="language-ruby">
-# TODO: Create a Proc and a lambda that each print or return a simple
-# message, then call them using both .call and [] syntax.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;proc&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;lambda&#39;) }"><code class="language-ruby"># TODO: Create a Proc and a lambda that each print or return a simple
+# message, then call them using both .call and [] syntax.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="3"></div>
@@ -631,28 +565,14 @@ my_lambda["Rails"]
 
 <h4>Practice 5 - Observing Proc vs lambda differences</h4>
 
-<p><strong>Goal:</strong> Observe at least one behavioural difference between Procs and lambdas.</p>
+<strong>Goal:</strong> Observe at least one behavioural difference between Procs and lambdas.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="4"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('proc result') } && lines.any? { |l| l.downcase.include?('lambda result') }"><code class="language-ruby">
-# TODO: Write a small example that contrasts return behaviour or
-# arity between a Proc and a lambda and print labelled results.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;proc result&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;lambda result&#39;) }"><code class="language-ruby"># TODO: Write a small example that contrasts return behaviour or
+# arity between a Proc and a lambda and print labelled results.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/methods-and-blocks"
      data-practice-index="4"></div>
@@ -671,7 +591,7 @@ proc_vs_lambda
 </script>
 
 Ready for more structure? Continue to <a href="/tutorials/classes-and-objects/">Chapter 4: Classes & objects</a>.
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -696,33 +616,28 @@ Ready for more structure? Continue to <a href="/tutorials/classes-and-objects/">
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/classes-and-objects/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Classes & objects</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/blog/ruby-examples/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby practice examples</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/classes-and-objects/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Classes & objects</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/blog/ruby-examples/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby practice examples</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -755,118 +670,122 @@ Ready for more structure? Continue to <a href="/tutorials/classes-and-objects/">
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612123"></script>
-  <script src="/js/prism-ruby.js?v=1763612123"></script>
-  <script src="/js/prism-markdown.js?v=1763612123"></script>
-  <script src="/js/code-enhancements.js?v=1763612123"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612123"></script>
-  <script src="/js/github-pages-fix.js?v=1763612123"></script>
-  <script src="/js/site.js?v=1763612123"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

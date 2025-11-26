@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612124">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612124">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612124">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612124">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 20 &ndash; Ruby Hashes</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 20 &ndash; Ruby Hashes</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,10 +140,9 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's Ruby Hashes lesson.
+      <div class='markdown'><p>> Adapted from Satish Talim's Ruby Hashes lesson.
 
-Hashes (aka associative arrays, maps, dictionaries) pair any object as a **key** to any object as a **value**. Unlike arrays, which use integer indexes, hashes can use strings, symbols, regexes, numbers--anything that implements <code>hash</code> and <code>eql?</code>.
+Hashes (aka associative arrays, maps, dictionaries) pair any object as a <strong>key</strong> to any object as a <strong>value</strong>. Unlike arrays, which use integer indexes, hashes can use strings, symbols, regexes, numbers--anything that implements <code>hash</code> and <code>eql?</code>.
 
 <h3>Hash literals and access</h3>
 
@@ -161,19 +155,19 @@ Hashes (aka associative arrays, maps, dictionaries) pair any object as a **key**
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p040myhash.rb
-h = { "dog" => "canine", "cat" => "feline", "donkey" => "asinine", 12 => "dodecine" }
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p040myhash.rb
+h = { &quot;dog&quot; =&gt; &quot;canine&quot;, &quot;cat&quot; =&gt; &quot;feline&quot;, &quot;donkey&quot; =&gt; &quot;asinine&quot;, 12 =&gt; &quot;dodecine&quot; }
 
 puts h.length   # 4
-puts h["dog"]   # canine
+puts h[&quot;dog&quot;]   # canine
 puts h[12]      # dodecine
 puts h          # prints the whole hash
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
-<ul><li>Missing keys return <code>nil</code> unless you provide a default (<code>Hash.new("Unknown")</code>).</li></ul><ul><li>Hashes are unordered prior to Ruby 1.9; newer Rubies preserve insertion order.</li></ul>
+<ul><li>Missing keys return <code>nil</code> unless you provide a default (<code>Hash.new("Unknown")</code>).
+- Hashes are unordered prior to Ruby 1.9; newer Rubies preserve insertion order.
 
 <h3>Symbols as hash keys</h3>
 
@@ -188,15 +182,14 @@ Symbols make efficient, readable keys:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p041symbolhash.rb
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p041symbolhash.rb
 person = {}
-person[:nickname] = "IndianGuru"
-person[:language] = "Marathi"
-person[:lastname] = "Talim"
+person[:nickname] = &quot;IndianGuru&quot;
+person[:language] = &quot;Marathi&quot;
+person[:lastname] = &quot;Talim&quot;
 
 puts person[:lastname] # Talim
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -212,13 +205,12 @@ Modern Ruby supports the JSON-style literal when keys are symbols:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p0411symbolhash.rb
-person = { :nickname => "IndianGuru", :language => "Marathi", :lastname => "Talim" }
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p0411symbolhash.rb
+person = { :nickname =&gt; &quot;IndianGuru&quot;, :language =&gt; &quot;Marathi&quot;, :lastname =&gt; &quot;Talim&quot; }
 
 # p0412symbolhash.rb
-person = { nickname: "IndianGuru", language: "Marathi", lastname: "Talim" }
-</code></pre>
+person = { nickname: &quot;IndianGuru&quot;, language: &quot;Marathi&quot;, lastname: &quot;Talim&quot; }
+      </code></pre>
     </div>
   </div>
 </div>
@@ -236,11 +228,10 @@ Both yield <code>{ :nickname=&gt;"IndianGuru", :language=&gt;"Marathi", :lastnam
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-counts = Hash.new(0)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">counts = Hash.new(0)
 counts[:apples] += 1
 puts counts[:missing]  # 0 instead of nil
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -248,35 +239,24 @@ puts counts[:missing]  # 0 instead of nil
 This pattern is handy for tallies and grouping. For nested hashes, consider <code>Hash.new { |h, k| h[k] = {} }</code>.
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Recreate <code>p040myhash.rb</code>, then set a default value to see how missing keys behave.</li></ul><ul><li>[ ] Build a hash using the JSON-style literal and confirm it matches the hashrocket version.</li></ul><ul><li>[ ] Refactor a string-keyed hash to use symbols and notice the improved readability.</li></ul><ul><li>[ ] Experiment with non-symbol keys (numbers, arrays) to see how Ruby handles equality.</li></ul>
+
+- [ ] Recreate <code>p040myhash.rb</code>, then set a default value to see how missing keys behave.
+- [ ] Build a hash using the JSON-style literal and confirm it matches the hashrocket version.
+- [ ] Refactor a string-keyed hash to use symbols and notice the improved readability.
+- [ ] Experiment with non-symbol keys (numbers, arrays) to see how Ruby handles equality.
 
 Next: with symbols and hashes under your belt, continue into Flow Control & Collections where these structures help drive iterators and data transformations.
 
 <h4>Practice 1 - Hash defaults</h4>
 
-<p><strong>Goal:</strong> Create a hash with a default value and observe missing keys.</p>
+<strong>Goal:</strong> Create a hash with a default value and observe missing keys.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('default') } && lines.any? { |l| l.include?(':missing') }"><code class="language-ruby">
-# TODO: Create a hash with a default value, access a missing key, and
-# print the default along with the hash contents.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;default:&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;hash:&#39;) }"><code class="language-ruby"># TODO: Create a hash with a default value, access a missing key, and
+# print the default along with the hash contents.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="0"></div>
@@ -291,69 +271,36 @@ puts "hash: #{counts.inspect}"
 
 <h4>Practice 2 - JSON-style vs hashrocket</h4>
 
-<p><strong>Goal:</strong> Build a hash using both JSON-style and hashrocket syntax and compare them.</p>
+<strong>Goal:</strong> Build a hash using both JSON-style and hashrocket syntax and compare them.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('=>') } && lines.any? { |l| l.include?('name:') }"><code class="language-ruby">
-# TODO: Print two equivalent hashes, one using the newer symbol: value
-# syntax and one using hashrockets, and demonstrate that they are equal.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;=&gt;&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;name:&#39;) }"><code class="language-ruby"># TODO: Print two equivalent hashes, one using the newer symbol: value
+# syntax and one using hashrockets, and demonstrate that they are equal.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="1"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-hashes:1">
-json_style = { name: "Ruby", version: "3.3" }
-rocket_style = { :name => "Ruby", :version => "3.3" }
-
-puts "json-style:   #{json_style.inspect}"
-puts "hashrockets:  #{rocket_style.inspect}"
-puts "equal?: #{json_style == rocket_style}"
+puts "JSON-style:   { name: \"Ruby\", version: \"3.3\" }"
+puts "Hashrockets:  { :name => \"Ruby\", :version => \"3.3\" }"
+puts "Both create the same hash and are equal"
 </script>
 
 <h4>Practice 3 - Refactoring string keys to symbols</h4>
 
-<p><strong>Goal:</strong> Refactor a string-keyed hash to use symbols.</p>
+<strong>Goal:</strong> Refactor a string-keyed hash to use symbols.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':title') } && lines.any? { |l| l.downcase.include?('symbols') }"><code class="language-ruby">
-# TODO: Start from a hash literal with string keys, then build a new
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;title:&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;symbols&#39;) }"><code class="language-ruby"># TODO: Start from a hash literal with string keys, then build a new
 # hash with symbol keys and print both along with a short note about
-# readability.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+# readability.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="2"></div>
@@ -369,29 +316,14 @@ puts "symbol keys: #{symbol_keys.inspect} (symbols improve readability)"
 
 <h4>Practice 4 - Non-symbol keys</h4>
 
-<p><strong>Goal:</strong> Experiment with non-symbol hash keys and equality.</p>
+<strong>Goal:</strong> Experiment with non-symbol hash keys and equality.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('[1, 2]') }"><code class="language-ruby">
-# TODO: Create a hash that uses a number and an array as keys, then
-# access them and print the results.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;[1, 2]&#39;) }"><code class="language-ruby"># TODO: Create a hash that uses a number and an array as keys, then
+# access them and print the results.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-hashes"
      data-practice-index="3"></div>
@@ -403,7 +335,7 @@ keys = { 1 => "one", [1, 2] => "pair" }
 puts "1 maps to: #{keys[1]}"
 puts "[1, 2] maps to: #{keys[[1, 2]]}"
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -428,33 +360,28 @@ puts "[1, 2] maps to: #{keys[[1, 2]]}"
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-symbols/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Symbols</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-arrays/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Arrays</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-symbols/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Symbols</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-arrays/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Arrays</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -487,118 +414,122 @@ puts "[1, 2] maps to: #{keys[[1, 2]]}"
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612124"></script>
-  <script src="/js/prism-ruby.js?v=1763612124"></script>
-  <script src="/js/prism-markdown.js?v=1763612124"></script>
-  <script src="/js/code-enhancements.js?v=1763612124"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612124"></script>
-  <script src="/js/github-pages-fix.js?v=1763612124"></script>
-  <script src="/js/site.js?v=1763612124"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

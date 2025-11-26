@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612124">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612124">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612124">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612124">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 31 &ndash; "Overloading" Methods the Ruby Way</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 31 &ndash; "Overloading" Methods the Ruby Way</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's "Overloading Methods" lesson.
+      <div class='markdown'><p>> Adapted from Satish Talim's "Overloading Methods" lesson.
 
 Ruby doesn't support traditional method overloading (same name, different signatures). Instead, you build flexible interfaces with default values, splats (<code>*args</code>), keyword arguments, and runtime dispatch.
 
@@ -161,14 +155,13 @@ Ruby doesn't support traditional method overloading (same name, different signat
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def greet(name = &quot;friend&quot;)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def greet(name = &quot;friend&quot;)
   &quot;Hello, #{name}!&quot;
 end
 
 puts greet          #=&gt; &quot;Hello, friend!&quot;
 puts greet(&quot;Satish&quot;) #=&gt; &quot;Hello, Satish!&quot;
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -184,14 +177,13 @@ puts greet(&quot;Satish&quot;) #=&gt; &quot;Hello, Satish!&quot;
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def sum(*numbers)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def sum(*numbers)
   numbers.inject(0, :+)
 end
 
-puts sum            #=> 0
-puts sum(1, 2, 3)   #=> 6
-</code></pre>
+puts sum            #=&gt; 0
+puts sum(1, 2, 3)   #=&gt; 6
+      </code></pre>
     </div>
   </div>
 </div>
@@ -209,13 +201,12 @@ You can inspect <code>numbers.length</code> or the class of each argument to bra
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def send_email(to:, subject:, body: &quot;Hello&quot;)
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def send_email(to:, subject:, body: &quot;Hello&quot;)
   # ...
 end
 
 send_email(to: &quot;team@example.com&quot;, subject: &quot;Reminder&quot;)
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -223,168 +214,136 @@ send_email(to: &quot;team@example.com&quot;, subject: &quot;Reminder&quot;)
 Keyword args make call sites self-documenting and avoid argument-order bugs.
 
 <h3>Tips from the legacy lesson</h3>
-<ul><li>Lean on Ruby's dynamic nature: check <code>args.length</code>, <code>args.first</code>, or presence of options to determine behavior.</li></ul><ul><li>Don't overdo it--too many code paths in a single method can get confusing. Prefer separate methods if behavior differs significantly.</li></ul><ul><li>Consider using hashes (<code>options = {}</code>) or keyword arguments for clarity when mimicking overloads.</li></ul>
+<ul><li>Lean on Ruby's dynamic nature: check <code>args.length</code>, <code>args.first</code>, or presence of options to determine behavior.
+- Don't overdo it--too many code paths in a single method can get confusing. Prefer separate methods if behavior differs significantly.
+- Consider using hashes (<code>options = {}</code>) or keyword arguments for clarity when mimicking overloads.
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.</li></ul><ul><li>[ ] Build a <code>rectangle_area(*args)</code> method that accepts either two numbers (<code>width</code>, <code>height</code>) or a hash (<code>width:</code>, <code>height:</code>).</li></ul><ul><li>[ ] Use keyword arguments with defaults to simulate constructor overloading in a small class.</li></ul><ul><li>[ ] Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn't make sense.</li></ul>
+
+- [ ] Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.
+- [ ] Build a <code>rectangle_area(*args)</code> method that accepts either two numbers (<code>width</code>, <code>height</code>) or a hash (<code>width:</code>, <code>height:</code>).
+- [ ] Use keyword arguments with defaults to simulate constructor overloading in a small class.
+- [ ] Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn't make sense.
 
 Next: keep applying these dynamic dispatch techniques inside Flow Control & Collections.
 
 <h4>Practice 1 - log with optional level</h4>
 
-<p><strong>Goal:</strong> Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.</p>
+<strong>Goal:</strong> Write a <code>log(message, level = :info)</code> method and call it with/without the second argument.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('level=:info') }"><code class="language-ruby">
-# TODO: Define log(message, level = :info) and print a line showing
-# both the default and an explicit level being used.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;[info] hello&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;[error] danger&#39;) }"><code class="language-ruby"># TODO: Define log(message, level = :info) and print a line showing
+# both the default and an explicit level being used.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="0"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:0">
-puts "def log(message, level = :info)"
-puts "  puts \"[\#{level}] \#{message}\""
-puts "end"
-puts "log('hello')"
-puts "log('danger', :error)"
+def log(message, level = :info)
+  puts "[#{level}] #{message}"
+end
+
+log("hello")
+log("danger", :error)
 </script>
 
 <h4>Practice 2 - rectangle_area with *args</h4>
 
-<p><strong>Goal:</strong> Build <code>rectangle_area(*args)</code> that accepts either two numbers or a hash of options.</p>
+<strong>Goal:</strong> Build <code>rectangle_area(*args)</code> that accepts either two numbers or a hash of options.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('rectangle_area') } && lines.any? { |l| l.downcase.include?('hash') }"><code class="language-ruby">
-# TODO: Sketch a rectangle_area(*args) implementation that accepts
-# width/height as either positional args or a hash.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;area (positional): 20&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;area (hash): 12&#39;) }"><code class="language-ruby"># TODO: Sketch a rectangle_area(*args) implementation that accepts
+# width/height as either positional args or a hash.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="1"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:1">
-puts "def rectangle_area(*args)"
-puts "  if args.first.is_a?(Hash)"
-puts "    w = args.first.fetch(:width)"
-puts "    h = args.first.fetch(:height)"
-puts "  else"
-puts "    w, h = args"
-puts "  end"
-puts "  w * h"
-puts "end"
+def rectangle_area(*args)
+  if args.first.is_a?(Hash)
+    options = args.first
+    width = options.fetch(:width)
+    height = options.fetch(:height)
+  else
+    width, height = args
+  end
+
+  width * height
+end
+
+puts "area (positional): #{rectangle_area(4, 5)}"
+puts "area (hash): #{rectangle_area(width: 2, height: 6)}"
 </script>
 
 <h4>Practice 3 - Constructor keyword overloading</h4>
 
-<p><strong>Goal:</strong> Use keyword arguments with defaults to simulate constructor overloading.</p>
+<strong>Goal:</strong> Use keyword arguments with defaults to simulate constructor overloading.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('initialize(') } && lines.any? { |l| l.include?('**opts') || l.include?('name:') }"><code class="language-ruby">
-# TODO: Print a small class whose initialize method uses keyword
-# arguments with defaults to support multiple call styles.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;admin=false&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;admin=true&#39;) }"><code class="language-ruby"># TODO: Print a small class whose initialize method uses keyword
+# arguments with defaults to support multiple call styles.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="2"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:2">
-puts "class User"
-puts "  def initialize(name:, admin: false)"
-puts "    @name = name"
-puts "    @admin = admin"
-puts "  end"
-puts "end"
+class User
+  def initialize(name:, admin: false)
+    @name = name
+    @admin = admin
+  end
+
+  def info
+    "User #{@name}, admin=#{@admin}"
+  end
+end
+
+puts User.new(name: "Ruby").info
+puts User.new(name: "Satish", admin: true).info
 </script>
 
 <h4>Practice 4 - Argument validation with ArgumentError</h4>
 
-<p><strong>Goal:</strong> Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn't make sense.</p>
+<strong>Goal:</strong> Inspect <code>args.length</code> in a method and raise <code>ArgumentError</code> when the combination doesn't make sense.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('ArgumentError') } && lines.any? { |l| l.include?('args.length') }"><code class="language-ruby">
-# TODO: Print an example of checking args.length and raising
-# ArgumentError for unsupported combinations.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;call with 1 arg&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;Raised ArgumentError&#39;) }"><code class="language-ruby"># TODO: Print an example of checking args.length and raising
+# ArgumentError for unsupported combinations.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-overloading-methods"
      data-practice-index="3"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-overloading-methods:3">
-puts "def overloaded(*args)"
-puts "  raise ArgumentError, 'expected 1 or 2 args' unless [1, 2].include?(args.length)"
-puts "end"
+def overloaded(*args)
+  raise ArgumentError, "expected 1 or 2 args" unless [1, 2].include?(args.length)
+  args.join(", ")
+end
+
+puts "call with 1 arg: #{overloaded('only')}"
+
+begin
+  overloaded
+rescue ArgumentError => e
+  puts "Raised ArgumentError: #{e.message}"
+end
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -409,33 +368,28 @@ puts "end"
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/writing-our-own-class/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Writing Our Own Class</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-procs/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Procs & Lambdas</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/writing-our-own-class/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Writing Our Own Class</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-procs/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Procs & Lambdas</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -468,118 +422,122 @@ puts "end"
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612124"></script>
-  <script src="/js/prism-ruby.js?v=1763612124"></script>
-  <script src="/js/prism-markdown.js?v=1763612124"></script>
-  <script src="/js/code-enhancements.js?v=1763612124"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612124"></script>
-  <script src="/js/github-pages-fix.js?v=1763612124"></script>
-  <script src="/js/site.js?v=1763612124"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

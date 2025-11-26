@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612123">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612123">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612123">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612123">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 22 &ndash; Read/Write Text Files</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 22 &ndash; Read/Write Text Files</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's Read/Write Files lesson.
+      <div class='markdown'><p>> Adapted from Satish Talim's Read/Write Files lesson.
 
 Ruby's <code>IO</code> family (which <code>File</code> inherits from) handles disk operations. You can open files in read, write, append, or combined modes, and Ruby auto-closes them when you pass a block to <code>File.open</code>.
 
@@ -161,29 +155,40 @@ Ruby's <code>IO</code> family (which <code>File</code> inherits from) handles di
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p027readwrite.rb
-# Read a file
-File.open("p014constructs.rb", "r") do |file|
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p027readwrite.rb
+# First, create a sample file to read
+File.open(&quot;sample.txt&quot;, &quot;w&quot;) do |file|
+  file.puts &quot;Line 1: Hello Ruby&quot;
+  file.puts &quot;Line 2: File I/O is easy&quot;
+  file.puts &quot;Line 3: Reading files&quot;
+end
+
+# Read the file
+puts &quot;Reading sample.txt:&quot;
+File.open(&quot;sample.txt&quot;, &quot;r&quot;) do |file|
   while line = file.gets
     puts line
   end
 end
 
-# Write a file
-File.open("test.rb", "w") do |file|
-  file.puts "Created by Satish"
-  file.puts "Thank God!"
+# Write a new file
+File.open(&quot;output.txt&quot;, &quot;w&quot;) do |file|
+  file.puts &quot;Created by Satish&quot;
+  file.puts &quot;Thank God!&quot;
 end
-</code></pre>
+
+puts &quot;\nWrote to output.txt successfully!&quot;
+      </code></pre>
     </div>
   </div>
 </div>
-<ul><li>Modes: <code>"r"</code> (read), <code>"r+"</code> (read/write), <code>"w"</code> (write, truncates/creates), <code>"a"</code> (append). You can also specify encodings (<code>"r:UTF-16LE:UTF-8"</code>).</li></ul><ul><li>Passing a block ensures the file closes automatically when the block exits. Otherwise call <code>file.close</code>.</li></ul><ul><li><code>File.readlines</code> loads the entire file into an array of lines.</li></ul>
+<ul><li>Modes: <code>"r"</code> (read), <code>"r+"</code> (read/write), <code>"w"</code> (write, truncates/creates), <code>"a"</code> (append). You can also specify encodings (<code>"r:UTF-16LE:UTF-8"</code>).
+- Passing a block ensures the file closes automatically when the block exits. Otherwise call <code>file.close</code>.
+- <code>File.readlines</code> loads the entire file into an array of lines.
 
 <h3>Traversing directories</h3>
 
-Use the <code>Find</code> module to walk a tree:
+Use <code>Dir.entries</code> and <code>Dir</code> methods to walk directory structures:
 
 <div class="code-window">
   <div class="code-header">
@@ -194,25 +199,39 @@ Use the <code>Find</code> module to walk a tree:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-require &quot;find&quot;
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Create a simple directory structure
+Dir.mkdir(&quot;test_dir&quot;) unless Dir.exist?(&quot;test_dir&quot;)
+File.write(&quot;test_dir/file1.rb&quot;, &quot;# Ruby file&quot;)
+File.write(&quot;test_dir/file2.txt&quot;, &quot;Text file&quot;)
 
-Find.find(&quot;./&quot;) do |path|
+# Traverse directories using Dir methods (Find module not available in WASM)
+puts &quot;Current directory contents:&quot;
+Dir.entries(&quot;.&quot;).each do |entry|
+  next if entry.start_with?(&quot;.&quot;)
+  path = File.join(&quot;.&quot;, entry)
   type = if File.file?(path)
-  &quot;F&quot;
-elsif File.directory?(path)
-  &quot;D&quot;
-else
-  &quot;?&quot;
+    &quot;F&quot;
+  elsif File.directory?(path)
+    &quot;D&quot;
+  else
+    &quot;?&quot;
+  end
+  puts &quot;#{type}: #{path}&quot;
 end
-puts &quot;#{type}: #{path}&quot;
+
+puts &quot;\ntest_dir contents:&quot;
+Dir.entries(&quot;test_dir&quot;).each do |entry|
+  next if entry.start_with?(&quot;.&quot;)
+  path = File.join(&quot;test_dir&quot;, entry)
+  type = File.file?(path) ? &quot;F&quot; : &quot;D&quot;
+  puts &quot;#{type}: #{path}&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
 
-This example prints each file/directory under the current working directory. You'll learn more about <code>require</code> soon--it loads stdlib modules like <code>Find</code>.
+This example creates a test directory structure and prints each file/directory. <code>Dir.entries</code> returns an array of filenames in the given directory. You'll learn more about <code>require</code> soon--it loads stdlib modules.
 
 <h3>Random file access</h3>
 
@@ -227,13 +246,21 @@ This example prints each file/directory under the current working directory. You
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p028xrandom.rb
-f = File.new("hellousa.rb")  # read-only by default
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p028xrandom.rb
+# First create a sample file
+File.write(&quot;hellousa.rb&quot;, &quot;puts &#39;Hello USA!&#39;\nputs &#39;Welcome to Ruby&#39;\nputs &#39;File I/O demo&#39;&quot;)
+
+# Now demonstrate random access
+f = File.new(&quot;hellousa.rb&quot;)  # read-only by default
+puts &quot;Full file content:&quot;
+puts f.read
+f.rewind
+
+puts &quot;\nSeeking to byte 12:&quot;
 f.seek(12, IO::SEEK_SET)     # absolute seek to byte 12
 puts f.readline              # prints from byte 12 onward
 f.close
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -245,149 +272,125 @@ f.close
 Ruby supports object serialization via <code>Marshal.dump</code>/<code>Marshal.load</code>. We'll revisit this later, but it's mentioned here because file IO often accompanies serialization tasks.
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Open a text file in <code>"a"</code> (append) mode and log a timestamped entry.</li></ul><ul><li>[ ] Use <code>File.readlines</code> to count the number of lines matching a pattern.</li></ul><ul><li>[ ] Traverse a directory with <code>Find.find</code>, filtering only <code>.rb</code> files.</li></ul><ul><li>[ ] Seek to the middle of a file and read the remainder to understand pointer positioning.</li></ul>
+
+- [ ] Open a text file in <code>"a"</code> (append) mode and log a timestamped entry.
+- [ ] Use <code>File.readlines</code> to count the number of lines matching a pattern.
+- [ ] Traverse a directory with <code>Dir.entries</code>, filtering only <code>.rb</code> files.
+- [ ] Seek to the middle of a file and read the remainder to understand pointer positioning.
 
 Next: continue to Flow Control & Collections to keep combining IO with loops, ranges, and data structures.
 
 <h4>Practice 1 - Appending a timestamped entry</h4>
 
-<p><strong>Goal:</strong> Sketch how you would append a timestamped entry to a log file.</p>
+<strong>Goal:</strong> Sketch how you would append a timestamped entry to a log file.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.open') } && lines.any? { |l| l.include?('\"a\"') }"><code class="language-ruby">
-# TODO: Print a snippet that opens a file in \"a\" mode and writes a
-# timestamped line.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Started app&#39;) }"><code class="language-ruby"># TODO: Print a snippet that opens a file in  PRE_3 quot;a PRE_3 quot; mode and writes a
+# timestamped line.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="0"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/read-write-files:0">
-puts 'File.open("log.txt", "a") { |f| f.puts("[\#{Time.now}] Started app") }'
+# Create a log file and append to it
+log_path = "app.log"
+
+# Append a timestamped entry
+File.open(log_path, "a") { |f| f.puts("[#{Time.now}] Started app") }
+
+# Read and display the log
+puts "Log contents:"
+puts File.read(log_path)
 </script>
 
 <h4>Practice 2 - Counting matching lines</h4>
 
-<p><strong>Goal:</strong> Describe how you would use <code>File.readlines</code> to count matching lines.</p>
+<strong>Goal:</strong> Describe how you would use <code>File.readlines</code> to count matching lines.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('File.readlines') }"><code class="language-ruby">
-# TODO: Print an example that reads all lines from a file and counts
-# those matching a pattern.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;error lines:&#39;) }"><code class="language-ruby"># TODO: Print an example that reads all lines from a file and counts
+# those matching a pattern.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="1"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/read-write-files:1">
-puts 'count = File.readlines("log.txt").count { |line| line.include?("ERROR") }'
+# Create a log file with sample data
+log_path = "server.log"
+File.write(log_path, "INFO boot\nERROR failure\nINFO finish\nERROR timeout\n")
+
+# Count lines matching a pattern
+count = File.readlines(log_path).count { |line| line.include?("ERROR") }
+puts "error lines: #{count}"
 </script>
 
-<h4>Practice 3 - Traversing directories with Find.find</h4>
+<h4>Practice 3 - Traversing directories with Dir.entries</h4>
 
-<p><strong>Goal:</strong> Use <code>Find.find</code> to traverse a directory tree and select <code>.rb</code> files.</p>
+<strong>Goal:</strong> Use <code>Dir.entries</code> to traverse a directory and select <code>.rb</code> files.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Find.find') } && lines.any? { |l| l.include?('.rb') }"><code class="language-ruby">
-# TODO: Print a snippet that walks a directory tree and prints only
-# Ruby files.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;ruby file:&#39;) }"><code class="language-ruby"># TODO: Print a snippet that walks a directory tree and prints only
+# Ruby files.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="2"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/read-write-files:2">
-puts 'Find.find(".") { |path| puts path if path.end_with?(".rb") }'
+# Create a test directory with files
+test_dir = "project"
+Dir.mkdir(test_dir) unless Dir.exist?(test_dir)
+File.write(File.join(test_dir, "example.rb"), "# sample")
+File.write(File.join(test_dir, "notes.txt"), "ignore")
+File.write(File.join(test_dir, "main.rb"), "# main file")
+
+# Walk directory and filter .rb files
+Dir.entries(test_dir).each do |entry|
+  next if entry.start_with?(".")
+  path = File.join(test_dir, entry)
+  puts "ruby file: #{path}" if path.end_with?(".rb")
+end
 </script>
 
 <h4>Practice 4 - Seeking within a file</h4>
 
-<p><strong>Goal:</strong> Show how you would seek to the middle of a file and read the remainder.</p>
+<strong>Goal:</strong> Show how you would seek to the middle of a file and read the remainder.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.seek(') }"><code class="language-ruby">
-# TODO: Print an example that uses IO#seek to move to a position and
-# then reads the rest of the file.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;tail:&#39;) }"><code class="language-ruby"># TODO: Print an example that uses IO#seek to move to a position and
+# then reads the rest of the file.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/read-write-files"
      data-practice-index="3"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/read-write-files:3">
-puts 'File.open("data.txt", "r") do |f|'
-puts '  f.seek(f.size / 2)'
-puts '  tail = f.read'
-puts 'end'
+# Create a data file
+data_path = "alphabet.txt"
+File.write(data_path, "ABCDEFGHIJKLMNOPQRSTUVWXYZ")
+
+# Seek to the middle and read the remainder
+File.open(data_path, "r") do |f|
+  file_size = File.size(data_path)
+  f.seek(file_size / 2, IO::SEEK_SET)
+  puts "tail: #{f.read}"
+end
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -412,33 +415,28 @@ puts 'end'
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-arrays/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Arrays</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-hashes/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Hashes</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-arrays/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Arrays</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-hashes/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Hashes</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -471,118 +469,122 @@ puts 'end'
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612123"></script>
-  <script src="/js/prism-ruby.js?v=1763612123"></script>
-  <script src="/js/prism-markdown.js?v=1763612123"></script>
-  <script src="/js/code-enhancements.js?v=1763612123"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612123"></script>
-  <script src="/js/github-pages-fix.js?v=1763612123"></script>
-  <script src="/js/site.js?v=1763612123"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

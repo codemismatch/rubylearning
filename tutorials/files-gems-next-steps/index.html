@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612122">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612122">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 6 &ndash; Files, gems & next steps</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 6 &ndash; Files, gems & next steps</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,8 +140,7 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
+      <div class='markdown'><p>> Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
 
 Real applications interact with files, the command line, and external libraries. This example reads data, transforms it, and prints a report.
 
@@ -163,8 +157,7 @@ In a typical Ruby environment, you can read/write to files using methods like <c
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# In a traditional Ruby environment, you would write:
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># In a traditional Ruby environment, you would write:
 # Writing to a file
 # File.open(&quot;sample.txt&quot;, &quot;w&quot;) do |file|
 #   file.puts &quot;This is the first line&quot;
@@ -189,7 +182,7 @@ content = &quot;Line 1\nLine 2\nLine 3&quot;
 puts &quot;Sample content: #{content}&quot;  # Fixed interpolation
 lines = content.split(&quot;\n&quot;)
 puts &quot;Lines as array: #{lines.inspect}&quot;  # Fixed interpolation
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -205,8 +198,7 @@ puts &quot;Lines as array: #{lines.inspect}&quot;  # Fixed interpolation
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-require &#39;csv&#39;
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">require &#39;csv&#39;
 
 sample_scores = &lt;&lt;~CSV
   name,score
@@ -229,7 +221,7 @@ scores = load_scores.call(sample_scores)
 highlight_top_performers.call(scores).each do |record|
   puts &quot;#{record[:name]} - #{record[:score]}&quot;  # Fixed interpolation
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -247,8 +239,7 @@ An exception is a special kind of object, an instance of the class <code>Excepti
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-divide_numbers = -&gt;(a, b) do
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">divide_numbers = -&gt;(a, b) do
   begin
     result = a / b
     puts &quot;Result: #{result}&quot;  # Fixed interpolation
@@ -274,7 +265,7 @@ end
 
 validate_age.call(25)   # Valid
 validate_age.call(-5)   # Triggers ArgumentError
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -292,8 +283,7 @@ The <code>Logger</code> class in the Ruby standard library helps write log messa
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-require &#39;logger&#39;
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">require &#39;logger&#39;
 require &#39;stringio&#39;
 
 # Capture logs so the interactive runner can display them reliably
@@ -317,7 +307,7 @@ logger.debug(&quot;This won&#39;t be shown due to level setting&quot;)
 logger.error(&quot;This error will be shown&quot;)
 
 puts log_output.string
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -335,8 +325,7 @@ The <code>Time</code> class in Ruby has a powerful formatting function which can
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Getting current time
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Getting current time
 now = Time.now
 puts &quot;Current time: #{now}&quot;  # Fixed interpolation
 
@@ -361,7 +350,7 @@ puts &quot;Time difference in days: #{duration / (60 * 60 * 24)}&quot;
 # Parsing time strings
 parsed_time = Time.parse(&quot;2025-12-25 10:30:00&quot;)
 puts &quot;Parsed time: #{parsed_time}&quot;
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -379,8 +368,7 @@ Ruby comes with built-in object serialization capabilities similar to Java's ser
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-require &#39;json&#39;
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">require &#39;json&#39;
 require &#39;yaml&#39;
 
 # Creating a sample object
@@ -406,7 +394,7 @@ puts &quot;YAML: #{yaml_string}&quot;
 # YAML deserialization
 parsed_yaml = YAML.safe_load(yaml_string)
 puts &quot;Parsed from YAML: #{parsed_yaml}&quot;
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -424,8 +412,7 @@ Regular expressions, though cryptic, is a powerful tool for working with text. R
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# Basic pattern matching
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># Basic pattern matching
 text = &quot;Contact us at info@example.com or support@company.org&quot;
 email_pattern = /\w+@\w+\.\w+/
 
@@ -453,7 +440,7 @@ if match = phone.match(/\((\d{3})\) (\d{3})-(\d{4})/)
   area_code, exchange, number = match.captures
   puts &quot;Area code: #{area_code}, Exchange: #{exchange}, Number: #{number}&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -471,8 +458,7 @@ Ruby provides several ways to include code from other files:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="ruby-exec language-ruby">
-# require - includes a file once during execution
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># require - includes a file once during execution
 # require &#39;json&#39;  # Example: including a library
 
 # require_relative - includes a file relative to current file
@@ -483,43 +469,39 @@ Ruby provides several ways to include code from other files:
 
 # For this example, we&#39;ll demonstrate with a string that represents a module
 # In practice, you would have separate files.
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
 
 <h3>Practice checklist</h3>
-<ul><li>Read and write files using different methods (File.open, File.read, File.write)</li></ul><ul><li>Handle exceptions in your code with begin/rescue/ensure blocks</li></ul><ul><li>Use the Logger class for proper logging in applications</li></ul><ul><li>Work with Time objects to handle dates and times</li></ul><ul><li>Practice object serialization with JSON and YAML</li></ul><ul><li>Experiment with regular expressions for text processing</li></ul><ul><li>Include code from other files using require/require_relative</li></ul>
+<ul><li>Read and write files using different methods (File.open, File.read, File.write)
+- Handle exceptions in your code with begin/rescue/ensure blocks
+- Use the Logger class for proper logging in applications
+- Work with Time objects to handle dates and times
+- Practice object serialization with JSON and YAML
+- Experiment with regular expressions for text processing
+- Include code from other files using require/require_relative
 
 Next steps:
-<ul><li>Revisit earlier chapters and replace hard-coded data with user input.</li></ul><ul><li>Practice building real-world applications that combine all these concepts.</li></ul><ul><li>Move into the Rails sprint, starting with <a href="/tutorials/rails-project-setup/">Chapter R1: Project setup</a>.</li></ul><ul><li>Keep useful references close by using the <a href="/pages/resources/">resources page</a>.</li></ul>
+
+- Revisit earlier chapters and replace hard-coded data with user input.
+- Practice building real-world applications that combine all these concepts.
+- Move into the Rails sprint, starting with <a href="/tutorials/rails-project-setup/">Chapter R1: Project setup</a>.
+- Keep useful references close by using the <a href="/pages/resources/">resources page</a>.
 
 <h4>Practice 1 - Sketching a file IO script</h4>
 
-<p><strong>Goal:</strong> Outline a small script that uses <code>File.open</code>, <code>File.read</code>, and <code>File.write</code>.</p>
+<strong>Goal:</strong> Outline a small script that uses <code>File.open</code>, <code>File.read</code>, and <code>File.write</code>.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
-# TODO: Print a short outline of a script that would read from one
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); %w[File.read File.write].all? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby"># TODO: Print a short outline of a script that would read from one
 # file and write to another using File.open/File.read/File.write.
-# This environment doesn't touch your real filesystem, so focus on
-# the code you would write, not actually running it.
-</code></pre>
-    </div>
-  </div>
-</div>
+# This environment doesn&#39;t touch your real filesystem, so focus on
+# the code you would write, not actually running it.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="0"></div>
@@ -532,28 +514,14 @@ puts 'File.write("output.txt", data)'
 
 <h4>Practice 2 - Thinking through exception handling</h4>
 
-<p><strong>Goal:</strong> Show how you would use <code>begin</code>/<code>rescue</code>/<code>ensure</code> around IO.</p>
+<strong>Goal:</strong> Show how you would use <code>begin</code>/<code>rescue</code>/<code>ensure</code> around IO.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[begin rescue ensure].all? { |kw| lines.any? { |l| l.include?(kw) } }"><code class="language-ruby">
-# TODO: Print a minimal begin/rescue/ensure snippet that would wrap a
-# file operation and handle errors gracefully.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); %w[begin rescue ensure].all? { |kw| lines.any? { |l| l.include?(kw) } }"><code class="language-ruby"># TODO: Print a minimal begin/rescue/ensure snippet that would wrap a
+# file operation and handle errors gracefully.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="1"></div>
@@ -570,28 +538,14 @@ puts "  puts 'cleanup if needed'"
 
 <h4>Practice 3 - Logging and time usage</h4>
 
-<p><strong>Goal:</strong> Describe how you would use <code>Logger</code> and <code>Time</code> in a small script.</p>
+<strong>Goal:</strong> Describe how you would use <code>Logger</code> and <code>Time</code> in a small script.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Logger.new') } && lines.any? { |l| l.include?('Time.now') }"><code class="language-ruby">
-# TODO: Print one or two lines that show how you might construct a
-# Logger and log a message with the current time.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Logger.new&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;Time.now&#39;) }"><code class="language-ruby"># TODO: Print one or two lines that show how you might construct a
+# Logger and log a message with the current time.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="2"></div>
@@ -604,28 +558,14 @@ puts "logger.info(\"Started at \#{Time.now}\")"
 
 <h4>Practice 4 - JSON/YAML and regex sketch</h4>
 
-<p><strong>Goal:</strong> Sketch how you would serialize data to JSON/YAML and use a regexp to filter text.</p>
+<strong>Goal:</strong> Sketch how you would serialize data to JSON/YAML and use a regexp to filter text.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); %w[JSON YAML /\w+/].any? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby">
-# TODO: Print a small snippet (as plain text) that mentions using
-# JSON/YAML for serialization and a regular expression for filtering.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); %w[JSON YAML /\w+/].any? { |tok| lines.any? { |l| l.include?(tok) } }"><code class="language-ruby"># TODO: Print a small snippet (as plain text) that mentions using
+# JSON/YAML for serialization and a regular expression for filtering.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/files-gems-next-steps"
      data-practice-index="3"></div>
@@ -637,7 +577,7 @@ puts 'json = JSON.dump(data)'
 puts 'yaml = YAML.dump(data)'
 puts 'matches = "Ruby 3.3.0".scan(/\d+\.\d+\.\d+/)'
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -655,33 +595,28 @@ puts 'matches = "Ruby 3.3.0".scan(/\d+\.\d+\.\d+/)'
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/rails-project-setup/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Rails project setup</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/pages/resources/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby resources</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/rails-project-setup/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Rails project setup</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/pages/resources/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby resources</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -714,118 +649,122 @@ puts 'matches = "Ruby 3.3.0".scan(/\d+\.\d+\.\d+/)'
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612122"></script>
-  <script src="/js/prism-ruby.js?v=1763612122"></script>
-  <script src="/js/prism-markdown.js?v=1763612122"></script>
-  <script src="/js/code-enhancements.js?v=1763612122"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612122"></script>
-  <script src="/js/github-pages-fix.js?v=1763612122"></script>
-  <script src="/js/site.js?v=1763612122"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

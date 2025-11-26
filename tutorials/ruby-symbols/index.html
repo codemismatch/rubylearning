@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612124">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612124">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612124">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612124">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 19 &ndash; Ruby Symbols</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 19 &ndash; Ruby Symbols</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,13 +140,13 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's Ruby Symbols lesson.
+      <div class='markdown'><p>> Adapted from Satish Talim's Ruby Symbols lesson.
 
 Symbols are lightweight, immutable identifiers prefixed with a colon (e.g., <code>:action</code>, <code>:line_items</code>). Think of the colon as saying "the thing named ...". Ruby auto-interns symbols so each unique spelling corresponds to exactly one object for the duration of the program.
 
 <h3>Strings vs symbols</h3>
-<ul><li>Strings carry content; multiple string literals with the same characters are distinct objects.</li></ul><ul><li>Symbols represent identity; each unique symbol exists once in Ruby's symbol table.</li></ul>
+<ul><li>Strings carry content; multiple string literals with the same characters are distinct objects.
+- Symbols represent identity; each unique symbol exists once in Ruby's symbol table.
 
 Use strings when you care about the text itself, and symbols when you just need consistent names or keys.
 
@@ -164,13 +159,12 @@ Use strings when you care about the text itself, and symbols when you just need 
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p039symbol.rb
-puts "string".object_id
-puts "string".object_id
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p039symbol.rb
+puts &quot;string&quot;.object_id
+puts &quot;string&quot;.object_id
 puts :symbol.object_id
 puts :symbol.object_id
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -192,20 +186,19 @@ Symbols are simple <code>Symbol</code> objects backed by an internal integer ID.
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p039xsymbol.rb
-class Test
-  puts :Test.object_id
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p039xsymbol.rb
+class TestClass
+  puts &quot;Symbol :TestClass object_id: #{:TestClass.object_id}&quot;
 
   def test
-    puts :test.object_id
+    puts &quot;Symbol :test object_id: #{:test.object_id}&quot;
     @test = 10
-    puts :test.object_id
+    puts &quot;Symbol :test object_id (same): #{:test.object_id}&quot;
   end
 end
 
-Test.new.test
-</code></pre>
+TestClass.new.test
+      </code></pre>
     </div>
   </div>
 </div>
@@ -223,16 +216,15 @@ Symbols make expressive flags:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-# p039xysymbol.rb
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec"># p039xysymbol.rb
 know_ruby = :yes
 
 if know_ruby == :yes
-  puts "You are a Rubyist"
+  puts &quot;You are a Rubyist&quot;
 else
-  puts "Start learning Ruby"
+  puts &quot;Start learning Ruby&quot;
 end
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -250,10 +242,9 @@ Comparing strings works too, but every literal allocates a new object, while sym
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-&quot;string&quot;.to_sym.class #=&gt; Symbol
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">&quot;string&quot;.to_sym.class #=&gt; Symbol
 :symbol.to_s.class    #=&gt; String
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -265,154 +256,120 @@ This is handy when bridging user input (strings) and internal identifiers (symbo
 Symbols shine as hash keys because they're immutable and faster to compare. You'll see syntax like <code>{ name: "Satish", city: "Pune" }</code>, where <code>name:</code> is a symbol key (<code>:name</code>).
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Run <code>Symbol.all_symbols.size</code> before and after defining a new method to see the table grow.</li></ul><ul><li>[ ] Rewrite a configuration hash using symbol keys instead of strings.</li></ul><ul><li>[ ] Compare memory usage or <code>object_id</code> for repeated strings vs repeated symbols in IRB.</li></ul><ul><li>[ ] Convert user-supplied strings to symbols with <code>.to_sym</code> (but validate before calling <code>send</code> to avoid security issues).</li></ul>
+
+- [ ] Run <code>Symbol.all_symbols.size</code> before and after defining a new method to see the table grow.
+- [ ] Rewrite a configuration hash using symbol keys instead of strings.
+- [ ] Compare memory usage or <code>object_id</code> for repeated strings vs repeated symbols in IRB.
+- [ ] Convert user-supplied strings to symbols with <code>.to_sym</code> (but validate before calling <code>send</code> to avoid security issues).
 
 Next: build on these naming primitives as you dive deeper into Flow Control & Collections and the upcoming Hashes chapter.
 
 <h4>Practice 1 - Symbol table growth</h4>
 
-<p><strong>Goal:</strong> Observe <code>Symbol.all_symbols.size</code> before and after defining a new method.</p>
+<strong>Goal:</strong> Observe <code>Symbol.all_symbols.size</code> before and after defining a new method.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('Symbol.all_symbols.size') }"><code class="language-ruby">
-# TODO: Print the calls you would run in IRB to measure the symbol
-# table size before and after defining a method.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.start_with?(&#39;before:&#39;) } &amp;&amp; lines.any? { |l| l.start_with?(&#39;after:&#39;) }"><code class="language-ruby"># TODO: Print the calls you would run in IRB to measure the symbol
+# table size before and after defining a method.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="0"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-symbols:0">
-puts "before = Symbol.all_symbols.size"
-puts "def new_method; end"
-puts "after = Symbol.all_symbols.size"
+class SymbolSandbox; end
+
+unique_name = :"dynamic_method_#{Process.clock_gettime(Process::CLOCK_MONOTONIC).to_s.gsub('.', '_')}"
+
+before = Symbol.all_symbols.size
+
+SymbolSandbox.define_method(unique_name) { :ok }
+
+after = Symbol.all_symbols.size
+
+puts "before: #{before}"
+puts "after:  #{after}"
+puts "difference: #{after - before}"
 </script>
 
 <h4>Practice 2 - Rewriting config hashes with symbols</h4>
 
-<p><strong>Goal:</strong> Rewrite a configuration hash using symbol keys instead of strings.</p>
+<strong>Goal:</strong> Rewrite a configuration hash using symbol keys instead of strings.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?(':host') } && lines.any? { |l| l.include?(':port') }"><code class="language-ruby">
-# TODO: Print a before/after example of a hash that uses string keys
-# and then symbol keys for configuration.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;string keys&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;symbol keys&#39;) }"><code class="language-ruby"># TODO: Print a before/after example of a hash that uses string keys
+# and then symbol keys for configuration.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="1"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-symbols:1">
-puts 'config_str = { "host" => "localhost", "port" => 3000 }'
-puts 'config_sym = { host: "localhost", port: 3000 }'
+string_keys = { "host" => "localhost", "port" => 3000 }
+symbol_keys = string_keys.transform_keys(&:to_sym)
+
+puts "string keys: #{string_keys.inspect}"
+puts "symbol keys: #{symbol_keys.inspect}"
 </script>
 
 <h4>Practice 3 - object_id for strings vs symbols</h4>
 
-<p><strong>Goal:</strong> Compare <code>object_id</code> for repeated strings vs repeated symbols.</p>
+<strong>Goal:</strong> Compare <code>object_id</code> for repeated strings vs repeated symbols.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('string object_id') } && lines.any? { |l| l.downcase.include?('symbol object_id') }"><code class="language-ruby">
-# TODO: Print object_ids for repeated strings and symbols to show that
-# strings allocate new objects but symbols do not.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;string object_ids&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;symbol object_ids&#39;) }"><code class="language-ruby"># TODO: Print object_ids for repeated strings and symbols to show that
+# strings allocate new objects but symbols do not.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="2"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-symbols:2">
-puts '"hello".object_id  # string object_id'
-puts '"hello".object_id  # different from previous'
-puts ':hello.object_id   # symbol object_id (same each time)'
+str1 = "hello"
+str2 = "hello"
+sym1 = :hello
+sym2 = :hello
+
+puts "string object_ids: #{str1.object_id} vs #{str2.object_id}"
+puts "symbol object_ids: #{sym1.object_id} vs #{sym2.object_id}"
 </script>
 
 <h4>Practice 4 - Safe to_sym usage</h4>
 
-<p><strong>Goal:</strong> Convert user-supplied strings to symbols safely with <code>.to_sym</code>.</p>
+<strong>Goal:</strong> Convert user-supplied strings to symbols safely with <code>.to_sym</code>.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('.to_sym') } && lines.any? { |l| l.downcase.include?('validate') }"><code class="language-ruby">
-# TODO: Print a snippet that validates a user-supplied string against
-# a whitelist before calling to_sym and send.
-</code></pre>
-    </div>
-  </div>
-</div>
-
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;safe symbol&#39;) }"><code class="language-ruby"># TODO: Print a snippet that validates a user-supplied string against
+# a whitelist before calling to_sym and send.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/ruby-symbols"
      data-practice-index="3"></div>
 
 <script type="text/plain"
         data-practice-solution="rl:chapter:/tutorials/ruby-symbols:3">
-puts "allowed = %w[name email]"
-puts "if allowed.include?(input)"
-puts "  key = input.to_sym"
-puts "end"
+allowed = %w[name email]
+input = "name"
+
+if allowed.include?(input)
+  key = input.to_sym
+  puts "safe symbol: #{key.inspect}"
+else
+  puts "input rejected"
+end
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -437,33 +394,28 @@ puts "end"
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/hashes/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Hashes</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/ruby-names/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby Names</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/hashes/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Hashes</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/ruby-names/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby Names</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -496,118 +448,122 @@ puts "end"
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612124"></script>
-  <script src="/js/prism-ruby.js?v=1763612124"></script>
-  <script src="/js/prism-markdown.js?v=1763612124"></script>
-  <script src="/js/code-enhancements.js?v=1763612124"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612124"></script>
-  <script src="/js/github-pages-fix.js?v=1763612124"></script>
-  <script src="/js/site.js?v=1763612124"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

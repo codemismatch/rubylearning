@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612123">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612123">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612123">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612123">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Super Fast Ruby Intro (40 minutes)</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Super Fast Ruby Intro (40 minutes)</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,14 +140,12 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> This is a 40-minute Ruby wow session. Instead of reading a reference, you will walk a straight path: from "Ruby as a calculator" through blocks, classes, and a tiny DSL, then finish with some Ruby party tricks and an interactive script.
+      <div class='markdown'><p>> This is a 40-minute Ruby wow session. Instead of reading a reference, you will walk a straight path: from "Ruby as a calculator" through blocks, classes, and a tiny DSL, then finish with some Ruby party tricks and an interactive script.
 
-Each section has a code window. Read the comment, hit **Run**, then change something and run it again.
+Each section has a code window. Read the comment, hit <strong>Run</strong>, then change something and run it again.
 
----
 
-<h3>Ruby as a friendly calculator</h3>
+<h4>Ruby as a friendly calculator</h4>
 
 <div class="code-window">
   <div class="code-header">
@@ -175,9 +168,9 @@ puts 5 + 3 * 10   # normal math precedence
 
 Ruby only shows results when you ask it to, so we use <code>puts</code> to print the answers like a tiny calculator.
 
----
 
-<h3>Everything is an object</h3>
+
+<h4>Everything is an object</h4>
 
 <div class="code-window">
   <div class="code-header">
@@ -201,9 +194,8 @@ Numbers, strings, symbols, and <code>nil</code> are all real objects with method
 
 Try adding <code>.methods.sort.take(5)</code> after one of the lines to peek at what it can do.
 
----
 
-<h3>Strings and interpolation</h3>
+<h4>Strings and interpolation</h4>
 
 <div class="code-window">
   <div class="code-header">
@@ -229,7 +221,6 @@ puts multiline
 
 Change the text and try adding your own variables.
 
----
 
 <h3>Arrays, blocks, and Enumerable</h3>
 
@@ -257,7 +248,6 @@ Blocks (<code>{ |n| ... }</code> or <code>do ... end</code>) are little anonymou
 
 Change the block to double only the odd numbers, or to build a new array of strings like <code>"Number: 3"</code>.
 
----
 
 <h3>Hashes and symbols</h3>
 
@@ -288,7 +278,6 @@ Hashes are Ruby's flexible key/value store. Symbols like <code>:ruby</code> are 
 
 Try adding a new language or changing the scoring.
 
----
 
 <h3>Methods: naming tiny ideas</h3>
 
@@ -320,7 +309,6 @@ Methods let you give names to behaviour and build bigger ideas out of smaller on
 
 Rename the methods or add a new one (for example <code>whisper_greet</code>) and call it.
 
----
 
 <h3>Classes and objects: your own types</h3>
 
@@ -354,7 +342,6 @@ Classes bundle data and behaviour. <code>Greeter.new("Rubyist")</code> creates a
 
 Add a <code>goodbye</code> method or change the greeting message.
 
----
 
 <h3>Open classes: teaching old classes new tricks</h3>
 
@@ -384,7 +371,6 @@ In Ruby you can reopen existing classes and add behaviour. This is one of Ruby's
 
 Try adding <code>def title_case</code> to <code>String</code> and use it on a sentence.
 
----
 
 <h3>Blocks as little callbacks</h3>
 
@@ -418,7 +404,7 @@ The <code>yield</code> keyword "calls" the block that was passed to the method. 
 
 Change the block to do something more interesting, like building an array, and see how the logging changes.
 
----
+
 
 <h3>Lambdas and closures: functions that remember</h3>
 
@@ -451,7 +437,7 @@ The lambda remembers the <code>count</code> variable from the method where it wa
 
 Try creating two separate counters and call them in different orders.
 
----
+
 
 <h3>Enumerable pipelines: small steps, big power</h3>
 
@@ -481,7 +467,7 @@ Chaining <code>select</code>, <code>map</code>, and <code>reject</code> lets you
 
 Experiment with other steps like <code>group_by</code> or <code>sum</code>.
 
----
+
 
 <h3>A tiny configuration DSL</h3>
 
@@ -522,7 +508,7 @@ Inside the block, <code>self</code> is the config object, so calling <code>set</
 
 Change the configuration keys or print them in a prettier way.
 
----
+
 
 <h3>A small interactive script with gets</h3>
 
@@ -549,13 +535,13 @@ puts &quot;You live in #{city}, #{country}. Nice!&quot;
 
 In this playground <code>gets</code> is wired to a browser prompt, so when the code runs you will see a popup asking for input. You can type any city or country you like; the script only cares that it gets some text back.
 
----
+
 
 <h3>Bonus: Ruby party tricks (extra 20 minutes)</h3>
 
 These are more advanced and a bit cheeky. They show off Ruby's flexible object model and syntax.
 
----
+
 
 <h3>Teaching Integer some math slang</h3>
 
@@ -592,7 +578,7 @@ puts 10.minutes + 5.seconds
 
 Monkey patching <code>Integer</code> like this makes tiny scripts read closer to English. In real apps, do this only in very clear, well-named places.
 
----
+
 
 <h3>A tiny Money class with overloaded operators</h3>
 
@@ -637,7 +623,7 @@ puts (coffee + sandwich) * 3
 
 Operators like <code>+</code> and <code>*</code> are just methods. You can give your own classes natural-feeling arithmetic.
 
----
+
 
 <h3>Bang methods that wrap safer ones</h3>
 
@@ -666,7 +652,7 @@ puts name
 
 By convention, <code>!</code> means "dangerous" or "mutating". Here <code>shout!</code> permanently changes the string instead of returning a new one.
 
----
+
 
 <h3>Auto-logging every method call</h3>
 
@@ -714,7 +700,7 @@ puts calc.mul(4, 5)
 
 Metaprogramming lets you wrap every method on a class in one go and add cross-cutting behaviour like logging.
 
----
+
 
 <h3>Auto-vivifying nested hashes</h3>
 
@@ -741,7 +727,7 @@ p tree
 
 The default block calls itself, so missing keys automatically get another hash. You can build deep structures without <code>||=</code> everywhere.
 
----
+
 
 <h3>The mysterious flip-flop operator</h3>
 
@@ -773,7 +759,7 @@ end
 
 The range <code>(cond1)..(cond2)</code> inside <code>if</code> or <code>unless</code> acts like a tiny state machine, flipping on at <code>cond1</code> and off after <code>cond2</code>.
 
----
+
 
 <h3>Splat in parallel assignment</h3>
 
@@ -798,7 +784,7 @@ p last    # =&gt; 5
 
 The splat (<code>*</code>) lets you capture "the rest" of a list. It feels a bit like pattern matching for arrays.
 
----
+
 
 <h3>tap and the safe navigation operator</h3>
 
@@ -827,7 +813,7 @@ puts &quot;Handle is: #{handle.inspect}&quot;
 
 <code>tap</code> gives you a place to log or tweak an object in the middle of a chain. <code>&.</code> ("lonely operator") calls methods only when the receiver is not <code>nil</code>.
 
----
+
 
 <h3>Methods with operator-like names</h3>
 
@@ -863,7 +849,7 @@ puts m.empty?
 
 Ruby lets you define methods like <code>&lt;&lt;</code> and <code>empty?</code>, which makes APIs and DSLs read naturally.
 
----
+
 
 <h3>Conditional superclass at runtime</h3>
 
@@ -903,7 +889,7 @@ puts Greeter.new.hello           # if Base is Object
 
 Ruby evaluates the superclass expression when the class is defined, so you can choose behaviour at runtime.
 
----
+
 
 <h3>A tiny CLI-inspired script</h3>
 
@@ -935,15 +921,20 @@ end
 
 This is similar to what Ruby's <code>-n</code> and <code>-p</code> command-line flags do: wrap your code in a loop that reads each line, optionally printing it.
 
----
+
 
 <h3>Where to go next</h3>
 
 You have now seen, in order:
-<ul><li>Ruby as a calculator where everything is an object.</li></ul><ul><li>Strings, arrays, hashes, and blocks.</li></ul><ul><li>Methods, classes, and open classes.</li></ul><ul><li>Blocks, lambdas, and a tiny configuration DSL.</li></ul><ul><li>A short interactive script using <code>gets</code>.</li></ul><ul><li>A handful of Ruby "party tricks": monkey patching core classes, overloading operators, auto-logging, flip-flops, splat tricks, and CLI-style processing.</li></ul>
+<ul><li>Ruby as a calculator where everything is an object.
+- Strings, arrays, hashes, and blocks.
+- Methods, classes, and open classes.
+- Blocks, lambdas, and a tiny configuration DSL.
+- A short interactive script using <code>gets</code>.
+- A handful of Ruby "party tricks": monkey patching core classes, overloading operators, auto-logging, flip-flops, splat tricks, and CLI-style processing.
 
-When you are ready for a slower, more complete tour, jump into **Chapter 1 - Meet Ruby** and work through the main learning path with checklists and practice exercises. The ideas you just met will keep popping up in friendlier, more detailed form.
-</p></div>
+When you are ready for a slower, more complete tour, jump into <strong>Chapter 1 - Meet Ruby</strong> and work through the main learning path with checklists and practice exercises. The ideas you just met will keep popping up in friendlier, more detailed form.
+</p></li></ul></div>
     </div>
 
     
@@ -968,33 +959,28 @@ When you are ready for a slower, more complete tour, jump into **Chapter 1 - Mee
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/meet-ruby/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Chapter 1: Meet Ruby</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/first-ruby-program/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Chapter 3: First Ruby Program</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/meet-ruby/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Chapter 1: Meet Ruby</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/first-ruby-program/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Chapter 3: First Ruby Program</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -1027,118 +1013,122 @@ When you are ready for a slower, more complete tour, jump into **Chapter 1 - Mee
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612123"></script>
-  <script src="/js/prism-ruby.js?v=1763612123"></script>
-  <script src="/js/prism-markdown.js?v=1763612123"></script>
-  <script src="/js/code-enhancements.js?v=1763612123"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612123"></script>
-  <script src="/js/github-pages-fix.js?v=1763612123"></script>
-  <script src="/js/site.js?v=1763612123"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

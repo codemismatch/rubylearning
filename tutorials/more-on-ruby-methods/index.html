@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612123">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612123">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612123">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612123">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 11 &ndash; More on Ruby Methods</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 11 &ndash; More on Ruby Methods</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,10 +140,9 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-> Adapted from Satish Talim's "More on Ruby Methods" chapter.
+      <div class='markdown'><p>> Adapted from Satish Talim's "More on Ruby Methods" chapter.
 
-If objects are the nouns of Ruby, methods are the verbs. Every method runs in the context of an object (the **receiver**). You usually see the receiver to the left of a dot (<code>message.upcase</code>), but Ruby also lets you call methods *without* writing the receiver explicitly.
+If objects are the nouns of Ruby, methods are the verbs. Every method runs in the context of an object (the <strong>receiver</strong>). You usually see the receiver to the left of a dot (<code>message.upcase</code>), but Ruby also lets you call methods *without* writing the receiver explicitly.
 
 <h3>Explicit vs implicit receivers</h3>
 
@@ -161,15 +155,15 @@ If objects are the nouns of Ruby, methods are the verbs. Every method runs in th
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-&quot;ruby&quot;.upcase    # receiver is the string literal
-upcase           # same call, but the receiver is implicit
-</code></pre>
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">message = &quot;ruby&quot;
+
+puts message.upcase    # receiver is the string stored in message
+      </code></pre>
     </div>
   </div>
 </div>
 
-When you omit the receiver, Ruby sends the message to the object referenced by <code>self</code>. At the top level of a script, <code>self</code> defaults to a special object named <code>main</code> that Ruby creates to represent your program.
+When you omit the receiver, Ruby sends the message to the object referenced by <code>self</code>. At the top level of a script, <code>self</code> defaults to a special object named <code>main</code> that Ruby creates to represent your program. You can see it in action by defining a helper and calling it with and without an explicit receiver:
 
 <div class="code-window">
   <div class="code-header">
@@ -180,9 +174,28 @@ When you omit the receiver, Ruby sends the message to the object referenced by <
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-puts self        #=&gt; main
-</code></pre>
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def announce
+  &quot;Ruby Learning!&quot;
+end
+
+puts self.announce     # explicit receiver (self)
+puts announce          # implicit receiver (still self)
+      </code></pre>
+    </div>
+  </div>
+</div>
+
+<div class="code-window">
+  <div class="code-header">
+    <span class="window-btn red"></span>
+    <span class="window-btn yellow"></span>
+    <span class="window-btn green"></span>
+    <span class="window-title">ruby.rb</span>
+  </div>
+  <div class="code-content">
+    <div class="code-editor">
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">puts self        #=&gt; main
+      </code></pre>
     </div>
   </div>
 </div>
@@ -198,8 +211,7 @@ Inside classes and modules, <code>self</code> changes depending on where you are
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-class Greeter
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Greeter
   puts &quot;Class body self: #{self}&quot;  # Greeter
 
   def greet
@@ -208,7 +220,7 @@ class Greeter
 end
 
 Greeter.new.greet
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -228,16 +240,17 @@ Everything in Ruby is an object, so every expression you write ends up sending m
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-42.to_s           # Integer -&gt; String
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">42.to_s           # Integer -&gt; String
 [1, 2, 3].length  # Array -&gt; Integer
 ruby = &quot;Ruby&quot;
 ruby.upcase!
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
-<ul><li>Dot notation (<code>object.method</code>) makes the receiver obvious.</li></ul><ul><li>Bang methods such as <code>upcase!</code> mutate the receiver; their non-bang counterparts return a new object.</li></ul><ul><li>Predicate methods end with <code>?</code> (<code>empty?</code>, <code>include?</code>) and return true/false.</li></ul>
+<ul><li>Dot notation (<code>object.method</code>) makes the receiver obvious.
+- Bang methods such as <code>upcase!</code> mutate the receiver; their non-bang counterparts return a new object.
+- Predicate methods end with <code>?</code> (<code>empty?</code>, <code>include?</code>) and return true/false.
 
 <h3>Inspecting the current object</h3>
 
@@ -252,13 +265,12 @@ Use <code>self</code> whenever you need to check or pass the current receiver:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="language-ruby" data-executable="true"><code class="language-ruby">
-def log_self
+      <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def log_self
   puts &quot;Currently running inside #{self.class}: #{self.inspect}&quot;
 end
 
 log_self  # top-level =&gt; main
-</code></pre>
+      </code></pre>
     </div>
   </div>
 </div>
@@ -270,34 +282,24 @@ Later chapters dive deeper into defining your own methods, but for now remember:
 3. <code>self</code> changes based on where you are (top level, class body, instance method, etc.).
 
 <h3>Practice checklist</h3>
-<ul><li>[ ] Print <code>self</code> at the top level, inside a class body, and inside an instance method to watch it change.</li></ul><ul><li>[ ] Rewrite a few explicit calls (e.g., <code>self.helper_method</code>) to implicit ones and confirm they still work.</li></ul><ul><li>[ ] Experiment with predicate (<code>?</code>) and bang (<code>!</code>) method variants to see how they signal intent.</li></ul><ul><li>[ ] Build a quick script that defines a helper method, calls it with and without an explicit receiver, and logs <code>self</code> along the way.</li></ul>
+
+- [ ] Print <code>self</code> at the top level, inside a class body, and inside an instance method to watch it change.
+- [ ] Rewrite a few explicit calls (e.g., <code>self.helper_method</code>) to implicit ones and confirm they still work.
+- [ ] Experiment with predicate (<code>?</code>) and bang (<code>!</code>) method variants to see how they signal intent.
+- [ ] Build a quick script that defines a helper method, calls it with and without an explicit receiver, and logs <code>self</code> along the way.
 
 Next: apply these ideas in Flow Control & Collections, where you'll combine methods with loops and conditionals.
 
 <h4>Practice 1 - Watching self in different contexts</h4>
 
-<p><strong>Goal:</strong> Print <code>self</code> at the top level, inside a class body, and inside an instance method.</p>
+<strong>Goal:</strong> Print <code>self</code> at the top level, inside a class body, and inside an instance method.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="0"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('top level') } && lines.any? { |l| l.downcase.include?('class body') } && lines.any? { |l| l.downcase.include?('instance method') }"><code class="language-ruby">
-# TODO: Print self at the top level, inside a class body, and inside
-# an instance method, labelling each line so you can see the context.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;top level&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;class body&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;instance method&#39;) }"><code class="language-ruby"># TODO: Print self at the top level, inside a class body, and inside
+# an instance method, labelling each line so you can see the context.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="0"></div>
@@ -319,29 +321,15 @@ DemoSelf.new.who_am_i
 
 <h4>Practice 2 - Explicit vs implicit receivers</h4>
 
-<p><strong>Goal:</strong> Rewrite explicit receiver calls to use implicit receivers and confirm they still work.</p>
+<strong>Goal:</strong> Rewrite explicit receiver calls to use implicit receivers and confirm they still work.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="1"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('explicit') } && lines.any? { |l| l.downcase.include?('implicit') }"><code class="language-ruby">
-# TODO: Define a helper method and call it once with an explicit
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;explicit&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;implicit&#39;) }"><code class="language-ruby"># TODO: Define a helper method and call it once with an explicit
 # receiver (self.helper) and once without, printing labelled output
-# for both calls.
-</code></pre>
-    </div>
-  </div>
-</div>
+# for both calls.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="1"></div>
@@ -358,28 +346,14 @@ puts "implicit: #{helper}"
 
 <h4>Practice 3 - Predicate and bang methods</h4>
 
-<p><strong>Goal:</strong> Experiment with predicate (<code>?</code>) and bang (<code>!</code>) method variants.</p>
+<strong>Goal:</strong> Experiment with predicate (<code>?</code>) and bang (<code>!</code>) method variants.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="2"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?('empty?') } && lines.any? { |l| l.include?('upcase!') }"><code class="language-ruby">
-# TODO: Use at least one predicate method and one bang method, and
-# print before/after states to show how they differ.
-</code></pre>
-    </div>
-  </div>
-</div>
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;empty?&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;upcase!&#39;) }"><code class="language-ruby"># TODO: Use at least one predicate method and one bang method, and
+# print before/after states to show how they differ.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="2"></div>
@@ -397,29 +371,15 @@ puts "after upcase!: #{name}"
 
 <h4>Practice 4 - Logging self through helper calls</h4>
 
-<p><strong>Goal:</strong> Define a helper method, call it with and without an explicit receiver, and log <code>self</code> along the way.</p>
+<strong>Goal:</strong> Define a helper method, call it with and without an explicit receiver, and log <code>self</code> along the way.
 
-<div class="code-window">
-  <div class="code-header">
-    <span class="window-btn red"></span>
-    <span class="window-btn yellow"></span>
-    <span class="window-btn green"></span>
-    <span class="window-title">ruby.rb</span>
-  </div>
-  <div class="code-content">
-    <div class="code-editor">
-      <pre class="language-ruby"
+<pre class="language-ruby"
      data-executable="true"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="3"
-     data-test="out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase.include?('helper called') } && lines.any? { |l| l.downcase.include?('self is') }"><code class="language-ruby">
-# TODO: Build a short script that defines a helper method and logs
+     data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;helper called&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;self is&#39;) }"><code class="language-ruby"># TODO: Build a short script that defines a helper method and logs
 # self inside it, then call the helper with both explicit and
-# implicit receivers, printing labelled lines.
-</code></pre>
-    </div>
-  </div>
-</div>
+# implicit receivers, printing labelled lines.</code></pre>
 <div class="practice-feedback"
      data-practice-chapter="rl:chapter:/tutorials/more-on-ruby-methods"
      data-practice-index="3"></div>
@@ -433,7 +393,7 @@ end
 helper_with_self("implicit")
 self.helper_with_self("explicit")
 </script>
-</p></div>
+</p></li></ul></div>
     </div>
 
     
@@ -458,33 +418,28 @@ self.helper_with_self("explicit")
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/methods-and-blocks/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Methods & blocks</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/tutorials/variables-and-assignment/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Variables & Assignment</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/methods-and-blocks/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Methods & blocks</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/tutorials/variables-and-assignment/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Variables & Assignment</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -517,118 +472,122 @@ self.helper_with_self("explicit")
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612123"></script>
-  <script src="/js/prism-ruby.js?v=1763612123"></script>
-  <script src="/js/prism-markdown.js?v=1763612123"></script>
-  <script src="/js/code-enhancements.js?v=1763612123"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612123"></script>
-  <script src="/js/github-pages-fix.js?v=1763612123"></script>
-  <script src="/js/site.js?v=1763612123"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>

@@ -7,7 +7,7 @@
   <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
-  <link rel="stylesheet" href="/css/style.css">
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
   
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -15,120 +15,115 @@
   <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
   
   <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/css/prism-monokai.css?v=1763612122">
-  <link rel="stylesheet" href="/css/enhanced-code.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=">
   
   <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/css/tutorials.css?v=1763612122">
-  <link rel="stylesheet" href="/css/badges.css?v=1763612122">
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=">
   
 </head>
 <body>
-  
-
-<header class="site-header">
-  <div class="container">
-    <a href="/" class="site-logo">
-      <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-      <span class="logo-text">Ruby</span>
-      <span class="logo-accent">Learning</span>
-    </a>
-    <nav class="site-nav">
-      
-      <ul>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
         
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/" >Home</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/about/" >About</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#ruby-track" >Learn Ruby</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/#rails-track" >Learn Rails</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/tutorials/" >Tutorials</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/blog/" >Blog</a>
-            </li>
-          
-            
-            
-            
-            
-            
-            <li>
-              <a href="/pages/resources/" >Resources</a>
-            </li>
-          
         
-      </ul>
-    </nav>
-    <button class="menu-toggle" aria-label="Toggle menu">
-      <span class="bar"></span>
-      <span class="bar"></span>
-      <span class="bar"></span>
-    </button>
-  </div>
-</header>
-
+        <ul>
+          
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/" >Home</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/about/" >About</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#ruby-track" >Learn Ruby</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/#rails-track" >Learn Rails</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/tutorials/" >Tutorials</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/blog/" >Blog</a>
+              </li>
+            
+              
+              
+              
+              
+              
+              <li>
+                <a href="/pages/resources/" >Resources</a>
+              </li>
+            
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
   
   <main class="site-content">
     <div class="container">
       <div class="tutorial-wrapper">
   
-    <!-- themes/rubylearning/includes/_breadcrumbs.html -->
-
-<nav class="breadcrumbs">
-  <ol>
-    <li><a href="/">Home</a></li>
-    
-    <li><a href="/tutorials/">Tutorials</a></li>
-    <li>Chapter 2 &ndash; Modern Ruby Installation Guide</li>
-    
-  </ol>
-</nav>
-
+    <nav class="breadcrumbs">
+      <ol>
+        <li><a href="/">Home</a></li>
+        
+        <li><a href="/tutorials/">Tutorials</a></li>
+        <li>Chapter 2 &ndash; Modern Ruby Installation Guide</li>
+        
+      </ol>
+    </nav>
   
 
   <article class="tutorial">
@@ -145,11 +140,13 @@
     </header>
 
     <div class="tutorial-content">
-      <div class='markdown'><p>
-<h3 id="why-version-manager">Why Use a Version Manager?</h3>
+      <div class='markdown'><p><h3 id="why-version-manager">Why Use a Version Manager?</h3>
 
 Forget old manual compilation methods. Using a version manager is the standard practice in the Ruby community because it allows you to:
-<ul><li>Switch between Ruby versions easily - work on different projects with different Ruby requirements</li></ul><ul><li>No permission issues - install Ruby and gems without sudo</li></ul><ul><li>Isolate project dependencies - keep your development environment clean</li></ul><ul><li>Easy updates - simple commands to install new Ruby versions</li></ul>
+<ul><li>Switch between Ruby versions easily - work on different projects with different Ruby requirements
+- No permission issues - install Ruby and gems without sudo
+- Isolate project dependencies - keep your development environment clean
+- Easy updates - simple commands to install new Ruby versions
 
 <h4 id="rbenv-installation">Quick Start: rbenv (Recommended)</h4>
 
@@ -159,10 +156,16 @@ rbenv is lightweight and unobtrusive - perfect for most developers.
 
 <h4 id="rbenv-dependencies">1. Install rbenv & Dependencies</h4>
 
-macOS:<ul><li><code>brew install rbenv openssl readline</code></li></ul>
-Ubuntu/Debian:
+<strong>macOS:</strong>
+- <code>brew install rbenv openssl readline</code>
 
-  <div class="code-window">
+<strong>Windows:</strong>
+- Use <a href="https://rubyinstaller.org/">RubyInstaller</a> or <a href="https://learn.microsoft.com/en-us/windows/wsl/">WSL (Windows Subsystem for Linux)</a> to run Linux-based tools like rbenv
+- For WSL: Follow the Ubuntu/Debian instructions below
+
+<strong>Ubuntu/Debian:</strong>
+
+<div class="code-window">
   <div class="code-header">
     <span class="window-btn red"></span>
     <span class="window-btn yellow"></span>
@@ -171,11 +174,11 @@ Ubuntu/Debian:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">  sudo apt update &amp;&amp; sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev
-  git clone https://github.com/rbenv/rbenv.git ~/.rbenv
-  echo &#39;export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc
-  echo &#39;eval &quot;$(rbenv init -)&quot;&#39; &gt;&gt; ~/.bashrc
-  exec $SHELL
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">sudo apt update &amp;&amp; sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev
+git clone https://github.com/rbenv/rbenv.git ~/.rbenv
+echo &#39;export PATH=&quot;$HOME/.rbenv/bin:$PATH&quot;&#39; &gt;&gt; ~/.bashrc
+echo &#39;eval &quot;$(rbenv init -)&quot;&#39; &gt;&gt; ~/.bashrc
+exec $SHELL
       </code></pre>
     </div>
   </div>
@@ -193,7 +196,7 @@ Ubuntu/Debian:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build`
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">git clone https://github.com/rbenv/ruby-build.git ~/.rbenv/plugins/ruby-build
       </code></pre>
     </div>
   </div>
@@ -210,9 +213,9 @@ Ubuntu/Debian:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`rbenv install 3.3.0`
-`rbenv global 3.3.0`
-`ruby -v  # Verify installation`
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">rbenv install 3.3.0
+rbenv global 3.3.0
+ruby -v  # Verify installation
       </code></pre>
     </div>
   </div>
@@ -234,10 +237,10 @@ One-line install:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`\curl -sSL https://get.rvm.io | bash -s stable`
-`source ~/.rvm/scripts/rvm`
-`rvm install 3.3.0`
-`rvm use 3.3.0 --default`
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">\curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 3.3.0
+rvm use 3.3.0 --default
       </code></pre>
     </div>
   </div>
@@ -257,21 +260,26 @@ Test your installation with these commands:
   </div>
   <div class="code-content">
     <div class="code-editor">
-      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">`ruby -v    # Should show ruby 3.3.0+`
-`gem -v     # Check gem manager`
-`gem install rails  # Test gem installation`
+      <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">ruby -v    # Should show ruby 3.3.0+
+gem -v     # Check gem manager
+gem install rails  # Test gem installation
       </code></pre>
     </div>
   </div>
 </div>
 
-<h4 id="which-to-choose">Which Should You Choose?</h4><ul><li>Choose rbenv if you prefer simplicity and a lightweight tool that stays out of your way</li></ul><ul><li>Choose RVM if you want more built-in features and don't mind a more complex setup</li></ul>
+<h4 id="which-to-choose">Which Should You Choose?</h4>
+- Choose rbenv if you prefer simplicity and a lightweight tool that stays out of your way
+- Choose RVM if you want more built-in features and don't mind a more complex setup
 
 <h4 id="troubleshooting">Troubleshooting</h4>
 
 Common issues:
-<p></p><ul><li>"Command not found" after installation: Run exec $SHELL or restart your terminal</li></ul><ul><li>Ruby compilation fails: Ensure you've installed all required dependencies</li></ul><ul><li>Gem permission errors: Never use sudo with gem install - use a version manager instead</li></ul>
-</p></div>
+<p></p>
+- "Command not found" after installation: Run exec $SHELL or restart your terminal
+- Ruby compilation fails: Ensure you've installed all required dependencies
+- Gem permission errors: Never use sudo with gem install - use a version manager instead
+</p></li></ul></div>
     </div>
 
     
@@ -289,33 +297,28 @@ Common issues:
     
 
     
-      <!-- themes/rubylearning/includes/_related_tutorials.html -->
-
-
-<div class="related-tutorials">
-  <h2>Related Tutorials</h2>
-  <ul>
-    
-    
-    <li>
-      <a href="/tutorials/flow-control-collections/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Flow control & collections</span>
-      </a>
-    </li>
-    
-    
-    <li>
-      <a href="/pages/resources/">
-        <span class="related-icon" aria-hidden="true">&gt;</span>
-        <span>Ruby resources</span>
-      </a>
-    </li>
-    
-  </ul>
-</div>
-
-
+      <div class="related-tutorials">
+        <h2>Related Tutorials</h2>
+        <ul>
+          
+          
+          <li>
+            <a href="/tutorials/flow-control-collections/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Flow control & collections</span>
+            </a>
+          </li>
+          
+          
+          <li>
+            <a href="/pages/resources/">
+              <span class="related-icon" aria-hidden="true">&gt;</span>
+              <span>Ruby resources</span>
+            </a>
+          </li>
+          
+        </ul>
+      </div>
     
   </article>
 
@@ -348,118 +351,122 @@ Common issues:
     </div>
   </main>
   
-  
-
-<footer class="site-footer">
-  <div class="container">
-    <div class="footer-grid">
-      <div class="footer-about">
-        <h3>Ruby Learning</h3>
-        <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+              
+                
+                
+                
+                
+                
+                <li><a href="/" >Home</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/about/" >About</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/tutorials/" >Tutorials</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/blog/" >Blog</a></li>
+              
+                
+                
+                
+                
+                
+                <li><a href="/pages/resources/" >Resources</a></li>
+              
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+              
+                
+                
+                
+                <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+              
+                
+                
+                
+                <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+              
+                
+                
+                
+                <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+              
+            
+          </ul>
+        </div>
       </div>
-      <div class="footer-links">
-        <h3>Quick Links</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              
-              
-              <li><a href="/" >Home</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/about/" >About</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#ruby-track" >Learn Ruby</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/#rails-track" >Learn Rails</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/tutorials/" >Tutorials</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/blog/" >Blog</a></li>
-            
-              
-              
-              
-              
-              
-              <li><a href="/pages/resources/" >Resources</a></li>
-            
-          
-        </ul>
-      </div>
-      <div class="footer-resources">
-        <h3>Ruby Resources</h3>
-        
-        <ul>
-          
-            
-              
-              
-              
-              <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-              
-              
-              
-              <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-              
-              
-              
-              <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-          
-        </ul>
-      </div>
-    </div>
-    <div class="footer-bottom">
+      <div class="footer-bottom">
         <p>
-          &copy; 2025 Ruby Learning.
+          &copy;  Ruby Learning.
           Built with
           <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
           Made with <span aria-hidden="true">&#10084;&#65039;</span> by
           <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
         </p>
+      </div>
     </div>
-  </div>
-</footer>
-
+  </footer>
 
   <!-- Scripts -->
-  <script src="/js/prism.js?v=1763612123"></script>
-  <script src="/js/prism-ruby.js?v=1763612123"></script>
-  <script src="/js/prism-markdown.js?v=1763612123"></script>
-  <script src="/js/code-enhancements.js?v=1763612123"></script>
-  <script src="/js/tutorial-enhancements.js?v=1763612123"></script>
-  <script src="/js/github-pages-fix.js?v=1763612123"></script>
-  <script src="/js/site.js?v=1763612123"></script>
+  <script src="/themes/rubylearning/js/prism.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v="></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v="></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v="></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v="></script>
+  <script src="/themes/rubylearning/js/site.js?v="></script>
+  
+  <!-- Mermaid diagram support -->
+  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script>
 </body>
 </html>
