@@ -586,7 +586,7 @@ function initializeRubyStdlibPolyfills(vm) {
         def write(data)
           raise "Not connected" unless @connected
           data_str = data.to_s
-          escaped = data_str.gsub("\\", "\\\\").gsub("'", "\\'").gsub('"', '\\"')
+          escaped = data_str.gsub('\\\\', '\\\\\\\\').gsub("'", "\\\\'").gsub('"', '\\\\"')
 
           result = JS.global.eval("
             var ws = window.__ruby_ws_sockets__['#{@socket_id}'];
@@ -609,7 +609,7 @@ function initializeRubyStdlibPolyfills(vm) {
 
           start_time = Time.now
           loop do
-            data = JS.global.eval("window.__ruby_ws_buffers__['#{@socket_id}']?.shift()")
+            data = JS.global.eval("window.__ruby_ws_buffers__['#{@socket_id}'] && window.__ruby_ws_buffers__['#{@socket_id}'].shift()")
             return data.to_s if data
 
             break if (Time.now - start_time) > 5.0

@@ -217,7 +217,7 @@ function initializeRubyWebSocketPolyfill(vm) {
             
             # Send data using JS directly to avoid Ruby WASM async IO issues
             # Escape the string properly for JavaScript
-            escaped_str = data_str.gsub("\\", "\\\\").gsub("'", "\\'").gsub('"', '\\"').gsub("\n", "\\n").gsub("\r", "\\r")
+            escaped_str = data_str.gsub('\\\\', '\\\\\\\\').gsub("'", "\\\\'").gsub('"', '\\\\"').gsub("\\n", "\\\\n").gsub("\\r", "\\\\r")
             
             # Use JS.global.eval to call send method directly
             send_result = JS.global.eval("
