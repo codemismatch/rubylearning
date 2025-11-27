@@ -8,7 +8,7 @@ async function setupRubyWasm() {
   if (window.rubyWasmLoaded === true) {
     return window.rubyWasmModule;
   }
-
+  
   // Mark as loading to prevent multiple simultaneous loads
   if (window.rubyWasmLoaded === 'loading') {
     // Wait for the existing load to complete
@@ -21,9 +21,9 @@ async function setupRubyWasm() {
       return window.rubyWasmModule;
     }
   }
-
+  
   window.rubyWasmLoaded = 'loading';
-
+  
   try {
     // Use dynamic import with full URL string literal
     // The +esm suffix tells jsdelivr to serve ES module format
@@ -42,46 +42,17 @@ async function initializeRubyVM() {
   try {
     const wasmModule = await setupRubyWasm();
     const { DefaultRubyVM } = wasmModule;
-
+    
     const response = await fetch('https://cdn.jsdelivr.net/npm/@ruby/3.4-wasm-wasi@2.7.2/dist/ruby.wasm');
     const module = await WebAssembly.compileStreaming(response);
-
-    // Create custom stderr handler to filter out specific warnings
-    const suppressedWarnings = [
-      '`RubyGems\' were not loaded.',
-      '`error_highlight\' was not loaded.',
-      '`did_you_mean\' was not loaded.',
-      '`syntax_suggest\' was not loaded.'
-    ];
-
-    const originalLog = console.log;
-    const originalWarn = console.warn;
-    const originalError = console.error;
-
-    const filterMessage = (args) => {
-      const message = args.join(' ');
-      return !suppressedWarnings.some(warning => message.includes(warning));
-    };
-
-    // Temporarily wrap console methods to filter warnings during VM initialization
-    console.log = (...args) => { if (filterMessage(args)) originalLog.apply(console, args); };
-    console.warn = (...args) => { if (filterMessage(args)) originalWarn.apply(console, args); };
-    console.error = (...args) => { if (filterMessage(args)) originalError.apply(console, args); };
-
     const instance = await DefaultRubyVM(module);
-
-    // Restore original console methods
-    console.log = originalLog;
-    console.warn = originalWarn;
-    console.error = originalError;
-
     const vm = instance.vm;
-
+    
     console.log('Ruby VM initialized successfully');
-
+    
     // Expose the VM globally so other helpers can reuse it
     window.TypophicRubyVM = vm;
-
+    
     return vm;
   } catch (error) {
     console.error('Failed to initialize Ruby VM:', error);

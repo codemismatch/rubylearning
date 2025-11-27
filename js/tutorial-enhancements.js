@@ -245,7 +245,7 @@ function updateChapterCompletion(chapterKeyPrefix, itemKeys) {
   }
 }
 
-// Track when a lesson has been read (scrolled through)
+// Track continuous reading progress for a lesson (scroll percentage)
 function trackLessonReading() {
   const article = document.querySelector('article.tutorial');
   if (!article) return;
@@ -253,36 +253,58 @@ function trackLessonReading() {
   const path = window.location.pathname.replace(/\/$/, '');
   const chapterKeyPrefix = `rl:chapter:${path}`;
 
-  // Mark as read when user scrolls past 70% of content
-  let hasMarkedRead = window.localStorage.getItem(`${chapterKeyPrefix}:lesson-read`) === '1';
-  
-  if (!hasMarkedRead) {
-    const checkScroll = () => {
-      const scrollTop = window.scrollY || document.documentElement.scrollTop;
-      // Require the user to actually scroll before marking as read.
-      // This prevents short lessons that fit entirely in the viewport
-      // from being auto-marked complete on first paint.
-      if (scrollTop <= 0) return;
+  // Mark chapter as visited as soon as it loads
+  try {
+    window.localStorage.setItem(`${chapterKeyPrefix}:visited`, '1');
+  } catch (_) {}
 
-      const articleHeight = article.offsetHeight;
-      const articleTop = article.offsetTop;
-      const windowHeight = window.innerHeight;
-      
-      // Calculate how far through the article the user has scrolled
-      const scrolledPastTop = scrollTop + windowHeight - articleTop;
-      const percentScrolled = (scrolledPastTop / articleHeight) * 100;
-      
-      if (percentScrolled >= 70 && !hasMarkedRead) {
-        try {
-          window.localStorage.setItem(`${chapterKeyPrefix}:lesson-read`, '1');
-          hasMarkedRead = true;
-        } catch (_) {}
-      }
-    };
-    
-    window.addEventListener('scroll', checkScroll);
-    checkScroll(); // Check immediately in case already scrolled
-  }
+  const articleTop = article.offsetTop;
+  const articleHeight = article.offsetHeight || 0;
+  if (articleHeight <= 0) return;
+
+  let lastSavedAt = 0;
+  let lastPercent = 0;
+  // Legacy support: keep lesson-read in sync for older code that may still read it.
+  let legacyMarkedRead = false;
+  try {
+    legacyMarkedRead = window.localStorage.getItem(`${chapterKeyPrefix}:lesson-read`) === '1';
+  } catch (_) {}
+
+  const updateScrollPercent = () => {
+    const scrollTop = window.scrollY || document.documentElement.scrollTop || 0;
+    const viewportHeight = window.innerHeight || document.documentElement.clientHeight || 0;
+
+    // How far the bottom of the viewport has moved past the top of the article
+    const scrolledPastTop = scrollTop + viewportHeight - articleTop;
+    const rawPercent = (scrolledPastTop / articleHeight) * 100;
+    const percent = Math.max(0, Math.min(100, isFinite(rawPercent) ? rawPercent : 0));
+
+    const now = Date.now();
+    if (percent !== lastPercent && now - lastSavedAt >= 100) {
+      try {
+        window.localStorage.setItem(
+          `${chapterKeyPrefix}:scroll-percent`,
+          String(Math.round(percent))
+        );
+      } catch (_) {}
+      lastSavedAt = now;
+      lastPercent = percent;
+    }
+
+    // Maintain the old lesson-read flag for compatibility when the user
+    // has scrolled at least 70% through the article.
+    if (!legacyMarkedRead && percent >= 70) {
+      try {
+        window.localStorage.setItem(`${chapterKeyPrefix}:lesson-read`, '1');
+      } catch (_) {}
+      legacyMarkedRead = true;
+    }
+  };
+
+  window.addEventListener('scroll', updateScrollPercent);
+  window.addEventListener('resize', updateScrollPercent);
+  // Prime the value on load
+  updateScrollPercent();
 }
 
 // On the Ruby learning path page, annotate chapters with visited/completed ticks.
@@ -297,13 +319,15 @@ function initChapterListProgress() {
       const path = url.pathname.replace(/\/$/, '');
       const chapterKeyPrefix = `rl:chapter:${path}`;
       const visited = window.localStorage.getItem(`${chapterKeyPrefix}:visited`) === '1';
-      const lessonRead = window.localStorage.getItem(`${chapterKeyPrefix}:lesson-read`) === '1';
 
       const marker = document.createElement('span');
       marker.className = 'chapter-progress-marker';
 
-      // Compute percentage combining lesson reading + practice checklist
-      // 50% for reading the lesson, 50% for completing practice items
+      // Scroll progress: continuous 0-100%
+      const scrollStr = window.localStorage.getItem(`${chapterKeyPrefix}:scroll-percent`);
+      const scrollPercent = scrollStr ? Math.max(0, Math.min(100, parseFloat(scrollStr))) : 0;
+
+      // Practice checklist progress
       const totalStr = window.localStorage.getItem(`${chapterKeyPrefix}:total`);
       const total = totalStr ? parseInt(totalStr, 10) : 0;
       let practiceCompleted = 0;
@@ -312,17 +336,59 @@ function initChapterListProgress() {
           if (window.localStorage.getItem(`${chapterKeyPrefix}:item:${i}`) === '1') practiceCompleted += 1;
         }
       }
-      
-      let percent = 0;
-      if (total > 0) {
-        // Has practice checklist: 50% for lesson + 50% for practice
-        const lessonPercent = lessonRead ? 50 : 0;
-        const practicePercent = Math.round((practiceCompleted / total) * 50);
-        percent = lessonPercent + practicePercent;
-      } else {
-        // No practice checklist: 100% based on reading the lesson
-        percent = lessonRead ? 100 : (visited ? 10 : 0);
+
+      const examplesTotalStr = window.localStorage.getItem(`${chapterKeyPrefix}:examples_total`);
+      const examplesTotal = examplesTotalStr ? parseInt(examplesTotalStr, 10) : 0;
+      let examplesCompleted = 0;
+      if (examplesTotal > 0) {
+        for (let i = 0; i < examplesTotal; i++) {
+          if (window.localStorage.getItem(`${chapterKeyPrefix}:example:${i}`) === '1') {
+            examplesCompleted += 1;
+          }
+        }
       }
+
+      // Compute percentage combining scroll, practice checklist, and runnable examples.
+      let percent = 0;
+      const hasPractice = total > 0;
+      const hasExamples = examplesTotal > 0;
+
+      const scroll0to1 = scrollPercent / 100;
+      const practice0to1 = hasPractice ? (practiceCompleted / total) : 0;
+      const examples0to1 = hasExamples ? (examplesCompleted / examplesTotal) : 0;
+
+      const anyPracticeDone = hasPractice && practiceCompleted > 0;
+      const anyExamplesDone = hasExamples && examplesCompleted > 0;
+
+      if (hasPractice || hasExamples) {
+        // If the chapter has interactive work, don't award progress at all
+        // until at least one practice item has been completed or one example
+        // has been executed. Scrolling alone is not enough.
+        if (!anyPracticeDone && !anyExamplesDone) {
+          percent = 0;
+        } else if (hasPractice && hasExamples) {
+          // 40% scroll, 30% practice, 30% examples
+          percent =
+            scroll0to1 * 40 +
+            practice0to1 * 30 +
+            examples0to1 * 30;
+        } else if (hasPractice && !hasExamples) {
+          // 50% scroll, 50% practice
+          percent =
+            scroll0to1 * 50 +
+            practice0to1 * 50;
+        } else if (!hasPractice && hasExamples) {
+          // 50% scroll, 50% examples
+          percent =
+            scroll0to1 * 50 +
+            examples0to1 * 50;
+        }
+      } else {
+        // Neither practice nor examples: scroll-only
+        percent = scrollPercent;
+      }
+
+      percent = Math.max(0, Math.min(100, Math.round(percent)));
 
       const stateClass = percent >= 100 ? 'is-complete' : percent > 0 ? 'is-partial' : 'is-pending';
       marker.classList.add(stateClass);

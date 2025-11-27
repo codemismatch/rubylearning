@@ -317,6 +317,7 @@ pre.language-shell::before {
 .output-content {
   white-space: pre-wrap;
   word-wrap: break-word;
+  min-height: 20px;
 }
 
 
