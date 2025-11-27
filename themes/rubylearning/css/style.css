@@ -652,6 +652,10 @@ code, pre {
   align-items: center;
 }
 
+.site-logo:hover {
+  text-decoration: none;
+}
+
 .site-logo .logo-icon {
   display: inline-flex;
   align-items: center;

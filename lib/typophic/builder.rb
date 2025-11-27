@@ -852,6 +852,10 @@ module Typophic
               <span class="window-btn yellow"></span>
               <span class="window-btn green"></span>
               <span class="window-title">ruby.rb</span>
+              <div class="loading-indicator">
+                <span class="loading-spinner"></span>
+                <span class="loading-text">Loading RubyVM</span>
+              </div>
             </div>
             <div class="code-content">
               <div class="code-editor">
@@ -991,6 +995,10 @@ module Typophic
             <span class="window-btn yellow"></span>
             <span class="window-btn green"></span>
             <span class="window-title">#{window_title}</span>
+            <div class="loading-indicator">
+              <span class="loading-spinner"></span>
+              <span class="loading-text">Loading RubyVM</span>
+            </div>
           </div>
           <div class="code-content">
             <div class="code-editor">
