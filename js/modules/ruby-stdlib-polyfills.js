@@ -5,6 +5,16 @@
 
 function initializeRubyStdlibPolyfills(vm) {
   try {
+    // First, ensure JS module is available
+    vm.eval(`
+      # Load JS module if not already loaded
+      begin
+        require 'js' unless defined?(JS)
+      rescue LoadError => e
+        puts "Warning: JS module not available: #{e.message}"
+      end
+    `);
+
     // StringIO polyfill - make require 'stringio' work
     vm.eval(`
       class StringIO
@@ -586,7 +596,7 @@ function initializeRubyStdlibPolyfills(vm) {
         def write(data)
           raise "Not connected" unless @connected
           data_str = data.to_s
-          escaped = data_str.gsub("\\", "\\\\").gsub("'", "\\'").gsub('"', '\\"')
+          escaped = data_str.gsub("\\\\", "\\\\\\\\").gsub("'", "\\\\'").gsub('"', '\\\\"')
 
           result = JS.global.eval("
             var ws = window.__ruby_ws_sockets__['#{@socket_id}'];

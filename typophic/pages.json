@@ -4,7 +4,7 @@
     "description": null,
     "permalink": "/pages/about/",
     "url": "https://rubylearning.in/pages/about/",
-    "date": null,
+    "date": "2025-03-17",
     "tags": []
   },
   {
@@ -12,7 +12,7 @@
     "description": "Fresh lessons, tips, and project write-ups for Ruby and Ruby on Rails developers.",
     "permalink": "/blog/",
     "url": "https://rubylearning.in/blog/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -20,7 +20,7 @@
     "description": "Learn Ruby step-by-step with runnable examples, curated lessons, and community-driven resources.",
     "permalink": "/",
     "url": "https://rubylearning.in/",
-    "date": null,
+    "date": "2025-03-17",
     "tags": []
   },
   {
@@ -28,7 +28,7 @@
     "description": "A project-driven path for learning Ruby on Rails through modern tooling and real-world practice.",
     "permalink": "/rails/",
     "url": "https://rubylearning.in/rails/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -36,7 +36,7 @@
     "description": "Curated references, courses, and communities for becoming confident with Ruby and Ruby on Rails.",
     "permalink": "/pages/resources/",
     "url": "https://rubylearning.in/pages/resources/",
-    "date": null,
+    "date": "2025-03-17",
     "tags": []
   },
   {
@@ -44,7 +44,7 @@
     "description": "Curated guidance for mastering Ruby fundamentals with structured notes and hands-on practice.",
     "permalink": "/ruby/",
     "url": "https://rubylearning.in/ruby/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -52,7 +52,7 @@
     "description": null,
     "permalink": "/test-diagrams/",
     "url": "https://rubylearning.in/test-diagrams/",
-    "date": null,
+    "date": "2025-11-25",
     "tags": []
   },
   {
@@ -60,7 +60,7 @@
     "description": null,
     "permalink": "/test-ruby-exec/",
     "url": "https://rubylearning.in/test-ruby-exec/",
-    "date": null,
+    "date": "2025-11-23",
     "tags": []
   },
   {
@@ -68,7 +68,7 @@
     "description": null,
     "permalink": "/tutorials/",
     "url": "https://rubylearning.in/tutorials/",
-    "date": null,
+    "date": "2025-03-17",
     "tags": []
   },
   {
@@ -76,7 +76,7 @@
     "description": null,
     "permalink": "/tutorials/classes-and-objects/",
     "url": "https://rubylearning.in/tutorials/classes-and-objects/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -84,7 +84,7 @@
     "description": null,
     "permalink": "/tutorials/duck-typing/",
     "url": "https://rubylearning.in/tutorials/duck-typing/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -92,7 +92,7 @@
     "description": null,
     "permalink": "/tutorials/files-gems-next-steps/",
     "url": "https://rubylearning.in/tutorials/files-gems-next-steps/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -100,7 +100,7 @@
     "description": null,
     "permalink": "/tutorials/first-ruby-program/",
     "url": "https://rubylearning.in/tutorials/first-ruby-program/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -108,7 +108,7 @@
     "description": null,
     "permalink": "/tutorials/flow-control-collections/",
     "url": "https://rubylearning.in/tutorials/flow-control-collections/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -116,7 +116,7 @@
     "description": null,
     "permalink": "/tutorials/fun-with-strings/",
     "url": "https://rubylearning.in/tutorials/fun-with-strings/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -124,7 +124,7 @@
     "description": null,
     "permalink": "/tutorials/getting-input/",
     "url": "https://rubylearning.in/tutorials/getting-input/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -132,7 +132,7 @@
     "description": null,
     "permalink": "/tutorials/including-other-files/",
     "url": "https://rubylearning.in/tutorials/including-other-files/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -140,7 +140,7 @@
     "description": null,
     "permalink": "/tutorials/installation-setup/",
     "url": "https://rubylearning.in/tutorials/installation-setup/",
-    "date": null,
+    "date": "2025-11-05",
     "tags": []
   },
   {
@@ -148,7 +148,7 @@
     "description": null,
     "permalink": "/tutorials/meet-ruby/",
     "url": "https://rubylearning.in/tutorials/meet-ruby/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -156,7 +156,7 @@
     "description": null,
     "permalink": "/tutorials/methods-and-blocks/",
     "url": "https://rubylearning.in/tutorials/methods-and-blocks/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -164,7 +164,7 @@
     "description": null,
     "permalink": "/tutorials/modules-and-mixins/",
     "url": "https://rubylearning.in/tutorials/modules-and-mixins/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -172,7 +172,7 @@
     "description": null,
     "permalink": "/tutorials/more-on-ruby-methods/",
     "url": "https://rubylearning.in/tutorials/more-on-ruby-methods/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -180,7 +180,7 @@
     "description": null,
     "permalink": "/tutorials/more-on-strings/",
     "url": "https://rubylearning.in/tutorials/more-on-strings/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -188,7 +188,7 @@
     "description": null,
     "permalink": "/tutorials/mutable-and-immutable-objects/",
     "url": "https://rubylearning.in/tutorials/mutable-and-immutable-objects/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -196,7 +196,7 @@
     "description": null,
     "permalink": "/tutorials/numbers-in-ruby/",
     "url": "https://rubylearning.in/tutorials/numbers-in-ruby/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -204,7 +204,7 @@
     "description": null,
     "permalink": "/tutorials/object-serialization/",
     "url": "https://rubylearning.in/tutorials/object-serialization/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -212,7 +212,7 @@
     "description": null,
     "permalink": "/tutorials/quick-intro/",
     "url": "https://rubylearning.in/tutorials/quick-intro/",
-    "date": null,
+    "date": "2025-11-16",
     "tags": []
   },
   {
@@ -220,7 +220,7 @@
     "description": null,
     "permalink": "/tutorials/rails-hotwire-feedback/",
     "url": "https://rubylearning.in/tutorials/rails-hotwire-feedback/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -228,7 +228,7 @@
     "description": null,
     "permalink": "/tutorials/rails-project-setup/",
     "url": "https://rubylearning.in/tutorials/rails-project-setup/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -236,7 +236,7 @@
     "description": null,
     "permalink": "/tutorials/rails-routes-controllers/",
     "url": "https://rubylearning.in/tutorials/rails-routes-controllers/",
-    "date": null,
+    "date": "2025-10-31",
     "tags": []
   },
   {
@@ -244,7 +244,7 @@
     "description": null,
     "permalink": "/tutorials/read-write-files/",
     "url": "https://rubylearning.in/tutorials/read-write-files/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -252,7 +252,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-access-control/",
     "url": "https://rubylearning.in/tutorials/ruby-access-control/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -260,7 +260,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-arrays/",
     "url": "https://rubylearning.in/tutorials/ruby-arrays/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -268,7 +268,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-blocks/",
     "url": "https://rubylearning.in/tutorials/ruby-blocks/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -276,7 +276,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-constants/",
     "url": "https://rubylearning.in/tutorials/ruby-constants/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -284,7 +284,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-exceptions/",
     "url": "https://rubylearning.in/tutorials/ruby-exceptions/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -292,7 +292,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-features/",
     "url": "https://rubylearning.in/tutorials/ruby-features/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -300,7 +300,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-hashes/",
     "url": "https://rubylearning.in/tutorials/ruby-hashes/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -308,7 +308,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-inheritance/",
     "url": "https://rubylearning.in/tutorials/ruby-inheritance/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -316,7 +316,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-logging/",
     "url": "https://rubylearning.in/tutorials/ruby-logging/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -324,7 +324,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-method-missing/",
     "url": "https://rubylearning.in/tutorials/ruby-method-missing/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -332,7 +332,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-names/",
     "url": "https://rubylearning.in/tutorials/ruby-names/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -340,7 +340,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-open-classes/",
     "url": "https://rubylearning.in/tutorials/ruby-open-classes/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -348,7 +348,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-overloading-methods/",
     "url": "https://rubylearning.in/tutorials/ruby-overloading-methods/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -356,7 +356,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-overriding-methods/",
     "url": "https://rubylearning.in/tutorials/ruby-overriding-methods/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -364,7 +364,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-procs/",
     "url": "https://rubylearning.in/tutorials/ruby-procs/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -372,7 +372,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-random-numbers/",
     "url": "https://rubylearning.in/tutorials/ruby-random-numbers/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -380,7 +380,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-ranges/",
     "url": "https://rubylearning.in/tutorials/ruby-ranges/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -388,7 +388,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-regular-expressions/",
     "url": "https://rubylearning.in/tutorials/ruby-regular-expressions/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -396,7 +396,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-ri-tool/",
     "url": "https://rubylearning.in/tutorials/ruby-ri-tool/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -404,7 +404,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-self/",
     "url": "https://rubylearning.in/tutorials/ruby-self/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -412,7 +412,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-socket-programming/",
     "url": "https://rubylearning.in/tutorials/ruby-socket-programming/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -420,7 +420,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-symbols/",
     "url": "https://rubylearning.in/tutorials/ruby-symbols/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -428,7 +428,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-syntactic-sugar/",
     "url": "https://rubylearning.in/tutorials/ruby-syntactic-sugar/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -436,7 +436,7 @@
     "description": null,
     "permalink": "/tutorials/ruby-time-class/",
     "url": "https://rubylearning.in/tutorials/ruby-time-class/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -444,7 +444,7 @@
     "description": null,
     "permalink": "/tutorials/scope/",
     "url": "https://rubylearning.in/tutorials/scope/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -452,7 +452,7 @@
     "description": null,
     "permalink": "/tutorials/simple-constructs/",
     "url": "https://rubylearning.in/tutorials/simple-constructs/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -460,7 +460,7 @@
     "description": null,
     "permalink": "/tutorials/variables-and-assignment/",
     "url": "https://rubylearning.in/tutorials/variables-and-assignment/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -468,7 +468,7 @@
     "description": null,
     "permalink": "/tutorials/writing-our-own-class/",
     "url": "https://rubylearning.in/tutorials/writing-our-own-class/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   },
   {
@@ -476,7 +476,7 @@
     "description": null,
     "permalink": "/tutorials/writing-own-ruby-methods/",
     "url": "https://rubylearning.in/tutorials/writing-own-ruby-methods/",
-    "date": null,
+    "date": "2025-11-14",
     "tags": []
   }
 ]

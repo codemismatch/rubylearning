@@ -217,7 +217,7 @@ function initializeRubyWebSocketPolyfill(vm) {
             
             # Send data using JS directly to avoid Ruby WASM async IO issues
             # Escape the string properly for JavaScript
-            escaped_str = data_str.gsub("\\", "\\\\").gsub("'", "\\'").gsub('"', '\\"').gsub("\n", "\\n").gsub("\r", "\\r")
+            escaped_str = data_str.gsub("\\\\", "\\\\\\\\").gsub("'", "\\\\'").gsub('"', '\\\\"').gsub("\\n", "\\\\n").gsub("\\r", "\\\\r")
             
             # Use JS.global.eval to call send method directly
             send_result = JS.global.eval("
@@ -512,7 +512,7 @@ function initializeRubyWebSocketPolyfill(vm) {
       # WebSocket polyfill ready - socket classes moved to stdlib polyfills
       "websocket_polyfill_ready"
     `);
-    
+
     console.log('Ruby WebSocket polyfill initialized');
   } catch (err) {
     console.warn('Failed to initialize Ruby WebSocket polyfill:', err);
