@@ -38,6 +38,11 @@ document.addEventListener('DOMContentLoaded', async () => {
   
   // Load Ruby execution support only if needed
   if (hasRunnableCode || hasInlineConsole) {
+    // Show a loading indicator on code windows immediately, before we
+    // start pulling in the heavier Ruby/WASM modules. ruby-exec.js will
+    // remove these once the VM is ready.
+    addRubyVMLoadingIndicators();
+
     // Load dependencies first
     await loadScript(basePath + 'modules/ui-effects.js');
     await loadScript(basePath + 'modules/code-overlay-editor.js');
@@ -62,7 +67,27 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 });
 
-/**
+function addRubyVMLoadingIndicators() {
+  const rubyBlocks = document.querySelectorAll('.code-window pre[data-executable="true"], pre[data-practice-chapter]');
+  if (!rubyBlocks.length) return;
+
+  rubyBlocks.forEach((pre) => {
+    const header =
+      pre.closest('.code-window')?.querySelector('.code-header') ||
+      pre.parentElement?.querySelector('.code-header');
+    if (header && !header.querySelector('.run-button') && !header.querySelector('.loading-indicator')) {
+      const loadingIndicator = document.createElement('div');
+      loadingIndicator.className = 'loading-indicator';
+      loadingIndicator.innerHTML = `
+        <span class="loading-spinner"></span>
+        <span class="loading-text">Loading RubyVM</span>
+      `;
+      header.appendChild(loadingIndicator);
+    }
+  });
+}
+
+/** 
  * Helper function to load a script module
  * @param {string} src - Full path to the script file
  */
