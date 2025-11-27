@@ -6,28 +6,28 @@
 document.addEventListener('DOMContentLoaded', async () => {
   // Initialize Prism highlighting if available
   if (typeof Prism !== 'undefined') Prism.highlightAll();
-  
+
   // Get the base path for modules (same directory as this script)
   const currentScript = document.currentScript || document.querySelector('script[src*="code-enhancements.js"]');
   const basePath = currentScript ? currentScript.src.replace(/\/[^/]*$/, '/') : '/js/';
-  
+
   // Detect what features are needed on this page
   const hasCodeBlocks = document.querySelectorAll('pre > code').length > 0;
   const hasRunnableCode = document.querySelectorAll('.code-window pre[data-executable="true"], pre[data-practice-chapter]').length > 0;
   const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
   const hasConsoleDrawer = !!document.querySelector('.ruby-console-drawer');
-  
+
   // Always load syntax highlighting if there are code blocks
   if (hasCodeBlocks) {
     await loadScript(basePath + 'modules/ruby-syntax-highlighting.js');
     await loadScript(basePath + 'modules/code-copy-buttons.js');
-    
+
     // Initialize copy buttons
     if (window.CodeCopyButtons) {
       window.CodeCopyButtons.addCopyButtonsToCodeBlocks();
     }
   }
-  
+
   // Load console drawer only if present
   if (hasConsoleDrawer) {
     await loadScript(basePath + 'modules/ruby-console-drawer.js');
@@ -35,7 +35,7 @@ document.addEventListener('DOMContentLoaded', async () => {
       window.RubyConsoleDrawer.initRubyConsoleDrawer();
     }
   }
-  
+
   // Load Ruby execution support only if needed
   if (hasRunnableCode || hasInlineConsole) {
     // Show a loading indicator on code windows immediately, before we
@@ -50,16 +50,16 @@ document.addEventListener('DOMContentLoaded', async () => {
     await loadScript(basePath + 'modules/ruby-stdlib-polyfills.js');
     await loadScript(basePath + 'modules/ruby-test-framework.js');
     await loadScript(basePath + 'modules/ruby-websocket-polyfill.js');
-    
+
     // Load Ruby console module if inline console is present
     // (ruby-exec.js will initialize it, but we need the module loaded first)
     if (hasInlineConsole) {
       await loadScript(basePath + 'modules/ruby-console.js');
     }
-    
+
     // Load Ruby exec support (handles both runnable code and console initialization)
     await loadScript(basePath + 'modules/ruby-exec.js');
-    
+
     // Initialize Ruby execution (handles both console and exec)
     if (window.RubyExec) {
       await window.RubyExec.addRubyExecSupport();
@@ -72,6 +72,23 @@ function addRubyVMLoadingIndicators() {
   if (!rubyBlocks.length) return;
 
   rubyBlocks.forEach((pre) => {
+    // Only add loading indicator if this is actually a Ruby block
+    const codeElement = pre.querySelector('code');
+    const isRubyBlock = codeElement && (
+      codeElement.classList.contains('ruby-exec') ||
+      codeElement.classList.contains('language-ruby') ||
+      pre.hasAttribute('data-executable')
+    );
+
+    // Skip if this is a bash/shell block
+    const isBashBlock = codeElement && (
+      codeElement.classList.contains('language-bash') ||
+      codeElement.classList.contains('language-shell') ||
+      codeElement.classList.contains('language-sh')
+    );
+
+    if (isBashBlock || !isRubyBlock) return;
+
     const header =
       pre.closest('.code-window')?.querySelector('.code-header') ||
       pre.parentElement?.querySelector('.code-header');
@@ -99,7 +116,7 @@ function loadScript(src) {
       resolve();
       return;
     }
-    
+
     const script = document.createElement('script');
     script.src = src;
     script.async = false; // Load in order

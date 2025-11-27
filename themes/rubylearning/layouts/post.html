@@ -4,18 +4,39 @@ layout: default
 <article class="post">
   <header class="post-header">
     {% assign date_format = site.date_format | default: '%B %-d, %Y' %}
-    <h1>
-      {{ page.title }}
-      {% if page.difficulty %}
-        <span class="difficulty difficulty-{{ page.difficulty }}">{{ page.difficulty | capitalize }}</span>
-      {% endif %}
-    </h1>
+    <h1>{{ page.title }}</h1>
+
+    {% assign author_id = page.author_id | default: page.author %}
+    {% assign author_data = site.data.authors[author_id] %}
     <div class="post-meta">
-      {% if page.date %}
-      <time datetime="{{ page.date | date: '%Y-%m-%d' }}">
+      {% if author_id %}
+      <div class="post-author">
+        <div class="post-author-avatar">
+          {% if author_data and author_data.avatar %}
+          <img src="{{ author_data.avatar | url_for }}" alt="{{ author_data.name | default: author_id }}">
+          {% else %}
+          {% assign initials_source = author_data.name | default: author_id %}
+          {% assign initials = initials_source | split: ' ' | map: 'first' | join: '' | slice: 0,2 | upcase %}
+          <span class="post-author-initials">{{ initials }}</span>
+          {% endif %}
+        </div>
+        <div class="post-author-text">
+          <div class="post-author-name">
+            {{ author_data.name | default: author_id }}
+          </div>
+          {% if page.date %}
+          <time datetime="{{ page.date | date: '%Y-%m-%d' }}" class="post-date">
+            {{ page.date | date: date_format }}
+          </time>
+          {% endif %}
+        </div>
+      </div>
+      {% elsif page.date %}
+      <time datetime="{{ page.date | date: '%Y-%m-%d' }}" class="post-date">
         {{ page.date | date: date_format }}
       </time>
       {% endif %}
+
       {% if page.tags and page.tags.size > 0 %}
       <div class="tags">
         {% for tag in page.tags %}
@@ -23,9 +44,33 @@ layout: default
         {% endfor %}
       </div>
       {% endif %}
+
+      {% if page.contributors and page.contributors.size > 0 %}
+      <div class="post-contributors">
+        <span class="contributors-label">Edited by:</span>
+        <div class="contributors-list">
+          {% for contributor_id in page.contributors %}
+          {% assign contributor = site.data.authors[contributor_id] %}
+          {% if contributor %}
+          <div class="contributor-item" title="{{ contributor.name | default: contributor_id }}">
+            {% if contributor.avatar %}
+            <img src="{{ contributor.avatar | url_for }}" alt="{{ contributor.name | default: contributor_id }}"
+              class="contributor-avatar">
+            {% else %}
+            {% assign initials_source = contributor.name | default: contributor_id %}
+            {% assign initials = initials_source | split: ' ' | map: 'first' | join: '' | slice: 0,2 | upcase %}
+            <span class="contributor-avatar contributor-initials">{{ initials }}</span>
+            {% endif %}
+            <span class="contributor-name">{{ contributor.name | default: contributor_id }}</span>
+          </div>
+          {% endif %}
+          {% endfor %}
+        </div>
+      </div>
+      {% endif %}
     </div>
   </header>
-  
+
   <div class="post-content">
     {{ content }}
   </div>

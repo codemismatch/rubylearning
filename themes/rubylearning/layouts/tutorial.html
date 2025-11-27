@@ -3,22 +3,22 @@ layout: default
 ---
 <div class="tutorial-wrapper">
   {% if page.breadcrumbs != false %}
-    <nav class="breadcrumbs">
-      <ol>
-        <li><a href="{{ '/' | url_for }}">Home</a></li>
-        {% if page.layout == 'tutorial' %}
-        <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
-        <li>{{ page.title }}</li>
-        {% elsif page.layout == 'post' %}
-        <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
-        <li>{{ page.title }}</li>
-        {% elsif page.permalink == '/tutorials' or page.url == '/tutorials/' or page.title == 'Ruby Tutorials' %}
-        <li>Tutorials</li>
-        {% else %}
-        <li>{{ page.title }}</li>
-        {% endif %}
-      </ol>
-    </nav>
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="{{ '/' | url_for }}">Home</a></li>
+      {% if page.layout == 'tutorial' %}
+      <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+      <li>{{ page.title }}</li>
+      {% elsif page.layout == 'post' %}
+      <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+      <li>{{ page.title }}</li>
+      {% elsif page.permalink == '/tutorials' or page.url == '/tutorials/' or page.title == 'Ruby Tutorials' %}
+      <li>Tutorials</li>
+      {% else %}
+      <li>{{ page.title }}</li>
+      {% endif %}
+    </ol>
+  </nav>
   {% endif %}
 
   <article class="tutorial">
@@ -26,11 +26,69 @@ layout: default
       <h1>
         {{ page.title }}
         {% if page.difficulty %}
-          <span class="difficulty difficulty-{{ page.difficulty }}">{{ page.difficulty | capitalize }}</span>
+        <span class="difficulty difficulty-{{ page.difficulty }}">{{ page.difficulty | capitalize }}</span>
         {% endif %}
       </h1>
+      {% assign date_format = site.date_format | default: '%B %-d, %Y' %}
+      {% assign author_id = page.author_id | default: page.author %}
+      {% assign author_data = site.data.authors[author_id] %}
+      {% if author_id or page.date %}
+      <div class="tutorial-meta">
+        {% if author_id %}
+        <div class="tutorial-author">
+          <div class="tutorial-author-avatar">
+            {% if author_data and author_data.avatar %}
+            <img src="{{ author_data.avatar | url_for }}" alt="{{ author_data.name | default: author_id }}">
+            {% else %}
+            {% assign initials_source = author_data.name | default: author_id %}
+            {% assign initials = initials_source | split: ' ' | map: 'first' | join: '' | slice: 0,2 | upcase %}
+            <span class="tutorial-author-initials">{{ initials }}</span>
+            {% endif %}
+          </div>
+          <div class="tutorial-author-text">
+            <div class="tutorial-author-name">
+              {{ author_data.name | default: author_id }}
+            </div>
+            {% if page.date %}
+            <time datetime="{{ page.date | date: '%Y-%m-%d' }}" class="tutorial-date">
+              {{ page.date | date: date_format }}
+            </time>
+            {% endif %}
+          </div>
+        </div>
+        {% elsif page.date %}
+        <time datetime="{{ page.date | date: '%Y-%m-%d' }}" class="tutorial-date">
+          {{ page.date | date: date_format }}
+        </time>
+        {% endif %}
+
+        {% if page.contributors and page.contributors.size > 0 %}
+        <div class="tutorial-contributors">
+          <span class="contributors-label">Edited by:</span>
+          <div class="contributors-list">
+            {% for contributor_id in page.contributors %}
+            {% assign contributor = site.data.authors[contributor_id] %}
+            {% if contributor %}
+            <div class="contributor-item" title="{{ contributor.name | default: contributor_id }}">
+              {% if contributor.avatar %}
+              <img src="{{ contributor.avatar | url_for }}" alt="{{ contributor.name | default: contributor_id }}"
+                class="contributor-avatar">
+              {% else %}
+              {% assign initials_source = contributor.name | default: contributor_id %}
+              {% assign initials = initials_source | split: ' ' | map: 'first' | join: '' | slice: 0,2 | upcase %}
+              <span class="contributor-avatar contributor-initials">{{ initials }}</span>
+              {% endif %}
+              <span class="contributor-name">{{ contributor.name | default: contributor_id }}</span>
+            </div>
+            {% endif %}
+            {% endfor %}
+          </div>
+        </div>
+        {% endif %}
+      </div>
+      {% endif %}
       {% if page.summary %}
-        <p class="tutorial-summary">{{ page.summary }}</p>
+      <p class="tutorial-summary">{{ page.summary }}</p>
       {% endif %}
     </header>
 
@@ -39,45 +97,45 @@ layout: default
     </div>
 
     {% if page.previous_tutorial or page.next_tutorial %}
-      <nav class="tutorial-nav">
-        {% if page.previous_tutorial %}
-          {% assign prev = page.previous_tutorial %}
-          {% assign prev_href = prev.url | default: prev["url"] %}
-          <a class="tutorial-nav__link tutorial-nav__link--prev" href="{{ prev_href | url_for }}">
-            <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-            <span>{{ prev.title | default: prev["title"] }}</span>
-          </a>
-        {% endif %}
-        {% if page.next_tutorial %}
-          {% assign nxt = page.next_tutorial %}
-          {% assign next_href = nxt.url | default: nxt["url"] %}
-          <a class="tutorial-nav__link tutorial-nav__link--next" href="{{ next_href | url_for }}">
-            <span>{{ nxt.title | default: nxt["title"] }}</span>
-            <span class="icon-arrow" aria-hidden="true">&gt;</span>
-          </a>
-        {% endif %}
-      </nav>
+    <nav class="tutorial-nav">
+      {% if page.previous_tutorial %}
+      {% assign prev = page.previous_tutorial %}
+      {% assign prev_href = prev.url | default: prev["url"] %}
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="{{ prev_href | url_for }}">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>{{ prev.title | default: prev["title"] }}</span>
+      </a>
+      {% endif %}
+      {% if page.next_tutorial %}
+      {% assign nxt = page.next_tutorial %}
+      {% assign next_href = nxt.url | default: nxt["url"] %}
+      <a class="tutorial-nav__link tutorial-nav__link--next" href="{{ next_href | url_for }}">
+        <span>{{ nxt.title | default: nxt["title"] }}</span>
+        <span class="icon-arrow" aria-hidden="true">&gt;</span>
+      </a>
+      {% endif %}
+    </nav>
     {% endif %}
 
     {% if page.related_tutorials and page.related_tutorials.size > 0 %}
-      <div class="related-tutorials">
-        <h2>Related Tutorials</h2>
-        <ul>
-          {% for tutorial in page.related_tutorials %}
-          {% if tutorial.url and tutorial.url | slice: 0,4 == "http" %}
-            {% assign href = tutorial.url %}
-          {% else %}
-            {% assign href = tutorial.url | url_for %}
-          {% endif %}
-          <li>
-            <a href="{{ href }}">
-              <span class="related-icon" aria-hidden="true">&gt;</span>
-              <span>{{ tutorial.title }}</span>
-            </a>
-          </li>
-          {% endfor %}
-        </ul>
-      </div>
+    <div class="related-tutorials">
+      <h2>Related Tutorials</h2>
+      <ul>
+        {% for tutorial in page.related_tutorials %}
+        {% if tutorial.url and tutorial.url | slice: 0,4 == "http" %}
+        {% assign href = tutorial.url %}
+        {% else %}
+        {% assign href = tutorial.url | url_for %}
+        {% endif %}
+        <li>
+          <a href="{{ href }}">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>{{ tutorial.title }}</span>
+          </a>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
     {% endif %}
   </article>
 
@@ -94,12 +152,8 @@ layout: default
           <div class="ruby-irb-input-wrapper">
             <span class="ruby-irb-caret" aria-hidden="true"></span>
             <pre class="ruby-irb-ghost"></pre>
-            <textarea
-              class="ruby-irb-input"
-              placeholder="Enter Ruby code here..."
-              autocomplete="off"
-              rows="1"
-            ></textarea>
+            <textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off"
+              rows="1"></textarea>
           </div>
         </form>
       </div>

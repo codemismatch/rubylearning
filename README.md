@@ -118,6 +118,10 @@ typophic theme use mytheme --default
 # Build/serve/deploy
 typophic build --deploy
 typophic serve --build --port 3000
+# With repository.deploy_branch configured in config.yml (gh-pages here),
+# a plain `typophic deploy` will publish to origin/gh-pages.
+typophic deploy
+# You can still override provider/remote/branch explicitly when needed:
 typophic deploy --remote origin --branch gh-pages
 typophic deploy --provider s3 --bucket my-bucket
 

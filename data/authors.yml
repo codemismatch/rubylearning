@@ -1,0 +1,37 @@
+# Typophic Author Registry
+#
+# Purpose: Email-to-author-ID mapping + cached GitHub data
+#
+# This file serves as:
+# 1. Email directory (maps Git commit emails to author IDs)
+# 2. GitHub username mapping (for API lookups)
+# 3. Local cache (to avoid hitting GitHub API on every build)
+#
+# Schema:
+#   <author_id>:
+#     github: <github_username>       # Required
+#     emails: [<list of git emails>]  # Required for Git mapping
+#     name: "Display Name"             # Cached from GitHub API or manual
+#     avatar: "https://..."            # Cached from GitHub API
+#     bio: "Short bio"                 # Cached from GitHub API
+#     cached_at: YYYY-MM-DD            # Last API refresh date
+
+pankajdoharey:
+  github: metacritical
+  emails:
+    - pankajdoharey@gmail.com
+    - pankajdoahrey@gmail.com  # Typo variant found in commits
+  name: "Pankaj Doharey"
+  avatar: "https://avatars.githubusercontent.com/metacritical"
+  bio: "Maintainer of Rubylearning and Typophic"
+  cached_at: 2025-11-27
+
+neerajdoharey:
+  github: neerajdoharey
+  emails:
+    - neeraj.doharey@live.com
+  name: "Neeraj Doharey"
+  avatar: "https://avatars.githubusercontent.com/neerajdoharey"
+  bio: "Contributor"
+  cached_at: 2025-11-27
+

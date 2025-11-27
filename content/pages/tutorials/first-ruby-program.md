@@ -2,7 +2,6 @@
 layout: tutorial
 title: "Chapter 3 &ndash; First Ruby Program"
 permalink: /tutorials/first-ruby-program/
-author: Neeraj Doharey (@codemismatch) <neeraj.doharey@live.com>
 difficulty: beginner
 summary: Create and run your first Ruby program, learn about Ruby's interactive console (IRB), and understand basic Ruby syntax.
 previous_tutorial:

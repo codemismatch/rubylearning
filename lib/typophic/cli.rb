@@ -13,6 +13,7 @@ require_relative "commands/doctor"
 require_relative "commands/verify"
 require_relative "commands/format"
 require_relative "commands/check_pipeline"
+require_relative "commands/authors"
 
 module Typophic
   class CLI
@@ -24,6 +25,7 @@ module Typophic
       "new" => Commands::New,
       "theme" => Commands::Theme,
       "blog" => Commands::Blog,
+      "authors" => Commands::Authors,
       "clean" => Commands::Clean,
       "doctor" => Commands::Doctor,
       "verify" => Commands::Verify,
@@ -83,6 +85,7 @@ module Typophic
           new         Generators for site/blog/post/page
           theme       Manage themes (new/use/install/list/remove)
           blog        Manage blog posts (new/publish/list/delete)
+          authors     Manage author metadata (refresh/list/add)
           clean       Remove generated artifacts (cleans public/)
           doctor      Validate project structure and configuration
           verify      Verify chapter integrity (runs solution/test blocks)
@@ -96,6 +99,8 @@ module Typophic
           typophic new page "About" --permalink /about/
           typophic theme install https://github.com/user/cool-theme
           typophic blog list --drafts
+          typophic authors refresh
+          typophic authors list
           typophic deploy --remote origin --branch gh-pages
           typophic deploy --provider s3 --bucket my-bucket
 

@@ -238,7 +238,7 @@ module Typophic
         begin
           case File.extname(file).downcase
           when '.yaml', '.yml'
-            content = YAML.safe_load(File.read(file), aliases: true)
+            content = YAML.safe_load(File.read(file), permitted_classes: [Date], aliases: true)
           when '.json'
             content = JSON.parse(File.read(file))
           else
@@ -430,6 +430,7 @@ module Typophic
     def process_content_files
       files = Dir.glob(File.join(@source_dir, "**", "*"))
                  .select { |path| File.file?(path) && supported_content_file?(path) }
+                 .reject { |path| path.split(File::SEPARATOR).include?("drafts") }
                  .sort
 
       if @parallel && files.length > 1
@@ -441,6 +442,7 @@ module Typophic
 
     def process_content_files_sequential(files)
       entries = files.map { |file| parse_page(file) }
+                     .reject { |entry| entry[:meta]["draft"] }
 
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
@@ -451,6 +453,7 @@ module Typophic
     def process_content_files_parallel(files)
       # Phase 1: Parse all files in parallel
       entries = parse_files_parallel(files)
+      entries.reject! { |entry| entry[:meta]["draft"] }
 
       # Phase 2: Index pages (must be sequential due to shared state)
       entries.each { |entry| index_page(entry[:meta]) }
@@ -624,9 +627,40 @@ module Typophic
       page = stringify_keys(front_matter)
       page["layout"] = layout
       page["section"] = section
+      page["draft"] = !!page["draft"]
       page["type"] = content_type  # Add Hugo-like content type
       page["source"] = relative_source
       page["slug"] = slug
+      
+      # Auto-populate authorship from Git (unless it's a draft)
+      unless page["draft"]
+        begin
+          require_relative "git_authorship" unless defined?(Typophic::GitAuthorship)
+          git_info = Typophic::GitAuthorship.analyze(file)
+          
+          if git_info
+            # Only set if not manually specified in frontmatter
+            page["author"] ||= git_info[:primary_author]
+            
+            # Set contributors if there are any (excluding primary author)
+            if git_info[:contributors]&.any?
+              page["contributors"] = git_info[:contributors]
+            end
+            
+            # Use Git date if no date in frontmatter or filename
+            page["date"] ||= git_info[:published_at] if git_info[:published_at]
+            
+            # Always set updated_at if it differs from published
+            if git_info[:updated_at] && git_info[:updated_at] != git_info[:published_at]
+              page["updated_at"] = git_info[:updated_at]
+            end
+          end
+        rescue => e
+          # Gracefully handle Git analysis failures (e.g., not a Git repo)
+          warn "Git authorship analysis failed for #{file}: #{e.message}" if @verbose
+        end
+      end
+      
       page["date"] ||= inferred_date
       page["date"] = parse_date(page["date"])
       page["date_iso"] = page["date"]&.strftime("%Y-%m-%d")

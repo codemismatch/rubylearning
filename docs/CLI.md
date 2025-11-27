@@ -7,7 +7,12 @@ Core commands
 - `serve` — Serve `public/` with auto-rebuild and live reload
   - Options: `--build` `--port N` `--host H` `--[no-]watch` `--[no-]livereload`
 - `deploy` — Publish the site
-  - GitHub Pages (default): `--remote origin` `--branch gh-pages` `--force` `--custom-domain DOMAIN`
+  - GitHub Pages (default): if `config.yml` has:
+    - `repository.url: git@github.com:owner/repo.git`
+    - `repository.deploy_branch: gh-pages`
+    then `typophic deploy` alone will build and publish `public/` to
+    `origin/gh-pages`. You can still override with
+    `--remote origin` `--branch gh-pages` `--force` `--custom-domain DOMAIN`.
   - S3: `--provider s3 --bucket BUCKET [--region REGION]`
   - rsync: `--provider rsync --dest user@host:/path/`
 - `new` — Generators for site/blog/post/page
