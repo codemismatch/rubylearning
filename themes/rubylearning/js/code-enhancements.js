@@ -74,11 +74,6 @@ function addRubyVMLoadingIndicators() {
   rubyBlocks.forEach((pre) => {
     // Only add loading indicator if this is actually a Ruby block
     const codeElement = pre.querySelector('code');
-    const isRubyBlock = codeElement && (
-      codeElement.classList.contains('ruby-exec') ||
-      codeElement.classList.contains('language-ruby') ||
-      pre.hasAttribute('data-executable')
-    );
 
     // Skip if this is a bash/shell block
     const isBashBlock = codeElement && (
@@ -87,7 +82,15 @@ function addRubyVMLoadingIndicators() {
       codeElement.classList.contains('language-sh')
     );
 
-    if (isBashBlock || !isRubyBlock) return;
+    if (isBashBlock) return;
+
+    // Only show for Ruby blocks
+    const isRubyBlock = codeElement && (
+      codeElement.classList.contains('ruby-exec') ||
+      codeElement.classList.contains('language-ruby')
+    );
+
+    if (!isRubyBlock) return;
 
     const header =
       pre.closest('.code-window')?.querySelector('.code-header') ||

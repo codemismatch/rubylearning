@@ -14,6 +14,8 @@ require_relative "commands/verify"
 require_relative "commands/format"
 require_relative "commands/check_pipeline"
 require_relative "commands/authors"
+require_relative "commands/tutorial"
+require_relative "commands/drafts"
 
 module Typophic
   class CLI
@@ -30,7 +32,9 @@ module Typophic
       "doctor" => Commands::Doctor,
       "verify" => Commands::Verify,
       "format" => Commands::Format,
-      "check_pipeline" => Commands::CheckPipeline
+      "check_pipeline" => Commands::CheckPipeline,
+      "tutorial" => Commands::Tutorial,
+      "drafts" => Commands::Drafts
     }.freeze
 
     def self.start(argv)
@@ -83,14 +87,16 @@ module Typophic
           serve, s    Serve the generated site with auto-rebuild and live reload
           deploy      Deploy the site (GitHub Pages by default; S3 and rsync supported)
           new         Generators for site/blog/post/page
-          theme       Manage themes (new/use/install/list/remove)
-          blog        Manage blog posts (new/publish/list/delete)
-          authors     Manage author metadata (refresh/list/add)
+          blog        Manage blog posts (new, publish, list, delete)
+          tutorial    Manage tutorials (new, publish, list)
+          drafts      List all drafts across content types
           clean       Remove generated artifacts (cleans public/)
-          doctor      Validate project structure and configuration
-          verify      Verify chapter integrity (runs solution/test blocks)
-          format      Format tutorial content
-          check_pipeline Test pipeline configuration
+          check-pipeline Verify the build pipeline is working
+          theme       Manage themes (list, install, create)
+          verify      Verify tutorial code samples and tests
+          format      Format tutorial markdown files
+          doctor      Diagnose common setup/config issues
+          authors     Manage author data (refresh, list, add)
 
         Quick examples:
           typophic new site mysite --theme rubylearning

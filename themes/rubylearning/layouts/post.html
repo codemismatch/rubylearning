@@ -71,7 +71,14 @@ layout: default
     </div>
   </header>
 
+  {% if page.is_draft %}
+  <div class="draft-banner">
+    <strong>⚠️ DRAFT:</strong> This content is unpublished and not visible in production
+  </div>
+  {% endif %}
+
   <div class="post-content">
     {{ content }}
   </div>
 </article>
+```

@@ -430,19 +430,37 @@ module Typophic
     def process_content_files
       files = Dir.glob(File.join(@source_dir, "**", "*"))
                  .select { |path| File.file?(path) && supported_content_file?(path) }
-                 .reject { |path| path.split(File::SEPARATOR).include?("drafts") }
                  .sort
 
-      if @parallel && files.length > 1
-        process_content_files_parallel(files)
-      else
-        process_content_files_sequential(files)
+      # Filter out drafts from the file list (anything under content/…/drafts/…)
+      # UNLESS we're in draft preview mode
+      include_drafts = ENV["INCLUDE_DRAFTS"] == "true" || ENV["TYPOPHIC_INCLUDE_DRAFTS"] == "true"
+      
+      unless include_drafts
+        files.reject! {|f| f.include?("/drafts/")}
       end
+
+      entries = @parallel ? process_content_files_parallel(files) : process_content_files_sequential(files)
+
+      # Filter out draft entries from front matter (draft: true)
+      # UNLESS we're in draft preview mode
+      unless include_drafts
+        entries.reject! { |entry| entry[:meta]["draft"] }
+      else
+        # Mark drafts for template rendering
+        entries.each do |entry|
+          # Check if the file path contains "/drafts/" or if front matter marks it as a draft
+          if entry[:meta]["draft"] || entry[:file].to_s.include?("/drafts/")
+            entry[:meta]["is_draft"] = true
+          end
+        end
+      end
+
+      entries
     end
 
     def process_content_files_sequential(files)
       entries = files.map { |file| parse_page(file) }
-                     .reject { |entry| entry[:meta]["draft"] }
 
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
@@ -453,7 +471,6 @@ module Typophic
     def process_content_files_parallel(files)
       # Phase 1: Parse all files in parallel
       entries = parse_files_parallel(files)
-      entries.reject! { |entry| entry[:meta]["draft"] }
 
       # Phase 2: Index pages (must be sequential due to shared state)
       entries.each { |entry| index_page(entry[:meta]) }

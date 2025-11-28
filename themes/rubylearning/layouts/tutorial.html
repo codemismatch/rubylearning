@@ -92,6 +92,11 @@ layout: default
       {% endif %}
     </header>
 
+    {% if page.is_draft %}
+    <div class="draft-banner">
+      <strong>⚠️ DRAFT:</strong> This tutorial is unpublished and not visible in production
+    </div>
+    {% endif %}
     <div class="tutorial-content">
       {{ content }}
     </div>
