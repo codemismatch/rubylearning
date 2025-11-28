@@ -442,13 +442,17 @@ module Typophic
 
       entries = @parallel ? process_content_files_parallel(files) : process_content_files_sequential(files)
 
+      # Remove any nil entries that may have been returned
+      entries.compact!
+
       # Filter out draft entries from front matter (draft: true)
       # UNLESS we're in draft preview mode
       unless include_drafts
-        entries.reject! { |entry| entry[:meta]["draft"] }
+        entries.reject! { |entry| entry[:meta]&.fetch("draft", false) }
       else
         # Mark drafts for template rendering
         entries.each do |entry|
+          next unless entry[:meta]
           # Check if the file path contains "/drafts/" or if front matter marks it as a draft
           if entry[:meta]["draft"] || entry[:file].to_s.include?("/drafts/")
             entry[:meta]["is_draft"] = true
