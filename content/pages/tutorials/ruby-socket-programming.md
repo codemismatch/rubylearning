@@ -45,85 +45,81 @@ Ruby's threads are lightweight enough for simple demos. Before writing your own 
 
 ### Date-Time server (`p068dtserver.rb`)
 
-```ruby
+<div class="code-window">
+  <div class="code-header">
+    <div class="window-btn red"></div>
+    <div class="window-btn yellow"></div>
+    <div class="window-btn green"></div>
+    <div class="window-title">p068dtserver.rb</div>
+  </div>
+  <pre data-executable="true"><code class="language-ruby">
 # Date Time Server - server side using thread
 require "socket"
 
-server = TCPServer.new("localhost", 20_000)
+# In this browser simulation, TCPServer connects to an echo server
+server = TCPServer.new("localhost", 80)
 
-loop do
+puts "Server started. Handling 3 clients then exiting..."
+
+# Run only 3 times to avoid infinite loop in browser
+3.times do
+  # accept() simulates a client connecting
   Thread.start(server.accept) do |socket|
-    puts "#{socket} connected"
-    socket.write(Time.now)
-    puts "#{socket} closing"
+    puts "Client connected"
+    socket.write(Time.now.to_s)
+    puts "Sent time: #{Time.now}"
     socket.close
+    puts "Client closed"
   end
+  sleep(1) # Pause between connections
 end
-```
+puts "Server finished."
+</code></pre>
+</div>
 
-> **Browser Implementation:** `TCPServer` and `Thread` are polyfilled for browser environments. The server code above will run, but note:
-> - `TCPServer.accept()` simulates accepting connections by creating `TCPSocket` instances connected to WebSocket servers
-> - `Thread.start` executes blocks immediately (simulated concurrency for educational purposes)
-> - The server loop will run continuously - use Ctrl+C or stop execution manually
-> - For production servers, run on a backend Ruby server; browser clients can connect using `TCPSocket` (polyfilled to use WebSockets)
+> **Note:** In this browser environment, `TCPServer` is simulated by connecting to a public WebSocket echo server. `Thread.start` runs the block immediately.
 
 Key steps:
 
-1. `TCPServer.new("localhost", 20_000)` binds to port `20000` on the loopback interface.
-2. `server.accept` blocks until a client connects, returning a `TCPSocket`.
-3. `Thread.start` hands each client to its own thread so multiple clients can be served concurrently.
-4. `socket.write` sends the timestamp, and `socket.close` releases the connection.
+1. `TCPServer.new` binds to a port (simulated here).
+2. `server.accept` waits for a client.
+3. `Thread.start` handles the client.
+4. `socket.write` sends the timestamp.
 
 Run the server in one terminal with `ruby p068dtserver.rb`; it will block, waiting for clients.
 
-### Browser Alternative: WebSocket Server
-
-For browser-based applications, WebSockets provide similar functionality:
-
-**Server (Ruby with WebSocket library, e.g., `faye-websocket`):**
-```ruby
-require 'faye/websocket'
-require 'eventmachine'
-
-EM.run do
-  EM::WebSocket.start(host: '0.0.0.0', port: 20000) do |ws|
-    ws.onopen do |handshake|
-      puts "Client connected"
-      ws.send(Time.now.to_s)
-    end
-    
-    ws.onclose do
-      puts "Client disconnected"
-    end
-  end
-end
-```
-
-**Client (JavaScript in browser):**
-```javascript
-const ws = new WebSocket('ws://localhost:20000');
-ws.onmessage = (event) => {
-  console.log('Time from server:', event.data);
-};
-ws.onopen = () => {
-  console.log('Connected to server');
-};
-```
-
-WebSockets provide bidirectional communication similar to TCP sockets but are browser-compatible and use the `ws://` or `wss://` protocols instead of raw TCP.
-
 ### Date-Time client (`p069dtclient.rb`)
 
-```ruby
+<div class="code-window">
+  <div class="code-header">
+    <div class="window-btn red"></div>
+    <div class="window-btn yellow"></div>
+    <div class="window-btn green"></div>
+    <div class="window-title">p069dtclient.rb</div>
+  </div>
+  <pre data-executable="true"><code class="language-ruby">
 require "socket"
 
-socket = TCPSocket.new("127.0.0.1", 20_000)
-time_string = socket.recv(100)
+# Connect to the server (redirects to echo server in browser)
+socket = TCPSocket.new("localhost", 80)
 
-puts time_string
+# Read initial welcome message from echo server
+sleep(1)
+welcome = socket.recv(1000)
+puts "Server says: #{welcome.strip}"
+
+# Send a message
+puts "Sending request..."
+socket.write("What time is it?")
+
+# Read response
+sleep(1)
+response = socket.recv(100)
+puts "Received: #{response}"
 
 socket.close
-```
+</code></pre>
+</div>
 
 `TCPSocket.new` opens a TCP connection to the host/port pair. `recv(100)` reads up to 100 bytes; the server only sends a timestamp, so that is sufficient. Remember to close the socket so the server can reclaim resources.
 
@@ -141,44 +137,70 @@ Summary: Ruby sockets piggyback on familiar IO primitives, so once you understan
 
 **Goal:** Sketch the client-server flow for an app and label which side initiates the connection.
 
-```ruby
+#> ruby :practice
+
+# TODO: Write two puts statements describing the flow.
+# 1. Server: Create TCPServer, then accept.
+# 2. Client: Create TCPSocket to initiate connection.
+
+```solution
 puts "Server: TCPServer.new('localhost', 3000) then accept connections"
 puts "Client: TCPSocket.new('localhost', 3000) initiates connection"
 ```
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
-     data-practice-index="0"></div>
+```test
+result = false
+out = output.string.downcase
+if out.include?("server") && out.include?("client") && out.include?("accept") && out.include?("initiate")
+  result = true
+else
+  output.puts("Make sure to mention both Server (accept) and Client (initiate).")
+end
+result
+```
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:0">
-puts "Server: TCPServer.new('localhost', 3000) then accept connections"
-puts "Client: TCPSocket.new('localhost', 3000) initiates connection"
-</script>
+#!
 
 #### Practice 2 - LAN IP vs localhost
 
 **Goal:** Show how you would replace `localhost` with a LAN IP.
 
-```ruby
+#> ruby :practice
+
+# TODO: Define a variable `lan_ip` with value "192.168.1.10"
+# Then print the code to create a TCPSocket connecting to that IP on port 3000.
+
+```solution
 lan_ip = "192.168.1.10"
 puts "TCPSocket.new('#{lan_ip}', 3000)"
 ```
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
-     data-practice-index="1"></div>
+```test
+result = false
+out = output.string
+if out.include?("192.168.1.10") && out.include?("TCPSocket.new") && out.include?("3000")
+  result = true
+else
+  output.puts("Print the TCPSocket.new line using the lan_ip variable.")
+end
+result
+```
 
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:1">
-puts "TCPSocket.new('192.168.1.10', 3000)"
-</script>
+#!
 
 #### Practice 3 - Simple message and acknowledgement
 
 **Goal:** Send a full sentence from the server and have the client acknowledge receipt.
 
-```ruby
+#> ruby :practice
+
+# TODO: Use the MockConnection class to simulate a conversation.
+# 1. Server sends "Hello from server"
+# 2. Client receives it and prints it
+# 3. Client sends "ACK"
+# 4. Server receives it and prints it
+
+```solution
 class MockConnection
   def initialize
     @server_inbox = []
@@ -204,58 +226,38 @@ end
 
 conn = MockConnection.new
 conn.server_puts("Hello from server")
-
 message = conn.client_gets
 puts "Client received: #{message}"
-
 conn.client_puts("ACK")
 ack = conn.server_gets
 puts "Server received acknowledgement: #{ack}"
 ```
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
-     data-practice-index="2"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:2">
-class MockConnection
-  def initialize
-    @server_inbox = []
-    @client_inbox = []
-  end
-
-  def server_puts(message)
-    @client_inbox << message
-  end
-
-  def client_gets
-    @client_inbox.shift
-  end
-
-  def client_puts(message)
-    @server_inbox << message
-  end
-
-  def server_gets
-    @server_inbox.shift
-  end
+```test
+result = false
+out = output.string
+if out.include?("Client received: Hello from server") && out.include?("Server received acknowledgement: ACK")
+  result = true
+else
+  output.puts("Ensure both client and server print their received messages.")
 end
+result
+```
 
-conn = MockConnection.new
-conn.server_puts("Hello from server")
-message = conn.client_gets
-puts "Client received: #{message}"
-conn.client_puts("ACK")
-ack = conn.server_gets
-puts "Server received acknowledgement: #{ack}"
-</script>
+#!
 
 #### Practice 4 - Threads vs sequential handling
 
 **Goal:** Contrast `Thread.start` with sequential handling in a server loop.
 
-```ruby
+#> ruby :practice
+
+# TODO: Iterate through `clients` twice.
+# First loop: Print "Handling #{client} sequentially"
+# Second loop: Use Thread.new to print "Handling #{client} in thread #{Thread.current.object_id}"
+# Remember to join threads!
+
+```solution
 clients = %w[alpha beta gamma]
 
 puts "Sequential handling:"
@@ -273,34 +275,30 @@ end
 threads.each(&:join)
 ```
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
-     data-practice-index="3"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:3">
-clients = %w[alpha beta gamma]
-
-puts "Sequential handling:"
-clients.each do |client|
-  puts "Handling #{client} sequentially"
+```test
+result = false
+out = output.string
+if out.include?("Sequential handling") && out.include?("Threaded handling") && out.include?("in thread")
+  result = true
+else
+  output.puts("Print both sequential and threaded handling messages.")
 end
+result
+```
 
-puts "Threaded handling:"
-threads = clients.map do |client|
-  Thread.new do
-    puts "Handling #{client} in thread #{Thread.current.object_id}"
-  end
-end
-
-threads.each(&:join)
-</script>
+#!
 
 #### Practice 5 - Logging and exception handling
 
 **Goal:** Wrap the server loop with logging and exception handling.
 
-```ruby
+#> ruby :practice
+
+# TODO: Wrap the server.accept call in a begin/rescue block.
+# Log "accepted #{client}" on success.
+# Log "socket error: #{e.message}" on failure.
+
+```solution
 begin
   require "monitor"
 rescue LoadError
@@ -346,53 +344,15 @@ while server.pending?
 end
 ```
 
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/tutorials/ruby-socket-programming"
-     data-practice-index="4"></div>
-
-<script type="text/plain"
-        data-practice-solution="rl:chapter:/tutorials/ruby-socket-programming:4">
-begin
-  require "monitor"
-rescue LoadError
+```test
+result = false
+out = output.string
+if out.include?("accepted client:alpha") && out.include?("socket error: simulated failure") && out.include?("accepted client:beta")
+  result = true
+else
+  output.puts("Ensure you log both successes and errors.")
 end
+result
+```
 
-unless defined?(MonitorMixin)
-  module MonitorMixin
-    def mon_initialize; end
-    def mon_enter; end
-    def mon_exit; end
-  end
-end
-
-require "logger"
-
-class FakeServer
-  def initialize(events)
-    @events = events.dup
-  end
-
-  def pending?
-    !@events.empty?
-  end
-
-  def accept
-    raise IOError, "no clients waiting" if @events.empty?
-    event = @events.shift
-    raise IOError, "simulated failure" if event == :error
-    "client:#{event}"
-  end
-end
-
-server = FakeServer.new([:alpha, :error, :beta])
-logger = Logger.new($stdout)
-
-while server.pending?
-  begin
-    client = server.accept
-    logger.info("accepted #{client}")
-  rescue => e
-    logger.error("socket error: #{e.message}")
-  end
-end
-</script>
+#!
