@@ -1,0 +1,18 @@
+---
+- id: ruby-basics
+  title: Ruby Basics
+  description: Learn the fundamentals of Ruby, from installation to your first program.
+  modules:
+  - id: getting-started
+    title: Getting Started
+    tutorials:
+    - first-ruby-program
+    - variables-and-assignment
+- id: advanced-ruby
+  title: Advanced Ruby
+  description: New course description
+  modules:
+  - id: meta
+    title: Metaprogramming
+    tutorials:
+    - method-missing

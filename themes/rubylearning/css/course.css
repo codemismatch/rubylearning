@@ -1,0 +1,89 @@
+/* Course Layout Styles */
+
+.course-header {
+    margin-bottom: 3rem;
+    text-align: center;
+    padding: 2rem 0;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.course-title {
+    font-size: 2.5rem;
+    color: var(--primary-color);
+    margin-bottom: 1rem;
+}
+
+.course-description {
+    font-size: 1.2rem;
+    color: var(--text-light);
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+.course-content {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.course-module {
+    margin-bottom: 3rem;
+    background: var(--background-alt);
+    border-radius: 8px;
+    padding: 2rem;
+    border: 1px solid var(--border-color);
+}
+
+.module-title {
+    font-size: 1.5rem;
+    color: var(--secondary-color);
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.5rem;
+    border-bottom: 2px solid var(--border-color);
+}
+
+.module-tutorials {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.tutorial-item {
+    margin-bottom: 0.75rem;
+}
+
+.tutorial-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    background: white;
+    border-radius: 6px;
+    border: 1px solid var(--border-color);
+    color: var(--text-color);
+    transition: all 0.2s ease;
+    text-decoration: none;
+}
+
+.tutorial-link:hover {
+    transform: translateX(5px);
+    border-color: var(--primary-color);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    text-decoration: none;
+    color: var(--primary-color);
+}
+
+.tutorial-icon {
+    margin-right: 1rem;
+    font-size: 1.2rem;
+}
+
+.tutorial-name {
+    font-weight: 500;
+}
+
+.tutorial-item.missing {
+    padding: 0.75rem 1rem;
+    color: var(--text-light);
+    font-style: italic;
+    background: rgba(0, 0, 0, 0.02);
+    border-radius: 6px;
+}

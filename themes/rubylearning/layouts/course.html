@@ -1,0 +1,33 @@
+---
+layout: default
+---
+
+<div class="course-header">
+    <h1 class="course-title">{{ page.title }}</h1>
+    <p class="course-description">{{ page.description }}</p>
+</div>
+
+<div class="course-content">
+    {% for module in page.modules %}
+    <div class="course-module">
+        <h2 class="module-title">{{ module.title }}</h2>
+        <ul class="module-tutorials">
+            {% for tutorial_slug in module.tutorials %}
+            {% assign tutorial = site.pages | where: "slug", tutorial_slug | first %}
+            {% if tutorial %}
+            <li class="tutorial-item">
+                <a href="{{ tutorial.url }}" class="tutorial-link">
+                    <span class="tutorial-icon">📄</span>
+                    <span class="tutorial-name">{{ tutorial.title }}</span>
+                </a>
+            </li>
+            {% else %}
+            <li class="tutorial-item missing">
+                <span class="tutorial-name">{{ tutorial_slug }} (Missing)</span>
+            </li>
+            {% endif %}
+            {% endfor %}
+        </ul>
+    </div>
+    {% endfor %}
+</div>

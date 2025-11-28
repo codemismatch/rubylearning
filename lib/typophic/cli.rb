@@ -16,6 +16,7 @@ require_relative "commands/check_pipeline"
 require_relative "commands/authors"
 require_relative "commands/tutorial"
 require_relative "commands/drafts"
+require_relative "commands/course"
 
 module Typophic
   class CLI
@@ -34,7 +35,8 @@ module Typophic
       "format" => Commands::Format,
       "check_pipeline" => Commands::CheckPipeline,
       "tutorial" => Commands::Tutorial,
-      "drafts" => Commands::Drafts
+      "drafts" => Commands::Drafts,
+      "course" => Commands::Course
     }.freeze
 
     def self.start(argv)

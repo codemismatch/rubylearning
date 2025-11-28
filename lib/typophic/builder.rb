@@ -76,6 +76,7 @@ module Typophic
       collect_content_theme_overrides
       copy_static_assets
       process_content_files
+      generate_course_pages
       write_collection_indexes
 
       elapsed = Time.now - start_time
@@ -227,11 +228,16 @@ module Typophic
 
     def load_data_files
       data_dir = @data_dir || "data"
+      puts "Loading data from: #{data_dir}" if @verbose
       data = {}
       
-      return data unless Dir.exist?(data_dir)
+      unless Dir.exist?(data_dir)
+        puts "Data directory not found: #{data_dir}" if @verbose
+        return data 
+      end
       
       Dir.glob(File.join(data_dir, "**", "*.{yaml,yml,json}")) do |file|
+        puts "Found data file: #{file}" if @verbose
         relative_path = file.sub(/^#{Regexp.escape(data_dir)}\//, "")
         data_name = File.basename(relative_path, File.extname(relative_path))
         
@@ -246,6 +252,7 @@ module Typophic
           end
           
           data[data_name] = content
+          puts "Loaded data key: #{data_name}" if @verbose
         rescue => e
           puts "Warning: Could not load data file #{file}: #{e.message}"
         end
@@ -1000,6 +1007,37 @@ module Typophic
       end
 
       html
+    end
+
+    def generate_course_pages
+      courses = @site["data"]["courses"]
+      return unless courses.is_a?(Array)
+
+      courses_dir = File.join(@output_dir, "courses")
+      FileUtils.mkdir_p(courses_dir)
+
+      courses.each do |course|
+        course_slug = course["id"]
+        course_dir = File.join(courses_dir, course_slug)
+        FileUtils.mkdir_p(course_dir)
+
+        # Create course index page
+        page_data = {
+          "layout" => "course",
+          "title" => course["title"],
+          "description" => course["description"],
+          "modules" => course["modules"],
+          "url" => "/courses/#{course_slug}/",
+          "theme" => @default_theme_name # Use default theme for now
+        }
+
+        # Render layout
+        content = "" # Empty content for now, layout handles display
+        output = render_layout("course", content, page_data, @default_theme_name)
+        
+        File.write(File.join(course_dir, "index.html"), output)
+        puts "Generated course: #{course['title']} (#{course_slug})" if @verbose
+      end
     end
 
     def pipeline_markdown(content, _page)

@@ -1,28 +1,33 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>{{ page.title }} - {{ site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
   <link rel="icon" type="image/x-icon" href="{{ 'images/favicon.ico' | relative_url }}">
-  
+
   <link rel="stylesheet" href="{{ 'css/style.css' | theme_asset: page.theme }}">
-  
+
   <!-- Modern fonts -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
-  
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
   <!-- Syntax highlighting -->
   <link rel="stylesheet" href="{{ 'css/prism-monokai.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
   <link rel="stylesheet" href="{{ 'css/enhanced-code.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
-  
+
   <!-- Tutorial styles -->
   <link rel="stylesheet" href="{{ 'css/tutorials.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
+  <link rel="stylesheet" href="{{ 'css/course.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
   <link rel="stylesheet" href="{{ 'css/badges.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
-  
+
 </head>
+
 <body>
   <header class="site-header">
     <div class="container">
@@ -36,30 +41,30 @@
         {% assign primary_nav = nav_data.primary | default: empty %}
         <ul>
           {% if primary_nav and primary_nav.size > 0 %}
-            {% for item in primary_nav %}
-              {% assign label = item.label %}
-              {% assign path = item.path %}
-              {% assign url = item.url %}
-              {% assign external = item.external %}
-              {% if url %}
-                {% assign nav_href = url %}
-              {% elsif path %}
-                {% assign nav_href = path | url_for %}
-              {% else %}
-                {% assign nav_href = "#" %}
-              {% endif %}
-              <li>
-                <a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a>
-              </li>
-            {% endfor %}
+          {% for item in primary_nav %}
+          {% assign label = item.label %}
+          {% assign path = item.path %}
+          {% assign url = item.url %}
+          {% assign external = item.external %}
+          {% if url %}
+          {% assign nav_href = url %}
+          {% elsif path %}
+          {% assign nav_href = path | url_for %}
           {% else %}
-            <li><a href="{{ '/' | url_for }}">Home</a></li>
-            <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
-            <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
-            <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
-            <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
-            <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
-            <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
+          {% assign nav_href = "#" %}
+          {% endif %}
+          <li>
+            <a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener" {% endif %}>{{ label }}</a>
+          </li>
+          {% endfor %}
+          {% else %}
+          <li><a href="{{ '/' | url_for }}">Home</a></li>
+          <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
+          <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
+          <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
+          <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+          <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
+          <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
           {% endif %}
         </ul>
       </nav>
@@ -70,13 +75,13 @@
       </button>
     </div>
   </header>
-  
+
   <main class="site-content">
     <div class="container">
       {{ content }}
     </div>
   </main>
-  
+
   <footer class="site-footer">
     <div class="container">
       <div class="footer-grid">
@@ -90,28 +95,29 @@
           {% assign footer_quick = nav_data.footer_quick | default: empty %}
           <ul>
             {% if footer_quick and footer_quick.size > 0 %}
-              {% for item in footer_quick %}
-                {% assign label = item.label %}
-                {% assign path = item.path %}
-                {% assign url = item.url %}
-                {% assign external = item.external %}
-                {% if url %}
-                  {% assign nav_href = url %}
-                {% elsif path %}
-                  {% assign nav_href = path | url_for %}
-                {% else %}
-                  {% assign nav_href = "#" %}
-                {% endif %}
-                <li><a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener"{% endif %}>{{ label }}</a></li>
-              {% endfor %}
+            {% for item in footer_quick %}
+            {% assign label = item.label %}
+            {% assign path = item.path %}
+            {% assign url = item.url %}
+            {% assign external = item.external %}
+            {% if url %}
+            {% assign nav_href = url %}
+            {% elsif path %}
+            {% assign nav_href = path | url_for %}
             {% else %}
-              <li><a href="{{ '/' | url_for }}">Home</a></li>
-              <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
-              <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
-              <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
-              <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
-              <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
-              <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
+            {% assign nav_href = "#" %}
+            {% endif %}
+            <li><a href="{{ nav_href }}" {% if external %}target="_blank" rel="noopener" {% endif %}>{{ label }}</a>
+            </li>
+            {% endfor %}
+            {% else %}
+            <li><a href="{{ '/' | url_for }}">Home</a></li>
+            <li><a href="{{ 'pages/about/' | url_for }}">About</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}#ruby-track">Learn Ruby</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}#rails-track">Learn Rails</a></li>
+            <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+            <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
+            <li><a href="{{ 'pages/resources/' | url_for }}">Resources</a></li>
             {% endif %}
           </ul>
         </div>
@@ -120,16 +126,16 @@
           {% assign footer_resources = nav_data.footer_resources | default: empty %}
           <ul>
             {% if footer_resources and footer_resources.size > 0 %}
-              {% for item in footer_resources %}
-                {% assign label = item.label %}
-                {% assign url = item.url %}
-                {% assign nav_href = url | default: "#" %}
-                <li><a href="{{ nav_href }}" target="_blank" rel="noopener">{{ label }}</a></li>
-              {% endfor %}
+            {% for item in footer_resources %}
+            {% assign label = item.label %}
+            {% assign url = item.url %}
+            {% assign nav_href = url | default: "#" %}
+            <li><a href="{{ nav_href }}" target="_blank" rel="noopener">{{ label }}</a></li>
+            {% endfor %}
             {% else %}
-              <li><a href="https://ruby-lang.org" target="_blank">Ruby Official Site</a></li>
-              <li><a href="https://ruby-doc.org" target="_blank">Ruby Documentation</a></li>
-              <li><a href="https://rubygems.org" target="_blank">RubyGems</a></li>
+            <li><a href="https://ruby-lang.org" target="_blank">Ruby Official Site</a></li>
+            <li><a href="https://ruby-doc.org" target="_blank">Ruby Documentation</a></li>
+            <li><a href="https://rubygems.org" target="_blank">RubyGems</a></li>
             {% endif %}
           </ul>
         </div>
@@ -154,11 +160,12 @@
   <script src="{{ 'js/tutorial-enhancements.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/github-pages-fix.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/site.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
-  
+
   <!-- Mermaid diagram support -->
   <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
   <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
   </script>
 </body>
+
 </html>
