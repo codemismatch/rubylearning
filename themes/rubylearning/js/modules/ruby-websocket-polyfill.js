@@ -15,24 +15,38 @@ function initializeRubyWebSocketPolyfill(vm) {
       
       # Ensure sleep method exists (for waiting on async operations)
       # Note: This is a simple busy-wait sleep - not ideal but works for short durations
-      unless Kernel.respond_to?(:sleep)
-        module Kernel
-          def sleep(seconds = nil)
-            if seconds.nil?
-              # Sleep indefinitely - not recommended
-              loop { sleep(1) }
-            else
-              # Simple busy-wait sleep (for short durations only)
-              start = Time.now
-              while (Time.now - start) < seconds
-                # Small busy-wait loop
-                1000.times { }
-              end
-              seconds
-            end
+      # Ensure sleep method exists and works in browser (ASYNC)
+      # We use JS::Object#await to yield to the event loop, allowing WebSockets to connect
+      module Kernel
+        # Alias original if it exists
+        alias_method :__original_sleep__, :sleep if method_defined?(:sleep)
+        
+        def sleep(seconds = nil)
+          if seconds.nil?
+            # Sleep indefinitely
+            loop { async_sleep(1) }
+          else
+            async_sleep(seconds)
           end
-          module_function :sleep
         end
+        
+        def async_sleep(seconds)
+           return unless defined?(JS) && JS.global[:Promise]
+           
+           # puts "DEBUG: async_sleep(#{seconds})"
+           
+           # Create a Promise that resolves after 'seconds'
+           promise = JS.global[:Promise].new do |resolve|
+             JS.global.call(:setTimeout, resolve, seconds * 1000)
+           end
+           
+           # Await the promise to suspend Ruby execution but let JS event loop run
+           promise.await
+           seconds
+        end
+        
+        module_function :sleep
+        module_function :async_sleep
       end
       
       # WebSocket-based TCP Socket polyfill
@@ -50,7 +64,7 @@ function initializeRubyWebSocketPolyfill(vm) {
           # Map common localhost ports to WebSocket URLs
           # For testing, use public echo server
           ws_url = if @host == "localhost" || @host == "127.0.0.1"
-            # Use public echo server for localhost connections
+            # Use public echo server (user confirmed this works)
             "wss://echo.websocket.org"
           else
             # For other hosts, try to construct WebSocket URL
@@ -102,8 +116,12 @@ function initializeRubyWebSocketPolyfill(vm) {
               
               ws.onerror = function(error) {
                 console.error('[Ruby WebSocket] Error occurred:', error);
+                var errorMsg = 'WebSocket error';
+                if (error && error.message) errorMsg = error.message;
+                else if (error && error.type) errorMsg = 'WebSocket error type: ' + error.type;
+                
                 if (window.__ruby_ws_connections__ && window.__ruby_ws_connections__[socket_id]) {
-                  window.__ruby_ws_connections__[socket_id].error = error || 'WebSocket error';
+                  window.__ruby_ws_connections__[socket_id].error = errorMsg;
                   window.__ruby_ws_connections__[socket_id].connected = false;
                 }
               };
@@ -433,6 +451,11 @@ function initializeRubyWebSocketPolyfill(vm) {
       
       # Thread support for concurrent execution
       # In browser, we simulate threads - execute blocks immediately but track them as threads
+      
+      # Remove native Thread class if it exists to avoid "allocator undefined" errors
+      # The native WASM Thread class is often a stub that doesn't support instantiation
+      Object.send(:remove_const, :Thread) if defined?(Thread)
+      
       class Thread
         @@threads = []
         @@thread_id_counter = 0

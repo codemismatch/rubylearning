@@ -475,7 +475,7 @@ async function addRubyExecSupport() {
             let result;
             let outputText = '';
             try {
-              result = vm.eval(programLines.join("\n"));
+              result = await vm.evalAsync(programLines.join("\n"));
 
               if (isPracticeCheck) {
                 outputText = result?.toString?.() ?? '';
