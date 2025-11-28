@@ -64,12 +64,16 @@ async function addRubyExecSupport() {
     // Initialize virtual file system with sample files
     try {
       vm.eval(`
-        require 'fileutils'
-        FileUtils.mkdir_p('/rubylearning')
-        Dir.chdir('/rubylearning')
-        File.write('hello.txt', "Hello from the virtual file system!\\nThis file exists in the browser's memory.")
-        File.write('script.rb', "puts 'This is a ruby script inside /rubylearning'")
-        File.write('notes.md', "# Ruby Learning\\n\\nThis is a markdown file.")
+        begin
+          Dir.mkdir('/rubylearning') unless Dir.exist?('/rubylearning')
+          Dir.chdir('/rubylearning')
+          File.write('hello.txt', "Hello from the virtual file system!\\nThis file exists in the browser's memory.") unless File.exist?('hello.txt')
+          File.write('script.rb', "puts 'This is a ruby script inside /rubylearning'") unless File.exist?('script.rb')
+          File.write('notes.md', "# Ruby Learning\\n\\nThis is a markdown file.") unless File.exist?('notes.md')
+        rescue => e
+          # Log error to JS console if initialization fails
+          JS.global[:console].call(:warn, "FS Init Error: \#{e.message}")
+        end
       `);
       console.log('Virtual file system initialized at /rubylearning');
     } catch (err) {
@@ -201,9 +205,10 @@ async function addRubyExecSupport() {
               "    cmd = cmd.strip",
               "    case cmd",
               "    when 'ls', 'dir'",
-              "      Dir.entries('.').reject { |f| f.start_with?('.') }.join(\"\\n\") + \"\\n\"",
+              "      entries = Dir.entries('.').reject { |f| f.start_with?('.') }",
+              "      entries.empty? ? '' : entries.join(\"\\n\")",
               "    when 'pwd'",
-              "      Dir.pwd + \"\\n\"",
+              "      Dir.pwd",
               "    when /^cat\\s+(.+)$/",
               "      file = $1",
               "      if File.exist?(file)",
