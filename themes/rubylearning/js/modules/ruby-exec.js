@@ -70,6 +70,9 @@ async function addRubyExecSupport() {
           File.write('hello.txt', "Hello from the virtual file system!\\nThis file exists in the browser's memory.") unless File.exist?('hello.txt')
           File.write('script.rb', "puts 'This is a ruby script inside /rubylearning'") unless File.exist?('script.rb')
           File.write('notes.md', "# Ruby Learning\\n\\nThis is a markdown file.") unless File.exist?('notes.md')
+          
+          # Set default environment variables
+          ENV['USER'] ||= 'rubylearner'
         rescue => e
           # Log error to JS console if initialization fails
           JS.global[:console].call(:warn, "FS Init Error: \#{e.message}")
