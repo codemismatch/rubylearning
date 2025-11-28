@@ -61,6 +61,21 @@ async function addRubyExecSupport() {
       window.RubyWebSocketPolyfill.initializeRubyWebSocketPolyfill(vm);
     }
 
+    // Initialize virtual file system with sample files
+    try {
+      vm.eval(`
+        require 'fileutils'
+        FileUtils.mkdir_p('/rubylearning')
+        Dir.chdir('/rubylearning')
+        File.write('hello.txt', "Hello from the virtual file system!\\nThis file exists in the browser's memory.")
+        File.write('script.rb', "puts 'This is a ruby script inside /rubylearning'")
+        File.write('notes.md', "# Ruby Learning\\n\\nThis is a markdown file.")
+      `);
+      console.log('Virtual file system initialized at /rubylearning');
+    } catch (err) {
+      console.warn('Failed to initialize virtual file system:', err);
+    }
+
     // Wire interactive stdin via Ruby's JS bridge
     try {
       const setupResult = vm.eval(`
@@ -185,7 +200,7 @@ async function addRubyExecSupport() {
               "  def `(cmd)",
               "    cmd = cmd.strip",
               "    case cmd",
-              "    when 'ls'",
+              "    when 'ls', 'dir'",
               "      Dir.entries('.').reject { |f| f.start_with?('.') }.join(\"\\n\") + \"\\n\"",
               "    when 'pwd'",
               "      Dir.pwd + \"\\n\"",

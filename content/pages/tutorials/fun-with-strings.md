@@ -50,8 +50,8 @@ Key takeaways:
 Backticks run shell commands and return their output as a string. The result still flows through Ruby, so you can print it, split it, or test it.
 
 ```ruby-exec
-puts `ls`   # macOS/Linux: directory listing
-puts `dir`  # Windows: directory listing
+puts `ls`   # List files in the current directory
+puts `pwd`  # Print working directory
 ```
 
 Ruby also exposes `Kernel#system` when you simply need to execute a command and check success:
