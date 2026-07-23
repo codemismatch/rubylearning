@@ -1,0 +1,1 @@
+"undefined"!=typeof console&&console.debug("pylearning site.js loaded");

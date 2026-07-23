@@ -1,0 +1,139 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 4 &ndash; Gradient Descent - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><link rel="stylesheet" href="/themes/pylearning/css/style.css"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1784832184"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1784832184"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1784832184"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1784832184"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1784832184"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/courses/">Courses</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/tutorials/">Tutorials</a></li><li>Chapter 4 &ndash; Gradient Descent</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 4 &ndash; Gradient Descent <span class="difficulty difficulty-intermediate">Intermediate</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div></div></div></div><p class="tutorial-summary">Learn how gradient descent actually trains a model by walking downhill on the loss, one small step at a time, implemented in pure Python.</p></header><div class="tutorial-content"><div class='markdown'><p>In Chapter 3: Linear Regression from Scratch we fit a line to house prices with a tiny, hand-tuned training loop. It worked, but we quietly skipped the interesting part: *how does the model know which direction to move <code>w</code> and <code>b</code>?* That direction comes from the gradient, and the algorithm that follows it is called <strong>gradient descent</strong>. It is the engine inside nearly every model you will ever train, from a two-parameter line all the way up to large language models.</p><p>In this chapter we will:</p><ul><li>Build real intuition for derivatives and gradients as "the slope of the loss".</li><li>See what the learning rate does, and what breaks when it is too big or too small.</li><li>Implement gradient descent in pure Python for the house price model.</li><li>Understand why we scale the feature first.</li><li>Print the loss every epoch so you can watch it fall in your console.</li><li>Compare batch gradient descent with stochastic gradient descent.</li></ul> Every example in this chapter is copy-paste runnable with <code>python3 file.py</code>. No sklearn, no frameworks - just plain Python (and one optional numpy comparison at the end).</p><p><h3>The problem: minimizing a loss function</h3><p>Recall our setup. We predict a price from a size:</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">text.text</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-text">prediction = w * size + b</code></pre></div></div></div></p><p>and we measure how wrong we are with mean squared error (MSE):</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">text.text</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-text">loss = (1/n) * sum((prediction - actual) ** 2)</code></pre></div></div></div></p><p>The loss is a function of <code>w</code> and <code>b</code>. For every possible pair <code>(w, b)</code> there is a number telling us how bad that pair is. Training means finding the pair where that number is as small as possible.</p><p>You could imagine trying every combination - a grid search - but that falls apart fast. A modern model has billions of parameters; you cannot enumerate that space. We need a method that, starting from any point, tells us which way is "downhill".</p><h3>Derivative intuition: the slope of the loss</h3><p>A derivative answers one question: *if I nudge this parameter up a tiny bit, does the loss go up or down, and by how much?*</p><p>Picture standing on a hill in fog. You cannot see the valley, but you can feel the slope of the ground under your feet. If the ground rises to your right (positive slope), you step left. If it rises to your left (negative slope), you step right. The steeper the slope, the bigger the step you are tempted to take. That is the entire algorithm.</p><p>For MSE with one feature, the slopes (partial derivatives) work out to:</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">text.text</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-text">dL/dw = (2/n) * sum((prediction - actual) * size)
+dL/db = (2/n) * sum(prediction - actual)</code></pre></div></div></div></p><p>Read them like this:</p><ul><li>If <code>prediction - actual</code> is positive (we predicted too high), increasing <code>w</code> increases the loss, so <code>dL/dw</code> is positive - we should *decrease* <code>w</code>.</li><li>The errors are multiplied by <code>size</code> for <code>dL/dw</code>, because <code>w</code> gets scaled by the feature in the prediction. For <code>b</code> there is no feature attached, so it is just the average error.</li></ul> The <strong>gradient</strong> is just both slopes bundled together: a vector pointing in the direction of steepest *ascent*. Since we want to go down, we move in the opposite direction - that is the "descent" in gradient descent.</p><p>You do not need to derive these formulas by hand to use them. SymPy or any calculus refresher can produce them; what matters is that they are computable from the data, and they always point uphill.</p><p><h3>The gradient descent loop</h3><p>The update rule is:</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">text.text</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-text">w = w - learning_rate * dL/dw
+b = b - learning_rate * dL/db</code></pre></div></div></div></p><p>Repeat until the loss stops improving. Here is the whole lifecycle as a diagram:</p><div class="diagram-container mermaid-diagram"><div class="mermaid" id="mermaid-92ad647d"> graph TD A[Start: pick random w and b] --> B[Compute predictions] B --> C[Compute loss MSE] C --> D[Compute gradients dL/dw and dL/db] D --> E[Update w and b] E --> F{Loss still falling?} F -->|yes| B F -->|no| G[Done: converged] </div><p class="diagram-caption">Figure 1: The gradient descent training loop</p></div><h3>Implementing it in pure Python</h3><p>Save this as <code>gradient_descent.py</code> and run it with <code>python3 gradient_descent.py</code>.</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># gradient_descent.py
+# Chapter 4: training the Chapter 3 house price model with real gradient descent.
+
+# Same data as Chapter 3: size in sqft, price in dollars.
+sizes = [500, 800, 1000, 1200, 1500, 1800, 2000, 2500]
+prices = [150000, 200000, 230000, 260000, 300000, 340000, 360000, 420000]
+
+# Scale the feature: work in &quot;thousands of sqft&quot; instead of raw sqft.
+xs = [s / 1000 for s in sizes]
+ys = prices
+
+n = len(xs)
+
+
+def predict(x, w, b):
+    return w * x + b
+
+
+def compute_loss(w, b):
+    &quot;&quot;&quot;Mean squared error over the whole dataset.&quot;&quot;&quot;
+    total = 0.0
+    for i in range(n):
+        error = predict(xs[i], w, b) - ys[i]
+        total += error ** 2
+    return total / n
+
+
+def compute_gradients(w, b):
+    &quot;&quot;&quot;Partial derivatives of MSE with respect to w and b.&quot;&quot;&quot;
+    dw = 0.0
+    db = 0.0
+    for i in range(n):
+        error = predict(xs[i], w, b) - ys[i]
+        dw += error * xs[i]
+        db += error
+    return (2 / n) * dw, (2 / n) * db
+
+
+# Training loop
+w = 0.0
+b = 0.0
+learning_rate = 0.1
+epochs = 100
+
+for epoch in range(epochs):
+    loss = compute_loss(w, b)
+    dw, db = compute_gradients(w, b)
+    w = w - learning_rate * dw
+    b = b - learning_rate * db
+    if epoch % 10 == 0 or epoch == epochs - 1:
+        print(f&quot;epoch {epoch:3d}  loss = {loss:,.0f}  w = {w:,.1f}  b = {b:,.1f}&quot;)
+
+print()
+print(f&quot;Final model: price = {w:,.1f} * (size/1000) + {b:,.1f}&quot;)
+print(f&quot;Prediction for 1700 sqft: ${predict(1.7, w, b):,.0f}&quot;)</code></pre></div></div></div></p><p>Run it and watch the console. The loss starts in the tens of billions and falls steadily:</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">text.text</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-text">epoch   0  loss = 84,031,250,000  w = 168,500.0  b = 28,750.0
+epoch  10  loss = 4,323,232,854   w = 156,006.9  b = 24,800.7
+...
+epoch  99  loss = 79,873,003      w = 161,377.4  b = 27,609.0</code></pre></div></div></div></p><p>That printed column of shrinking losses is the most important debugging tool in machine learning. If it goes down smoothly, training is healthy. If it bounces or explodes, something (usually the learning rate) is wrong.</p><h3>Why we scale the feature first</h3><p>Try the same code with raw square footage (<code>xs = sizes</code>) and <code>learning_rate = 0.1</code>. The loss will immediately blow up into absurd numbers or overflow. Why?</p><p>Look at <code>dL/dw = (2/n) * sum(error * size)</code>. With sizes around 1500 and errors around 150,000, each term is roughly 200,000,000. A learning rate of 0.1 times a gradient that large means a single update moves <code>w</code> by millions - we leap across the entire valley and land higher than we started, then leap further, forever.</p><p>There is a second, subtler problem. Because <code>size</code> is huge and prices are what they are, the loss surface becomes a long, narrow canyon: extremely steep in the <code>w</code> direction, nearly flat in the <code>b</code> direction. Gradient descent zigzags across the canyon walls and crawls toward the minimum at a painful pace.</p><p>Dividing sizes by 1000 puts the feature on a friendly scale (0.5 to 2.5), which:</p><p>1. Shrinks the gradients to a sane magnitude so one learning rate works. 2. Makes the canyon more bowl-shaped, so descent goes more or less straight to the bottom.</p><p>This trick generalizes: real pipelines standardize every feature (subtract the mean, divide by the standard deviation). Same idea, fancier formula.</p><h3>The learning rate: your one big dial</h3><p>The learning rate controls step size. It is the single most important hyperparameter you will ever tune. Run these three experiments yourself by changing one line in the script.</p><p><strong>Too small (0.001):</strong> the loss falls, but glacially. After 100 epochs you are still far from the bottom. Given infinite epochs it would get there, but you do not have infinite time. Wasted compute is the only cost - small steps are always safe.</p><p><strong>Just right (0.1):</strong> smooth, fast convergence. The loss drops by orders of magnitude in the first few epochs, then flattens as the gradient itself shrinks near the minimum (the slope gets gentler as you approach the bottom, so steps naturally get smaller - that is the beauty of following the gradient).</p><p><strong>Too big (0.9 with scaled data, or anything with unscaled data):</strong> each step overshoots the valley and lands on the opposite wall *higher* than before. The loss grows instead of shrinking, and the numbers explode to infinity in a handful of epochs. If you ever see <code>nan</code> or <code>inf</code> in your training logs, a too-large learning rate is suspect number one.</p><p>A practical rule: start small, increase until training becomes unstable, then back off by a factor of 3-10.</p><h3>Batch vs stochastic gradient descent</h3><p>What we wrote above is <strong>batch gradient descent</strong>: every gradient is computed over *all* examples before a single update. With 8 houses that is fine. With 8 million it means reading the entire dataset to make one tiny step.</p><p><strong>Stochastic gradient descent (SGD)</strong> takes the opposite approach: compute the gradient from *one* example, update immediately, move to the next example. One pass over the data (one epoch) now performs <code>n</code> updates instead of one.</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># sgd.py - stochastic gradient descent on the same data
+import random
+
+sizes = [500, 800, 1000, 1200, 1500, 1800, 2000, 2500]
+prices = [150000, 200000, 230000, 260000, 300000, 340000, 360000, 420000]
+xs = [s / 1000 for s in sizes]
+ys = prices
+n = len(xs)
+
+w, b = 0.0, 0.0
+learning_rate = 0.05
+epochs = 30
+
+for epoch in range(epochs):
+    order = list(range(n))
+    random.shuffle(order)          # shuffle so we do not learn in a fixed order
+    for i in order:
+        error = (w * xs[i] + b) - ys[i]
+        w -= learning_rate * 2 * error * xs[i]   # gradient from ONE example
+        b -= learning_rate * 2 * error
+
+    # report the true full-dataset loss so we can compare with batch GD
+    loss = sum((w * xs[i] + b - ys[i]) ** 2 for i in range(n)) / n
+    print(f&quot;epoch {epoch:3d}  loss = {loss:,.0f}&quot;)</code></pre></div></div></div></p><p>Run it: the loss still falls, but it jitters instead of gliding. Each individual example pushes <code>w</code> and <code>b</code> in a slightly selfish direction - that noise is the price of speed, and it is usually worth it:</p><ul><li><strong>Batch GD:</strong> exact, smooth gradients; one update per full pass. Great for small data.</li><li><strong>SGD:</strong> noisy gradients, many cheap updates per pass; converges far faster on big data and the noise can even help escape shallow local dips.</li></ul> In practice everyone uses the middle ground, <strong>mini-batch gradient descent</strong>: shuffle, slice the data into batches of 32-512, and update per batch. You get mostly-smooth gradients at mostly-SGD speed, and the batches map nicely onto vectorized hardware. When people say "SGD" in the wild they almost always mean mini-batch SGD.</p><p>Here is the mini-batch version, batch size 4:</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># minibatch.py
+import random
+
+sizes = [500, 800, 1000, 1200, 1500, 1800, 2000, 2500]
+prices = [150000, 200000, 230000, 260000, 300000, 340000, 360000, 420000]
+xs = [s / 1000 for s in sizes]
+ys = prices
+n = len(xs)
+
+w, b = 0.0, 0.0
+learning_rate = 0.05
+epochs = 50
+batch_size = 4
+
+for epoch in range(epochs):
+    order = list(range(n))
+    random.shuffle(order)
+    for start in range(0, n, batch_size):
+        batch = order[start:start + batch_size]
+        dw = db = 0.0
+        for i in batch:
+            error = (w * xs[i] + b) - ys[i]
+            dw += error * xs[i]
+            db += error
+        m = len(batch)
+        w -= learning_rate * (2 / m) * dw
+        b -= learning_rate * (2 / m) * db
+
+    loss = sum((w * xs[i] + b - ys[i]) ** 2 for i in range(n)) / n
+    if epoch % 10 == 0:
+        print(f&quot;epoch {epoch:3d}  loss = {loss:,.0f}&quot;)</code></pre></div></div></div></p><p><h3>A word on numpy</h3><p>Everything above is deliberately list-based so the mechanics stay visible. The only change numpy buys you is speed and shorter code - the math is identical:</p><p><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># numpy_version.py - same algorithm, vectorized
+import numpy as np
+
+xs = np.array([500, 800, 1000, 1200, 1500, 1800, 2000, 2500]) / 1000
+ys = np.array([150000, 200000, 230000, 260000, 300000, 340000, 360000, 420000])
+
+w, b = 0.0, 0.0
+for epoch in range(100):
+    errors = w * xs + b - ys
+    loss = np.mean(errors ** 2)
+    w -= 0.1 * 2 * np.mean(errors * xs)
+    b -= 0.1 * 2 * np.mean(errors)
+    if epoch % 25 == 0:
+        print(f&quot;epoch {epoch:3d}  loss = {loss:,.0f}&quot;)</code></pre></div></div></div></p><p>Vectorization (whole arrays at once instead of Python loops) is why real training runs on GPUs - but it is the same gradients, same updates, same learning-rate drama.</p><h3>Where this goes next</h3><p>You now know the complete training recipe: define a loss, compute its gradient, step downhill, repeat, and watch the printed loss to confirm it works. In Chapter 5: Logistic Regression & Classification we will swap the loss and the prediction shape to handle yes/no outcomes instead of prices - but the training loop itself will be exactly the one you wrote today.</p><h3>Practice checklist</h3><ul><li>[ ] Run <code>gradient_descent.py</code> and confirm the loss decreases every printed epoch.</li><li>[ ] Remove the <code>/ 1000</code> scaling, rerun, and observe the loss explode - then explain in one sentence why.</li><li>[ ] Find by experiment the largest learning rate that still converges on the scaled data.</li><li>[ ] Modify the loop to stop early when the loss improves by less than 1 between epochs.</li><li>[ ] Run <code>sgd.py</code> and <code>minibatch.py</code> and compare how many epochs each needs to reach a similar loss.</li><li>[ ] Add a second feature (e.g. number of bedrooms) and extend the gradient computation to a second weight.</li></ul></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/linear-regression-from-scratch/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 3: Linear Regression from Scratch</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/logistic-regression-classification/"><span>Chapter 5: Logistic Regression & Classification</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1784832184"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1784832184"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1784832184"></script><script src="/themes/rubylearning/js/prism-python.js?v=1784832184"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1784832184"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784832184"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1784832184"></script><script src="/themes/pylearning/js/site.js?v=1784832184"></script><script src="/themes/pylearning/js/python-runtime.js?v=1784832184"></script><script src="/themes/pylearning/js/python-console.js?v=1784832184"></script><script src="/themes/pylearning/js/python-exec.js?v=1784832184"></script><script>
+    // Alias executable-block language tags to their grammars so Prism
+    // highlights python-exec / ruby-exec fences like regular code.
+    if (window.Prism && Prism.languages) {
+      if (Prism.languages.python && !Prism.languages['python-exec']) {
+        Prism.languages['python-exec'] = Prism.languages.python;
+      }
+      if (Prism.languages.ruby && !Prism.languages['ruby-exec']) {
+        Prism.languages['ruby-exec'] = Prism.languages.ruby;
+      }
+    }
+  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1784832184"></script><script>
+    mermaid.initialize({ startOnLoad: true, theme: 'default' });
+  </script></body></html>

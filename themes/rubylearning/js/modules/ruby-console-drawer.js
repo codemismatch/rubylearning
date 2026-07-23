@@ -29,6 +29,9 @@ function initRubyConsoleDrawer() {
     const open = !drawer.classList.contains('ruby-console-drawer--open');
     setState(open);
   });
+
+  // Console starts open inside tutorials so learners see it immediately.
+  setState(true);
 }
 
 // Export for use in other modules

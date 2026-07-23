@@ -1,7 +1,1 @@
-// Placeholder entrypoint for rubylearning theme.
-// Add shared site-wide JS here if needed.
-(function () {
-  if (typeof console !== "undefined") {
-    console.debug("rubylearning site.js loaded");
-  }
-})();
+document.addEventListener("DOMContentLoaded",function(){var e=document.querySelector(".menu-toggle"),t=document.querySelector(".site-nav");e&&t&&e.addEventListener("click",function(){t.classList.toggle("active"),e.classList.toggle("active")}),"undefined"!=typeof Prism&&Prism&&"function"==typeof Prism.highlightAll&&Prism.highlightAll()});
