@@ -7,7 +7,33 @@
   <title>{{ page.title }} - {{ site.title }}</title>
   <meta name="description" content="{{ page.description | default: site.description }}">
   <link rel="icon" type="image/x-icon" href="{{ 'images/favicon.ico' | relative_url }}">
+  {% assign theme = site.themes[page.theme] | default: site.themes.rubylearning %}
+  {% assign active_theme = page.theme | default: 'rubylearning' %}
+  {% if theme %}
+  <meta name="typophic-theme" content="{{ theme.name }}">
+  {% endif %}
 
+  {% if theme and theme.fonts %}
+  {% assign has_google_fonts = false %}
+  {% for font_href in theme.fonts %}
+    {% if font_href contains 'fonts.googleapis.com' %}
+      {% assign has_google_fonts = true %}
+    {% endif %}
+  {% endfor %}
+  {% if has_google_fonts %}
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  {% endif %}
+  {% for font_href in theme.fonts %}
+  <link rel="stylesheet" href="{{ font_href }}">
+  {% endfor %}
+  {% endif %}
+
+  {% if theme and theme.stylesheets %}
+  {% for stylesheet in theme.stylesheets %}
+  <link rel="stylesheet" href="{{ stylesheet | theme_asset: page.theme }}?v={{ site.build_time }}">
+  {% endfor %}
+  {% else %}
   <link rel="stylesheet" href="{{ 'css/style.css' | theme_asset: page.theme }}">
 
   <!-- Modern fonts -->
@@ -25,6 +51,7 @@
   <link rel="stylesheet" href="{{ 'css/tutorials.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
   <link rel="stylesheet" href="{{ 'css/course.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
   <link rel="stylesheet" href="{{ 'css/badges.css' | theme_asset: page.theme }}?v={{ site.build_time }}">
+  {% endif %}
 
 </head>
 
@@ -32,8 +59,18 @@
   <header class="site-header">
     <div class="container">
       <a href="{{ '/' | url_for }}" class="site-logo">
+        {% if active_theme == 'pylearning' %}
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
+            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Python</span>
+        {% else %}
         <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
         <span class="logo-text">Ruby</span>
+        {% endif %}
         <span class="logo-accent">Learning</span>
       </a>
       <nav class="site-nav">
@@ -153,16 +190,42 @@
   </footer>
 
   <!-- Scripts -->
+  {% if theme and theme.javascripts %}
+  {% assign js_theme = theme.name | default: page.theme %}
+  {% for script in theme.javascripts %}
+  <script src="{{ script | theme_asset: js_theme }}?v={{ site.build_time }}"></script>
+  {% endfor %}
+  {% else %}
   <script src="{{ 'js/prism.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/prism-ruby.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/prism-markdown.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/prism-python.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/code-enhancements.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/tutorial-enhancements.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/github-pages-fix.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script src="{{ 'js/site.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
+  {% if page.theme == 'pylearning' %}
+  <script src="{{ 'js/python-runtime.js' | theme_asset: 'pylearning' }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/python-console.js' | theme_asset: 'pylearning' }}?v={{ site.build_time }}"></script>
+  <script src="{{ 'js/python-exec.js' | theme_asset: 'pylearning' }}?v={{ site.build_time }}"></script>
+  {% endif %}
+  {% endif %}
 
-  <!-- Mermaid diagram support -->
-  <script src="https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.min.js"></script>
+  <script>
+    // Alias executable-block language tags to their grammars so Prism
+    // highlights python-exec / ruby-exec fences like regular code.
+    if (window.Prism && Prism.languages) {
+      if (Prism.languages.python && !Prism.languages['python-exec']) {
+        Prism.languages['python-exec'] = Prism.languages.python;
+      }
+      if (Prism.languages.ruby && !Prism.languages['ruby-exec']) {
+        Prism.languages['ruby-exec'] = Prism.languages.ruby;
+      }
+    }
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="{{ 'js/mermaid.min.js' | theme_asset: page.theme }}?v={{ site.build_time }}"></script>
   <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
   </script>

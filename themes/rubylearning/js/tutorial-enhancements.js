@@ -1,6 +1,14 @@
 // tutorial-enhancements.js - Enhances the tutorial page with interactive features
 
-document.addEventListener('DOMContentLoaded', function() {
+function runTutorialEnhancementsOnReady(fn) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fn);
+  } else {
+    fn();
+  }
+}
+
+runTutorialEnhancementsOnReady(function() {
   // Only run on tutorials page
   if (!document.querySelector('.topic-tags') && !document.querySelector('.tutorial-tag')) return;
   
@@ -19,10 +27,11 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // Secondary enhancements that should run on both the tutorials index and
 // individual tutorial chapters (practice checklists and progress markers).
-document.addEventListener('DOMContentLoaded', function() {
+runTutorialEnhancementsOnReady(function() {
   initPracticeChecklists();
   initChapterListProgress();
   trackLessonReading();
+  initCourseTrackHeader();
 });
 
 // Add smooth scrolling to topic links
@@ -298,6 +307,8 @@ function trackLessonReading() {
         window.localStorage.setItem(`${chapterKeyPrefix}:lesson-read`, '1');
       } catch (_) {}
       legacyMarkedRead = true;
+      // Mark streak activity for the day
+      updateLearningStreak();
     }
   };
 
@@ -307,12 +318,44 @@ function trackLessonReading() {
   updateScrollPercent();
 }
 
+// Lightweight streak tracking: increments when a lesson is read to ~70%
+function updateLearningStreak() {
+  try {
+    const today = new Date();
+    const todayKey = today.toISOString().slice(0, 10); // YYYY-MM-DD
+
+    const lastDate = window.localStorage.getItem('rl:streak:last-date');
+    let current = parseInt(window.localStorage.getItem('rl:streak:current') || '0', 10);
+    if (!Number.isFinite(current) || current < 0) current = 0;
+
+    if (!lastDate) {
+      current = 1;
+    } else if (lastDate === todayKey) {
+      // already counted today; keep streak as-is
+    } else {
+      const last = new Date(lastDate + 'T00:00:00Z');
+      const diffMs = today.setHours(0,0,0,0) - last.getTime();
+      const diffDays = Math.round(diffMs / (1000 * 60 * 60 * 24));
+      if (diffDays === 1) {
+        current += 1;
+      } else {
+        current = 1;
+      }
+    }
+
+    window.localStorage.setItem('rl:streak:last-date', todayKey);
+    window.localStorage.setItem('rl:streak:current', String(current));
+  } catch (_) {
+    // Ignore storage errors; streak is a best-effort UX enhancement.
+  }
+}
+
 // On the Ruby learning path page, annotate chapters with visited/completed ticks.
 function initChapterListProgress() {
   const chapterNav = document.querySelector('.chapter-nav');
   if (!chapterNav) return;
 
-  const links = chapterNav.querySelectorAll('ol li > a[href^="/tutorials/"]');
+  const links = chapterNav.querySelectorAll('ol li > a[href^="/tutorials/"], ol li > a[href^="/courses/"]');
   links.forEach(link => {
     try {
       const url = new URL(link.getAttribute('href'), window.location.origin);
@@ -403,4 +446,120 @@ function initChapterListProgress() {
       // Ignore malformed URLs
     }
   });
+}
+
+// Aggregate per-chapter progress into a simple track header on course pages
+function initCourseTrackHeader() {
+  const chapterNav = document.querySelector('.chapter-nav');
+  if (!chapterNav) return;
+
+  // Only show on course-style paths (e.g., /courses/ruby-basics/)
+  if (!window.location.pathname.startsWith('/courses/')) return;
+
+  const links = chapterNav.querySelectorAll('ol li > a[href^="/tutorials/"], ol li > a[href^="/courses/"]');
+  if (!links.length) return;
+
+  let totalChapters = 0;
+  let completedChapters = 0;
+  let totalPercent = 0;
+  let nextHref = null;
+
+  links.forEach(link => {
+    try {
+      const url = new URL(link.getAttribute('href'), window.location.origin);
+      const path = url.pathname.replace(/\/$/, '');
+      const chapterKeyPrefix = `rl:chapter:${path}`;
+
+      const scrollStr = window.localStorage.getItem(`${chapterKeyPrefix}:scroll-percent`);
+      const scrollPercent = scrollStr ? Math.max(0, Math.min(100, parseFloat(scrollStr))) : 0;
+
+      const totalStr = window.localStorage.getItem(`${chapterKeyPrefix}:total`);
+      const total = totalStr ? parseInt(totalStr, 10) : 0;
+      let practiceCompleted = 0;
+      if (total > 0) {
+        for (let i = 0; i < total; i++) {
+          if (window.localStorage.getItem(`${chapterKeyPrefix}:item:${i}`) === '1') practiceCompleted += 1;
+        }
+      }
+
+      const examplesTotalStr = window.localStorage.getItem(`${chapterKeyPrefix}:examples_total`);
+      const examplesTotal = examplesTotalStr ? parseInt(examplesTotalStr, 10) : 0;
+      let examplesCompleted = 0;
+      if (examplesTotal > 0) {
+        for (let i = 0; i < examplesTotal; i++) {
+          if (window.localStorage.getItem(`${chapterKeyPrefix}:example:${i}`) === '1') {
+            examplesCompleted += 1;
+          }
+        }
+      }
+
+      let percent = 0;
+      const hasPractice = total > 0;
+      const hasExamples = examplesTotal > 0;
+      const scroll0to1 = scrollPercent / 100;
+      const practice0to1 = hasPractice ? (practiceCompleted / total) : 0;
+      const examples0to1 = hasExamples ? (examplesCompleted / examplesTotal) : 0;
+      const anyPracticeDone = hasPractice && practiceCompleted > 0;
+      const anyExamplesDone = hasExamples && examplesCompleted > 0;
+
+      if (hasPractice || hasExamples) {
+        if (!anyPracticeDone && !anyExamplesDone) {
+          percent = 0;
+        } else if (hasPractice && hasExamples) {
+          percent = scroll0to1 * 40 + practice0to1 * 30 + examples0to1 * 30;
+        } else if (hasPractice && !hasExamples) {
+          percent = scroll0to1 * 50 + practice0to1 * 50;
+        } else if (!hasPractice && hasExamples) {
+          percent = scroll0to1 * 50 + examples0to1 * 50;
+        }
+      } else {
+        percent = scrollPercent;
+      }
+
+      percent = Math.max(0, Math.min(100, Math.round(percent)));
+
+      totalChapters += 1;
+      totalPercent += percent;
+      if (percent >= 100) completedChapters += 1;
+      if (!nextHref && percent < 100) {
+        nextHref = url.pathname + (url.search || '');
+      }
+    } catch (_) {
+      // Ignore malformed URLs
+    }
+  });
+
+  if (!totalChapters) return;
+
+  const averagePercent = Math.round(totalPercent / totalChapters);
+
+  // Streak: rl:streak:current (days)
+  let currentStreak = 0;
+  try {
+    const streakStr = window.localStorage.getItem('rl:streak:current');
+    currentStreak = streakStr ? parseInt(streakStr, 10) : 0;
+    if (!Number.isFinite(currentStreak) || currentStreak < 0) currentStreak = 0;
+  } catch (_) {}
+
+  // Course title from page header if available
+  let courseTitle = 'This course';
+  const headerTitle = document.querySelector('.tutorial-header h1, h1');
+  if (headerTitle && headerTitle.textContent.trim()) {
+    courseTitle = headerTitle.textContent.trim();
+  }
+
+  // Update an existing summary template near the Ruby learning path, if present.
+  const summary = (chapterNav.parentNode && chapterNav.parentNode.querySelector('[data-course-summary]')) ||
+                  document.querySelector('[data-course-summary]');
+  if (!summary) return;
+
+  const titleEl = summary.querySelector('[data-course-title]');
+  const streakEl = summary.querySelector('[data-course-streak]');
+  const barEl = summary.querySelector('[data-course-bar]');
+  const statsEl = summary.querySelector('[data-course-stats]');
+
+  if (titleEl) titleEl.textContent = courseTitle;
+  if (streakEl) streakEl.textContent = `Current streak: ${currentStreak} day${currentStreak === 1 ? '' : 's'}`;
+  if (barEl) barEl.style.width = `${averagePercent}%`;
+  if (statsEl) statsEl.textContent = `${completedChapters}/${totalChapters} chapters complete - ${averagePercent}% overall`;
 }

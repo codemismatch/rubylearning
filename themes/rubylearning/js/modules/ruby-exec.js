@@ -607,13 +607,21 @@ async function addRubyExecSupport() {
           await executeCode(isPracticeCheck);
           // Mark example as executed for progress tracking
           if (!isPracticeCheck && exampleIndex != null) {
-            try { window.localStorage.setItem(`${chapterKeyPrefix}:example:${exampleIndex}`, '1'); } catch (_) { }
+            if (window.TypophicExamples && typeof window.TypophicExamples.markExampleCompleted === 'function') {
+              window.TypophicExamples.markExampleCompleted(chapterKeyPrefix, exampleIndex);
+            } else {
+              try { window.localStorage.setItem(`${chapterKeyPrefix}:example:${exampleIndex}`, '1'); } catch (_) { }
+            }
           }
         });
       }
     });
     // Persist examples total count for progress rings on index page
-    try { window.localStorage.setItem(`${chapterKeyPrefix}:examples_total`, String(exampleCounter)); } catch (_) { }
+    if (window.TypophicExamples && typeof window.TypophicExamples.setExamplesTotal === 'function') {
+      window.TypophicExamples.setExamplesTotal(chapterKeyPrefix, exampleCounter);
+    } else {
+      try { window.localStorage.setItem(`${chapterKeyPrefix}:examples_total`, String(exampleCounter)); } catch (_) { }
+    }
   } catch (error) {
     console.warn('Ruby execution support failed to initialize:', error);
   }

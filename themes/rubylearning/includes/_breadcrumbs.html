@@ -3,7 +3,10 @@
 <nav class="breadcrumbs">
   <ol>
     <li><a href="{{ '/' | url_for }}">Home</a></li>
-    {% if page.layout == 'tutorial' %}
+    {% if page.url contains '/courses/' or page.permalink contains '/courses/' %}
+    <li><a href="{{ 'courses/' | url_for }}">Courses</a></li>
+    <li>{{ page.title }}</li>
+    {% elsif page.layout == 'tutorial' %}
     <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
     <li>{{ page.title }}</li>
     {% elsif page.layout == 'post' %}

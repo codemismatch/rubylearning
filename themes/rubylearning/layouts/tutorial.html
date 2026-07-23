@@ -6,7 +6,10 @@ layout: default
   <nav class="breadcrumbs">
     <ol>
       <li><a href="{{ '/' | url_for }}">Home</a></li>
-      {% if page.layout == 'tutorial' %}
+      {% if page.url contains '/courses/' or page.permalink contains '/courses/' %}
+      <li><a href="{{ 'courses/' | url_for }}">Courses</a></li>
+      <li>{{ page.title }}</li>
+      {% elsif page.layout == 'tutorial' %}
       <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
       <li>{{ page.title }}</li>
       {% elsif page.layout == 'post' %}
@@ -31,7 +34,9 @@ layout: default
       </h1>
       {% assign date_format = site.date_format | default: '%B %-d, %Y' %}
       {% assign author_id = page.author_id | default: page.author %}
+      {% if author_id %}
       {% assign author_data = site.data.authors[author_id] %}
+      {% endif %}
       {% if author_id or page.date %}
       <div class="tutorial-meta">
         {% if author_id %}
@@ -144,6 +149,28 @@ layout: default
     {% endif %}
   </article>
 
+  {% assign active_theme = page.theme | default: 'rubylearning' %}
+
+  {% if active_theme == 'pylearning' %}
+  <div class="python-console-drawer">
+    <button class="python-console-toggle" type="button" aria-expanded="false">
+      <span class="python-console-toggle-label">Python console</span>
+      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="python-console-body">
+      <div class="python-repl" data-python-console="true">
+        <div class="python-repl-output" aria-live="polite"></div>
+        <form class="python-repl-form">
+          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
+          <div class="python-repl-input-wrapper">
+            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  {% else %}
   <div class="ruby-console-drawer">
     <button class="ruby-console-toggle" type="button" aria-expanded="false">
       <span class="ruby-console-toggle-label">Ruby console</span>
@@ -164,4 +191,5 @@ layout: default
       </div>
     </div>
   </div>
+  {% endif %}
 </div>

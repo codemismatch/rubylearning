@@ -1163,6 +1163,12 @@ pre {
   text-decoration: none;
 }
 
+.btn-pill-sm {
+  padding: 0.35rem 1rem;
+  border-radius: 999px;
+  font-size: 0.875rem;
+}
+
 .btn-primary {
   background-color: var(--primary-color);
   color: white;
@@ -1172,6 +1178,62 @@ pre {
   background-color: var(--primary-dark);
   color: white;
   text-decoration: none;
+}
+
+/* Course progress summary inside Ruby learning path */
+.course-track-summary {
+  margin-bottom: 1.25rem;
+  padding: 0.75rem 1rem 1rem;
+  border-radius: 8px;
+  background-color: #f3f4f6;
+}
+
+.course-track-summary__heading {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+}
+
+.course-track-summary__title {
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+}
+
+.course-track-summary__streak {
+  font-weight: 400;
+  color: #6b7280;
+}
+
+.course-track-summary__bar {
+  position: relative;
+  width: 100%;
+  height: 8px;
+  border-radius: 999px;
+  background-color: #e5e7eb;
+  overflow: hidden;
+  margin-bottom: 0.5rem;
+}
+
+.course-track-summary__bar-fill {
+  height: 100%;
+  border-radius: inherit;
+  background-color: var(--primary-color);
+  transition: width 0.25s ease-out;
+}
+
+.course-track-summary__stats {
+  display: block;
+  font-size: 0.9rem;
+  color: #4b5563;
+}
+
+.course-continue {
+  display: flex;
+  justify-content: flex-start;
+  margin-bottom: 1.5rem;
 }
 
 .btn-secondary {

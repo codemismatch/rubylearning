@@ -1,0 +1,26 @@
+name: pylearning
+description: Python-focused theme with its own color palette.
+version: 0.1.0
+author: RubyLearning project
+stylesheets:
+  - css/style.css
+  - css/prism-monokai.css
+  - css/enhanced-code.css
+  - css/tutorials.css
+  - css/course.css
+  - css/badges.css
+javascripts:
+  - js/prism.js
+  - js/prism-ruby.js
+  - js/prism-markdown.js
+  - js/prism-python.js
+  - js/code-enhancements.js
+  - js/tutorial-enhancements.js
+  - js/github-pages-fix.js
+  - js/site.js
+  - js/python-runtime.js
+  - js/python-console.js
+  - js/python-exec.js
+fonts:
+  - https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap
+# layouts: []  # Layouts are inherited from rubylearning theme

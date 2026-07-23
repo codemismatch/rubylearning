@@ -3,7 +3,15 @@
  * Loads and coordinates code enhancement modules conditionally based on page content
  */
 
-document.addEventListener('DOMContentLoaded', async () => {
+function runCodeEnhancementsOnReady(fn) {
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', fn);
+  } else {
+    fn();
+  }
+}
+
+runCodeEnhancementsOnReady(async () => {
   // Initialize Prism highlighting if available
   if (typeof Prism !== 'undefined') Prism.highlightAll();
 
@@ -13,7 +21,10 @@ document.addEventListener('DOMContentLoaded', async () => {
 
   // Detect what features are needed on this page
   const hasCodeBlocks = document.querySelectorAll('pre > code').length > 0;
-  const hasRunnableCode = document.querySelectorAll('.code-window pre[data-executable="true"], pre[data-practice-chapter]').length > 0;
+  const hasRubyRunnableCode = document.querySelectorAll(
+    '.code-window pre[data-executable="true"] code.language-ruby, ' +
+    '.code-window pre[data-executable="true"] code.ruby-exec'
+  ).length > 0;
   const hasInlineConsole = !!document.querySelector('.ruby-irb[data-ruby-console="true"]');
   const hasConsoleDrawer = !!document.querySelector('.ruby-console-drawer');
 
@@ -37,7 +48,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   }
 
   // Load Ruby execution support only if needed
-  if (hasRunnableCode || hasInlineConsole) {
+  if (hasRubyRunnableCode || hasInlineConsole) {
     // Show a loading indicator on code windows immediately, before we
     // start pulling in the heavier Ruby/WASM modules. ruby-exec.js will
     // remove these once the VM is ready.
@@ -46,6 +57,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     // Load dependencies first
     await loadScript(basePath + 'modules/ui-effects.js');
     await loadScript(basePath + 'modules/code-overlay-editor.js');
+    await loadScript(basePath + 'modules/example-progress.js');
     await loadScript(basePath + 'modules/ruby-wasm-loader.js');
     await loadScript(basePath + 'modules/ruby-stdlib-polyfills.js');
     await loadScript(basePath + 'modules/ruby-test-framework.js');
