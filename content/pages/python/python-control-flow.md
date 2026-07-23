@@ -17,6 +17,7 @@ related_tutorials:
     url: /courses/python-basics/python-variables/
   - title: "Functions in Python"
     url: /courses/python-basics/python-functions/
+date: 2025-12-16
 ---
 
 Control flow is how a program decides what to do next: run this block, skip that one, repeat these lines. Python's tools will look familiar if you know Ruby &mdash; with two twists: blocks are marked by indentation, and `elsif` is spelled `elif`.

@@ -6,6 +6,7 @@ summary: Learn Python fundamentals with hands-on exercises, from your first scri
 breadcrumbs: true
 course_id: python-basics
 theme: pylearning
+date: 2025-12-02
 ---
 
 <div class="course-continue">

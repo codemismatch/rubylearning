@@ -14,6 +14,7 @@ related_tutorials:
     url: /courses/python-basics/python-control-flow/
   - title: "Introduction to Python"
     url: /courses/python-basics/intro-to-python/
+date: 2025-12-23
 ---
 
 Functions are how you name and reuse a chunk of logic. Python defines them with `def` &mdash; no `end`, just a colon and an indented body.

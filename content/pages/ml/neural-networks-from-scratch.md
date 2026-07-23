@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 7: Text Embeddings"
   url: /courses/machine-learning/text-embeddings/
+date: 2026-02-10
 ---
 
 In Chapter 5: Logistic Regression & Classification we trained a single neuron to draw one straight decision boundary. That worked for linearly separable data - but some problems fundamentally cannot be solved with one line. XOR is the classic example: four points, no straight line separates the 0s from the 1s. In this chapter we stack neurons into *layers* so the network can carve out curved boundaries, and we implement the whole thing - forward pass, loss, backpropagation, training - in pure Python. Every example is copy-paste runnable with `python3 file.py`; no libraries required.

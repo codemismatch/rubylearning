@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 4: Gradient Descent"
   url: /courses/machine-learning/gradient-descent/
+date: 2026-01-20
 ---
 
 Linear regression is the simplest model that still counts as machine learning: it learns a straight line that maps an input to an output. In this chapter you will fit that line to a tiny dataset of house sizes and prices, computing the best slope and intercept yourself with closed-form formulas - no sklearn, no numpy, just the Python lists and loops from Chapter 2: Python for ML.

@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 5: Logistic Regression & Classification"
   url: /courses/machine-learning/logistic-regression-classification/
+date: 2026-01-27
 ---
 
 In Chapter 3: Linear Regression from Scratch we fit a line to house prices with a tiny, hand-tuned training loop. It worked, but we quietly skipped the interesting part: *how does the model know which direction to move `w` and `b`?* That direction comes from the gradient, and the algorithm that follows it is called **gradient descent**. It is the engine inside nearly every model you will ever train, from a two-parameter line all the way up to large language models.

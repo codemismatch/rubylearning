@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 6: Neural Networks from Scratch"
   url: /courses/machine-learning/neural-networks-from-scratch/
+date: 2026-02-03
 ---
 
 In Chapter 4: Gradient Descent we trained a linear regression model by rolling downhill on a mean squared error surface. That model predicted a number - house prices, temperatures, exam scores. But a huge class of real problems is not about predicting a number. It is about predicting a *category*: spam or not spam, tumor benign or malignant, student passes or fails. This chapter builds the workhorse for those problems from scratch: logistic regression.

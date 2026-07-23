@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 9: How LLMs Work"
   url: /courses/machine-learning/how-llms-work/
+date: 2026-02-24
 ---
 
 ### Why sequence models are hard

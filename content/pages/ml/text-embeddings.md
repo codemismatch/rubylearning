@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 8: Attention & Transformers"
   url: /courses/machine-learning/attention-and-transformers/
+date: 2026-02-17
 ---
 
 In Chapter 6: Neural Networks from Scratch we built a network that consumes vectors of numbers. Text, however, is not numbers. Before any model can read a sentence, we have to convert characters into tokens, tokens into ids, and ids into vectors. That conversion pipeline is the subject of this chapter, and the vectors at the end of it - embeddings - are the single most important idea behind modern language models.

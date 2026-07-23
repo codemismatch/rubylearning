@@ -6,6 +6,7 @@ summary: Learn machine learning from first principles, building everything from 
 breadcrumbs: true
 course_id: machine-learning
 theme: pylearning
+date: 2026-01-06
 ---
 
 <div class="course-continue">

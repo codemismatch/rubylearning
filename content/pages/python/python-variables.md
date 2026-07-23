@@ -17,6 +17,7 @@ related_tutorials:
     url: /courses/python-basics/intro-to-python/
   - title: "Functions in Python"
     url: /courses/python-basics/python-functions/
+date: 2025-12-09
 ---
 
 A variable in Python is simply a name that refers to an object. You create one by assigning a value with `=` &mdash; no declaration, no type annotation required, just like Ruby.

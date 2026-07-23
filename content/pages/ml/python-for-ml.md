@@ -12,6 +12,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 3: Linear Regression from Scratch"
   url: /courses/machine-learning/linear-regression-from-scratch/
+date: 2026-01-13
 ---
 
 In Chapter 1 we talked about machine learning as "fitting a function to data". That sounds abstract, so in this chapter we get concrete: what does "data" actually look like in Python, and what tools do we use to manipulate it? By the end you will know the small subset of Python - and an even smaller subset of numpy - that every chapter from now on relies on.

@@ -9,6 +9,7 @@ theme: pylearning
 next_tutorial:
   title: "Chapter 2: Python for ML"
   url: /courses/machine-learning/python-for-ml/
+date: 2026-01-06
 ---
 
 Welcome to the first chapter of "Machine Learning: From Zero to LLMs". In this course we build everything by hand, in plain Python, so that by the end you genuinely understand what is happening inside the tools everyone else treats as black boxes. This first chapter sets the vocabulary and the mental model. There is some code - every example is copy-paste runnable with `python3 file.py` - but mostly this chapter is about learning to think the way machine learning thinks.

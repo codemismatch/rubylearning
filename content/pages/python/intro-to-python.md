@@ -14,6 +14,7 @@ related_tutorials:
     url: /courses/python-basics/python-variables/
   - title: "Control flow in Python"
     url: /courses/python-basics/python-control-flow/
+date: 2025-12-02
 ---
 
 Python is a high-level, interpreted language that prizes readability above almost everything else. If you already know a little Ruby, Python will feel like a close cousin: both are dynamic, object-oriented, and friendly to beginners. The big philosophical difference is that Python prefers "one obvious way to do it," while Ruby celebrates having many ways.

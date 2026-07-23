@@ -9,6 +9,7 @@ theme: pylearning
 previous_tutorial:
   title: "Chapter 8: Attention & Transformers"
   url: /courses/machine-learning/attention-and-transformers/
+date: 2026-03-03
 ---
 
 In Chapter 8: Attention & Transformers we built the architecture: self-attention, multi-head attention, positional encodings, and stacked transformer blocks. That machinery answers the question "how does the model process a sequence?" This final chapter answers the bigger question: "how does that architecture become ChatGPT?" The surprising answer is that most of the magic is not in the architecture at all - it is in the training objective, the scale, and a few post-training tricks that turn a raw text predictor into a helpful assistant.
