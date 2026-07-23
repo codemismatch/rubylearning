@@ -34,3 +34,13 @@ pipeline:
   - practice_blocks
   - ruby_pre_blocks
   - markdown
+minify:
+  html: true
+  css: true
+  js: true
+  browsers:
+    - "last 2 versions"
+  skip_patterns:
+    - "**/*.min.js"
+    - "**/main.js"
+    - "**/modules/**"

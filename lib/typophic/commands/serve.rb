@@ -322,7 +322,7 @@ module Typophic
           Port: options[:port],
           BindAddress: options[:host],
           DocumentRoot: document_root,
-          Logger: WEBrick::Log.new($stderr, WEBrick::Log::WARN),
+          Logger: create_filtered_logger,
           AccessLog: []
         )
 
@@ -561,6 +561,25 @@ module Typophic
             </script>
           SCRIPT
         end
+      end
+
+      class FilteredLogger < WEBrick::Log
+        def initialize(io, level)
+          super(io, level)
+        end
+
+        def log(level, data)
+          # Skip logging for harmless Chrome DevTools and other well-known requests
+          if data.is_a?(String)
+            return if data.include?('/.well-known/appspecific/com.chrome.devtools.json')
+            return if data.include?('/.well-known/') && data.include?('not found')
+          end
+          super(level, data)
+        end
+      end
+
+      def self.create_filtered_logger
+        FilteredLogger.new($stderr, WEBrick::Log::WARN)
       end
     end
   end

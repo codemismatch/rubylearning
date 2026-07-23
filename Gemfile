@@ -11,6 +11,10 @@ group :development do
   gem "rubocop", require: false
 end
 
+# Minification and optimization
+gem "htmlcompressor"
+gem "terser"
+gem "autoprefixer-rails"
 
 gem "sass-embedded", "~> 1.94"
 # gem "protocss", path: "./protocss"  # Temporarily disabled - missing gemspec

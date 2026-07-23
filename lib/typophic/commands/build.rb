@@ -13,17 +13,22 @@ module Typophic
           verbose: true,
           deploy: false,
           parallel: true,
-          thread_count: nil
+          thread_count: nil,
+          minify: false,
+          incremental: true
         }
 
         parser(options).parse!(argv)
 
         puts "==== Typophic: Build ====" if options[:verbose]
-        clean_public_directory if options[:clean]
+        # Only clean if not doing incremental build, or if explicitly requested with --clean
+        clean_public_directory if options[:clean] && !options[:incremental]
 
         builder_options = {
           verbose: options[:verbose],
-          parallel: options[:parallel]
+          parallel: options[:parallel],
+          minify: options[:minify],
+          incremental: options[:incremental]
         }
         builder_options[:thread_count] = options[:thread_count] if options[:thread_count]
 
@@ -60,6 +65,14 @@ module Typophic
             options[:parallel] = true
           end
 
+          opts.on("--minify", "Minify HTML, CSS, and JavaScript files") do
+            options[:minify] = true
+          end
+
+          opts.on("--no-incremental", "Disable incremental builds (rebuild everything)") do
+            options[:incremental] = false
+          end
+
           opts.on("-h", "--help", "Show this help message") do
             puts opts
             exit
@@ -70,7 +83,17 @@ module Typophic
       def self.clean_public_directory
         return unless Dir.exist?("public")
 
+        # Keep .minify_cache file for incremental builds
+        cache_file = File.join("public", ".minify_cache")
+        cache_exists = File.exist?(cache_file)
+        cache_content = cache_exists ? File.read(cache_file) : nil
+
         FileUtils.rm_rf(Dir.glob("public/*"))
+
+        # Restore cache file if it existed
+        if cache_exists && cache_content
+          File.write(cache_file, cache_content)
+        end
       end
 
       def self.create_htaccess

@@ -12,8 +12,11 @@ GEM
   remote: https://rubygems.org/
   specs:
     ast (2.4.3)
+    autoprefixer-rails (10.4.21.0)
+      execjs (~> 2)
     base64 (0.3.0)
     bigdecimal (3.3.1)
+    execjs (2.10.0)
     ffi (1.17.2)
     ffi (1.17.2-aarch64-linux-gnu)
     ffi (1.17.2-aarch64-linux-musl)
@@ -52,6 +55,7 @@ GEM
     google-protobuf (4.33.1-x86_64-linux-musl)
       bigdecimal
       rake (>= 13)
+    htmlcompressor (0.4.0)
     json (2.16.0)
     language_server-protocol (3.17.0.5)
     lint_roller (1.1.0)
@@ -113,6 +117,8 @@ GEM
       google-protobuf (~> 4.31)
     stringio (3.1.8)
     strscan (3.1.5)
+    terser (1.2.6)
+      execjs (>= 0.3.0, < 3)
     unicode-display_width (3.2.0)
       unicode-emoji (~> 4.1)
     unicode-emoji (4.1.0)
@@ -132,10 +138,13 @@ PLATFORMS
   x86_64-linux-musl
 
 DEPENDENCIES
+  autoprefixer-rails
   base64
+  htmlcompressor
   rake
   rubocop
   sass-embedded (~> 1.94)
+  terser
   typophic!
   webrick
 
