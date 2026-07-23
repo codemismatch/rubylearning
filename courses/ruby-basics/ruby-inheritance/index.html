@@ -1,213 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 29 &ndash; Ruby Inheritance - Ruby Learning</title>
-  <meta name="description" content="A beautiful static website for learning Ruby">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  
-  
-  
-
-  
-
-  
-  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
-
-  <!-- Modern fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=1784835677">
-  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=1784835677">
-
-  <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=1784835677">
-  <link rel="stylesheet" href="/themes/rubylearning/css/course.css?v=1784835677">
-  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=1784835677">
-  
-
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="site-logo">
-        
-        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-        <span class="logo-text">Ruby</span>
-        
-        <span class="logo-accent">Learning</span>
-      </a>
-      <nav class="site-nav">
-        
-        
-        <ul>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/" >Home</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/about/" >About</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/python-basics/" >Learn Python</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/machine-learning/" >Learn ML</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/tutorials/" >Tutorials</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/" >Courses</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/blog/" >Blog</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/resources/" >Resources</a>
-          </li>
-          
-          
-        </ul>
-      </nav>
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-    </div>
-  </header>
-
-  <main class="site-content">
-    <div class="container">
-      <div class="tutorial-wrapper">
-  
-  <nav class="breadcrumbs">
-    <ol>
-      <li><a href="/">Home</a></li>
-      
-      <li><a href="/tutorials/">Tutorials</a></li>
-      <li>Chapter 29 &ndash; Ruby Inheritance</li>
-      
-    </ol>
-  </nav>
-  
-
-  <article class="tutorial">
-    <header class="tutorial-header">
-      <h1>
-        Chapter 29 &ndash; Ruby Inheritance
-        
-        <span class="difficulty difficulty-beginner">Beginner</span>
-        
-      </h1>
-      
-      
-      
-      
-      
-      <p class="tutorial-summary">Reuse behavior by deriving subclasses, chaining `super`, and checking object ancestry.</p>
-      
-    </header>
-
-    
-    <div class="tutorial-content">
-      <div class='markdown'><p>> Adapted from Satish Talim's "Ruby Inheritance" lesson.</p>
-<p>Inheritance lets you derive a class from another, sharing behavior while customizing it. Every Ruby class ultimately inherits from <code>Object</code> (and, one level deeper, <code>BasicObject</code>), so even a "blank" class automatically picks up dozens of handy methods.</p>
-<h3>Defining a hierarchy</h3>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Vehicle
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 29 &ndash; Ruby Inheritance - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="rubylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/rubylearning/css/style.css?v=1784835767"><link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=1784835767"><link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=1784835767"><link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=1784835767"><link rel="stylesheet" href="/themes/rubylearning/css/course.css?v=1784835767"><link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=1784835767"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span><span class="logo-text">Ruby</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/courses/">Courses</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 29 &ndash; Ruby Inheritance</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 29 &ndash; Ruby Inheritance <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2025-11-14" class="tutorial-date"> November 14, 2025 </time></div></div><div class="tutorial-contributors"><span class="contributors-label">Edited by:</span><div class="contributors-list"><div class="contributor-item" title="Neeraj Doharey"><img src="/images/avatars/neerajdoharey.jpg" alt="Neeraj Doharey" class="contributor-avatar"><span class="contributor-name">Neeraj Doharey</span></div></div></div></div><p class="tutorial-summary">Reuse behavior by deriving subclasses, chaining `super`, and checking object ancestry.</p></header><div class="tutorial-content"><div class='markdown'><p>> Adapted from Satish Talim's "Ruby Inheritance" lesson. Inheritance lets you derive a class from another, sharing behavior while customizing it. Every Ruby class ultimately inherits from <code>Object</code> (and, one level deeper, <code>BasicObject</code>), so even a "blank" class automatically picks up dozens of handy methods. <h3>Defining a hierarchy</h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Vehicle
   def start_engine
     &quot;engine on&quot;
   end
@@ -219,25 +10,8 @@ class Motorcycle &lt; Vehicle
   end
 end
 
-puts Motorcycle.new.start_engine  #=&gt; &quot;engine on vroom!&quot;</code></pre>
-      </div>
-    </div>
-  </div></p>
-<ul><li>Use <code>&lt;</code> to specify a superclass.</li>
-<li>Subclasses automatically inherit methods unless you override them.</li>
-<li>Call <code>super</code> (with or without arguments) to invoke the parent implementation.</li></ul>
-<h3>Constructor chaining</h3>
-<p><code>initialize</code> follows the same rule: <code>super</code> passes control up the chain.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Animal
+puts Motorcycle.new.start_engine  #=&gt; &quot;engine on vroom!&quot;
+      </code></pre></div></div></div><ul><li>Use <code>&lt;</code> to specify a superclass. - Subclasses automatically inherit methods unless you override them. - Call <code>super</code> (with or without arguments) to invoke the parent implementation. <h3>Constructor chaining</h3><code>initialize</code> follows the same rule: <code>super</code> passes control up the chain. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Animal
   def initialize(name = nil)
     @name = name
   end
@@ -250,23 +24,8 @@ class Dog &lt; Animal
   end
 end
 
-puts Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;).inspect</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>If you call <code>super</code> with empty parentheses (<code>super()</code>), Ruby forwards no arguments, giving you precise control.</p>
-<h3>Mixing in modules</h3>
-<p>Ruby only allows single inheritance, but you can share behavior horizontally with modules. Legacy examples often defined reusable abilities (like <code>Honks</code> or <code>OffRoadable</code>) and mixed them into subclasses:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">module OffRoadable
+puts Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;).inspect
+      </code></pre></div></div></div> If you call <code>super</code> with empty parentheses (<code>super()</code>), Ruby forwards no arguments, giving you precise control. <h3>Mixing in modules</h3> Ruby only allows single inheritance, but you can share behavior horizontally with modules. Legacy examples often defined reusable abilities (like <code>Honks</code> or <code>OffRoadable</code>) and mixed them into subclasses: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">module OffRoadable
   def terrain
     &quot;rocks and mud&quot;
   end
@@ -276,60 +35,15 @@ class Jeep &lt; Vehicle
   include OffRoadable
 end
 
-puts Jeep.new.terrain  #=&gt; &quot;rocks and mud&quot;</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Modules keep hierarchies shallow while still encouraging code reuse.</p>
-<h3>Checking ancestry</h3>
-<ul><li><code>obj.is_a?(ClassOrModule)</code> and its alias <code>kind_of?</code> respect inheritance and mixins.</li>
-<li><code>obj.instance_of?(Class)</code> matches only the exact class--not subclasses.</li></ul>
-  <div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">dog = Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;)
+puts Jeep.new.terrain  #=&gt; &quot;rocks and mud&quot;
+      </code></pre></div></div></div> Modules keep hierarchies shallow while still encouraging code reuse. <h3>Checking ancestry</h3> - <code>obj.is_a?(ClassOrModule)</code> and its alias <code>kind_of?</code> respect inheritance and mixins. - <code>obj.instance_of?(Class)</code> matches only the exact class--not subclasses. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">dog = Dog.new(&quot;Benzy&quot;, &quot;Labrador&quot;)
 
 puts dog.is_a?(Animal)        # true
 puts dog.instance_of?(Animal) # false
-puts dog.instance_of?(Dog)    # true</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Use the right predicate for the question you're asking.</p>
-<p><h3>Practice checklist</h3>
-<ul><li>[ ] Extend the <code>Vehicle</code> hierarchy with <code>Car</code> and <code>Motorcycle</code>, overriding <code>start_engine</code> while calling <code>super</code>.</li>
-<li>[ ] Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code> to understand argument forwarding.</li>
-<li>[ ] Mix in a module (e.g., <code>Flyable</code>) to a subset of subclasses and confirm <code>is_a?</code> reflects the mixin.</li>
-<li>[ ] Use <code>instance_of?</code> vs <code>is_a?</code> to see how strict type checks affect control flow.</li></ul>
-Next: continue to Flow Control & Collections to exercise these hierarchies inside loops and iterators.</p>
-<p><h4>Practice 1 - Extending the Vehicle hierarchy</h4>
-<p><strong>Goal:</strong> Extend a <code>Vehicle</code> hierarchy with subclasses that override <code>start_engine</code> and call <code>super</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="0" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;car engine&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;motorcycle engine&#39;) }"><code class="language-ruby"># TODO: Define a Vehicle base class with start_engine, then subclasses
+puts dog.instance_of?(Dog)    # true
+      </code></pre></div></div></div> Use the right predicate for the question you're asking. <h3>Practice checklist</h3> - [ ] Extend the <code>Vehicle</code> hierarchy with <code>Car</code> and <code>Motorcycle</code>, overriding <code>start_engine</code> while calling <code>super</code>. - [ ] Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code> to understand argument forwarding. - [ ] Mix in a module (e.g., <code>Flyable</code>) to a subset of subclasses and confirm <code>is_a?</code> reflects the mixin. - [ ] Use <code>instance_of?</code> vs <code>is_a?</code> to see how strict type checks affect control flow. Next: continue to Flow Control & Collections to exercise these hierarchies inside loops and iterators. <h4>Practice 1 - Extending the Vehicle hierarchy</h4><strong>Goal:</strong> Extend a <code>Vehicle</code> hierarchy with subclasses that override <code>start_engine</code> and call <code>super</code>. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="0" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;car engine&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;motorcycle engine&#39;) }"><code class="language-ruby"># TODO: Define a Vehicle base class with start_engine, then subclasses
 # Car and Motorcycle that override start_engine while calling super.
-# Instantiate each and call start_engine.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance"
-     data-practice-index="0"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:0">
+# Instantiate each and call start_engine.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="0"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:0">
 class Vehicle
   def start_engine
     puts "Starting generic engine"
@@ -353,28 +67,8 @@ end
 Vehicle.new.start_engine
 Car.new.start_engine
 Motorcycle.new.start_engine
-</script>
-<h4>Practice 2 - super vs super()</h4></p>
-<p><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="1" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;with args&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;without args&#39;) }"><code class="language-ruby"># TODO: Build a small example that shows how super and super() behave
-# differently when overriding initialize, and print labelled output.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance"
-     data-practice-index="1"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:1">
+</script><h4>Practice 2 - super vs super()</h4><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code> vs <code>super()</code>. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="1" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;with args&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;without args&#39;) }"><code class="language-ruby"># TODO: Build a small example that shows how super and super() behave
+# differently when overriding initialize, and print labelled output.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="1"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:1">
 class Base
   def initialize(arg = "default")
     puts "Base initialized with #{arg}"
@@ -397,28 +91,8 @@ end
 
 WithArgs.new("custom")
 WithoutArgs.new("ignored")
-</script>
-<h4>Practice 3 - Mixins and is_a?</h4></p>
-<p><strong>Goal:</strong> Mix a module into a subset of subclasses and confirm <code>is_a?</code> reflects the mixin.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="2" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;can fly&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;is a flyable&#39;) }"><code class="language-ruby"># TODO: Define a Flyable module, include it in one subclass, and print
-# a line proving that instance.is_a?(Flyable) is true.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance"
-     data-practice-index="2"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:2">
+</script><h4>Practice 3 - Mixins and is_a?</h4><strong>Goal:</strong> Mix a module into a subset of subclasses and confirm <code>is_a?</code> reflects the mixin. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="2" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;can fly&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;is a flyable&#39;) }"><code class="language-ruby"># TODO: Define a Flyable module, include it in one subclass, and print
+# a line proving that instance.is_a?(Flyable) is true.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="2"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:2">
 module Flyable
   def fly
     puts "#{self.class} can fly"
@@ -432,28 +106,8 @@ end
 plane = Plane.new
 plane.fly
 puts "is a Flyable? #{plane.is_a?(Flyable)}"
-</script>
-<h4>Practice 4 - instance_of? vs is_a?</h4></p>
-<p><strong>Goal:</strong> Compare <code>instance_of?</code> vs <code>is_a?</code> and see how strict type checks affect control flow.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="3" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;instance_of?&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;is_a?&#39;) }"><code class="language-ruby"># TODO: Create a base class and subclass, instantiate the subclass,
-# and print the results of instance_of? and is_a? checks.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance"
-     data-practice-index="3"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:3">
+</script><h4>Practice 4 - instance_of? vs is_a?</h4><strong>Goal:</strong> Compare <code>instance_of?</code> vs <code>is_a?</code> and see how strict type checks affect control flow. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="3" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;instance_of?&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;is_a?&#39;) }"><code class="language-ruby"># TODO: Create a base class and subclass, instantiate the subclass,
+# and print the results of instance_of? and is_a? checks.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-inheritance" data-practice-index="3"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-inheritance:3">
 class Creature; end
 class Cat < Creature; end
 
@@ -461,237 +115,7 @@ cat = Cat.new
 puts "instance_of? Cat: #{cat.instance_of?(Cat)}"
 puts "instance_of? Creature: #{cat.instance_of?(Creature)}"
 puts "is_a? Creature: #{cat.is_a?(Creature)}"
-</script></p></div>
-    </div>
-
-    
-    <nav class="tutorial-nav">
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/ruby-basics/ruby-open-classes/">
-        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-        <span>Chapter 28: Ruby Open Classes</span>
-      </a>
-      
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/ruby-basics/ruby-overriding-methods/">
-        <span>Chapter 30: Overriding Methods</span>
-        <span class="icon-arrow" aria-hidden="true">&gt;</span>
-      </a>
-      
-    </nav>
-    
-
-    
-    <div class="related-tutorials">
-      <h2>Related Tutorials</h2>
-      <ul>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/ruby-basics/writing-our-own-class/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Writing Our Own Class</span>
-          </a>
-        </li>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/ruby-basics/ruby-procs/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Ruby Procs & Lambdas</span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-  </article>
-
-  
-
-  
-  <div class="ruby-console-drawer">
-    <button class="ruby-console-toggle" type="button" aria-expanded="false">
-      <span class="ruby-console-toggle-label">Ruby console</span>
-      <span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span>
-    </button>
-    <div class="ruby-console-body">
-      <div class="ruby-irb" data-ruby-console="true">
-        <div class="ruby-irb-output" aria-live="polite"></div>
-        <form class="ruby-irb-form">
-          <span class="ruby-irb-prompt">mrc(main):001&gt;</span>
-          <div class="ruby-irb-input-wrapper">
-            <span class="ruby-irb-caret" aria-hidden="true"></span>
-            <pre class="ruby-irb-ghost"></pre>
-            <textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off"
-              rows="1"></textarea>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-about">
-          <h3>Ruby Learning</h3>
-          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
-        </div>
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          
-          
-          <ul>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/" >Home</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/about/" >About</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/python-basics/" >Learn Python</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/machine-learning/" >Learn ML</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/tutorials/" >Tutorials</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/blog/" >Blog</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/resources/" >Resources</a>
-            </li>
-            
-            
-          </ul>
-        </div>
-        <div class="footer-resources">
-          <h3>Ruby Resources</h3>
-          
-          <ul>
-            
-            
-            
-            
-            
-            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-            
-            
-            
-            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-            
-            
-            
-            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-            
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>
-          &copy; 2026 Ruby Learning.
-          Built with
-          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
-          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
-          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script src="/themes/rubylearning/js/prism.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/prism-ruby.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/prism-markdown.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/prism-python.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/code-enhancements.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1784835677"></script>
-  <script src="/themes/rubylearning/js/site.js?v=1784835677"></script>
-  
-  
-
-  <script>
+</script></p></li></ul></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/ruby-basics/ruby-open-classes/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 28: Ruby Open Classes</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/ruby-basics/ruby-overriding-methods/"><span>Chapter 30: Overriding Methods</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/ruby-basics/writing-our-own-class/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Writing Our Own Class</span></a></li><li><a href="/courses/ruby-basics/ruby-procs/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Ruby Procs & Lambdas</span></a></li></ul></div></article><div class="ruby-console-drawer"><button class="ruby-console-toggle" type="button" aria-expanded="false"><span class="ruby-console-toggle-label">Ruby console</span><span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="ruby-console-body"><div class="ruby-irb" data-ruby-console="true"><div class="ruby-irb-output" aria-live="polite"></div><form class="ruby-irb-form"><span class="ruby-irb-prompt">mrc(main):001&gt;</span><div class="ruby-irb-input-wrapper"><span class="ruby-irb-caret" aria-hidden="true"></span><textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1784835767"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1784835767"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1784835767"></script><script src="/themes/rubylearning/js/prism-python.js?v=1784835767"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1784835767"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784835767"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1784835767"></script><script src="/themes/rubylearning/js/site.js?v=1784835767"></script><script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -702,13 +126,6 @@ puts "is_a? Creature: #{cat.is_a?(Creature)}"
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script>
-
-  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
-  <script src="/themes/rubylearning/js/mermaid.min.js?v=1784835677"></script>
-  <script>
+  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1784835767"></script><script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script>
-</body>
-
-</html>
+  </script></body></html>

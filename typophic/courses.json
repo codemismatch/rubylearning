@@ -1,1 +1,34 @@
-[{"title":"Advanced Ruby","description":"Deep dive into metaprogramming and more advanced Ruby topics.","permalink":"/courses/advanced-ruby/","url":"https://rubylearning.in/courses/advanced-ruby/","tags":[]},{"title":"Machine Learning: From Zero to LLMs","permalink":"/courses/machine-learning/","url":"https://rubylearning.in/courses/machine-learning/","date":"2026-01-06","tags":[]},{"title":"Python Basics","permalink":"/courses/python-basics/","url":"https://rubylearning.in/courses/python-basics/","date":"2025-12-02","tags":[]},{"title":"Ruby Basics","permalink":"/courses/ruby-basics/","url":"https://rubylearning.in/courses/ruby-basics/","tags":[]}]
+[
+  {
+    "title": "Advanced Ruby",
+    "description": "Deep dive into metaprogramming and more advanced Ruby topics.",
+    "permalink": "/courses/advanced-ruby/",
+    "url": "https://rubylearning.in/courses/advanced-ruby/",
+    "date": "2026-07-24",
+    "tags": []
+  },
+  {
+    "title": "Machine Learning: From Zero to LLMs",
+    "description": null,
+    "permalink": "/courses/machine-learning/",
+    "url": "https://rubylearning.in/courses/machine-learning/",
+    "date": "2026-01-06",
+    "tags": []
+  },
+  {
+    "title": "Python Basics",
+    "description": null,
+    "permalink": "/courses/python-basics/",
+    "url": "https://rubylearning.in/courses/python-basics/",
+    "date": "2025-12-02",
+    "tags": []
+  },
+  {
+    "title": "Ruby Basics",
+    "description": null,
+    "permalink": "/courses/ruby-basics/",
+    "url": "https://rubylearning.in/courses/ruby-basics/",
+    "date": "2026-07-24",
+    "tags": []
+  }
+]
