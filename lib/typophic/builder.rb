@@ -377,7 +377,9 @@ module Typophic
         "base_path" => base_path,
         "title" => config["site_name"] || config["title"] || "Typophic Site",
         "data" => data_files,
-        "themes" => @theme_registry || {}
+        "themes" => @theme_registry || {},
+        "build_time" => Time.now.to_i,
+        "build_year" => Time.now.year
       )
     end
 
