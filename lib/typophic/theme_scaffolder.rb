@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 require "fileutils"
+require "yaml"
 
 module Typophic
   class ThemeScaffolder
@@ -15,6 +16,7 @@ module Typophic
       write_file(File.join(theme_root, "js", "site.js"), default_script)
       write_file(File.join(theme_root, "includes", "_head.html"), head_partial(site_name, description))
       write_file(File.join(theme_root, "includes", "_footer.html"), footer_partial(author))
+      write_file(File.join(theme_root, "theme.yml"), default_manifest(theme_name, site_name, description, author))
     end
 
     def self.write_file(path, contents)
@@ -131,5 +133,25 @@ module Typophic
       HTML
     end
     private_class_method :footer_partial
+
+    def self.default_manifest(theme_name, site_name, description, author)
+      {
+        "name" => theme_name,
+        "description" => description.to_s.strip.empty? ? "Theme for #{site_name}" : description,
+        "version" => "0.1.0",
+        "author" => author,
+        "stylesheets" => [
+          "css/style.css"
+        ],
+        "javascripts" => [
+          "js/site.js"
+        ],
+        "fonts" => [],
+        "layouts" => [
+          "default"
+        ]
+      }.to_yaml
+    end
+    private_class_method :default_manifest
   end
 end

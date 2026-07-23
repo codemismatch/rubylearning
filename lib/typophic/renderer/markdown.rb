@@ -52,6 +52,9 @@ module Typophic
           case lang
           when "ruby-exec"
             build_code_window("ruby", body, executable: true)
+          when /(.+)-exec/
+            base_lang = Regexp.last_match(1)
+            build_code_window(base_lang, body, executable: true)
           when "solution", "test"
             Regexp.last_match(0)
           else

@@ -20,6 +20,7 @@ require_relative "renderer/liquid"
 require_relative "renderer/sass"
 require_relative "renderer/protocss"
 require_relative "renderer/diagram"
+require_relative "minifier"
 
 module Typophic
   # Core static-site builder that transforms Markdown content and ERB templates
@@ -53,31 +54,57 @@ module Typophic
       @parallel     = options.fetch(:parallel, true)
       @thread_count = options.fetch(:thread_count, [Etc.nprocessors, 4].min)
       @verbose      = options.fetch(:verbose, true)
+      @minify       = options.fetch(:minify, false)
 
       @config = load_config
+      
+      # Check config for minification settings
+      # Command-line flag takes precedence over config
+      if @minify || @config["minify"]
+        minify_config = @config["minify"] || {}
+        # If minify is set via command line, use it; otherwise check config
+        @minify = true if @minify || minify_config == true || (minify_config.is_a?(Hash) && minify_config.any?)
+        @minify_html = minify_config.is_a?(Hash) ? minify_config.fetch("html", true) : true
+        @minify_css = minify_config.is_a?(Hash) ? minify_config.fetch("css", true) : true
+        @minify_js = minify_config.is_a?(Hash) ? minify_config.fetch("js", true) : true
+        @minify_skip_patterns = minify_config.is_a?(Hash) ? Array(minify_config["skip_patterns"]) : []
+      else
+        @minify_html = false
+        @minify_css = false
+        @minify_js = false
+        @minify_skip_patterns = []
+      end
 
       configure_themes(options)
+      @theme_registry = load_theme_manifests
 
       @site       = build_site_context(@config)
       @collections = Hash.new { |hash, key| hash[key] = [] }
       @archives    = Hash.new { |hash, key| hash[key] = [] }
       @taxonomies  = { tags: Hash.new { |hash, key| hash[key] = [] } }
       @helper_modules = load_helpers
+      @generated_count = 0
+      @generated_mutex = Mutex.new
+      @incremental = options.fetch(:incremental, true)
+      @minify_cache = {}
     end
 
     def build
       start_time = Time.now
-      puts "Building site#{@parallel ? " (parallel: #{@thread_count} threads)" : " (sequential)"}..."
+      mode = @incremental ? "incremental" : "full"
+      puts "Building site (#{mode}#{@parallel ? ", parallel: #{@thread_count} threads" : ", sequential"})..."
 
       normalize_content_quotes
 
-      FileUtils.rm_rf(Dir.glob(File.join(@output_dir, "*")))
+      # Note: Directory cleaning is handled by build command based on --clean and --incremental flags
 
       collect_content_theme_overrides
       copy_static_assets
       process_content_files
       generate_course_pages
       write_collection_indexes
+
+      minify_assets if @minify
 
       elapsed = Time.now - start_time
       puts "Site built successfully! (#{elapsed.round(2)}s)"
@@ -136,14 +163,23 @@ module Typophic
 
       names = Set.new([@default_theme_name])
       @section_theme_map.each_value { |n| names << n }
+
       # Ensure canonical fallback is available when present
       names << "rubylearning" if Dir.exist?(File.join(@theme_root, "rubylearning"))
+
+      # Also register any additional theme directories under @theme_root so
+      # content can opt into them via frontmatter (e.g., theme: pylearning).
+      Dir.glob(File.join(@theme_root, "*")).each do |entry|
+        next unless File.directory?(entry)
+        names << File.basename(entry)
+      end
+
       @theme_paths = names.each_with_object({}) { |n, memo| memo[n] = File.join(@theme_root, n) }
 
       @theme_paths.each do |name, path|
         raise "Theme '#{name}' not found at #{path}" unless Dir.exist?(path)
       end
-      
+
       # Setup Sass renderer
       sass_paths = []
       @theme_paths.each_value do |path|
@@ -167,7 +203,65 @@ module Typophic
       @protocss_css_patterns = Array(css_allowlist).map(&:to_s)
     end
 
-    
+    def load_theme_manifests
+      return {} unless @theme_paths && !@theme_paths.empty?
+
+      manifests = {}
+
+      @theme_paths.each do |name, path|
+        manifest_path = File.join(path, "theme.yml")
+        manifest = if File.exist?(manifest_path)
+                     YAML.load_file(manifest_path) || {}
+                   else
+                     {}
+                   end
+
+        manifest = {} unless manifest.is_a?(Hash)
+        manifest["name"] ||= name
+        manifest["path"] ||= path
+
+        validate_theme_assets(name, path, manifest)
+
+        manifests[name] = manifest
+      rescue => e
+        warn "Warning: Could not load theme manifest for '#{name}' (#{manifest_path}): #{e.message}"
+        manifests[name] ||= { "name" => name, "path" => path }
+      end
+
+      manifests
+    end
+
+    def validate_theme_assets(name, path, manifest)
+      missing = []
+
+      Array(manifest["stylesheets"]).each do |relative|
+        next if relative.to_s =~ %r{^https?://}
+        asset_path = File.join(path, relative.to_s)
+        missing << "stylesheet #{relative}" unless File.exist?(asset_path)
+      end
+
+      Array(manifest["javascripts"]).each do |relative|
+        next if relative.to_s =~ %r{^https?://}
+        asset_path = File.join(path, relative.to_s)
+        missing << "javascript #{relative}" unless File.exist?(asset_path)
+      end
+
+      # Only validate layouts if the manifest explicitly lists them (not if it's empty or commented)
+      layouts = manifest["layouts"]
+      if layouts && !layouts.empty? && layouts != []
+        Array(layouts).each do |layout_name|
+          next if layout_name.to_s.strip.empty?
+          html_path = File.join(path, "layouts", "#{layout_name}.html")
+          liquid_path = File.join(path, "layouts", "#{layout_name}.liquid")
+          missing << "layout #{layout_name}" unless File.exist?(html_path) || File.exist?(liquid_path)
+        end
+      end
+
+      return if missing.empty?
+
+      message = "Theme '#{name}' manifest references missing assets: #{missing.join(', ')}"
+      warn "\e[33m#{message}\e[0m"
+    end
 
     def collect_content_theme_overrides
       Dir.glob(File.join(@source_dir, "**", "*.{md,markdown,html,erb}")) do |file|
@@ -276,13 +370,75 @@ module Typophic
 
       # Load data files to make them available in templates similar to Hugo's .Site.Data
       data_files = load_data_files
+      localize_author_avatars(data_files)
 
       config.merge(
         "base_url" => base_url,
         "base_path" => base_path,
         "title" => config["site_name"] || config["title"] || "Typophic Site",
-        "data" => data_files
+        "data" => data_files,
+        "themes" => @theme_registry || {}
       )
+    end
+
+    # Rewrites remote author avatar URLs (e.g. avatars.githubusercontent.com) to
+    # locally cached copies under assets/images/avatars/. Each avatar is
+    # downloaded once and reused on subsequent builds, so rendered pages never
+    # hotlink GitHub URLs that some clients block.
+    def localize_author_avatars(data)
+      authors = data["authors"]
+      return unless authors.is_a?(Hash)
+
+      cache_dir = File.join(@site_assets_dir, "images", "avatars")
+
+      authors.each do |id, author|
+        next unless author.is_a?(Hash)
+        avatar = author["avatar"].to_s
+        next unless avatar =~ %r{^https?://}
+
+        slug = (author["github"] || id).to_s.gsub(/[^a-zA-Z0-9_-]/, "")
+        next if slug.empty?
+
+        local_file = Dir.glob(File.join(cache_dir, "#{slug}.*")).first
+        local_file ||= download_avatar(avatar, cache_dir, slug)
+        author["avatar"] = "/images/avatars/#{File.basename(local_file)}" if local_file
+      end
+    end
+
+    def download_avatar(url, cache_dir, slug)
+      require 'net/http'
+      FileUtils.mkdir_p(cache_dir)
+
+      uri = URI.parse(url)
+      3.times do
+        response = Net::HTTP.start(uri.host, uri.port, use_ssl: uri.scheme == "https") do |http|
+          http.request(Net::HTTP::Get.new(uri))
+        end
+
+        case response
+        when Net::HTTPRedirection
+          location = response["location"]
+          return nil unless location
+          uri = URI.parse(location)
+        when Net::HTTPSuccess
+          ext = case response["content-type"].to_s
+                when /jpeg/ then ".jpg"
+                when /gif/  then ".gif"
+                when /webp/ then ".webp"
+                else ".png"
+                end
+          path = File.join(cache_dir, "#{slug}#{ext}")
+          File.binwrite(path, response.body)
+          puts "Cached avatar: #{url} -> #{path}" if @verbose
+          return path
+        else
+          return nil
+        end
+      end
+      nil
+    rescue => e
+      puts "Warning: could not cache avatar #{url}: #{e.message}" if @verbose
+      nil
     end
 
     def copy_static_assets
@@ -337,10 +493,28 @@ module Typophic
       files = Dir.glob(File.join(source, "**", "*")).select { |f| File.file?(f) }
       return if files.empty?
 
+      copied_count = 0
+      skipped_count = 0
+
       files.each do |file|
         relative = file.delete_prefix("#{source}/")
         target = File.join(destination, relative)
         FileUtils.mkdir_p(File.dirname(target))
+        
+        # Check if file needs to be copied (incremental build)
+        if @incremental && File.exist?(target)
+          source_mtime = File.mtime(file)
+          target_mtime = File.mtime(target)
+          
+          # For compiled files (SCSS/Sass), also check if source dependencies changed
+          if file =~ /\.s[ac]ss$/ || file.end_with?(".pcss")
+            # Always recompile SCSS/Sass/Protocss files (they may have dependencies)
+            # But we could optimize this further by checking @import dependencies
+          elsif source_mtime <= target_mtime
+            skipped_count += 1
+            next
+          end
+        end
         
         if file =~ /\.s[ac]ss$/
           # Compile SCSS/Sass
@@ -358,6 +532,7 @@ module Typophic
           css = @sass_renderer.compile(content, syntax: syntax, filename: file)
           if css
             File.write(target, css)
+            copied_count += 1
           else
             warn "  ⚠️ Failed to compile #{relative}"
           end
@@ -370,6 +545,7 @@ module Typophic
           end
           compiled = compile_with_protocss(content, from: file, to: target)
           File.write(target, compiled || content)
+          copied_count += 1
         elsif file.end_with?(".css")
           content = File.read(file)
           if content =~ /\A---\s*\n/
@@ -383,12 +559,20 @@ module Typophic
           else
             File.write(target, content)
           end
+          copied_count += 1
         else
           FileUtils.cp(file, target)
+          copied_count += 1
         end
       end
 
-      puts "Copied #{files.length} #{label} asset(s)" if @verbose
+      if @verbose
+        if skipped_count > 0
+          puts "Copied #{copied_count} #{label} asset(s) (#{skipped_count} skipped - unchanged)"
+        else
+          puts "Copied #{copied_count} #{label} asset(s)"
+        end
+      end
     end
 
     private
@@ -476,7 +660,21 @@ module Typophic
       entries.each { |entry| index_page(entry[:meta]) }
       inject_collection_data_into_site
 
-      entries.each { |entry| render_page(entry) }
+      @generated_count = 0
+      total = entries.length
+      if @verbose && total > 0
+        puts "Generating pages..."
+      end
+      
+      entries.each_with_index do |entry, index|
+        render_page(entry, index + 1, total)
+      end
+      
+      if @verbose && total > 0
+        print "\n" # New line after progress
+      end
+      
+      entries
     end
 
     def process_content_files_parallel(files)
@@ -488,7 +686,19 @@ module Typophic
       inject_collection_data_into_site
 
       # Phase 3: Render pages in parallel
-      render_pages_parallel(entries)
+      @generated_count = 0
+      total = entries.length
+      if @verbose && total > 0
+        puts "Generating pages..."
+      end
+      
+      render_pages_parallel(entries, total)
+      
+      if @verbose && total > 0
+        print "\n" # New line after progress
+      end
+      
+      entries
     end
 
     def parse_files_parallel(files)
@@ -510,14 +720,19 @@ module Typophic
       entries.sort_by { |e| e[:meta]["source"] }
     end
 
-    def render_pages_parallel(entries)
+    def render_pages_parallel(entries, total)
       queue = Queue.new
       entries.each { |e| queue << e }
 
       threads = Array.new(@thread_count) do
         Thread.new do
           while (entry = queue.pop(true) rescue nil)
-            render_page(entry)
+            current = nil
+            @generated_mutex.synchronize do
+              @generated_count += 1
+              current = @generated_count
+            end
+            render_page(entry, current, total)
           end
         end
       end
@@ -531,19 +746,80 @@ module Typophic
       renderer = renderer_for(file)
       meta = build_page_context(file, front_matter)
 
+      # Attach a rough reading-time estimate (in minutes) so that layouts
+      # and higher-level aggregations (like courses) can surface durations.
+      # This treats prose and code differently and adds a small premium for
+      # runnable examples.
+      meta["reading_time_minutes"] = estimate_reading_time_minutes(body)
+
       { meta: meta, body: body, renderer: renderer }
     end
 
-    def render_page(entry)
+    def render_page(entry, current = nil, total = nil)
       page = entry[:meta]
       theme_name = theme_for_page(page)
       page["theme"] = theme_name
+      
+      output_path = File.join(@output_dir, page["output_path"])
+      
+      # Check if page needs to be rebuilt (incremental build)
+      if @incremental && File.exist?(output_path)
+        source_file = File.join(@source_dir, page["source"])
+        if File.exist?(source_file)
+          source_mtime = File.mtime(source_file)
+          output_mtime = File.mtime(output_path)
+          
+          # Also check if layout or includes changed
+          layout_path = find_layout_path(page["layout"], theme_name)
+          layout_changed = layout_path && File.exist?(layout_path) && File.mtime(layout_path) > output_mtime
+          
+          # Check if data files changed (simplified - could be more thorough)
+          data_changed = false
+          if @data_dir && Dir.exist?(@data_dir)
+            data_mtime = Dir.glob(File.join(@data_dir, "**", "*.{yml,yaml,json}")).map { |f| File.mtime(f) }.max rescue nil
+            data_changed = data_mtime && data_mtime > output_mtime
+          end
+          
+          if source_mtime <= output_mtime && !layout_changed && !data_changed
+            # Skip rendering - file hasn't changed
+            if @verbose && current && total
+              progress = (current.to_f / total * 100).round
+              begin
+                relative_path = output_path.to_s.sub("#{@output_dir}/", "")
+                if relative_path.end_with?("/index.html")
+                  dir_parts = relative_path.split("/")[0..-2]
+                  file_name = dir_parts.length > 1 ? "#{dir_parts[-2]}/#{dir_parts[-1]}" : (dir_parts.last || "index")
+                else
+                  file_name = File.basename(relative_path, ".html")
+                end
+                file_name = file_name.to_s[0..30] if file_name && file_name.length > 30
+              rescue => e
+                file_name = File.basename(output_path, ".html")
+              end
+              print_progress_bar("Pages", progress, current, total, file_name)
+            end
+            return
+          end
+        end
+      end
+      
       # # puts "[DEBUG] Rendering #{page["source"]} with theme=#{theme_name} layout=#{page["layout"]}" if @verbose
       html_content = case entry[:renderer]
                      when :markdown
                        run_content_pipeline(page, entry[:body])
                      when :erb
                        render_inline_template(entry[:body], page, theme_name)
+                     when :liquid
+                       Typophic::Renderer::Liquid.new(
+                         site: @site,
+                         page: page,
+                         content: "",
+                         site_includes_dir: @site_includes_dir,
+                         theme_includes_dir: nil,
+                         helpers: @helper_modules,
+                         current_theme: theme_name,
+                         builder: self
+                       ).render(entry[:body])
                      when :html
                        entry[:body]
                      else
@@ -551,11 +827,35 @@ module Typophic
                      end
       rendered = render_layout(page["layout"], html_content, page, theme_name)
 
-      output_path = File.join(@output_dir, page["output_path"])
       FileUtils.mkdir_p(File.dirname(output_path))
       File.write(output_path, rendered, encoding: Encoding::UTF_8)
 
-      puts "Generated: #{output_path}" if @verbose
+      if @verbose && current && total
+        progress = (current.to_f / total * 100).round
+        # Show current file being generated with progress bar
+        # Extract a readable file name from the output path
+        begin
+          relative_path = output_path.to_s.sub("#{@output_dir}/", "")
+          if relative_path.end_with?("/index.html")
+            # For index.html files, show the directory name
+            dir_parts = relative_path.split("/")[0..-2] # Remove index.html
+            if dir_parts.length > 1
+              file_name = "#{dir_parts[-2]}/#{dir_parts[-1]}"
+            else
+              file_name = dir_parts.last || "index"
+            end
+          else
+            file_name = File.basename(relative_path, ".html")
+          end
+          # Truncate if too long to avoid display issues
+          file_name = file_name.to_s[0..30] if file_name && file_name.length > 30
+        rescue => e
+          file_name = File.basename(output_path, ".html")
+        end
+        print_progress_bar("Pages", progress, current, total, file_name)
+      elsif @verbose
+        puts "Generated: #{output_path}"
+      end
     end
 
     def format_tutorials
@@ -593,6 +893,21 @@ module Typophic
       base = base.sub(/\.html\.erb\z/i, "")
       base = base.sub(/\.(md|markdown|html|htm|erb|liquid)\z/i, "")
       base
+    end
+
+    def resolve_author_id(author)
+      @authors_registry ||= begin
+        path = File.join(@data_dir || "data", "authors.yml")
+        File.exist?(path) ? (YAML.safe_load(File.read(path), permitted_classes: [Date], aliases: true) || {}) : {}
+      end
+
+      downcased = author.downcase
+      @authors_registry.each do |id, data|
+        return id if id.to_s.downcase == downcased
+        name = data.is_a?(Hash) ? data["name"].to_s : ""
+        return id if !name.empty? && name.downcase == downcased
+      end
+      nil
     end
 
     def load_helpers
@@ -691,6 +1006,12 @@ module Typophic
       
       page["date"] ||= inferred_date
       page["date"] = parse_date(page["date"])
+
+      # Normalize frontmatter `author` (display name or id) to a canonical
+      # author id from data/authors.yml so templates can render avatars.
+      if page["author"]
+        page["author"] = resolve_author_id(page["author"].to_s) || page["author"]
+      end
       page["date_iso"] = page["date"]&.strftime("%Y-%m-%d")
       page["permalink"] = permalink
       page["url"] = build_url(permalink)
@@ -1016,7 +1337,14 @@ module Typophic
       courses_dir = File.join(@output_dir, "courses")
       FileUtils.mkdir_p(courses_dir)
 
-      courses.each do |course|
+      courses_to_generate = courses.reject do |course|
+        course_slug = course["id"]
+        Dir.glob(File.join(@source_dir, "courses", "#{course_slug}.*")).any?
+      end
+
+      return if courses_to_generate.empty?
+
+      courses_to_generate.each_with_index do |course, index|
         course_slug = course["id"]
         course_dir = File.join(courses_dir, course_slug)
         FileUtils.mkdir_p(course_dir)
@@ -1036,7 +1364,16 @@ module Typophic
         output = render_layout("course", content, page_data, @default_theme_name)
         
         File.write(File.join(course_dir, "index.html"), output)
-        puts "Generated course: #{course['title']} (#{course_slug})" if @verbose
+        
+        if @verbose
+          total = courses_to_generate.length
+          progress = ((index + 1).to_f / total * 100).round
+          print_progress_bar("Courses", progress, index + 1, total, course_slug)
+        end
+      end
+      
+      if @verbose && !courses_to_generate.empty?
+        print "\n" # New line after progress
       end
     end
 
@@ -1069,7 +1406,7 @@ module Typophic
       window_title = lang ? "#{lang}.#{lang == 'ruby' ? 'rb' : lang}" : 'code'
       window_title = 'ruby.rb' if lang == 'ruby'
       code_classes = ["language-#{lang || 'code'}"]
-      code_classes << 'ruby-exec' if executable
+      code_classes << "#{lang || 'code'}-exec" if executable
       pre_classes = ['code-editor__highlight']
       pre_classes << 'language-ruby' if lang == 'ruby'
       pre_attributes = []
@@ -1080,6 +1417,15 @@ module Typophic
       code_attributes = ["class=\"#{code_classes.join(' ')}\""]
       code_attr = code_attributes.join(' ')
       escaped_code = ERB::Util.html_escape(code_body)
+
+      loading_label =
+        if lang.nil?
+          "Loading runtime"
+        elsif lang == "ruby"
+          "Loading Ruby VM"
+        else
+          "Loading #{lang.capitalize} runtime"
+        end
 
       <<~HTML.chomp
         <div class="code-window">
@@ -1092,7 +1438,7 @@ module Typophic
                 <<~INDICATOR
                 <div class="loading-indicator">
                   <span class="loading-spinner"></span>
-                  <span class="loading-text">Loading RubyVM</span>
+                  <span class="loading-text">#{loading_label}</span>
                 </div>
                 INDICATOR
               end}
@@ -1364,6 +1710,10 @@ module Typophic
       @site["archives"] = archive_entries
       @site["tags"] = tag_entries
       @site["collections"] = @collections
+      # Convenience alias so Liquid layouts can access pages like Jekyll
+      @site["pages"] = @collections["pages"] || []
+
+      annotate_courses_with_estimations
     end
 
     def stringify_keys(hash)
@@ -1391,6 +1741,112 @@ module Typophic
       return value.strftime("%Y-%m-%d") if value.respond_to?(:strftime)
 
       value
+    end
+
+    # Estimate reading time for a single Markdown document, returning minutes
+    # as an Integer. The heuristic treats normal prose and code differently
+    # and adds a small premium for runnable examples so programming-heavy
+    # chapters get more realistic durations.
+    #
+    # - Prose words: ~220 words / minute
+    # - Code lines:  ~40 lines / minute
+    # - Executable blocks (```ruby-exec``` / ```*-exec```): +3 minutes each
+    def estimate_reading_time_minutes(markdown)
+      return 0 if markdown.nil? || markdown.strip.empty?
+
+      words = 0
+      code_lines = 0
+      exec_blocks = 0
+
+      in_code = false
+      current_lang = nil
+
+      markdown.each_line do |line|
+        if line =~ /^```([a-zA-Z0-9_-]*)/
+          lang = Regexp.last_match(1).to_s
+          if in_code
+            in_code = false
+            current_lang = nil
+          else
+            in_code = true
+            current_lang = lang
+            exec_blocks += 1 if current_lang == "ruby-exec" || current_lang.end_with?("-exec")
+          end
+          next
+        end
+
+        if in_code
+          code_lines += 1 unless line.strip.empty?
+        else
+          # Count coarse-grained "words" for prose sections.
+          words += line.scan(/\w+/).size
+        end
+      end
+
+      minutes_text = words / 220.0
+      minutes_code = code_lines / 40.0
+      minutes_exec = exec_blocks * 3.0
+
+      total = minutes_text + minutes_code + minutes_exec
+
+      # Clamp very small non-zero values to a minimum of one minute so
+      # even tiny chapters show something useful.
+      if total.positive? && total < 1.0
+        total = 1.0
+      end
+
+      total.round
+    end
+
+    # Walk the course definitions in site.data.courses and derive an
+    # estimated duration for each course based on the reading-time of
+    # its constituent lessons. The results are written back into the
+    # data structure so layouts can treat them as static fields.
+    def annotate_courses_with_estimations
+      data = @site["data"] || {}
+      courses = data["courses"]
+      return unless courses.is_a?(Array) && courses.any?
+
+      pages = (@collections["pages"] || [])
+      pages_by_permalink = pages.each_with_object({}) do |page, memo|
+        memo[page["permalink"]] = page
+      end
+
+      courses.each do |course|
+        # YAML data is still plain Hash here.
+        slug = course["slug"] || course[:slug]
+        next unless slug
+
+        total_minutes = 0
+
+        Array(course["modules"] || course[:modules]).each do |mod|
+          tutorials = Array(mod["tutorials"] || mod[:tutorials])
+          tutorials.each do |tutorial_slug|
+            permalink = "/courses/#{slug}/#{tutorial_slug}/"
+            page = pages_by_permalink[permalink]
+            next unless page
+
+            minutes = page["reading_time_minutes"].to_i
+            if minutes <= 0 && page["source"] && File.file?(page["source"])
+              raw = File.read(page["source"])
+              _, body = extract_front_matter(raw)
+              minutes = estimate_reading_time_minutes(body)
+              page["reading_time_minutes"] = minutes
+            end
+
+            total_minutes += minutes
+          end
+        end
+
+        # Fallback if we couldn't locate lessons yet: base on lesson count.
+        if total_minutes <= 0
+          lessons = (course["lessons"] || course[:lessons] || 0).to_i
+          total_minutes = (lessons * 15)
+        end
+
+        course["estimated_minutes"] = total_minutes
+        course["estimated_hours"] = (total_minutes / 60.0).round
+      end
     end
 
     class TemplateContext
@@ -1486,10 +1942,20 @@ module Typophic
         combine_with_base(relative)
       end
 
+      def current_theme
+        @current_theme
+      end
+
       def theme_asset_path(relative_path, theme_name = nil)
         name = (theme_name || @current_theme).to_s
         relative = relative_path.to_s.sub(%r{^/}, "")
         combine_with_base(File.join("themes", name, relative))
+      end
+
+      def theme_path(relative_path = "")
+        name = (@current_theme || @page_hash["theme"] || @site_hash.dig("theme", "default") || "rubylearning").to_s
+        clean = relative_path.to_s.sub(%r{^/}, "")
+        File.join("/themes", name, clean).gsub(%r{//+}, "/")
       end
 
       def url_for(relative_path)
@@ -1590,6 +2056,261 @@ module Typophic
         path = base_path.empty? ? "/#{clean_relative}" : "#{base_path}/#{clean_relative}"
         path.gsub(%r{//+}, "/")
       end
+    end
+
+    def minify_assets
+      return unless @minify
+
+      if @verbose
+        puts "Minifying assets..."
+      end
+      
+      # Load shared minify cache
+      minify_cache_file = File.join(@output_dir, ".minify_cache")
+      @minify_cache = if @incremental && File.exist?(minify_cache_file)
+                        begin
+                          Marshal.load(File.read(minify_cache_file))
+                        rescue
+                          {}
+                        end
+                      else
+                        {}
+                      end
+      
+      start_time = Time.now
+      html_count = minify_html_files if @minify_html
+      css_count = minify_css_files if @minify_css
+      js_count = minify_javascript_files if @minify_js
+      
+      # Save shared minify cache
+      if @incremental && @minify_cache.any?
+        begin
+          File.write(minify_cache_file, Marshal.dump(@minify_cache))
+        rescue => e
+          # Ignore cache save errors
+        end
+      end
+      
+      if @verbose
+        total = (html_count || 0) + (css_count || 0) + (js_count || 0)
+        elapsed = ((Time.now - start_time) * 1000).round
+        if total > 0
+          puts "\r✅ Minification complete (#{total} files, #{elapsed}ms)"
+        end
+      end
+    end
+
+    def minify_html_files
+      html_files = Dir.glob(File.join(@output_dir, "**", "*.html"))
+      return 0 if html_files.empty?
+
+      files_to_process = html_files.reject { |f| should_skip_file?(f) }
+      return 0 if files_to_process.empty?
+
+      minified_count = 0
+      skipped_count = 0
+      total_saved = 0
+      total_files = files_to_process.length
+      
+      files_to_process.each_with_index do |file, index|
+        begin
+          # Check if file was already minified and hasn't changed
+          if @incremental && @minify_cache[file]
+            file_mtime = File.mtime(file)
+            cached_mtime = @minify_cache[file][:mtime]
+            if file_mtime <= cached_mtime
+              skipped_count += 1
+              if @verbose
+                progress = ((index + 1).to_f / total_files * 100).round
+                print_progress_bar("HTML", progress, index + 1, total_files)
+              end
+              next
+            end
+          end
+          
+          original_size = File.size(file)
+          content = File.read(file, encoding: Encoding::UTF_8)
+          minified = Typophic::Minifier.minify_html(content)
+          new_size = minified.bytesize
+          
+          # Only write if we actually saved space (skip if same or larger)
+          if new_size < original_size
+            File.write(file, minified, encoding: Encoding::UTF_8)
+            minified_count += 1
+            total_saved += (original_size - new_size)
+            @minify_cache[file] = { mtime: File.mtime(file), size: new_size }
+          else
+            @minify_cache[file] = { mtime: File.mtime(file), size: original_size }
+          end
+        rescue => e
+          warn "\n⚠️  Failed to minify HTML #{file}: #{e.message}" if @verbose
+        end
+        
+        if @verbose
+          progress = ((index + 1).to_f / total_files * 100).round
+          print_progress_bar("HTML", progress, index + 1, total_files)
+        end
+      end
+      
+      if @verbose && (minified_count > 0 || skipped_count > 0)
+        print "\n" # New line after progress bar
+      end
+      minified_count
+    end
+
+    def minify_css_files
+      css_files = Dir.glob(File.join(@output_dir, "**", "*.css"))
+      return 0 if css_files.empty?
+
+      files_to_process = css_files.reject do |file|
+        should_skip_file?(file) || file.include?(".min.css")
+      end
+      return 0 if files_to_process.empty?
+
+      minified_count = 0
+      skipped_count = 0
+      total_saved = 0
+      browsers = @config.dig("minify", "browsers") || ["last 2 versions"]
+      total_files = files_to_process.length
+      
+      files_to_process.each_with_index do |file, index|
+        begin
+          # Check if file was already minified and hasn't changed
+          if @incremental && @minify_cache[file]
+            file_mtime = File.mtime(file)
+            cached_mtime = @minify_cache[file][:mtime]
+            if file_mtime <= cached_mtime
+              skipped_count += 1
+              if @verbose
+                progress = ((index + 1).to_f / total_files * 100).round
+                print_progress_bar("CSS", progress, index + 1, total_files)
+              end
+              next
+            end
+          end
+          
+          original_size = File.size(file)
+          content = File.read(file, encoding: Encoding::UTF_8)
+          
+          minified = Typophic::Minifier.minify_css(content, autoprefix: true, browsers: browsers)
+          new_size = minified.bytesize
+          
+          # Only write if we actually saved space (autoprefixer might add prefixes)
+          File.write(file, minified, encoding: Encoding::UTF_8)
+          minified_count += 1
+          size_diff = original_size - new_size
+          total_saved += size_diff if size_diff > 0
+          @minify_cache[file] = { mtime: File.mtime(file), size: new_size }
+        rescue => e
+          warn "\n⚠️  Failed to minify CSS #{file}: #{e.message}" if @verbose
+        end
+        
+        if @verbose
+          progress = ((index + 1).to_f / total_files * 100).round
+          print_progress_bar("CSS", progress, index + 1, total_files)
+        end
+      end
+      
+      if @verbose && (minified_count > 0 || skipped_count > 0)
+        print "\n" # New line after progress bar
+      end
+      minified_count
+    end
+
+    def minify_javascript_files
+      js_files = Dir.glob(File.join(@output_dir, "**", "*.js"))
+      return 0 if js_files.empty?
+
+      files_to_process = js_files.reject do |file|
+        should_skip_file?(file) || 
+        file.include?(".min.js") || 
+        file.include?("main.js") || 
+        file.include?("/modules/")
+      end
+      return 0 if files_to_process.empty?
+
+      minified_count = 0
+      skipped_count = 0
+      total_saved = 0
+      total_files = files_to_process.length
+      
+      files_to_process.each_with_index do |file, index|
+        begin
+          # Check if file was already minified and hasn't changed
+          if @incremental && @minify_cache[file]
+            file_mtime = File.mtime(file)
+            cached_mtime = @minify_cache[file][:mtime]
+            if file_mtime <= cached_mtime
+              skipped_count += 1
+              if @verbose
+                progress = ((index + 1).to_f / total_files * 100).round
+                print_progress_bar("JS", progress, index + 1, total_files)
+              end
+              next
+            end
+          end
+          
+          original_size = File.size(file)
+          content = File.read(file, encoding: Encoding::UTF_8)
+          minified = Typophic::Minifier.minify_javascript(content)
+          new_size = minified.bytesize
+          
+          # Only write if we actually saved space
+          if new_size < original_size
+            File.write(file, minified, encoding: Encoding::UTF_8)
+            minified_count += 1
+            total_saved += (original_size - new_size)
+            @minify_cache[file] = { mtime: File.mtime(file), size: new_size }
+          else
+            @minify_cache[file] = { mtime: File.mtime(file), size: original_size }
+          end
+        rescue => e
+          warn "\n⚠️  Failed to minify JavaScript #{file}: #{e.message}" if @verbose
+        end
+        
+        if @verbose
+          progress = ((index + 1).to_f / total_files * 100).round
+          print_progress_bar("JS", progress, index + 1, total_files)
+        end
+      end
+      
+      if @verbose && (minified_count > 0 || skipped_count > 0)
+        print "\n" # New line after progress bar
+      end
+      minified_count
+    end
+
+    def should_skip_file?(file)
+      return false if @minify_skip_patterns.empty?
+
+      relative_path = file.sub("#{@output_dir}/", "")
+      @minify_skip_patterns.any? do |pattern|
+        File.fnmatch?(pattern, relative_path, File::FNM_PATHNAME | File::FNM_EXTGLOB)
+      end
+    end
+
+    def format_size(bytes)
+      return "#{bytes}B" if bytes < 1024
+      return "#{(bytes / 1024.0).round(1)}KB" if bytes < 1_048_576
+      "#{(bytes / 1_048_576.0).round(2)}MB"
+    end
+
+    def print_progress_bar(label, percentage, current, total, file_name = nil, width: 20)
+      filled = (percentage / 100.0 * width).round
+      empty = width - filled
+      
+      bar = "🟩" * filled + "⬜" * empty
+      spinner = percentage < 100 ? "⏳" : "✅"
+      
+      # Use \r to overwrite the same line
+      if file_name
+        # Truncate file name if too long
+        display_name = file_name.length > 40 ? "...#{file_name[-37..-1]}" : file_name
+        print "\r  #{label}: #{bar} #{percentage}% (#{current}/#{total}) #{spinner} #{display_name}"
+      else
+        print "\r  #{label}: #{bar} #{percentage}% (#{current}/#{total}) #{spinner}"
+      end
+      $stdout.flush
     end
   end
 

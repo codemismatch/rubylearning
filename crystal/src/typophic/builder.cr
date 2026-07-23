@@ -5,6 +5,8 @@ require "yaml"
 require "json"
 require "time"
 require "uri"
+require "http/client"
+require "digest/md5"
 require "html"
 require "liquid"
 require "log"
@@ -323,6 +325,7 @@ module Typophic
       base_path = "" if base_path == "/"
 
       data_files = load_data_files
+      localize_author_avatars(data_files)
 
       # Create a new hash to ensure we have a mutable copy
       site_context = config.dup
@@ -365,6 +368,73 @@ module Typophic
         end
       end
       data
+    end
+
+    # Rewrites remote author avatar URLs (e.g. avatars.githubusercontent.com) to
+    # locally cached copies under assets/images/avatars/. Each avatar is
+    # downloaded once and reused on subsequent builds, so rendered pages never
+    # hotlink GitHub URLs that some clients block.
+    private def localize_author_avatars(data : Hash(String, YAML::Any))
+      authors_any = data["authors"]?
+      return unless authors_any
+      authors = authors_any.as_h?
+      return unless authors
+
+      cache_dir = File.join(@site_assets_dir, "images", "avatars")
+
+      authors.each do |id_any, author_any|
+        author = author_any.as_h?
+        next unless author
+        avatar_any = author[YAML::Any.new("avatar")]?
+        next unless avatar_any
+        avatar = avatar_any.as_s?
+        next unless avatar
+        next unless avatar.starts_with?("http://") || avatar.starts_with?("https://")
+
+        github = author[YAML::Any.new("github")]?.try(&.as_s?) || id_any.as_s
+        slug = github.gsub(/[^a-zA-Z0-9_-]/, "")
+        next if slug.empty?
+
+        local_file = Dir.glob(File.join(cache_dir, "#{slug}.*")).first?
+        local_file ||= download_avatar(avatar, cache_dir, slug)
+        if local_file
+          author[YAML::Any.new("avatar")] = YAML::Any.new("/images/avatars/#{File.basename(local_file)}")
+        end
+      end
+    end
+
+    private def download_avatar(url : String, cache_dir : String, slug : String) : String?
+      Dir.mkdir_p(cache_dir)
+
+      uri = URI.parse(url)
+      3.times do
+        response = HTTP::Client.get(uri)
+
+        case response.status_code
+        when 301, 302, 303, 307, 308
+          location = response.headers["Location"]?
+          return nil unless location
+          uri = URI.parse(location)
+        when 200
+          content_type = response.headers["Content-Type"]?.to_s
+          ext = case content_type
+                when .includes?("jpeg") then ".jpg"
+                when .includes?("gif")  then ".gif"
+                when .includes?("webp") then ".webp"
+                else                         ".png"
+                end
+          path = File.join(cache_dir, "#{slug}#{ext}")
+          File.write(path, response.body)
+          Log.info { "Cached avatar: #{url} -> #{path}" }
+          return path
+        else
+          return nil
+        end
+      end
+      nil
+    rescue ex
+      Log.warn { "Could not cache avatar #{url}: #{ex.message}" }
+      nil
     end
 
     # Recursively converts a JSON::Any into a YAML::Any
@@ -568,7 +638,42 @@ module Typophic
                        YAML::Any.new([] of YAML::Any)
                      end
 
+      # Normalize frontmatter `author` (display name or id) to a canonical
+      # author id from data/authors.yml so templates can render avatars.
+      if author_any = page["author"]?
+        author_str = author_any.as_s?
+        if author_str && !author_str.empty?
+          if resolved = resolve_author_id(author_str)
+            page["author"] = YAML::Any.new(resolved)
+          end
+        end
+      end
+
       page
+    end
+
+    @authors_registry : Hash(YAML::Any, YAML::Any)? = nil
+
+    private def authors_registry
+      @authors_registry ||= begin
+        path = File.join(@data_dir, "authors.yml")
+        if File.exists?(path)
+          YAML.parse(File.read(path)).as_h? || Hash(YAML::Any, YAML::Any).new
+        else
+          Hash(YAML::Any, YAML::Any).new
+        end
+      end
+    end
+
+    private def resolve_author_id(author : String) : String?
+      downcased = author.downcase
+      authors_registry.each do |id_any, data_any|
+        id = id_any.as_s
+        return id if id.downcase == downcased
+        name = data_any.as_h?.try { |h| h[YAML::Any.new("name")]?.try(&.as_s?) }
+        return id if name && name.downcase == downcased
+      end
+      nil
     end
 
     private def strip_supported_extensions(filename)
@@ -774,6 +879,9 @@ module Typophic
     end
 
     private def theme_for_page(page)
+      theme_any = page["theme"]?
+      theme_str = theme_any ? (theme_any.as_s? || theme_any.to_s) : ""
+      return theme_str unless theme_str.strip.empty?
       section_any = page["section"]?
       section = section_any ? section_any.as_s : ""
       @section_theme_map[section]? || @default_theme_name
@@ -797,6 +905,11 @@ module Typophic
           content = pipeline_ruby_exec(content, page)
         when "markdown"
           content = pipeline_markdown(content, page)
+        when "mermaid_blocks"
+          content = pipeline_mermaid_blocks(content, page)
+        when "ditaa_blocks"
+          # ditaa requires a local ditaa binary; only the Ruby engine runs it.
+          content
         else
           # Unknown step name – ignore for forward compatibility
         end
@@ -808,6 +921,52 @@ module Typophic
     private def pipeline_rubocop_ruby_blocks(content, page)
       # Not porting RuboCop integration; just return content
       content
+    end
+
+    # Transforms `#> mermaid: caption="..." ... #!` blocks into the same
+    # diagram-container markup the Ruby engine produces (see
+    # lib/typophic/renderer/diagram.rb).
+    private def pipeline_mermaid_blocks(content : String, _page) : String
+      regex = /^#>\s*mermaid(?::\s*([^\n]*))?\r?\n(.*?)^#!\s*$/m
+      String.build do |io|
+        pos = 0
+        while match = regex.match(content, pos)
+          io << content.byte_slice(pos, match.begin(0) - pos)
+          options_raw = match[1]? || ""
+          diagram = match[2]
+          io << mermaid_html(diagram, parse_block_options(options_raw))
+          pos = match.end(0)
+        end
+        io << content.byte_slice(pos)
+      end
+    end
+
+    private def mermaid_html(diagram_content : String, options : Hash(String, String)) : String
+      caption = options["caption"]? || ""
+      css_class = options["class"]? || "mermaid-diagram"
+      diagram_id = "mermaid-#{Digest::MD5.hexdigest(diagram_content)[0..7]}"
+
+      html = [] of String
+      html << %(<div class="diagram-container #{css_class}">)
+      html << %(<div class="mermaid" id="#{diagram_id}">)
+      html << diagram_content.strip
+      html << %(</div>)
+      html << %(<p class="diagram-caption">#{caption}</p>) unless caption.empty?
+      html << %(</div>)
+      html.join("\n")
+    end
+
+    private def parse_block_options(options_string : String?) : Hash(String, String)
+      options = Hash(String, String).new
+      return options if options_string.nil? || options_string.empty?
+
+      options_string.scan(/(\w+)=(?:"([^"]*)"|(\S+))/) do |match|
+        key = match[1]
+        value = match[2]? || match[3]? || ""
+        options[key] = value
+      end
+
+      options
     end
 
     private def pipeline_hash_blocks(content, page)
@@ -825,6 +984,13 @@ module Typophic
         elsif m = /^#>\s*([A-Za-z0-9_+\-]+)(?::\s*(.*))?\s*$/.match(line)
           lang = m[1]? ? m[1].to_s : ""
           options_raw = m[2]? ? m[2].to_s : ""
+
+          # mermaid/ditaa blocks are handled by their own pipeline steps
+          if %w[mermaid ditaa].includes?(lang.downcase)
+            output << line
+            i += 1
+            next
+          end
 
           i += 1
           code_lines = [] of String
@@ -1363,6 +1529,12 @@ module Typophic
       if theme_path && Dir.exists?(File.join(theme_path, "layouts"))
         candidates << File.join(theme_path, "layouts", "#{layout_name}.html")
         candidates << File.join(theme_path, "layouts", "#{layout_name}.liquid")
+      end
+
+      # Fallback: default theme layouts (themes like pylearning inherit them)
+      if @theme_path && Dir.exists?(File.join(@theme_path, "layouts"))
+        candidates << File.join(@theme_path, "layouts", "#{layout_name}.html")
+        candidates << File.join(@theme_path, "layouts", "#{layout_name}.liquid")
       end
 
       candidates.find { |path| File.exists?(path) }

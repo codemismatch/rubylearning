@@ -17,9 +17,16 @@ module Typophic
       end
 
       def render(template_body)
-        register_filters
-        register_tags
-        template = ::Liquid::Template.parse(template_body)
+        # Get or create shared environment with filters/tags registered
+        env = get_or_create_environment
+        
+        template = if env
+                     # Use Environment API (Liquid 5.x)
+                     ::Liquid::Template.parse(template_body, environment: env)
+                   else
+                     # Fallback to old API
+                     ::Liquid::Template.parse(template_body)
+                   end
         
         payload = {
           "site" => @site,
@@ -45,40 +52,42 @@ module Typophic
 
       private
 
-      @filter_mutex = Mutex.new
+      class << self
+        attr_accessor :environment_mutex, :shared_environment
+      end
+      
+      self.environment_mutex = Mutex.new
+      self.shared_environment = nil
 
-      def self.register_filters
-        # Suppress deprecation warnings for Liquid 5.x compatibility
-        old_verbose = $VERBOSE
-        $VERBOSE = nil
-        return if @filters_registered
-        @filter_mutex.synchronize do
-          return if @filters_registered
-          # Suppress deprecation warning for Liquid 5.x compatibility
-
-          old_verbose, $VERBOSE = $VERBOSE, nil
-
-          ::Liquid::Template.register_filter(Typophic::LiquidFilters)
-
-          $VERBOSE = old_verbose
-          @filters_registered = true
-        $VERBOSE = old_verbose
+      def get_or_create_environment
+        return self.class.shared_environment if self.class.shared_environment
+        
+        self.class.environment_mutex.synchronize do
+          return self.class.shared_environment if self.class.shared_environment
+          
+          # Create Environment instance and register filters/tags (Liquid 5.x API)
+          if defined?(::Liquid::Environment)
+            env = ::Liquid::Environment.new
+            env.register_filter(Typophic::LiquidFilters)
+            env.register_tag("include", Typophic::LiquidTags::Include)
+            env.register_tag("include_cached", Typophic::LiquidTags::IncludeCached)
+            self.class.shared_environment = env
+          else
+            # Fallback for older Liquid versions - use deprecated API
+            old_verbose = $VERBOSE
+            $VERBOSE = nil
+            begin
+              ::Liquid::Template.register_filter(Typophic::LiquidFilters)
+              ::Liquid::Template.register_tag("include", Typophic::LiquidTags::Include)
+              ::Liquid::Template.register_tag("include_cached", Typophic::LiquidTags::IncludeCached)
+            ensure
+              $VERBOSE = old_verbose
+            end
+            self.class.shared_environment = nil
+          end
         end
-      end
-
-      def register_filters
-        self.class.register_filters
-      end
-
-      def register_tags
-        return if defined?(@tags_registered) && @tags_registered
-        # Suppress deprecation warnings for Liquid 5.x compatibility
-        old_verbose, $VERBOSE = $VERBOSE, nil
-        ::Liquid::Template.register_tag("include", Typophic::LiquidTags::Include)
-        ::Liquid::Template.register_tag("include_cached", Typophic::LiquidTags::IncludeCached)
-
-        $VERBOSE = old_verbose
-        @tags_registered = true
+        
+        self.class.shared_environment
       end
 
       def create_file_system(registers)
@@ -145,14 +154,37 @@ module Typophic
 
   module LiquidFilters
     def theme_asset(input, theme_name = nil)
-      context = @context.registers[:builder]
+      input_str = input.to_s
+      return input_str if input_str =~ %r{^https?://}
+
       theme = theme_name || @context.registers[:theme]
-      
-      relative = input.to_s.sub(%r{^/}, "")
       site = @context.registers[:site]
       base_path = site["base_path"] || ""
-      
+
+      relative = input_str.sub(%r{^/}, "")
+
+      # Fall back to the default theme when the requested theme doesn't
+      # ship this asset (e.g. pylearning inherits rubylearning's JS).
+      theme_cfg = site["theme"]
+      default_theme = theme_cfg.is_a?(Hash) ? theme_cfg["default"].to_s : "rubylearning"
+      default_theme = "rubylearning" if default_theme.empty?
+      if theme.to_s != default_theme &&
+         !File.exist?(File.join("themes", theme.to_s, relative)) &&
+         File.exist?(File.join("themes", default_theme, relative))
+        theme = default_theme
+      end
+
       path = File.join("themes", theme.to_s, relative)
+      combine_with_base(path, base_path)
+    end
+
+    def theme_path(input = "", theme_name = nil)
+      name = theme_name || @context.registers[:theme]
+      site = @context.registers[:site]
+      base_path = site["base_path"] || ""
+
+      relative = input.to_s.sub(%r{^/}, "")
+      path = File.join("themes", name.to_s, relative)
       combine_with_base(path, base_path)
     end
 

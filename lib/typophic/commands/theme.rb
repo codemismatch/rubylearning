@@ -2,6 +2,7 @@
 
 require "optparse"
 require "fileutils"
+require "yaml"
 require_relative "../theme_importer"
 
 module Typophic
@@ -323,13 +324,31 @@ module Typophic
           end
 
           themes = Dir.children(themes_dir).select { |child| File.directory?(File.join(themes_dir, child)) }
-          
+
           if themes.empty?
             puts "No themes installed."
           else
             puts "Installed themes:"
-            themes.each do |theme|
-              puts "  - #{theme}"
+            themes.sort.each do |theme_dir|
+              manifest_path = File.join(themes_dir, theme_dir, "theme.yml")
+              if File.exist?(manifest_path)
+                begin
+                  manifest = YAML.load_file(manifest_path) || {}
+                  manifest = {} unless manifest.is_a?(Hash)
+                rescue => e
+                  warn "  - #{theme_dir} (error reading theme.yml: #{e.message})"
+                  next
+                end
+                name = manifest["name"] || theme_dir
+                description = manifest["description"]
+                if description && !description.to_s.strip.empty?
+                  puts "  - #{name} (#{theme_dir}) — #{description}"
+                else
+                  puts "  - #{name} (#{theme_dir})"
+                end
+              else
+                puts "  - #{theme_dir} (no theme.yml)"
+              end
             end
           end
         end

@@ -60,6 +60,16 @@ module Typophic
         asset = data.to_s.sub(/\A\//, "")
         theme_name = args.first?.try(&.to_s) || FilterConfig.default_theme
         base_override = args.size >= 2 ? args[1].to_s : FilterConfig.base_path
+
+        # Fall back to the default theme when the requested theme doesn't
+        # ship this asset (e.g. pylearning inherits rubylearning's JS).
+        default_theme = FilterConfig.default_theme
+        if !default_theme.empty? && theme_name != default_theme &&
+           !File.exists?(File.join("themes", theme_name, asset)) &&
+           File.exists?(File.join("themes", default_theme, asset))
+          theme_name = default_theme
+        end
+
         path = "themes/#{theme_name}/#{asset}"
         Liquid::Any.new(Typophic::Filters.build_relative(path, base_override))
       end
@@ -101,3 +111,56 @@ Liquid::Filters::FilterRegister.register "relative_url", Typophic::Filters::Rela
 Liquid::Filters::FilterRegister.register "theme_asset", Typophic::Filters::ThemeAsset
 Liquid::Filters::FilterRegister.register "url_for", Typophic::Filters::UrlFor
 Liquid::Filters::FilterRegister.register "absolute_url", Typophic::Filters::AbsoluteUrl
+
+module Typophic
+  module Filters
+    # Extended `date` filter: like Liquid's stock filter but also parses
+    # string dates from frontmatter ("2025-10-30", "2025-10-30 00:00:00 UTC"),
+    # not just Time values. Registered under the same name so it overrides
+    # the stock implementation.
+    class Date
+      extend Liquid::Filters::Filter
+
+      def self.filter(data : Liquid::Any, args : Array(Liquid::Any), options : Hash(String, Liquid::Any)) : Liquid::Any
+        format = args.first?.try(&.as_s?)
+        return data unless format
+
+        if time = data.as_t?
+          Liquid::Any.new time.to_s format
+        elsif str = data.as_s?
+          if str == "now" || str == "today"
+            Liquid::Any.new Time.utc.to_s format
+          elsif time = parse_time_string(str)
+            Liquid::Any.new time.to_s format
+          else
+            data
+          end
+        else
+          data
+        end
+      end
+
+      private def self.parse_time_string(str : String) : Time?
+        s = str.strip
+        {"%Y-%m-%d %H:%M:%S %z", "%Y-%m-%d %H:%M:%S", "%Y-%m-%d", "%Y-%m-%dT%H:%M:%S"}.each do |fmt|
+          begin
+            return Time.parse(s, fmt, Time::Location::UTC)
+          rescue Time::Format::Error
+          end
+        end
+
+        # Tolerate a trailing UTC/GMT zone name
+        stripped = s.sub(/\s+(UTC|GMT)\s*$/, "")
+        {"%Y-%m-%d %H:%M:%S", "%Y-%m-%d"}.each do |fmt|
+          begin
+            return Time.parse(stripped, fmt, Time::Location::UTC)
+          rescue Time::Format::Error
+          end
+        end
+        nil
+      end
+    end
+  end
+end
+
+Liquid::Filters::FilterRegister.register "date", Typophic::Filters::Date
