@@ -1,18 +1,18 @@
 ---
 layout: tutorial
 title: Chapter R2 &ndash; Rails routes & controllers
-permalink: /tutorials/rails-routes-controllers/
+permalink: /courses/ruby-basics/rails-routes-controllers/
 difficulty: intermediate
 summary: Shape request flow with RESTful routes, controllers, and model validations.
 previous_tutorial:
   title: "Chapter R1: Project setup"
-  url: /tutorials/rails-project-setup/
+  url: /courses/ruby-basics/rails-project-setup/
 next_tutorial:
   title: "Chapter R3: Hotwire views & feedback"
-  url: /tutorials/rails-hotwire-feedback/
+  url: /courses/ruby-basics/rails-hotwire-feedback/
 related_tutorials:
   - title: "Hotwire views & feedback"
-    url: /tutorials/rails-hotwire-feedback/
+    url: /courses/ruby-basics/rails-hotwire-feedback/
   - title: "Rails learning hub"
     url: /rails/
 ---
@@ -53,7 +53,7 @@ end
 - Add model validations and watch the controller handle failures.
 - Write request specs (or system tests) to cover the happy path.
 
-When you&rsquo;re comfortable with the request cycle, carry on to [Chapter R3: Hotwire views & feedback](/tutorials/rails-hotwire-feedback/).
+When you&rsquo;re comfortable with the request cycle, carry on to [Chapter R3: Hotwire views & feedback](/courses/ruby-basics/rails-hotwire-feedback/).
 
 #### Practice 1 - Thinking through scaffolding and migrations
 

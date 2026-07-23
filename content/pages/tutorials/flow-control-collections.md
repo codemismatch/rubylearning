@@ -1,18 +1,18 @@
 ---
 layout: tutorial
 title: Chapter 2 &ndash; Flow control & collections
-permalink: /tutorials/flow-control-collections/
+permalink: /courses/ruby-basics/flow-control-collections/
 difficulty: beginner
 summary: Practise branching logic and collection helpers so your scripts react to real data.
 previous_tutorial:
   title: "Chapter 1: Meet Ruby"
-  url: /tutorials/meet-ruby/
+  url: /courses/ruby-basics/meet-ruby/
 next_tutorial:
   title: "Chapter 3: Methods & blocks"
-  url: /tutorials/methods-and-blocks/
+  url: /courses/ruby-basics/methods-and-blocks/
 related_tutorials:
   - title: "Methods & blocks"
-    url: /tutorials/methods-and-blocks/
+    url: /courses/ruby-basics/methods-and-blocks/
   - title: "Ruby practice examples"
     url: /blog/ruby-examples/
 ---
@@ -431,4 +431,4 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.include?
 #!
 
 
-When the logic feels natural, move ahead to [Chapter 3: Methods & blocks](/tutorials/methods-and-blocks/).
+When the logic feels natural, move ahead to [Chapter 3: Methods & blocks](/courses/ruby-basics/methods-and-blocks/).

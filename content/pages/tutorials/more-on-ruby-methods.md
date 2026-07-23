@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 11 &ndash; More on Ruby Methods"
-permalink: /tutorials/more-on-ruby-methods/
+permalink: /courses/ruby-basics/more-on-ruby-methods/
 difficulty: beginner
 summary: See how Ruby dispatches methods, learn about the implicit receiver, and inspect `self` so you always know which object runs your code.
 previous_tutorial:
   title: "Chapter 10: Ruby Names"
-  url: /tutorials/ruby-names/
+  url: /courses/ruby-basics/ruby-names/
 next_tutorial:
   title: "Chapter 12: Writing Your Own Ruby Methods"
-  url: /tutorials/writing-own-ruby-methods/
+  url: /courses/ruby-basics/writing-own-ruby-methods/
 related_tutorials:
   - title: "Methods & blocks"
-    url: /tutorials/methods-and-blocks/
+    url: /courses/ruby-basics/methods-and-blocks/
   - title: "Variables & Assignment"
-    url: /tutorials/variables-and-assignment/
+    url: /courses/ruby-basics/variables-and-assignment/
 ---
 
 > Adapted from Satish Talim's "More on Ruby Methods" chapter.

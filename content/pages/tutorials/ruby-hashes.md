@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 20 &ndash; Ruby Hashes"
-permalink: /tutorials/ruby-hashes/
+permalink: /courses/ruby-basics/ruby-hashes/
 difficulty: beginner
 summary: Store key/value pairs with Ruby hashes, leverage symbols for efficient keys, and learn the literal syntaxes that keep your data tidy.
 previous_tutorial:
   title: "Chapter 19: Ruby Symbols"
-  url: /tutorials/ruby-symbols/
+  url: /courses/ruby-basics/ruby-symbols/
 next_tutorial:
   title: "Chapter 21: Ruby Random Numbers"
-  url: /tutorials/ruby-random-numbers/
+  url: /courses/ruby-basics/ruby-random-numbers/
 related_tutorials:
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
   - title: "Ruby Arrays"
-    url: /tutorials/ruby-arrays/
+    url: /courses/ruby-basics/ruby-arrays/
 ---
 
 > Adapted from Satish Talim's Ruby Hashes lesson.

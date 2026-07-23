@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 18 &ndash; Ruby Ranges"
-permalink: /tutorials/ruby-ranges/
+permalink: /courses/ruby-basics/ruby-ranges/
 difficulty: beginner
 summary: Use inclusive/exclusive ranges to model sequences, iterate efficiently, and perform interval tests with `===`.
 previous_tutorial:
   title: "Chapter 17: Ruby Arrays"
-  url: /tutorials/ruby-arrays/
+  url: /courses/ruby-basics/ruby-arrays/
 next_tutorial:
   title: "Chapter 19: Ruby Symbols"
-  url: /tutorials/ruby-symbols/
+  url: /courses/ruby-basics/ruby-symbols/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: "Simple Constructs"
-    url: /tutorials/simple-constructs/
+    url: /courses/ruby-basics/simple-constructs/
 ---
 
 > Adapted from Satish Talim's original ranges lesson.

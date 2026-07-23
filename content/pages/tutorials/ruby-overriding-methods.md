@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 30 &ndash; Overriding Methods"
-permalink: /tutorials/ruby-overriding-methods/
+permalink: /courses/ruby-basics/ruby-overriding-methods/
 difficulty: intermediate
 summary: Customize inherited behavior by overriding methods and using `super` to build on parent logic.
 previous_tutorial:
   title: "Chapter 29: Ruby Inheritance"
-  url: /tutorials/ruby-inheritance/
+  url: /courses/ruby-basics/ruby-inheritance/
 next_tutorial:
   title: 'Chapter 31: "Overloading" Methods the Ruby Way'
-  url: /tutorials/ruby-overloading-methods/
+  url: /courses/ruby-basics/ruby-overloading-methods/
 related_tutorials:
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Open Classes"
-    url: /tutorials/ruby-open-classes/
+    url: /courses/ruby-basics/ruby-open-classes/
 ---
 
 > Adapted from Satish Talim's "Overriding Methods" lesson.

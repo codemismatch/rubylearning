@@ -1,21 +1,21 @@
 ---
 layout: tutorial
 title: "Chapter 6 &ndash; Fun with Strings"
-permalink: /tutorials/fun-with-strings/
+permalink: /courses/ruby-basics/fun-with-strings/
 difficulty: beginner
 author: Pankaj Doharey
 summary: Explore Ruby's flexible string literals, concatenation tricks, interpolation, and shell-friendly backticks before moving on to control flow.
 previous_tutorial:
   title: "Chapter 5: Numbers in Ruby"
-  url: /tutorials/numbers-in-ruby/
+  url: /courses/ruby-basics/numbers-in-ruby/
 next_tutorial:
   title: "Chapter 7: Variables & Assignment"
-  url: /tutorials/variables-and-assignment/
+  url: /courses/ruby-basics/variables-and-assignment/
 related_tutorials:
   - title: "Ruby Features"
-    url: /tutorials/ruby-features/
+    url: /courses/ruby-basics/ruby-features/
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
 ---
 
 > Adapted from Satish Talim's "Fun with Strings" lesson on RubyLearning, refreshed with modern Ruby notes.

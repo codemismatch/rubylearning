@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 19 &ndash; Ruby Symbols"
-permalink: /tutorials/ruby-symbols/
+permalink: /courses/ruby-basics/ruby-symbols/
 difficulty: beginner
 summary: Learn when to reach for symbols instead of strings, why they're unique and memory-friendly, and how to convert between types.
 previous_tutorial:
   title: "Chapter 18: Ruby Ranges"
-  url: /tutorials/ruby-ranges/
+  url: /courses/ruby-basics/ruby-ranges/
 next_tutorial:
   title: "Chapter 20: Ruby Hashes"
-  url: /tutorials/ruby-hashes/
+  url: /courses/ruby-basics/ruby-hashes/
 related_tutorials:
   - title: "Hashes"
-    url: /tutorials/hashes/
+    url: /courses/ruby-basics/hashes/
   - title: "Ruby Names"
-    url: /tutorials/ruby-names/
+    url: /courses/ruby-basics/ruby-names/
 ---
 
 > Adapted from Satish Talim's Ruby Symbols lesson.

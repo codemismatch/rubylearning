@@ -1,15 +1,15 @@
 ---
 layout: tutorial
 title: Chapter 6 &ndash; Files, gems & next steps
-permalink: /tutorials/files-gems-next-steps/
+permalink: /courses/ruby-basics/files-gems-next-steps/
 difficulty: advanced
 summary: Read external data, interact with the filesystem, and script with gems to automate real tasks.
 previous_tutorial:
   title: "Chapter 5: Modules & mixins"
-  url: /tutorials/modules-and-mixins/
+  url: /courses/ruby-basics/modules-and-mixins/
 related_tutorials:
   - title: "Rails project setup"
-    url: /tutorials/rails-project-setup/
+    url: /courses/ruby-basics/rails-project-setup/
   - title: "Ruby resources"
     url: /pages/resources/
 ---
@@ -274,7 +274,7 @@ Next steps:
 
 - Revisit earlier chapters and replace hard-coded data with user input.
 - Practice building real-world applications that combine all these concepts.
-- Move into the Rails sprint, starting with [Chapter R1: Project setup](/tutorials/rails-project-setup/).
+- Move into the Rails sprint, starting with [Chapter R1: Project setup](/courses/ruby-basics/rails-project-setup/).
 - Keep useful references close by using the [resources page](/pages/resources/).
 
 #### Practice 1 - Sketching a file IO script

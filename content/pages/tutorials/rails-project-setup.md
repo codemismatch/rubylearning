@@ -1,17 +1,17 @@
 ---
 layout: tutorial
 title: Chapter R1 &ndash; Rails project setup
-permalink: /tutorials/rails-project-setup/
+permalink: /courses/ruby-basics/rails-project-setup/
 difficulty: beginner
 summary: Assemble your Rails environment, create a clean baseline app, and confirm everything boots.
 next_tutorial:
   title: "Chapter R2: Routes & controllers"
-  url: /tutorials/rails-routes-controllers/
+  url: /courses/ruby-basics/rails-routes-controllers/
 related_tutorials:
   - title: "Rails learning hub"
     url: /rails/
   - title: "Rails routes & controllers"
-    url: /tutorials/rails-routes-controllers/
+    url: /courses/ruby-basics/rails-routes-controllers/
 ---
 
 ```bash
@@ -28,7 +28,7 @@ bin/rails server
 - Swap Tailwind for another CSS framework and note the differences.
 - Initialise a Git repository and commit the pristine app so you can track changes.
 
-Continue to [Chapter R2: Routes & controllers](/tutorials/rails-routes-controllers/) when you can boot the app without errors.
+Continue to [Chapter R2: Routes & controllers](/courses/ruby-basics/rails-routes-controllers/) when you can boot the app without errors.
 
 #### Practice 1 - Verifying database setup
 

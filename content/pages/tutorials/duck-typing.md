@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 36 &ndash; Duck Typing"
-permalink: /tutorials/duck-typing/
+permalink: /courses/ruby-basics/duck-typing/
 difficulty: intermediate
 summary: Embrace Ruby's "if it quacks like a duck" philosophy-code to behavior, not class names.
 previous_tutorial:
   title: "Chapter 35: Ruby Time Class"
-  url: /tutorials/ruby-time-class/
+  url: /courses/ruby-basics/ruby-time-class/
 next_tutorial:
   title: "Chapter 37: Ruby Syntactic Sugar"
-  url: /tutorials/ruby-syntactic-sugar/
+  url: /courses/ruby-basics/ruby-syntactic-sugar/
 related_tutorials:
   - title: "Ruby Access Control"
-    url: /tutorials/ruby-access-control/
+    url: /courses/ruby-basics/ruby-access-control/
   - title: "Ruby `method_missing`"
-    url: /tutorials/ruby-method-missing/
+    url: /courses/ruby-basics/ruby-method-missing/
 ---
 
 > Adapted from Satish Talim's "Duck Typing" lesson.

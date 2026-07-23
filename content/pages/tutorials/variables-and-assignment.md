@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 7 &ndash; Variables & Assignment"
-permalink: /tutorials/variables-and-assignment/
+permalink: /courses/ruby-basics/variables-and-assignment/
 difficulty: beginner
 summary: Learn how Ruby creates variables, distinguishes barewords from method calls, and converts between strings and numbers using everyday scripts.
 previous_tutorial:
   title: "Chapter 6: Fun with Strings"
-  url: /tutorials/fun-with-strings/
+  url: /courses/ruby-basics/fun-with-strings/
 next_tutorial:
   title: "Chapter 8: Scope"
-  url: /tutorials/scope/
+  url: /courses/ruby-basics/scope/
 related_tutorials:
   - title: "Ruby Features"
-    url: /tutorials/ruby-features/
+    url: /courses/ruby-basics/ruby-features/
   - title: "Numbers in Ruby"
-    url: /tutorials/numbers-in-ruby/
+    url: /courses/ruby-basics/numbers-in-ruby/
 ---
 
 > Adapted from Satish Talim's original RubyLearning lesson on variables, modernised for this Typophic site.

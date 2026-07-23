@@ -1,7 +1,7 @@
 ---
 layout: tutorial
 title: "Super Fast Ruby Intro (40 minutes)"
-permalink: /tutorials/quick-intro/
+permalink: /courses/ruby-basics/quick-intro/
 difficulty: beginner
 summary: A single, runnable 40-minute tour from "Ruby as a calculator" to blocks, classes, a tiny DSL, an interactive script, and a handful of Ruby party tricks.
 previous_tutorial:
@@ -9,12 +9,12 @@ previous_tutorial:
   url: /tutorials
 next_tutorial:
   title: "Chapter 1: Meet Ruby"
-  url: /tutorials/meet-ruby/
+  url: /courses/ruby-basics/meet-ruby/
 related_tutorials:
   - title: "Chapter 1: Meet Ruby"
-    url: /tutorials/meet-ruby/
+    url: /courses/ruby-basics/meet-ruby/
   - title: "Chapter 3: First Ruby Program"
-    url: /tutorials/first-ruby-program/
+    url: /courses/ruby-basics/first-ruby-program/
 ---
 
 > This is a 40-minute Ruby wow session. Instead of reading a reference, you will walk a straight path: from "Ruby as a calculator" through blocks, classes, and a tiny DSL, then finish with some Ruby party tricks and an interactive script.

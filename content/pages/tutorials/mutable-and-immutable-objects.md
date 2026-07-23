@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 38 &ndash; Mutable vs Immutable Objects"
-permalink: /tutorials/mutable-and-immutable-objects/
+permalink: /courses/ruby-basics/mutable-and-immutable-objects/
 difficulty: beginner
 summary: Know which Ruby objects change in place (strings, arrays) and which do not (numbers, symbols), and how `freeze` locks state.
 previous_tutorial:
   title: "Chapter 37: Ruby Syntactic Sugar"
-  url: /tutorials/ruby-syntactic-sugar/
+  url: /courses/ruby-basics/ruby-syntactic-sugar/
 next_tutorial:
   title: "Chapter 39: Object Serialization (Marshal)"
-  url: /tutorials/object-serialization/
+  url: /courses/ruby-basics/object-serialization/
 related_tutorials:
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
   - title: "Ruby Open Classes"
-    url: /tutorials/ruby-open-classes/
+    url: /courses/ruby-basics/ruby-open-classes/
 ---
 
 > Adapted from Satish Talim's "Mutable and Immutable Objects" lesson.

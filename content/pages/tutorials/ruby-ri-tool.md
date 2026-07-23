@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 13 &ndash; Ruby `ri` Tool"
-permalink: /tutorials/ruby-ri-tool/
+permalink: /courses/ruby-basics/ruby-ri-tool/
 difficulty: beginner
 summary: Use Ruby's built-in `ri` and `rdoc` tools to browse documentation offline when the web isn't handy.
 previous_tutorial:
   title: "Chapter 12: Writing Your Own Ruby Methods"
-  url: /tutorials/writing-own-ruby-methods/
+  url: /courses/ruby-basics/writing-own-ruby-methods/
 next_tutorial:
   title: "Chapter 14: More on Strings"
-  url: /tutorials/more-on-strings/
+  url: /courses/ruby-basics/more-on-strings/
 related_tutorials:
   - title: "Ruby Features"
-    url: /tutorials/ruby-features/
+    url: /courses/ruby-basics/ruby-features/
   - title: "Methods & blocks"
-    url: /tutorials/methods-and-blocks/
+    url: /courses/ruby-basics/methods-and-blocks/
 ---
 
 > Adapted from Satish Talim's primer on `ri` and `RDoc`.

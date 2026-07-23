@@ -1,13 +1,13 @@
 ---
 layout: page
-title: Ruby Learning Hub
+title: Ruby track
 permalink: /ruby
 description: Curated guidance for mastering Ruby fundamentals with structured notes and hands-on practice.
 ---
 
-# Ruby learning hub
+# Ruby track
 
-Ruby rewards developers who start with strong fundamentals and practise writing expressive code every day. Use this hub to find the essentials, plan your study sessions, and keep growing.
+Ruby rewards developers who start with strong fundamentals and practise writing expressive code every day. Use this track to find the essentials, plan your study sessions, and keep growing.
 
 ## Start with the study notes
 
@@ -31,4 +31,4 @@ Pair the notes with your own experiments:
 
 As you progress, document patterns you rely on often&mdash;collection helpers, file utilities, and common gems. Treat the RubyLearning topics as checkpoints, and revisit them whenever you notice a gap in your understanding.
 
-Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on our [blog](/blog/) or keep exploring the [tutorials](/tutorials/).
+Ready to apply the fundamentals? Jump into the latest Ruby-focused articles on our [blog](/blog/) or follow the full [Ruby Basics course](/courses/ruby-basics/).

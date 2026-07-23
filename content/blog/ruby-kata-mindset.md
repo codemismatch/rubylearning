@@ -41,4 +41,4 @@ End every session by writing three notes: what felt easy, what surprised you, an
 
 Turn the week&rsquo;s highlight into a gist, a blog post, or a snippet you share with your team. Teaching reinforces your own understanding and gives others a jumping-off point.
 
-Ready to keep going? Pick the next challenge from the [Ruby learning path](/tutorials/meet-ruby/) or dive into the [Rails sprint](/tutorials/rails-project-setup/) when you want a bigger project.
+Ready to keep going? Pick the next challenge from the [Ruby learning path](/courses/ruby-basics/meet-ruby/) or dive into the [Rails sprint](/courses/ruby-basics/rails-project-setup/) when you want a bigger project.

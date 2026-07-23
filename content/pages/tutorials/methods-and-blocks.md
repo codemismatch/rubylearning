@@ -1,18 +1,18 @@
 ---
 layout: tutorial
 title: "Chapter 3 &ndash; Methods & blocks"
-permalink: /tutorials/methods-and-blocks/
+permalink: /courses/ruby-basics/methods-and-blocks/
 difficulty: beginner
 summary: Package behaviour into reusable methods and lean on Ruby blocks for expressive iteration.
 previous_tutorial:
   title: "Chapter 2: Flow control & collections"
-  url: /tutorials/flow-control-collections/
+  url: /courses/ruby-basics/flow-control-collections/
 next_tutorial:
   title: "Chapter 4: Classes & objects"
-  url: /tutorials/classes-and-objects/
+  url: /courses/ruby-basics/classes-and-objects/
 related_tutorials:
   - title: "Classes & objects"
-    url: /tutorials/classes-and-objects/
+    url: /courses/ruby-basics/classes-and-objects/
   - title: "Ruby practice examples"
     url: /blog/ruby-examples/
 ---
@@ -385,4 +385,4 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 #!
 
 
-Ready for more structure? Continue to [Chapter 4: Classes & objects](/tutorials/classes-and-objects/).
+Ready for more structure? Continue to [Chapter 4: Classes & objects](/courses/ruby-basics/classes-and-objects/).

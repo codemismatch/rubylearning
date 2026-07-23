@@ -1,18 +1,18 @@
 ---
 layout: tutorial
 title: "Chapter 4 &ndash; Ruby Features"
-permalink: /tutorials/ruby-features/
+permalink: /courses/ruby-basics/ruby-features/
 difficulty: beginner
 summary: Get familiar with the language traits that shape every Ruby program, from free-form syntax to keywords and multi-line comments.
 previous_tutorial:
   title: "Chapter 3: First Ruby Program"
-  url: /tutorials/first-ruby-program/
+  url: /courses/ruby-basics/first-ruby-program/
 next_tutorial:
   title: "Chapter 5: Numbers in Ruby"
-  url: /tutorials/numbers-in-ruby/
+  url: /courses/ruby-basics/numbers-in-ruby/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: "Ruby resources"
     url: /pages/resources/
 ---

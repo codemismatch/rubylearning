@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 34 &ndash; Ruby Logging"
-permalink: /tutorials/ruby-logging/
+permalink: /courses/ruby-basics/ruby-logging/
 difficulty: beginner
 summary: Capture useful diagnostics with the stdlib `Logger`, simple puts-style logs, and rotating files.
 previous_tutorial:
   title: "Chapter 33: Ruby Exceptions"
-  url: /tutorials/ruby-exceptions/
+  url: /courses/ruby-basics/ruby-exceptions/
 next_tutorial:
   title: "Chapter 35: Ruby `Time` Class"
-  url: /tutorials/ruby-time-class/
+  url: /courses/ruby-basics/ruby-time-class/
 related_tutorials:
   - title: "Read/Write Text Files"
-    url: /tutorials/read-write-files/
+    url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Access Control"
-    url: /tutorials/ruby-access-control/
+    url: /courses/ruby-basics/ruby-access-control/
 ---
 
 > Adapted from Satish Talim's "Ruby Logging" notes.

@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 28 &ndash; Ruby Open Classes"
-permalink: /tutorials/ruby-open-classes/
+permalink: /courses/ruby-basics/ruby-open-classes/
 difficulty: intermediate
 summary: Reopen existing classes--even core ones--to add behavior, and learn when to patch responsibly.
 previous_tutorial:
   title: "Chapter 27: Including Other Files"
-  url: /tutorials/including-other-files/
+  url: /courses/ruby-basics/including-other-files/
 next_tutorial:
   title: "Chapter 29: Ruby Inheritance"
-  url: /tutorials/ruby-inheritance/
+  url: /courses/ruby-basics/ruby-inheritance/
 related_tutorials:
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
 ---
 
 > Adapted from Satish Talim's "Ruby Open Classes" lesson.

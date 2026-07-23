@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 42 &ndash; Ruby Constants"
-permalink: /tutorials/ruby-constants/
+permalink: /courses/ruby-basics/ruby-constants/
 difficulty: beginner
 summary: Treat constants as stable names, understand Ruby's reassignment warnings, and use the scope operator to reach constants across classes and modules.
 previous_tutorial:
   title: "Chapter 41: Understanding `self`"
-  url: /tutorials/ruby-self/
+  url: /courses/ruby-basics/ruby-self/
 next_tutorial:
   title: "Chapter 43: Socket Programming & Threads"
-  url: /tutorials/ruby-socket-programming/
+  url: /courses/ruby-basics/ruby-socket-programming/
 related_tutorials:
   - title: "Variables & Assignment"
-    url: /tutorials/variables-and-assignment/
+    url: /courses/ruby-basics/variables-and-assignment/
   - title: "Ruby Names"
-    url: /tutorials/ruby-names/
+    url: /courses/ruby-basics/ruby-names/
 ---
 
 > Adapted from Satish Talim's "Ruby Constants" lesson, refreshed for Typophic's modern walkthrough.

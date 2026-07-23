@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 41 &ndash; Understanding `self`"
-permalink: /tutorials/ruby-self/
+permalink: /courses/ruby-basics/ruby-self/
 difficulty: intermediate
 summary: "`self` always points to the current object--learn how it shifts between top-level code, class bodies, and methods."
 previous_tutorial:
   title: "Chapter 40: Modules & Mixins"
-  url: /tutorials/modules-and-mixins/
+  url: /courses/ruby-basics/modules-and-mixins/
 next_tutorial:
   title: "Chapter 42: Ruby Constants"
-  url: /tutorials/ruby-constants/
+  url: /courses/ruby-basics/ruby-constants/
 related_tutorials:
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Open Classes"
-    url: /tutorials/ruby-open-classes/
+    url: /courses/ruby-basics/ruby-open-classes/
 ---
 
 > Adapted from Satish Talim's "Ruby self" lesson.

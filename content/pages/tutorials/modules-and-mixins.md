@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 40 &ndash; Modules & Mixins"
-permalink: /tutorials/modules-and-mixins/
+permalink: /courses/ruby-basics/modules-and-mixins/
 difficulty: intermediate
 summary: Share behavior across classes by grouping methods in modules and mixing them in with `include` or `extend`.
 previous_tutorial:
   title: "Chapter 39: Object Serialization (Marshal)"
-  url: /tutorials/object-serialization/
+  url: /courses/ruby-basics/object-serialization/
 next_tutorial:
   title: "Chapter 41: Understanding `self`"
-  url: /tutorials/ruby-self/
+  url: /courses/ruby-basics/ruby-self/
 related_tutorials:
   - title: "Ruby Open Classes"
-    url: /tutorials/ruby-open-classes/
+    url: /courses/ruby-basics/ruby-open-classes/
   - title: "Ruby Inheritance"
-    url: /tutorials/ruby-inheritance/
+    url: /courses/ruby-basics/ruby-inheritance/
 ---
 
 > Adapted from Satish Talim's "Modules & Mixins" lesson.

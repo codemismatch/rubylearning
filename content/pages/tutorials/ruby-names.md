@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 10 &ndash; Ruby Names"
-permalink: /tutorials/ruby-names/
+permalink: /courses/ruby-basics/ruby-names/
 difficulty: beginner
 summary: Learn how Ruby names distinguish locals, instances, classes, globals, and constants, plus see how Ruby treats objects and numeric types under the hood.
 previous_tutorial:
   title: "Chapter 9: Getting Input"
-  url: /tutorials/getting-input/
+  url: /courses/ruby-basics/getting-input/
 next_tutorial:
   title: "Chapter 11: More on Ruby Methods"
-  url: /tutorials/more-on-ruby-methods/
+  url: /courses/ruby-basics/more-on-ruby-methods/
 related_tutorials:
   - title: "Scope"
-    url: /tutorials/scope/
+    url: /courses/ruby-basics/scope/
   - title: "Variables & Assignment"
-    url: /tutorials/variables-and-assignment/
+    url: /courses/ruby-basics/variables-and-assignment/
 ---
 
 > Adapted from Satish Talim's "Ruby Names" lesson, with refreshed examples for the modern stack.

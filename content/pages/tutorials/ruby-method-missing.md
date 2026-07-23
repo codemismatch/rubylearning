@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 25 &ndash; Ruby `method_missing`"
-permalink: /tutorials/ruby-method-missing/
+permalink: /courses/ruby-basics/ruby-method-missing/
 difficulty: intermediate
 summary: Intercept unknown method calls with `method_missing` to build dynamic APIs or graceful fallbacks.
 previous_tutorial:
   title: "Chapter 24: Writing Our Own Class"
-  url: /tutorials/writing-our-own-class/
+  url: /courses/ruby-basics/writing-our-own-class/
 next_tutorial:
   title: "Chapter 26: Ruby Procs & Lambdas"
-  url: /tutorials/ruby-procs/
+  url: /courses/ruby-basics/ruby-procs/
 related_tutorials:
   - title: "Ruby Procs"
-    url: /tutorials/ruby-procs/
+    url: /courses/ruby-basics/ruby-procs/
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
 ---
 
 > Adapted from Satish Talim's `method_missing` lesson.

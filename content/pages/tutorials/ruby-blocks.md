@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 16 &ndash; Ruby Blocks"
-permalink: /tutorials/ruby-blocks/
+permalink: /courses/ruby-basics/ruby-blocks/
 difficulty: beginner
 summary: Learn how Ruby blocks capture context, pass arguments via `yield`, and use block-local variables to avoid clobbering outer state.
 previous_tutorial:
   title: "Chapter 15: Simple Constructs"
-  url: /tutorials/simple-constructs/
+  url: /courses/ruby-basics/simple-constructs/
 next_tutorial:
   title: "Chapter 17: Ruby Arrays"
-  url: /tutorials/ruby-arrays/
+  url: /courses/ruby-basics/ruby-arrays/
 related_tutorials:
   - title: "Methods & blocks"
-    url: /tutorials/methods-and-blocks/
+    url: /courses/ruby-basics/methods-and-blocks/
   - title: "Writing Your Own Ruby Methods"
-    url: /tutorials/writing-own-ruby-methods/
+    url: /courses/ruby-basics/writing-own-ruby-methods/
 ---
 
 > Adapted from Satish Talim's original Ruby Blocks lesson.

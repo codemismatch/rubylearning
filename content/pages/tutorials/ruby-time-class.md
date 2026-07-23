@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 35 &ndash; Ruby `Time` Class"
-permalink: /tutorials/ruby-time-class/
+permalink: /courses/ruby-basics/ruby-time-class/
 difficulty: beginner
 summary: Create, format, and manipulate timestamps with Ruby's `Time` helpers.
 previous_tutorial:
   title: "Chapter 34: Ruby Logging"
-  url: /tutorials/ruby-logging/
+  url: /courses/ruby-basics/ruby-logging/
 next_tutorial:
   title: "Chapter 36: Duck Typing"
-  url: /tutorials/duck-typing/
+  url: /courses/ruby-basics/duck-typing/
 related_tutorials:
   - title: "Read/Write Text Files"
-    url: /tutorials/read-write-files/
+    url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Exceptions"
-    url: /tutorials/ruby-exceptions/
+    url: /courses/ruby-basics/ruby-exceptions/
 ---
 
 > Adapted from Satish Talim's "Ruby Time Class" lesson.

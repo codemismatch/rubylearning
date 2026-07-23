@@ -1,18 +1,18 @@
 ---
 layout: tutorial
 title: Chapter 4 &ndash; Classes & objects
-permalink: /tutorials/classes-and-objects/
+permalink: /courses/ruby-basics/classes-and-objects/
 difficulty: intermediate
 summary: Model real-world concepts with Ruby classes, attribute readers, and collaborating objects.
 previous_tutorial:
   title: "Chapter 3: Methods & blocks"
-  url: /tutorials/methods-and-blocks/
+  url: /courses/ruby-basics/methods-and-blocks/
 next_tutorial:
   title: "Chapter 5: Modules & mixins"
-  url: /tutorials/modules-and-mixins/
+  url: /courses/ruby-basics/modules-and-mixins/
 related_tutorials:
   - title: "Modules & mixins"
-    url: /tutorials/modules-and-mixins/
+    url: /courses/ruby-basics/modules-and-mixins/
   - title: "Why Ruby's RubyLearning approach still works"
     url: /blog/ruby-learning-playbook/
 ---
@@ -561,4 +561,4 @@ out = output.string; lines = out.lines.map(&:strip); lines.any? { |l| l.downcase
 #!
 
 
-Continue to [Chapter 5: Modules & mixins](/tutorials/modules-and-mixins/) to share behaviour across objects.
+Continue to [Chapter 5: Modules & mixins](/courses/ruby-basics/modules-and-mixins/) to share behaviour across objects.

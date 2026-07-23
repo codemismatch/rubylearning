@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 24 &ndash; Writing Our Own Class"
-permalink: /tutorials/writing-our-own-class/
+permalink: /courses/ruby-basics/writing-our-own-class/
 difficulty: beginner
 summary: Learn how classes describe objects, wire up instance variables and methods, and inspect the abilities Ruby gives every object.
 previous_tutorial:
   title: "Chapter 23: Ruby Regular Expressions"
-  url: /tutorials/ruby-regular-expressions/
+  url: /courses/ruby-basics/ruby-regular-expressions/
 next_tutorial:
   title: "Chapter 25: Ruby `method_missing`"
-  url: /tutorials/ruby-method-missing/
+  url: /courses/ruby-basics/ruby-method-missing/
 related_tutorials:
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
   - title: "Ruby Hashes"
-    url: /tutorials/ruby-hashes/
+    url: /courses/ruby-basics/ruby-hashes/
 ---
 
 > Adapted from Satish Talim's "Writing our own Class" lesson.

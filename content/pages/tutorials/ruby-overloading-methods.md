@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: 'Chapter 31 &ndash; "Overloading" Methods the Ruby Way'
-permalink: /tutorials/ruby-overloading-methods/
+permalink: /courses/ruby-basics/ruby-overloading-methods/
 difficulty: intermediate
 summary: Ruby doesn't have compile-time overloading, but optional args, splats, and keyword args give you flexible interfaces.
 previous_tutorial:
   title: "Chapter 30: Overriding Methods"
-  url: /tutorials/ruby-overriding-methods/
+  url: /courses/ruby-basics/ruby-overriding-methods/
 next_tutorial:
   title: "Chapter 32: Ruby Access Control"
-  url: /tutorials/ruby-access-control/
+  url: /courses/ruby-basics/ruby-access-control/
 related_tutorials:
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Procs & Lambdas"
-    url: /tutorials/ruby-procs/
+    url: /courses/ruby-basics/ruby-procs/
 ---
 
 > Adapted from Satish Talim's "Overloading Methods" lesson.

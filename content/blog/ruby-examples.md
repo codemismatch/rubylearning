@@ -11,14 +11,14 @@ tags:
   - ruby
 related_tutorials:
   - title: "Chapter 2: Flow control & collections"
-    url: "/tutorials/flow-control-collections/"
+    url: "/courses/ruby-basics/flow-control-collections/"
   - title: "Chapter 3: Methods & blocks"
-    url: "/tutorials/methods-and-blocks/"
+    url: "/courses/ruby-basics/methods-and-blocks/"
 
 ---
 # Practise alongside the Ruby tutorials
 
-The dedicated Ruby tutorials page now houses the full learning path. Continue with [Chapter&nbsp;2](/tutorials/#chapter-2) for flow control and collections or [Chapter&nbsp;3](/tutorials/#chapter-3) for methods and blocks.
+The dedicated Ruby tutorials page now houses the full learning path. Continue with [Chapter&nbsp;2](/courses/ruby-basics/#chapter-2) for flow control and collections or [Chapter&nbsp;3](/courses/ruby-basics/#chapter-3) for methods and blocks.
 
 If you&rsquo;d like a quick refresher before diving back in, paste these examples into IRB and modify them after working through the practice checklists.
 
@@ -62,4 +62,4 @@ puts "10 + 5 = #{calc.add(10, 5)}"
 puts "10 - 5 = #{calc.subtract(10, 5)}"
 ```
 
-Need more structured guidance? Head back to the [tutorials overview](/tutorials/) for the full chapter list, or visit the [resources page](/pages/resources/) to find supporting courses, videos, and reference material.
+Need more structured guidance? Head back to the [tutorials overview](/courses/ruby-basics/) for the full chapter list, or visit the [resources page](/pages/resources/) to find supporting courses, videos, and reference material.

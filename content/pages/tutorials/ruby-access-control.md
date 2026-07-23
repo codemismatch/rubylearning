@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 32 &ndash; Ruby Access Control"
-permalink: /tutorials/ruby-access-control/
+permalink: /courses/ruby-basics/ruby-access-control/
 difficulty: beginner
 summary: Use `public`, `protected`, and `private` to shape how objects expose methods and state.
 previous_tutorial:
   title: 'Chapter 31: "Overloading" Methods the Ruby Way'
-  url: /tutorials/ruby-overloading-methods/
+  url: /courses/ruby-basics/ruby-overloading-methods/
 next_tutorial:
   title: "Chapter 33: Ruby Exceptions"
-  url: /tutorials/ruby-exceptions/
+  url: /courses/ruby-basics/ruby-exceptions/
 related_tutorials:
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Open Classes"
-    url: /tutorials/ruby-open-classes/
+    url: /courses/ruby-basics/ruby-open-classes/
 ---
 
 > Adapted from Satish Talim's "Access Control" lesson.

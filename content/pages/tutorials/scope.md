@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 8 &ndash; Scope"
-permalink: /tutorials/scope/
+permalink: /courses/ruby-basics/scope/
 difficulty: beginner
 summary: Understand where your Ruby variables live, how global symbols behave, and why local scopes form around classes, modules, and methods.
 previous_tutorial:
   title: "Chapter 7: Variables & Assignment"
-  url: /tutorials/variables-and-assignment/
+  url: /courses/ruby-basics/variables-and-assignment/
 next_tutorial:
   title: "Chapter 9: Getting Input"
-  url: /tutorials/getting-input/
+  url: /courses/ruby-basics/getting-input/
 related_tutorials:
   - title: "Variables & Assignment"
-    url: /tutorials/variables-and-assignment/
+    url: /courses/ruby-basics/variables-and-assignment/
   - title: "Ruby Features"
-    url: /tutorials/ruby-features/
+    url: /courses/ruby-basics/ruby-features/
 ---
 
 > Adapted from Satish Talim's "Scope" chapter on RubyLearning, updated with modern Ruby examples.

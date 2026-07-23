@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 37 &ndash; Ruby Syntactic Sugar"
-permalink: /tutorials/ruby-syntactic-sugar/
+permalink: /courses/ruby-basics/ruby-syntactic-sugar/
 difficulty: beginner
 summary: Lean on Ruby's shorthand--attr helpers, literal shortcuts, and inline modifiers--to write expressive code.
 previous_tutorial:
   title: "Chapter 36: Duck Typing"
-  url: /tutorials/duck-typing/
+  url: /courses/ruby-basics/duck-typing/
 next_tutorial:
   title: "Chapter 38: Mutable vs Immutable Objects"
-  url: /tutorials/mutable-and-immutable-objects/
+  url: /courses/ruby-basics/mutable-and-immutable-objects/
 related_tutorials:
   - title: "Ruby Open Classes"
-    url: /tutorials/ruby-open-classes/
+    url: /courses/ruby-basics/ruby-open-classes/
   - title: "Ruby Overloading Methods"
-    url: /tutorials/ruby-overloading-methods/
+    url: /courses/ruby-basics/ruby-overloading-methods/
 ---
 
 > Adapted from Satish Talim's "Ruby Syntactic Sugar" notes.

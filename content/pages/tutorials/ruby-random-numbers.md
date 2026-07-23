@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 21 &ndash; Ruby Random Numbers"
-permalink: /tutorials/ruby-random-numbers/
+permalink: /courses/ruby-basics/ruby-random-numbers/
 difficulty: beginner
 summary: Generate pseudo-random floats or integers with `rand`, build fun word mashups, and understand the bounds Ruby applies to each call.
 previous_tutorial:
   title: "Chapter 20: Ruby Hashes"
-  url: /tutorials/ruby-hashes/
+  url: /courses/ruby-basics/ruby-hashes/
 next_tutorial:
   title: "Chapter 22: Read/Write Text Files"
-  url: /tutorials/read-write-files/
+  url: /courses/ruby-basics/read-write-files/
 related_tutorials:
   - title: "Simple Constructs"
-    url: /tutorials/simple-constructs/
+    url: /courses/ruby-basics/simple-constructs/
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
 ---
 
 > Adapted from Satish Talim's "Random Numbers" chapter.

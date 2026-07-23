@@ -1,12 +1,12 @@
 ---
 layout: tutorial
 title: Chapter R3 &ndash; Rails Hotwire feedback
-permalink: /tutorials/rails-hotwire-feedback/
+permalink: /courses/ruby-basics/rails-hotwire-feedback/
 difficulty: intermediate
 summary: Layer Hotwire updates and feedback loops onto your Rails UI to keep users in flow.
 previous_tutorial:
   title: "Chapter R2: Routes & controllers"
-  url: /tutorials/rails-routes-controllers/
+  url: /courses/ruby-basics/rails-routes-controllers/
 related_tutorials:
   - title: "Rails learning hub"
     url: /rails/

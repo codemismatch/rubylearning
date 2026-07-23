@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 15 &ndash; Simple Constructs"
-permalink: /tutorials/simple-constructs/
+permalink: /courses/ruby-basics/simple-constructs/
 difficulty: beginner
 summary: Get comfortable with Ruby's core control-flow tools--`if`, `elsif`, `unless`, loops, ternaries, `case`, and the truthiness rules around `nil`.
 previous_tutorial:
   title: "Chapter 14: More on Strings"
-  url: /tutorials/more-on-strings/
+  url: /courses/ruby-basics/more-on-strings/
 next_tutorial:
   title: "Chapter 16: Ruby Blocks"
-  url: /tutorials/ruby-blocks/
+  url: /courses/ruby-basics/ruby-blocks/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: "Ruby Names"
-    url: /tutorials/ruby-names/
+    url: /courses/ruby-basics/ruby-names/
 ---
 
 > Adapted from Satish Talim's "Simple Constructs" lesson.

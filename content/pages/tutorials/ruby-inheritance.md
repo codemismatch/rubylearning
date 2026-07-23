@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 29 &ndash; Ruby Inheritance"
-permalink: /tutorials/ruby-inheritance/
+permalink: /courses/ruby-basics/ruby-inheritance/
 difficulty: beginner
 summary: Reuse behavior by deriving subclasses, chaining `super`, and checking object ancestry.
 previous_tutorial:
   title: "Chapter 28: Ruby Open Classes"
-  url: /tutorials/ruby-open-classes/
+  url: /courses/ruby-basics/ruby-open-classes/
 next_tutorial:
   title: "Chapter 30: Overriding Methods"
-  url: /tutorials/ruby-overriding-methods/
+  url: /courses/ruby-basics/ruby-overriding-methods/
 related_tutorials:
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Procs & Lambdas"
-    url: /tutorials/ruby-procs/
+    url: /courses/ruby-basics/ruby-procs/
 ---
 
 > Adapted from Satish Talim's "Ruby Inheritance" lesson.

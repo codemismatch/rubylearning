@@ -1,13 +1,13 @@
 ---
 layout: page
-title: Rails Learning Hub
+title: Rails track
 permalink: /rails
 description: A project-driven path for learning Ruby on Rails through modern tooling and real-world practice.
 ---
 
-# Rails learning hub
+# Rails track
 
-Ruby on Rails shines when you build something tangible. This hub highlights how to set up your environment, follow a project-focused curriculum, and reinforce good habits.
+Ruby on Rails shines when you build something tangible. This track highlights how to set up your environment, follow a project-focused curriculum, and reinforce good habits.
 
 ## Learn by shipping projects
 
@@ -29,4 +29,4 @@ BigBinary Academy&rsquo;s Rails course is designed around project work. You code
 
 Pair Rails practice with the Ruby fundamentals in our [Ruby hub](/ruby/). Understanding blocks, enumerables, and metaprogramming patterns makes ActiveRecord scopes, helpers, and background jobs easier to reason about.
 
-When you are ready for a deeper dive, browse the Rails articles on the [blog](/blog/) or pick a track from the [tutorials](/tutorials/).
+When you are ready for a deeper dive, browse the Rails articles on the [blog](/blog/) or pick a track from the [Courses catalog](/courses/).

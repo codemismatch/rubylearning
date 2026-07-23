@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 17 &ndash; Ruby Arrays"
-permalink: /tutorials/ruby-arrays/
+permalink: /courses/ruby-basics/ruby-arrays/
 difficulty: beginner
 summary: Build and reshape Ruby arrays, iterate with blocks, tap environment/ARGV helpers, and leverage splats for parallel assignment.
 previous_tutorial:
   title: "Chapter 16: Ruby Blocks"
-  url: /tutorials/ruby-blocks/
+  url: /courses/ruby-basics/ruby-blocks/
 next_tutorial:
   title: "Chapter 18: Ruby Ranges"
-  url: /tutorials/ruby-ranges/
+  url: /courses/ruby-basics/ruby-ranges/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: "Writing Your Own Ruby Methods"
-    url: /tutorials/writing-own-ruby-methods/
+    url: /courses/ruby-basics/writing-own-ruby-methods/
 ---
 
 > Adapted from Satish Talim's original arrays chapter, refreshed for Typophic.

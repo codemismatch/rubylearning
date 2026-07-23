@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 33 &ndash; Ruby Exceptions"
-permalink: /tutorials/ruby-exceptions/
+permalink: /courses/ruby-basics/ruby-exceptions/
 difficulty: beginner
 summary: Handle errors with `begin`/`rescue`, ensure cleanup, and raise your own exceptions when something goes wrong.
 previous_tutorial:
   title: "Chapter 32: Ruby Access Control"
-  url: /tutorials/ruby-access-control/
+  url: /courses/ruby-basics/ruby-access-control/
 next_tutorial:
   title: "Chapter 34: Ruby Logging"
-  url: /tutorials/ruby-logging/
+  url: /courses/ruby-basics/ruby-logging/
 related_tutorials:
   - title: "Read/Write Text Files"
-    url: /tutorials/read-write-files/
+    url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Procs & Lambdas"
-    url: /tutorials/ruby-procs/
+    url: /courses/ruby-basics/ruby-procs/
 ---
 
 > Adapted from Satish Talim's "Ruby Exceptions" lesson.

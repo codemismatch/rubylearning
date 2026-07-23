@@ -1,15 +1,15 @@
 ---
 layout: tutorial
 title: "Chapter 3 &ndash; First Ruby Program"
-permalink: /tutorials/first-ruby-program/
+permalink: /courses/ruby-basics/first-ruby-program/
 difficulty: beginner
 summary: Create and run your first Ruby program, learn about Ruby's interactive console (IRB), and understand basic Ruby syntax.
 previous_tutorial:
   title: "Chapter 2: Modern Ruby Installation Guide"
-  url: /tutorials/installation-setup/
+  url: /courses/ruby-basics/installation-setup/
 next_tutorial:
   title: "Chapter 4: Ruby Features"
-  url: /tutorials/ruby-features/
+  url: /courses/ruby-basics/ruby-features/
 ---
 
 ### Running Ruby Code

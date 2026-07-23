@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 39 &ndash; Object Serialization (Marshal)"
-permalink: /tutorials/object-serialization/
+permalink: /courses/ruby-basics/object-serialization/
 difficulty: beginner
 summary: Persist Ruby objects by dumping and loading them with the built-in `Marshal` module.
 previous_tutorial:
   title: "Chapter 38: Mutable vs Immutable Objects"
-  url: /tutorials/mutable-and-immutable-objects/
+  url: /courses/ruby-basics/mutable-and-immutable-objects/
 next_tutorial:
   title: "Chapter 40: Modules & Mixins"
-  url: /tutorials/modules-and-mixins/
+  url: /courses/ruby-basics/modules-and-mixins/
 related_tutorials:
   - title: "Read/Write Text Files"
-    url: /tutorials/read-write-files/
+    url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Exceptions"
-    url: /tutorials/ruby-exceptions/
+    url: /courses/ruby-basics/ruby-exceptions/
 ---
 
 > Adapted from Satish Talim's object serialization lesson.

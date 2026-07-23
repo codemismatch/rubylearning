@@ -1,18 +1,18 @@
 ---
 layout: tutorial
 title: "Chapter 5 &ndash; Numbers in Ruby"
-permalink: /tutorials/numbers-in-ruby/
+permalink: /courses/ruby-basics/numbers-in-ruby/
 difficulty: beginner
 summary: Work with integers, floats, and Ruby's arithmetic operators while learning handy idioms like ||= and modulo rules.
 previous_tutorial:
   title: "Chapter 4: Ruby Features"
-  url: /tutorials/ruby-features/
+  url: /courses/ruby-basics/ruby-features/
 next_tutorial:
   title: "Chapter 6: Fun with Strings"
-  url: /tutorials/fun-with-strings/
+  url: /courses/ruby-basics/fun-with-strings/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: "Ruby resources"
     url: /pages/resources/
 ---

@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 26 &ndash; Ruby Procs & Lambdas"
-permalink: /tutorials/ruby-procs/
+permalink: /courses/ruby-basics/ruby-procs/
 difficulty: intermediate
 summary: Capture blocks as objects with `Proc` and `lambda`, pass them around, and build flexible callbacks.
 previous_tutorial:
   title: "Chapter 25: Ruby `method_missing`"
-  url: /tutorials/ruby-method-missing/
+  url: /courses/ruby-basics/ruby-method-missing/
 next_tutorial:
   title: "Chapter 27: Including Other Files"
-  url: /tutorials/including-other-files/
+  url: /courses/ruby-basics/including-other-files/
 related_tutorials:
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
   - title: "Writing Our Own Class"
-    url: /tutorials/writing-our-own-class/
+    url: /courses/ruby-basics/writing-our-own-class/
 ---
 
 > Adapted from Satish Talim's original "Ruby Procs" lesson.

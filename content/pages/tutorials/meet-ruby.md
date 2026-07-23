@@ -1,15 +1,15 @@
 ---
 layout: tutorial
 title: "Chapter 1 &ndash; Meet Ruby"
-permalink: /tutorials/meet-ruby/
+permalink: /courses/ruby-basics/meet-ruby/
 difficulty: beginner
 summary: Greet the world, explore Ruby objects, and learn how the console responds to your code.
 next_tutorial:
   title: "Chapter 2: Modern Ruby Installation Guide"
-  url: /tutorials/installation-setup/
+  url: /courses/ruby-basics/installation-setup/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: Ruby resources
     url: /pages/resources/
 ---

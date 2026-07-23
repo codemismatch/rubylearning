@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 23 &ndash; Ruby Regular Expressions"
-permalink: /tutorials/ruby-regular-expressions/
+permalink: /courses/ruby-basics/ruby-regular-expressions/
 difficulty: intermediate
 summary: Match and capture patterns using Ruby's built-in `Regexp` objects, from literal characters to wildcards and capture groups.
 previous_tutorial:
   title: "Chapter 22: Read/Write Text Files"
-  url: /tutorials/read-write-files/
+  url: /courses/ruby-basics/read-write-files/
 next_tutorial:
   title: "Chapter 24: Writing Our Own Class"
-  url: /tutorials/writing-our-own-class/
+  url: /courses/ruby-basics/writing-our-own-class/
 related_tutorials:
   - title: "Ruby Symbols"
-    url: /tutorials/ruby-symbols/
+    url: /courses/ruby-basics/ruby-symbols/
   - title: "Ruby Hashes"
-    url: /tutorials/ruby-hashes/
+    url: /courses/ruby-basics/ruby-hashes/
 ---
 
 > Adapted from Satish Talim's regular expressions lesson.

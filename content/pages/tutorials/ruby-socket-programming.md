@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 43 &ndash; Socket Programming & Threads"
-permalink: /tutorials/ruby-socket-programming/
+permalink: /courses/ruby-basics/ruby-socket-programming/
 difficulty: intermediate
 summary: Build a tiny TCP server and client with Ruby's socket library, understand ports/IPs, and use threads to handle multiple connections.
 previous_tutorial:
   title: "Chapter 42: Ruby Constants"
-  url: /tutorials/ruby-constants/
+  url: /courses/ruby-basics/ruby-constants/
 next_tutorial:
   title: "Chapter 44: Ruby Threads"
-  url: /tutorials/ruby-threads/
+  url: /courses/ruby-basics/ruby-threads/
 related_tutorials:
   - title: "Ruby Threads"
-    url: /tutorials/ruby-threads/
+    url: /courses/ruby-basics/ruby-threads/
   - title: "Ruby Features"
-    url: /tutorials/ruby-features/
+    url: /courses/ruby-basics/ruby-features/
 ---
 
 > Adapted from Satish Talim's "Socket Programming and Threads" lesson, updated for Typophic.
@@ -41,7 +41,7 @@ All of these inherit from `IO`, so familiar methods like `read`, `write`, and `c
 
 ### Add threads for concurrent clients
 
-Ruby's threads are lightweight enough for simple demos. Before writing your own code, skim the dedicated [Ruby Threads](/tutorials/ruby-threads/) guide so you know how scheduling and synchronization work.
+Ruby's threads are lightweight enough for simple demos. Before writing your own code, skim the dedicated [Ruby Threads](/courses/ruby-basics/ruby-threads/) guide so you know how scheduling and synchronization work.
 
 ### Date-Time server (`p068dtserver.rb`)
 

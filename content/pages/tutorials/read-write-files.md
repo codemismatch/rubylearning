@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 22 &ndash; Read/Write Text Files"
-permalink: /tutorials/read-write-files/
+permalink: /courses/ruby-basics/read-write-files/
 difficulty: beginner
 summary: Use Ruby's IO classes to read, write, traverse directories, and seek within files while keeping resources safely closed.
 previous_tutorial:
   title: "Chapter 21: Ruby Random Numbers"
-  url: /tutorials/ruby-random-numbers/
+  url: /courses/ruby-basics/ruby-random-numbers/
 next_tutorial:
   title: "Chapter 23: Ruby Regular Expressions"
-  url: /tutorials/ruby-regular-expressions/
+  url: /courses/ruby-basics/ruby-regular-expressions/
 related_tutorials:
   - title: "Ruby Arrays"
-    url: /tutorials/ruby-arrays/
+    url: /courses/ruby-basics/ruby-arrays/
   - title: "Ruby Hashes"
-    url: /tutorials/ruby-hashes/
+    url: /courses/ruby-basics/ruby-hashes/
 ---
 
 > Adapted from Satish Talim's Read/Write Files lesson.

@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 27 &ndash; Including Other Files"
-permalink: /tutorials/including-other-files/
+permalink: /courses/ruby-basics/including-other-files/
 difficulty: beginner
 summary: Share code across Ruby files with `require`, `load`, and `require_relative`, and understand how Ruby locates those files.
 previous_tutorial:
   title: "Chapter 26: Ruby Procs & Lambdas"
-  url: /tutorials/ruby-procs/
+  url: /courses/ruby-basics/ruby-procs/
 next_tutorial:
   title: "Chapter 28: Ruby Open Classes"
-  url: /tutorials/ruby-open-classes/
+  url: /courses/ruby-basics/ruby-open-classes/
 related_tutorials:
   - title: "Ruby Hashes"
-    url: /tutorials/ruby-hashes/
+    url: /courses/ruby-basics/ruby-hashes/
   - title: "Read/Write Text Files"
-    url: /tutorials/read-write-files/
+    url: /courses/ruby-basics/read-write-files/
 ---
 
 > Adapted from Satish Talim's "Including Other Files" lesson.

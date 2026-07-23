@@ -1,15 +1,15 @@
 ---
 layout: tutorial
 title: Chapter 2 &ndash; Modern Ruby Installation Guide
-permalink: /tutorials/installation-setup/
+permalink: /courses/ruby-basics/installation-setup/
 difficulty: beginner
 summary: Greet the world, explore Ruby objects, and learn how the console responds to your code.
 next_tutorial:
   title: Chapter 3 My First Ruby Program
-  url: /tutorials/first-ruby-program/
+  url: /courses/ruby-basics/first-ruby-program/
 related_tutorials:
   - title: "Flow control & collections"
-    url: /tutorials/flow-control-collections/
+    url: /courses/ruby-basics/flow-control-collections/
   - title: Ruby resources
     url: /pages/resources/
 ---

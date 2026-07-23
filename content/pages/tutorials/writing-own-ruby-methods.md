@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 12 &ndash; Writing Your Own Ruby Methods"
-permalink: /tutorials/writing-own-ruby-methods/
+permalink: /courses/ruby-basics/writing-own-ruby-methods/
 difficulty: beginner
 summary: Define reusable Ruby methods, add default and variable arguments, use interpolation, and alias older implementations.
 previous_tutorial:
   title: "Chapter 11: More on Ruby Methods"
-  url: /tutorials/more-on-ruby-methods/
+  url: /courses/ruby-basics/more-on-ruby-methods/
 next_tutorial:
   title: "Chapter 13: Ruby `ri` Tool"
-  url: /tutorials/ruby-ri-tool/
+  url: /courses/ruby-basics/ruby-ri-tool/
 related_tutorials:
   - title: "Methods & blocks"
-    url: /tutorials/methods-and-blocks/
+    url: /courses/ruby-basics/methods-and-blocks/
   - title: "Ruby Names"
-    url: /tutorials/ruby-names/
+    url: /courses/ruby-basics/ruby-names/
 ---
 
 > Adapted from Satish Talim's "Writing Own Ruby Methods" lesson.

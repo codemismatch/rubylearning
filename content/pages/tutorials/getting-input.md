@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 9 &ndash; Getting Input"
-permalink: /tutorials/getting-input/
+permalink: /courses/ruby-basics/getting-input/
 difficulty: beginner
 summary: Read keyboard input with `gets`, tidy it up with `chomp`, and understand when to flush STDOUT for interactive prompts.
 previous_tutorial:
   title: "Chapter 8: Scope"
-  url: /tutorials/scope/
+  url: /courses/ruby-basics/scope/
 next_tutorial:
   title: "Chapter 10: Ruby Names"
-  url: /tutorials/ruby-names/
+  url: /courses/ruby-basics/ruby-names/
 related_tutorials:
   - title: "Variables & Assignment"
-    url: /tutorials/variables-and-assignment/
+    url: /courses/ruby-basics/variables-and-assignment/
   - title: "Ruby Features"
-    url: /tutorials/ruby-features/
+    url: /courses/ruby-basics/ruby-features/
 ---
 
 > Adapted from Satish Talim's original RubyLearning lesson on user input, refreshed for Typophic.

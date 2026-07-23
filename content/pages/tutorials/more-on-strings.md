@@ -1,20 +1,20 @@
 ---
 layout: tutorial
 title: "Chapter 14 &ndash; More on Strings"
-permalink: /tutorials/more-on-strings/
+permalink: /courses/ruby-basics/more-on-strings/
 difficulty: beginner
 summary: Explore Ruby's rich String toolkit--transformations, comparisons, `%w` literals, and Unicode encodings.
 previous_tutorial:
   title: "Chapter 13: Ruby `ri` Tool"
-  url: /tutorials/ruby-ri-tool/
+  url: /courses/ruby-basics/ruby-ri-tool/
 next_tutorial:
   title: "Chapter 15: Simple Constructs"
-  url: /tutorials/simple-constructs/
+  url: /courses/ruby-basics/simple-constructs/
 related_tutorials:
   - title: "Fun with Strings"
-    url: /tutorials/fun-with-strings/
+    url: /courses/ruby-basics/fun-with-strings/
   - title: "Variables & Assignment"
-    url: /tutorials/variables-and-assignment/
+    url: /courses/ruby-basics/variables-and-assignment/
 ---
 
 > Adapted from Satish Talim's "More on Strings" lesson, with modern Ruby notes.
