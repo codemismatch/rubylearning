@@ -46,7 +46,12 @@ module Typophic
           remove_javascript_protocol: options.fetch(:remove_javascript_protocol, true),
           remove_http_protocol: options.fetch(:remove_http_protocol, false),
           remove_https_protocol: options.fetch(:remove_https_protocol, false),
-          preserve_line_breaks: options.fetch(:preserve_line_breaks, false)
+          preserve_line_breaks: options.fetch(:preserve_line_breaks, false),
+          # Mermaid diagram source must keep its line breaks — collapsing
+          # them turns the diagram into a single-line syntax error.
+          preserve_patterns: options.fetch(:preserve_patterns, [
+            /<div class="mermaid"[\s\S]*?<\/div>/m
+          ])
         )
         result = compressor.compress(html.to_s)
         result.is_a?(String) ? result : html
