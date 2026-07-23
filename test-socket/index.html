@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to Ruby Learning - Ruby Learning</title>
-  <meta name="description" content="Start here for the guided Ruby learning path that replaces the old scattered posts.">
+  <title>Test Socket Polyfill - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
   
@@ -163,53 +163,38 @@
 
   <main class="site-content">
     <div class="container">
-      <article class="post">
-  <header class="post-header">
-    
-    <h1>Welcome to Ruby Learning</h1>
-
-    
-    
-    <div class="post-meta">
-      
-      <time datetime="2023-01-01" class="post-date">
-        January 1, 2023
-      </time>
-      
-
-      
-      <div class="tags">
-        
-        <span class="tag"><a href="/tags/introduction/">introduction</a></span>
-        
-        <span class="tag"><a href="/tags/beginners/">beginners</a></span>
-        
-        <span class="tag"><a href="/tags/getting-started/">getting-started</a></span>
-        
-      </div>
-      
-
-      
-    </div>
-  </header>
-
+      <div class="page">
   
-
-  <div class="post-content">
-    <div class='markdown'><h1>How this learning path works</h1>
-<p>Our Ruby curriculum now lives in one cohesive guide instead of scattered blog posts. Head over to the <a href="/courses/ruby-basics/#chapter-1">Ruby tutorials</a> page to begin at Chapter&nbsp;1, meet Ruby in the console, and follow the chapters in order.</p>
-<p>Each chapter gives you:</p>
-<p><ul><li>A concept overview and runnable Ruby snippet.</li>
-<li>A short practice checklist to confirm you understand the idea.</li>
-<li>A pointer to the next chapter so you keep momentum.</li></ul>
-If you landed here from an older bookmark, consider the original topics you may have seen:</p>
-<p><ul><li><strong>Chapter 1</strong> introduces Ruby&rsquo;s object model, strings, and numbers.</li>
-<li><strong>Chapter 2</strong> covers flow control and collections.</li>
-<li><strong>Chapters 3&ndash;6</strong> take you through methods, classes, modules, and working with files and gems.</li></ul>
-When you&rsquo;re ready, jump straight into <a href="/courses/ruby-basics/#chapter-1">Chapter&nbsp;1: Meet Ruby</a>. Keep the <a href="/pages/resources/">resources page</a> handy for reference links, and explore the <a href="/blog/">blog</a> for fresh Ruby and Rails articles.</p></div>
+  <div class='markdown'><h1>Test Socket Polyfill</h1>
+<p>This page tests if the <code>TCPSocket</code> polyfill correctly connects to <code>wss://echo.websocket.org</code> and echoes data back.</p>
+<p><div class="code-window">
+  <div class="code-header">
+    <div class="code-title">Socket Test</div>
   </div>
-</article>
-```
+  <pre data-executable="true"><code class="language-ruby">
+require 'socket'
+
+puts "Connecting to echo server (via localhost redirect)..."
+# The polyfill redirects localhost to echo.websocket.org
+socket = TCPSocket.new('localhost', 80)
+puts "Connected!"
+
+message = "Hello from Ruby WASM!"
+puts "Sending: #{message}"
+socket.write(message)
+
+puts "Reading response..."
+# The polyfill buffers messages, so we might need a small sleep to ensure data arrives
+sleep(1)
+response = socket.recv(100)
+puts "Received: #{response}"
+
+socket.close
+puts "Connection closed."
+</code></pre>
+</div></p></div>
+</div>
+
     </div>
   </main>
 

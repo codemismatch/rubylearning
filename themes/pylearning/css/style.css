@@ -1,1 +1,175 @@
-@import url("/themes/rubylearning/css/style.css");:root{--primary-color:#2563eb;--primary-dark:#1d4ed8;--primary-light:#60a5fa;--accent-color:#facc15}.python-console-drawer{position:fixed;right:1.5rem;bottom:0;width:min(420px,40vw);max-width:420px;-webkit-box-sizing:border-box;box-sizing:border-box;z-index:1200;pointer-events:none;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-orient:vertical;-webkit-box-direction:normal;-ms-flex-direction:column;flex-direction:column;-webkit-box-align:end;-ms-flex-align:end;align-items:flex-end}.python-console-body{max-height:0;overflow:hidden;opacity:0;-webkit-transform:translateY(100%);transform:translateY(100%);-webkit-transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s ease-out,-webkit-transform 0.4s cubic-bezier(0.4,0,0.2,1);transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s ease-out,-webkit-transform 0.4s cubic-bezier(0.4,0,0.2,1);transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s ease-out,transform 0.4s cubic-bezier(0.4,0,0.2,1);transition:max-height 0.4s cubic-bezier(0.4,0,0.2,1),opacity 0.3s ease-out,transform 0.4s cubic-bezier(0.4,0,0.2,1),-webkit-transform 0.4s cubic-bezier(0.4,0,0.2,1);background-color:#111827;border:1px solid #4b5563;border-top:none;border-radius:8px 0 0 0;pointer-events:none;width:100%}.python-console-drawer--open .python-console-body{max-height:85vh;min-height:300px;opacity:1;-webkit-transform:translateY(0);transform:translateY(0);pointer-events:auto}.python-console-toggle{pointer-events:auto;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;-webkit-box-pack:center;-ms-flex-pack:center;justify-content:center;gap:0.5rem;padding:0.5rem 1rem;border-radius:8px 8px 0 0;border:1px solid var(--primary-dark);border-bottom:none;background-color:var(--primary-color);color:#ffffff;font-size:0.875rem;font-weight:600;cursor:pointer;margin-bottom:0;-webkit-transition:background-color 0.2s ease,border-color 0.2s ease,-webkit-transform 0.2s ease;transition:background-color 0.2s ease,border-color 0.2s ease,-webkit-transform 0.2s ease;transition:background-color 0.2s ease,border-color 0.2s ease,transform 0.2s ease;transition:background-color 0.2s ease,border-color 0.2s ease,transform 0.2s ease,-webkit-transform 0.2s ease;font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Roboto','Oxygen','Ubuntu','Cantarell',sans-serif;-webkit-font-smoothing:antialiased;-moz-osx-font-smoothing:grayscale}.python-console-toggle-label{letter-spacing:0.01em}.python-console-toggle-icon{display:inline-block;-webkit-transition:-webkit-transform 0.3s cubic-bezier(0.4,0,0.2,1);transition:-webkit-transform 0.3s cubic-bezier(0.4,0,0.2,1);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1);transition:transform 0.3s cubic-bezier(0.4,0,0.2,1),-webkit-transform 0.3s cubic-bezier(0.4,0,0.2,1);font-size:0.75rem;line-height:1}.python-console-drawer--open .python-console-toggle-icon{-webkit-transform:rotate(180deg);transform:rotate(180deg)}.python-console-body .python-repl{margin:0.25rem 0 0.75rem;pointer-events:auto}.python-repl-output{max-height:240px;overflow-y:auto;padding:0.75rem 1rem;font-family:'JetBrains Mono',SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:0.875rem;color:#e5e7eb}.python-repl-line--intro{color:#9ca3af}.python-repl-line--error{color:#fca5a5}.python-repl-form{display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:start;-ms-flex-align:start;align-items:flex-start;gap:0.5rem;padding:0.5rem 1rem 1rem}.python-repl-prompt{color:#d1d5db;font-family:'JetBrains Mono',SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}.python-repl-input-wrapper{-webkit-box-flex:1;-ms-flex:1;flex:1}.python-repl-input{width:100%;border:none;outline:none;resize:vertical;min-height:1.5rem;padding:0.25rem 0.5rem;border-radius:4px;font-family:'JetBrains Mono',SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace;font-size:0.875rem;color:#e5e7eb;background-color:#111827}@media (max-width:768px){.python-console-drawer{right:0;left:0;width:100%;max-width:100%}.python-console-toggle{border-radius:0}.python-console-body{border-radius:0;border-left:none;border-right:none}.python-console-body .python-repl{margin-left:0;margin-right:0}}.logo-accent{color:var(--accent-color)}.site-logo .logo-icon-python{font-size:0}.site-logo .logo-icon-python svg{width:1.7rem;height:1.7rem;display:block}
+@import url("/themes/rubylearning/css/style.css");
+
+:root {
+  --primary-color: #2563eb;   /* Python blue */
+  --primary-dark: #1d4ed8;
+  --primary-light: #60a5fa;
+  --accent-color: #facc15;    /* Python yellow accent */
+}
+
+/* Python console inherits layout from Ruby console but uses theme colors */
+.python-console-drawer {
+  position: fixed;
+  right: 1.5rem;
+  bottom: 0;
+  width: min(420px, 40vw);
+  max-width: 420px;
+  box-sizing: border-box;
+  z-index: 1200;
+  pointer-events: none;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+}
+
+.python-console-body {
+  max-height: 0;
+  overflow: hidden;
+  opacity: 0;
+  transform: translateY(100%);
+  transition: max-height 0.4s cubic-bezier(0.4, 0, 0.2, 1),
+    opacity 0.3s ease-out,
+    transform 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  background-color: #111827;
+  border: 1px solid #4b5563;
+  border-top: none;
+  border-radius: 8px 0 0 0;
+  pointer-events: none;
+  width: 100%;
+}
+
+.python-console-drawer--open .python-console-body {
+  max-height: 85vh;
+  min-height: 300px;
+  opacity: 1;
+  transform: translateY(0);
+  pointer-events: auto;
+}
+
+.python-console-toggle {
+  pointer-events: auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem;
+  border-radius: 8px 8px 0 0;
+  border: 1px solid var(--primary-dark);
+  border-bottom: none;
+  background-color: var(--primary-color);
+  color: #ffffff;
+  font-size: 0.875rem;
+  font-weight: 600;
+  cursor: pointer;
+  margin-bottom: 0;
+  transition: background-color 0.2s ease, border-color 0.2s ease, transform 0.2s ease;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.python-console-toggle-label {
+  letter-spacing: 0.01em;
+}
+
+.python-console-toggle-icon {
+  display: inline-block;
+  transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  font-size: 0.75rem;
+  line-height: 1;
+}
+
+.python-console-drawer--open .python-console-toggle-icon {
+  transform: rotate(180deg);
+}
+
+.python-console-body .python-repl {
+  margin: 0.25rem 0 0.75rem;
+  pointer-events: auto;
+}
+
+.python-repl-output {
+  max-height: 240px;
+  overflow-y: auto;
+  padding: 0.75rem 1rem;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  color: #e5e7eb;
+}
+
+.python-repl-line--intro {
+  color: #9ca3af;
+}
+
+.python-repl-line--error {
+  color: #fca5a5;
+}
+
+.python-repl-form {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.5rem;
+  padding: 0.5rem 1rem 1rem;
+}
+
+.python-repl-prompt {
+  color: #d1d5db;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+}
+
+.python-repl-input-wrapper {
+  flex: 1;
+}
+
+.python-repl-input {
+  width: 100%;
+  border: none;
+  outline: none;
+  resize: vertical;
+  min-height: 1.5rem;
+  padding: 0.25rem 0.5rem;
+  border-radius: 4px;
+  font-family: 'JetBrains Mono', SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", "Courier New", monospace;
+  font-size: 0.875rem;
+  color: #e5e7eb;
+  background-color: #111827;
+}
+
+@media (max-width: 768px) {
+  .python-console-drawer {
+    right: 0;
+    left: 0;
+    width: 100%;
+    max-width: 100%;
+  }
+
+  .python-console-toggle {
+    border-radius: 0;
+  }
+
+  .python-console-body {
+    border-radius: 0;
+    border-left: none;
+    border-right: none;
+  }
+
+  .python-console-body .python-repl {
+    margin-left: 0;
+    margin-right: 0;
+  }
+}
+
+.logo-accent {
+  color: var(--accent-color);
+}
+
+/* Python logo in the site header */
+.site-logo .logo-icon-python {
+  font-size: 0; /* hide inherited emoji metrics */
+}
+
+.site-logo .logo-icon-python svg {
+  width: 1.7rem;
+  height: 1.7rem;
+  display: block;
+}

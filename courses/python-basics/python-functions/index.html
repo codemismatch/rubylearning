@@ -1,29 +1,323 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 4 &ndash; Functions in Python - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1784835502"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1784835502"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1784835502"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1784835502"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1784835502"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1784835502"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/courses/">Courses</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 4 &ndash; Functions in Python</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 4 &ndash; Functions in Python <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2026-07-24" class="tutorial-date"> July 24, 2026 </time></div></div></div><p class="tutorial-summary">Define functions with def, use default and keyword arguments, *args and **kwargs, return values, lambdas, docstrings, and the LEGB scope rules.</p></header><div class="tutorial-content"><div class='markdown'><p>Functions are how you name and reuse a chunk of logic. Python defines them with <code>def</code> &mdash; no <code>end</code>, just a colon and an indented body. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def greet():
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 4 &ndash; Functions in Python - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  
+  
+
+  
+
+  
+  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
+
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1784835677">
+  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1784835677">
+
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1784835677">
+  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1784835677">
+  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1784835677">
+  
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
+            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Python</span>
+        
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        
+        
+        <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/" >Home</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/about/" >About</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/python-basics/" >Learn Python</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/machine-learning/" >Learn ML</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/tutorials/" >Tutorials</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/" >Courses</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/blog/" >Blog</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/resources/" >Resources</a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/tutorials/">Tutorials</a></li>
+      <li>Chapter 4 &ndash; Functions in Python</li>
+      
+    </ol>
+  </nav>
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 4 &ndash; Functions in Python
+        
+        <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+      
+      
+      
+      
+      
+      <div class="tutorial-meta">
+        
+        <div class="tutorial-author">
+          <div class="tutorial-author-avatar">
+            
+            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
+            
+          </div>
+          <div class="tutorial-author-text">
+            <div class="tutorial-author-name">
+              Pankaj Doharey
+            </div>
+            
+            <time datetime="2025-12-23" class="tutorial-date">
+              December 23, 2025
+            </time>
+            
+          </div>
+        </div>
+        
+
+        
+      </div>
+      
+      
+      <p class="tutorial-summary">Define functions with def, use default and keyword arguments, *args and **kwargs, return values, lambdas, docstrings, and the LEGB scope rules.</p>
+      
+    </header>
+
+    
+    <div class="tutorial-content">
+      <div class='markdown'><p>Functions are how you name and reuse a chunk of logic. Python defines them with <code>def</code> &mdash; no <code>end</code>, just a colon and an indented body.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def greet():
     print(&quot;Hello from a function!&quot;)
 
 greet()
-greet()   # call it as many times as you like
-      </code></pre></div></div></div> One habit to unlearn from Ruby: Python <strong>always requires parentheses</strong> when calling a function. <code>greet</code> without <code>()</code> refers to the function object itself instead of running it. <h3>Arguments and parameters</h3> Pass values in, and the parameters bind to them inside the body. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def greet(name):
+greet()   # call it as many times as you like</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>One habit to unlearn from Ruby: Python <strong>always requires parentheses</strong> when calling a function. <code>greet</code> without <code>()</code> refers to the function object itself instead of running it.</p>
+<h3>Arguments and parameters</h3>
+<p>Pass values in, and the parameters bind to them inside the body.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def greet(name):
     print(f&quot;Hello, {name}!&quot;)
 
 greet(&quot;Ada&quot;)
-greet(&quot;Grace&quot;)
-      </code></pre></div></div></div><h3>Default values and keyword arguments</h3> Parameters can have defaults, making them optional &mdash; and callers can name arguments explicitly for clarity. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def greet(name, greeting=&quot;Hello&quot;, punctuation=&quot;!&quot;):
+greet(&quot;Grace&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Default values and keyword arguments</h3>
+<p>Parameters can have defaults, making them optional &mdash; and callers can name arguments explicitly for clarity.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def greet(name, greeting=&quot;Hello&quot;, punctuation=&quot;!&quot;):
     print(f&quot;{greeting}, {name}{punctuation}&quot;)
 
 greet(&quot;Ada&quot;)                                  # uses both defaults
 greet(&quot;Grace&quot;, &quot;Hi&quot;)                          # override one
 greet(&quot;Linus&quot;, punctuation=&quot;.&quot;)               # keyword argument
-greet(punctuation=&quot;?&quot;, name=&quot;Alan&quot;)           # any order when named
-      </code></pre></div></div></div><strong>Gotcha:</strong> never use a mutable object (like a list) as a default value &mdash; Python evaluates defaults once at definition time, so all calls share the same list. Use <code>None</code> and create the list inside: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def add_item(item, items=None):
+greet(punctuation=&quot;?&quot;, name=&quot;Alan&quot;)           # any order when named</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p><strong>Gotcha:</strong> never use a mutable object (like a list) as a default value &mdash; Python evaluates defaults once at definition time, so all calls share the same list. Use <code>None</code> and create the list inside:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def add_item(item, items=None):
     if items is None:
         items = []
     items.append(item)
     return items
 
 print(add_item(&quot;apple&quot;))
-print(add_item(&quot;banana&quot;))   # a fresh list each call - correct!
-      </code></pre></div></div></div><h3>Return values</h3><code>return</code> sends a value back and exits the function. Without an explicit <code>return</code>, a function returns <code>None</code> (unlike Ruby, there's no implicit "last expression" return). <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def square(n):
+print(add_item(&quot;banana&quot;))   # a fresh list each call - correct!</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Return values</h3>
+<p><code>return</code> sends a value back and exits the function. Without an explicit <code>return</code>, a function returns <code>None</code> (unlike Ruby, there's no implicit "last expression" return).</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def square(n):
     return n * n
 
 result = square(7)
@@ -32,13 +326,41 @@ print(result)
 def no_return():
     print(&quot;I say things but return nothing&quot;)
 
-print(no_return())   # prints the message, then None
-      </code></pre></div></div></div><h3>Returning multiple values</h3> Return several values by packing them into a tuple &mdash; callers usually unpack them right away, exactly like Ruby's multiple assignment. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def min_max(numbers):
+print(no_return())   # prints the message, then None</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Returning multiple values</h3>
+<p>Return several values by packing them into a tuple &mdash; callers usually unpack them right away, exactly like Ruby's multiple assignment.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def min_max(numbers):
     return min(numbers), max(numbers)
 
 low, high = min_max([4, 1, 9, 2])
-print(f&quot;low={low}, high={high}&quot;)
-      </code></pre></div></div></div><h3>*args and **kwargs</h3> Sometimes you don't know how many arguments you'll get. <code>*args</code> collects extra positional arguments into a tuple; <code>**kwargs</code> collects extra keyword arguments into a dict (like Ruby's <code>*splat</code> and <code>**double_splat</code>). <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def total(*numbers):
+print(f&quot;low={low}, high={high}&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>*args and **kwargs</h3>
+<p>Sometimes you don't know how many arguments you'll get. <code>*args</code> collects extra positional arguments into a tuple; <code>**kwargs</code> collects extra keyword arguments into a dict (like Ruby's <code>*splat</code> and <code>**double_splat</code>).</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def total(*numbers):
     print(&quot;got:&quot;, numbers)
     return sum(numbers)
 
@@ -49,15 +371,42 @@ def describe(**details):
     for key, value in details.items():
         print(f&quot;{key}: {value}&quot;)
 
-describe(name=&quot;Ada&quot;, role=&quot;programmer&quot;, born=1815)
-      </code></pre></div></div></div> You can combine everything; the order in the definition must be: normal params, <code>*args</code>, keyword-only/defaults, <code>**kwargs</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def order(main, *sides, drink=&quot;water&quot;, **extras):
+describe(name=&quot;Ada&quot;, role=&quot;programmer&quot;, born=1815)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>You can combine everything; the order in the definition must be: normal params, <code>*args</code>, keyword-only/defaults, <code>**kwargs</code>.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def order(main, *sides, drink=&quot;water&quot;, **extras):
     print(f&quot;Main: {main}&quot;)
     print(f&quot;Sides: {sides}&quot;)
     print(f&quot;Drink: {drink}&quot;)
     print(f&quot;Extras: {extras}&quot;)
 
-order(&quot;pizza&quot;, &quot;salad&quot;, &quot;breadsticks&quot;, drink=&quot;cola&quot;, coupon=True)
-      </code></pre></div></div></div><h3>Lambda: tiny anonymous functions</h3> A <code>lambda</code> creates a one-expression function without a name &mdash; roughly Ruby's <code>-&gt;(x) { x * 2 }</code>. Lambdas are limited to a single expression; use <code>def</code> for anything bigger. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">double = lambda x: x * 2
+order(&quot;pizza&quot;, &quot;salad&quot;, &quot;breadsticks&quot;, drink=&quot;cola&quot;, coupon=True)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Lambda: tiny anonymous functions</h3>
+<p>A <code>lambda</code> creates a one-expression function without a name &mdash; roughly Ruby's <code>-&gt;(x) { x * 2 }</code>. Lambdas are limited to a single expression; use <code>def</code> for anything bigger.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">double = lambda x: x * 2
 print(double(21))
 
 # Common use: sorting by a computed key
@@ -67,14 +416,43 @@ print(words)   # [&#39;fig&#39;, &#39;banana&#39;, &#39;cherry&#39;]
 
 pairs = [(1, &quot;one&quot;), (3, &quot;three&quot;), (2, &quot;two&quot;)]
 pairs.sort(key=lambda p: p[0])
-print(pairs)
-      </code></pre></div></div></div><h3>Docstrings</h3> A string literal as the first line of a function becomes its <strong>docstring</strong> &mdash; accessible via <code>help()</code> and the <code>.__doc__</code> attribute. Python projects document with these instead of comments above the method. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def area(radius):
+print(pairs)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Docstrings</h3>
+<p>A string literal as the first line of a function becomes its <strong>docstring</strong> &mdash; accessible via <code>help()</code> and the <code>.__doc__</code> attribute. Python projects document with these instead of comments above the method.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def area(radius):
     &quot;&quot;&quot;Return the area of a circle with the given radius.&quot;&quot;&quot;
     return 3.14159 * radius ** 2
 
 print(area(2))
-print(area.__doc__)
-      </code></pre></div></div></div> Triple-quoted docstrings can span multiple lines and are the standard way to document functions, classes, and modules. <h3>Scope and the LEGB rule</h3> When Python resolves a name, it searches four scopes in order &mdash; <strong>L</strong>ocal, <strong>E</strong>nclosing, <strong>G</strong>lobal, <strong>B</strong>uilt-in: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">level = &quot;global&quot;          # G - module level
+print(area.__doc__)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Triple-quoted docstrings can span multiple lines and are the standard way to document functions, classes, and modules.</p>
+<h3>Scope and the LEGB rule</h3>
+<p>When Python resolves a name, it searches four scopes in order &mdash; <strong>L</strong>ocal, <strong>E</strong>nclosing, <strong>G</strong>lobal, <strong>B</strong>uilt-in:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">level = &quot;global&quot;          # G - module level
 
 def outer():
     level = &quot;enclosing&quot;   # E - inside outer
@@ -86,8 +464,21 @@ def outer():
 
 outer()
 print(&quot;module sees:&quot;, level)
-print(len)                # B - built-in names resolve last
-      </code></pre></div></div></div> Assigning inside a function creates a *local* variable by default. To modify a global from inside a function you must declare it with <code>global</code> (rarely a good idea) &mdash; and <code>nonlocal</code> does the same for enclosing scopes: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">count = 0
+print(len)                # B - built-in names resolve last</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Assigning inside a function creates a *local* variable by default. To modify a global from inside a function you must declare it with <code>global</code> (rarely a good idea) &mdash; and <code>nonlocal</code> does the same for enclosing scopes:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">count = 0
 
 def bump():
     global count
@@ -95,8 +486,23 @@ def bump():
 
 bump()
 bump()
-print(&quot;count:&quot;, count)
-      </code></pre></div></div></div> In practice: pass values in as arguments and return results &mdash; reach for <code>global</code> only when you truly must. <h3>Functions are objects</h3> Functions are first-class citizens: store them in variables, put them in lists, pass them to other functions &mdash; much like Ruby blocks and procs. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def shout(text):
+print(&quot;count:&quot;, count)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>In practice: pass values in as arguments and return results &mdash; reach for <code>global</code> only when you truly must.</p>
+<h3>Functions are objects</h3>
+<p>Functions are first-class citizens: store them in variables, put them in lists, pass them to other functions &mdash; much like Ruby blocks and procs.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">def shout(text):
     return text.upper() + &quot;!&quot;
 
 def whisper(text):
@@ -106,23 +512,312 @@ def apply_all(funcs, text):
     for f in funcs:
         print(f(text))
 
-apply_all([shout, whisper], &quot;Python&quot;)
-      </code></pre></div></div></div><h3>Practice checklist</h3><ul><li>[ ] Write a function with one required and one defaulted parameter; call it three different ways. - [ ] Write a function that returns two values and unpack them at the call site. - [ ] Write a function using <code>*args</code> that sums any number of inputs. - [ ] Add a docstring to a function and print it via <code>.__doc__</code>. <h4>Practice 1 - Greeter with defaults</h4><strong>Goal:</strong> Practice default and keyword arguments. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Define greet(name, greeting=&quot;Hello&quot;) that prints
+apply_all([shout, whisper], &quot;Python&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Practice checklist</h3>
+<ul><li>[ ] Write a function with one required and one defaulted parameter; call it three different ways.</li>
+<li>[ ] Write a function that returns two values and unpack them at the call site.</li>
+<li>[ ] Write a function using <code>*args</code> that sums any number of inputs.</li>
+<li>[ ] Add a docstring to a function and print it via <code>.__doc__</code>.</li></ul>
+<h4>Practice 1 - Greeter with defaults</h4>
+<p><strong>Goal:</strong> Practice default and keyword arguments.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec"># TODO: Define greet(name, greeting=&quot;Hello&quot;) that prints
 # &quot;&lt;greeting&gt;, &lt;name&gt;!&quot;. Call it with just a name, then
-# with a custom greeting passed as a keyword argument.
-      </code></pre></div></div></div><h4>Practice 2 - Stats tuple</h4><strong>Goal:</strong> Return and unpack multiple values. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Define stats(numbers) that returns a tuple of
+# with a custom greeting passed as a keyword argument.</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h4>Practice 2 - Stats tuple</h4>
+<p><strong>Goal:</strong> Return and unpack multiple values.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec"># TODO: Define stats(numbers) that returns a tuple of
 # (count, total, average). Unpack the result for
-# [10, 20, 30, 40] and print all three values.
-      </code></pre></div></div></div><h4>Practice 3 - Flexible joiner</h4><strong>Goal:</strong> Use *args and <strong>kwargs together. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Define make_tag(tag, *classes, **attrs) that prints
+# [10, 20, 30, 40] and print all three values.</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h4>Practice 3 - Flexible joiner</h4>
+<p><strong>Goal:</strong> Use *args and <strong>kwargs together.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec"># TODO: Define make_tag(tag, *classes, **attrs) that prints
 # the tag name, the tuple of classes, and the dict of attrs.
 # Call it like:
-#   make_tag(&quot;div&quot;, &quot;card&quot;, &quot;highlight&quot;, id=&quot;main&quot;, hidden=True)
-      </code></pre></div></div></div><h4>Practice 4 - Sort by lambda</h4></strong>Goal:** Use a lambda as a sort key. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">people = [(&quot;Ada&quot;, 36), (&quot;Grace&quot;, 85), (&quot;Alan&quot;, 41)]
+#   make_tag(&quot;div&quot;, &quot;card&quot;, &quot;highlight&quot;, id=&quot;main&quot;, hidden=True)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h4>Practice 4 - Sort by lambda</h4>
+<p></strong>Goal:** Use a lambda as a sort key.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python-exec.python-exec</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python-exec">people = [(&quot;Ada&quot;, 36), (&quot;Grace&quot;, 85), (&quot;Alan&quot;, 41)]
 
 # TODO: Sort the list by age (second element) using
 # people.sort(key=lambda ...) and print the result.
-# Then sort by name length and print again.
-      </code></pre></div></div></div> You've finished the Python Basics course! From here, explore the standard library (<code>json</code>, <code>datetime</code>, <code>pathlib</code>), try a web framework like Flask, or open a Jupyter notebook and meet pandas. </p></li></ul></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/python-control-flow/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 3: Control Flow in Python</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/python-basics/python-control-flow/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Control Flow in Python</span></a></li><li><a href="/courses/python-basics/intro-to-python/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Introduction to Python</span></a></li></ul></div></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1784835502"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1784835502"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1784835502"></script><script src="/themes/rubylearning/js/prism-python.js?v=1784835502"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1784835502"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784835502"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1784835502"></script><script src="/themes/pylearning/js/site.js?v=1784835502"></script><script src="/themes/pylearning/js/python-runtime.js?v=1784835502"></script><script src="/themes/pylearning/js/python-console.js?v=1784835502"></script><script src="/themes/pylearning/js/python-exec.js?v=1784835502"></script><script>
+# Then sort by name length and print again.</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>You've finished the Python Basics course! From here, explore the standard library (<code>json</code>, <code>datetime</code>, <code>pathlib</code>), try a web framework like Flask, or open a Jupyter notebook and meet pandas.</p></div>
+    </div>
+
+    
+    <nav class="tutorial-nav">
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/python-control-flow/">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>Chapter 3: Control Flow in Python</span>
+      </a>
+      
+      
+    </nav>
+    
+
+    
+    <div class="related-tutorials">
+      <h2>Related Tutorials</h2>
+      <ul>
+        
+        
+        
+        
+        <li>
+          <a href="/courses/python-basics/python-control-flow/">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>Control Flow in Python</span>
+          </a>
+        </li>
+        
+        
+        
+        
+        <li>
+          <a href="/courses/python-basics/intro-to-python/">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>Introduction to Python</span>
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+  </article>
+
+  
+
+  
+  <div class="python-console-drawer">
+    <button class="python-console-toggle" type="button" aria-expanded="false">
+      <span class="python-console-toggle-label">Python console</span>
+      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="python-console-body">
+      <div class="python-repl" data-python-console="true">
+        <div class="python-repl-output" aria-live="polite"></div>
+        <form class="python-repl-form">
+          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
+          <div class="python-repl-input-wrapper">
+            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/" >Home</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/about/" >About</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/python-basics/" >Learn Python</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/machine-learning/" >Learn ML</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/tutorials/" >Tutorials</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/blog/" >Blog</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/resources/" >Resources</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+            
+            
+            
+            
+            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+            
+            
+            
+            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+            
+            
+            
+            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="/themes/rubylearning/js/prism.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/prism-python.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1784835677"></script>
+  <script src="/themes/pylearning/js/site.js?v=1784835677"></script>
+  
+  <script src="/themes/pylearning/js/python-runtime.js?v=1784835677"></script>
+  <script src="/themes/pylearning/js/python-console.js?v=1784835677"></script>
+  <script src="/themes/pylearning/js/python-exec.js?v=1784835677"></script>
+  
+  
+
+  <script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -133,6 +828,13 @@ apply_all([shout, whisper], &quot;Python&quot;)
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1784835502"></script><script>
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="/themes/rubylearning/js/mermaid.min.js?v=1784835677"></script>
+  <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script></body></html>
+  </script>
+</body>
+
+</html>

@@ -1,6 +1,229 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 34 &ndash; Ruby Logging - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="rubylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/rubylearning/css/style.css?v=1784835502"><link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=1784835502"><link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=1784835502"><link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=1784835502"><link rel="stylesheet" href="/themes/rubylearning/css/course.css?v=1784835502"><link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=1784835502"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span><span class="logo-text">Ruby</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/courses/">Courses</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 34 &ndash; Ruby Logging</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 34 &ndash; Ruby Logging <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2025-11-14" class="tutorial-date"> November 14, 2025 </time></div></div><div class="tutorial-contributors"><span class="contributors-label">Edited by:</span><div class="contributors-list"><div class="contributor-item" title="Neeraj Doharey"><img src="/images/avatars/neerajdoharey.jpg" alt="Neeraj Doharey" class="contributor-avatar"><span class="contributor-name">Neeraj Doharey</span></div></div></div></div><p class="tutorial-summary">Capture useful diagnostics with the stdlib `Logger`, simple puts-style logs, and rotating files.</p></header><div class="tutorial-content"><div class='markdown'><p>> Adapted from Satish Talim's "Ruby Logging" notes. Logging surfaces what your program is doing without halting execution. Ruby ships a flexible stdlib logger and you can always fall back to simple <code>puts</code> or file writes. <h3>Quick-and-dirty logging</h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">puts &quot;[DEBUG] Starting import...&quot;
-File.open(&quot;app.log&quot;, &quot;a&quot;) { |f| f.puts &quot;#{Time.now} Task finished&quot; }
-      </code></pre></div></div></div> Useful for tiny scripts, but you'll quickly want log levels, formatting, and rotation--enter <code>Logger</code>. <h3>Using stdlib <code>Logger</code></h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">begin
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 34 &ndash; Ruby Logging - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  
+  
+
+  
+
+  
+  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
+
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=1784835677">
+  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=1784835677">
+
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=1784835677">
+  <link rel="stylesheet" href="/themes/rubylearning/css/course.css?v=1784835677">
+  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=1784835677">
+  
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        
+        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
+        <span class="logo-text">Ruby</span>
+        
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        
+        
+        <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/" >Home</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/about/" >About</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/python-basics/" >Learn Python</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/machine-learning/" >Learn ML</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/tutorials/" >Tutorials</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/" >Courses</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/blog/" >Blog</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/resources/" >Resources</a>
+          </li>
+          
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/tutorials/">Tutorials</a></li>
+      <li>Chapter 34 &ndash; Ruby Logging</li>
+      
+    </ol>
+  </nav>
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 34 &ndash; Ruby Logging
+        
+        <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+      
+      
+      
+      
+      <p class="tutorial-summary">Capture useful diagnostics with the stdlib `Logger`, simple puts-style logs, and rotating files.</p>
+      
+    </header>
+
+    
+    <div class="tutorial-content">
+      <div class='markdown'><p>> Adapted from Satish Talim's "Ruby Logging" notes.</p>
+<p>Logging surfaces what your program is doing without halting execution. Ruby ships a flexible stdlib logger and you can always fall back to simple <code>puts</code> or file writes.</p>
+<h3>Quick-and-dirty logging</h3>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">puts &quot;[DEBUG] Starting import...&quot;
+File.open(&quot;app.log&quot;, &quot;a&quot;) { |f| f.puts &quot;#{Time.now} Task finished&quot; }</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Useful for tiny scripts, but you'll quickly want log levels, formatting, and rotation--enter <code>Logger</code>.</p>
+<h3>Using stdlib <code>Logger</code></h3>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">begin
   require &quot;monitor&quot;
 rescue LoadError
 end
@@ -20,12 +243,60 @@ logger.level = Logger::INFO             # DEBUG, INFO, WARN, ERROR, FATAL, UNKNO
 
 logger.info(&quot;Booting service&quot;)
 logger.warn(&quot;Slow response: #{duration}s&quot;)
-logger.error(&quot;Unhandled exception&quot;, exception: e)
-      </code></pre></div></div></div><ul><li>Pass a file path, IO, or even <code>Logger.new("log/app.log", 10, 1024 * 1024)</code> for rotation (10 files, 1MB each). - Format messages by setting <code>logger.formatter</code>. <h3>Structured context</h3> Wrap log calls in helper methods or use keyword arguments: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def log_request(logger, action:, status:)
+logger.error(&quot;Unhandled exception&quot;, exception: e)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<ul><li>Pass a file path, IO, or even <code>Logger.new("log/app.log", 10, 1024 * 1024)</code> for rotation (10 files, 1MB each).</li>
+<li>Format messages by setting <code>logger.formatter</code>.</li></ul>
+<h3>Structured context</h3>
+<p>Wrap log calls in helper methods or use keyword arguments:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">def log_request(logger, action:, status:)
   logger.info(&quot;[#{action}] status=#{status}&quot;)
-end
-      </code></pre></div></div></div><h3>Best practices</h3> - Pick consistent levels so operators know what to grep. - Avoid logging secrets; redact tokens/passwords. - Combine with exception handling: rescue errors, log them, then re-raise if needed. <h3>Practice checklist</h3> - [ ] Use <code>Logger.new("log/dev.log", 3, 1024 * 1024)</code> to test file rotation. - [ ] Create a helper that logs start/end times of a block (<code>logger.info</code> before and after). - [ ] Experiment with custom <code>logger.formatter</code> to prepend timestamps and thread IDs. - [ ] Pair a <code>begin/rescue</code> block with logging to capture exception messages before re-raising. Next: keep building in Flow Control & Collections, now with observability baked in. <h4>Practice 1 - Logger rotation</h4><strong>Goal:</strong> Show how you would construct a rotating logger. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="0" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Logger destination&#39;) }"><code class="language-ruby"># TODO: Print the Logger.new call that configures rotation for
-# log/dev.log with a few rotated files and a max size.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="0"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:0">
+end</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Best practices</h3>
+<ul><li>Pick consistent levels so operators know what to grep.</li>
+<li>Avoid logging secrets; redact tokens/passwords.</li>
+<li>Combine with exception handling: rescue errors, log them, then re-raise if needed.</li></ul>
+<h3>Practice checklist</h3>
+<ul><li>[ ] Use <code>Logger.new("log/dev.log", 3, 1024 * 1024)</code> to test file rotation.</li>
+<li>[ ] Create a helper that logs start/end times of a block (<code>logger.info</code> before and after).</li>
+<li>[ ] Experiment with custom <code>logger.formatter</code> to prepend timestamps and thread IDs.</li>
+<li>[ ] Pair a <code>begin/rescue</code> block with logging to capture exception messages before re-raising.</li></ul>
+Next: keep building in Flow Control & Collections, now with observability baked in.</p>
+<p><h4>Practice 1 - Logger rotation</h4>
+<p><strong>Goal:</strong> Show how you would construct a rotating logger.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="0" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Logger destination&#39;) }"><code class="language-ruby"># TODO: Print the Logger.new call that configures rotation for
+# log/dev.log with a few rotated files and a max size.</code></pre>
+      </div>
+    </div>
+  </div>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging"
+     data-practice-index="0"></div></p>
+<p><script type="text/plain"
+        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:0">
 begin
   require "monitor"
 rescue LoadError
@@ -44,8 +315,28 @@ log_path = "dev.log"
 logger = Logger.new(log_path, 3, 1024 * 1024)
 logger.info("Logger rotation configured")
 puts "Logger destination: #{log_path}"
-</script><h4>Practice 2 - Logging block start/end</h4><strong>Goal:</strong> Create a helper that logs start/end times of a block. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="1" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;start: demo task&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;finish: demo task&#39;) }"><code class="language-ruby"># TODO: Print an example helper that logs before and after running a
-# block using logger.info.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="1"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:1">
+</script>
+<h4>Practice 2 - Logging block start/end</h4></p>
+<p><strong>Goal:</strong> Create a helper that logs start/end times of a block.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="1" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.downcase.include?(&#39;start: demo task&#39;) } &amp;&amp; lines.any? { |l| l.downcase.include?(&#39;finish: demo task&#39;) }"><code class="language-ruby"># TODO: Print an example helper that logs before and after running a
+# block using logger.info.</code></pre>
+      </div>
+    </div>
+  </div>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging"
+     data-practice-index="1"></div></p>
+<p><script type="text/plain"
+        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:1">
 begin
   require "monitor"
 rescue LoadError
@@ -70,8 +361,29 @@ end
 
 logger = Logger.new($stdout)
 with_logging(logger, "demo task") { logger.info("running task") }
-</script><h4>Practice 3 - Custom logger.formatter</h4><strong>Goal:</strong> Experiment with a custom <code>logger.formatter</code> that prepends timestamps and thread IDs. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="2" data-test="out = output.string out.include?(&#39;formatted log entry&#39;) &amp;&amp; out.include?(&#39;INFO:&#39;)"><code class="language-ruby"># TODO: Print a formatter assignment that includes time and thread id
-# in each log line.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="2"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:2">
+</script>
+<h4>Practice 3 - Custom logger.formatter</h4></p>
+<p><strong>Goal:</strong> Experiment with a custom <code>logger.formatter</code> that prepends timestamps and thread IDs.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="2" data-test="out = output.string
+out.include?(&#39;formatted log entry&#39;) &amp;&amp; out.include?(&#39;INFO:&#39;)"><code class="language-ruby"># TODO: Print a formatter assignment that includes time and thread id
+# in each log line.</code></pre>
+      </div>
+    </div>
+  </div>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging"
+     data-practice-index="2"></div></p>
+<p><script type="text/plain"
+        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:2">
 begin
   require "monitor"
 rescue LoadError
@@ -94,8 +406,29 @@ logger.formatter = proc do |severity, time, _progname, msg|
 end
 
 logger.info("formatted log entry")
-</script><h4>Practice 4 - Logging exceptions before re-raising</h4><strong>Goal:</strong> Pair a <code>begin</code>/<code>rescue</code> block with logging to capture exception messages before re-raising. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="3" data-test="out = output.string out.include?(&#39;Failure: boom&#39;) &amp;&amp; out.include?(&#39;Outer rescue caught&#39;)"><code class="language-ruby"># TODO: Print a snippet where an exception is logged and then
-# re-raised to bubble up.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="3"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:3">
+</script>
+<h4>Practice 4 - Logging exceptions before re-raising</h4></p>
+<p><strong>Goal:</strong> Pair a <code>begin</code>/<code>rescue</code> block with logging to capture exception messages before re-raising.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">ruby.rb</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging" data-practice-index="3" data-test="out = output.string
+out.include?(&#39;Failure: boom&#39;) &amp;&amp; out.include?(&#39;Outer rescue caught&#39;)"><code class="language-ruby"># TODO: Print a snippet where an exception is logged and then
+# re-raised to bubble up.</code></pre>
+      </div>
+    </div>
+  </div>
+<div class="practice-feedback"
+     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-logging"
+     data-practice-index="3"></div></p>
+<p><script type="text/plain"
+        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-logging:3">
 begin
   require "monitor"
 rescue LoadError
@@ -128,7 +461,237 @@ rescue => e
   logger.warn("Outer rescue caught: #{e.message}")
   puts "Outer rescue caught: #{e.message}"
 end
-</script></p></li></ul></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/ruby-basics/ruby-exceptions/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 33: Ruby Exceptions</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/ruby-basics/ruby-time-class/"><span>Chapter 35: Ruby `Time` Class</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/ruby-basics/read-write-files/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Read/Write Text Files</span></a></li><li><a href="/courses/ruby-basics/ruby-access-control/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Ruby Access Control</span></a></li></ul></div></article><div class="ruby-console-drawer"><button class="ruby-console-toggle" type="button" aria-expanded="false"><span class="ruby-console-toggle-label">Ruby console</span><span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="ruby-console-body"><div class="ruby-irb" data-ruby-console="true"><div class="ruby-irb-output" aria-live="polite"></div><form class="ruby-irb-form"><span class="ruby-irb-prompt">mrc(main):001&gt;</span><div class="ruby-irb-input-wrapper"><span class="ruby-irb-caret" aria-hidden="true"></span><textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/tutorials/">Tutorials</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1784835502"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1784835502"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1784835502"></script><script src="/themes/rubylearning/js/prism-python.js?v=1784835502"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1784835502"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784835502"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1784835502"></script><script src="/themes/rubylearning/js/site.js?v=1784835502"></script><script>
+</script></p></div>
+    </div>
+
+    
+    <nav class="tutorial-nav">
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/ruby-basics/ruby-exceptions/">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>Chapter 33: Ruby Exceptions</span>
+      </a>
+      
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/ruby-basics/ruby-time-class/">
+        <span>Chapter 35: Ruby `Time` Class</span>
+        <span class="icon-arrow" aria-hidden="true">&gt;</span>
+      </a>
+      
+    </nav>
+    
+
+    
+    <div class="related-tutorials">
+      <h2>Related Tutorials</h2>
+      <ul>
+        
+        
+        
+        
+        <li>
+          <a href="/courses/ruby-basics/read-write-files/">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>Read/Write Text Files</span>
+          </a>
+        </li>
+        
+        
+        
+        
+        <li>
+          <a href="/courses/ruby-basics/ruby-access-control/">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>Ruby Access Control</span>
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+  </article>
+
+  
+
+  
+  <div class="ruby-console-drawer">
+    <button class="ruby-console-toggle" type="button" aria-expanded="false">
+      <span class="ruby-console-toggle-label">Ruby console</span>
+      <span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="ruby-console-body">
+      <div class="ruby-irb" data-ruby-console="true">
+        <div class="ruby-irb-output" aria-live="polite"></div>
+        <form class="ruby-irb-form">
+          <span class="ruby-irb-prompt">mrc(main):001&gt;</span>
+          <div class="ruby-irb-input-wrapper">
+            <span class="ruby-irb-caret" aria-hidden="true"></span>
+            <pre class="ruby-irb-ghost"></pre>
+            <textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/" >Home</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/about/" >About</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/python-basics/" >Learn Python</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/machine-learning/" >Learn ML</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/tutorials/" >Tutorials</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/blog/" >Blog</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/resources/" >Resources</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+            
+            
+            
+            
+            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+            
+            
+            
+            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+            
+            
+            
+            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="/themes/rubylearning/js/prism.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/prism-python.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1784835677"></script>
+  <script src="/themes/rubylearning/js/site.js?v=1784835677"></script>
+  
+  
+
+  <script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -139,6 +702,13 @@ end
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1784835502"></script><script>
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="/themes/rubylearning/js/mermaid.min.js?v=1784835677"></script>
+  <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script></body></html>
+  </script>
+</body>
+
+</html>
