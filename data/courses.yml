@@ -1,18 +1,96 @@
 ---
 - id: ruby-basics
+  language: ruby
   title: Ruby Basics
   description: Learn the fundamentals of Ruby, from installation to your first program.
+  slug: ruby-basics
+  free: true
+  level: beginner
+  lessons: 43
+  estimated_hours: 12
   modules:
-  - id: getting-started
-    title: Getting Started
-    tutorials:
-    - first-ruby-program
-    - variables-and-assignment
+    - id: getting-started
+      title: Getting Started
+      tutorials:
+        - first-ruby-program
+        - variables-and-assignment
 - id: advanced-ruby
+  language: ruby
   title: Advanced Ruby
-  description: New course description
+  description: Deep dive into more advanced Ruby topics.
+  slug: advanced-ruby
+  free: true
+  level: intermediate
+  lessons: 13
+  estimated_hours: 10
   modules:
-  - id: meta
-    title: Metaprogramming
-    tutorials:
-    - method-missing
+    - id: object-model-metaprogramming
+      title: Object model & metaprogramming
+      tutorials:
+        - ruby-self
+        - ruby-open-classes
+        - ruby-method-missing
+        - duck-typing
+        - mutable-and-immutable-objects
+    - id: blocks-procs-modules
+      title: Blocks, procs & modules
+      tutorials:
+        - ruby-blocks
+        - ruby-procs
+        - modules-and-mixins
+    - id: errors-text-system
+      title: Errors, text & the system
+      tutorials:
+        - ruby-exceptions
+        - ruby-regular-expressions
+        - object-serialization
+        - ruby-logging
+        - ruby-socket-programming
+- id: python-basics
+  language: python
+  title: Python Basics
+  description: Learn Python fundamentals with hands-on exercises.
+  slug: python-basics
+  free: true
+  level: beginner
+  lessons: 4
+  estimated_hours: 6
+  modules:
+    - id: intro
+      title: Getting Started with Python
+      tutorials:
+        - intro-to-python
+    - id: fundamentals
+      title: Python fundamentals
+      tutorials:
+        - python-variables
+        - python-control-flow
+        - python-functions
+- id: machine-learning
+  language: python
+  title: "Machine Learning: From Zero to LLMs"
+  description: Learn machine learning from first principles, building up to how large language models work.
+  slug: machine-learning
+  free: true
+  level: beginner
+  lessons: 9
+  estimated_hours: 20
+  modules:
+    - id: foundations
+      title: Foundations
+      tutorials:
+        - what-is-machine-learning
+        - python-for-ml
+        - linear-regression-from-scratch
+    - id: learning-networks
+      title: Learning & Networks
+      tutorials:
+        - gradient-descent
+        - logistic-regression-classification
+        - neural-networks-from-scratch
+    - id: towards-llms
+      title: Towards LLMs
+      tutorials:
+        - text-embeddings
+        - attention-and-transformers
+        - how-llms-work

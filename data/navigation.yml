@@ -4,11 +4,15 @@ primary:
   - label: About
     path: pages/about/
   - label: Learn Ruby
-    url: /tutorials/#ruby-track
-  - label: Learn Rails
-    url: /tutorials/#rails-track
+    url: /courses/ruby-basics/#ruby-track
+  - label: Learn Python
+    url: /courses/python-basics/
+  - label: Learn ML
+    url: /courses/machine-learning/
   - label: Tutorials
     path: tutorials/
+  - label: Courses
+    url: /courses/
   - label: Blog
     path: blog/
   - label: Resources
@@ -20,9 +24,11 @@ footer_quick:
   - label: About
     path: pages/about/
   - label: Learn Ruby
-    url: /tutorials/#ruby-track
-  - label: Learn Rails
-    url: /tutorials/#rails-track
+    url: /courses/ruby-basics/#ruby-track
+  - label: Learn Python
+    url: /courses/python-basics/
+  - label: Learn ML
+    url: /courses/machine-learning/
   - label: Tutorials
     path: tutorials/
   - label: Blog

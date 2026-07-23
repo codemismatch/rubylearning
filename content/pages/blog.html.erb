@@ -9,40 +9,37 @@ breadcrumbs: true
 
 <h2 class="section-title">Latest Posts</h2>
 
-<% posts = Array(site.collections&.posts || [])
-  .sort_by { |post| post.date || Date.today }
-  .reverse %>
+{% assign posts = site.collections.posts | default: empty | reverse %}
 
-<% if posts.any? %>
+{% if posts.size > 0 %}
   <div class="post-grid">
-    <% posts.each do |post| %>
+    {% for post in posts %}
       <article class="post-card">
-        <h2><a href="<%= url_for(post.permalink) %>"><%= post.title %></a></h2>
+        <h2><a href="{{ post.permalink | url_for }}">{{ post.title }}</a></h2>
         <div class="post-meta">
-          <% if post.date %>
-            <span class="post-date"><%= post.date.strftime(site.date_format || '%B %-d, %Y') %></span>
-          <% end %>
-          <% Array(post.tags).first(3).each do |tag| %>
-            <span class="post-tag"><%= tag %></span>
-          <% end %>
+          {% if post.date %}
+            <span class="post-date">{{ post.date | date: site.date_format }}</span>
+          {% endif %}
+          {% assign top_tags = post.tags | slice: 0, 3 %}
+          {% for tag in top_tags %}
+            <span class="post-tag">{{ tag }}</span>
+          {% endfor %}
         </div>
-        <% if post.description %>
-          <p><%= post.description %></p>
-        <% elsif post.summary %>
-          <p><%= post.summary %></p>
-        <% else %>
-          <p><%= truncate(strip_html(post.content), length: 160) %></p>
-        <% end %>
-        <a class="read-more" href="<%= url_for(post.permalink) %>">
+        {% if post.description %}
+          <p>{{ post.description }}</p>
+        {% elsif post.summary %}
+          <p>{{ post.summary }}</p>
+        {% endif %}
+        <a class="read-more" href="{{ post.permalink | url_for }}">
           Read more
           <span class="icon-arrow" aria-hidden="true">&gt;</span>
         </a>
       </article>
-    <% end %>
+    {% endfor %}
   </div>
-<% else %>
+{% else %}
   <p>No blog posts yet&mdash;check back soon, or subscribe to the newsletter on the resources page.</p>
-<% end %>
+{% endif %}
 
 <section class="chapter-section">
   <h2>Stay updated</h2>

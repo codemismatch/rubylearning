@@ -1,8 +1,8 @@
 ---
 layout: tutorial
-title: Ruby Tutorials
+title: Tutorials
 permalink: /tutorials
-summary: Pick a chapter to study, then follow the on-page prompts. Each tutorial is a self-contained lesson with runnable snippets, practice checklists, and next-step navigation.
+summary: Free-form tutorials that sit alongside the main language courses.
 breadcrumbs: true
 ---
 
@@ -10,73 +10,59 @@ breadcrumbs: true
   <article class="tutorial">
     <div class="tutorial-content">
       <div class="chapter-nav">
-        <h2>Ruby learning path</h2>
+        <h2>Courses</h2>
         <div class="chapter-nav__sections">
           <div>
+            <h3>Ruby</h3>
             <ol>
-              <li><a href="/tutorials/quick-intro/">Super fast Ruby intro (20 minutes)</a></li>
-              <li><a href="/tutorials/meet-ruby/">Chapter 1: Meet Ruby</a></li>
-              <li><a href="/tutorials/installation-setup/">Chapter 2: Installation &amp; setup</a></li>
-              <li><a href="/tutorials/first-ruby-program/">Chapter 3: First Ruby Program</a></li>
-              <li><a href="/tutorials/ruby-features/">Chapter 4: Ruby Features</a></li>
-              <li><a href="/tutorials/numbers-in-ruby/">Chapter 5: Numbers in Ruby</a></li>
-              <li><a href="/tutorials/fun-with-strings/">Chapter 6: Fun with Strings</a></li>
-              <li><a href="/tutorials/variables-and-assignment/">Chapter 7: Variables &amp; Assignment</a></li>
-              <li><a href="/tutorials/scope/">Chapter 8: Scope</a></li>
-              <li><a href="/tutorials/getting-input/">Chapter 9: Getting Input</a></li>
-              <li><a href="/tutorials/ruby-names/">Chapter 10: Ruby Names</a></li>
-              <li><a href="/tutorials/more-on-ruby-methods/">Chapter 11: More on Ruby Methods</a></li>
-              <li><a href="/tutorials/writing-own-ruby-methods/">Chapter 12: Writing Your Own Ruby Methods</a></li>
-              <li><a href="/tutorials/ruby-ri-tool/">Chapter 13: Ruby ri Tool</a></li>
-              <li><a href="/tutorials/more-on-strings/">Chapter 14: More on Strings</a></li>
-              <li><a href="/tutorials/simple-constructs/">Chapter 15: Simple Constructs</a></li>
-              <li><a href="/tutorials/ruby-blocks/">Chapter 16: Ruby Blocks</a></li>
-              <li><a href="/tutorials/ruby-arrays/">Chapter 17: Ruby Arrays</a></li>
-              <li><a href="/tutorials/ruby-ranges/">Chapter 18: Ruby Ranges</a></li>
-              <li><a href="/tutorials/ruby-symbols/">Chapter 19: Ruby Symbols</a></li>
-              <li><a href="/tutorials/ruby-hashes/">Chapter 20: Ruby Hashes</a></li>
-              <li><a href="/tutorials/ruby-random-numbers/">Chapter 21: Ruby Random Numbers</a></li>
-              <li><a href="/tutorials/read-write-files/">Chapter 22: Read/Write Text Files</a></li>
-              <li><a href="/tutorials/ruby-regular-expressions/">Chapter 23: Ruby Regular Expressions</a></li>
-              <li><a href="/tutorials/writing-our-own-class/">Chapter 24: Writing Our Own Class</a></li>
-              <li><a href="/tutorials/ruby-method-missing/">Chapter 25: Ruby method_missing</a></li>
-              <li><a href="/tutorials/ruby-procs/">Chapter 26: Ruby Procs & Lambdas</a></li>
-              <li><a href="/tutorials/including-other-files/">Chapter 27: Including Other Files</a></li>
-              <li><a href="/tutorials/ruby-open-classes/">Chapter 28: Ruby Open Classes</a></li>
-              <li><a href="/tutorials/ruby-inheritance/">Chapter 29: Ruby Inheritance</a></li>
-              <li><a href="/tutorials/ruby-overriding-methods/">Chapter 30: Overriding Methods</a></li>
-              <li><a href="/tutorials/ruby-overloading-methods/">Chapter 31: "Overloading" Methods the Ruby Way</a></li>
-              <li><a href="/tutorials/ruby-access-control/">Chapter 32: Ruby Access Control</a></li>
-              <li><a href="/tutorials/ruby-exceptions/">Chapter 33: Ruby Exceptions</a></li>
-              <li><a href="/tutorials/ruby-logging/">Chapter 34: Ruby Logging</a></li>
-              <li><a href="/tutorials/ruby-time-class/">Chapter 35: Ruby Time Class</a></li>
-              <li><a href="/tutorials/duck-typing/">Chapter 36: Duck Typing</a></li>
-              <li><a href="/tutorials/ruby-syntactic-sugar/">Chapter 37: Ruby Syntactic Sugar</a></li>
-              <li><a href="/tutorials/mutable-and-immutable-objects/">Chapter 38: Mutable vs Immutable Objects</a></li>
-              <li><a href="/tutorials/object-serialization/">Chapter 39: Object Serialization</a></li>
-              <li><a href="/tutorials/modules-and-mixins/">Chapter 40: Modules &amp; Mixins</a></li>
-              <li><a href="/tutorials/ruby-self/">Chapter 41: Understanding self</a></li>
-              <li><a href="/tutorials/ruby-constants/">Chapter 42: Ruby Constants</a></li>
-              <li><a href="/tutorials/ruby-socket-programming/">Chapter 43: Socket Programming &amp; Threads</a></li>
-              <!-- <li><a href="/tutorials/flow-control-collections/">Chapter 2: Flow control &amp; collections</a></li>
-              <li><a href="/tutorials/methods-and-blocks/">Chapter 3: Methods &amp; blocks</a></li>
-              <li><a href="/tutorials/classes-and-objects/">Chapter 4: Classes &amp; objects</a></li>
-              <li><a href="/tutorials/modules-and-mixins/">Chapter 5: Modules &amp; mixins</a></li>
-              <li><a href="/tutorials/files-gems-next-steps/">Chapter 6: Files, gems &amp; next steps</a></li> -->
+              <li><a href="/courses/ruby-basics/">Ruby Basics</a> &ndash; the full learning path from installation to classes, blocks, and files.</li>
+              <li><a href="/courses/advanced-ruby/">Advanced Ruby</a> &ndash; metaprogramming, the object model, modules, and system-level topics.</li>
             </ol>
           </div>
-          <div id="rails-track">
-            <h3>Rails sprint</h3>
+          <div>
+            <h3>Python</h3>
             <ol>
-              <li><a href="/tutorials/rails-project-setup/">Chapter R1: Project setup</a></li>
-              <li><a href="/tutorials/rails-routes-controllers/">Chapter R2: Routes &amp; controllers</a></li>
-              <li><a href="/tutorials/rails-hotwire-feedback/">Chapter R3: Hotwire views &amp; feedback</a></li>
+              <li><a href="/courses/python-basics/">Python Basics</a> &ndash; variables, control flow, and functions with hands-on exercises.</li>
             </ol>
           </div>
         </div>
       </div>
 
+      <div class="chapter-nav">
+        <h2>Standalone tutorials</h2>
+        <div class="chapter-nav__sections">
+          <div>
+            <h3>Object model &amp; metaprogramming</h3>
+            <ol>
+              <li><a href="/courses/ruby-basics/ruby-self/">Understanding <code>self</code></a> &ndash; what <code>self</code> means in every context.</li>
+              <li><a href="/courses/ruby-basics/ruby-open-classes/">Ruby Open Classes</a> &ndash; reopen and extend any class at runtime.</li>
+              <li><a href="/courses/ruby-basics/ruby-method-missing/">Ruby <code>method_missing</code></a> &ndash; intercept calls to undefined methods.</li>
+              <li><a href="/courses/ruby-basics/duck-typing/">Duck Typing</a> &ndash; write code that cares about behavior, not class.</li>
+              <li><a href="/courses/ruby-basics/mutable-and-immutable-objects/">Mutable vs Immutable Objects</a> &ndash; avoid a whole class of bugs.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Blocks, procs &amp; modules</h3>
+            <ol>
+              <li><a href="/courses/ruby-basics/ruby-blocks/">Ruby Blocks</a> &ndash; the foundation of Ruby&rsquo;s iterators.</li>
+              <li><a href="/courses/ruby-basics/ruby-procs/">Ruby Procs &amp; Lambdas</a> &ndash; first-class functions in Ruby.</li>
+              <li><a href="/courses/ruby-basics/modules-and-mixins/">Modules &amp; Mixins</a> &ndash; share behavior without inheritance.</li>
+            </ol>
+          </div>
+          <div>
+            <h3>Errors, text &amp; the system</h3>
+            <ol>
+              <li><a href="/courses/ruby-basics/ruby-exceptions/">Ruby Exceptions</a> &ndash; handle failures gracefully.</li>
+              <li><a href="/courses/ruby-basics/ruby-regular-expressions/">Ruby Regular Expressions</a> &ndash; pattern matching for text.</li>
+              <li><a href="/courses/ruby-basics/object-serialization/">Object Serialization (Marshal)</a> &ndash; persist Ruby objects to disk.</li>
+              <li><a href="/courses/ruby-basics/ruby-logging/">Ruby Logging</a> &ndash; add useful diagnostics to your programs.</li>
+              <li><a href="/courses/ruby-basics/ruby-socket-programming/">Socket Programming &amp; Threads</a> &ndash; build networked Ruby apps.</li>
+            </ol>
+          </div>
+        </div>
+      </div>
 
+      <p>Browse the full catalog on the <a href="/courses/">Courses page</a>.</p>
     </div>
   </article>
 </div>
