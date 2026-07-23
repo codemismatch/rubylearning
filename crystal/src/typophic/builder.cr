@@ -1356,31 +1356,25 @@ module Typophic
         end
       end
 
-      # Lists: lines starting with "- "
-      # Use (?:\A|\n) to ensure we match start of lines reliably
-      html = html.gsub(/(?:\A|\n)\-\s+(.+)/) do |match|
-        # We need to preserve the leading newline if it matched
-        prefix = match.starts_with?("\n") ? "\n" : ""
-        # Extract content
-        if list_match = /\-\s+(.+)/.match(match)
-          "#{prefix}<li>#{list_match[1]?.to_s || ""}</li>"
+      # Lists: runs of lines starting with "- " become <ul><li> blocks.
+      # Line-based, mirroring the Ruby renderer (regex approaches proved
+      # fragile with blank lines between items and paragraphs).
+      list_lines = html.split("\n")
+      list_out = [] of String
+      in_list = false
+      list_lines.each do |line|
+        if item_match = /\A[ \t]*\-\s+(.+?)\s*\z/.match(line)
+          list_out << "<ul>" unless in_list
+          in_list = true
+          list_out << "<li>#{item_match[1]}</li>"
         else
-          match
+          list_out << "</ul>" if in_list
+          in_list = false
+          list_out << line
         end
       end
-
-      # Wrap consecutive <li> groups with <ul>
-      # Match one or more <li> lines
-      html = html.gsub(/(?:\A|\n)((?:<li>.*?<\/li>(?:\n|$))+)/) do |match|
-        prefix = match.starts_with?("\n") ? "\n" : ""
-        content = match.strip
-        # Only wrap if it looks like list items
-        if content.starts_with?("<li>")
-          "#{prefix}<ul>#{content}</ul>"
-        else
-          match
-        end
-      end
+      list_out << "</ul>" if in_list
+      html = list_out.join("\n")
 
       # Paragraphs
       # Split by double newlines to properly create paragraphs

@@ -27,13 +27,13 @@ module Typophic
         protect_blocks
         transform_headings
         transform_horizontal_rules
+        render_lists
         wrap_paragraphs
         remove_block_paragraphs
         close_heading_tags
         render_bold_text
         render_inline_code
         render_links
-        render_lists
         restore_blocks
 
         "<div class='markdown'>#{@content}</div>"
@@ -186,15 +186,27 @@ module Typophic
       end
 
       def render_lists
-        # convert "- item" lines into <li>
-        @content = @content.gsub(/^\-\s+(.+)$/m) do
-          "<li>#{Regexp.last_match(1)}</li>"
-        end
+        # Convert runs of "- item" lines into proper <ul><li> blocks.
+        # Must run before wrap_paragraphs, which would otherwise merge the
+        # list lines into a single inline paragraph.
+        lines = @content.split("\n", -1)
+        out = []
+        in_list = false
 
-        wrapper_regex = /(?:\A|\n)(<li>.+?<\/li>)(?=\n|\z)/m
-        @content = @content.gsub(wrapper_regex) do
-          "<ul>#{Regexp.last_match(1)}</ul>"
+        lines.each do |line|
+          if line =~ /\A[ \t]*\-\s+(.+?)\s*\z/
+            out << "<ul>" unless in_list
+            in_list = true
+            out << "<li>#{Regexp.last_match(1)}</li>"
+          else
+            out << "</ul>" if in_list
+            in_list = false
+            out << line
+          end
         end
+        out << "</ul>" if in_list
+
+        @content = out.join("\n")
       end
 
       def restore_blocks
