@@ -1174,7 +1174,7 @@ module Typophic
     def pipeline_mermaid_blocks(content, _page)
       html = content.dup
 
-      html.gsub!(/^#>\s*mermaid(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+      html.gsub!(/^#>\s*mermaid(?::\s*([^\n]*))?\r?\n(.*?)^#!\s*$/m) do
         options_raw = Regexp.last_match(1).to_s
         diagram_content = Regexp.last_match(2)
 
@@ -1190,7 +1190,7 @@ module Typophic
     def pipeline_ditaa_blocks(content, _page)
       html = content.dup
 
-      html.gsub!(/^#>\s*ditaa(?::\s*(.*))?\r?\n(.*?)^#!\s*$/m) do
+      html.gsub!(/^#>\s*ditaa(?::\s*([^\n]*))?\r?\n(.*?)^#!\s*$/m) do
         options_raw = Regexp.last_match(1).to_s
         diagram_content = Regexp.last_match(2)
 
