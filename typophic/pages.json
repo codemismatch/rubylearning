@@ -32,7 +32,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 8 &ndash; Attention & Transformers",
+    "title": "Chapter 11 &ndash; Attention & Transformers",
     "description": null,
     "permalink": "/courses/machine-learning/attention-and-transformers/",
     "url": "https://rubylearning.in/courses/machine-learning/attention-and-transformers/",
@@ -40,7 +40,23 @@
     "tags": []
   },
   {
-    "title": "Chapter 4 &ndash; Gradient Descent",
+    "title": "Chapter 7 &ndash; Evaluating Classification Models",
+    "description": null,
+    "permalink": "/courses/machine-learning/evaluating-classification-models/",
+    "url": "https://rubylearning.in/courses/machine-learning/evaluating-classification-models/",
+    "date": "2026-02-06",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Generalization & Regularization",
+    "description": null,
+    "permalink": "/courses/machine-learning/generalization-and-regularization/",
+    "url": "https://rubylearning.in/courses/machine-learning/generalization-and-regularization/",
+    "date": "2026-02-08",
+    "tags": []
+  },
+  {
+    "title": "Chapter 5 &ndash; Gradient Descent",
     "description": null,
     "permalink": "/courses/machine-learning/gradient-descent/",
     "url": "https://rubylearning.in/courses/machine-learning/gradient-descent/",
@@ -48,7 +64,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 9 &ndash; How LLMs Work",
+    "title": "Chapter 12 &ndash; How LLMs Work",
     "description": null,
     "permalink": "/courses/machine-learning/how-llms-work/",
     "url": "https://rubylearning.in/courses/machine-learning/how-llms-work/",
@@ -56,7 +72,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 3 &ndash; Linear Regression from Scratch",
+    "title": "Chapter 4 &ndash; Linear Regression from Scratch",
     "description": null,
     "permalink": "/courses/machine-learning/linear-regression-from-scratch/",
     "url": "https://rubylearning.in/courses/machine-learning/linear-regression-from-scratch/",
@@ -64,7 +80,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 5 &ndash; Logistic Regression & Classification",
+    "title": "Chapter 6 &ndash; Logistic Regression & Classification",
     "description": null,
     "permalink": "/courses/machine-learning/logistic-regression-classification/",
     "url": "https://rubylearning.in/courses/machine-learning/logistic-regression-classification/",
@@ -72,11 +88,19 @@
     "tags": []
   },
   {
-    "title": "Chapter 6 &ndash; Neural Networks from Scratch",
+    "title": "Chapter 9 &ndash; Neural Networks from Scratch",
     "description": null,
     "permalink": "/courses/machine-learning/neural-networks-from-scratch/",
     "url": "https://rubylearning.in/courses/machine-learning/neural-networks-from-scratch/",
     "date": "2026-02-10",
+    "tags": []
+  },
+  {
+    "title": "Chapter 3 &ndash; Preparing Data for Machine Learning",
+    "description": null,
+    "permalink": "/courses/machine-learning/preparing-data-for-machine-learning/",
+    "url": "https://rubylearning.in/courses/machine-learning/preparing-data-for-machine-learning/",
+    "date": "2026-01-16",
     "tags": []
   },
   {
@@ -88,7 +112,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 7 &ndash; Text Embeddings",
+    "title": "Chapter 10 &ndash; Text Embeddings",
     "description": null,
     "permalink": "/courses/machine-learning/text-embeddings/",
     "url": "https://rubylearning.in/courses/machine-learning/text-embeddings/",
