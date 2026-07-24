@@ -73,20 +73,26 @@
   slug: machine-learning
   free: true
   level: beginner
-  lessons: 9
-  estimated_hours: 20
+  lessons: 12
+  estimated_hours: 28
   modules:
     - id: foundations
       title: Foundations
       tutorials:
         - what-is-machine-learning
         - python-for-ml
-        - linear-regression-from-scratch
-    - id: learning-networks
-      title: Learning & Networks
+        - preparing-data-for-machine-learning
+    - id: core-models
+      title: Core Models
       tutorials:
+        - linear-regression-from-scratch
         - gradient-descent
         - logistic-regression-classification
+    - id: reliable-learning
+      title: Reliable Learning
+      tutorials:
+        - evaluating-classification-models
+        - generalization-and-regularization
         - neural-networks-from-scratch
     - id: towards-llms
       title: Towards LLMs

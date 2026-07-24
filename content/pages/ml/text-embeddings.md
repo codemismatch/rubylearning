@@ -1,21 +1,21 @@
 ---
 layout: tutorial
-title: "Chapter 7 &ndash; Text Embeddings"
+title: "Chapter 10 &ndash; Text Embeddings"
 permalink: /courses/machine-learning/text-embeddings/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Turn words into vectors with tokenization, a tiny BPE learner, and hand-built embeddings you can do arithmetic on.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 6: Neural Networks from Scratch"
+  title: "Chapter 9: Neural Networks from Scratch"
   url: /courses/machine-learning/neural-networks-from-scratch/
 next_tutorial:
-  title: "Chapter 8: Attention & Transformers"
+  title: "Chapter 11: Attention & Transformers"
   url: /courses/machine-learning/attention-and-transformers/
 date: 2026-02-17
 ---
 
-In Chapter 6: Neural Networks from Scratch we built a network that consumes vectors of numbers. Text, however, is not numbers. Before any model can read a sentence, we have to convert characters into tokens, tokens into ids, and ids into vectors. That conversion pipeline is the subject of this chapter, and the vectors at the end of it - embeddings - are the single most important idea behind modern language models.
+In Chapter 9: Neural Networks from Scratch we built a network that consumes vectors of numbers. Text, however, is not numbers. Before any model can read a sentence, we have to convert characters into tokens, tokens into ids, and ids into vectors. That conversion pipeline is the subject of this chapter, and the vectors at the end of it - embeddings - are the single most important idea behind modern language models.
 
 Everything here is pure Python. Save any code block as `file.py` and run it with `python3 file.py`.
 
@@ -144,7 +144,7 @@ A distributed representation instead places each word at a point in a small, den
 
 The skip-gram model (Mikolov et al., 2013) learns embeddings with a fake task: given a center word, predict the words around it. You slide a window over the corpus, and for each pair (center, context) you nudge the center word's vector toward the context word's vector.
 
-That is the whole trick. Words that appear in similar contexts - "king" and "queen" both show up near "royal", "crown", "throne" - get pulled toward the same region of space, because the model needs similar vectors to predict similar contexts. The neural network from Chapter 6: Neural Networks from Scratch could actually train this; here we only need the intuition, because the interesting part is what the learned space looks like.
+That is the whole trick. Words that appear in similar contexts - "king" and "queen" both show up near "royal", "crown", "throne" - get pulled toward the same region of space, because the model needs similar vectors to predict similar contexts. The neural network from Chapter 9: Neural Networks from Scratch could actually train this; here we only need the intuition, because the interesting part is what the learned space looks like.
 
 ### Cosine similarity
 
@@ -248,7 +248,7 @@ The result vector is `[0.9, 1.0]` - exactly where we placed "queen". The arithme
 
 ### Why this matters for what comes next
 
-Embeddings are the input layer of every large language model. An LLM's embedding table is a giant lookup matrix - token id in, dense vector out - and it is trained end-to-end along with everything else. But a single static vector per token cannot handle "bank" meaning a river edge or a financial institution. Resolving that requires looking at the *surrounding* tokens and mixing their vectors, which is precisely the attention mechanism we build in Chapter 8: Attention & Transformers.
+Embeddings are the input layer of every large language model. An LLM's embedding table is a giant lookup matrix - token id in, dense vector out - and it is trained end-to-end along with everything else. But a single static vector per token cannot handle "bank" meaning a river edge or a financial institution. Resolving that requires looking at the *surrounding* tokens and mixing their vectors, which is precisely the attention mechanism we build in Chapter 11: Attention & Transformers.
 
 ### Practice checklist
 

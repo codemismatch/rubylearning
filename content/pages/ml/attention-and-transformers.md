@@ -1,23 +1,23 @@
 ---
 layout: tutorial
-title: "Chapter 8 &ndash; Attention & Transformers"
+title: "Chapter 11 &ndash; Attention & Transformers"
 permalink: /courses/machine-learning/attention-and-transformers/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Build self-attention from scratch in pure Python and understand the transformer block that powers every modern LLM.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 7: Text Embeddings"
+  title: "Chapter 10: Text Embeddings"
   url: /courses/machine-learning/text-embeddings/
 next_tutorial:
-  title: "Chapter 9: How LLMs Work"
+  title: "Chapter 12: How LLMs Work"
   url: /courses/machine-learning/how-llms-work/
 date: 2026-02-24
 ---
 
 ### Why sequence models are hard
 
-In Chapter 7: Text Embeddings we turned words into vectors. A sentence, then, is a list of vectors. But a bag of vectors loses the one thing that makes language language: order and context. "The dog bit the man" and "The man bit the dog" contain exactly the same words, yet mean very different things. A good sequence model has to read each word *in the light of every other word*.
+In Chapter 10: Text Embeddings we turned words into vectors. A sentence, then, is a list of vectors. But a bag of vectors loses the one thing that makes language language: order and context. "The dog bit the man" and "The man bit the dog" contain exactly the same words, yet mean very different things. A good sequence model has to read each word *in the light of every other word*.
 
 The older approaches each had a fatal flaw:
 
@@ -121,11 +121,11 @@ for token, out in zip(["cat", "sat"], self_attention(Q, K, V)):
 Run it and you should see:
 
 ```python
-# cat -> [1.6697, 2.6697]
-# sat -> [2.3303, 3.3303]
+# cat -> [1.6605, 2.6605]
+# sat -> [2.3395, 3.3395]
 ```
 
-The tiny differences from our hand arithmetic (1.6606 vs 1.6697) come from our rounding of sqrt(2); the code is exact. That's the whole mechanism. Scale Q, K, V up to 512-dimensional vectors and thousands of tokens, add learned matrices to produce Q, K, V, and you have the beating heart of GPT.
+The code prints approximately 1.6605 rather than our hand-rounded 1.6606 because it uses the full precision of sqrt(2). That's the whole mechanism. Scale Q, K, V up to hundreds or thousands of dimensions and many tokens, add learned matrices to produce Q, K, V, and you have the beating heart of a transformer language model.
 
 Here is the data flow for a single attention head:
 
@@ -250,7 +250,7 @@ def transformer_block(X, Qs, Ks, Vs, W1, b1, W2, b2):
     return [layer_norm([a + b for a, b in zip(x, f)]) for x, f in zip(X, ff)]
 ```
 
-Stack 12 to 96 of these blocks, put an embedding layer plus positional encoding in front and a prediction layer on top, and you have the architecture we'll dissect next in Chapter 9: How LLMs Work. Everything else - scale, training data, clever tricks - is refinement of this exact skeleton.
+Stack many of these blocks, put an embedding layer plus positional encoding in front and a prediction layer on top, and you have the architecture we'll dissect next in Chapter 12: How LLMs Work. Everything else - scale, training data, and engineering refinements - builds on this skeleton.
 
 ### Practice checklist
 

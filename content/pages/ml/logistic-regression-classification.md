@@ -1,21 +1,21 @@
 ---
 layout: tutorial
-title: "Chapter 5 &ndash; Logistic Regression & Classification"
+title: "Chapter 6 &ndash; Logistic Regression & Classification"
 permalink: /courses/machine-learning/logistic-regression-classification/
 difficulty: intermediate
 author: Pankaj Doharey
 summary: Turn a linear score into a probability with the sigmoid function, train it with log loss and gradient descent, and make pass/fail predictions.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 4: Gradient Descent"
+  title: "Chapter 5: Gradient Descent"
   url: /courses/machine-learning/gradient-descent/
 next_tutorial:
-  title: "Chapter 6: Neural Networks from Scratch"
-  url: /courses/machine-learning/neural-networks-from-scratch/
+  title: "Chapter 7: Evaluating Classification Models"
+  url: /courses/machine-learning/evaluating-classification-models/
 date: 2026-02-03
 ---
 
-In Chapter 4: Gradient Descent we trained a linear regression model by rolling downhill on a mean squared error surface. That model predicted a number - house prices, temperatures, exam scores. But a huge class of real problems is not about predicting a number. It is about predicting a *category*: spam or not spam, tumor benign or malignant, student passes or fails. This chapter builds the workhorse for those problems from scratch: logistic regression.
+In Chapter 5: Gradient Descent we trained a linear regression model by rolling downhill on a mean squared error surface. That model predicted a number - house prices, temperatures, exam scores. But a huge class of real problems is not about predicting a number. It is about predicting a *category*: spam or not spam, tumor benign or malignant, student passes or fails. This chapter builds the workhorse for those problems from scratch: logistic regression.
 
 Everything here is pure Python. No sklearn, no numpy - just lists, `math`, and the gradient descent loop you already know.
 
@@ -83,7 +83,7 @@ graph LR
 
 We compute a linear score `z = w * x + b` exactly like linear regression, push it through the sigmoid to get a probability `p`, and then apply a decision boundary: if `p >= 0.5` predict pass (1), otherwise predict fail (0).
 
-The 0.5 cutoff is the default, not a law. In Chapter 7: Evaluating Classifiers we will see why a medical screening model might pick a much lower threshold.
+The 0.5 cutoff is the default, not a law. In Chapter 7: Evaluating Classification Models we will see why a medical screening model might pick a much lower threshold.
 
 ### Log loss (binary cross-entropy)
 
@@ -111,7 +111,7 @@ That is it - the predicted probability minus the true label. Then by the chain r
 - `d(loss)/dw = (p - y) * x`
 - `d(loss)/db = (p - y)`
 
-Averaged over the whole dataset, this looks identical in structure to the linear regression gradient from Chapter 4: Gradient Descent. The only change is that `p` comes from `sigmoid(w*x + b)` instead of `w*x + b`. Same loop, new prediction function.
+Averaged over the whole dataset, this looks identical in structure to the linear regression gradient from Chapter 5: Gradient Descent. The only change is that `p` comes from `sigmoid(w*x + b)` instead of `w*x + b`. Same loop, new prediction function.
 
 ### A tiny dataset: study hours to pass/fail
 
@@ -247,7 +247,7 @@ new students:
 training accuracy: 90%
 ```
 
-One student - 3.0 hours, failed - gets misclassified because our toy data has an abrupt jump between 2 and 4 hours. On messier real data, 90% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classifiers introduces proper train/test splits and metrics beyond accuracy.
+One student - 3.0 hours, failed - gets misclassified because our toy data has an abrupt jump between 2 and 4 hours. On messier real data, 90% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classification Models introduces proper train/test splits and metrics beyond accuracy.
 
 ### Reading the model
 
@@ -258,11 +258,11 @@ boundary = -b / w
 print(f"decision boundary at {boundary:.2f} hours")
 ```
 
-With `w = 1.475` and `b = -5.005` the boundary lands near 3.4 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 6: Neural Networks from Scratch, where individual weights lose their simple meaning.
+With `w = 1.475` and `b = -5.005` the boundary lands near 3.4 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 9: Neural Networks from Scratch, where individual weights lose their simple meaning.
 
 ### Scaling the input (a preview)
 
-Our `x` values are small (0 to 8), so a learning rate of 0.5 works fine. If hours were measured in minutes (0 to 480), the gradients on `w` would blow up and training would wobble. The fix is feature scaling - dividing inputs by their range or standard deviation - which we will treat properly in Chapter 8. For now, keep the rule of thumb: when gradient descent diverges on real data, scale your features first.
+Our `x` values are small (0 to 8), so a learning rate of 0.5 works fine. If hours were measured in minutes (0 to 480), the gradients on `w` would blow up and training would wobble. The fix is feature scaling - dividing inputs by their range or standard deviation - using the training-only statistics introduced in Chapter 3: Preparing Data for Machine Learning. Keep the rule of thumb: when gradient descent diverges on real data, check feature scales first.
 
 ### The full file
 

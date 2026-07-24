@@ -1,21 +1,21 @@
 ---
 layout: tutorial
-title: "Chapter 4 &ndash; Gradient Descent"
+title: "Chapter 5 &ndash; Gradient Descent"
 permalink: /courses/machine-learning/gradient-descent/
 difficulty: intermediate
 author: Pankaj Doharey
 summary: Learn how gradient descent actually trains a model by walking downhill on the loss, one small step at a time, implemented in pure Python.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 3: Linear Regression from Scratch"
+  title: "Chapter 4: Linear Regression from Scratch"
   url: /courses/machine-learning/linear-regression-from-scratch/
 next_tutorial:
-  title: "Chapter 5: Logistic Regression & Classification"
+  title: "Chapter 6: Logistic Regression & Classification"
   url: /courses/machine-learning/logistic-regression-classification/
 date: 2026-01-27
 ---
 
-In Chapter 3: Linear Regression from Scratch we fit a line to house prices with a tiny, hand-tuned training loop. It worked, but we quietly skipped the interesting part: *how does the model know which direction to move `w` and `b`?* That direction comes from the gradient, and the algorithm that follows it is called **gradient descent**. It is the engine inside nearly every model you will ever train, from a two-parameter line all the way up to large language models.
+In Chapter 4: Linear Regression from Scratch we fit a line to house prices with a closed-form formula. It worked, but we quietly skipped the interesting part: *how can a model improve its parameters step by step when no convenient formula exists?* That direction comes from the gradient, and the algorithm that follows it is called **gradient descent**. It is the engine inside nearly every model you will ever train, from a two-parameter line all the way up to large language models.
 
 In this chapter we will:
 
@@ -96,9 +96,9 @@ Save this as `gradient_descent.py` and run it with `python3 gradient_descent.py`
 
 ```python
 # gradient_descent.py
-# Chapter 4: training the Chapter 3 house price model with real gradient descent.
+# Chapter 5: training the Chapter 4 house price model with real gradient descent.
 
-# Same data as Chapter 3: size in sqft, price in dollars.
+# Same data as Chapter 4: size in sqft, price in dollars.
 sizes = [500, 800, 1000, 1200, 1500, 1800, 2000, 2500]
 prices = [150000, 200000, 230000, 260000, 300000, 340000, 360000, 420000]
 
@@ -291,7 +291,7 @@ Vectorization (whole arrays at once instead of Python loops) is why real trainin
 
 ### Where this goes next
 
-You now know the complete training recipe: define a loss, compute its gradient, step downhill, repeat, and watch the printed loss to confirm it works. In Chapter 5: Logistic Regression & Classification we will swap the loss and the prediction shape to handle yes/no outcomes instead of prices - but the training loop itself will be exactly the one you wrote today.
+You now know the complete training recipe: define a loss, compute its gradient, step downhill, repeat, and watch the printed loss to confirm it works. In Chapter 6: Logistic Regression & Classification we will swap the loss and the prediction shape to handle yes/no outcomes instead of prices - but the training loop itself will be exactly the one you wrote today.
 
 ### Practice checklist
 

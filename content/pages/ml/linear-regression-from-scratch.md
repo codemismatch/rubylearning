@@ -1,21 +1,21 @@
 ---
 layout: tutorial
-title: "Chapter 3 &ndash; Linear Regression from Scratch"
+title: "Chapter 4 &ndash; Linear Regression from Scratch"
 permalink: /courses/machine-learning/linear-regression-from-scratch/
 difficulty: beginner
 author: Pankaj Doharey
 summary: Fit a straight line to data by hand - derive w and b with the closed-form least-squares formulas in pure Python, then predict house prices and measure error with MSE.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 2: Python for ML"
-  url: /courses/machine-learning/python-for-ml/
+  title: "Chapter 3: Preparing Data for Machine Learning"
+  url: /courses/machine-learning/preparing-data-for-machine-learning/
 next_tutorial:
-  title: "Chapter 4: Gradient Descent"
+  title: "Chapter 5: Gradient Descent"
   url: /courses/machine-learning/gradient-descent/
 date: 2026-01-20
 ---
 
-Linear regression is the simplest model that still counts as machine learning: it learns a straight line that maps an input to an output. In this chapter you will fit that line to a tiny dataset of house sizes and prices, computing the best slope and intercept yourself with closed-form formulas - no sklearn, no numpy, just the Python lists and loops from Chapter 2: Python for ML.
+Linear regression is the simplest model that still counts as machine learning: it learns a straight line that maps an input to an output. In Chapter 3: Preparing Data for Machine Learning we learned how to turn raw rows into trustworthy features and labels. Here we deliberately use one already-clean feature so the model's mathematics stays visible. You will fit a line to a tiny dataset of house sizes and prices, computing the best slope and intercept yourself with closed-form formulas - no sklearn, no numpy, just the Python lists and loops from Chapter 2: Python for ML.
 
 Every code block below is a complete, copy-paste runnable script. Save any of them as `file.py` and run `python3 file.py`.
 
@@ -101,13 +101,13 @@ The bad guess produces a much larger MSE. Fitting the model means finding the `w
 There are two broad strategies for minimizing MSE:
 
 - **Closed-form solution.** For simple linear regression there is a direct formula that jumps straight to the optimal `w` and `b` using means and variances. One pass through the data, exact answer.
-- **Iterative learning.** Start with a guess, measure the error, nudge `w` and `b` downhill, repeat. This is gradient descent, and it is the subject of Chapter 4: Gradient Descent.
+- **Iterative learning.** Start with a guess, measure the error, nudge `w` and `b` downhill, repeat. This is gradient descent, and it is the subject of Chapter 5: Gradient Descent.
 
 Why bother with the iterative way if a formula exists? Because the closed form only exists for linear regression. Neural networks and every larger model in this course have no closed-form solution - iterative learning is the only option. Learn the exact answer here so you can check gradient descent against it in the next chapter.
 
 ### The closed-form least-squares formulas
 
-Minimizing MSE by setting its derivatives to zero (we will do that derivation properly in Chapter 4) gives:
+Minimizing MSE by setting its derivatives to zero (we will do that derivation properly in Chapter 5) gives:
 
 ```text
 w = sum of (x_i - mean_x) * (y_i - mean_y)  /  sum of (x_i - mean_x)^2
@@ -222,12 +222,12 @@ Both numbers print the same value, confirming the line is centered correctly. Th
 ### What can go wrong
 
 - **Zero variance.** If every `x` is identical, the variance denominator is zero and the formula divides by zero. Real datasets need variation in the input.
-- **Outliers.** Squared errors punish big misses heavily, so one extreme house can drag the whole line toward it. Chapter 4's iterative view makes this easy to see and fix.
+- **Outliers.** Squared errors punish big misses heavily, so one extreme house can drag the whole line toward it. Chapter 5's iterative view makes this behavior easier to observe.
 - **Non-linear data.** If the true relationship curves, no straight line fits well regardless of how you pick `w` and `b`. Later chapters add features and non-linear models.
 
 ### Where this leads
 
-You now have the two pieces that define any learning problem in this course: a hypothesis (`y = w*x + b`) and a cost function (MSE). The only thing that changes as models grow is how you minimize the cost. In Chapter 4: Gradient Descent you will replace the closed-form formula with an iterative loop that starts from a random guess and walks downhill on the MSE surface - and you will see it converge to the exact same `w` and `b` you computed today.
+You now have the two pieces that define any learning problem in this course: a hypothesis (`y = w*x + b`) and a cost function (MSE). The only thing that changes as models grow is how you minimize the cost. In Chapter 5: Gradient Descent you will replace the closed-form formula with an iterative loop that starts from a random guess and walks downhill on the MSE surface - and you will see it converge to the exact same `w` and `b` you computed today.
 
 ### Practice checklist
 
@@ -236,4 +236,4 @@ You now have the two pieces that define any learning problem in this course: a h
 - [ ] Modify the script to compute MSE with the *wrong* formula (forgetting to square the errors) and observe which large errors cancel out.
 - [ ] Write a version of `fit` that raises a clear error when the input variance is zero, and test it with `xs = [100, 100, 100]`.
 - [ ] Compute by hand (or with a one-liner) the prediction for a 75 m² house, then verify it with `predict`.
-- [ ] Add one large outlier to the data, re-fit, and note how much the MSE and the slope move - keep this observation in mind for Chapter 4: Gradient Descent.
+- [ ] Add one large outlier to the data, re-fit, and note how much the MSE and the slope move - keep this observation in mind for Chapter 5: Gradient Descent.

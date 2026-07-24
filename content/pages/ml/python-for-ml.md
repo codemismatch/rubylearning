@@ -10,8 +10,8 @@ previous_tutorial:
   title: "Chapter 1: What is Machine Learning"
   url: /courses/machine-learning/what-is-machine-learning/
 next_tutorial:
-  title: "Chapter 3: Linear Regression from Scratch"
-  url: /courses/machine-learning/linear-regression-from-scratch/
+  title: "Chapter 3: Preparing Data for Machine Learning"
+  url: /courses/machine-learning/preparing-data-for-machine-learning/
 date: 2026-01-13
 ---
 
@@ -99,7 +99,7 @@ total2 = np.dot(va, vb)
 print("dot  result:", total2, " took", round(time.time() - start, 4), "s")
 ```
 
-On most machines the loop takes a few tenths of a second and the numpy call takes a couple of milliseconds - same answer, two orders of magnitude apart. When you get to gradient descent in Chapter 3, you will run operations like this thousands of times, so the difference stops being cosmetic and starts being the difference between "done" and "still running".
+On most machines the loop takes a few tenths of a second and the numpy call takes a couple of milliseconds - same answer, two orders of magnitude apart. When you get to gradient descent in Chapter 5, you will run operations like this thousands of times, so the difference stops being cosmetic and starts being the difference between "done" and "still running".
 
 The deeper point, though, is not the speed. Vectorized code is *shorter and closer to the math*. The formula "sum of products" is exactly `np.dot(a, b)`. Less code, fewer bugs.
 
@@ -173,7 +173,7 @@ manual = 0.5 * 90.0 + 0.3 * 70.0 + 0.2 * 85.0
 print(manual)                             # 83.0
 ```
 
-Read `weights @ scores` as "weighted sum". When Chapter 3 says "prediction = w · x + b", this is the exact line of code that implements it.
+Read `weights @ scores` as "weighted sum". When Chapter 4 says "prediction = w · x + b", this is the exact line of code that implements it.
 
 **4. Broadcasting**
 
@@ -300,7 +300,7 @@ A short list, because you will hit all of these:
 
 ### Where this leads
 
-You now have the full toolkit for the next chapter: a feature matrix `X`, a label vector `y`, and the dot product. In Chapter 3: Linear Regression from Scratch, we will put them together into `prediction = X @ w + b`, measure how wrong the predictions are, and nudge the weights downhill until the line fits the houses data you loaded above.
+You now have the Python toolkit used by the rest of the course: arrays, shapes, dot products, CSV loading, and basic inspection. In Chapter 3: Preparing Data for Machine Learning, we will turn raw rows into trustworthy features and labels, handle missing and categorical values, and make sure preprocessing never leaks information from the test set. Chapter 4 then puts the resulting `X` and `y` into the first model.
 
 ### Practice checklist
 

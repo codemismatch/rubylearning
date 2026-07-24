@@ -38,14 +38,22 @@ date: 2026-01-06
             <ol>
               <li><a href="/courses/machine-learning/what-is-machine-learning/">What is Machine Learning</a></li>
               <li><a href="/courses/machine-learning/python-for-ml/">Python for ML</a></li>
-              <li><a href="/courses/machine-learning/linear-regression-from-scratch/">Linear Regression from Scratch</a></li>
+              <li><a href="/courses/machine-learning/preparing-data-for-machine-learning/">Preparing Data for Machine Learning</a></li>
             </ol>
           </div>
           <div>
-            <h3>Learning &amp; Networks</h3>
+            <h3>Core Models</h3>
             <ol>
+              <li><a href="/courses/machine-learning/linear-regression-from-scratch/">Linear Regression from Scratch</a></li>
               <li><a href="/courses/machine-learning/gradient-descent/">Gradient Descent</a></li>
               <li><a href="/courses/machine-learning/logistic-regression-classification/">Logistic Regression &amp; Classification</a></li>
+            </ol>
+          </div>
+          <div>
+            <h3>Reliable Learning</h3>
+            <ol>
+              <li><a href="/courses/machine-learning/evaluating-classification-models/">Evaluating Classification Models</a></li>
+              <li><a href="/courses/machine-learning/generalization-and-regularization/">Generalization &amp; Regularization</a></li>
               <li><a href="/courses/machine-learning/neural-networks-from-scratch/">Neural Networks from Scratch</a></li>
             </ol>
           </div>
