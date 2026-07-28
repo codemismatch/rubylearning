@@ -3,7 +3,7 @@ layout: tutorial
 title: "Chapter 3 &ndash; Preparing Data for Machine Learning"
 permalink: /courses/machine-learning/preparing-data-for-machine-learning/
 difficulty: beginner
-author: Pankaj Doharey
+author: Neeraj Doharey
 summary: Turn messy rows into trustworthy features and labels, split before preprocessing, handle missing values, encode categories, and scale numbers without leaking test data.
 theme: pylearning
 previous_tutorial:
@@ -31,7 +31,7 @@ This chapter builds a small preprocessing pipeline in pure Python. By the end, y
 
 Suppose each house is represented by a dictionary:
 
-```python
+```python-exec
 rows = [
     {"size_sqft": 750,  "bedrooms": 2, "neighborhood": "north", "price": 180000},
     {"size_sqft": 940,  "bedrooms": 2, "neighborhood": "south", "price": 220000},
@@ -62,7 +62,7 @@ If the answer is no, do not give it to the model.
 
 Never begin by blindly calling a training function. First inspect the data:
 
-```python
+```python-exec
 def inspect_rows(rows):
     print("row count:", len(rows))
     print("columns:", sorted(rows[0]))
@@ -101,7 +101,7 @@ If you compute a mean using all rows before splitting, the test set has already 
 
 Here is a reusable split:
 
-```python
+```python-exec
 import random
 
 def train_test_split(rows, test_fraction=0.25, seed=42):
@@ -123,7 +123,7 @@ For classification, random splitting can accidentally put nearly all examples of
 
 Deleting every incomplete row can waste data and can introduce bias if values are not missing at random. A common numeric baseline is **median imputation**: replace a missing value with the median observed in training.
 
-```python
+```python-exec
 def median(values):
     ordered = sorted(values)
     middle = len(ordered) // 2
@@ -147,7 +147,7 @@ Notice that `training_size_median` comes only from `train_rows`. We use that sam
 
 Sometimes the fact that a value was missing carries information. You can preserve it with an extra binary feature:
 
-```python
+```python-exec
 size_was_missing = 1.0 if row["size_sqft"] is None else 0.0
 ```
 
@@ -157,14 +157,14 @@ That lets the model distinguish "a typical-sized house" from "a house whose size
 
 A model cannot multiply `"north"` by a weight. We need numbers, but this is wrong:
 
-```python
+```python-exec
 # Bad: the numbers invent an order that does not exist.
 codes = {"north": 1, "south": 2, "west": 3}
 ```
 
 Those codes imply that west is greater than south and three times north. For unordered categories, use **one-hot encoding**: create one indicator per known category.
 
-```python
+```python-exec
 neighborhoods = sorted({row["neighborhood"] for row in train_rows})
 print(neighborhoods)
 
@@ -186,7 +186,7 @@ standardized = (value - training_mean) / training_standard_deviation
 
 Afterward, training values are centered near 0 with a spread near 1.
 
-```python
+```python-exec
 import math
 
 def fit_standardizer(values):
@@ -205,7 +205,7 @@ Again, fit `mean` and `std` on training rows only, then freeze them. Standardiza
 
 The safest design separates **fitting** preprocessing from **transforming** rows. Fitting learns state from training data. Transforming reuses that frozen state.
 
-```python
+```python-exec
 import math
 import random
 

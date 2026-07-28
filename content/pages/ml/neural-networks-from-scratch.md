@@ -1,18 +1,18 @@
 ---
 layout: tutorial
-title: "Chapter 9 &ndash; Neural Networks from Scratch"
+title: "Chapter 15 &ndash; Neural Networks from Scratch"
 permalink: /courses/machine-learning/neural-networks-from-scratch/
 difficulty: intermediate
 author: Pankaj Doharey
 summary: Build a two-layer neural network in pure Python and watch it learn XOR with backpropagation.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 8: Generalization & Regularization"
-  url: /courses/machine-learning/generalization-and-regularization/
+  title: "Chapter 14: K-Means Clustering"
+  url: /courses/machine-learning/k-means-clustering/
 next_tutorial:
-  title: "Chapter 10: Text Embeddings"
+  title: "Chapter 16: Text Embeddings"
   url: /courses/machine-learning/text-embeddings/
-date: 2026-02-10
+date: 2026-03-03
 ---
 
 In Chapter 6: Logistic Regression & Classification we trained a single neuron to draw one straight decision boundary. Chapters 7 and 8 then showed how to evaluate that boundary honestly and prevent flexible models from memorizing their training data. Some problems, however, fundamentally cannot be solved with one line. XOR is the classic example: four points, no straight line separates the 0s from the 1s. In this chapter we stack neurons into *layers* so the network can carve out curved boundaries, and we implement the whole thing - forward pass, loss, backpropagation, training - in pure Python. Every example is copy-paste runnable with `python3 file.py`; no libraries required.
@@ -57,7 +57,7 @@ Two activations we will use:
 - **relu(x) = max(0, x)** - fast, simple, the default choice for hidden layers. Its derivative is 1 for x > 0 and 0 for x <= 0.
 - **sigmoid(x) = 1 / (1 + e^-x)** - squashes any number into (0, 1), so it is perfect for the output when we want a probability. Its derivative has a neat closed form: sigmoid'(x) = sigmoid(x) * (1 - sigmoid(x)).
 
-```python
+```python-exec
 import math
 
 def sigmoid(x):
@@ -92,7 +92,7 @@ y = sigmoid(0.68) = 0.664 (approximately)
 
 The network says "about 66% chance this input is a 1." That's the whole forward pass: weighted sums and activations, one layer at a time. Here it is in code:
 
-```python
+```python-exec
 import math
 
 def sigmoid(x):
@@ -148,7 +148,7 @@ That is the entire algorithm. The chain rule in plain words: *the effect of a we
 
 Save this as `xor_network.py` and run `python3 xor_network.py`. It trains the 2-4-1 network and prints the loss falling, then the final predictions.
 
-```python
+```python-exec
 import math
 import random
 
@@ -251,7 +251,7 @@ One subtlety: we update `W2` *after* computing `d_z1`... actually in the code ab
 - **Sigmoid hidden layer.** Replace relu with sigmoid everywhere (derivative: `h * (1 - h)` using the already-computed activation). It still learns, just slower.
 - **More neurons.** Try 8 hidden neurons. XOR becomes almost always solvable, faster.
 
-Now that we can learn nonlinear functions of small inputs, the next question is how to represent *text* as numbers so networks can consume it. That is exactly what Chapter 10: Text Embeddings tackles.
+Now that we can learn nonlinear functions of small inputs, the next question is how to represent *text* as numbers so networks can consume it. That is exactly what Chapter 16: Text Embeddings tackles.
 
 ### Practice checklist
 

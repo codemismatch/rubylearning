@@ -73,8 +73,8 @@
   slug: machine-learning
   free: true
   level: beginner
-  lessons: 12
-  estimated_hours: 28
+  lessons: 18
+  estimated_hours: 40
   modules:
     - id: foundations
       title: Foundations
@@ -93,10 +93,19 @@
       tutorials:
         - evaluating-classification-models
         - generalization-and-regularization
-        - neural-networks-from-scratch
+    - id: classic-algorithms
+      title: Classic Algorithms
+      tutorials:
+        - k-nearest-neighbors
+        - decision-trees
+        - random-forests
+        - support-vector-machines
+        - naive-bayes
+        - k-means-clustering
     - id: towards-llms
       title: Towards LLMs
       tutorials:
+        - neural-networks-from-scratch
         - text-embeddings
         - attention-and-transformers
         - how-llms-work

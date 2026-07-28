@@ -10,8 +10,8 @@ previous_tutorial:
   title: "Chapter 7: Evaluating Classification Models"
   url: /courses/machine-learning/evaluating-classification-models/
 next_tutorial:
-  title: "Chapter 9: Neural Networks from Scratch"
-  url: /courses/machine-learning/neural-networks-from-scratch/
+  title: "Chapter 9: K-Nearest Neighbors"
+  url: /courses/machine-learning/k-nearest-neighbors/
 date: 2026-02-08
 ---
 
@@ -61,7 +61,7 @@ These labels are clues, not proofs. Bad preprocessing, leakage, distribution shi
 
 A **learning curve** records training and validation loss over epochs:
 
-```python
+```python-exec
 history = {
     "train_loss": [0.69, 0.51, 0.38, 0.27, 0.19, 0.13],
     "validation_loss": [0.70, 0.55, 0.46, 0.44, 0.49, 0.58],
@@ -126,7 +126,7 @@ log loss + l2 * sum(weight^2)
 
 Its gradient adds `2 * l2 * weight` to each weight update:
 
-```python
+```python-exec
 for j in range(len(weights)):
     weights[j] -= learning_rate * (
         data_gradient[j] + 2 * l2 * weights[j]
@@ -164,7 +164,7 @@ Real systems can combine them in **elastic net** regularization.
 
 The following example extends Chapter 6's logistic regression to multiple standardized features and an L2 penalty:
 
-```python
+```python-exec
 import math
 
 def sigmoid(z):
@@ -246,7 +246,7 @@ As `l2` grows, the weights become smaller. Training loss may rise because the ob
 
 Neural networks can overfit simply by training too long. **Early stopping** keeps the weights from the epoch with the best validation loss:
 
-```python
+```python-exec
 best_validation_loss = float("inf")
 best_parameters = None
 epochs_without_improvement = 0
@@ -319,7 +319,7 @@ One change at a time makes the result explainable.
 
 ### Where this leads
 
-We can now build a model, measure it honestly, and control its tendency to memorize. Chapter 9: Neural Networks from Scratch increases model complexity dramatically by stacking neurons into layers. The same rules remain in force: preprocess from training data, watch both training and validation loss, regularize when necessary, and trust the held-out test result rather than the training score.
+We can now build a model, measure it honestly, and control its tendency to memorize. The next six chapters tour the classic algorithms - KNN, decision trees, random forests, SVMs, naive Bayes, and k-means - and every one of them will lean on the discipline from this chapter. Then Chapter 15: Neural Networks from Scratch increases model complexity dramatically by stacking neurons into layers. The same rules remain in force: preprocess from training data, watch both training and validation loss, regularize when necessary, and trust the held-out test result rather than the training score.
 
 ### Practice checklist
 

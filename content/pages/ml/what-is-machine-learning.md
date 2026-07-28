@@ -20,7 +20,7 @@ In traditional programming, a human figures out the rules and writes them down. 
 
 Suppose you want to filter spam email. The traditional approach is to sit down, think hard about what spam looks like, and encode your knowledge as rules:
 
-```python
+```python-exec
 # spam_rules.py
 def is_spam(email):
     """Hand-written rules for spam detection."""
@@ -82,7 +82,7 @@ graph LR
 
 Here is the key idea in miniature. Instead of hand-picking spammy words, imagine we have labeled examples and we *count* which words appear in spam versus ham. The counts become our learned rules:
 
-```python
+```python-exec
 # learn_rules.py
 # Labeled training data: (email, is_spam)
 training_data = [
@@ -187,7 +187,7 @@ If a model could be tested on the same data it trained on, a memorizing model wo
 
 The intuition is simple: the test set is a mock exam made of questions the student has never seen. Here is a split in pure Python:
 
-```python
+```python-exec
 # train_test_split.py
 import random
 

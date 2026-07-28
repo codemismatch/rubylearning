@@ -1,21 +1,21 @@
 ---
 layout: tutorial
-title: "Chapter 10 &ndash; Text Embeddings"
+title: "Chapter 16 &ndash; Text Embeddings"
 permalink: /courses/machine-learning/text-embeddings/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Turn words into vectors with tokenization, a tiny BPE learner, and hand-built embeddings you can do arithmetic on.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 9: Neural Networks from Scratch"
+  title: "Chapter 15: Neural Networks from Scratch"
   url: /courses/machine-learning/neural-networks-from-scratch/
 next_tutorial:
-  title: "Chapter 11: Attention & Transformers"
+  title: "Chapter 17: Attention & Transformers"
   url: /courses/machine-learning/attention-and-transformers/
-date: 2026-02-17
+date: 2026-03-10
 ---
 
-In Chapter 9: Neural Networks from Scratch we built a network that consumes vectors of numbers. Text, however, is not numbers. Before any model can read a sentence, we have to convert characters into tokens, tokens into ids, and ids into vectors. That conversion pipeline is the subject of this chapter, and the vectors at the end of it - embeddings - are the single most important idea behind modern language models.
+In Chapter 15: Neural Networks from Scratch we built a network that consumes vectors of numbers. Text, however, is not numbers. Before any model can read a sentence, we have to convert characters into tokens, tokens into ids, and ids into vectors. That conversion pipeline is the subject of this chapter, and the vectors at the end of it - embeddings - are the single most important idea behind modern language models.
 
 Everything here is pure Python. Save any code block as `file.py` and run it with `python3 file.py`.
 
@@ -35,7 +35,7 @@ The rest of the chapter walks each arrow in that diagram.
 
 A token is the atomic unit a model sees. The simplest tokenizer splits on whitespace and punctuation:
 
-```python
+```python-exec
 import re
 
 def simple_tokenize(text):
@@ -53,7 +53,7 @@ Word-level tokenization has a fatal flaw: the vocabulary is unbounded. Every mis
 
 Byte Pair Encoding (BPE) starts from individual characters and repeatedly merges the most frequent adjacent pair. Here is a complete tiny BPE learner:
 
-```python
+```python-exec
 from collections import Counter
 
 # Our toy corpus: words with their frequencies, pre-split into characters.
@@ -112,7 +112,7 @@ The merge list *is* the tokenizer: to tokenize a new word, split it into charact
 
 Once you have a fixed vocabulary, each token gets an integer id. That is a trivial dictionary lookup:
 
-```python
+```python-exec
 vocab = ["<unk>", "the", "queen", "king", "eats", "apples"]
 token_to_id = {tok: i for i, tok in enumerate(vocab)}
 
@@ -124,7 +124,7 @@ print(ids)  # [1, 2, 4]
 
 The naive way to vectorize an id is one-hot encoding: a vector of vocabulary size with a single 1:
 
-```python
+```python-exec
 def one_hot(idx, size):
     v = [0.0] * size
     v[idx] = 1.0
@@ -144,13 +144,13 @@ A distributed representation instead places each word at a point in a small, den
 
 The skip-gram model (Mikolov et al., 2013) learns embeddings with a fake task: given a center word, predict the words around it. You slide a window over the corpus, and for each pair (center, context) you nudge the center word's vector toward the context word's vector.
 
-That is the whole trick. Words that appear in similar contexts - "king" and "queen" both show up near "royal", "crown", "throne" - get pulled toward the same region of space, because the model needs similar vectors to predict similar contexts. The neural network from Chapter 9: Neural Networks from Scratch could actually train this; here we only need the intuition, because the interesting part is what the learned space looks like.
+That is the whole trick. Words that appear in similar contexts - "king" and "queen" both show up near "royal", "crown", "throne" - get pulled toward the same region of space, because the model needs similar vectors to predict similar contexts. The neural network from Chapter 15: Neural Networks from Scratch could actually train this; here we only need the intuition, because the interesting part is what the learned space looks like.
 
 ### Cosine similarity
 
 The standard way to compare embedding vectors is cosine similarity: the cosine of the angle between them, ignoring length.
 
-```python
+```python-exec
 import math
 
 def dot(a, b):
@@ -169,7 +169,7 @@ A cosine of 1 means same direction, 0 means unrelated (orthogonal), -1 means opp
 
 To see why distributed representations are powerful, let's hand-place five words in a 2-D space. Think of the x-axis as "royalty" and the y-axis as "femininity" (real embeddings discover such axes by themselves; we are assigning them for the demo).
 
-```python
+```python-exec
 import math
 
 def dot(a, b):
@@ -215,7 +215,7 @@ Read it carefully: king and queen are close (0.92), man and woman are close (1.0
 
 The famous word2vec party trick: vector arithmetic solves analogies. The direction from "man" to "king" should be roughly the direction from "woman" to "queen".
 
-```python
+```python-exec
 def sub(a, b):
     return [x - y for x, y in zip(a, b)]
 
@@ -248,7 +248,7 @@ The result vector is `[0.9, 1.0]` - exactly where we placed "queen". The arithme
 
 ### Why this matters for what comes next
 
-Embeddings are the input layer of every large language model. An LLM's embedding table is a giant lookup matrix - token id in, dense vector out - and it is trained end-to-end along with everything else. But a single static vector per token cannot handle "bank" meaning a river edge or a financial institution. Resolving that requires looking at the *surrounding* tokens and mixing their vectors, which is precisely the attention mechanism we build in Chapter 11: Attention & Transformers.
+Embeddings are the input layer of every large language model. An LLM's embedding table is a giant lookup matrix - token id in, dense vector out - and it is trained end-to-end along with everything else. But a single static vector per token cannot handle "bank" meaning a river edge or a financial institution. Resolving that requires looking at the *surrounding* tokens and mixing their vectors, which is precisely the attention mechanism we build in Chapter 17: Attention & Transformers.
 
 ### Practice checklist
 

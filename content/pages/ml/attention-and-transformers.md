@@ -1,23 +1,23 @@
 ---
 layout: tutorial
-title: "Chapter 11 &ndash; Attention & Transformers"
+title: "Chapter 17 &ndash; Attention & Transformers"
 permalink: /courses/machine-learning/attention-and-transformers/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Build self-attention from scratch in pure Python and understand the transformer block that powers every modern LLM.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 10: Text Embeddings"
+  title: "Chapter 16: Text Embeddings"
   url: /courses/machine-learning/text-embeddings/
 next_tutorial:
-  title: "Chapter 12: How LLMs Work"
+  title: "Chapter 18: How LLMs Work"
   url: /courses/machine-learning/how-llms-work/
-date: 2026-02-24
+date: 2026-03-17
 ---
 
 ### Why sequence models are hard
 
-In Chapter 10: Text Embeddings we turned words into vectors. A sentence, then, is a list of vectors. But a bag of vectors loses the one thing that makes language language: order and context. "The dog bit the man" and "The man bit the dog" contain exactly the same words, yet mean very different things. A good sequence model has to read each word *in the light of every other word*.
+In Chapter 16: Text Embeddings we turned words into vectors. A sentence, then, is a list of vectors. But a bag of vectors loses the one thing that makes language language: order and context. "The dog bit the man" and "The man bit the dog" contain exactly the same words, yet mean very different things. A good sequence model has to read each word *in the light of every other word*.
 
 The older approaches each had a fatal flaw:
 
@@ -85,7 +85,7 @@ Token 1's new representation is a blend: 67% itself, 33% "sat". Do the same for 
 
 Save this as `attention.py` and run it with `python3 attention.py`. It uses only `math.sqrt` and `math.exp` - no libraries at all. Every example in this chapter is copy-paste runnable with `python3 file.py`.
 
-```python
+```python-exec
 import math
 
 def dot(a, b):
@@ -120,7 +120,7 @@ for token, out in zip(["cat", "sat"], self_attention(Q, K, V)):
 
 Run it and you should see:
 
-```python
+```python-exec
 # cat -> [1.6605, 2.6605]
 # sat -> [2.3395, 3.3395]
 ```
@@ -150,7 +150,7 @@ Multi-head attention runs several attention heads in parallel, each with its own
 
 In code terms, it's just our function in a loop:
 
-```python
+```python-exec
 def multi_head_attention(Qs, Ks, Vs):
     """Qs, Ks, Vs: one (Q, K, V) triple per head."""
     head_outputs = [self_attention(Q, K, V) for Q, K, V in zip(Qs, Ks, Vs)]
@@ -184,7 +184,7 @@ The original paper uses sine and cosine waves of different frequencies:
 
 In words: each dimension oscillates at a different wavelength, from very fast (dimension 0 changes every step) to very slow. Together they give every position a unique "fingerprint", and because waves are smooth and periodic, relative distances between positions show up as consistent patterns the model can learn. Here's the idea in a few lines:
 
-```python
+```python-exec
 import math
 
 def positional_encoding(pos, d):
@@ -226,7 +226,7 @@ graph LR
 
 A toy pure-Python block (relu for the nonlinearity, plain mean/variance layer norm) looks like this:
 
-```python
+```python-exec
 import math
 
 def relu(x):
@@ -250,7 +250,7 @@ def transformer_block(X, Qs, Ks, Vs, W1, b1, W2, b2):
     return [layer_norm([a + b for a, b in zip(x, f)]) for x, f in zip(X, ff)]
 ```
 
-Stack many of these blocks, put an embedding layer plus positional encoding in front and a prediction layer on top, and you have the architecture we'll dissect next in Chapter 12: How LLMs Work. Everything else - scale, training data, and engineering refinements - builds on this skeleton.
+Stack many of these blocks, put an embedding layer plus positional encoding in front and a prediction layer on top, and you have the architecture we'll dissect next in Chapter 18: How LLMs Work. Everything else - scale, training data, and engineering refinements - builds on this skeleton.
 
 ### Practice checklist
 

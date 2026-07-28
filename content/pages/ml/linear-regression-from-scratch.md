@@ -36,7 +36,7 @@ For house prices, `x` is the size in square meters and the prediction is the pri
 
 Here is the hypothesis as a Python function:
 
-```python
+```python-exec
 # hypothesis.py
 def predict(x, w, b):
     return w * x + b
@@ -50,7 +50,7 @@ Run it with `python3 hypothesis.py`. So far the numbers `2.5` and `30` were inve
 
 We will use five houses. Each data point is a `(size, price)` pair:
 
-```python
+```python-exec
 # data.py
 sizes  = [50, 60, 80, 100, 120]    # square meters
 prices = [150, 180, 230, 290, 330] # thousands of dollars
@@ -78,7 +78,7 @@ MSE = (1/n) * sum over i of ( (w * x_i + b) - y_i )^2
 
 In Python:
 
-```python
+```python-exec
 # mse.py
 def mse(sizes, prices, w, b):
     total = 0.0
@@ -130,7 +130,7 @@ graph LR
 
 Now the complete script. It computes the means, applies the closed-form formulas, and exposes `fit` and `predict` functions:
 
-```python
+```python-exec
 # linear_regression.py
 def mean(values):
     return sum(values) / len(values)
@@ -197,7 +197,7 @@ The learned slope says each additional square meter adds about 2.41 thousand dol
 
 A good habit is to verify that the line passes through the mean point, which the formula for `b` guarantees:
 
-```python
+```python-exec
 # check.py
 def mean(values):
     return sum(values) / len(values)

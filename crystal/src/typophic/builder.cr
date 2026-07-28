@@ -1255,8 +1255,15 @@ module Typophic
           when "solution", "test"
             match
           else
-            language = lang.empty? ? nil : lang
-            build_code_window(language, code_content, false)
+            # "*-exec" fences (e.g. python-exec) become executable code
+            # windows wired to the matching in-browser runtime, mirroring
+            # the Ruby engine's handle_code_fences.
+            if exec_match = lang.match(/^(.+)-exec$/)
+              build_code_window(exec_match[1], code_content, true)
+            else
+              language = lang.empty? ? nil : lang
+              build_code_window(language, code_content, false)
+            end
           end
         else
           match
@@ -1480,7 +1487,7 @@ module Typophic
 
       code_lang = lang || "code"
       code_classes = ["language-#{code_lang}"]
-      code_classes << "ruby-exec" if executable
+      code_classes << "#{code_lang}-exec" if executable
 
       pre_classes = ["code-editor__highlight"]
       pre_classes << "language-ruby" if lang == "ruby"

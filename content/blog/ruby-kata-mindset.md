@@ -2,6 +2,7 @@
 title: Build a Ruby Kata Mindset
 layout: post
 date: 2025-10-30
+author: Neeraj Doharey
 permalink: /blog/ruby-kata-mindset/
 description: A lightweight routine for keeping your Ruby skills sharp with daily kata practice and reflection prompts.
 tags:

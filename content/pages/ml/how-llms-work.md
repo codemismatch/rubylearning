@@ -1,18 +1,18 @@
 ---
 layout: tutorial
-title: "Chapter 12 &ndash; How LLMs Work"
+title: "Chapter 18 &ndash; How LLMs Work"
 permalink: /courses/machine-learning/how-llms-work/
 difficulty: advanced
 author: Pankaj Doharey
 summary: From the transformer to GPT - pretraining, scaling laws, RLHF, prompting, and why LLMs sometimes confidently get things wrong.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 11: Attention & Transformers"
+  title: "Chapter 17: Attention & Transformers"
   url: /courses/machine-learning/attention-and-transformers/
-date: 2026-03-03
+date: 2026-03-24
 ---
 
-In Chapter 11: Attention & Transformers we built the architecture: self-attention, multi-head attention, positional encodings, and stacked transformer blocks. That machinery answers the question "how does the model process a sequence?" This final chapter answers the bigger question: "how does that architecture become a capable assistant?" The surprising answer is that much of the behavior is not in the architecture alone - it comes from the training objective, scale, data, and post-training steps that turn a raw text predictor into a helpful system.
+In Chapter 17: Attention & Transformers we built the architecture: self-attention, multi-head attention, positional encodings, and stacked transformer blocks. That machinery answers the question "how does the model process a sequence?" This final chapter answers the bigger question: "how does that architecture become a capable assistant?" The surprising answer is that much of the behavior is not in the architecture alone - it comes from the training objective, scale, data, and post-training steps that turn a raw text predictor into a helpful system.
 
 We will keep everything in plain words, with one tiny pure-Python toy at the end that shows the seed of the whole idea.
 
@@ -114,7 +114,7 @@ The practical rules: verify anything that matters, give the model the informatio
 
 Everything above is, at its core, "predict the next token". Here is that idea in its smallest possible form - a **bigram** model that predicts the next *word* using only the current word, trained on a few sentences. This is a toy: real models use tokens, attention over thousands of positions, and billions of parameters instead of one lookup table. But the train/predict loop is exactly the same shape. Save it as `bigram.py` and run it with `python3 bigram.py` - no dependencies at all.
 
-```python
+```python-exec
 import random
 from collections import defaultdict
 
@@ -196,7 +196,7 @@ Scale the context from one word to 100k tokens, the lookup table to a transforme
 
 You have reached the end of the course - from linear regression by hand to the training pipeline behind modern LLMs. To keep going deeper:
 
-- **"Attention Is All You Need"** (Vaswani et al., 2017) - the original transformer paper. Short and surprisingly readable after Chapter 11.
+- **"Attention Is All You Need"** (Vaswani et al., 2017) - the original transformer paper. Short and surprisingly readable after Chapter 17.
 - **Andrej Karpathy's "Zero to Hero" video series** - builds GPT from scratch in code, the perfect next step from this course's style. His "Let's reproduce GPT-2" video is the pretraining chapter done for real.
 - **fast.ai (Practical Deep Learning)** - free, top-down, code-first deep learning course.
 - **Hugging Face courses and documentation** - the practical ecosystem: tokenizers, pretrained models, fine-tuning, and deployment.

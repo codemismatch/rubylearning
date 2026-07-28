@@ -39,14 +39,14 @@ For a small dataset, a common starting split is 70% train, 15% validation, and 1
 
 Suppose a model predicts the probability that a transaction is fraudulent:
 
-```python
+```python-exec
 y_true =  [0,    0,    1,    0,    1,    1,    0,    1,    0,    1]
 probs =   [0.05, 0.62, 0.91, 0.10, 0.44, 0.81, 0.30, 0.72, 0.55, 0.20]
 ```
 
 At threshold 0.5, probabilities greater than or equal to 0.5 become positive predictions:
 
-```python
+```python-exec
 def predict_classes(probabilities, threshold=0.5):
     return [1 if probability >= threshold else 0
             for probability in probabilities]
@@ -62,7 +62,7 @@ Every decision belongs to one of four boxes:
 - **False positive (FP):** predicted fraud, actually safe.
 - **False negative (FN):** predicted safe, actually fraud.
 
-```python
+```python-exec
 def confusion_matrix(y_true, y_pred):
     tp = tn = fp = fn = 0
     for actual, predicted in zip(y_true, y_pred):
@@ -160,7 +160,7 @@ F1 still hides the individual tradeoff, so report precision and recall beside it
 
 Real code must handle denominators that can be zero:
 
-```python
+```python-exec
 def safe_divide(numerator, denominator):
     return numerator / denominator if denominator else 0.0
 
@@ -195,7 +195,7 @@ for name, value in classification_metrics(y_true, probs).items():
 
 Logistic regression produces probabilities. The threshold converts those probabilities into actions, and 0.5 is merely a default.
 
-```python
+```python-exec
 for threshold in [0.2, 0.4, 0.5, 0.7, 0.9]:
     result = classification_metrics(y_true, probs, threshold)
     print(
@@ -219,7 +219,7 @@ Choose the threshold on validation data, based on the cost of mistakes. Then fre
 
 Sometimes a business can estimate the relative cost of each error:
 
-```python
+```python-exec
 def mistake_cost(counts, false_positive_cost=1, false_negative_cost=5):
     return (
         counts["fp"] * false_positive_cost +
@@ -279,7 +279,7 @@ Cross-validation helps compare model choices with less dependence on one lucky s
 
 Here is the whole chapter's core in one runnable file:
 
-```python
+```python-exec
 def safe_divide(a, b):
     return a / b if b else 0.0
 

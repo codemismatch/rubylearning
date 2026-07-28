@@ -48,7 +48,7 @@ Properties worth memorizing:
 
 Here it is in Python. Save every snippet in this chapter into one file, say `logistic.py`, and run it with `python3 logistic.py` - each example is copy-paste runnable.
 
-```python
+```python-exec
 import math
 
 def sigmoid(z):
@@ -117,7 +117,7 @@ Averaged over the whole dataset, this looks identical in structure to the linear
 
 We will use ten students. Each row is hours studied and whether they passed the exam.
 
-```python
+```python-exec
 # hours studied, then 1 = pass, 0 = fail
 data = [
     (0.5, 0),
@@ -142,7 +142,7 @@ Real datasets are never this clean - in practice the classes overlap, and some 2
 
 Here is the complete training loop. Initialize `w` and `b` at zero, compute predictions for the whole dataset, average the gradients, and step downhill.
 
-```python
+```python-exec
 def predict_probability(w, b, x):
     return sigmoid(w * x + b)
 
@@ -200,7 +200,7 @@ Notice the loss never hits zero. That is expected and healthy: with a sigmoid, p
 
 Now the payoff: predicted probabilities for a few students, a hard class from the 0.5 threshold, and accuracy on the training set.
 
-```python
+```python-exec
 def predict_class(w, b, x, threshold=0.5):
     return 1 if predict_probability(w, b, x) >= threshold else 0
 
@@ -253,12 +253,12 @@ One student - 3.0 hours, failed - gets misclassified because our toy data has an
 
 The learned parameters are interpretable. The decision boundary sits where `p = 0.5`, which is where `z = 0`, i.e. where `w * x + b = 0`. Solving for x:
 
-```python
+```python-exec
 boundary = -b / w
 print(f"decision boundary at {boundary:.2f} hours")
 ```
 
-With `w = 1.475` and `b = -5.005` the boundary lands near 3.4 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 9: Neural Networks from Scratch, where individual weights lose their simple meaning.
+With `w = 1.475` and `b = -5.005` the boundary lands near 3.4 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 15: Neural Networks from Scratch, where individual weights lose their simple meaning.
 
 ### Scaling the input (a preview)
 

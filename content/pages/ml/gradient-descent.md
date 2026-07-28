@@ -94,7 +94,7 @@ graph TD
 
 Save this as `gradient_descent.py` and run it with `python3 gradient_descent.py`.
 
-```python
+```python-exec
 # gradient_descent.py
 # Chapter 5: training the Chapter 4 house price model with real gradient descent.
 
@@ -196,7 +196,7 @@ What we wrote above is **batch gradient descent**: every gradient is computed ov
 
 **Stochastic gradient descent (SGD)** takes the opposite approach: compute the gradient from *one* example, update immediately, move to the next example. One pass over the data (one epoch) now performs `n` updates instead of one.
 
-```python
+```python-exec
 # sgd.py - stochastic gradient descent on the same data
 import random
 
@@ -232,7 +232,7 @@ In practice everyone uses the middle ground, **mini-batch gradient descent**: sh
 
 Here is the mini-batch version, batch size 4:
 
-```python
+```python-exec
 # minibatch.py
 import random
 
@@ -270,7 +270,7 @@ for epoch in range(epochs):
 
 Everything above is deliberately list-based so the mechanics stay visible. The only change numpy buys you is speed and shorter code - the math is identical:
 
-```python
+```python-exec
 # numpy_version.py - same algorithm, vectorized
 import numpy as np
 

@@ -40,7 +40,7 @@ Plain Python already has a container for numbers: the list. So why does every ML
 
 A Python list is a container of *pointers to objects*. Each element can be anything - an int, a string, another list. That flexibility costs memory and time. A numpy array is a contiguous block of same-typed numbers. The CPU can chew through it without stopping to ask "what kind of object is this?" at every element.
 
-```python
+```python-exec
 # lists_vs_arrays.py
 
 # A Python list: flexible, but slow for math
@@ -64,7 +64,7 @@ Run it with `python3 lists_vs_arrays.py`. Both produce the same numbers, but not
 
 There is also a trap worth knowing early. Multiplying a Python list by an integer does something completely different:
 
-```python
+```python-exec
 print([1, 2, 3] * 2)          # [1, 2, 3, 1, 2, 3]  - repetition!
 print(np.array([1, 2, 3]) * 2) # [2 4 6]             - elementwise math
 ```
@@ -75,7 +75,7 @@ print(np.array([1, 2, 3]) * 2) # [2 4 6]             - elementwise math
 
 Let us time a real example: computing the dot product of two vectors of one million numbers, once with a Python loop and once with numpy.
 
-```python
+```python-exec
 # vectorization.py
 import time
 import numpy as np
@@ -109,7 +109,7 @@ Everything we need from numpy fits in a few pages. Learn these four things and y
 
 **1. Creating and inspecting arrays**
 
-```python
+```python-exec
 # numpy_basics.py
 import numpy as np
 
@@ -136,7 +136,7 @@ Think of `shape` as the array's "dimensions label". In ML, a dataset is almost a
 
 Arithmetic on arrays applies to every element at once:
 
-```python
+```python-exec
 # elementwise.py
 import numpy as np
 
@@ -158,7 +158,7 @@ That last line trips everyone up at least once: `*` on two arrays multiplies ele
 
 The dot product - sum of pairwise products - is the atom of machine learning. A linear model's prediction *is* a dot product between the weights and the features.
 
-```python
+```python-exec
 # dot_product.py
 import numpy as np
 
@@ -179,7 +179,7 @@ Read `weights @ scores` as "weighted sum". When Chapter 4 says "prediction = w Â
 
 Broadcasting is numpy's rule for combining arrays of different shapes: the smaller one is stretched (conceptually, without copying) to match. The most common case is array-with-scalar, which you already saw in the temperature conversion. The second most common case is adding a row vector to every row of a matrix:
 
-```python
+```python-exec
 # broadcasting.py
 import numpy as np
 

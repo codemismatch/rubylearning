@@ -102,6 +102,15 @@
 
   async function runPython(code) {
     const py = await getPyodideInstance();
+    // Auto-load Pyodide packages for top-level imports (numpy, pandas, ...)
+    // so chapter code using them runs in the browser unchanged.
+    if (typeof py.loadPackagesFromImports === "function") {
+      try {
+        await py.loadPackagesFromImports(code);
+      } catch (_e) {
+        // Non-fatal: the import error will surface in the run output.
+      }
+    }
     // Expose code as a global so we don't have to interpolate it into the Python string.
     py.globals.set("__typophic_code", code);
     const result = await py.runPythonAsync(`
