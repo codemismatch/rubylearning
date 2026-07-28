@@ -138,9 +138,11 @@ w = 0.0
 b = 0.0
 learning_rate = 0.1
 epochs = 100
+loss_history = []
 
 for epoch in range(epochs):
     loss = compute_loss(w, b)
+    loss_history.append(loss)
     dw, db = compute_gradients(w, b)
     w = w - learning_rate * dw
     b = b - learning_rate * db
@@ -155,10 +157,23 @@ print(f"Prediction for 1700 sqft: ${predict(1.7, w, b):,.0f}")
 Run it and watch the console. The loss starts in the tens of billions and falls steadily:
 
 ```text
-epoch   0  loss = 84,031,250,000  w = 168,500.0  b = 28,750.0
-epoch  10  loss = 4,323,232,854   w = 156,006.9  b = 24,800.7
+epoch   0  loss = 86,825,000,000  w = 90,225.0  b = 56,500.0
+epoch  10  loss = 40,023,391      w = 137,340.0  b = 87,878.0
 ...
-epoch  99  loss = 79,873,003      w = 161,377.4  b = 27,609.0
+epoch  99  loss = 35,279,121      w = 134,441.8  b = 92,527.5
+
+Final model: price = 134,441.8 * (size/1000) + 92,527.5
+Prediction for 1700 sqft: $321,079
+```
+
+The same numbers as a curve - the classic gradient-descent shape, steep at first then flattening as it converges:
+
+```python-exec
+plt.plot(list(range(epochs)), loss_history, label="MSE loss")
+plt.title("Gradient descent: loss per epoch")
+plt.xlabel("epoch")
+plt.ylabel("loss")
+plt.show()
 ```
 
 That printed column of shrinking losses is the most important debugging tool in machine learning. If it goes down smoothly, training is healthy. If it bounces or explodes, something (usually the learning rate) is wrong.

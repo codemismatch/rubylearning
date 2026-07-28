@@ -53,6 +53,11 @@
         input.value = "";
 
         try {
+          if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
+            PythonRuntime.setPlotHandler(spec => {
+              outputEl.appendChild(window.TypophicPlot.render(spec));
+            });
+          }
           const result = await PythonRuntime.run(code);
           if (result && result.trim()) {
             result.split("\n").forEach(line => {

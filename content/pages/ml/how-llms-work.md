@@ -9,6 +9,9 @@ theme: pylearning
 previous_tutorial:
   title: "Chapter 17: Attention & Transformers"
   url: /courses/machine-learning/attention-and-transformers/
+next_tutorial:
+  title: "Chapter 19: Building a Mini-GPT from Scratch"
+  url: /courses/machine-learning/build-a-mini-gpt/
 date: 2026-03-24
 ---
 

@@ -73,8 +73,8 @@
   slug: machine-learning
   free: true
   level: beginner
-  lessons: 18
-  estimated_hours: 40
+  lessons: 19
+  estimated_hours: 45
   modules:
     - id: foundations
       title: Foundations
@@ -109,3 +109,4 @@
         - text-embeddings
         - attention-and-transformers
         - how-llms-work
+        - build-a-mini-gpt

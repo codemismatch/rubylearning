@@ -112,7 +112,19 @@ cluster 1: centroid (8.5, 8.5), 5 points -> [(8, 8), (9, 8), (8, 9), (9, 9), (8.
 cluster 2: centroid (1.5, 8.5), 5 points -> [(1, 8), (2, 9), (1, 9), (2, 8), (1.5, 8.5)]
 ```
 
-Three blobs found, centroids parked exactly on the blob means. That is the whole algorithm - assignment, update, repeat.
+Three blobs found, centroids parked exactly on the blob means. That is the whole algorithm - assignment, update, repeat. And here it is as a picture - one series per cluster, with the centroids marked:
+
+```python-exec
+for i, cluster in enumerate(clusters):
+    plt.scatter([p[0] for p in cluster], [p[1] for p in cluster],
+                label=f"cluster {i}")
+plt.scatter([c[0] for c in centroids], [c[1] for c in centroids],
+            label="centroids")
+plt.title("K-means: three clusters and their centroids")
+plt.xlabel("x")
+plt.ylabel("y")
+plt.show()
+```
 
 ### Inertia and choosing k with the elbow method
 

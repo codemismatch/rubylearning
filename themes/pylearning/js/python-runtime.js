@@ -67,6 +67,11 @@
   }
 
   let pyodidePromise = null;
+  let plotHandler = null;
+
+  function setPlotHandler(fn) {
+    plotHandler = fn;
+  }
 
   async function getPyodideInstance() {
     if (window.pyodide) return window.pyodide;
@@ -87,6 +92,17 @@
               throw new Error("loadPyodide is not available after loading pyodide.js");
             }
             const instance = await loadPyodide({ indexURL: cfg.index });
+            // Install the notebook-style plotting shim (plt) and the JS
+            // callback it emits figure specs through.
+            instance.globals.set("_typophic_emit_plot", (payload) => {
+              if (!plotHandler) return;
+              try {
+                plotHandler(JSON.parse(payload));
+              } catch (_e) { /* ignore malformed plot specs */ }
+            });
+            if (window.TypophicPlot && window.TypophicPlot.shimSource) {
+              await instance.runPythonAsync(window.TypophicPlot.shimSource);
+            }
             return instance;
           } catch (err) {
             lastError = err;
@@ -116,8 +132,10 @@
     const result = await py.runPythonAsync(`
 import sys, io, traceback
 _stdout = sys.stdout
+_stderr = sys.stderr
 buf = io.StringIO()
 sys.stdout = buf
+sys.stderr = buf
 ns = globals()
 try:
     try:
@@ -137,6 +155,7 @@ except Exception:
     traceback.print_exc()
 finally:
     sys.stdout = _stdout
+    sys.stderr = _stderr
 buf.getvalue()
 `);
     return String(result || "");
@@ -144,7 +163,8 @@ buf.getvalue()
 
   window.PythonRuntime = {
     getPyodide: getPyodideInstance,
-    run: runPython
+    run: runPython,
+    setPlotHandler: setPlotHandler
   };
 
   // Let other scripts know that the PythonRuntime shim is available. This

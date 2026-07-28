@@ -191,6 +191,17 @@ MSE on training data: 24.9627
 predicted price for 90 m^2: $244.07k
 ```
 
+A picture makes the fit obvious - the data points and the learned line:
+
+```python-exec
+plt.scatter(sizes, prices, label="data")
+plt.plot(sizes, [predict(x, w, b) for x in sizes], label="fitted line")
+plt.title("House size vs price - least squares fit")
+plt.xlabel("size (m^2)")
+plt.ylabel("price ($k)")
+plt.show()
+```
+
 The learned slope says each additional square meter adds about 2.41 thousand dollars, and the learned intercept is about 27.4. Every prediction sits within a few thousand dollars of the true price, and the MSE of roughly 25 is the smallest any straight line can achieve on this data - that is what "least squares" guarantees.
 
 ### Sanity-checking the fit

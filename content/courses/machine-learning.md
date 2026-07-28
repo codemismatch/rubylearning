@@ -74,6 +74,7 @@ date: 2026-01-06
               <li><a href="/courses/machine-learning/text-embeddings/">Text Embeddings</a></li>
               <li><a href="/courses/machine-learning/attention-and-transformers/">Attention &amp; Transformers</a></li>
               <li><a href="/courses/machine-learning/how-llms-work/">How LLMs Work</a></li>
+              <li><a href="/courses/machine-learning/build-a-mini-gpt/">Building a Mini-GPT from Scratch</a></li>
             </ol>
           </div>
         </div>

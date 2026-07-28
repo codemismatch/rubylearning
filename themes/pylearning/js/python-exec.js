@@ -57,6 +57,13 @@
         runButton.addEventListener("click", async () => {
           const code = codeEl.textContent.trimEnd();
           outputContent.textContent = "Running Python code...\n";
+          // Route plt.show() figures into this block's output area.
+          outputArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
+          if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
+            PythonRuntime.setPlotHandler(spec => {
+              outputArea.appendChild(window.TypophicPlot.render(spec));
+            });
+          }
           try {
             const result = await PythonRuntime.run(code);
             outputContent.textContent = result || "";

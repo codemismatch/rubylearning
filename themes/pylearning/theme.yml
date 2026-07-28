@@ -18,6 +18,7 @@ javascripts:
   - js/tutorial-enhancements.js
   - js/github-pages-fix.js
   - js/site.js
+  - js/python-plot.js
   - js/python-runtime.js
   - js/python-console.js
   - js/python-exec.js
