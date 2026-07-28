@@ -147,6 +147,28 @@ closest to the boundary: (5, 6) (functional margin 1.505)
 
 The two points sitting right on the margin - the pass student at `(5, 8)` and the fail student at `(3, 5)` - are the support vectors, and they carry the model: everything else is comfortably far away, and deleting it would leave the boundary essentially unchanged. That sparsity is a big part of why SVMs generalize well and why they were the algorithm to beat in the 1990s and 2000s.
 
+The learned boundary and its street, drawn from the actual `w` and `b`:
+
+```python-exec
+# Decision boundary: w0*x1 + w1*x2 + b = 0  ->  x2 = -(w0*x1 + b) / w1
+fails = [x for x, y in data if y == -1]
+passes = [x for x, y in data if y == +1]
+xs_line = [0.5 + i * 0.1 for i in range(76)]   # 0.5 to 8.0
+
+def line_at(offset):
+    return [-(w[0] * x + w[2] + offset) / w[1] for x in xs_line]
+
+plt.scatter([x[0] for x in fails], [x[1] for x in fails], label="fail (-1)")
+plt.scatter([x[0] for x in passes], [x[1] for x in passes], label="pass (+1)")
+plt.plot(xs_line, line_at(0), label="boundary w.x + b = 0")
+plt.plot(xs_line, line_at(-1), label="margin w.x + b = +1")
+plt.plot(xs_line, line_at(1), label="margin w.x + b = -1")
+plt.title("SVM: maximum-margin boundary")
+plt.xlabel("hours studied")
+plt.ylabel("hours slept")
+plt.show()
+```
+
 ### When a line is not enough: the kernel trick
 
 Our student data is linearly separable, but the XOR pattern from Chapter 15: Neural Networks from Scratch is not - no straight line separates it, no matter how you tune C. The SVM answer is beautiful: **map the points into a higher-dimensional space where a line does exist**.

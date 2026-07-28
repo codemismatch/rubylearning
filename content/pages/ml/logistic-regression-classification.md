@@ -183,16 +183,16 @@ print(f"\nfinal: w = {w:.3f}, b = {b:.3f}")
 Running this prints the loss shrinking steadily:
 
 ```text
-epoch    0  loss 0.6931  w 0.000  b 0.000
-epoch  400  loss 0.3101  w 0.878  b -2.893
-epoch  800  loss 0.2293  w 1.142  b -3.823
-epoch 1200  loss 0.1947  w 1.291  b -4.352
-epoch 1600  loss 0.1753  w 1.396  b -4.726
+epoch    0  loss 0.6484  w 0.550  b 0.000
+epoch  400  loss 0.0751  w 2.050  b -6.956
+epoch  800  loss 0.0538  w 2.604  b -8.923
+epoch 1200  loss 0.0436  w 2.991  b -10.293
+epoch 1600  loss 0.0372  w 3.301  b -11.385
 
-final: w = 1.475, b = -5.005
+final: w = 3.563, b = -12.306
 ```
 
-The starting loss of 0.6931 is exactly `log(2)` - what you get by predicting 0.5 for everything, i.e. shrugging. From there the model learns that more hours means more pass probability.
+The initial loss, before any training, is exactly `log(2)` ≈ 0.6931 - what you get by predicting 0.5 for everything, i.e. shrugging. The first printed epoch is already one gradient step better than that. From there the model learns that more hours means more pass probability.
 
 Notice the loss never hits zero. That is expected and healthy: with a sigmoid, pushing the loss all the way to zero would require infinite weights, because the sigmoid only approaches 0 and 1 asymptotically.
 
@@ -228,26 +228,26 @@ Typical output:
 
 ```text
 hours  probability  predicted  actual
-  0.5      0.045          0      0
-  1.0      0.097          0      0
-  1.5      0.194          0      0
-  2.0      0.347          0      0
-  3.0      0.715          1      0
-  4.0      0.920          1      1
-  5.0      0.979          1      1
-  6.0      0.995          1      1
-  7.0      0.999          1      1
-  8.0      1.000          1      1
+  0.5        0.000          0       0
+  1.0        0.000          0       0
+  1.5        0.001          0       0
+  2.0        0.006          0       0
+  3.0        0.165          0       0
+  4.0        0.875          1       1
+  5.0        0.996          1       1
+  6.0        1.000          1       1
+  7.0        1.000          1       1
+  8.0        1.000          1       1
 
 new students:
-2.5 hours -> pass probability 0.518
-3.4 hours -> pass probability 0.803
-5.5 hours -> pass probability 0.989
+2.5 hours -> pass probability 0.032
+3.4 hours -> pass probability 0.452
+5.5 hours -> pass probability 0.999
 
-training accuracy: 90%
+training accuracy: 100%
 ```
 
-One student - 3.0 hours, failed - gets misclassified because our toy data has an abrupt jump between 2 and 4 hours. On messier real data, 90% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classification Models introduces proper train/test splits and metrics beyond accuracy.
+Every training point is classified correctly, though the model has to thread an abrupt jump in the toy data between 2 and 4 hours. On messier real data, 100% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classification Models introduces proper train/test splits and metrics beyond accuracy.
 
 ### Reading the model
 
@@ -258,7 +258,27 @@ boundary = -b / w
 print(f"decision boundary at {boundary:.2f} hours")
 ```
 
-With `w = 1.475` and `b = -5.005` the boundary lands near 3.4 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 15: Neural Networks from Scratch, where individual weights lose their simple meaning.
+With `w = 3.563` and `b = -12.306` the boundary lands at 3.45 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 15: Neural Networks from Scratch, where individual weights lose their simple meaning.
+
+The whole model as a picture - the students as dots, and the learned sigmoid as the probability curve:
+
+```python-exec
+fail_x = [x for x, y in data if y == 0]
+fail_y = [0 for _ in fail_x]
+pass_x = [x for x, y in data if y == 1]
+pass_y = [1 for _ in pass_x]
+
+curve_x = [0.0 + 8.0 * i / 80 for i in range(81)]
+curve_y = [predict_probability(w, b, x) for x in curve_x]
+
+plt.scatter(fail_x, fail_y, label="fail")
+plt.scatter(pass_x, pass_y, label="pass")
+plt.plot(curve_x, curve_y, label="learned sigmoid")
+plt.title("Study hours vs pass/fail with logistic curve")
+plt.xlabel("hours studied")
+plt.ylabel("P(pass)")
+plt.show()
+```
 
 ### Scaling the input (a preview)
 

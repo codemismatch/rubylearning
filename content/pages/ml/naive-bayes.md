@@ -147,6 +147,17 @@ for text in tests:
 
 All four correct, including the tricky "win free coffee", where spam vocabulary ("win", "free") outweighs the neutral "coffee". Note the log scores are negative (sums of logs of fractions) and we only ever compare them - we never convert back to raw probabilities.
 
+Those two scores as a chart - the gap between the bars is the whole decision:
+
+```python-exec
+_, win_s, win_h = predict("win free coffee")
+plt.bar(["spam", "ham"], [win_s, win_h])
+plt.title("Per-class log scores for 'win free coffee'")
+plt.xlabel("class")
+plt.ylabel("log score")
+plt.show()
+```
+
 If you do want a probability-like confidence, exponentiate the *difference*: `P(spam | words)` is approximately `1 / (1 + exp(ham_score - spam_score))` - a sigmoid of the score gap, the same shape you met in Chapter 6: Logistic Regression & Classification.
 
 ```python-exec

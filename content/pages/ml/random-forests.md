@@ -191,6 +191,15 @@ print(f"single tree: {s * 100:.1f}%   forest: {f * 100:.1f}%")
 single tree: 85.0%   forest: 92.5%
 ```
 
+Here is that result as a chart:
+
+```python-exec
+plt.bar(["single tree", "forest"], [s * 100, f * 100])
+plt.title("Held-out accuracy: one tree vs the forest")
+plt.ylabel("accuracy (%)")
+plt.show()
+```
+
 The forest beats the single tree by a clear margin, and its variance across runs is much smaller. Why it works, in one sentence: averaging many *decorrelated* overfitters cancels the idiosyncratic errors (bagging reduces variance) while random feature subsets keep the trees from all making the same mistake. A single deep tree chases the flipped labels; in a forest of 25, each noisy label poisons only a few bootstrap samples and gets outvoted.
 
 ### Out-of-bag evaluation: a free validation set

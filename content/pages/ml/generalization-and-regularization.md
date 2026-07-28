@@ -80,6 +80,21 @@ for epoch, (train, validation) in enumerate(
 
 Validation loss reaches its minimum at epoch 4, then rises while training loss keeps falling. Training longer makes the training metric prettier and the model worse.
 
+The same learning curve as a picture:
+
+```python-exec
+epochs = list(range(1, len(history["train_loss"]) + 1))
+
+plt.plot(epochs, history["train_loss"], label="training loss")
+plt.plot(epochs, history["validation_loss"], label="validation loss")
+plt.title("Training vs validation loss")
+plt.xlabel("epoch")
+plt.ylabel("loss")
+plt.show()
+```
+
+The two curves part company right after epoch 4: the gap between them is the overfitting made visible.
+
 Learning curves can also compare performance against the number of training examples:
 
 - If validation performance keeps improving as data grows, collecting more representative data may help.
@@ -127,10 +142,18 @@ log loss + l2 * sum(weight^2)
 Its gradient adds `2 * l2 * weight` to each weight update:
 
 ```python-exec
+# Illustrative values - the full training loop comes below.
+weights = [0.8, -0.5, 1.2]
+data_gradient = [0.1, -0.2, 0.05]
+learning_rate = 0.2
+l2 = 0.1
+
 for j in range(len(weights)):
     weights[j] -= learning_rate * (
         data_gradient[j] + 2 * l2 * weights[j]
     )
+
+print("weights after one regularized step:", [round(w, 3) for w in weights])
 ```
 
 That extra term pulls weights toward zero on every step. Large weights get a stronger pull. The bias is usually not regularized because shifting the overall baseline does not create the same kind of feature sensitivity.
@@ -247,6 +270,29 @@ As `l2` grows, the weights become smaller. Training loss may rise because the ob
 Neural networks can overfit simply by training too long. **Early stopping** keeps the weights from the epoch with the best validation loss:
 
 ```python-exec
+import copy
+
+# Every model stores parameters differently, so these stand-ins
+# simulate one: a single scalar "parameter" and a validation curve
+# that improves until epoch 4, then gets worse (as above).
+parameters = {"loss": 0.70}
+validation_curve = [0.70, 0.55, 0.46, 0.44, 0.49, 0.58, 0.64]
+epoch_counter = {"i": 0}
+
+def train_one_epoch():
+    parameters["loss"] = validation_curve[epoch_counter["i"]]
+
+def evaluate_validation_loss():
+    value = validation_curve[epoch_counter["i"]]
+    epoch_counter["i"] += 1
+    return value
+
+def copy_parameters():
+    return copy.deepcopy(parameters)
+
+def restore_parameters(saved):
+    parameters.update(saved)
+
 best_validation_loss = float("inf")
 best_parameters = None
 epochs_without_improvement = 0
@@ -267,9 +313,12 @@ for epoch in range(100):
         break
 
 restore_parameters(best_parameters)
+print(f"stopped at epoch {epoch + 1}, "
+      f"best validation loss {best_validation_loss:.2f}")
+print("restored parameters:", parameters)
 ```
 
-The functions are placeholders because every model stores parameters differently. The pattern is what matters:
+The functions are simple stand-ins because every model stores parameters differently; these simulate one so the loop runs end to end. The pattern is what matters:
 
 1. Evaluate validation loss after each epoch.
 2. Save a copy when it improves.
@@ -319,7 +368,7 @@ One change at a time makes the result explainable.
 
 ### Where this leads
 
-We can now build a model, measure it honestly, and control its tendency to memorize. The next six chapters tour the classic algorithms - KNN, decision trees, random forests, SVMs, naive Bayes, and k-means - and every one of them will lean on the discipline from this chapter. Then Chapter 15: Neural Networks from Scratch increases model complexity dramatically by stacking neurons into layers. The same rules remain in force: preprocess from training data, watch both training and validation loss, regularize when necessary, and trust the held-out test result rather than the training score.
+We can now build a model, measure it honestly, and control its tendency to memorize. Chapters 9-14 tour the classic algorithms - KNN, decision trees, random forests, SVMs, naive Bayes, and k-means - and every one of them will lean on the discipline from this chapter. Then Chapter 15: Neural Networks from Scratch increases model complexity dramatically by stacking neurons into layers. The same rules remain in force: preprocess from training data, watch both training and validation loss, regularize when necessary, and trust the held-out test result rather than the training score.
 
 ### Practice checklist
 

@@ -191,6 +191,18 @@ for name, value in classification_metrics(y_true, probs).items():
         print(f"{name:>10}: {value}")
 ```
 
+The same numbers as a picture:
+
+```python-exec
+metrics = classification_metrics(y_true, probs)
+names = ["precision", "recall", "F1"]
+values = [metrics["precision"], metrics["recall"], metrics["f1"]]
+plt.bar(names, values)
+plt.ylabel("score")
+plt.title("Precision, recall, and F1 at threshold 0.5")
+plt.show()
+```
+
 ### The threshold is a product decision
 
 Logistic regression produces probabilities. The threshold converts those probabilities into actions, and 0.5 is merely a default.

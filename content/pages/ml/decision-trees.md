@@ -141,11 +141,28 @@ print("gain temp<=29:        ", round(information_gain(data, 1, 29), 3))
 ```text
 gain outlook=overcast: 0.171
 gain temp<=21:         0.046
-gain windy:            0.257
+gain windy:            0.256
 gain temp<=29:         0.322
 ```
 
 "Is the temperature at most 29?" wins - it carves off the two scorching no-days into a pure group, exactly the root split in Figure 1. Note that "temp <= 21" is a poor question while "temp <= 29" is the best one: for numeric features the threshold matters as much as the feature, which is why the builder below searches every midpoint instead of guessing.
+
+Those same gains as a picture - every candidate split the builder would consider, sorted best first:
+
+```python-exec
+candidates = [("windy", 2, None)]
+candidates += [("outlook==" + v, 0, v) for v in sorted(set(r[0] for r in data))]
+ordered = sorted(set(r[1] for r in data))
+candidates += [("temp<=" + str((a + b) / 2), 1, (a + b) / 2)
+               for a, b in zip(ordered, ordered[1:])]
+scored = sorted(((information_gain(data, fi, t), name) for name, fi, t in candidates),
+                reverse=True)
+plt.bar([name for g, name in scored], [g for g, name in scored])
+plt.title("Information gain per candidate split")
+plt.xlabel("split question")
+plt.ylabel("information gain")
+plt.show()
+```
 
 ### Building the tree recursively
 

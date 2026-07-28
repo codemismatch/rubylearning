@@ -148,7 +148,10 @@ Notice that `training_size_median` comes only from `train_rows`. We use that sam
 Sometimes the fact that a value was missing carries information. You can preserve it with an extra binary feature:
 
 ```python-exec
+# Use a training row with a missing size (train_rows was defined above).
+row = next(r for r in train_rows if r["size_sqft"] is None)
 size_was_missing = 1.0 if row["size_sqft"] is None else 0.0
+print("size_was_missing for that row:", size_was_missing)
 ```
 
 That lets the model distinguish "a typical-sized house" from "a house whose size was unknown and therefore filled with the typical value."
@@ -290,6 +293,38 @@ print("X_train shape:", (len(X_train), len(X_train[0])))
 print("y_train length:", len(y_train))
 print("first training vector:", [round(value, 3) for value in X_train[0]])
 print("test rows transformed with training statistics:", len(X_test))
+```
+
+The same transformation as a picture - how far each numeric feature spans before and after standardization:
+
+```python-exec
+size_median = preprocessor["size_median"]
+size_mean, size_std = preprocessor["size_stats"]
+bedroom_mean, bedroom_std = preprocessor["bedroom_stats"]
+
+raw_sizes = [
+    size_median if row["size_sqft"] is None else row["size_sqft"]
+    for row in train_rows
+]
+raw_bedrooms = [row["bedrooms"] for row in train_rows]
+scaled_sizes = [(size - size_mean) / size_std for size in raw_sizes]
+scaled_bedrooms = [
+    (bedrooms - bedroom_mean) / bedroom_std for bedrooms in raw_bedrooms
+]
+
+def span(values):
+    return max(values) - min(values)
+
+feature_names = ["size_sqft", "bedrooms"]
+before = [span(raw_sizes), span(raw_bedrooms)]
+after = [span(scaled_sizes), span(scaled_bedrooms)]
+
+plt.bar(feature_names, before, label="before scaling")
+plt.bar(feature_names, after, label="after scaling")
+plt.title("Feature ranges before and after standardization")
+plt.xlabel("feature")
+plt.ylabel("range (max - min)")
+plt.show()
 ```
 
 This code deliberately keeps the preprocessor as a plain dictionary so every learned value is visible. Libraries package the same idea into transformers and pipelines, but the contract is unchanged:

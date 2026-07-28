@@ -60,6 +60,23 @@ data = [
 
 The two features live on wildly different scales: weight runs to 400 while sweetness stays under 10. Keep that in the back of your mind - it will bite us soon.
 
+The same data as a picture - note how the weight axis dwarfs the sweetness axis:
+
+```python-exec
+berry_x = [f[0] for f, label in data if label == "berry"]
+berry_y = [f[1] for f, label in data if label == "berry"]
+melon_x = [f[0] for f, label in data if label == "melon"]
+melon_y = [f[1] for f, label in data if label == "melon"]
+
+plt.scatter(berry_x, berry_y, label="berry")
+plt.scatter(melon_x, melon_y, label="melon")
+plt.scatter([100], [8], label="query (100, 8)")
+plt.title("Fruit by weight and sweetness")
+plt.xlabel("weight (grams)")
+plt.ylabel("sweetness (1-10)")
+plt.show()
+```
+
 ### Measuring distance: Euclidean and friends
 
 The default notion of "close" is Euclidean distance - straight-line distance, Pythagoras in any number of dimensions:
@@ -163,6 +180,19 @@ k = 3: leave-one-out accuracy 100%
 k = 5: leave-one-out accuracy 100%
 k = 7: leave-one-out accuracy 100%
 k = 9: leave-one-out accuracy 0%
+```
+
+Here is that same table as a chart:
+
+```python-exec
+ks = [1, 3, 5, 7, 9]
+accs = [accuracy(data, k) * 100 for k in ks]
+
+plt.plot(ks, accs, label="leave-one-out accuracy")
+plt.title("Accuracy vs k")
+plt.xlabel("k")
+plt.ylabel("accuracy (%)")
+plt.show()
 ```
 
 Our toy data is perfectly separated, so any reasonable k works - but look at k = 9: each point's nine nearest "neighbors" now include all five points of the *other* class, so the majority is always wrong. On messy overlapping data you would see a gentler curve: accuracy rising as k grows past 1 (noise gets outvoted), peaking, then falling as k gets so large that the local neighborhood stops being local. Pick k at the peak - measured on validation data, as Chapter 8: Generalization & Regularization taught us, never on the test set. A common starting point is `k = sqrt(n)` rounded to an odd number to avoid ties in binary problems.
