@@ -32,11 +32,19 @@
     "tags": []
   },
   {
-    "title": "Chapter 11 &ndash; Attention & Transformers",
+    "title": "Chapter 17 &ndash; Attention & Transformers",
     "description": null,
     "permalink": "/courses/machine-learning/attention-and-transformers/",
     "url": "https://rubylearning.in/courses/machine-learning/attention-and-transformers/",
-    "date": "2026-02-24",
+    "date": "2026-03-17",
+    "tags": []
+  },
+  {
+    "title": "Chapter 10 &ndash; Decision Trees",
+    "description": null,
+    "permalink": "/courses/machine-learning/decision-trees/",
+    "url": "https://rubylearning.in/courses/machine-learning/decision-trees/",
+    "date": "2026-02-14",
     "tags": []
   },
   {
@@ -64,11 +72,27 @@
     "tags": []
   },
   {
-    "title": "Chapter 12 &ndash; How LLMs Work",
+    "title": "Chapter 18 &ndash; How LLMs Work",
     "description": null,
     "permalink": "/courses/machine-learning/how-llms-work/",
     "url": "https://rubylearning.in/courses/machine-learning/how-llms-work/",
-    "date": "2026-03-03",
+    "date": "2026-03-24",
+    "tags": []
+  },
+  {
+    "title": "Chapter 14 &ndash; K-Means Clustering",
+    "description": null,
+    "permalink": "/courses/machine-learning/k-means-clustering/",
+    "url": "https://rubylearning.in/courses/machine-learning/k-means-clustering/",
+    "date": "2026-02-24",
+    "tags": []
+  },
+  {
+    "title": "Chapter 9 &ndash; K-Nearest Neighbors",
+    "description": null,
+    "permalink": "/courses/machine-learning/k-nearest-neighbors/",
+    "url": "https://rubylearning.in/courses/machine-learning/k-nearest-neighbors/",
+    "date": "2026-02-12",
     "tags": []
   },
   {
@@ -88,11 +112,19 @@
     "tags": []
   },
   {
-    "title": "Chapter 9 &ndash; Neural Networks from Scratch",
+    "title": "Chapter 13 &ndash; Naive Bayes",
+    "description": null,
+    "permalink": "/courses/machine-learning/naive-bayes/",
+    "url": "https://rubylearning.in/courses/machine-learning/naive-bayes/",
+    "date": "2026-02-21",
+    "tags": []
+  },
+  {
+    "title": "Chapter 15 &ndash; Neural Networks from Scratch",
     "description": null,
     "permalink": "/courses/machine-learning/neural-networks-from-scratch/",
     "url": "https://rubylearning.in/courses/machine-learning/neural-networks-from-scratch/",
-    "date": "2026-02-10",
+    "date": "2026-03-03",
     "tags": []
   },
   {
@@ -112,11 +144,27 @@
     "tags": []
   },
   {
-    "title": "Chapter 10 &ndash; Text Embeddings",
+    "title": "Chapter 11 &ndash; Random Forests",
+    "description": null,
+    "permalink": "/courses/machine-learning/random-forests/",
+    "url": "https://rubylearning.in/courses/machine-learning/random-forests/",
+    "date": "2026-02-17",
+    "tags": []
+  },
+  {
+    "title": "Chapter 12 &ndash; Support Vector Machines",
+    "description": null,
+    "permalink": "/courses/machine-learning/support-vector-machines/",
+    "url": "https://rubylearning.in/courses/machine-learning/support-vector-machines/",
+    "date": "2026-02-19",
+    "tags": []
+  },
+  {
+    "title": "Chapter 16 &ndash; Text Embeddings",
     "description": null,
     "permalink": "/courses/machine-learning/text-embeddings/",
     "url": "https://rubylearning.in/courses/machine-learning/text-embeddings/",
-    "date": "2026-02-17",
+    "date": "2026-03-10",
     "tags": []
   },
   {
