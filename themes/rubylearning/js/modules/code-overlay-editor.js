@@ -12,7 +12,7 @@ function insertTextAtCursor(textarea, text) {
   textarea.selectionStart = textarea.selectionEnd = newPos;
 }
 
-function initOverlayEditor(pre, codeBlock, initialValue, onChange) {
+function initOverlayEditor(pre, codeBlock, initialValue, onChange, highlightFn) {
   let wrapper = pre.closest('.code-editor');
   if (!wrapper) {
     wrapper = document.createElement('div');
@@ -27,7 +27,7 @@ function initOverlayEditor(pre, codeBlock, initialValue, onChange) {
   textarea.className = 'code-editor__input';
   textarea.value = initialValue;
   textarea.spellcheck = false;
-  textarea.setAttribute('aria-label', 'Editable Ruby code');
+  textarea.setAttribute('aria-label', 'Editable code');
   wrapper.appendChild(textarea);
 
   const renderHighlight = (value) => {
@@ -35,8 +35,9 @@ function initOverlayEditor(pre, codeBlock, initialValue, onChange) {
     if (text.endsWith('\n')) {
       text += ' ';
     }
-    // Use the syntax highlighting utility if available
-    if (window.RubySyntaxHighlighting) {
+    if (highlightFn) {
+      codeBlock.innerHTML = highlightFn(text);
+    } else if (window.RubySyntaxHighlighting) {
       codeBlock.innerHTML = window.RubySyntaxHighlighting.highlightRubyInline(text);
     } else {
       codeBlock.textContent = text;
