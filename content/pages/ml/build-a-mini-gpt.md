@@ -42,11 +42,20 @@ One block and 16-dimensional vectors are laughably small - GPT-2 small has 12 bl
 
 We'll work at the character level (real models use subword tokenizers with 30k-100k tokens, but the idea is the same). The corpus is a handful of sentences repeated - small enough that the model can genuinely *memorize* its statistics, which makes the training result easy to interpret. Each code cell below builds on the previous ones, sharing one Python namespace, so run them in order.
 
+Want to train on your own text instead? Upload any `.txt` file here, then re-run the cells below - the tokenizer cell prefers your upload when one is present.
+
+<div data-corpus-upload="uploaded_corpus_text"></div>
+
 ```python-exec
-corpus = ("the cat sat on the mat and the cat ate the rat. "
-          "the dog ran to the log and the dog ate the hog. "
-          "a cat and a dog sat on the mat in the sun. "
-          "the rat ran and the cat ran after the rat. ") * 3
+# Use your uploaded corpus if present, otherwise the built-in tiny one.
+if "uploaded_corpus_text" in dir() and uploaded_corpus_text.strip():
+    corpus = uploaded_corpus_text
+    print(f"using uploaded corpus ({len(corpus)} chars)")
+else:
+    corpus = ("the cat sat on the mat and the cat ate the rat. "
+              "the dog ran to the log and the dog ate the hog. "
+              "a cat and a dog sat on the mat in the sun. "
+              "the rat ran and the cat ran after the rat. ") * 3
 
 chars = sorted(set(corpus))
 stoi = {c: i for i, c in enumerate(chars)}   # char -> id

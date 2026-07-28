@@ -19,6 +19,7 @@ javascripts:
   - js/github-pages-fix.js
   - js/site.js
   - js/python-plot.js
+  - js/modules/code-overlay-editor.js
   - js/python-runtime.js
   - js/python-console.js
   - js/python-exec.js
