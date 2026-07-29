@@ -1,16 +1,4 @@
-/* Notebook-style plotting for python-exec cells.
- *
- * Two parts:
- *  1. A tiny matplotlib-like Python shim (`plt`) installed into the shared
- *     Pyodide namespace. Cells use it exactly like a notebook:
- *       plt.plot(xs, ys, label="loss"); plt.title("Training"); plt.show()
- *     plt.show() serializes the figure to JSON and hands it to JS via the
- *     _typophic_emit_plot global (installed by python-runtime.js).
- *  2. TypophicPlot.render(spec) draws that JSON as a lightweight SVG chart
- *     (line/scatter/bar, axes, ticks, legend) with the theme palette.
- */
-(function () {
-  const SHIM_SOURCE = String.raw`
+!function(){function e(e,l){const i=14,s=14,o=18,n=e.title?24:0,a=l.map(e=>e.grid[0].length*i+2*s),r=a.reduce((e,t)=>e+t,0),f=t("svg",{viewBox:`0 0 ${r} ${l[0].grid.length*i+2*s+o+n}`,class:"typophic-plot",role:"img","aria-label":e.title||"image",style:"max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"});e.title&&f.appendChild(t("text",{x:r/2,y:16,fill:"#e5e7eb","font-size":13,"font-weight":"bold","text-anchor":"middle"},e.title));let p=0;return l.forEach((e,l)=>{const o=e.grid.length,r=e.grid[0].length;for(let l=0;l<o;l++)for(let o=0;o<r;o++){const a=Math.max(0,Math.min(1,e.grid[l][o])),r=Math.round(255*a);f.appendChild(t("rect",{x:p+s+o*i,y:n+s+l*i,width:i,height:i,fill:`rgb(${r},${r},${r})`}))}e.label&&f.appendChild(t("text",{x:p+a[l]/2,y:n+s+o*i+14,fill:"#9ca3af","font-size":11,"text-anchor":"middle"},e.label)),p+=a[l]}),f}function t(e,t,l){const i=document.createElementNS(a,e);return t&&Object.keys(t).forEach(e=>i.setAttribute(e,t[e])),null!=l&&(i.textContent=l),i}function l(e,t,l){if(!isFinite(e)||!isFinite(t)||e===t)return[e||0];const i=(t-e)/l,s=Math.pow(10,Math.floor(Math.log10(i))),o=i/s,n=(o>=5?10:o>=2?5:o>=1?2:1)*s,a=[];for(let l=Math.ceil(e/n)*n;l<=t+1e-9;l+=n)a.push(l);return a}function i(e){const t=Math.abs(e);return 0!==t&&(t>=1e4||t<.01)?e.toExponential(1):Number.isInteger(e)?String(e):e.toFixed(2).replace(/\.?0+$/,"")}function s(s){const o=(s.series||[]).filter(e=>"image"===e.kind);if(o.length)return e(s,o);const a=640,r=360,f={top:34,right:16,bottom:46,left:58},p=a-f.left-f.right,d=r-f.top-f.bottom,h=t("svg",{viewBox:`0 0 ${a} ${r}`,class:"typophic-plot",role:"img","aria-label":s.title||"plot",style:"max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"}),c=[],x=[];if((s.series||[]).forEach(e=>{(e.x||[]).forEach(e=>{null!=e&&c.push(e)}),(e.y||[]).forEach(e=>{null!=e&&x.push(e)})}),!c.length||!x.length)return h;let y=Math.min(...c),b=Math.max(...c),g=Math.min(...x),m=Math.max(...x);y===b&&(y-=1,b+=1),g===m&&(g-=1,m+=1);const u=.06*(m-g);g-=u,m+=u;const _=e=>f.left+(e-y)/(b-y)*p,w=e=>f.top+d-(e-g)/(m-g)*d,k="#9ca3af";if(h.appendChild(t("line",{x1:f.left,y1:f.top,x2:f.left,y2:f.top+d,stroke:k,"stroke-width":1})),h.appendChild(t("line",{x1:f.left,y1:f.top+d,x2:f.left+p,y2:f.top+d,stroke:k,"stroke-width":1})),l(y,b,6).forEach(e=>{h.appendChild(t("line",{x1:_(e),y1:f.top+d,x2:_(e),y2:f.top+d+5,stroke:k}));const l=t("text",{x:_(e),y:f.top+d+18,fill:k,"font-size":11,"text-anchor":"middle"},i(e));h.appendChild(l)}),l(g,m,5).forEach(e=>{h.appendChild(t("line",{x1:f.left-5,y1:w(e),x2:f.left,y2:w(e),stroke:k})),h.appendChild(t("line",{x1:f.left,y1:w(e),x2:f.left+p,y2:w(e),stroke:k,"stroke-opacity":.15})),h.appendChild(t("text",{x:f.left-8,y:w(e)+4,fill:k,"font-size":11,"text-anchor":"end"},i(e)))}),s.title&&h.appendChild(t("text",{x:a/2,y:20,fill:"#e5e7eb","font-size":14,"font-weight":"bold","text-anchor":"middle"},s.title)),s.xlabel&&h.appendChild(t("text",{x:f.left+p/2,y:r-8,fill:k,"font-size":12,"text-anchor":"middle"},s.xlabel)),s.ylabel){const e=t("text",{x:14,y:f.top+d/2,fill:k,"font-size":12,"text-anchor":"middle",transform:`rotate(-90 14 ${f.top+d/2})`},s.ylabel);h.appendChild(e)}(s.series||[]).forEach((e,l)=>{const i=n[l%n.length],s=(e.x||[]).map((t,l)=>[t,(e.y||[])[l]]).filter(e=>null!=e[0]&&null!=e[1]);if(s.length)if("scatter"===e.kind)s.forEach(([e,l])=>{h.appendChild(t("circle",{cx:_(e),cy:w(l),r:3.5,fill:i,"fill-opacity":.85}))});else if("bar"===e.kind){const e=Math.max(2,p/s.length*.7),l=w(Math.max(g,0));s.forEach(([s,o])=>{const n=w(Math.max(o,0)),a=w(Math.min(o,0));h.appendChild(t("rect",{x:_(s)-e/2,y:n,width:e,height:Math.max(1,(a===n?l:a)-n),fill:i,"fill-opacity":.8}))})}else{const e=s.map(([e,t],l)=>`${l?"L":"M"}${_(e).toFixed(1)},${w(t).toFixed(1)}`).join(" ");h.appendChild(t("path",{d:e,fill:"none",stroke:i,"stroke-width":2}))}});const C=(s.series||[]).filter(e=>e.label);if(C.length){const e=t("g",{class:"typophic-plot-legend"});C.forEach((l,i)=>{const o=(s.series||[]).indexOf(l),a=f.top+6+16*i;e.appendChild(t("rect",{x:f.left+8,y:a-8,width:10,height:10,fill:n[o%n.length]})),e.appendChild(t("text",{x:f.left+22,y:a+1,fill:"#e5e7eb","font-size":11},l.label))}),h.appendChild(e)}return h}const o=String.raw`
 import json as _typophic_json
 
 def _typophic_nums(seq):
@@ -72,6 +60,15 @@ class _TypophicPlt:
     def legend(self, *_args, **_kwargs):
         pass  # legends are drawn automatically for labelled series
 
+    def imshow(self, grid, label=None, **_ignored):
+        """Show a 2D grid of numbers (0..1) as a grayscale image."""
+        self._series.append({
+            "kind": "image",
+            "grid": [[float(v) for v in row] for row in grid],
+            "label": str(label) if label is not None else None,
+        })
+        return self
+
     def show(self):
         spec = {
             "title": self._title,
@@ -101,137 +98,4 @@ def progress(step, total, width=28, suffix=""):
     print("\r[" + bar + "] " + str(pct) + "% " + str(step) + "/" + str(total) + (" " + suffix if suffix else ""), end="")
     if step >= total:
         print()
-`;
-
-  const PALETTE = ["#2563eb", "#f59e0b", "#22c55e", "#ef4444", "#a855f7", "#06b6d4", "#f97316", "#84cc16"];
-
-  const NS = "http://www.w3.org/2000/svg";
-
-  function el(tag, attrs, text) {
-    const node = document.createElementNS(NS, tag);
-    if (attrs) Object.keys(attrs).forEach(k => node.setAttribute(k, attrs[k]));
-    if (text != null) node.textContent = text;
-    return node;
-  }
-
-  function niceTicks(min, max, count) {
-    if (!isFinite(min) || !isFinite(max) || min === max) {
-      return [min || 0];
-    }
-    const span = max - min;
-    const step0 = span / count;
-    const mag = Math.pow(10, Math.floor(Math.log10(step0)));
-    const norm = step0 / mag;
-    const step = (norm >= 5 ? 10 : norm >= 2 ? 5 : norm >= 1 ? 2 : 1) * mag;
-    const start = Math.ceil(min / step) * step;
-    const ticks = [];
-    for (let v = start; v <= max + 1e-9; v += step) ticks.push(v);
-    return ticks;
-  }
-
-  function fmt(v) {
-    const a = Math.abs(v);
-    if (a !== 0 && (a >= 10000 || a < 0.01)) return v.toExponential(1);
-    return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.?0+$/, "");
-  }
-
-  // spec: {title, xlabel, ylabel, series: [{kind, x:[], y:[], label}]}
-  function render(spec) {
-    const W = 640, H = 360;
-    const M = { top: 34, right: 16, bottom: 46, left: 58 };
-    const iw = W - M.left - M.right;
-    const ih = H - M.top - M.bottom;
-
-    const svg = el("svg", {
-      viewBox: `0 0 ${W} ${H}`,
-      class: "typophic-plot",
-      role: "img",
-      "aria-label": spec.title || "plot",
-      style: "max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"
-    });
-
-    const allX = [], allY = [];
-    (spec.series || []).forEach(s => {
-      (s.x || []).forEach(v => { if (v != null) allX.push(v); });
-      (s.y || []).forEach(v => { if (v != null) allY.push(v); });
-    });
-    if (!allX.length || !allY.length) return svg;
-
-    let xMin = Math.min(...allX), xMax = Math.max(...allX);
-    let yMin = Math.min(...allY), yMax = Math.max(...allY);
-    if (xMin === xMax) { xMin -= 1; xMax += 1; }
-    if (yMin === yMax) { yMin -= 1; yMax += 1; }
-    const yPad = (yMax - yMin) * 0.06;
-    yMin -= yPad; yMax += yPad;
-
-    const sx = v => M.left + ((v - xMin) / (xMax - xMin)) * iw;
-    const sy = v => M.top + ih - ((v - yMin) / (yMax - yMin)) * ih;
-
-    const axisColor = "#9ca3af";
-    // axes
-    svg.appendChild(el("line", { x1: M.left, y1: M.top, x2: M.left, y2: M.top + ih, stroke: axisColor, "stroke-width": 1 }));
-    svg.appendChild(el("line", { x1: M.left, y1: M.top + ih, x2: M.left + iw, y2: M.top + ih, stroke: axisColor, "stroke-width": 1 }));
-
-    niceTicks(xMin, xMax, 6).forEach(t => {
-      svg.appendChild(el("line", { x1: sx(t), y1: M.top + ih, x2: sx(t), y2: M.top + ih + 5, stroke: axisColor }));
-      const label = el("text", { x: sx(t), y: M.top + ih + 18, fill: axisColor, "font-size": 11, "text-anchor": "middle" }, fmt(t));
-      svg.appendChild(label);
-    });
-    niceTicks(yMin, yMax, 5).forEach(t => {
-      svg.appendChild(el("line", { x1: M.left - 5, y1: sy(t), x2: M.left, y2: sy(t), stroke: axisColor }));
-      svg.appendChild(el("line", { x1: M.left, y1: sy(t), x2: M.left + iw, y2: sy(t), stroke: axisColor, "stroke-opacity": 0.15 }));
-      svg.appendChild(el("text", { x: M.left - 8, y: sy(t) + 4, fill: axisColor, "font-size": 11, "text-anchor": "end" }, fmt(t)));
-    });
-
-    if (spec.title) {
-      svg.appendChild(el("text", { x: W / 2, y: 20, fill: "#e5e7eb", "font-size": 14, "font-weight": "bold", "text-anchor": "middle" }, spec.title));
-    }
-    if (spec.xlabel) {
-      svg.appendChild(el("text", { x: M.left + iw / 2, y: H - 8, fill: axisColor, "font-size": 12, "text-anchor": "middle" }, spec.xlabel));
-    }
-    if (spec.ylabel) {
-      const t = el("text", { x: 14, y: M.top + ih / 2, fill: axisColor, "font-size": 12, "text-anchor": "middle", transform: `rotate(-90 14 ${M.top + ih / 2})` }, spec.ylabel);
-      svg.appendChild(t);
-    }
-
-    (spec.series || []).forEach((s, i) => {
-      const color = PALETTE[i % PALETTE.length];
-      const pts = (s.x || []).map((xv, j) => [xv, (s.y || [])[j]]).filter(p => p[0] != null && p[1] != null);
-      if (!pts.length) return;
-      if (s.kind === "scatter") {
-        pts.forEach(([xv, yv]) => {
-          svg.appendChild(el("circle", { cx: sx(xv), cy: sy(yv), r: 3.5, fill: color, "fill-opacity": 0.85 }));
-        });
-      } else if (s.kind === "bar") {
-        const bw = Math.max(2, iw / pts.length * 0.7);
-        const base = sy(Math.max(yMin, 0));
-        pts.forEach(([xv, yv]) => {
-          const y0 = sy(Math.max(yv, 0)), y1 = sy(Math.min(yv, 0));
-          svg.appendChild(el("rect", { x: sx(xv) - bw / 2, y: y0, width: bw, height: Math.max(1, (y1 === y0 ? base : y1) - y0), fill: color, "fill-opacity": 0.8 }));
-        });
-      } else {
-        const d = pts.map(([xv, yv], j) => `${j ? "L" : "M"}${sx(xv).toFixed(1)},${sy(yv).toFixed(1)}`).join(" ");
-        svg.appendChild(el("path", { d, fill: "none", stroke: color, "stroke-width": 2 }));
-      }
-    });
-
-    const labelled = (spec.series || []).filter(s => s.label);
-    if (labelled.length) {
-      const lg = el("g", { class: "typophic-plot-legend" });
-      labelled.forEach((s, i) => {
-        const idx = (spec.series || []).indexOf(s);
-        const y = M.top + 6 + i * 16;
-        lg.appendChild(el("rect", { x: M.left + 8, y: y - 8, width: 10, height: 10, fill: PALETTE[idx % PALETTE.length] }));
-        lg.appendChild(el("text", { x: M.left + 22, y: y + 1, fill: "#e5e7eb", "font-size": 11 }, s.label));
-      });
-      svg.appendChild(lg);
-    }
-
-    return svg;
-  }
-
-  window.TypophicPlot = {
-    shimSource: SHIM_SOURCE,
-    render: render
-  };
-})();
+`,n=["#2563eb","#f59e0b","#22c55e","#ef4444","#a855f7","#06b6d4","#f97316","#84cc16"],a="http://www.w3.org/2000/svg";window.TypophicPlot={shimSource:o,render:s}}();
