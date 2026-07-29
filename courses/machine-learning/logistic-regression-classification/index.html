@@ -1,18 +1,345 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 6 &ndash; Logistic Regression & Classification - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785332555"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 6 &ndash; Logistic Regression & Classification</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 6 &ndash; Logistic Regression & Classification <span class="difficulty difficulty-intermediate">Intermediate</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2026-02-03" class="tutorial-date"> February 3, 2026 </time></div></div></div><p class="tutorial-summary">Turn a linear score into a probability with the sigmoid function, train it with log loss and gradient descent, and make pass/fail predictions.</p></header><div class="tutorial-content"><div class='markdown'><p>In Chapter 5: Gradient Descent we trained a linear regression model by rolling downhill on a mean squared error surface. That model predicted a number - house prices, temperatures, exam scores. But a huge class of real problems is not about predicting a number. It is about predicting a *category*: spam or not spam, tumor benign or malignant, student passes or fails. This chapter builds the workhorse for those problems from scratch: logistic regression. Everything here is pure Python. No sklearn, no numpy - just lists, <code>math</code>, and the gradient descent loop you already know. <h3>Regression vs classification</h3> Linear regression answers "how much?" Classification answers "which one?" <ul><li>Regression: predict a continuous value, like a final exam score between 0 and 100.</li><li>Binary classification: predict one of two classes, like pass (1) or fail (0).</li></ul> You might be tempted to just fit a line to 0/1 labels and round the output. Two problems show up immediately: 1. A line happily outputs -3 or 17, which are meaningless as a class or a probability. 2. Squared error punishes the model in strange ways for 0/1 targets, giving a badly shaped loss surface. The fix is to keep the linear machinery but squeeze its output through a function that always lands between 0 and 1, then interpret that number as a probability. <h3>The sigmoid function</h3> The sigmoid (also called the logistic function) maps any real number z to the range (0, 1): sigmoid(z) = 1 / (1 + e^(-z)) Properties worth memorizing: <ul><li><code>sigmoid(0) = 0.5</code></li><li>Large positive z gives a value close to 1.</li><li>Large negative z gives a value close to 0.</li><li>It is smooth and differentiable everywhere, which gradient descent loves.</li></ul> Here it is in Python. Save every snippet in this chapter into one file, say <code>logistic.py</code>, and run it with <code>python3 logistic.py</code> - each example is copy-paste runnable. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 6 &ndash; Logistic Regression & Classification - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  
+  
+
+  
+
+  
+  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
+
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
+
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
+  
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
+            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Python</span>
+        
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        
+        
+        <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/" >Home</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/about/" >About</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/python-basics/" >Learn Python</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="has-dropdown">
+            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
+            <ul class="dropdown-menu">
+              
+              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
+              
+              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
+              
+            </ul>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/" >Courses</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/mentorship/" >Mentorship</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/blog/" >Blog</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/resources/" >Resources</a>
+          </li>
+          
+          
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/courses/">Courses</a></li>
+      <li>Chapter 6 &ndash; Logistic Regression & Classification</li>
+      
+    </ol>
+  </nav>
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 6 &ndash; Logistic Regression & Classification
+        
+        <span class="difficulty difficulty-intermediate">Intermediate</span>
+        
+      </h1>
+      
+      
+      
+      
+      
+      
+      <div class="tutorial-meta">
+        
+        <div class="tutorial-author">
+          <div class="tutorial-author-avatar">
+            
+            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
+            
+          </div>
+          <div class="tutorial-author-text">
+            <div class="tutorial-author-name">
+              Pankaj Doharey
+            </div>
+            
+            <time datetime="2026-02-03" class="tutorial-date">
+              February 3, 2026
+            </time>
+            
+          </div>
+        </div>
+        
+
+        
+      </div>
+      
+      
+      <p class="tutorial-summary">Turn a linear score into a probability with the sigmoid function, train it with log loss and gradient descent, and make pass/fail predictions.</p>
+      
+    </header>
+
+    
+    <div class="tutorial-content">
+      <div class='markdown'><p>In Chapter 5: Gradient Descent we trained a linear regression model by rolling downhill on a mean squared error surface. That model predicted a number - house prices, temperatures, exam scores. But a huge class of real problems is not about predicting a number. It is about predicting a *category*: spam or not spam, tumor benign or malignant, student passes or fails. This chapter builds the workhorse for those problems from scratch: logistic regression.</p>
+<p>Everything here is pure Python. No sklearn, no numpy - just lists, <code>math</code>, and the gradient descent loop you already know.</p>
+<h3>Regression vs classification</h3>
+<p>Linear regression answers "how much?" Classification answers "which one?"</p>
+<ul>
+<li>Regression: predict a continuous value, like a final exam score between 0 and 100.</li>
+<li>Binary classification: predict one of two classes, like pass (1) or fail (0).</li>
+</ul>
+<p>You might be tempted to just fit a line to 0/1 labels and round the output. Two problems show up immediately:</p>
+<p>1. A line happily outputs -3 or 17, which are meaningless as a class or a probability.
+2. Squared error punishes the model in strange ways for 0/1 targets, giving a badly shaped loss surface.</p>
+<p>The fix is to keep the linear machinery but squeeze its output through a function that always lands between 0 and 1, then interpret that number as a probability.</p>
+<h3>The sigmoid function</h3>
+<p>The sigmoid (also called the logistic function) maps any real number z to the range (0, 1):</p>
+<p>sigmoid(z) = 1 / (1 + e^(-z))</p>
+<p>Properties worth memorizing:</p>
+<ul>
+<li><code>sigmoid(0) = 0.5</code></li>
+<li>Large positive z gives a value close to 1.</li>
+<li>Large negative z gives a value close to 0.</li>
+<li>It is smooth and differentiable everywhere, which gradient descent loves.</li>
+</ul>
+<p>Here it is in Python. Save every snippet in this chapter into one file, say <code>logistic.py</code>, and run it with <code>python3 logistic.py</code> - each example is copy-paste runnable.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
 
 def sigmoid(z):
     return 1.0 / (1.0 + math.exp(-z))
 
 for z in [-6, -2, 0, 2, 6]:
-    print(z, round(sigmoid(z), 4))
-      </code></pre></div></div></div> Output: <h3>From score to decision</h3> The full pipeline for one prediction looks like this: <div class="diagram-container mermaid-diagram"><div class="mermaid" id="mermaid-0882e44b">
+    print(z, round(sigmoid(z), 4))</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Output:</p>
+<h3>From score to decision</h3>
+<p>The full pipeline for one prediction looks like this:</p>
+<div class="diagram-container mermaid-diagram">
+<div class="mermaid" id="mermaid-0882e44b">
 graph LR
   A[study hours x] --> B[linear score z = w*x + b]
   B --> C[sigmoid]
   C --> D[probability p]
   D --> E[threshold 0.5]
   E --> F[pass or fail]
-</div><p class="diagram-caption">Figure 1: From study hours to a pass/fail decision</p></div> We compute a linear score <code>z = w * x + b</code> exactly like linear regression, push it through the sigmoid to get a probability <code>p</code>, and then apply a decision boundary: if <code>p &gt;= 0.5</code> predict pass (1), otherwise predict fail (0). The 0.5 cutoff is the default, not a law. In Chapter 7: Evaluating Classification Models we will see why a medical screening model might pick a much lower threshold. <h3>Log loss (binary cross-entropy)</h3> We need a loss function that measures how wrong a *probability* is. Mean squared error is a poor fit here; the standard choice is log loss, also called binary cross-entropy. For one training example with true label y (0 or 1) and predicted probability p: loss = -( y * log(p) + (1 - y) * log(1 - p) ) Read it piece by piece: <ul><li>If <code>y = 1</code>, the loss is <code>-log(p)</code>: the closer p is to 1, the smaller the loss. Predicting p = 0.01 for a true pass is catastrophically wrong, and <code>-log(0.01)</code> is large.</li><li>If <code>y = 0</code>, the loss is <code>-log(1 - p)</code>: we want p near 0.</li></ul> For a dataset of m examples we average this over all of them. Log loss has a beautiful property: combined with the sigmoid, its gradient comes out clean and simple - which is exactly why this pairing is used everywhere. <h3>The gradient, derived in plain text</h3> For one example, the derivative of the log loss with respect to the linear score z is: d(loss)/dz = p - y That is it - the predicted probability minus the true label. Then by the chain rule: <ul><li><code>d(loss)/dw = (p - y) * x</code></li><li><code>d(loss)/db = (p - y)</code></li></ul> Averaged over the whole dataset, this looks identical in structure to the linear regression gradient from Chapter 5: Gradient Descent. The only change is that <code>p</code> comes from <code>sigmoid(w*x + b)</code> instead of <code>w*x + b</code>. Same loop, new prediction function. <h3>A tiny dataset: study hours to pass/fail</h3> We will use ten students. Each row is hours studied and whether they passed the exam. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># hours studied, then 1 = pass, 0 = fail
+</div>
+<p class="diagram-caption">Figure 1: From study hours to a pass/fail decision</p>
+</div>
+We compute a linear score <code>z = w * x + b</code> exactly like linear regression, push it through the sigmoid to get a probability <code>p</code>, and then apply a decision boundary: if <code>p &gt;= 0.5</code> predict pass (1), otherwise predict fail (0).</p>
+<p>The 0.5 cutoff is the default, not a law. In Chapter 7: Evaluating Classification Models we will see why a medical screening model might pick a much lower threshold.</p>
+<p><h3>Log loss (binary cross-entropy)</h3>
+<p>We need a loss function that measures how wrong a *probability* is. Mean squared error is a poor fit here; the standard choice is log loss, also called binary cross-entropy.</p>
+<p>For one training example with true label y (0 or 1) and predicted probability p:</p>
+<p>loss = -( y * log(p) + (1 - y) * log(1 - p) )</p>
+<p>Read it piece by piece:</p>
+<ul>
+<li>If <code>y = 1</code>, the loss is <code>-log(p)</code>: the closer p is to 1, the smaller the loss. Predicting p = 0.01 for a true pass is catastrophically wrong, and <code>-log(0.01)</code> is large.</li>
+<li>If <code>y = 0</code>, the loss is <code>-log(1 - p)</code>: we want p near 0.</li>
+</ul>
+<p>For a dataset of m examples we average this over all of them. Log loss has a beautiful property: combined with the sigmoid, its gradient comes out clean and simple - which is exactly why this pairing is used everywhere.</p>
+<h3>The gradient, derived in plain text</h3>
+<p>For one example, the derivative of the log loss with respect to the linear score z is:</p>
+<p>d(loss)/dz = p - y</p>
+<p>That is it - the predicted probability minus the true label. Then by the chain rule:</p>
+<ul>
+<li><code>d(loss)/dw = (p - y) * x</code></li>
+<li><code>d(loss)/db = (p - y)</code></li>
+</ul>
+<p>Averaged over the whole dataset, this looks identical in structure to the linear regression gradient from Chapter 5: Gradient Descent. The only change is that <code>p</code> comes from <code>sigmoid(w*x + b)</code> instead of <code>w*x + b</code>. Same loop, new prediction function.</p>
+<h3>A tiny dataset: study hours to pass/fail</h3>
+<p>We will use ten students. Each row is hours studied and whether they passed the exam.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># hours studied, then 1 = pass, 0 = fail
 data = [
     (0.5, 0),
     (1.0, 0),
@@ -27,8 +354,23 @@ data = [
 ]
 
 xs = [row[0] for row in data]
-ys = [row[1] for row in data]
-      </code></pre></div></div></div> Real datasets are never this clean - in practice the classes overlap, and some 2-hour students pass while some 6-hour students fail. Logistic regression handles that gracefully because it outputs a probability, not an absolute verdict. <h3>Training with gradient descent</h3> Here is the complete training loop. Initialize <code>w</code> and <code>b</code> at zero, compute predictions for the whole dataset, average the gradients, and step downhill. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def predict_probability(w, b, x):
+ys = [row[1] for row in data]</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Real datasets are never this clean - in practice the classes overlap, and some 2-hour students pass while some 6-hour students fail. Logistic regression handles that gracefully because it outputs a probability, not an absolute verdict.</p>
+<h3>Training with gradient descent</h3>
+<p>Here is the complete training loop. Initialize <code>w</code> and <code>b</code> at zero, compute predictions for the whole dataset, average the gradients, and step downhill.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def predict_probability(w, b, x):
     return sigmoid(w * x + b)
 
 def compute_loss(w, b, xs, ys):
@@ -62,8 +404,25 @@ def train(xs, ys, learning_rate=0.5, epochs=2000):
     return w, b
 
 w, b = train(xs, ys)
-print(f&quot;\nfinal: w = {w:.3f}, b = {b:.3f}&quot;)
-      </code></pre></div></div></div> Running this prints the loss shrinking steadily: The initial loss, before any training, is exactly <code>log(2)</code> ≈ 0.6931 - what you get by predicting 0.5 for everything, i.e. shrugging. The first printed epoch is already one gradient step better than that. From there the model learns that more hours means more pass probability. Notice the loss never hits zero. That is expected and healthy: with a sigmoid, pushing the loss all the way to zero would require infinite weights, because the sigmoid only approaches 0 and 1 asymptotically. <h3>Making predictions and measuring accuracy</h3> Now the payoff: predicted probabilities for a few students, a hard class from the 0.5 threshold, and accuracy on the training set. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def predict_class(w, b, x, threshold=0.5):
+print(f&quot;\nfinal: w = {w:.3f}, b = {b:.3f}&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Running this prints the loss shrinking steadily:</p>
+<p>The initial loss, before any training, is exactly <code>log(2)</code> ≈ 0.6931 - what you get by predicting 0.5 for everything, i.e. shrugging. The first printed epoch is already one gradient step better than that. From there the model learns that more hours means more pass probability.</p>
+<p>Notice the loss never hits zero. That is expected and healthy: with a sigmoid, pushing the loss all the way to zero would require infinite weights, because the sigmoid only approaches 0 and 1 asymptotically.</p>
+<h3>Making predictions and measuring accuracy</h3>
+<p>Now the payoff: predicted probabilities for a few students, a hard class from the 0.5 threshold, and accuracy on the training set.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def predict_class(w, b, x, threshold=0.5):
     return 1 if predict_probability(w, b, x) &gt;= threshold else 0
 
 def accuracy(w, b, xs, ys):
@@ -83,10 +442,40 @@ for hours in [2.5, 3.4, 5.5]:
     p = predict_probability(w, b, hours)
     print(f&quot;{hours} hours -&gt; pass probability {p:.3f}&quot;)
 
-print(f&quot;\ntraining accuracy: {accuracy(w, b, xs, ys) * 100:.0f}%&quot;)
-      </code></pre></div></div></div> Typical output: Every training point is classified correctly, though the model has to thread an abrupt jump in the toy data between 2 and 4 hours. On messier real data, 100% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classification Models introduces proper train/test splits and metrics beyond accuracy. <h3>Reading the model</h3> The learned parameters are interpretable. The decision boundary sits where <code>p = 0.5</code>, which is where <code>z = 0</code>, i.e. where <code>w * x + b = 0</code>. Solving for x: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">boundary = -b / w
-print(f&quot;decision boundary at {boundary:.2f} hours&quot;)
-      </code></pre></div></div></div> With <code>w = 3.563</code> and <code>b = -12.306</code> the boundary lands at 3.45 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 15: Neural Networks from Scratch, where individual weights lose their simple meaning. The whole model as a picture - the students as dots, and the learned sigmoid as the probability curve: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">fail_x = [x for x, y in data if y == 0]
+print(f&quot;\ntraining accuracy: {accuracy(w, b, xs, ys) * 100:.0f}%&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Typical output:</p>
+<p>Every training point is classified correctly, though the model has to thread an abrupt jump in the toy data between 2 and 4 hours. On messier real data, 100% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classification Models introduces proper train/test splits and metrics beyond accuracy.</p>
+<h3>Reading the model</h3>
+<p>The learned parameters are interpretable. The decision boundary sits where <code>p = 0.5</code>, which is where <code>z = 0</code>, i.e. where <code>w * x + b = 0</code>. Solving for x:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">boundary = -b / w
+print(f&quot;decision boundary at {boundary:.2f} hours&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>With <code>w = 3.563</code> and <code>b = -12.306</code> the boundary lands at 3.45 hours - students studying more than that are predicted to pass. This kind of transparency is a genuine advantage logistic regression holds over the neural networks we will build in Chapter 15: Neural Networks from Scratch, where individual weights lose their simple meaning.</p>
+<p>The whole model as a picture - the students as dots, and the learned sigmoid as the probability curve:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">fail_x = [x for x, y in data if y == 0]
 fail_y = [0 for _ in fail_x]
 pass_x = [x for x, y in data if y == 1]
 pass_y = [1 for _ in pass_x]
@@ -100,8 +489,235 @@ plt.plot(curve_x, curve_y, label=&quot;learned sigmoid&quot;)
 plt.title(&quot;Study hours vs pass/fail with logistic curve&quot;)
 plt.xlabel(&quot;hours studied&quot;)
 plt.ylabel(&quot;P(pass)&quot;)
-plt.show()
-      </code></pre></div></div></div><h3>Scaling the input (a preview)</h3> Our <code>x</code> values are small (0 to 8), so a learning rate of 0.5 works fine. If hours were measured in minutes (0 to 480), the gradients on <code>w</code> would blow up and training would wobble. The fix is feature scaling - dividing inputs by their range or standard deviation - using the training-only statistics introduced in Chapter 3: Preparing Data for Machine Learning. Keep the rule of thumb: when gradient descent diverges on real data, check feature scales first. <h3>The full file</h3> Assemble all the snippets above into <code>logistic.py</code> in this order: sigmoid, data, predict/loss/train functions, training call, predictions, boundary, accuracy. Run <code>python3 logistic.py</code> and you should reproduce every number printed in this chapter. Then tinker: change the learning rate, flip a label, add a student, and watch the boundary move. <h3>Practice checklist</h3><ul><li>[ ] Explain in one sentence why a plain line is a bad classifier for 0/1 labels.</li><li>[ ] Compute <code>sigmoid(0)</code>, <code>sigmoid(10)</code>, and <code>sigmoid(-10)</code> by hand with a calculator and check them against the Python function.</li><li>[ ] Write the log loss for a single example from memory, for both <code>y = 1</code> and <code>y = 0</code>.</li><li>[ ] Run the training loop with <code>learning_rate=0.05</code> and <code>learning_rate=2.0</code> and describe what changes.</li><li>[ ] Derive the gradient <code>d(loss)/dw = (p - y) * x</code> using the chain rule and the fact that <code>sigmoid'(z) = sigmoid(z) * (1 - sigmoid(z))</code>.</li><li>[ ] Add a new student <code>(3.5, 0)</code> to the dataset, retrain, and report the new accuracy and decision boundary.</li><li>[ ] Change the threshold from 0.5 to 0.3 and explain which mistakes increase and which decrease.</li><li>[ ] Implement <code>predict_class</code> so it returns the strings <code>"pass"</code> / <code>"fail"</code> and format the output table accordingly.</li><li>[ ] In your own words, state what <code>w</code> and <code>b</code> mean for this dataset.</li><li>[ ] Sketch on paper how you would extend this model to two inputs (hours studied and hours slept) with <code>z = w1*x1 + w2*x2 + b</code>.</li></ul></p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/gradient-descent/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 5: Gradient Descent</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/evaluating-classification-models/"><span>Chapter 7: Evaluating Classification Models</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785332555"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785332555"></script><script src="/themes/pylearning/js/site.js?v=1785332555"></script><script src="/themes/pylearning/js/python-plot.js?v=1785332555"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785332555"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785332555"></script><script src="/themes/pylearning/js/python-console.js?v=1785332555"></script><script src="/themes/pylearning/js/python-exec.js?v=1785332555"></script><script>
+plt.show()</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Scaling the input (a preview)</h3>
+<p>Our <code>x</code> values are small (0 to 8), so a learning rate of 0.5 works fine. If hours were measured in minutes (0 to 480), the gradients on <code>w</code> would blow up and training would wobble. The fix is feature scaling - dividing inputs by their range or standard deviation - using the training-only statistics introduced in Chapter 3: Preparing Data for Machine Learning. Keep the rule of thumb: when gradient descent diverges on real data, check feature scales first.</p>
+<h3>The full file</h3>
+<p>Assemble all the snippets above into <code>logistic.py</code> in this order: sigmoid, data, predict/loss/train functions, training call, predictions, boundary, accuracy. Run <code>python3 logistic.py</code> and you should reproduce every number printed in this chapter. Then tinker: change the learning rate, flip a label, add a student, and watch the boundary move.</p>
+<h3>Practice checklist</h3>
+<ul>
+<li>[ ] Explain in one sentence why a plain line is a bad classifier for 0/1 labels.</li>
+<li>[ ] Compute <code>sigmoid(0)</code>, <code>sigmoid(10)</code>, and <code>sigmoid(-10)</code> by hand with a calculator and check them against the Python function.</li>
+<li>[ ] Write the log loss for a single example from memory, for both <code>y = 1</code> and <code>y = 0</code>.</li>
+<li>[ ] Run the training loop with <code>learning_rate=0.05</code> and <code>learning_rate=2.0</code> and describe what changes.</li>
+<li>[ ] Derive the gradient <code>d(loss)/dw = (p - y) * x</code> using the chain rule and the fact that <code>sigmoid'(z) = sigmoid(z) * (1 - sigmoid(z))</code>.</li>
+<li>[ ] Add a new student <code>(3.5, 0)</code> to the dataset, retrain, and report the new accuracy and decision boundary.</li>
+<li>[ ] Change the threshold from 0.5 to 0.3 and explain which mistakes increase and which decrease.</li>
+<li>[ ] Implement <code>predict_class</code> so it returns the strings <code>"pass"</code> / <code>"fail"</code> and format the output table accordingly.</li>
+<li>[ ] In your own words, state what <code>w</code> and <code>b</code> mean for this dataset.</li>
+<li>[ ] Sketch on paper how you would extend this model to two inputs (hours studied and hours slept) with <code>z = w1*x1 + w2*x2 + b</code>.</li>
+</ul></div>
+    </div>
+
+    
+    <nav class="tutorial-nav">
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/gradient-descent/">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>Chapter 5: Gradient Descent</span>
+      </a>
+      
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/evaluating-classification-models/">
+        <span>Chapter 7: Evaluating Classification Models</span>
+        <span class="icon-arrow" aria-hidden="true">&gt;</span>
+      </a>
+      
+    </nav>
+    
+
+    
+  </article>
+
+  
+
+  
+  <div class="python-console-drawer">
+    <button class="python-console-toggle" type="button" aria-expanded="false">
+      <span class="python-console-toggle-label">Python console</span>
+      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="python-console-body">
+      <div class="python-repl" data-python-console="true">
+        <div class="python-repl-output" aria-live="polite"></div>
+        <form class="python-repl-form">
+          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
+          <div class="python-repl-input-wrapper">
+            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/" >Home</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/about/" >About</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/python-basics/" >Learn Python</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/machine-learning/" >Learn ML</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/image-generation/" >Learn Image AI</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/blog/" >Blog</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/resources/" >Resources</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+            
+            
+            
+            
+            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+            
+            
+            
+            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+            
+            
+            
+            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
+  
+  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
+  
+  
+
+  <script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -112,6 +728,13 @@ plt.show()
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785332555"></script><script>
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
+  <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script></body></html>
+  </script>
+</body>
+
+</html>

@@ -1,4 +1,323 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 17 &ndash; Attention & Transformers - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785332555"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 17 &ndash; Attention & Transformers</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 17 &ndash; Attention & Transformers <span class="difficulty difficulty-advanced">Advanced</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2026-03-17" class="tutorial-date"> March 17, 2026 </time></div></div></div><p class="tutorial-summary">Build self-attention from scratch in pure Python and understand the transformer block that powers every modern LLM.</p></header><div class="tutorial-content"><div class='markdown'><p><h3>Why sequence models are hard</h3> In Chapter 16: Text Embeddings we turned words into vectors. A sentence, then, is a list of vectors. But a bag of vectors loses the one thing that makes language language: order and context. "The dog bit the man" and "The man bit the dog" contain exactly the same words, yet mean very different things. A good sequence model has to read each word *in the light of every other word*. The older approaches each had a fatal flaw: <ul><li>Feed-forward networks see a fixed window. Word 1 can never influence how we interpret word 50.</li><li>Recurrent networks process tokens one at a time, passing a hidden state forward. Information from token 1 has to survive 49 squeezes through the same bottleneck to reach token 50. In practice it fades - this is the long-range dependency problem.</li><li>RNNs also can't be parallelized: you must finish token *t* before starting token *t+1*, which makes training on huge text corpora painfully slow.</li></ul> Attention fixes both problems at once. Every token looks directly at every other token - one hop, no bottleneck - and the whole thing is just matrix math that runs in parallel. The transformer, introduced in the 2017 paper "Attention Is All You Need", stacks this idea into the architecture that every modern LLM (GPT, Llama, Claude) is built from. By the end of this chapter you will have computed attention by hand and implemented it in pure Python. <h3>Self-attention: queries, keys, and values</h3> The core idea: each token should build a new representation of itself by mixing in information from the other tokens - weighted by how *relevant* they are. To compute relevance, every token gets three vectors, all derived from its embedding by learned weight matrices: <ul><li><strong>Query (Q)</strong> - "what am I looking for?"</li><li><strong>Key (K)</strong> - "what do I contain?"</li><li><strong>Value (V)</strong> - "what do I actually pass along if you attend to me?"</li></ul> The attention recipe for one token: 1. Take its query, and dot it with every token's key → raw <strong>scores</strong>. 2. Scale the scores (divide by sqrt of the key dimension) so softmax doesn't saturate. 3. Softmax the scores → weights that sum to 1. 4. Take the weighted sum of all tokens' <strong>values</strong> → the token's new, context-aware representation. <h3>A worked example with tiny numbers</h3> Let's do the arithmetic with 2 tokens and 2-dimensional vectors, so you can verify every step with pen and paper. Token 1 ("cat"): embedding, query, key, value are all tiny vectors: <ul><li>q1 = [1, 0], k1 = [1, 0], v1 = [1, 2]</li></ul> Token 2 ("sat"): <ul><li>q2 = [0, 1], k2 = [0, 1], v2 = [3, 4]</li></ul> (In a real model, q/k/v come from multiplying the embedding by learned matrices Wq, Wk, Wv. Here we just pick numbers so the math is visible.) <strong>Step 1 - scores for token 1.</strong> Its query q1 against both keys: <ul><li>score(q1, k1) = 1*1 + 0*0 = 1</li><li>score(q1, k2) = 1*0 + 0*1 = 0</li></ul><strong>Step 2 - scale.</strong> Divide by sqrt(2) ≈ 1.4142: <ul><li>1 / 1.4142 ≈ 0.7071</li><li>0 / 1.4142 = 0</li></ul><strong>Step 3 - softmax.</strong> exp(0.7071) ≈ 2.0281, exp(0) = 1. Sum = 3.0281. <ul><li>weight on token 1: 2.0281 / 3.0281 ≈ 0.6697</li><li>weight on token 2: 1 / 3.0281 ≈ 0.3303</li></ul><strong>Step 4 - weighted sum of values:</strong><ul><li>output_1 = 0.6697 * [1, 2] + 0.3303 * [3, 4]</li><li>= [0.6697, 1.3394] + [0.9909, 1.3212]</li><li>= [1.6606, 2.6606]</li></ul> Token 1's new representation is a blend: 67% itself, 33% "sat". Do the same for token 2 (its query matches its own key perfectly and k1 not at all, so you get the mirrored weights) and every token now encodes its context. <h3>Self-attention in pure Python</h3> Save this as <code>attention.py</code> and run it with <code>python3 attention.py</code>. It uses only <code>math.sqrt</code> and <code>math.exp</code> - no libraries at all. Every example in this chapter is copy-paste runnable with <code>python3 file.py</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 17 &ndash; Attention & Transformers - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  
+  
+
+  
+
+  
+  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
+
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
+
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
+  
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
+            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Python</span>
+        
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        
+        
+        <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/" >Home</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/about/" >About</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/python-basics/" >Learn Python</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="has-dropdown">
+            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
+            <ul class="dropdown-menu">
+              
+              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
+              
+              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
+              
+            </ul>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/" >Courses</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/mentorship/" >Mentorship</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/blog/" >Blog</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/resources/" >Resources</a>
+          </li>
+          
+          
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/courses/">Courses</a></li>
+      <li>Chapter 17 &ndash; Attention & Transformers</li>
+      
+    </ol>
+  </nav>
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 17 &ndash; Attention & Transformers
+        
+        <span class="difficulty difficulty-advanced">Advanced</span>
+        
+      </h1>
+      
+      
+      
+      
+      
+      
+      <div class="tutorial-meta">
+        
+        <div class="tutorial-author">
+          <div class="tutorial-author-avatar">
+            
+            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
+            
+          </div>
+          <div class="tutorial-author-text">
+            <div class="tutorial-author-name">
+              Pankaj Doharey
+            </div>
+            
+            <time datetime="2026-03-17" class="tutorial-date">
+              March 17, 2026
+            </time>
+            
+          </div>
+        </div>
+        
+
+        
+      </div>
+      
+      
+      <p class="tutorial-summary">Build self-attention from scratch in pure Python and understand the transformer block that powers every modern LLM.</p>
+      
+    </header>
+
+    
+    <div class="tutorial-content">
+      <div class='markdown'><h3>Why sequence models are hard</h3>
+<p>In Chapter 16: Text Embeddings we turned words into vectors. A sentence, then, is a list of vectors. But a bag of vectors loses the one thing that makes language language: order and context. "The dog bit the man" and "The man bit the dog" contain exactly the same words, yet mean very different things. A good sequence model has to read each word *in the light of every other word*.</p>
+<p>The older approaches each had a fatal flaw:</p>
+<ul>
+<li>Feed-forward networks see a fixed window. Word 1 can never influence how we interpret word 50.</li>
+<li>Recurrent networks process tokens one at a time, passing a hidden state forward. Information from token 1 has to survive 49 squeezes through the same bottleneck to reach token 50. In practice it fades - this is the long-range dependency problem.</li>
+<li>RNNs also can't be parallelized: you must finish token *t* before starting token *t+1*, which makes training on huge text corpora painfully slow.</li>
+</ul>
+<p>Attention fixes both problems at once. Every token looks directly at every other token - one hop, no bottleneck - and the whole thing is just matrix math that runs in parallel. The transformer, introduced in the 2017 paper "Attention Is All You Need", stacks this idea into the architecture that every modern LLM (GPT, Llama, Claude) is built from. By the end of this chapter you will have computed attention by hand and implemented it in pure Python.</p>
+<h3>Self-attention: queries, keys, and values</h3>
+<p>The core idea: each token should build a new representation of itself by mixing in information from the other tokens - weighted by how *relevant* they are.</p>
+<p>To compute relevance, every token gets three vectors, all derived from its embedding by learned weight matrices:</p>
+<ul>
+<li><strong>Query (Q)</strong> - "what am I looking for?"</li>
+<li><strong>Key (K)</strong> - "what do I contain?"</li>
+<li><strong>Value (V)</strong> - "what do I actually pass along if you attend to me?"</li>
+</ul>
+<p>The attention recipe for one token:</p>
+<p>1. Take its query, and dot it with every token's key → raw <strong>scores</strong>.
+2. Scale the scores (divide by sqrt of the key dimension) so softmax doesn't saturate.
+3. Softmax the scores → weights that sum to 1.
+4. Take the weighted sum of all tokens' <strong>values</strong> → the token's new, context-aware representation.</p>
+<h3>A worked example with tiny numbers</h3>
+<p>Let's do the arithmetic with 2 tokens and 2-dimensional vectors, so you can verify every step with pen and paper.</p>
+<p>Token 1 ("cat"): embedding, query, key, value are all tiny vectors:</p>
+<ul>
+<li>q1 = [1, 0], k1 = [1, 0], v1 = [1, 2]</li>
+</ul>
+<p>Token 2 ("sat"):</p>
+<ul>
+<li>q2 = [0, 1], k2 = [0, 1], v2 = [3, 4]</li>
+</ul>
+<p>(In a real model, q/k/v come from multiplying the embedding by learned matrices Wq, Wk, Wv. Here we just pick numbers so the math is visible.)</p>
+<p><strong>Step 1 - scores for token 1.</strong> Its query q1 against both keys:</p>
+<ul>
+<li>score(q1, k1) = 1*1 + 0*0 = 1</li>
+<li>score(q1, k2) = 1*0 + 0*1 = 0</li>
+</ul>
+<p><strong>Step 2 - scale.</strong> Divide by sqrt(2) ≈ 1.4142:</p>
+<ul>
+<li>1 / 1.4142 ≈ 0.7071</li>
+<li>0 / 1.4142 = 0</li>
+</ul>
+<p><strong>Step 3 - softmax.</strong> exp(0.7071) ≈ 2.0281, exp(0) = 1. Sum = 3.0281.</p>
+<ul>
+<li>weight on token 1: 2.0281 / 3.0281 ≈ 0.6697</li>
+<li>weight on token 2: 1 / 3.0281 ≈ 0.3303</li>
+</ul>
+<p><strong>Step 4 - weighted sum of values:</strong></p>
+<ul>
+<li>output_1 = 0.6697 * [1, 2] + 0.3303 * [3, 4]</li>
+<li>= [0.6697, 1.3394] + [0.9909, 1.3212]</li>
+<li>= [1.6606, 2.6606]</li>
+</ul>
+<p>Token 1's new representation is a blend: 67% itself, 33% "sat". Do the same for token 2 (its query matches its own key perfectly and k1 not at all, so you get the mirrored weights) and every token now encodes its context.</p>
+<h3>Self-attention in pure Python</h3>
+<p>Save this as <code>attention.py</code> and run it with <code>python3 attention.py</code>. It uses only <code>math.sqrt</code> and <code>math.exp</code> - no libraries at all. Every example in this chapter is copy-paste runnable with <code>python3 file.py</code>.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
 
 def dot(a, b):
     return sum(x * y for x, y in zip(a, b))
@@ -27,10 +346,28 @@ K = [[1, 0], [0, 1]]
 V = [[1, 2], [3, 4]]
 
 for token, out in zip([&quot;cat&quot;, &quot;sat&quot;], self_attention(Q, K, V)):
-    print(token, &quot;-&gt;&quot;, [round(x, 4) for x in out])
-      </code></pre></div></div></div> Run it and you should see: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># cat -&gt; [1.6605, 2.6605]
-# sat -&gt; [2.3395, 3.3395]
-      </code></pre></div></div></div> The code prints approximately 1.6605 rather than our hand-rounded 1.6606 because it uses the full precision of sqrt(2). That's the whole mechanism. Scale Q, K, V up to hundreds or thousands of dimensions and many tokens, add learned matrices to produce Q, K, V, and you have the beating heart of a transformer language model. Here is the data flow for a single attention head: <div class="diagram-container mermaid-diagram"><div class="mermaid" id="mermaid-afd40d46">
+    print(token, &quot;-&gt;&quot;, [round(x, 4) for x in out])</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Run it and you should see:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># cat -&gt; [1.6605, 2.6605]
+# sat -&gt; [2.3395, 3.3395]</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>The code prints approximately 1.6605 rather than our hand-rounded 1.6606 because it uses the full precision of sqrt(2). That's the whole mechanism. Scale Q, K, V up to hundreds or thousands of dimensions and many tokens, add learned matrices to produce Q, K, V, and you have the beating heart of a transformer language model.</p>
+<p>Here is the data flow for a single a<div class="diagram-container mermaid-diagram">
+<div class="mermaid" id="mermaid-afd40d46">
 graph TD
   E[Token embeddings] --> Q[Queries Q]
   E --> K[Keys K]
@@ -41,7 +378,24 @@ graph TD
   SM --> W[Weighted sum of V]
   V --> W
   W --> O[Output: context-aware vectors]
-</div><p class="diagram-caption">Figure 1: Self-attention from embeddings to output</p></div><h3>Multi-head attention: parallel views</h3> One attention head gives every token one way to look at the others. But language has many kinds of relationships at once: subject-verb agreement, pronoun references, phrase boundaries, sentiment. A single softmax has to average all of those into one set of weights, which blurs them. Multi-head attention runs several attention heads in parallel, each with its own Wq, Wk, Wv matrices (usually on smaller slices of the vector - 8 heads on a 512-dim model means 64 dims per head). Each head is free to specialize: one head might learn "attend to the previous word", another "attend to the subject of the sentence". The head outputs are concatenated and passed through one more linear layer. In code terms, it's just our function in a loop: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def multi_head_attention(Qs, Ks, Vs):
+</div>
+<p class="diagram-caption">Figure 1: Self-attention from embeddings to output</p>
+</div>are vectors]
+#!</p>
+<h3>Multi-head attention: parallel views</h3>
+<p>One attention head gives every token one way to look at the others. But language has many kinds of relationships at once: subject-verb agreement, pronoun references, phrase boundaries, sentiment. A single softmax has to average all of those into one set of weights, which blurs them.</p>
+<p>Multi-head attention runs several attention heads in parallel, each with its own Wq, Wk, Wv matrices (usually on smaller slices of the vector - 8 heads on a 512-dim model means 64 dims per head). Each head is free to specialize: one head might learn "attend to the previous word", another "attend to the subject of the sentence". The head outputs are concatenated and passed through one more linear layer.</p>
+<p>In code terms, it's just our function in a loop:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def multi_head_attention(Qs, Ks, Vs):
     &quot;&quot;&quot;Qs, Ks, Vs: one (Q, K, V) triple per head.&quot;&quot;&quot;
     head_outputs = [self_attention(Q, K, V) for Q, K, V in zip(Qs, Ks, Vs)]
     # Concatenate heads token-wise
@@ -57,8 +411,29 @@ Ks = [[[1, 0], [0, 1]], [[1, 0], [0, 1]]]
 Vs = [[[1, 2], [3, 4]], [[5, 6], [7, 8]]]
 
 for row in multi_head_attention(Qs, Ks, Vs):
-    print([round(x, 4) for x in row])
-      </code></pre></div></div></div> Each output row is now 4 numbers: head 1's 2-dim output glued to head 2's. Real transformers do exactly this, then apply a final weight matrix to mix the heads back together. <h3>Positional encoding: injecting order</h3> Here's a subtle but crucial point: attention is *permutation-invariant*. Shuffle the input tokens and each output just shuffles along with it - the mechanism itself has no idea which token came first. "dog bit man" really would look like "man bit dog". The transformer's fix is positional encoding: before attention ever runs, we add a position vector to each token's embedding. Now the embeddings themselves carry order, and attention can learn position-dependent patterns (e.g., "mostly attend to nearby tokens"). The original paper uses sine and cosine waves of different frequencies: <ul><li>For position <code>pos</code> and dimension <code>i</code>: even dimensions get sin(pos / 10000^(2i/d)), odd dimensions get cos(pos / 10000^(2i/d)).</li></ul> In words: each dimension oscillates at a different wavelength, from very fast (dimension 0 changes every step) to very slow. Together they give every position a unique "fingerprint", and because waves are smooth and periodic, relative distances between positions show up as consistent patterns the model can learn. Here's the idea in a few lines: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
+    print([round(x, 4) for x in row])</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Each output row is now 4 numbers: head 1's 2-dim output glued to head 2's. Real transformers do exactly this, then apply a final weight matrix to mix the heads back together.</p>
+<h3>Positional encoding: injecting order</h3>
+<p>Here's a subtle but crucial point: attention is *permutation-invariant*. Shuffle the input tokens and each output just shuffles along with it - the mechanism itself has no idea which token came first. "dog bit man" really would look like "man bit dog".</p>
+<p>The transformer's fix is positional encoding: before attention ever runs, we add a position vector to each token's embedding. Now the embeddings themselves carry order, and attention can learn position-dependent patterns (e.g., "mostly attend to nearby tokens").</p>
+<p>The original paper uses sine and cosine waves of different frequencies:</p>
+<ul>
+<li>For position <code>pos</code> and dimension <code>i</code>: even dimensions get sin(pos / 10000^(2i/d)), odd dimensions get cos(pos / 10000^(2i/d)).</li>
+</ul>
+<p>In words: each dimension oscillates at a different wavelength, from very fast (dimension 0 changes every step) to very slow. Together they give every position a unique "fingerprint", and because waves are smooth and periodic, relative distances between positions show up as consistent patterns the model can learn. Here's the idea in a few lines:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
 
 def positional_encoding(pos, d):
     return [
@@ -68,8 +443,19 @@ def positional_encoding(pos, d):
     ]
 
 for pos in range(4):
-    print(pos, [round(x, 3) for x in positional_encoding(pos, 4)])
-      </code></pre></div></div></div> Notice position 0 is [0, 1, 0, 1] and each later position shifts the pattern - unique, smooth, and computable for any length without learning anything. Modern models often use learned position vectors or rotary variants instead, but the motivation is identical: order must be injected, because attention alone is blind to it. <h3>The transformer block</h3> A full transformer stacks identical blocks. Each block takes a sequence of vectors and returns a sequence of the same shape: 1. <strong>Multi-head self-attention</strong> - tokens exchange information. 2. <strong>Add & norm</strong> - add the block's input back to the attention output (a *residual connection*), then layer-normalize. Residuals let gradients flow through dozens of stacked blocks without vanishing. 3. <strong>Feed-forward network</strong> - a small MLP (two linear layers with a nonlinearity, typically expanding to 4x the width and shrinking back) applied to each token independently. This is where the model does its "thinking" per position; attention routes information, the MLP processes it. 4. <strong>Add & norm</strong> again. As a diagram: <div class="diagram-container mermaid-diagram"><div class="mermaid" id="mermaid-4d30b081">
+    print(pos, [round(x, 3) for x in positional_encoding(pos, 4)])</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Notice position 0 is [0, 1, 0, 1] and each later position shifts the pattern - unique, smooth, and computable for any length without learning anything. Modern models often use learned position vectors or rotary variants instead, but the motivation is identical: order must be injected, because attention alone is blind to it.</p>
+<h3>The transformer block</h3>
+<p>A full transformer stacks identical blocks. Each block takes a sequence of vectors and returns a sequence of the same shape:</p>
+<p>1. <strong>Multi-head self-attention</strong> - tokens exchange information.
+2. <strong>Add & norm</strong> - add the block's input back to the attention output (a *residual connection*), then layer-normalize. Residuals let gradients flow through dozens of stacked blocks without vanishing.
+3. <strong>Feed-forward network</strong> - a small MLP (two linear layers with a nonlinearity, typically expanding to 4x the width and shrinking back) applied to each token independently. This is where the model does its "thinking" per position; attention routes information, the MLP processes it.
+4. <strong>Add & norm</strong> again.
+<div class="diagram-container mermaid-diagram">
+<div class="mermaid" id="mermaid-4d30b081">
 graph LR
   X[x] --> MHA[Multi-head attention]
   MHA --> A1((+))
@@ -80,7 +466,21 @@ graph LR
   LN1 --> A2
   A2 --> LN2[LayerNorm]
   LN2 --> OUT[out]
-</div><p class="diagram-caption">Figure: One transformer block - attention and feed-forward, each wrapped in a residual connection plus layer norm</p></div> A toy pure-Python block (relu for the nonlinearity, plain mean/variance layer norm) looks like this: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python">import math
+</div>
+<p class="diagram-caption">Figure: One transformer block - attention and feed-forward, each wrapped in a residual connection plus layer norm</p>
+</div>--> OUT[out]
+#!</p>
+<p>A toy pure-Python block (relu for the nonlinearity, plain mean/variance layer norm) looks like this:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python">import math
 
 def relu(x):
     return x if x &gt; 0 else 0.0
@@ -100,8 +500,229 @@ def transformer_block(X, Qs, Ks, Vs, W1, b1, W2, b2):
     attn = multi_head_attention(Qs, Ks, Vs)
     X = [layer_norm([a + b for a, b in zip(x, a)]) for x, a in zip(X, attn)]
     ff = [feed_forward(x, W1, b1, W2, b2) for x in X]
-    return [layer_norm([a + b for a, b in zip(x, f)]) for x, f in zip(X, ff)]
-      </code></pre></div></div></div> Stack many of these blocks, put an embedding layer plus positional encoding in front and a prediction layer on top, and you have the architecture we'll dissect next in Chapter 18: How LLMs Work. Everything else - scale, training data, and engineering refinements - builds on this skeleton. <h3>Practice checklist</h3><ul><li>[ ] Recompute the worked example by hand: scores, scaling by sqrt(2), softmax, and the weighted sum for token 2, and confirm it matches <code>attention.py</code>'s output.</li><li>[ ] Modify <code>attention.py</code> to use 3 tokens and verify the attention weights for each token sum to 1.</li><li>[ ] Change token 2's key so token 1 attends to it almost exclusively; predict the output before running the code.</li><li>[ ] Print per-head outputs in <code>multi_head_attention</code> and confirm concatenation order matches the text.</li><li>[ ] Compute <code>positional_encoding</code> for positions 0-5 and convince yourself each position's fingerprint is unique.</li><li>[ ] Explain in one sentence why attention alone cannot distinguish "dog bit man" from "man bit dog".</li><li>[ ] Sketch the transformer block from memory: attention, add & norm, feed-forward, add & norm.</li></ul></p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/text-embeddings/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 16: Text Embeddings</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/how-llms-work/"><span>Chapter 18: How LLMs Work</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785332555"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785332555"></script><script src="/themes/pylearning/js/site.js?v=1785332555"></script><script src="/themes/pylearning/js/python-plot.js?v=1785332555"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785332555"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785332555"></script><script src="/themes/pylearning/js/python-console.js?v=1785332555"></script><script src="/themes/pylearning/js/python-exec.js?v=1785332555"></script><script>
+    return [layer_norm([a + b for a, b in zip(x, f)]) for x, f in zip(X, ff)]</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Stack many of these blocks, put an embedding layer plus positional encoding in front and a prediction layer on top, and you have the architecture we'll dissect next in Chapter 18: How LLMs Work. Everything else - scale, training data, and engineering refinements - builds on this skeleton.</p>
+<h3>Practice checklist</h3>
+<ul>
+<li>[ ] Recompute the worked example by hand: scores, scaling by sqrt(2), softmax, and the weighted sum for token 2, and confirm it matches <code>attention.py</code>'s output.</li>
+<li>[ ] Modify <code>attention.py</code> to use 3 tokens and verify the attention weights for each token sum to 1.</li>
+<li>[ ] Change token 2's key so token 1 attends to it almost exclusively; predict the output before running the code.</li>
+<li>[ ] Print per-head outputs in <code>multi_head_attention</code> and confirm concatenation order matches the text.</li>
+<li>[ ] Compute <code>positional_encoding</code> for positions 0-5 and convince yourself each position's fingerprint is unique.</li>
+<li>[ ] Explain in one sentence why attention alone cannot distinguish "dog bit man" from "man bit dog".</li>
+<li>[ ] Sketch the transformer block from memory: attention, add & norm, feed-forward, add & norm.</li>
+</ul></div>
+    </div>
+
+    
+    <nav class="tutorial-nav">
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/text-embeddings/">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>Chapter 16: Text Embeddings</span>
+      </a>
+      
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/how-llms-work/">
+        <span>Chapter 18: How LLMs Work</span>
+        <span class="icon-arrow" aria-hidden="true">&gt;</span>
+      </a>
+      
+    </nav>
+    
+
+    
+  </article>
+
+  
+
+  
+  <div class="python-console-drawer">
+    <button class="python-console-toggle" type="button" aria-expanded="false">
+      <span class="python-console-toggle-label">Python console</span>
+      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="python-console-body">
+      <div class="python-repl" data-python-console="true">
+        <div class="python-repl-output" aria-live="polite"></div>
+        <form class="python-repl-form">
+          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
+          <div class="python-repl-input-wrapper">
+            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/" >Home</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/about/" >About</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/python-basics/" >Learn Python</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/machine-learning/" >Learn ML</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/image-generation/" >Learn Image AI</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/blog/" >Blog</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/resources/" >Resources</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+            
+            
+            
+            
+            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+            
+            
+            
+            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+            
+            
+            
+            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
+  
+  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
+  
+  
+
+  <script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -112,6 +733,13 @@ def transformer_block(X, Qs, Ks, Vs, W1, b1, W2, b2):
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785332555"></script><script>
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
+  <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script></body></html>
+  </script>
+</body>
+
+</html>

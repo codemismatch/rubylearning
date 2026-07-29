@@ -1,1 +1,52 @@
-.draft-banner{background:linear-gradient(135deg,#fff3cd 0%,#ffe69c 100%);border:2px solid #ff9800;border-radius:8px;padding:1rem 1.5rem;margin:1rem 0 2rem 0;color:#856404;font-size:1rem;display:-webkit-box;display:-ms-flexbox;display:flex;-webkit-box-align:center;-ms-flex-align:center;align-items:center;gap:0.75rem;-webkit-box-shadow:0 2px 8px rgba(255,152,0,0.2);box-shadow:0 2px 8px rgba(255,152,0,0.2);position:sticky;top:80px;z-index:100;-webkit-animation:pulse-border 2s ease-in-out infinite;animation:pulse-border 2s ease-in-out infinite}.draft-banner strong{font-size:1.1rem;font-weight:700;color:#d97706}@-webkit-keyframes pulse-border{0%,100%{border-color:#ff9800;-webkit-box-shadow:0 2px 8px rgba(255,152,0,0.2);box-shadow:0 2px 8px rgba(255,152,0,0.2)}50%{border-color:#f59e0b;-webkit-box-shadow:0 2px 12px rgba(255,152,0,0.4);box-shadow:0 2px 12px rgba(255,152,0,0.4)}}@keyframes pulse-border{0%,100%{border-color:#ff9800;-webkit-box-shadow:0 2px 8px rgba(255,152,0,0.2);box-shadow:0 2px 8px rgba(255,152,0,0.2)}50%{border-color:#f59e0b;-webkit-box-shadow:0 2px 12px rgba(255,152,0,0.4);box-shadow:0 2px 12px rgba(255,152,0,0.4)}}@media (prefers-color-scheme:dark){.draft-banner{background:linear-gradient(135deg,#7c2d12 0%,#9a3412 100%);border-color:#ea580c;color:#fed7aa}.draft-banner strong{color:#fdba74}}
+/* Draft Banner Styling */
+.draft-banner {
+    background: linear-gradient(135deg, #fff3cd 0%, #ffe69c 100%);
+    border: 2px solid #ff9800;
+    border-radius: 8px;
+    padding: 1rem 1.5rem;
+    margin: 1rem 0 2rem 0;
+    color: #856404;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    box-shadow: 0 2px 8px rgba(255, 152, 0, 0.2);
+    position: sticky;
+    top: 80px;
+    z-index: 100;
+    animation: pulse-border 2s ease-in-out infinite;
+}
+
+.draft-banner strong {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #d97706;
+}
+
+/* Subtle pulsing animation for visibility */
+@keyframes pulse-border {
+
+    0%,
+    100% {
+        border-color: #ff9800;
+        box-shadow: 0 2px 8px rgba(255, 152, 0, 0.2);
+    }
+
+    50% {
+        border-color: #f59e0b;
+        box-shadow: 0 2px 12px rgba(255, 152, 0, 0.4);
+    }
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .draft-banner {
+        background: linear-gradient(135deg, #7c2d12 0%, #9a3412 100%);
+        border-color: #ea580c;
+        color: #fed7aa;
+    }
+
+    .draft-banner strong {
+        color: #fdba74;
+    }
+}

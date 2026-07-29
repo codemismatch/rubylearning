@@ -1,33 +1,376 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 2 &ndash; Variables in Python - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785332555"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 2 &ndash; Variables in Python</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 2 &ndash; Variables in Python <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2025-12-09" class="tutorial-date"> December 9, 2025 </time></div></div></div><p class="tutorial-summary">Master Python assignment, the core built-in types, casting between them, naming rules, multiple assignment, and f-strings.</p></header><div class="tutorial-content"><div class='markdown'><p>A variable in Python is simply a name that refers to an object. You create one by assigning a value with <code>=</code> &mdash; no declaration, no type annotation required, just like Ruby. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">message = &quot;Hello, variables!&quot;
-print(message)
-      </code></pre></div></div></div> Unlike Ruby, there is no <code>@</code> or <code>$</code> sigil prefix &mdash; instance variables, globals, and locals all look the same at first glance; context decides their scope (we'll cover scope in Chapter 4). <h3>Assignment basics</h3> Assignment binds a name to an object. Reassigning just rebinds the name; the old object is forgotten if nothing else refers to it. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">score = 10
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2 &ndash; Variables in Python - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  
+  
+
+  
+
+  
+  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
+
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
+
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
+  
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
+            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Python</span>
+        
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        
+        
+        <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/" >Home</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/about/" >About</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/python-basics/" >Learn Python</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="has-dropdown">
+            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
+            <ul class="dropdown-menu">
+              
+              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
+              
+              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
+              
+            </ul>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/" >Courses</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/mentorship/" >Mentorship</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/blog/" >Blog</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/resources/" >Resources</a>
+          </li>
+          
+          
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/courses/">Courses</a></li>
+      <li>Chapter 2 &ndash; Variables in Python</li>
+      
+    </ol>
+  </nav>
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 2 &ndash; Variables in Python
+        
+        <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+      
+      
+      
+      
+      
+      <div class="tutorial-meta">
+        
+        <div class="tutorial-author">
+          <div class="tutorial-author-avatar">
+            
+            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
+            
+          </div>
+          <div class="tutorial-author-text">
+            <div class="tutorial-author-name">
+              Pankaj Doharey
+            </div>
+            
+            <time datetime="2025-12-09" class="tutorial-date">
+              December 9, 2025
+            </time>
+            
+          </div>
+        </div>
+        
+
+        
+      </div>
+      
+      
+      <p class="tutorial-summary">Master Python assignment, the core built-in types, casting between them, naming rules, multiple assignment, and f-strings.</p>
+      
+    </header>
+
+    
+    <div class="tutorial-content">
+      <div class='markdown'><p>A variable in Python is simply a name that refers to an object. You create one by assigning a value with <code>=</code> &mdash; no declaration, no type annotation required, just like Ruby.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">message = &quot;Hello, variables!&quot;
+print(message)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Unlike Ruby, there is no <code>@</code> or <code>$</code> sigil prefix &mdash; instance variables, globals, and locals all look the same at first glance; context decides their scope (we'll cover scope in Chapter 4).</p>
+<h3>Assignment basics</h3>
+<p>Assignment binds a name to an object. Reassigning just rebinds the name; the old object is forgotten if nothing else refers to it.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">score = 10
 print(&quot;score:&quot;, score)
 
 score = score + 5   # same as: score += 5
 print(&quot;score:&quot;, score)
 
 score += 10         # augmented assignment works for +=, -=, *=, /=...
-print(&quot;score:&quot;, score)
-      </code></pre></div></div></div> One operator Python 3.8 added that Ruby doesn't have: the "walrus" operator <code>:=</code>, which assigns *inside* an expression. You'll see it later; beginners can safely ignore it for now. <h3>The core types</h3> Python's everyday built-in types cover the same ground as Ruby's: | Python type | Example | Ruby cousin | |-------------|---------|-------------| | <code>int</code> | <code>42</code> | <code>Integer</code> | | <code>float</code> | <code>3.14</code> | <code>Float</code> | | <code>str</code> | <code>"hello"</code> | <code>String</code> | | <code>bool</code> | <code>True</code>, <code>False</code> | <code>true</code>, <code>false</code> | | <code>NoneType</code> | <code>None</code> | <code>nil</code> | <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">count = 42            # int
+print(&quot;score:&quot;, score)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>One operator Python 3.8 added that Ruby doesn't have: the "walrus" operator <code>:=</code>, which assigns *inside* an expression. You'll see it later; beginners can safely ignore it for now.</p>
+<h3>The core types</h3>
+<p>Python's everyday built-in types cover the same ground as Ruby's:</p>
+<p>| Python type | Example | Ruby cousin |
+|-------------|---------|-------------|
+| <code>int</code> | <code>42</code> | <code>Integer</code> |
+| <code>float</code> | <code>3.14</code> | <code>Float</code> |
+| <code>str</code> | <code>"hello"</code> | <code>String</code> |
+| <code>bool</code> | <code>True</code>, <code>False</code> | <code>true</code>, <code>false</code> |
+| <code>NoneType</code> | <code>None</code> | <code>nil</code> |</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">count = 42            # int
 price = 9.99          # float
 name = &quot;Python&quot;       # str
 is_fun = True         # bool - capital T!
 nothing = None        # NoneType - Python&#39;s nil
 
-print(count, price, name, is_fun, nothing)
-      </code></pre></div></div></div> Two gotchas for Rubyists: booleans are capitalized (<code>True</code>/<code>False</code>, not <code>true</code>/<code>false</code>), and <code>nil</code> is spelled <code>None</code>. <h3>Inspecting types with type() and isinstance()</h3><code>type()</code> tells you the class of a value; <code>isinstance()</code> checks it, like Ruby's <code>.is_a?</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">value = 3.14
+print(count, price, name, is_fun, nothing)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Two gotchas for Rubyists: booleans are capitalized (<code>True</code>/<code>False</code>, not <code>true</code>/<code>false</code>), and <code>nil</code> is spelled <code>None</code>.</p>
+<h3>Inspecting types with type() and isinstance()</h3>
+<p><code>type()</code> tells you the class of a value; <code>isinstance()</code> checks it, like Ruby's <code>.is_a?</code>.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">value = 3.14
 print(type(value))                 # &lt;class &#39;float&#39;&gt;
 print(isinstance(value, float))    # True
 print(isinstance(value, int))      # False
 
 # Note: booleans are a subclass of int in Python!
-print(isinstance(True, int))       # True (quirky but true)
-      </code></pre></div></div></div><h3>Division and integer arithmetic</h3> Division always returns a float in Python 3, even when the numbers divide evenly. Use <code>//</code> for floor division and <code>%</code> for remainder. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">print(10 / 2)    # 5.0  - always a float
+print(isinstance(True, int))       # True (quirky but true)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Division and integer arithmetic</h3>
+<p>Division always returns a float in Python 3, even when the numbers divide evenly. Use <code>//</code> for floor division and <code>%</code> for remainder.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">print(10 / 2)    # 5.0  - always a float
 print(7 / 2)     # 3.5
 print(7 // 2)    # 3    - floor division
 print(7 % 2)     # 1    - remainder
-print(2 ** 10)   # 1024 - exponent, like Ruby&#39;s **
-      </code></pre></div></div></div><h3>Casting between types</h3> Python won't guess for you &mdash; convert explicitly with <code>int()</code>, <code>float()</code>, <code>str()</code>, and <code>bool()</code>. These mirror Ruby's <code>to_i</code>, <code>to_f</code>, and <code>to_s</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">age_text = &quot;30&quot;
+print(2 ** 10)   # 1024 - exponent, like Ruby&#39;s **</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Casting between types</h3>
+<p>Python won't guess for you &mdash; convert explicitly with <code>int()</code>, <code>float()</code>, <code>str()</code>, and <code>bool()</code>. These mirror Ruby's <code>to_i</code>, <code>to_f</code>, and <code>to_s</code>.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">age_text = &quot;30&quot;
 age = int(age_text)      # string -&gt; int
 print(age + 5)           # 35
 
@@ -37,13 +380,47 @@ print(bool(&quot;&quot;))          # False - empty string is falsy
 print(bool(&quot;anything&quot;))  # True
 
 # int(&quot;3.5&quot;) would raise ValueError - go through float first:
-print(int(float(&quot;3.5&quot;)))  # 3
-      </code></pre></div></div></div> Unlike Ruby's forgiving <code>"3abc".to_i #=&gt; 3</code>, Python raises a <code>ValueError</code> when a string isn't a clean number. Explicit and strict &mdash; very Pythonic. <h3>Naming rules</h3><ul><li>Names may contain letters, digits, and underscores, but may not start with a digit.</li><li>Convention is <code>snake_case</code> for variables and functions &mdash; same as Ruby.</li><li><code>UPPER_SNAKE_CASE</code> is used for constants (Python has no enforced constants; it's purely a convention).</li><li>Reserved keywords (<code>if</code>, <code>for</code>, <code>class</code>, <code>def</code>, <code>None</code>, ...) can't be used as names.</li></ul><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">user_name = &quot;grace&quot;      # good
+print(int(float(&quot;3.5&quot;)))  # 3</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Unlike Ruby's forgiving <code>"3abc".to_i #=&gt; 3</code>, Python raises a <code>ValueError</code> when a string isn't a clean number. Explicit and strict &mdash; very Pythonic.</p>
+<h3>Naming rules</h3>
+<ul>
+<li>Names may contain letters, digits, and underscores, but may not start with a digit.</li>
+<li>Convention is <code>snake_case</code> for variables and functions &mdash; same as Ruby.</li>
+<li><code>UPPER_SNAKE_CASE</code> is used for constants (Python has no enforced constants; it's purely a convention).</li>
+<li>Reserved keywords (<code>if</code>, <code>for</code>, <code>class</code>, <code>def</code>, <code>None</code>, ...) can't be used as names.</li>
+</ul>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">user_name = &quot;grace&quot;      # good
 MAX_RETRIES = 3          # constant by convention
 # 2fast = &quot;no&quot;           # SyntaxError - can&#39;t start with a digit
 # class = &quot;no&quot;           # SyntaxError - reserved keyword
-print(user_name, MAX_RETRIES)
-      </code></pre></div></div></div><h3>Multiple assignment and swapping</h3> Python lets you assign several variables in one line using tuple unpacking &mdash; and it makes swapping values a one-liner (no temporary variable needed, just like Ruby's <code>a, b = b, a</code>). <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">x, y, z = 1, 2, 3
+print(user_name, MAX_RETRIES)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Multiple assignment and swapping</h3>
+<p>Python lets you assign several variables in one line using tuple unpacking &mdash; and it makes swapping values a one-liner (no temporary variable needed, just like Ruby's <code>a, b = b, a</code>).</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">x, y, z = 1, 2, 3
 print(x, y, z)
 
 a, b = 10, 20
@@ -52,35 +429,351 @@ print(&quot;a:&quot;, a, &quot;b:&quot;, b)
 
 # Unpacking from a list works too:
 first, *rest = [1, 2, 3, 4]
-print(first, rest)   # 1 [2, 3, 4]
-      </code></pre></div></div></div><h3>f-strings: interpolation the Python way</h3> f-strings (Python 3.6+) are the counterpart of Ruby's <code>"#{...}"</code> interpolation &mdash; put an <code>f</code> before the quote and embed expressions in braces. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">name = &quot;Ada&quot;
+print(first, rest)   # 1 [2, 3, 4]</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>f-strings: interpolation the Python way</h3>
+<p>f-strings (Python 3.6+) are the counterpart of Ruby's <code>"#{...}"</code> interpolation &mdash; put an <code>f</code> before the quote and embed expressions in braces.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">name = &quot;Ada&quot;
 language = &quot;Python&quot;
 year = 1991
 
 print(f&quot;{name} loves {language}, born in {year}.&quot;)
 print(f&quot;Next year it turns {2024 - year + 1}!&quot;)     # expressions work
-print(f&quot;Pi is roughly {3.14159:.2f}&quot;)               # formatting: 2 decimals
-      </code></pre></div></div></div> You can interpolate any expression inside the braces, and add a format spec after a colon (<code>.2f</code> = two decimal places, <code>&gt;10</code> = right-align in width 10, and so on). <h3>Practice checklist</h3><ul><li>[ ] Create variables of each core type and print them with <code>type()</code>.</li><li>[ ] Convert a numeric string to an int, do math with it, and convert the result back to a string.</li><li>[ ] Swap two variables in a single line and print both before and after.</li><li>[ ] Build a sentence with an f-string that includes a calculation inside the braces.</li></ul><h4>Practice 1 - Types tour</h4><strong>Goal:</strong> Show the type of four different values. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Create an int, a float, a string, and a boolean,
+print(f&quot;Pi is roughly {3.14159:.2f}&quot;)               # formatting: 2 decimals</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>You can interpolate any expression inside the braces, and add a format spec after a colon (<code>.2f</code> = two decimal places, <code>&gt;10</code> = right-align in width 10, and so on).</p>
+<h3>Practice checklist</h3>
+<ul>
+<li>[ ] Create variables of each core type and print them with <code>type()</code>.</li>
+<li>[ ] Convert a numeric string to an int, do math with it, and convert the result back to a string.</li>
+<li>[ ] Swap two variables in a single line and print both before and after.</li>
+<li>[ ] Build a sentence with an f-string that includes a calculation inside the braces.</li>
+</ul>
+<h4>Practice 1 - Types tour</h4>
+<p><strong>Goal:</strong> Show the type of four different values.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Create an int, a float, a string, and a boolean,
 # then print each value alongside its type.
-# Example: print(my_int, type(my_int))
-      </code></pre></div></div></div><h4>Practice 2 - Cast and calculate</h4><strong>Goal:</strong> Turn text into numbers and do arithmetic. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">price_text = &quot;19.99&quot;
+# Example: print(my_int, type(my_int))</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h4>Practice 2 - Cast and calculate</h4>
+<p><strong>Goal:</strong> Turn text into numbers and do arithmetic.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">price_text = &quot;19.99&quot;
 quantity_text = &quot;3&quot;
 
 # TODO: Convert both strings to numbers, compute the total
-# cost, and print something like &quot;Total: 59.97&quot;.
-      </code></pre></div></div></div><h4>Practice 3 - The great swap</h4><strong>Goal:</strong> Swap two variables without a temporary variable. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">left = &quot;tea&quot;
+# cost, and print something like &quot;Total: 59.97&quot;.</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h4>Practice 3 - The great swap</h4>
+<p><strong>Goal:</strong> Swap two variables without a temporary variable.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">left = &quot;tea&quot;
 right = &quot;coffee&quot;
 
 # TODO: Swap the values of `left` and `right` in one line,
-# then print both to confirm left holds &quot;coffee&quot;.
-      </code></pre></div></div></div><h4>Practice 4 - f-string sentence</h4><strong>Goal:</strong> Build a sentence with interpolation and formatting. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">name = &quot;Ada&quot;
+# then print both to confirm left holds &quot;coffee&quot;.</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h4>Practice 4 - f-string sentence</h4>
+<p><strong>Goal:</strong> Build a sentence with interpolation and formatting.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">name = &quot;Ada&quot;
 birth_year = 1815
 
 # TODO: Print a sentence like
 # &quot;Ada was born in 1815 and would be 210 years old in 2025.&quot;
 # using one f-string, computing the age inside the braces.
-current_year = 2025
-      </code></pre></div></div></div> Next up: make decisions and repeat work with control flow in Chapter 3. </p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/intro-to-python/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 1: Introduction to Python</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/python-basics/python-control-flow/"><span>Chapter 3: Control Flow in Python</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/python-basics/intro-to-python/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Introduction to Python</span></a></li><li><a href="/courses/python-basics/python-functions/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Functions in Python</span></a></li></ul></div></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785332555"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785332555"></script><script src="/themes/pylearning/js/site.js?v=1785332555"></script><script src="/themes/pylearning/js/python-plot.js?v=1785332555"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785332555"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785332555"></script><script src="/themes/pylearning/js/python-console.js?v=1785332555"></script><script src="/themes/pylearning/js/python-exec.js?v=1785332555"></script><script>
+current_year = 2025</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Next up: make decisions and repeat work with control flow in Chapter 3.</p></div>
+    </div>
+
+    
+    <nav class="tutorial-nav">
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/intro-to-python/">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>Chapter 1: Introduction to Python</span>
+      </a>
+      
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/python-basics/python-control-flow/">
+        <span>Chapter 3: Control Flow in Python</span>
+        <span class="icon-arrow" aria-hidden="true">&gt;</span>
+      </a>
+      
+    </nav>
+    
+
+    
+    <div class="related-tutorials">
+      <h2>Related Tutorials</h2>
+      <ul>
+        
+        
+        
+        
+        <li>
+          <a href="/courses/python-basics/intro-to-python/">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>Introduction to Python</span>
+          </a>
+        </li>
+        
+        
+        
+        
+        <li>
+          <a href="/courses/python-basics/python-functions/">
+            <span class="related-icon" aria-hidden="true">&gt;</span>
+            <span>Functions in Python</span>
+          </a>
+        </li>
+        
+      </ul>
+    </div>
+    
+  </article>
+
+  
+
+  
+  <div class="python-console-drawer">
+    <button class="python-console-toggle" type="button" aria-expanded="false">
+      <span class="python-console-toggle-label">Python console</span>
+      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="python-console-body">
+      <div class="python-repl" data-python-console="true">
+        <div class="python-repl-output" aria-live="polite"></div>
+        <form class="python-repl-form">
+          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
+          <div class="python-repl-input-wrapper">
+            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/" >Home</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/about/" >About</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/python-basics/" >Learn Python</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/machine-learning/" >Learn ML</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/image-generation/" >Learn Image AI</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/blog/" >Blog</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/resources/" >Resources</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+            
+            
+            
+            
+            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+            
+            
+            
+            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+            
+            
+            
+            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
+  
+  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
+  
+  
+
+  <script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -91,6 +784,13 @@ current_year = 2025
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785332555"></script><script>
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
+  <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script></body></html>
+  </script>
+</body>
+
+</html>

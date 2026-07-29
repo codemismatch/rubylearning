@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project-Driven Roadmap for Learning Rails - Ruby Learning</title>
-  <meta name="description" content="A step-by-step plan for mastering Rails by building production-style features.">
+  <title>Mentorship Programme - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
   
@@ -188,68 +188,46 @@
 
   <main class="site-content">
     <div class="container">
-      <article class="post">
-  <header class="post-header">
-    
-    <h1>Project-Driven Roadmap for Learning Rails</h1>
-
-    
-    
-    <div class="post-meta">
-      
-      <time datetime="2025-09-22" class="post-date">
-        September 22, 2025
-      </time>
-      
-
-      
-      <div class="tags">
-        
-        <span class="tag"><a href="/tags/rails/">rails</a></span>
-        
-        <span class="tag"><a href="/tags/projects/">projects</a></span>
-        
-        <span class="tag"><a href="/tags/roadmap/">roadmap</a></span>
-        
-      </div>
-      
-
-      
-    </div>
-  </header>
-
+      <div class="page">
   
+  <div class='markdown'><h1>The Ruby Learning Mentorship Programme</h1>
+<p>A free, structured, remote mentorship programme for early-career programmers, run by <strong>Pankaj Doharey</strong> (CTO and co-founder of VoxLogic.ai, 17 years in software engineering). The programme exists for one reason: good engineers kept doors open for us, and this is how we keep them open for you.</p>
+<h2>Who it is for</h2>
+<ul>
+<li>You have finished (or are finishing) one of our tracks: Ruby Basics, Advanced Ruby, Python Basics, or Machine Learning: From Zero to LLMs.</li>
+<li>You can commit <strong>3 to 4 hours a week for 8 weeks</strong>.</li>
+<li>You want a working engineer, not a tutorial, to review your code and your thinking.</li>
+</ul>
+<h2>What the 8 weeks look like</h2>
+<p>1. <strong>Weeks 1 to 2:</strong> fundamentals review, a small project brief, and your first code review.
+2. <strong>Weeks 3 to 5:</strong> building a real feature end to end: tests, version control discipline, reading legacy code.
+3. <strong>Weeks 6 to 7:</strong> production habits: debugging, logs, deployment, and how senior engineers actually make decisions.
+4. <strong>Week 8:</strong> a capstone review, a written evaluation you can show to employers, and a plan for your next six months.</p>
+<p>Sessions are held online, one to one or in very small cohorts.</p>
+<h2>How we select</h2>
+<p>Cohorts stay small on purpose. Write to us with: which track you completed, one piece of code you wrote that you are not fully happy with, and what you want to build next. We reply to every serious application within a week.</p>
+<h2>Apply</h2>
+<p>Pick a preferred slot for a first 30-minute conversation, then send your application by email:</p>
+<div class="mentorship-apply">
+  <label for="slot-date">Preferred date</label>
+  <input type="date" id="slot-date" name="slot-date">
+  <label for="slot-time">Preferred time (IST)</label>
+  <select id="slot-time" name="slot-time">
+    <option>10:00</option><option>14:00</option><option>18:00</option><option>20:00</option>
+  </select>
+  <button type="button" onclick="applyMentorship()">Apply by email</button>
+  <p class="apply-note">This opens your mail client with everything pre-filled. You can also write to us directly at <a href="mailto:pankajdoharey@gmail.com?subject=Mentorship%20Programme%20Application">pankajdoharey@gmail.com</a> with the subject "Mentorship Programme Application".</p>
+</div>
+<p><script>
+function applyMentorship() {
+  var d = document.getElementById('slot-date').value;
+  var t = document.getElementById('slot-time').value;
+  var body = 'Hello,\n\nI would like to apply for the Ruby Learning Mentorship Programme.\n\nTrack completed:\nA piece of code I am not fully happy with:\nWhat I want to build next:\n\nPreferred first conversation slot: ' + (d || '(any date)') + ' at ' + t + ' IST.\n\nThank you.';
+  window.location.href = 'mailto:pankajdoharey@gmail.com?subject=' + encodeURIComponent('Mentorship Programme Application') + '&body=' + encodeURIComponent(body);
+}
+</script></p></div>
+</div>
 
-  <div class="post-content">
-    <div class='markdown'><p>Rails rewards people who learn by doing. The project-based curriculum from BigBinary Academy leans into that idea: you start coding immediately, add features in realistic sprints, and refine each release with feedback loops.</p>
-<h2>Stage 1 · Set up your stack</h2>
-<ul>
-<li>Install the recommended toolchain&mdash;Ruby, Rails, PostgreSQL, Node&mdash;and confirm <code>rails new</code> runs without errors.</li>
-<li>Generate your first app with Tailwind support, configure RuboCop, and commit the clean baseline.</li>
-<li>Build a quick health check route and deploy it to a sandbox host to validate the pipeline.</li>
-</ul>
-<h2>Stage 2 · Ship core features</h2>
-<ul>
-<li>Follow the course modules to model data with migrations, validations, and enums.</li>
-<li>Build controller actions and policies that mirror real user flows, such as account onboarding or task management.</li>
-<li>Layer in Hotwire or Turbo interactions for responsive updates without heavy JavaScript.</li>
-</ul>
-<h2>Stage 3 · Harden the app</h2>
-<ul>
-<li>Add background jobs for slow tasks, such as sending summary emails or importing CSV data.</li>
-<li>Write request specs for critical flows and document manual test scenarios.</li>
-<li>Instrument logging and error monitoring to catch regressions early.</li>
-</ul>
-<h2>Stage 4 · Reflect and iterate</h2>
-<ul>
-<li>Demo the feature to peers, gather feedback, and publish a short post-mortem.</li>
-<li>Challenge yourself to refactor one subsystem (for example, move callbacks into service objects).</li>
-<li>Plan the next milestone&mdash;maybe payments, APIs, or admin tooling&mdash;and keep iterating.</li>
-</ul>
-<p>Treat each project as portfolio-ready work. With a consistent build&ndash;review&ndash;refine loop, you will understand both the Rails conventions and the why behind them.</p></div>
-  </div>
-</article>
-```
     </div>
   </main>
 

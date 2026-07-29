@@ -4,8 +4,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Project-Driven Roadmap for Learning Rails - Ruby Learning</title>
-  <meta name="description" content="A step-by-step plan for mastering Rails by building production-style features.">
+  <title>Ruby Learning Resources - Ruby Learning</title>
+  <meta name="description" content="Curated references, courses, and communities for becoming confident with Ruby and Ruby on Rails.">
   <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
   
   
@@ -188,68 +188,98 @@
 
   <main class="site-content">
     <div class="container">
-      <article class="post">
-  <header class="post-header">
-    
-    <h1>Project-Driven Roadmap for Learning Rails</h1>
-
-    
-    
-    <div class="post-meta">
-      
-      <time datetime="2025-09-22" class="post-date">
-        September 22, 2025
-      </time>
-      
-
-      
-      <div class="tags">
-        
-        <span class="tag"><a href="/tags/rails/">rails</a></span>
-        
-        <span class="tag"><a href="/tags/projects/">projects</a></span>
-        
-        <span class="tag"><a href="/tags/roadmap/">roadmap</a></span>
-        
-      </div>
-      
-
-      
-    </div>
-  </header>
-
+      <div class="page">
   
-
-  <div class="post-content">
-    <div class='markdown'><p>Rails rewards people who learn by doing. The project-based curriculum from BigBinary Academy leans into that idea: you start coding immediately, add features in realistic sprints, and refine each release with feedback loops.</p>
-<h2>Stage 1 · Set up your stack</h2>
-<ul>
-<li>Install the recommended toolchain&mdash;Ruby, Rails, PostgreSQL, Node&mdash;and confirm <code>rails new</code> runs without errors.</li>
-<li>Generate your first app with Tailwind support, configure RuboCop, and commit the clean baseline.</li>
-<li>Build a quick health check route and deploy it to a sandbox host to validate the pipeline.</li>
-</ul>
-<h2>Stage 2 · Ship core features</h2>
-<ul>
-<li>Follow the course modules to model data with migrations, validations, and enums.</li>
-<li>Build controller actions and policies that mirror real user flows, such as account onboarding or task management.</li>
-<li>Layer in Hotwire or Turbo interactions for responsive updates without heavy JavaScript.</li>
-</ul>
-<h2>Stage 3 · Harden the app</h2>
-<ul>
-<li>Add background jobs for slow tasks, such as sending summary emails or importing CSV data.</li>
-<li>Write request specs for critical flows and document manual test scenarios.</li>
-<li>Instrument logging and error monitoring to catch regressions early.</li>
-</ul>
-<h2>Stage 4 · Reflect and iterate</h2>
-<ul>
-<li>Demo the feature to peers, gather feedback, and publish a short post-mortem.</li>
-<li>Challenge yourself to refactor one subsystem (for example, move callbacks into service objects).</li>
-<li>Plan the next milestone&mdash;maybe payments, APIs, or admin tooling&mdash;and keep iterating.</li>
-</ul>
-<p>Treat each project as portfolio-ready work. With a consistent build&ndash;review&ndash;refine loop, you will understand both the Rails conventions and the why behind them.</p></div>
+  <div class='markdown'><h1>Ruby Learning Resources</h1>
+<p>Use this page as a clean launchpad when you need high-quality references, structured learning plans, and places to practise.</p>
+<h2>Essential references</h2>
+<p><table class="resource-table">
+  <thead>
+    <tr>
+      <th>Need</th>
+      <th>Why it matters</th>
+      <th>Bookmark</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>Core language docs</td>
+      <td>Canonical method documentation across Ruby versions</td>
+      <td><a href="https://ruby-doc.org/" target="_blank" rel="noopener">ruby-doc.org</a></td>
+    </tr>
+    <tr>
+      <td>Fast lookups</td>
+      <td>Search-first view of classes and methods</td>
+      <td><a href="https://rubyapi.org/" target="_blank" rel="noopener">rubyapi.org</a></td>
+    </tr>
+    <tr>
+      <td>Style guidance</td>
+      <td>Community conventions for writing readable code</td>
+      <td><a href="https://rubystyle.guide/" target="_blank" rel="noopener">rubystyle.guide</a></td>
+    </tr>
+  </tbody>
+</table></p>
+<h2>Guided learning paths</h2>
+<div class="resource-grid">
+  <div class="resource-card">
+    <h3>Learn Ruby quickly</h3>
+    <p>Start with the <a href="/ruby/">Ruby learning hub</a> for a structured walkthrough inspired by the original RubyLearning study notes.</p>
   </div>
-</article>
-```
+  <div class="resource-card">
+    <h3>Become productive with Rails</h3>
+    <p>Use the <a href="/rails/">Rails learning hub</a> to work through project-based checklists that mirror production workflows.</p>
+  </div>
+  <div class="resource-card">
+    <h3>Build with BigBinary Academy</h3>
+    <p>Pair our hubs with <a href="https://courses.bigbinaryacademy.com/learn-rubyonrails/" target="_blank" rel="noopener">BigBinary Academy&rsquo;s Rails course</a>; every module ships a real feature so the lessons stick.</p>
+  </div>
+</div>
+<h2>Practice platforms</h2>
+<ul class="resource-list">
+  <li><strong>Ruby Koans</strong> &mdash; fix failing tests to internalise language features.</li>
+  <li><strong>Exercism Ruby track</strong> &mdash; receive mentor feedback on focused exercises.</li>
+  <li><strong>Codewars Ruby katas</strong> &mdash; drill problem solving with short, repeatable challenges.</li>
+  <li><strong>The Odin Project</strong> &mdash; combine Ruby, Rails, and front-end projects into a cohesive path.</li>
+</ul>
+<h2>Books on repeat</h2>
+<ol>
+  <li><em>Practical Object-Oriented Design in Ruby</em> &mdash; Sandi Metz on building maintainable systems.</li>
+  <li><em>Eloquent Ruby</em> &mdash; Russ Olsen&rsquo;s tour of everyday idioms and patterns.</li>
+  <li><em>Ruby Under a Microscope</em> &mdash; Pat Shaughnessy&rsquo;s deep dive into Ruby internals.</li>
+</ol>
+<h2>Video playlists & screencasts</h2>
+<div class="resource-grid">
+  <div class="resource-card">
+    <h3>GoRails</h3>
+    <p>Concise walkthroughs covering Rails, Hotwire, and deployment practices.</p>
+    <p><a href="https://www.youtube.com/c/GorailsTV" target="_blank" rel="noopener">Watch GoRails</a></p>
+  </div>
+  <div class="resource-card">
+    <h3>Drifting Ruby</h3>
+    <p>Weekly, project-sized screencasts with clean architecture and testing tips.</p>
+    <p><a href="https://www.youtube.com/c/DriftingRuby" target="_blank" rel="noopener">Watch Drifting Ruby</a></p>
+  </div>
+  <div class="resource-card">
+    <h3>Ruby Conference Talks</h3>
+    <p>Stay current with community discussions and new language features.</p>
+    <p><a href="https://www.youtube.com/c/RubyConferences" target="_blank" rel="noopener">Browse talks</a></p>
+  </div>
+</div>
+<h2>Tooling checklist</h2>
+<ul class="resource-list">
+  <li><strong>Version managers</strong>: <a href="https://github.com/rbenv/rbenv" target="_blank" rel="noopener">rbenv</a> or <a href="https://rvm.io/" target="_blank" rel="noopener">RVM</a> to isolate Ruby installs.</li>
+  <li><strong>Package management</strong>: <a href="https://bundler.io/" target="_blank" rel="noopener">Bundler</a> for gems, <a href="https://rubygems.org/" target="_blank" rel="noopener">RubyGems</a> to discover libraries.</li>
+  <li><strong>Quality</strong>: <a href="https://github.com/rubocop/rubocop" target="_blank" rel="noopener">RuboCop</a> for linting, <a href="https://rspec.info/" target="_blank" rel="noopener">RSpec</a> or <a href="https://github.com/minitest/minitest" target="_blank" rel="noopener">Minitest</a> for testing.</li>
+  <li><strong>Frameworks</strong>: <a href="https://rubyonrails.org/" target="_blank" rel="noopener">Rails</a> for full-stack apps, <a href="https://hanamirb.org/" target="_blank" rel="noopener">Hanami</a> and <a href="http://sinatrarb.com/" target="_blank" rel="noopener">Sinatra</a> for alternative architectures.</li>
+</ul>
+<h2>Stay connected</h2>
+<ul class="resource-list">
+  <li><strong>Forums</strong>: <a href="https://discuss.rubyonrails.org/" target="_blank" rel="noopener">discuss.rubyonrails.org</a> for Rails guidance; request an invite to <a href="https://slack.ruby.social/" target="_blank" rel="noopener">ruby.social Slack</a> for daily chat.</li>
+  <li><strong>Communities</strong>: <a href="https://www.reddit.com/r/ruby/" target="_blank" rel="noopener">r/ruby</a>, <a href="https://www.reddit.com/r/rails/" target="_blank" rel="noopener">r/rails</a>, and the <a href="https://discord.gg/ruby-lang" target="_blank" rel="noopener">Ruby Discord</a>.</li>
+  <li><strong>News</strong>: Subscribe to <a href="https://rubyweekly.com/" target="_blank" rel="noopener">Ruby Weekly</a> for curated updates.</li>
+</ul></div>
+</div>
+
     </div>
   </main>
 

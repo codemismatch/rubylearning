@@ -1,5 +1,292 @@
-<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 2 &ndash; Python for ML - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785332555"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785332555"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 2 &ndash; Python for ML</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 2 &ndash; Python for ML <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2026-01-13" class="tutorial-date"> January 13, 2026 </time></div></div></div><p class="tutorial-summary">The practical Python you actually need for machine learning - lists vs arrays, vectorization, a tiny numpy primer, and loading real data from a CSV.</p></header><div class="tutorial-content"><div class='markdown'><p>In Chapter 1 we talked about machine learning as "fitting a function to data". That sounds abstract, so in this chapter we get concrete: what does "data" actually look like in Python, and what tools do we use to manipulate it? By the end you will know the small subset of Python - and an even smaller subset of numpy - that every chapter from now on relies on. Every example in this chapter is a complete program. Save it to a file and run it with <code>python3 file.py</code>. No notebooks, no frameworks, no magic. <h3>What we are NOT going to use</h3> A quick word on scope, because the Python data ecosystem is enormous: <ul><li>We do <strong>not</strong> use pandas, sklearn, or PyTorch. The whole point of this course is to build those ideas by hand.</li><li>We <strong>do</strong> use plain Python lists, the built-in <code>csv</code> module, and - starting right here - a little bit of <code>numpy</code>.</li></ul> If you do not have numpy yet: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">bash.bash</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">pip install numpy
-      </code></pre></div></div></div> That is the only dependency in the entire course. <h3>Lists vs arrays: the core mental model</h3> Plain Python already has a container for numbers: the list. So why does every ML tutorial immediately reach for numpy? Two reasons: speed and ergonomics. Let us feel the difference. A Python list is a container of *pointers to objects*. Each element can be anything - an int, a string, another list. That flexibility costs memory and time. A numpy array is a contiguous block of same-typed numbers. The CPU can chew through it without stopping to ask "what kind of object is this?" at every element. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># lists_vs_arrays.py
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chapter 2 &ndash; Python for ML - Ruby Learning</title>
+  <meta name="description" content="A beautiful static website for learning Ruby">
+  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
+  
+  
+  
+
+  
+
+  
+  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
+
+  <!-- Modern fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
+    rel="stylesheet">
+
+  <!-- Syntax highlighting -->
+  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
+
+  <!-- Tutorial styles -->
+  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
+  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
+  
+
+</head>
+
+<body>
+  <header class="site-header">
+    <div class="container">
+      <a href="/" class="site-logo">
+        
+        <span class="logo-icon logo-icon-python" aria-hidden="true">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
+            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
+            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
+          </svg>
+        </span>
+        <span class="logo-text">Python</span>
+        
+        <span class="logo-accent">Learning</span>
+      </a>
+      <nav class="site-nav">
+        
+        
+        <ul>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/" >Home</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/about/" >About</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/python-basics/" >Learn Python</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li class="has-dropdown">
+            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
+            <ul class="dropdown-menu">
+              
+              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
+              
+              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
+              
+            </ul>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/courses/" >Courses</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/mentorship/" >Mentorship</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/blog/" >Blog</a>
+          </li>
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <li>
+            <a href="/pages/resources/" >Resources</a>
+          </li>
+          
+          
+          
+        </ul>
+      </nav>
+      <button class="menu-toggle" aria-label="Toggle menu">
+        <span class="bar"></span>
+        <span class="bar"></span>
+        <span class="bar"></span>
+      </button>
+    </div>
+  </header>
+
+  <main class="site-content">
+    <div class="container">
+      <div class="tutorial-wrapper">
+  
+  <nav class="breadcrumbs">
+    <ol>
+      <li><a href="/">Home</a></li>
+      
+      <li><a href="/courses/">Courses</a></li>
+      <li>Chapter 2 &ndash; Python for ML</li>
+      
+    </ol>
+  </nav>
+  
+
+  <article class="tutorial">
+    <header class="tutorial-header">
+      <h1>
+        Chapter 2 &ndash; Python for ML
+        
+        <span class="difficulty difficulty-beginner">Beginner</span>
+        
+      </h1>
+      
+      
+      
+      
+      
+      
+      <div class="tutorial-meta">
+        
+        <div class="tutorial-author">
+          <div class="tutorial-author-avatar">
+            
+            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
+            
+          </div>
+          <div class="tutorial-author-text">
+            <div class="tutorial-author-name">
+              Pankaj Doharey
+            </div>
+            
+            <time datetime="2026-01-13" class="tutorial-date">
+              January 13, 2026
+            </time>
+            
+          </div>
+        </div>
+        
+
+        
+      </div>
+      
+      
+      <p class="tutorial-summary">The practical Python you actually need for machine learning - lists vs arrays, vectorization, a tiny numpy primer, and loading real data from a CSV.</p>
+      
+    </header>
+
+    
+    <div class="tutorial-content">
+      <div class='markdown'><p>In Chapter 1 we talked about machine learning as "fitting a function to data". That sounds abstract, so in this chapter we get concrete: what does "data" actually look like in Python, and what tools do we use to manipulate it? By the end you will know the small subset of Python - and an even smaller subset of numpy - that every chapter from now on relies on.</p>
+<p>Every example in this chapter is a complete program. Save it to a file and run it with <code>python3 file.py</code>. No notebooks, no frameworks, no magic.</p>
+<h3>What we are NOT going to use</h3>
+<p>A quick word on scope, because the Python data ecosystem is enormous:</p>
+<ul>
+<li>We do <strong>not</strong> use pandas, sklearn, or PyTorch. The whole point of this course is to build those ideas by hand.</li>
+<li>We <strong>do</strong> use plain Python lists, the built-in <code>csv</code> module, and - starting right here - a little bit of <code>numpy</code>.</li>
+</ul>
+<p>If you do not have numpy yet:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">bash.bash</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-bash">pip install numpy</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>That is the only dependency in the entire course.</p>
+<h3>Lists vs arrays: the core mental model</h3>
+<p>Plain Python already has a container for numbers: the list. So why does every ML tutorial immediately reach for numpy? Two reasons: speed and ergonomics. Let us feel the difference.</p>
+<p>A Python list is a container of *pointers to objects*. Each element can be anything - an int, a string, another list. That flexibility costs memory and time. A numpy array is a contiguous block of same-typed numbers. The CPU can chew through it without stopping to ask "what kind of object is this?" at every element.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># lists_vs_arrays.py
 
 # A Python list: flexible, but slow for math
 scores = [90, 72, 85, 60]
@@ -15,10 +302,39 @@ import numpy as np
 # A numpy array: one type, stored contiguously
 scores_arr = np.array([90, 72, 85, 60])
 doubled_arr = scores_arr * 2
-print(doubled_arr)  # [180 144 170 120]
-      </code></pre></div></div></div> Run it with <code>python3 lists_vs_arrays.py</code>. Both produce the same numbers, but notice the shape of the code: with a list you describe the *loop*; with an array you describe the *operation*. That shift - from "how to iterate" to "what to compute" - is the single most important habit in numerical programming. There is also a trap worth knowing early. Multiplying a Python list by an integer does something completely different: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">print([1, 2, 3] * 2)          # [1, 2, 3, 1, 2, 3]  - repetition!
-print(np.array([1, 2, 3]) * 2) # [2 4 6]             - elementwise math
-      </code></pre></div></div></div><h3>The vectorization idea</h3> "Vectorization" just means: express an operation on a whole array at once, instead of looping element by element. Under the hood numpy hands the loop to compiled C code, which is typically 50-100x faster than a Python loop. Let us time a real example: computing the dot product of two vectors of one million numbers, once with a Python loop and once with numpy. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># vectorization.py
+print(doubled_arr)  # [180 144 170 120]</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Run it with <code>python3 lists_vs_arrays.py</code>. Both produce the same numbers, but notice the shape of the code: with a list you describe the *loop*; with an array you describe the *operation*. That shift - from "how to iterate" to "what to compute" - is the single most important habit in numerical programming.</p>
+<p>There is also a trap worth knowing early. Multiplying a Python list by an integer does something completely different:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">print([1, 2, 3] * 2)          # [1, 2, 3, 1, 2, 3]  - repetition!
+print(np.array([1, 2, 3]) * 2) # [2 4 6]             - elementwise math</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>The vectorization idea</h3>
+<p>"Vectorization" just means: express an operation on a whole array at once, instead of looping element by element. Under the hood numpy hands the loop to compiled C code, which is typically 50-100x faster than a Python loop.</p>
+<p>Let us time a real example: computing the dot product of two vectors of one million numbers, once with a Python loop and once with numpy.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># vectorization.py
 import time
 import numpy as np
 
@@ -38,8 +354,25 @@ va = np.array(a)
 vb = np.array(b)
 start = time.time()
 total2 = np.dot(va, vb)
-print(&quot;dot  result:&quot;, total2, &quot; took&quot;, round(time.time() - start, 4), &quot;s&quot;)
-      </code></pre></div></div></div> On most machines the loop takes a few tenths of a second and the numpy call takes a couple of milliseconds - same answer, two orders of magnitude apart. When you get to gradient descent in Chapter 5, you will run operations like this thousands of times, so the difference stops being cosmetic and starts being the difference between "done" and "still running". The deeper point, though, is not the speed. Vectorized code is *shorter and closer to the math*. The formula "sum of products" is exactly <code>np.dot(a, b)</code>. Less code, fewer bugs. <h3>A tiny numpy primer</h3> Everything we need from numpy fits in a few pages. Learn these four things and you can read all the code in this course. <strong>1. Creating and inspecting arrays</strong><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># numpy_basics.py
+print(&quot;dot  result:&quot;, total2, &quot; took&quot;, round(time.time() - start, 4), &quot;s&quot;)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>On most machines the loop takes a few tenths of a second and the numpy call takes a couple of milliseconds - same answer, two orders of magnitude apart. When you get to gradient descent in Chapter 5, you will run operations like this thousands of times, so the difference stops being cosmetic and starts being the difference between "done" and "still running".</p>
+<p>The deeper point, though, is not the speed. Vectorized code is *shorter and closer to the math*. The formula "sum of products" is exactly <code>np.dot(a, b)</code>. Less code, fewer bugs.</p>
+<h3>A tiny numpy primer</h3>
+<p>Everything we need from numpy fits in a few pages. Learn these four things and you can read all the code in this course.</p>
+<p><strong>1. Creating and inspecting arrays</strong></p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># numpy_basics.py
 import numpy as np
 
 x = np.array([1.0, 2.0, 3.0])          # 1-D array (a vector)
@@ -56,8 +389,23 @@ ones = np.ones(4)
 r = np.arange(0, 10, 2)      # [0 2 4 6 8]
 print(zeros)
 print(ones)
-print(r)
-      </code></pre></div></div></div> Think of <code>shape</code> as the array's "dimensions label". In ML, a dataset is almost always a 2-D array of shape <code>(n_examples, n_features)</code> - one row per example, one column per feature. <strong>2. Elementwise operations</strong> Arithmetic on arrays applies to every element at once: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># elementwise.py
+print(r)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Think of <code>shape</code> as the array's "dimensions label". In ML, a dataset is almost always a 2-D array of shape <code>(n_examples, n_features)</code> - one row per example, one column per feature.</p>
+<p><strong>2. Elementwise operations</strong></p>
+<p>Arithmetic on arrays applies to every element at once:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># elementwise.py
 import numpy as np
 
 temps_c = np.array([0.0, 10.0, 20.0, 30.0])
@@ -69,8 +417,23 @@ print(temps_f)  # [32. 50. 68. 86.]
 a = np.array([1.0, 2.0, 3.0])
 b = np.array([10.0, 20.0, 30.0])
 print(a + b)   # [11. 22. 33.]
-print(a * b)   # [10. 40. 90.]   (NOT a dot product!)
-      </code></pre></div></div></div> That last line trips everyone up at least once: <code>*</code> on two arrays multiplies element by element. For a dot product, use <code>np.dot</code> or the <code>@</code> operator. <strong>3. The dot product</strong> The dot product - sum of pairwise products - is the atom of machine learning. A linear model's prediction *is* a dot product between the weights and the features. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># dot_product.py
+print(a * b)   # [10. 40. 90.]   (NOT a dot product!)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>That last line trips everyone up at least once: <code>*</code> on two arrays multiplies element by element. For a dot product, use <code>np.dot</code> or the <code>@</code> operator.</p>
+<p><strong>3. The dot product</strong></p>
+<p>The dot product - sum of pairwise products - is the atom of machine learning. A linear model's prediction *is* a dot product between the weights and the features.</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># dot_product.py
 import numpy as np
 
 weights = np.array([0.5, 0.3, 0.2])
@@ -81,8 +444,23 @@ print(final_grade)                        # 83.0
 
 # What it means by hand:
 manual = 0.5 * 90.0 + 0.3 * 70.0 + 0.2 * 85.0
-print(manual)                             # 83.0
-      </code></pre></div></div></div> Read <code>weights @ scores</code> as "weighted sum". When Chapter 4 says "prediction = w · x + b", this is the exact line of code that implements it. <strong>4. Broadcasting</strong> Broadcasting is numpy's rule for combining arrays of different shapes: the smaller one is stretched (conceptually, without copying) to match. The most common case is array-with-scalar, which you already saw in the temperature conversion. The second most common case is adding a row vector to every row of a matrix: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># broadcasting.py
+print(manual)                             # 83.0</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Read <code>weights @ scores</code> as "weighted sum". When Chapter 4 says "prediction = w · x + b", this is the exact line of code that implements it.</p>
+<p><strong>4. Broadcasting</strong></p>
+<p>Broadcasting is numpy's rule for combining arrays of different shapes: the smaller one is stretched (conceptually, without copying) to match. The most common case is array-with-scalar, which you already saw in the temperature conversion. The second most common case is adding a row vector to every row of a matrix:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># broadcasting.py
 import numpy as np
 
 # 3 students, 2 test scores each
@@ -100,15 +478,43 @@ print(scores + curve)
 column_means = scores.mean(axis=0)     # mean down the rows -&gt; shape (2,)
 print(column_means)                    # [70. 83.33...]
 centered = scores - column_means       # broadcasting again
-print(centered)
-      </code></pre></div></div></div> If the shapes are incompatible, numpy raises a clear error instead of guessing. When you see <code>operands could not be broadcast together</code>, check the <code>.shape</code> of both sides first - that one habit solves 90% of numpy debugging. <h3>Loading a dataset from CSV</h3> Real data arrives as files, and the humblest format is CSV. Python's built-in <code>csv</code> module handles it with zero dependencies. Create this small dataset - house sizes and prices - as <code>houses.csv</code> in the same folder as your script: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">csv.csv</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-csv">size_sqft,bedrooms,price
+print(centered)</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>If the shapes are incompatible, numpy raises a clear error instead of guessing. When you see <code>operands could not be broadcast together</code>, check the <code>.shape</code> of both sides first - that one habit solves 90% of numpy debugging.</p>
+<h3>Loading a dataset from CSV</h3>
+<p>Real data arrives as files, and the humblest format is CSV. Python's built-in <code>csv</code> module handles it with zero dependencies. Create this small dataset - house sizes and prices - as <code>houses.csv</code> in the same folder as your script:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">csv.csv</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-csv">size_sqft,bedrooms,price
 750,2,180000
 940,2,220000
 1150,3,265000
 1300,3,290000
 1600,4,340000
-1850,4,375000
-      </code></pre></div></div></div> Now load it, split it into a feature matrix <code>X</code> and a label vector <code>y</code>, and hand it to numpy: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># load_csv.py
+1850,4,375000</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Now load it, split it into a feature matrix <code>X</code> and a label vector <code>y</code>, and hand it to numpy:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># load_csv.py
 import csv
 import numpy as np
 
@@ -130,15 +536,44 @@ print(&quot;First example:&quot;, X[0], &quot;-&gt;&quot;, y[0])
 
 # Quick sanity statistics - always look at your data before modeling it
 print(&quot;size range :&quot;, X[:, 0].min(), &quot;to&quot;, X[:, 0].max())
-print(&quot;mean price :&quot;, y.mean())
-      </code></pre></div></div></div> Run it with <code>python3 load_csv.py</code>. The pattern here - rows become examples, columns become features, one column becomes the label - is the standard contract for the rest of the course. <code>X</code> is a matrix, <code>y</code> is a vector, and a model is something that maps <code>X</code> to predictions that should look like <code>y</code>. Notice we did the parsing in pure Python and only converted to numpy at the end. That split is deliberate: <code>csv</code> is good at reading text, numpy is good at math on numbers. <h3>The data flow, end to end</h3> Here is the pipeline this chapter just built, and the one every supervised-learning chapter will follow: <div class="diagram-container mermaid-diagram"><div class="mermaid" id="mermaid-94343652">
+print(&quot;mean price :&quot;, y.mean())</code></pre>
+      </div>
+    </div>
+  </div></p>
+<p>Run it with <code>python3 load_csv.py</code>. The pattern here - rows become examples, columns become features, one column becomes the label - is the standard contract for the rest of the course. <code>X</code> is a matrix, <code>y</code> is a vector, and a model is something that maps <code>X</code> to predictions that should look like <code>y</code>.</p>
+<p>Notice we did the parsing in pure Python and only converted to numpy at the end. That split is deliberate: <code>csv</code> is good at reading text, numpy is good at math on numbers.</p>
+<h3>The data flow, end to end</h3>
+<p>Here is the pipeline this chapter just built, and the one every supervised-learning chapter will follow:
+<div class="diagram-container mermaid-diagram">
+<div class="mermaid" id="mermaid-94343652">
 graph LR
   A[CSV file] --> B[csv module: parse rows]
   B --> C[features X]
   B --> D[labels y]
   C --> E[model]
   D --> E
-</div><p class="diagram-caption">Figure 1: From raw CSV to a model-ready feature matrix and label vector.</p></div><h3>Plotting, conceptually</h3> We will not depend on matplotlib in this course, but you should know what you would look at if you used it. The workhorse plot for regression data is a <strong>scatter plot</strong>: one axis per variable, one dot per example. Plotting <code>size_sqft</code> on the x-axis against <code>price</code> on the y-axis for the houses above, you would see the dots climb from lower-left to upper-right - bigger houses, higher prices. That visible trend is exactly the pattern a linear model tries to capture with a line. A scatter plot answers three questions before you write any model code: <ul><li>Is there a trend at all, or does it look like static?</li><li>Is the trend roughly a straight line, or does it bend?</li><li>Are there outliers - points far from the pack - that might dominate the fit?</li></ul> If you have matplotlib installed (<code>pip install matplotlib</code>), five lines give you the picture: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># optional_plot.py  (requires: pip install matplotlib)
+</div>
+<p class="diagram-caption">Figure 1: From raw CSV to a model-ready feature matrix and label vector.</p>
+</div></p>
+<h3>Plotting, conceptually</h3>
+<p>We will not depend on matplotlib in this course, but you should know what you would look at if you used it. The workhorse plot for regression data is a <strong>scatter plot</strong>: one axis per variable, one dot per example. Plotting <code>size_sqft</code> on the x-axis against <code>price</code> on the y-axis for the houses above, you would see the dots climb from lower-left to upper-right - bigger houses, higher prices. That visible trend is exactly the pattern a linear model tries to capture with a line.</p>
+<p>A scatter plot answers three questions before you write any model code:</p>
+<ul>
+<li>Is there a trend at all, or does it look like static?</li>
+<li>Is the trend roughly a straight line, or does it bend?</li>
+<li>Are there outliers - points far from the pack - that might dominate the fit?</li>
+</ul>
+<p>If you have matplotlib installed (<code>pip install matplotlib</code>), five lines give you the picture:</p>
+<p><div class="code-window">
+    <div class="code-header">
+      <span class="window-btn red"></span>
+      <span class="window-btn yellow"></span>
+      <span class="window-btn green"></span>
+      <span class="window-title">python.python</span>
+    </div>
+    <div class="code-content">
+      <div class="code-editor">
+        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># optional_plot.py  (requires: pip install matplotlib)
 import matplotlib.pyplot as plt
 import numpy as np
 
@@ -148,8 +583,239 @@ y = np.array([180000, 220000, 265000, 290000, 340000, 375000])
 plt.scatter(X, y)
 plt.xlabel(&quot;size (sqft)&quot;)
 plt.ylabel(&quot;price ($)&quot;)
-plt.show()
-      </code></pre></div></div></div><h3>Common beginner pitfalls, collected</h3> A short list, because you will hit all of these: <ul><li><code>[1, 2, 3] * 2</code> repeats the list; <code>np.array([1, 2, 3]) * 2</code> doubles the numbers. Know which object you are holding.</li><li><code>a * b</code> on arrays is elementwise; <code>a @ b</code> is the dot product. Mixing them up produces silently wrong numbers.</li><li>CSV values come back as strings - always convert with <code>float()</code> or <code>int()</code> before doing math.</li><li>When numpy complains about broadcasting, print <code>.shape</code> on both operands and compare.</li><li>Look at your data (min, max, mean, a scatter plot) *before* fitting anything. Models faithfully learn whatever the data says, including its mistakes.</li></ul><h3>Where this leads</h3> You now have the Python toolkit used by the rest of the course: arrays, shapes, dot products, CSV loading, and basic inspection. In Chapter 3: Preparing Data for Machine Learning, we will turn raw rows into trustworthy features and labels, handle missing and categorical values, and make sure preprocessing never leaks information from the test set. Chapter 4 then puts the resulting <code>X</code> and <code>y</code> into the first model. <h3>Practice checklist</h3><ul><li>[ ] Run <code>lists_vs_arrays.py</code> and explain in one sentence why <code>[1, 2, 3] * 2</code> differs from the numpy version.</li><li>[ ] Run <code>vectorization.py</code> and note the speed ratio between the loop and <code>np.dot</code> on your machine.</li><li>[ ] From memory, write the one-liner that computes a weighted sum of <code>[10, 20, 30]</code> with weights <code>[0.2, 0.3, 0.5]</code> using <code>@</code>.</li><li>[ ] Predict the output of <code>np.zeros((2, 3)) + np.array([1, 2, 3])</code>, then run it to check - what rule made it work?</li><li>[ ] Add two more rows to <code>houses.csv</code>, rerun <code>load_csv.py</code>, and confirm the shapes grow as expected.</li><li>[ ] Write a tiny script that loads <code>houses.csv</code>, computes the mean price per bedroom count, and prints it.</li><li>[ ] Sketch (on paper or with matplotlib) the size-vs-price scatter plot and describe the trend in one sentence.</li></ul></p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/what-is-machine-learning/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 1: What is Machine Learning</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/preparing-data-for-machine-learning/"><span>Chapter 3: Preparing Data for Machine Learning</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785332555"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785332555"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785332555"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785332555"></script><script src="/themes/pylearning/js/site.js?v=1785332555"></script><script src="/themes/pylearning/js/python-plot.js?v=1785332555"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785332555"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785332555"></script><script src="/themes/pylearning/js/python-console.js?v=1785332555"></script><script src="/themes/pylearning/js/python-exec.js?v=1785332555"></script><script>
+plt.show()</code></pre>
+      </div>
+    </div>
+  </div></p>
+<h3>Common beginner pitfalls, collected</h3>
+<p>A short list, because you will hit all of these:</p>
+<ul>
+<li><code>[1, 2, 3] * 2</code> repeats the list; <code>np.array([1, 2, 3]) * 2</code> doubles the numbers. Know which object you are holding.</li>
+<li><code>a * b</code> on arrays is elementwise; <code>a @ b</code> is the dot product. Mixing them up produces silently wrong numbers.</li>
+<li>CSV values come back as strings - always convert with <code>float()</code> or <code>int()</code> before doing math.</li>
+<li>When numpy complains about broadcasting, print <code>.shape</code> on both operands and compare.</li>
+<li>Look at your data (min, max, mean, a scatter plot) *before* fitting anything. Models faithfully learn whatever the data says, including its mistakes.</li>
+</ul>
+<h3>Where this leads</h3>
+<p>You now have the Python toolkit used by the rest of the course: arrays, shapes, dot products, CSV loading, and basic inspection. In Chapter 3: Preparing Data for Machine Learning, we will turn raw rows into trustworthy features and labels, handle missing and categorical values, and make sure preprocessing never leaks information from the test set. Chapter 4 then puts the resulting <code>X</code> and <code>y</code> into the first model.</p>
+<h3>Practice checklist</h3>
+<ul>
+<li>[ ] Run <code>lists_vs_arrays.py</code> and explain in one sentence why <code>[1, 2, 3] * 2</code> differs from the numpy version.</li>
+<li>[ ] Run <code>vectorization.py</code> and note the speed ratio between the loop and <code>np.dot</code> on your machine.</li>
+<li>[ ] From memory, write the one-liner that computes a weighted sum of <code>[10, 20, 30]</code> with weights <code>[0.2, 0.3, 0.5]</code> using <code>@</code>.</li>
+<li>[ ] Predict the output of <code>np.zeros((2, 3)) + np.array([1, 2, 3])</code>, then run it to check - what rule made it work?</li>
+<li>[ ] Add two more rows to <code>houses.csv</code>, rerun <code>load_csv.py</code>, and confirm the shapes grow as expected.</li>
+<li>[ ] Write a tiny script that loads <code>houses.csv</code>, computes the mean price per bedroom count, and prints it.</li>
+<li>[ ] Sketch (on paper or with matplotlib) the size-vs-price scatter plot and describe the trend in one sentence.</li>
+</ul></div>
+    </div>
+
+    
+    <nav class="tutorial-nav">
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/what-is-machine-learning/">
+        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
+        <span>Chapter 1: What is Machine Learning</span>
+      </a>
+      
+      
+      
+      
+      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/preparing-data-for-machine-learning/">
+        <span>Chapter 3: Preparing Data for Machine Learning</span>
+        <span class="icon-arrow" aria-hidden="true">&gt;</span>
+      </a>
+      
+    </nav>
+    
+
+    
+  </article>
+
+  
+
+  
+  <div class="python-console-drawer">
+    <button class="python-console-toggle" type="button" aria-expanded="false">
+      <span class="python-console-toggle-label">Python console</span>
+      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
+    </button>
+    <div class="python-console-body">
+      <div class="python-repl" data-python-console="true">
+        <div class="python-repl-output" aria-live="polite"></div>
+        <form class="python-repl-form">
+          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
+          <div class="python-repl-input-wrapper">
+            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
+              rows="1"></textarea>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+  
+</div>
+
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-about">
+          <h3>Ruby Learning</h3>
+          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
+        </div>
+        <div class="footer-links">
+          <h3>Quick Links</h3>
+          
+          
+          <ul>
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/" >Home</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/about/" >About</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/python-basics/" >Learn Python</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/machine-learning/" >Learn ML</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/courses/image-generation/" >Learn Image AI</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/blog/" >Blog</a>
+            </li>
+            
+            
+            
+            
+            
+            
+            
+            
+            <li><a href="/pages/resources/" >Resources</a>
+            </li>
+            
+            
+          </ul>
+        </div>
+        <div class="footer-resources">
+          <h3>Ruby Resources</h3>
+          
+          <ul>
+            
+            
+            
+            
+            
+            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
+            
+            
+            
+            
+            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
+            
+            
+            
+            
+            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
+            
+            
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>
+          &copy; 2026 Ruby Learning.
+          Built with
+          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
+          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
+          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
+          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
+        </p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Scripts -->
+  
+  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
+  
+  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
+  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
+  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
+  
+  
+
+  <script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -160,6 +826,13 @@ plt.show()
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785332555"></script><script>
+  </script>
+
+  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
+  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
+  <script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script></body></html>
+  </script>
+</body>
+
+</html>
