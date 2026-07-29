@@ -50,8 +50,16 @@
   {
     "title": "Chapter 22 &ndash; Autoencoders",
     "description": null,
-    "permalink": "/courses/machine-learning/autoencoders/",
-    "url": "https://rubylearning.in/courses/machine-learning/autoencoders/",
+    "permalink": "/courses/image-generation/autoencoders/",
+    "url": "https://rubylearning.in/courses/image-generation/autoencoders/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 21 &ndash; Backpropagation by Hand",
+    "description": null,
+    "permalink": "/courses/machine-learning/backpropagation-by-hand/",
+    "url": "https://rubylearning.in/courses/machine-learning/backpropagation-by-hand/",
     "date": "2026-07-29",
     "tags": []
   },
@@ -64,10 +72,18 @@
     "tags": []
   },
   {
+    "title": "Chapter 20 &ndash; Convolutions & CNNs from Scratch",
+    "description": null,
+    "permalink": "/courses/image-generation/convolutions-cnns-from-scratch/",
+    "url": "https://rubylearning.in/courses/image-generation/convolutions-cnns-from-scratch/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
     "title": "Chapter 23 &ndash; Diffusion Models: DDPM from First Principles",
     "description": null,
-    "permalink": "/courses/machine-learning/ddpm-from-first-principles/",
-    "url": "https://rubylearning.in/courses/machine-learning/ddpm-from-first-principles/",
+    "permalink": "/courses/image-generation/ddpm-from-first-principles/",
+    "url": "https://rubylearning.in/courses/image-generation/ddpm-from-first-principles/",
     "date": "2026-07-29",
     "tags": []
   },
@@ -93,6 +109,14 @@
     "permalink": "/courses/machine-learning/evaluating-classification-models/",
     "url": "https://rubylearning.in/courses/machine-learning/evaluating-classification-models/",
     "date": "2026-02-06",
+    "tags": []
+  },
+  {
+    "title": "Chapter 4 &ndash; GANs: A Generator and a Critic",
+    "description": null,
+    "permalink": "/courses/image-generation/gans-from-scratch/",
+    "url": "https://rubylearning.in/courses/image-generation/gans-from-scratch/",
+    "date": "2026-07-29",
     "tags": []
   },
   {
@@ -136,6 +160,14 @@
     "tags": []
   },
   {
+    "title": "Chapter 6 &ndash; Latent Diffusion & Super-Resolution",
+    "description": null,
+    "permalink": "/courses/image-generation/latent-diffusion/",
+    "url": "https://rubylearning.in/courses/image-generation/latent-diffusion/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
     "title": "Chapter 4 &ndash; Linear Regression from Scratch",
     "description": null,
     "permalink": "/courses/machine-learning/linear-regression-from-scratch/",
@@ -149,6 +181,14 @@
     "permalink": "/courses/machine-learning/logistic-regression-classification/",
     "url": "https://rubylearning.in/courses/machine-learning/logistic-regression-classification/",
     "date": "2026-02-03",
+    "tags": []
+  },
+  {
+    "title": "Chapter 21 &ndash; MNIST: Recognizing Handwritten Digits",
+    "description": null,
+    "permalink": "/courses/machine-learning/mnist-handwritten-digits/",
+    "url": "https://rubylearning.in/courses/machine-learning/mnist-handwritten-digits/",
+    "date": "2026-04-14",
     "tags": []
   },
   {
@@ -205,6 +245,22 @@
     "permalink": "/courses/machine-learning/text-embeddings/",
     "url": "https://rubylearning.in/courses/machine-learning/text-embeddings/",
     "date": "2026-03-10",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; Training Tricks: Initialization, Normalization, ResNets",
+    "description": null,
+    "permalink": "/courses/image-generation/training-tricks/",
+    "url": "https://rubylearning.in/courses/image-generation/training-tricks/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; U-Net: The Workhorse of Image Models",
+    "description": null,
+    "permalink": "/courses/image-generation/unet/",
+    "url": "https://rubylearning.in/courses/image-generation/unet/",
+    "date": "2026-07-29",
     "tags": []
   },
   {
