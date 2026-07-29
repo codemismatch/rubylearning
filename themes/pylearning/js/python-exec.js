@@ -186,19 +186,33 @@
           try {
             const py = await PythonRuntime.getPyodide();
             py.globals.set(varName, text);
+
             status.textContent =
-              `Loaded "${file.name}" (${text.length.toLocaleString()} characters) ` +
-              `- retraining on it now (this runs every cell in order, including the ~1 minute training cell)...`;
-            // Re-run all executable cells in document order so the model,
-            // plots, and generation all use the uploaded corpus.
-            const cells = [...document.querySelectorAll(".code-window")]
-              .filter(cw => typeof cw.runCell === "function");
-            for (const cw of cells) {
-              await cw.runCell();
-            }
-            status.textContent =
-              `Trained on "${file.name}" (${text.length.toLocaleString()} characters). ` +
-              `Plots and generated text below now use your corpus.`;
+              `Loaded "${file.name}" (${text.length.toLocaleString()} characters). `;
+
+            // Offer an explicit retrain instead of starting automatically.
+            let btn = wrap.querySelector(".corpus-retrain-btn");
+            if (btn) btn.remove();
+            btn = document.createElement("button");
+            btn.className = "corpus-retrain-btn run-button";
+            btn.textContent = "▶ Retrain on this corpus (~1 min)";
+            btn.style.marginLeft = "0.5rem";
+            wrap.insertBefore(btn, status);
+
+            btn.addEventListener("click", async () => {
+              btn.disabled = true;
+              status.textContent =
+                `Retraining on "${file.name}" - running every cell in order (about a minute)...`;
+              const cells = [...document.querySelectorAll(".code-window")]
+                .filter(cw => typeof cw.runCell === "function");
+              for (const cw of cells) {
+                await cw.runCell();
+              }
+              status.textContent =
+                `Trained on "${file.name}" (${text.length.toLocaleString()} characters). ` +
+                `Plots and generated text below now use your corpus.`;
+              btn.disabled = false;
+            });
           } catch (err) {
             status.textContent = "Could not load corpus: " + String(err);
           }
