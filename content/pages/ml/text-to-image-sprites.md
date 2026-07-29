@@ -490,6 +490,314 @@ print(f"generated images closest to the requested class average: "
 
 This is the most valuable result in the chapter, and it is a negative result. The sprites proved the mechanism; the photographs proved the bottleneck. Conditioning is not magic that summons class structure - it is a steering wheel that amplifies structure the data already contains. A 167-thumbnail dataset cannot teach six textures to a 30,000-parameter network, no matter how the prompt arrives. Five billion image-caption pairs and a U-Net a thousand times wider can, and that is the *entire* difference between this page and Stable Diffusion: same equations, same guidance formula, louder data.
 
+### More data, better data: pixel art, and the last ingredient
+
+Or so we concluded. But the COCO lesson was narrower: those 167 photographs contain almost no class structure at 16x16. That is a property of *that* data, not of real data in general. So let's go shopping for a dataset that does have structure: 20,000 labeled 24x24 pixel-art images (unstonio/pixelgpt-24x24-20k on Hugging Face, category labels included, reduced to 16x16 grayscale for the browser). Pixel art is the opposite of a blurry thumbnail: dark background, one crisp bright shape, and categories a human can sort at a glance - dragons, bees, flowers, helmets, potions, buildings.
+
+<div data-corpus-url="/assets/data/pixelart16.csv" data-corpus-var="pixel_text"></div>
+
+The parse cell is the COCO cell verbatim. Notice that we reuse the same variable names - `CLASSES`, `cdata`, `caps` - on purpose: nothing in the pipeline cares what the pixels mean. Every function below (`ccond`, `cforward`, `eval_with`, `csample`) reads these globals and just works on the new data:
+
+```python-exec
+rows = pixel_text.strip().split("\n")[1:]      # skip the header
+CLASSES = []                     # rebuilt for the new dataset
+cdata = []
+caps = {}
+for ln in rows:
+    parts = ln.split(",")
+    word = parts[0]
+    if word not in CLASSES:
+        CLASSES.append(word)
+    if word not in caps:
+        caps[word] = parts[1].strip('"')
+    px = [float(v) * 2 - 1 for v in parts[2:]]
+    cdata.append((px, CLASSES.index(word)))
+
+print(f"{len(cdata)} pixel-art images, {len(CLASSES)} classes: {CLASSES}")
+for w in CLASSES:
+    print(f'  {w:9s} e.g. "{caps[w]}"')
+```
+
+And the preview - three real images per class. This time a dragon is visibly a dragon, a bee is a striped blob with wings, a potion is a mug. No honesty paragraph needed about recognizing them; you can sort these yourself:
+
+```python-exec
+for wi, word in enumerate(CLASSES):
+    imgs = [x for x, i in cdata if i == wi][:3]
+    for j, x in enumerate(imgs):
+        plt.imshow(show16(x), label=f"{word} #{j + 1}")
+    plt.title(f"pixel art: {word}")
+    plt.show()
+```
+
+Same denoiser, fresh weights, same training loop - reset the Adam clock first, for the reason we discovered two sections ago (its bias correction assumes `t` starts at 1). Another honest two minutes on a laptop, several in the browser:
+
+```python-exec
+random.seed(1234)                                   # fresh weights, same shape
+CW1 = rand_matrix(CH, CDIN, math.sqrt(2 / CDIN)); Cb1 = [0.0] * CH
+CW2 = rand_matrix(CDOUT, CH, 0.0)
+Cb2 = [0.0] * CDOUT
+CNULL = len(CLASSES)
+CEMB = rand_matrix(len(CLASSES) + 1, TE, 0.1)
+print(f"same denoiser, fresh weights: {CDIN} -> {CH} -> {CDOUT}, "
+      f"plus a {len(CLASSES) + 1}x{TE} word table")
+```
+
+```python-exec
+B = 16
+steps = 1200
+_t_adam = 0           # fresh Adam clock again
+t0 = time.time()
+for step in range(steps + 1):
+    _t_adam += 1
+    gW1 = [[0.0] * CDIN for _ in range(CH)]; gb1 = [0.0] * CH
+    gW2 = [[0.0] * CH for _ in range(CDOUT)]; gb2 = [0.0] * CDOUT
+    gE = [[0.0] * TE for _ in range(len(CLASSES) + 1)]
+    loss_b = 0.0
+    for _ in range(B):
+        x0, wi = random.choice(cdata)
+        if random.random() < 0.1:
+            wi = CNULL
+        tt = 25 + random.randrange(T - 25)
+        noise = [random.gauss(0, 1) for _ in range(256)]
+        xin = q_sample(x0, tt, noise) + ccond(wi, tt)
+        pred, h1 = cforward(xin)
+        loss_b += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 256
+        d2 = [2 * (p_ - n) / (256 * B) for p_, n in zip(pred, noise)]
+        for i in range(CDOUT):
+            for j in range(CH):
+                gW2[i][j] += d2[i] * h1[j]
+            gb2[i] += d2[i]
+        dh1 = vecmat(d2, CW2)
+        dh1 = [d * (1.0 if h > 0 else 0.0) for d, h in zip(dh1, h1)]
+        for i in range(CH):
+            for j in range(CDIN):
+                gW1[i][j] += dh1[i] * xin[j]
+            gb1[i] += dh1[i]
+        dxin = vecmat(dh1, CW1)
+        for i in range(TE):
+            gE[wi][i] += dxin[256 + i]
+    adam('CW1', CW1, gW1); adam('Cb1', Cb1, gb1)
+    adam('CW2', CW2, gW2); adam('Cb2', Cb2, gb2)
+    adam('CEMB', CEMB, gE)
+    if step % 100 == 0:
+        progress(step, steps, suffix=f"loss {loss_b / B:.4f}")
+    if step % 500 == 0:
+        print(f"step {step:4d}  loss {loss_b / B:.4f}")
+print(f"trained in {time.time() - t0:.0f}s")
+```
+
+Same rigor as before - the three measurements, now on data that visibly has structure. `eval_with` and `nearest_proto` need no redefinition; only the prototypes and spreads are recomputed:
+
+```python-exec
+print(f"eval: correct word {eval_with('right'):.4f}  "
+      f"no word {eval_with('null'):.4f}  wrong word {eval_with('wrong'):.4f}")
+
+gmean = [sum(x[k] for x, _ in cdata) / len(cdata) for k in range(256)]
+protos = []
+for wi in range(len(CLASSES)):
+    imgs = [x for x, i in cdata if i == wi]
+    protos.append([sum(im[k] for im in imgs) / len(imgs) for k in range(256)])
+v_in = sum((x[k] - protos[wi][k]) ** 2 for x, wi in cdata
+           for k in range(256)) / (len(cdata) * 256)
+v_gl = sum((x[k] - gmean[k]) ** 2 for x, _ in cdata
+           for k in range(256)) / (len(cdata) * 256)
+print(f"spread within a class: {v_in:.3f}   spread overall: {v_gl:.3f}")
+
+hits = sum(1 for x, wi in cdata if nearest_proto(x) == wi)
+print(f"real images closest to their own class average: "
+      f"{hits}/{len(cdata)} (chance is 1/{len(CLASSES)})")
+```
+
+Line the three datasets up side by side:
+
+| dataset | within-class share of spread | real images that self-sort | conditional training |
+| --- | --- | --- | --- |
+| sprites (procedural, 400) | 85% | 75% (chance 25%) | works - rows obey |
+| COCO photos (167) | 97% | 36% (chance 17%) | fails - word unused |
+| pixel art (270) | 96% | 54% (chance 17%) | keep reading |
+
+The pixel-art data really is different: its class averages have visible shapes, and real images sort themselves correctly half the time. The structure the COCO set lacked is present. And the trained model? The eval line says the word still does not move the loss. Here is the gallery, same layout as before - two real, two generated per class:
+
+```python-exec
+random.seed(5)
+hits = 0
+for wi, word in enumerate(CLASSES):
+    imgs = [x for x, i in cdata if i == wi][:2]
+    plt.imshow(show16(imgs[0]), label=f"{word} (real)")
+    plt.imshow(show16(imgs[1]), label=f"{word} (real)")
+    for j in range(2):
+        s = csample(word)
+        hits += 1 if nearest_proto(s) == wi else 0
+        plt.imshow(show16(s), label=f"{word} (gen)")
+    plt.title(f"You say '{word}', the model draws its idea of a {word}")
+    plt.show()
+print(f"generated images closest to the requested class average: "
+      f"{hits}/12 (chance is 2/12)")
+```
+
+The word does not bite here either, and we can say exactly why, because this failure is *different* from COCO's. The data has structure: 55% of its pixels are near-black background. The generated images come out mid-gray speckle instead - the model has not even learned the global darkness yet, and the loss curve was still falling when the clock ran out. This time the bottleneck is not the data. It is the extractor: 30,000 parameters and two laptop-minutes cannot distill 270 real images into six crisp shapes. (One row will look like it steers: "building" images are the darkest class, and undertrained samples are dark, so they sit closest to the building average. That is an artifact of the collapse, not obedience - check the other five rows before celebrating.)
+
+Three acts so far. Procedural sprites: structure is free and infinite, and a toy model obeys. COCO photographs: no class structure exists at thumbnail scale, and nothing can be learned. Pixel art: structure exists, and a toy model *still* cannot cash it - because extracting structure from real data takes parameters and compute, not just the right equations. Conditioning is the steering wheel; structured data is the road; scale is the engine. But there is one move left, and it is the one every practitioner reaches for first when the machine is too small: shrink the problem.
+
+### Shrinking the problem until it wins
+
+The sprites won at 8x8 with a 64-dimensional input and one hidden layer. The pixel-art model lost at 16x16 with four times the pixels and the same two minutes. The equations are identical in both, so the honest question is not "does conditioning work on real data" but "how small must a real problem get before this machine can steer it?" Two shrinking moves. First, downsample the 270 images from 16x16 to 8x8, averaging each 2x2 block. Second, keep only the three most separable classes: measuring all fifteen pairs of class averages says bee, potion, and building stand furthest apart (the dragon and flower prototypes nearly overlap). The 135 survivors still self-sort to their own class average 67% of the time against a 33% chance - the structure survives the shrink:
+
+<div data-corpus-url="/assets/data/pixelart8.csv" data-corpus-var="pixel8_text"></div>
+
+```python-exec
+rows = pixel8_text.strip().split("\n")[1:]      # skip the header
+VOCAB = []                     # rebuilt: 3 classes now
+data = []
+caps = {}
+for ln in rows:
+    parts = ln.split(",")
+    word = parts[0]
+    if word not in VOCAB:
+        VOCAB.append(word)
+    if word not in caps:
+        caps[word] = parts[1].strip('"')
+    px = [float(v) * 2 - 1 for v in parts[2:]]
+    data.append((px, VOCAB.index(word)))
+
+print(f"{len(data)} images, {len(VOCAB)} classes: {VOCAB}")
+for w in VOCAB:
+    print(f'  {w:9s} e.g. "{caps[w]}"')
+```
+
+```python-exec
+for wi, word in enumerate(VOCAB):
+    imgs = [x for x, i in data if i == wi][:3]
+    for j, x in enumerate(imgs):
+        plt.imshow(show01(x), label=f"{word} #{j + 1}")
+    plt.title(f"8x8 pixel art: {word}")
+    plt.show()
+```
+
+Small, but real: the bee is a center blob, the potion is an upright mug, the building is mostly darkness with a bright edge. Now the point of the whole chapter. We do not write one new line of model code. The network is the sprite model - `forward`, `cond`, `q_sample`, `sample`, the embedding table, the dropout, the guidance knob - with fresh weights and a fresh Adam clock. Only the data changed, and the data is real this time:
+
+```python-exec
+random.seed(42)                                   # fresh weights, sprite shape
+W1 = rand_matrix(H, DIN, math.sqrt(2 / DIN)); b1 = [0.0] * H
+W2 = rand_matrix(DOUT, H, 0.0)
+b2 = [0.0] * DOUT
+NULL = len(VOCAB)                                 # 3 classes + the NULL row
+EMB = rand_matrix(len(VOCAB) + 1, TE, 0.1)
+print(f"sprite-sized denoiser: {DIN} -> {H} -> {DOUT}, "
+      f"plus a {len(VOCAB) + 1}x{TE} word table")
+```
+
+```python-exec
+B = 16
+steps = 3000
+_t_adam = 0           # fresh Adam clock
+history = []
+for step in range(steps + 1):
+    _t_adam += 1
+    gW1 = [[0.0] * DIN for _ in range(H)]; gb1 = [0.0] * H
+    gW2 = [[0.0] * H for _ in range(DOUT)]; gb2 = [0.0] * DOUT
+    gE = [[0.0] * TE for _ in range(len(VOCAB) + 1)]
+    loss_b = 0.0
+    for _ in range(B):
+        x0, wi = random.choice(data)
+        if random.random() < 0.1:
+            wi = NULL
+        tt = random.randrange(T)
+        noise = [random.gauss(0, 1) for _ in range(64)]
+        xin = q_sample(x0, tt, noise) + cond(wi, tt)
+        pred, h1 = forward(xin)
+        loss_b += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 64
+        d2 = [2 * (p_ - n) / (64 * B) for p_, n in zip(pred, noise)]
+        for i in range(DOUT):
+            for j in range(H):
+                gW2[i][j] += d2[i] * h1[j]
+            gb2[i] += d2[i]
+        dh1 = vecmat(d2, W2)
+        dh1 = [d * (1.0 if h > 0 else 0.0) for d, h in zip(dh1, h1)]
+        for i in range(H):
+            for j in range(DIN):
+                gW1[i][j] += dh1[i] * xin[j]
+            gb1[i] += dh1[i]
+        dxin = vecmat(dh1, W1)
+        for i in range(TE):
+            gE[wi][i] += dxin[64 + i]
+    adam('W1', W1, gW1); adam('b1', b1, gb1)
+    adam('W2', W2, gW2); adam('b2', b2, gb2)
+    adam('EMB', EMB, gE)
+    if step % 100 == 0:
+        history.append((step, loss_b / B))
+        progress(step, steps, suffix=f"loss {loss_b / B:.4f}")
+    if step % 500 == 0:
+        print(f"step {step:4d}  loss {loss_b / B:.4f}")
+
+random.seed(999)
+evals = [(random.choice(data), random.randrange(T),
+          [random.gauss(0, 1) for _ in range(64)]) for _ in range(200)]
+total = 0.0
+for (x0, wi), tt, noise in evals:
+    pred, _ = forward(q_sample(x0, tt, noise) + cond(wi, tt))
+    total += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 64
+print(f"eval loss: {total / 200:.4f}")
+```
+
+Same two minutes on a laptop - it *is* the sprite model, 64-dimensional input and all. And the measurements, in the same rigorous order as the two failures before it. The eval loss lands near 0.25, sprite territory, far below the 0.83 wall the 16x16 models never broke. The word separates: correct beats no word beats wrong word. And real 8x8 images sort themselves:
+
+```python-exec
+def eval8(mode):
+    random.seed(999)
+    ev = [(random.choice(data), random.randrange(T),
+           [random.gauss(0, 1) for _ in range(64)]) for _ in range(200)]
+    tot = 0.0
+    for (x0, wi), tt, noise in ev:
+        if mode == "null":
+            wi = NULL
+        elif mode == "wrong":
+            wi = (wi + 1) % len(VOCAB)
+        pred, _ = forward(q_sample(x0, tt, noise) + cond(wi, tt))
+        tot += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 64
+    return tot / 200
+
+print(f"eval: correct word {eval8('right'):.4f}  "
+      f"no word {eval8('null'):.4f}  wrong word {eval8('wrong'):.4f}")
+
+protos8 = []
+for wi in range(len(VOCAB)):
+    imgs = [x for x, i in data if i == wi]
+    protos8.append([sum(im[k] for im in imgs) / len(imgs) for k in range(64)])
+
+def nearest8(x):
+    d = [sum((a - b) ** 2 for a, b in zip(x, p)) for p in protos8]
+    return d.index(min(d))
+
+hits = sum(1 for x, wi in data if nearest8(x) == wi)
+print(f"real images closest to their own class average: "
+      f"{hits}/{len(data)} (chance is 1/{len(VOCAB)})")
+```
+
+And now the payoff the whole chapter has been pointing at. One real image and three generated ones per class, the same `sample()` function that drew sprite aliens, the same guidance of 2 - but every generated image started as noise and was steered by a real word from a real dataset:
+
+```python-exec
+random.seed(123)
+hits = 0
+for wi, word in enumerate(VOCAB):
+    imgs = [x for x, i in data if i == wi][:1]
+    plt.imshow(show01(imgs[0]), label=f"{word} (real)")
+    for j in range(3):
+        s = sample(word)
+        hits += 1 if nearest8(s) == wi else 0
+        plt.imshow(show01(s), label=f"{word} #{j + 1}")
+    plt.title(f"You say '{word}', the model draws a {word}")
+    plt.show()
+print(f"generated images closest to the requested class average: "
+      f"{hits}/9 (chance is 3/9)")
+```
+
+In our runs, three quarters or more of the generated images land closest to the class average of the word we asked for, against a chance rate of one in three. Bee prompts produce center-blob insects, potion prompts produce upright mugs, building prompts produce dark frames with a bright edge. They are 8x8 and blobby - and they are *obedient*, on real data, with the same equations that failed twice at larger scale.
+
+Four acts, one lesson. Toy sprites obey: structure came free with the code. Photographs say nothing at thumbnail scale: no structure to amplify. Pixel art at 16x16 has the structure, and our extractor is too small to use it. Shrink the problem to 8x8 and three classes, and the sprite-sized network steers real, human-made data with real category labels. The equations never changed once; only the fit between problem size and model size did.
+
+The honest footnote: the real field took the other exit. Faced with "shrink the problem or grow the machine", it grew everything - billion-image datasets, billion-parameter U-Nets, ten thousand GPUs - which is the only reason you can type "a dragon" into Stable Diffusion at 1024x1024 and get a dragon. This chapter cannot fit that sentence in a browser tab. But it can prove, and just did, every clause that makes it necessary.
+
 ### How the real ones do it
 
 Stable Diffusion is this chapter wearing better clothes. Three upgrades, no new ideas:
@@ -515,6 +823,8 @@ graph TB
 - **An embedding table is a dictionary the network rewrites.** It starts as noise, and error signal alone arranges "alien" and "box" into different directions.
 - **Same noise, different word, different image.** Conditioning is causation you can see, which is why the first column of the gallery matters.
 - **Real data changes the cost, not the math.** One CSV of photographs and captions ran through the same code - and its honest answer was "bring more data and a bigger network". That answer is the whole story of modern text-to-image.
+- **Structure is necessary, not sufficient.** The pixel-art set has it (a dragon self-sorts as a dragon), yet the toy model still fails, because extracting structure from real data takes parameters and compute. Steering wheel, road, engine: conditioning, data, scale.
+- **Shrink the problem until it wins.** At 8x8 and three classes, the sprite-sized network steers real data - most samples land on the requested class, several times the chance rate. The equations never changed; the fit between problem size and model size did.
 - **Guidance is the obedience dial.** Next chapter, [Latent Diffusion & Super-Resolution](/courses/image-generation/latent-diffusion/), shrinks what the model diffuses - everything about conditioning stays exactly as you learned it here.
 
 ### Further reading
@@ -531,3 +841,5 @@ graph TB
 - [ ] After training, print the pairwise dot products of the four word rows of `EMB`. Which two words ended up closest, and does that match the families' visual similarity?
 - [ ] Change the conditioning from addition to concatenation (give the network `64 + 16 + 16` inputs). Which learns faster, and why might addition still be preferable?
 - [ ] On the photo data, compute each class's top-half minus bottom-half mean brightness from `cdata`. Which two classes are furthest apart? Retrain the photo model on just those two and measure whether the word starts to bite - what does that tell you about prompt granularity at small scale?
+- [ ] The pixel-art loss was still falling at step 1200. Run the same cell with `steps = 4800` (go make tea) and re-measure: eval, self-sort of real images, and generated nearest-prototype per class. At what step count does the first word start to bite, and which class obeys first?
+- [ ] The 8x8 set was downsampled with 2x2 mean pooling. Regenerate it with max pooling (brightest pixel of each 2x2 block) and retrain: which silhouette style self-sorts better, and does the steering sharpen or smear?
