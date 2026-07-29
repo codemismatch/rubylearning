@@ -32,7 +32,18 @@ date: 2026-01-06
       </div>
       <div class="chapter-nav">
         <h2>Machine learning path</h2>
-        <div class="chapter-nav__sections">
+            <div class="chapter-nav__sections">
+      <div>
+        <h3>Track 1 &middot; From Zero to LLMs</h3>
+        <p>The full machine-learning arc: classical models, reliable learning, and how large language models work. 19 chapters below.</p>
+      </div>
+      <div>
+        <h3>Track 2 &middot; Image Generation: From Pixels to Diffusion</h3>
+        <p>Convolutions, autoencoders, U-Nets, GANs and diffusion models, from first principles. <a href="/courses/image-generation/">Open the image track</a>.</p>
+      </div>
+    </div>
+
+    <div class="chapter-nav__sections">
           <div>
             <h3>Foundations</h3>
             <ol>

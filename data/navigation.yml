@@ -34,8 +34,6 @@ footer_quick:
     url: /courses/python-basics/
   - label: Learn ML
     url: /courses/machine-learning/
-  - label: Learn Image AI
-    url: /courses/image-generation/
   - label: Blog
     path: blog/
   - label: Resources
