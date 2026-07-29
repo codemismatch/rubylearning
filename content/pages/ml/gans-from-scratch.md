@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 4 &ndash; GANs: A Generator and a Critic"
+title: "Chapter 5 &ndash; GANs: A Generator and a Critic"
 permalink: /courses/image-generation/gans-from-scratch/
 difficulty: advanced
 author: Pankaj Doharey
@@ -121,4 +121,4 @@ The same loop at image scale is StyleGAN and every photoreal face generator: D b
 ### Where to go next
 
 - **Try it:** make `real` bimodal (half near -2, half near +2). Does G cover both modes, or collapse to one?
-- **Chapter 5: DDPM from First Principles** - generation without the duel.
+- **Chapter 6: DDPM from First Principles** - generation without the duel.

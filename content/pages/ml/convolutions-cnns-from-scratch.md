@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 20 &ndash; Convolutions & CNNs from Scratch"
+title: "Chapter 1 &ndash; Convolutions & CNNs from Scratch"
 permalink: /courses/image-generation/convolutions-cnns-from-scratch/
 difficulty: intermediate
 author: Pankaj Doharey

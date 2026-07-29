@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 2 &ndash; U-Net: The Workhorse of Image Models"
+title: "Chapter 4 &ndash; U-Net: The Workhorse of Image Models"
 permalink: /courses/image-generation/unet/
 difficulty: advanced
 author: Pankaj Doharey
@@ -96,9 +96,9 @@ print("skip from level 1 (first 6 of 16, fine):", " ".join(f"{v:+.2f}" for v in 
 
 ### The denoiser in a diffusion model
 
-When Chapter 5 (DDPM) says "the model predicts noise", the model in question, at production scale, is a U-Net. The noisy image enters the encoder; the bottleneck, enriched with a time embedding of the noise level, holds the global structure ("a face, roughly here"); the decoder rebuilds the predicted-noise image at full resolution; and the skip connections are why generated images have crisp whiskers instead of smudges. Our DDPM chapter used a 16-neuron MLP because the math is identical at toy scale - but now you know the name and the shape of the real thing.
+When Chapter 6 (DDPM) says "the model predicts noise", the model in question, at production scale, is a U-Net. The noisy image enters the encoder; the bottleneck, enriched with a time embedding of the noise level, holds the global structure ("a face, roughly here"); the decoder rebuilds the predicted-noise image at full resolution; and the skip connections are why generated images have crisp whiskers instead of smudges. Our DDPM chapter used a 16-neuron MLP because the math is identical at toy scale - but now you know the name and the shape of the real thing.
 
 ### Where to go next
 
 - **Try it:** train `TinyUNet` to denoise: make targets `x` and inputs `x + gaussian noise`. Which skips carry the cleaning signal?
-- **Chapter 4: GANs** - a completely different way to generate: no encoder at all, just a forger and a detective.
+- **Chapter 5: GANs** - a completely different way to generate: no encoder at all, just a forger and a detective.

@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 23 &ndash; Diffusion Models: DDPM from First Principles"
+title: "Chapter 6 &ndash; Diffusion Models: DDPM from First Principles"
 permalink: /courses/image-generation/ddpm-from-first-principles/
 difficulty: advanced
 author: Pankaj Doharey
@@ -15,7 +15,7 @@ next_tutorial:
 date: 2026-07-29
 ---
 
-In Chapter 22 we compressed data with autoencoders and reconstructed it. Diffusion models attack generation from the opposite direction. Instead of compressing data and hoping the decoder can dream, they ask a stranger question: *what if we destroy the data slowly, and then learn to un-destroy it?*
+In Chapter 3 we compressed data with autoencoders and reconstructed it. Diffusion models attack generation from the opposite direction. Instead of compressing data and hoping the decoder can dream, they ask a stranger question: *what if we destroy the data slowly, and then learn to un-destroy it?*
 
 That single idea, Denoising Diffusion Probabilistic Models (DDPM, Ho et al. 2020), is the engine inside Stable Diffusion, DALL-E 2, and most modern image generators. In this chapter we build the entire thing in pure Python on 1D data: the forward noising process, the training objective, and the reverse sampling loop. No frameworks, no GPU. By the end, the phrase "diffusion model" will feel like something you could have invented.
 
@@ -297,5 +297,5 @@ Two moons, drawn from memory. Same equations as the 1D case, same equations as S
 ### Where to go next
 
 - **Try it:** change the dataset to three bumps, or make `T` smaller. What breaks first, sample quality or training stability?
-- **Chapter 24: Latent Diffusion & Super-Resolution** explains why modern systems diffuse in a compressed latent space (Chapter 22's autoencoder returns) instead of raw pixels, and how the same machinery upscales images.
+- **Chapter 8: Latent Diffusion & Super-Resolution** explains why modern systems diffuse in a compressed latent space (Chapter 3's autoencoder returns) instead of raw pixels, and how the same machinery upscales images.
 - The original paper, Ho et al. 2020, *Denoising Diffusion Probabilistic Models*, reads very comfortably after this chapter.

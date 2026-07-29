@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Diffusion Models from Scratch: Sprite Training"
+title: "Chapter 7 &ndash; Diffusion Models from Scratch: Sprite Training"
 permalink: /courses/image-generation/diffusion-models-from-scratch/
 difficulty: advanced
 author: Pankaj Doharey

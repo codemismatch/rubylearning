@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 6 &ndash; Latent Diffusion & Super-Resolution"
+title: "Chapter 8 &ndash; Latent Diffusion & Super-Resolution"
 permalink: /courses/image-generation/latent-diffusion/
 difficulty: advanced
 author: Pankaj Doharey
@@ -15,7 +15,7 @@ next_tutorial:
 date: 2026-07-29
 ---
 
-You now own every piece. Chapter 2's autoencoder compresses data into a latent code. Chapter 5's DDPM generates data by denoising. Latent diffusion (Rombach et al., 2022 - the paper behind Stable Diffusion) is simply these bolted together: **encode once, diffuse in the latent space, decode at the end.** In this chapter we wire exactly that in pure Python and see why it is the difference between a research toy and a product.
+You now own every piece. Chapter 3's autoencoder compresses data into a latent code. Chapter 6's DDPM generates data by denoising. Latent diffusion (Rombach et al., 2022 - the paper behind Stable Diffusion) is simply these bolted together: **encode once, diffuse in the latent space, decode at the end.** In this chapter we wire exactly that in pure Python and see why it is the difference between a research toy and a product.
 
 ### Why diffuse in latent space at all
 
@@ -52,7 +52,7 @@ The workflow has three stages, and you have built each one:
 3. DECODE sampled latents back to data space
 ```
 
-Stage 2 is the remarkable one: the DDPM code from Chapter 5 runs *byte for byte unchanged*, because diffusion does not care what its coordinates mean. Swap "2D ring point" for "1D latent code" and everything - schedules, noise prediction, the reverse walk - just works:
+Stage 2 is the remarkable one: the DDPM code from Chapter 6 runs *byte for byte unchanged*, because diffusion does not care what its coordinates mean. Swap "2D ring point" for "1D latent code" and everything - schedules, noise prediction, the reverse walk - just works:
 
 ```python-exec
 # stage 1: encode a ring dataset into 1D latents
@@ -64,13 +64,13 @@ for _ in range(300):
 latents = [encode(x, y) for x, y in ring]
 print("encoded", len(latents), "points; latent range",
       f"[{min(latents):+.2f}, {max(latents):+.2f}]")
-# stage 2 is Chapter 5's TinyDenoiser trained on `latents` - identical code
+# stage 2 is Chapter 6's TinyDenoiser trained on `latents` - identical code
 # stage 3: decode whatever comes out
 z_sample = random.choice(latents)
 print("sampled latent %+.2f decodes to point %s" % (z_sample, tuple(round(v, 2) for v in decode(z_sample))))
 ```
 
-In the real Stable Diffusion, the encoder maps 512x512x3 images to 64x64x4 latents (48x compression), the DDPM's U-Net (Chapter 3) denoises those latents, and the decoder renders the final pixels. Ours maps 2D to 1 number, but the data flow is identical.
+In the real Stable Diffusion, the encoder maps 512x512x3 images to 64x64x4 latents (48x compression), the DDPM's U-Net (Chapter 4) denoises those latents, and the decoder renders the final pixels. Ours maps 2D to 1 number, but the data flow is identical.
 
 ### Super-resolution: the same machine, pointed elsewhere
 
@@ -89,4 +89,4 @@ Convolutions (ch.1) gave models local vision. Training tricks keep deep stacks l
 ### Where to go next
 
 - **Read:** Rombach et al., *High-Resolution Image Synthesis with Latent Diffusion Models* - it will feel like a summary of this course.
-- **Build:** condition Chapter 5's sampler on a class label (add the label to the time embedding). You have just made class-conditional diffusion, the seed of text-to-image.
+- **Build:** condition Chapter 6's sampler on a class label (add the label to the time embedding). You have just made class-conditional diffusion, the seed of text-to-image.
