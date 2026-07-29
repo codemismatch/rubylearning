@@ -47,6 +47,24 @@ date: 2025-12-02
               <li><a href="/courses/python-basics/python-functions/">Functions in Python</a></li>
             </ol>
           </div>
+          <div>
+            <h3>Data structures</h3>
+            <ol>
+              <li><a href="/courses/python-basics/python-strings/">Strings in Python</a></li>
+              <li><a href="/courses/python-basics/python-lists-tuples/">Lists and Tuples</a></li>
+              <li><a href="/courses/python-basics/python-dicts-sets/">Dictionaries and Sets</a></li>
+              <li><a href="/courses/python-basics/python-comprehensions/">Comprehensions and Iteration</a></li>
+            </ol>
+          </div>
+          <div>
+            <h3>Beyond the basics</h3>
+            <ol>
+              <li><a href="/courses/python-basics/python-files-exceptions/">Files and Exceptions</a></li>
+              <li><a href="/courses/python-basics/python-modules/">Modules and the Standard Library</a></li>
+              <li><a href="/courses/python-basics/python-classes/">Classes and Objects</a></li>
+              <li><a href="/courses/python-basics/python-basics-project/">Capstone: Build a Word-Counter CLI</a></li>
+            </ol>
+          </div>
         </div>
       </div>
     </div>

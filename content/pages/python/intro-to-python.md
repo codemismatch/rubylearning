@@ -158,12 +158,18 @@ import this
 
 **Goal:** The code below has a broken indent. Fix it so it runs.
 
-```python-exec
+```python
 language = "Python"
 
 if language == "Python":
-print("Great choice!")   # TODO: indent this line to fix the error
+print("Great choice!")   # not indented - IndentationError!
     print("See you in the next chapter.")
+```
+
+```python-exec
+# TODO: Type out the corrected version of the snippet above
+# (proper 4-space indentation inside the if-block) and run it
+# to see both messages print.
 ```
 
 Next up: learn how Python variables, types, and f-strings work in Chapter 2.

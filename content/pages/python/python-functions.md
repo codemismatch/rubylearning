@@ -9,6 +9,9 @@ theme: pylearning
 previous_tutorial:
   title: "Chapter 3: Control Flow in Python"
   url: /courses/python-basics/python-control-flow/
+next_tutorial:
+  title: "Chapter 5: Strings in Python"
+  url: /courses/python-basics/python-strings/
 related_tutorials:
   - title: "Control Flow in Python"
     url: /courses/python-basics/python-control-flow/

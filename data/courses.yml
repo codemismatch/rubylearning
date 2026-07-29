@@ -53,8 +53,8 @@
   slug: python-basics
   free: true
   level: beginner
-  lessons: 4
-  estimated_hours: 6
+  lessons: 12
+  estimated_hours: 12
   modules:
     - id: intro
       title: Getting Started with Python
@@ -66,6 +66,20 @@
         - python-variables
         - python-control-flow
         - python-functions
+    - id: data-structures
+      title: Data structures
+      tutorials:
+        - python-strings
+        - python-lists-tuples
+        - python-dicts-sets
+        - python-comprehensions
+    - id: beyond-basics
+      title: Beyond the basics
+      tutorials:
+        - python-files-exceptions
+        - python-modules
+        - python-classes
+        - python-basics-project
 - id: machine-learning
   language: python
   title: "Machine Learning: From Zero to LLMs"
