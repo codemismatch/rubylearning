@@ -173,3 +173,32 @@
   height: 1.7rem;
   display: block;
 }
+
+/* Streaming output window for python-exec cells: fixed height, auto-scrolls */
+.code-window .output-area {
+  max-height: 220px;
+  overflow-y: auto;
+  scroll-behavior: auto;
+}
+
+/* Indeterminate progress bar shown while a cell runs */
+.typophic-progress {
+  height: 3px;
+  border-radius: 2px;
+  overflow: hidden;
+  background: rgba(37, 99, 235, 0.15);
+  margin-bottom: 4px;
+}
+
+.typophic-progress-bar {
+  height: 100%;
+  width: 40%;
+  border-radius: 2px;
+  background: var(--primary-color, #2563eb);
+  animation: typophic-progress-slide 1.2s ease-in-out infinite;
+}
+
+@keyframes typophic-progress-slide {
+  0%   { margin-left: -40%; }
+  100% { margin-left: 100%; }
+}

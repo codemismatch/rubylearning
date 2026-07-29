@@ -11,11 +11,17 @@
  */
 const WRAPPER = `
 import sys, io, traceback
+class _TypophicStream:
+    def write(self, s):
+        if s:
+            _typophic_stream(s)
+    def flush(self):
+        pass
 _stdout = sys.stdout
 _stderr = sys.stderr
-buf = io.StringIO()
-sys.stdout = buf
-sys.stderr = buf
+_stream = _TypophicStream()
+sys.stdout = _stream
+sys.stderr = _stream
 ns = globals()
 try:
     try:
@@ -34,11 +40,13 @@ except Exception:
 finally:
     sys.stdout = _stdout
     sys.stderr = _stderr
-buf.getvalue()
+""
 `;
 
 let pyodide = null;
 let plots = [];
+let chunks = [];
+let currentRunId = 0;
 
 self.onmessage = async (e) => {
   const msg = e.data || {};
@@ -52,6 +60,10 @@ self.onmessage = async (e) => {
         try {
           plots.push(JSON.parse(payload));
         } catch (_) { /* ignore malformed specs */ }
+      });
+      pyodide.globals.set("_typophic_stream", (text) => {
+        chunks.push(String(text));
+        self.postMessage({ type: "stream", id: currentRunId, text: String(text) });
       });
       if (msg.shim) {
         await pyodide.runPythonAsync(msg.shim);
@@ -81,8 +93,10 @@ self.onmessage = async (e) => {
       }
       pyodide.globals.set("__typophic_code", msg.code);
       plots = [];
-      const result = await pyodide.runPythonAsync(WRAPPER);
-      self.postMessage({ type: "result", id: msg.id, result: String(result || ""), plots: plots });
+      chunks = [];
+      currentRunId = msg.id;
+      await pyodide.runPythonAsync(WRAPPER);
+      self.postMessage({ type: "result", id: msg.id, result: chunks.join(""), plots: plots });
     } catch (err) {
       self.postMessage({ type: "result", id: msg.id, result: String((err && err.message) || err), plots: [] });
     }

@@ -76,9 +76,14 @@
   }
 
   let plotHandler = null;
+  let streamHandler = null;
 
   function setPlotHandler(fn) {
     plotHandler = fn;
+  }
+
+  function setStreamHandler(fn) {
+    streamHandler = fn;
   }
 
   function emitPlots(specs) {
@@ -157,6 +162,14 @@
             clearTimeout(initTimeout);
             worker.terminate();
             reject(new Error(msg.error || "Pyodide worker failed"));
+          }
+          return;
+        }
+        if (msg.type === "stream") {
+          if (streamHandler) {
+            try {
+              streamHandler(String(msg.text || ""));
+            } catch (_e) { /* ignore */ }
           }
           return;
         }
@@ -322,6 +335,7 @@ buf.getvalue()
     getPyodide: getPyodideFacade,
     run: runPython,
     setPlotHandler: setPlotHandler,
+    setStreamHandler: setStreamHandler,
     ready: ready,
     isWorker: () => !!(workerState && workerState.mode === "worker")
   };
