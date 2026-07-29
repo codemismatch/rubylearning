@@ -189,6 +189,7 @@ Now the loop - 3000 steps, batches of 16. **This is the heavy cell: about two mi
 ```python-exec
 B = 16
 steps = 3000
+_t_adam = 0           # fresh Adam clock: bias correction assumes t starts at 1
 history = []
 for step in range(steps + 1):
     _t_adam += 1
@@ -293,6 +294,202 @@ for word in VOCAB:
 
 Judge the rows honestly. The alien row should be dense mirrored blobs; bars should show full-height columns; boxes and crosses should be visibly sparser, with the cross row the sparsest of all. They will be blobby and imperfect - that is the correct result at this scale, as Chapter 7 taught us - but the rows are unmistakably different from each other, and each row leans toward *the thing you asked for*. The model now takes requests.
 
+### Real photographs, real captions
+
+The sprite labels were free because we wrote both sides of every pair. Real text-to-image starts from the opposite situation: a folder of photographs, each carrying one caption, and nothing else. That folder - one image, one caption - is exactly the format Stable Diffusion fine-tunes and LoRA trainings consume, and it is what this page now hands to the same code: 167 real COCO photographs with real BLIP captions, as `coco16.csv`. (Images: COCO 2017 subset with BLIP captions, via Pin-ky/coco-blip-captions on Hugging Face, CC-BY-4.0, reduced to 16x16 grayscale.)
+
+<div data-corpus-url="/assets/data/coco16.csv" data-corpus-var="coco_text"></div>
+
+```python-exec
+rows = coco_text.strip().split("\n")[1:]      # skip the header
+CLASSES = []
+cdata = []          # (flat 256-vector rescaled to +-1, class index)
+caps = {}
+for ln in rows:
+    parts = ln.split(",")                     # captions contain no commas
+    word = parts[0]
+    if word not in CLASSES:
+        CLASSES.append(word)
+    if word not in caps:
+        caps[word] = parts[1].strip('"')
+    px = [float(v) * 2 - 1 for v in parts[2:]]     # 0..1 -> -1..1
+    cdata.append((px, CLASSES.index(word)))
+
+def show16(x, lo=-1.0, hi=1.0):
+    """Flattened 16x16 photo -> 0..1 grid for plt.imshow."""
+    return [[max(0.0, min(1.0, (x[r * 16 + c] - lo) / (hi - lo)))
+             for c in range(16)] for r in range(16)]
+
+print(f"{len(cdata)} photographs, {len(CLASSES)} classes: {CLASSES}")
+for w in CLASSES:
+    print(f'  {w:11s} e.g. "{caps[w]}"')
+```
+
+Six classes - motorcycle, car, cat, giraffe, bus, dog - with captions like *"A Honda motorcycle parked in a grass driveway"* and *"A giraffe looks down at a zebra on the field"*. Now the honesty paragraph, because you deserve one: at 16x16 grayscale a photograph is not a recognizable object, it is a texture. Look at the preview - three real photos per class - and try to sort them yourself. You cannot, and neither can we:
+
+```python-exec
+for wi, word in enumerate(CLASSES):
+    imgs = [x for x, i in cdata if i == wi][:3]
+    for j, x in enumerate(imgs):
+        plt.imshow(show16(x), label=f"{word} #{j + 1}")
+    plt.title(f"real photographs: {word}")
+    plt.show()
+```
+
+The point of this section is the pipeline - load pairs, condition, train, sample - and the pipeline is identical at every resolution. The denoiser is the sprite model's twin stretched to 256 pixels: input 256 + 16, output 256, and a *smaller* hidden layer (64 instead of 96) so the bigger matrices still train in a browser. New weights, same machinery - `q_sample`, `TE_CACHE`, `adam`, the hand-written backprop, the 10% label dropout, all unchanged:
+
+```python-exec
+CDIN, CH, CDOUT = 256 + TE, 64, 256
+random.seed(1234)
+CW1 = rand_matrix(CH, CDIN, math.sqrt(2 / CDIN)); Cb1 = [0.0] * CH
+CW2 = rand_matrix(CDOUT, CH, 0.0)                 # zero-init output head
+Cb2 = [0.0] * CDOUT
+CNULL = len(CLASSES)
+CEMB = rand_matrix(len(CLASSES) + 1, TE, 0.1)     # word table + NULL row
+
+def ccond(wi, t):
+    return [TE_CACHE[t][i] + CEMB[wi][i] for i in range(TE)]
+
+def cforward(x):
+    z1 = [a + b for a, b in zip(matvec(CW1, x), Cb1)]
+    h1 = [v if v > 0 else 0.0 for v in z1]
+    out = [a + b for a, b in zip(matvec(CW2, h1), Cb2)]
+    return out, h1
+
+print(f"photo denoiser: {CDIN} -> {CH} -> {CDOUT}, plus a {len(CLASSES) + 1}x{TE} word table")
+```
+
+Train it - 1200 steps, batches of 16, the largest cell in the course: **about two minutes on a laptop, and several minutes in the browser** (Pyodide runs pure Python a few times slower). One small mercy: we train only on noise levels `t >= 25`, because Chapter 7 already taught us the near-clean steps are the hardest and matter least for generation - the whole budget goes where the learning is. An untrained model scores loss ~1.0:
+
+```python-exec
+import time
+B = 16
+steps = 1200
+_t_adam = 0           # fresh Adam clock: bias correction assumes t starts at 1
+t0 = time.time()
+for step in range(steps + 1):
+    _t_adam += 1
+    gW1 = [[0.0] * CDIN for _ in range(CH)]; gb1 = [0.0] * CH
+    gW2 = [[0.0] * CH for _ in range(CDOUT)]; gb2 = [0.0] * CDOUT
+    gE = [[0.0] * TE for _ in range(len(CLASSES) + 1)]
+    loss_b = 0.0
+    for _ in range(B):                      # one batch
+        x0, wi = random.choice(cdata)
+        if random.random() < 0.1:           # label dropout, as before
+            wi = CNULL
+        tt = 25 + random.randrange(T - 25)  # skip the whisper-quiet low t's
+        noise = [random.gauss(0, 1) for _ in range(256)]
+        xin = q_sample(x0, tt, noise) + ccond(wi, tt)
+        pred, h1 = cforward(xin)
+        loss_b += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 256
+        d2 = [2 * (p_ - n) / (256 * B) for p_, n in zip(pred, noise)]
+        for i in range(CDOUT):
+            for j in range(CH):
+                gW2[i][j] += d2[i] * h1[j]
+            gb2[i] += d2[i]
+        dh1 = vecmat(d2, CW2)
+        dh1 = [d * (1.0 if h > 0 else 0.0) for d, h in zip(dh1, h1)]
+        for i in range(CH):
+            for j in range(CDIN):
+                gW1[i][j] += dh1[i] * xin[j]
+            gb1[i] += dh1[i]
+        dxin = vecmat(dh1, CW1)
+        for i in range(TE):
+            gE[wi][i] += dxin[256 + i]
+    adam('CW1', CW1, gW1); adam('Cb1', Cb1, gb1)
+    adam('CW2', CW2, gW2); adam('Cb2', Cb2, gb2)
+    adam('CEMB', CEMB, gE)
+    if step % 100 == 0:
+        progress(step, steps, suffix=f"loss {loss_b / B:.4f}")
+    if step % 500 == 0:
+        print(f"step {step:4d}  loss {loss_b / B:.4f}")
+print(f"trained in {time.time() - t0:.0f}s")```
+
+Before we ask the model for images, measure three things most tutorials skip. Does the word help the loss at all - evaluate with the correct word, with no word, and with the *wrong* word on identical tuples? How far apart are the classes in pixel space to begin with? And would even the *real* photos sort into their own classes?
+
+```python-exec
+def eval_with(mode):
+    random.seed(999)
+    ev = [(random.choice(cdata), 25 + random.randrange(T - 25),
+           [random.gauss(0, 1) for _ in range(256)]) for _ in range(100)]
+    tot = 0.0
+    for (x0, wi), tt, noise in ev:
+        if mode == "null":
+            wi = CNULL
+        elif mode == "wrong":
+            wi = (wi + 3) % len(CLASSES)
+        pred, _ = cforward(q_sample(x0, tt, noise) + ccond(wi, tt))
+        tot += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 256
+    return tot / 100
+
+print(f"eval: correct word {eval_with('right'):.4f}  "
+      f"no word {eval_with('null'):.4f}  wrong word {eval_with('wrong'):.4f}")
+
+gmean = [sum(x[k] for x, _ in cdata) / len(cdata) for k in range(256)]
+protos = []
+for wi in range(len(CLASSES)):
+    imgs = [x for x, i in cdata if i == wi]
+    protos.append([sum(im[k] for im in imgs) / len(imgs) for k in range(256)])
+v_in = sum((x[k] - protos[wi][k]) ** 2 for x, wi in cdata
+           for k in range(256)) / (len(cdata) * 256)
+v_gl = sum((x[k] - gmean[k]) ** 2 for x, _ in cdata
+           for k in range(256)) / (len(cdata) * 256)
+print(f"spread within a class: {v_in:.3f}   spread overall: {v_gl:.3f}")
+
+def nearest_proto(x):
+    d = [sum((a - b) ** 2 for a, b in zip(x, p)) for p in protos]
+    return d.index(min(d))
+
+hits = sum(1 for x, wi in cdata if nearest_proto(x) == wi)
+print(f"real photos closest to their own class average: "
+      f"{hits}/{len(cdata)} (chance is 1/{len(CLASSES)})")
+```
+
+Three numbers, one story. The word barely moves the loss. The reason is in the second line: the spread *within* a class is nearly the entire spread, so the class averages are almost identical - at 16x16 grayscale, cat and bus are twins. The third line confirms it from the other side: even real photographs sit closest to their own class average well under half the time. The conditioning mechanism is not broken; the data simply cannot answer six fine-grained questions at this resolution, this sample size, this network size.
+
+So here is the honest gallery. Each row: two real photos of the class, then two the model drew when asked for that word (guidance `w = 2`, the sprite chapter's knob). The generated pair should look like photographic grain - smoother and blotchier than white static - but it will not look like the class, and now you know precisely why:
+
+```python-exec
+def csample(word, guidance=2.0):
+    wi = CLASSES.index(word)
+    x = [random.gauss(0, 1) for _ in range(256)]
+    for tt in range(T - 1, -1, -1):
+        pc, _ = cforward(x + ccond(wi, tt))     # with the word
+        pu, _ = cforward(x + ccond(CNULL, tt))  # without any word
+        pred = [u + guidance * (c - u) for c, u in zip(pc, pu)]
+        ab = alpha_bar[tt]
+        ab_prev = alpha_bar[tt - 1] if tt > 0 else 1.0
+        x0 = [(xi - math.sqrt(1 - ab) * e) / math.sqrt(ab)
+              for xi, e in zip(x, pred)]
+        x0 = [max(-1.0, min(1.0, v)) for v in x0]
+        k1 = math.sqrt(ab_prev) * betas[tt] / (1 - ab)
+        k2 = math.sqrt(alphas[tt]) * (1 - ab_prev) / (1 - ab)
+        mean = [k1 * a + k2 * xi for a, xi in zip(x0, x)]
+        if tt > 0:
+            s = math.sqrt(betas[tt])
+            x = [m + s * random.gauss(0, 1) for m in mean]
+        else:
+            x = mean
+    return x
+
+random.seed(5)
+hits = 0
+for wi, word in enumerate(CLASSES):
+    imgs = [x for x, i in cdata if i == wi][:2]
+    plt.imshow(show16(imgs[0]), label=f"{word} (real)")
+    plt.imshow(show16(imgs[1]), label=f"{word} (real)")
+    for j in range(2):
+        s = csample(word)
+        hits += 1 if nearest_proto(s) == wi else 0
+        plt.imshow(show16(s), label=f"{word} (gen)")
+    plt.title(f"You say '{word}', the model draws its idea of a {word}")
+    plt.show()
+print(f"generated images closest to the requested class average: "
+      f"{hits}/12 (chance is 2/12)")
+```
+
+This is the most valuable result in the chapter, and it is a negative result. The sprites proved the mechanism; the photographs proved the bottleneck. Conditioning is not magic that summons class structure - it is a steering wheel that amplifies structure the data already contains. A 167-thumbnail dataset cannot teach six textures to a 30,000-parameter network, no matter how the prompt arrives. Five billion image-caption pairs and a U-Net a thousand times wider can, and that is the *entire* difference between this page and Stable Diffusion: same equations, same guidance formula, louder data.
+
 ### How the real ones do it
 
 Stable Diffusion is this chapter wearing better clothes. Three upgrades, no new ideas:
@@ -317,6 +514,7 @@ graph TB
 - **Conditioning is a passenger, not a new engine.** The DDPM from Chapter 6 survived intact: same forward process, same noise-prediction loss, same ancestral walk. The word just rode along in the input.
 - **An embedding table is a dictionary the network rewrites.** It starts as noise, and error signal alone arranges "alien" and "box" into different directions.
 - **Same noise, different word, different image.** Conditioning is causation you can see, which is why the first column of the gallery matters.
+- **Real data changes the cost, not the math.** One CSV of photographs and captions ran through the same code - and its honest answer was "bring more data and a bigger network". That answer is the whole story of modern text-to-image.
 - **Guidance is the obedience dial.** Next chapter, [Latent Diffusion & Super-Resolution](/courses/image-generation/latent-diffusion/), shrinks what the model diffuses - everything about conditioning stays exactly as you learned it here.
 
 ### Further reading
@@ -332,3 +530,4 @@ graph TB
 - [ ] Invent a fifth family (diagonal stripes, say), give it a word, and retrain. How many steps before the new word obeys?
 - [ ] After training, print the pairwise dot products of the four word rows of `EMB`. Which two words ended up closest, and does that match the families' visual similarity?
 - [ ] Change the conditioning from addition to concatenation (give the network `64 + 16 + 16` inputs). Which learns faster, and why might addition still be preferable?
+- [ ] On the photo data, compute each class's top-half minus bottom-half mean brightness from `cdata`. Which two classes are furthest apart? Retrain the photo model on just those two and measure whether the word starts to bite - what does that tell you about prompt granularity at small scale?
