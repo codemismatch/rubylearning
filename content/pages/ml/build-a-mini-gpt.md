@@ -110,6 +110,19 @@ def rand_matrix(rows, cols, scale):
     return [[random.gauss(0, scale) for _ in range(cols)]
             for _ in range(rows)]
 
+def sgd_update(params, grads, lr):
+    """One plain-SGD step over every parameter: p -= lr * grad."""
+    for name, p in params.items():
+        g = grads[name]
+        if isinstance(p[0], list):
+            for i in range(len(p)):
+                for j in range(len(p[0])):
+                    p[i][j] -= lr * g[i][j]
+        else:
+            for j in range(len(p)):
+                p[j] -= lr * g[j]
+    return params
+
 print("helpers ready")
 ```
 
@@ -326,15 +339,7 @@ for step in range(steps + 1):
     logits, cache = forward(idx)
     loss, dlogits = loss_and_grads(logits, targets)
     grads = backward(dlogits, cache)
-    for name, p in params.items():                # plain SGD update
-        g = grads[name]
-        if isinstance(p[0], list):
-            for i in range(len(p)):
-                for j in range(len(p[0])):
-                    p[i][j] -= lr * g[i][j]
-        else:
-            for j in range(len(p)):
-                p[j] -= lr * g[j]
+    params = sgd_update(params, grads, lr)          # plain SGD update
     if step == 2000:
         lr = 0.02                                  # settle into the minimum
     if step % 100 == 0:
