@@ -42,7 +42,7 @@ One block and 16-dimensional vectors are laughably small - GPT-2 small has 12 bl
 
 We'll work at the character level (real models use subword tokenizers with 30k-100k tokens, but the idea is the same). The corpus is a handful of sentences repeated - small enough that the model can genuinely *memorize* its statistics, which makes the training result easy to interpret. Each code cell below builds on the previous ones, sharing one Python namespace, so run them in order.
 
-Want to train on your own text instead? Upload any `.txt` file here, then re-run the cells below - the tokenizer cell prefers your upload when one is present.
+Want to train on your own text instead? Upload any `.txt` file here - the page automatically retrains the whole chapter on your corpus (about a minute), and the tokenizer cell prefers your upload whenever one is present.
 
 <div data-corpus-upload="uploaded_corpus_text"></div>
 
@@ -65,7 +65,8 @@ V = len(chars)
 
 print(f"corpus: {len(corpus)} chars, vocab size: {V}")
 print("vocab:", "".join(chars))
-print("'the cat' as ids:", [stoi[c] for c in "the cat"])
+preview = corpus[:20]                        # vocab-safe peek at the data
+print("first 20 chars as ids:", [stoi[c] for c in preview])
 ```
 
 ### Matrix helpers
@@ -374,7 +375,12 @@ Generation is the loop from Chapter 18's bigram toy, but with the transformer pr
 ```python-exec
 def generate(seed_text, length=120, temperature=0.5):
     random.seed(1)
-    idx = [stoi[c] for c in seed_text]
+    # Keep only characters the model actually knows (matters when you
+    # train on your own corpus with a different vocabulary).
+    clean = "".join(c for c in seed_text if c in stoi)
+    if len(clean) != len(seed_text):
+        print(f"note: seed trimmed to known characters -> {clean!r}")
+    idx = [stoi[c] for c in clean] or [0]
     for _ in range(length):
         logits, _ = forward(idx[-T:])
         row = logits[-1]

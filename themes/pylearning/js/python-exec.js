@@ -105,7 +105,7 @@
           outputArea.scrollTop = outputArea.scrollHeight;
         };
 
-        runButton.addEventListener("click", async () => {
+        const runCell = async () => {
           const code = currentCode.trimEnd();
           outputContent.textContent = "";
           plotArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
@@ -129,7 +129,11 @@
           } finally {
             outputArea.scrollTop = outputArea.scrollHeight;
           }
-        });
+        };
+
+        // Exposed so the corpus-upload widget can re-run cells in order.
+        codeWindow.runCell = runCell;
+        runButton.addEventListener("click", runCell);
       }
     });
   }
@@ -175,7 +179,17 @@
             py.globals.set(varName, text);
             status.textContent =
               `Loaded "${file.name}" (${text.length.toLocaleString()} characters) ` +
-              `into \`${varName}\`. Re-run the tokenizer cell and everything below it to retrain.`;
+              `- retraining on it now (this runs every cell in order, including the ~1 minute training cell)...`;
+            // Re-run all executable cells in document order so the model,
+            // plots, and generation all use the uploaded corpus.
+            const cells = [...document.querySelectorAll(".code-window")]
+              .filter(cw => typeof cw.runCell === "function");
+            for (const cw of cells) {
+              await cw.runCell();
+            }
+            status.textContent =
+              `Trained on "${file.name}" (${text.length.toLocaleString()} characters). ` +
+              `Plots and generated text below now use your corpus.`;
           } catch (err) {
             status.textContent = "Could not load corpus: " + String(err);
           }
