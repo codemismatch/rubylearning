@@ -121,6 +121,7 @@
         worker,
         pending,
         queue: Promise.resolve(),
+        inFlight: 0,
         run(code, onStream) {
           const id = ++nextId;
           const task = new Promise((resolveRun) => {
@@ -128,9 +129,10 @@
             worker.postMessage({ type: "run", id, code });
           });
           // Serialize runs so the shared namespace behaves like notebook cells.
+          state.inFlight += 1;
           const chained = state.queue.then(() => task);
           state.queue = chained.catch(() => {});
-          return chained;
+          return chained.finally(() => { state.inFlight -= 1; });
         },
         set(name, value) {
           worker.postMessage({ type: "set", name, value });
@@ -339,7 +341,8 @@ buf.getvalue()
     setPlotHandler: setPlotHandler,
     setStreamHandler: setStreamHandler,
     ready: ready,
-    isWorker: () => !!(workerState && workerState.mode === "worker")
+    isWorker: () => !!(workerState && workerState.mode === "worker"),
+    isBusy: () => !!(workerState && workerState.inFlight > 0)
   };
 
   // Mark readiness for pages/tests that wait on the runtime.

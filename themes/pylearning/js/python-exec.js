@@ -92,6 +92,10 @@
         // line (PyTorch-style ASCII progress bars), \n scrolls up inside
         // the fixed-height window.
         const appendTerminalText = (text) => {
+          if (outputContent.dataset.queued === "1") {
+            outputContent.textContent = "";
+            delete outputContent.dataset.queued;
+          }
           let cur = outputContent.textContent;
           for (const ch of text) {
             if (ch === "\r") {
@@ -107,8 +111,15 @@
 
         const runCell = async () => {
           const code = currentCode.trimEnd();
-          outputContent.textContent = "";
           plotArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
+          if (window.PythonRuntime.isBusy && PythonRuntime.isBusy()) {
+            // Another cell (e.g. the training cell) is running; this run
+            // is queued in the worker and will start right after it.
+            outputContent.textContent = "queued - this cell will run as soon as the current one finishes...\n";
+            outputContent.dataset.queued = "1";
+          } else {
+            outputContent.textContent = "";
+          }
           if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
             PythonRuntime.setPlotHandler(spec => {
               plotArea.appendChild(window.TypophicPlot.render(spec));
