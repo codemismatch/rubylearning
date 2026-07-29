@@ -21,14 +21,14 @@ In this chapter we play the whole game in pure Python on a 1D distribution: a di
 
 ### The game, written down
 
-```text
-real data x  ---------.
-                       -> D(x) -> "probability this is real"
-noise z -> G(z) ------'
+#> mermaid: caption="The GAN duel: the generator forges, the discriminator judges"
+flowchart TD
+    R["real data x"] --> D["D(x)"]
+    Z["noise z"] --> G["G(z)"] --> D
+    D --> P["probability this is real"]
+#!
 
-D trains to say: real -> 1, fake -> 0
-G trains to make D say: fake -> 1
-```
+D trains to say: real -> 1, fake -> 0. G trains to make D say: fake -> 1.
 
 The discriminator is just logistic regression (Chapter 6!). The generator is a one-layer tanh network mapping a noise number to a data number. The loss for D is binary cross-entropy; the loss for G is the same BCE but with the labels flipped, and its gradient flows *through* D into G, which is the elegant part.
 

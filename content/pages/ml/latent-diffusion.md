@@ -21,9 +21,12 @@ You now own every piece. Chapter 3's autoencoder compresses data into a latent c
 
 Pixel space is enormous and mostly redundant. A 512x512 image has 786,432 values, but almost all the *meaning* fits in a latent a hundred times smaller. Diffusing in pixels means the model spends most of its capacity relearning "neighbouring pixels correlate". Diffusing in latents means it spends capacity on structure. The autoencoder has already learned the correlation; the diffusion model should not have to.
 
-```text
-image --[encoder]--> latent z --[DDPM forward/reverse]--> z' --[decoder]--> image
-```
+#> mermaid: caption="Latent diffusion: encode once, diffuse in latent space, decode at the end"
+graph LR
+    I["image"] -->|encoder| Z["latent z"]
+    Z -->|"DDPM forward/reverse"| Z2["z'"]
+    Z2 -->|decoder| I2["image"]
+#!
 
 ```python-exec
 # reuse the ring autoencoder's idea: 2D point -> 1 latent number
@@ -46,11 +49,10 @@ for p in [(2.0, 0.0), (0.0, 2.0)]:
 
 The workflow has three stages, and you have built each one:
 
-```text
-1. ENCODE the dataset once into latents z (autoencoder, ch.2)
-2. TRAIN and SAMPLE the DDPM on latents (ch.5 code, unchanged)
-3. DECODE sampled latents back to data space
-```
+#> mermaid: caption="The three stages"
+graph LR
+    E["1. ENCODE the dataset once into latents z (autoencoder, ch.3)"] --> T["2. TRAIN and SAMPLE the DDPM on latents (ch.6 code, unchanged)"] --> D["3. DECODE sampled latents back to data space"]
+#!
 
 Stage 2 is the remarkable one: the DDPM code from Chapter 6 runs *byte for byte unchanged*, because diffusion does not care what its coordinates mean. Swap "2D ring point" for "1D latent code" and everything - schedules, noise prediction, the reverse walk - just works:
 

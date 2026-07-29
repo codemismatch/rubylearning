@@ -23,16 +23,10 @@ In this chapter we implement 2D convolution in pure Python, use classical hand-b
 
 A convolution takes a small grid of weights (the *kernel*, often 3x3) and computes a dot product at every position of the image. The output is a *feature map*: high values where the local patch matches the kernel.
 
-```text
-image (6x6)        kernel (3x3)       feature map (4x4)
-+-----------+      +-------+          +--------+
-| . . . . . .|    | 1 0 -1 |         | . . . . |
-| . K . . . .|  *  | 1 0 -1 |    =    | . . . . |
-| . . . . . .|    | 1 0 -1 |         | . . . . |
-| . . . . . .|    +-------+          | . . . . |
-+-----------+                       +--------+
-K = sum of the 3x3 patch, element by element, times the kernel
-```
+#> mermaid: caption="A 6x6 image convolved with a 3x3 kernel produces a 4x4 feature map; each output cell is the sum of the 3x3 patch, element by element, times the kernel"
+graph LR
+    I["image (6x6)"] --> OP["* kernel (3x3)<br/>1&nbsp;&nbsp;0&nbsp;&nbsp;-1<br/>1&nbsp;&nbsp;0&nbsp;&nbsp;-1<br/>1&nbsp;&nbsp;0&nbsp;&nbsp;-1"] --> F["feature map (4x4)"]
+#!
 
 ```python-exec
 def conv2d(image, kernel):

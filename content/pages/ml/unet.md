@@ -23,13 +23,11 @@ In this chapter we build a 1D U-Net in pure Python, small enough to print every 
 
 ### Down, then up, with a bridge across
 
-```text
-input (16)                skip copy
-   |                          |
- conv -> down (8) --------- concat -> conv -> up (16)
-   |                          |
- conv -> down (4) -- bottleneck -- up (8)
-```
+#> mermaid: caption="U-Net: down the encoder, through the bottleneck, up the decoder, with a skip connection carrying detail across"
+flowchart TD
+    IN["input (16)"] --> C1["conv &darr; down (8)"] --> C2["conv &darr; down (4)"] --> BN["bottleneck"] --> U1["up (8)"] --> CAT["concat"] --> C3["conv &uarr; up (16)"]
+    IN -. "skip copy" .-> CAT
+#!
 
 The encoder halves the signal twice. The decoder mirrors it, doubling back up. The skip connection takes the encoder's 8-wide feature map and *concatenates* it onto the decoder's 8-wide map, so the decoder sees both "what the structure is" and "what the exact local values were".
 

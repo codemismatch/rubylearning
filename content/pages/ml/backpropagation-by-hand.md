@@ -19,9 +19,10 @@ Every chapter since Chapter 15 has used backpropagation, and every time the grad
 
 ### The smallest interesting network
 
-```text
-x -> [z1 = w1*x + b1, h = tanh(z1)] -> [z2 = w2*h + b2] -> loss = (z2 - y)^2
-```
+#> mermaid: caption="The forward pass as a chain of computations"
+graph LR
+    X["x"] --> Z1["z1 = w1*x + b1"] --> H["h = tanh(z1)"] --> Z2["z2 = w2*h + b2"] --> L["loss = (z2 - y)^2"]
+#!
 
 One input, one hidden neuron, one output. We want the loss's gradient with respect to all four parameters: w1, b1, w2, b2.
 
