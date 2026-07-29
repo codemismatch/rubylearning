@@ -1707,3 +1707,193 @@ pre {
     color: #cbd5e0;
   }
 }
+
+/* Homepage course catalog */
+.section-subtitle {
+  text-align: center;
+  color: var(--text-light);
+  font-size: 1.1rem;
+  margin: -0.5rem 0 2.5rem;
+}
+
+.tracks {
+  padding: 2rem 0 4rem;
+}
+
+.track-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 1.5rem;
+}
+
+.track-card {
+  background: var(--background-color);
+  border: 1px solid var(--border-color, #e5e5e5);
+  border-radius: 12px;
+  padding: 1.75rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.track-card:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.09);
+}
+
+.track-card__title {
+  margin: 0 0 0.6rem;
+  font-size: 1.35rem;
+}
+
+.track-card__title a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.track-card__title a:hover {
+  color: var(--primary-color);
+}
+
+.track-card__meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.4rem;
+  margin: 0 0 1rem;
+}
+
+.track-card__description {
+  color: var(--text-light);
+  margin-bottom: 1rem;
+}
+
+.track-lessons summary {
+  cursor: pointer;
+  font-weight: 500;
+  color: var(--primary-color);
+  padding: 0.5rem 0;
+  list-style: none;
+}
+
+.track-lessons summary::before {
+  content: '▸ ';
+}
+
+.track-lessons[open] summary::before {
+  content: '▾ ';
+}
+
+.track-lessons__module,
+.course-lessons__module {
+  font-size: 0.85rem;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--text-light);
+  margin: 1.25rem 0 0.5rem;
+}
+
+.track-lessons__list,
+.course-lessons__list {
+  margin: 0;
+  padding-left: 1.5rem;
+  columns: 2;
+  column-gap: 2rem;
+}
+
+.track-lessons__list li,
+.course-lessons__list li {
+  margin-bottom: 0.35rem;
+  font-size: 0.95rem;
+  break-inside: avoid;
+}
+
+.track-lessons__list a,
+.course-lessons__list a {
+  color: var(--secondary-color);
+  text-decoration: none;
+}
+
+.track-lessons__list a:hover,
+.course-lessons__list a:hover {
+  color: var(--primary-color);
+  text-decoration: underline;
+}
+
+/* Run-in-browser strip */
+.run-strip {
+  background: linear-gradient(135deg, #2b2b2b 0%, #3a2020 100%);
+  color: #f5f5f5;
+  padding: 4rem 0;
+  margin-bottom: 4rem;
+}
+
+.run-strip__grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 3rem;
+  align-items: center;
+}
+
+.run-strip__intro h2 {
+  color: #fff;
+  font-size: 2rem;
+  margin-bottom: 1rem;
+}
+
+.run-strip__intro p {
+  color: #d8d8d8;
+  font-size: 1.1rem;
+  margin-bottom: 1.5rem;
+}
+
+.run-strip__points {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.run-point {
+  background: rgba(255, 255, 255, 0.06);
+  border: 1px solid rgba(255, 255, 255, 0.12);
+  border-radius: 10px;
+  padding: 1.1rem 1.25rem;
+}
+
+.run-point strong {
+  display: block;
+  color: #fff;
+  margin-bottom: 0.3rem;
+}
+
+.run-point p {
+  margin: 0;
+  color: #cfcfcf;
+  font-size: 0.95rem;
+}
+
+/* Courses page lesson lists */
+.course-lessons {
+  margin-top: 1.25rem;
+  border-top: 1px solid var(--border-color, #e5e5e5);
+  padding-top: 0.5rem;
+}
+
+/* Hero actions: allow wrap, keep button labels on one line */
+.hero-actions {
+  flex-wrap: wrap;
+}
+
+.hero-actions .btn {
+  white-space: nowrap;
+}
+
+@media (max-width: 992px) {
+  .track-grid,
+  .run-strip__grid {
+    grid-template-columns: 1fr;
+  }
+
+  .track-lessons__list,
+  .course-lessons__list {
+    columns: 1;
+  }
+}

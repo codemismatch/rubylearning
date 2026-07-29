@@ -6,14 +6,62 @@
   slug: ruby-basics
   free: true
   level: beginner
-  lessons: 43
-  estimated_hours: 12
+  lessons: 47
+  estimated_hours: 14
   modules:
-    - id: getting-started
-      title: Getting Started
+    - id: ruby-core
+      title: Ruby Basics
       tutorials:
+        - quick-intro
+        - meet-ruby
+        - installation-setup
         - first-ruby-program
+        - ruby-features
+        - numbers-in-ruby
+        - fun-with-strings
         - variables-and-assignment
+        - scope
+        - getting-input
+        - ruby-names
+        - more-on-ruby-methods
+        - writing-own-ruby-methods
+        - ruby-ri-tool
+        - more-on-strings
+        - simple-constructs
+        - ruby-blocks
+        - ruby-arrays
+        - ruby-ranges
+        - ruby-symbols
+        - ruby-hashes
+        - ruby-random-numbers
+        - read-write-files
+        - ruby-regular-expressions
+        - writing-our-own-class
+        - ruby-method-missing
+        - ruby-procs
+        - including-other-files
+        - ruby-open-classes
+        - ruby-inheritance
+        - ruby-overriding-methods
+        - ruby-overloading-methods
+        - ruby-access-control
+        - ruby-exceptions
+        - ruby-logging
+        - ruby-time-class
+        - duck-typing
+        - ruby-syntactic-sugar
+        - mutable-and-immutable-objects
+        - object-serialization
+        - modules-and-mixins
+        - ruby-self
+        - ruby-constants
+        - ruby-socket-programming
+    - id: rails-sprint
+      title: Rails Sprint
+      tutorials:
+        - rails-project-setup
+        - rails-routes-controllers
+        - rails-hotwire-feedback
 - id: advanced-ruby
   language: ruby
   title: Advanced Ruby
@@ -154,4 +202,5 @@
       title: Diffusion
       tutorials:
         - ddpm-from-first-principles
+        - diffusion-models-from-scratch
         - latent-diffusion

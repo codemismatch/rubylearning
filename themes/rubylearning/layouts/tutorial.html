@@ -10,13 +10,11 @@ layout: default
       <li><a href="{{ 'courses/' | url_for }}">Courses</a></li>
       <li>{{ page.title }}</li>
       {% elsif page.layout == 'tutorial' %}
-      <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+      <li><a href="{{ 'courses/' | url_for }}">Courses</a></li>
       <li>{{ page.title }}</li>
       {% elsif page.layout == 'post' %}
-      <li><a href="{{ 'tutorials/' | url_for }}">Tutorials</a></li>
+      <li><a href="{{ 'blog/' | url_for }}">Blog</a></li>
       <li>{{ page.title }}</li>
-      {% elsif page.permalink == '/tutorials' or page.url == '/tutorials/' or page.title == 'Ruby Tutorials' %}
-      <li>Tutorials</li>
       {% else %}
       <li>{{ page.title }}</li>
       {% endif %}

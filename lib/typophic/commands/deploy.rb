@@ -114,7 +114,7 @@ module Typophic
 
       def remote_publish(options)
         puts "== Building site for deployment =="
-        build_args = ["--deploy"]
+        build_args = ["--deploy", "--no-incremental"]
         previous_override = nil
 
         # Determine domain for build-time URL override and CNAME:
