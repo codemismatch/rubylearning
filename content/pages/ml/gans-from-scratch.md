@@ -4,7 +4,7 @@ title: "Chapter 4 &ndash; GANs: A Generator and a Critic"
 permalink: /courses/image-generation/gans-from-scratch/
 difficulty: advanced
 author: Pankaj Doharey
-summary: Train a tiny GAN in pure Python: a generator that learns to counterfeit a distribution and a discriminator that learns to catch it.
+summary: "Train a tiny GAN in pure Python: a generator that learns to counterfeit a distribution and a discriminator that learns to catch it."
 theme: pylearning
 previous_tutorial:
   title: "U-Net: The Workhorse of Image Models"
