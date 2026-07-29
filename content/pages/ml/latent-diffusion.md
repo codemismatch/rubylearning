@@ -7,8 +7,8 @@ author: Pankaj Doharey
 summary: Combine the autoencoder and DDPM into latent diffusion, the architecture of Stable Diffusion, and see how the same machinery upscales images.
 theme: pylearning
 previous_tutorial:
-  title: "Diffusion Models: DDPM from First Principles"
-  url: /courses/image-generation/ddpm-from-first-principles/
+  title: "Diffusion Models from Scratch: Sprite Training"
+  url: /courses/image-generation/diffusion-models-from-scratch/
 next_tutorial:
   title: "Back to the course index"
   url: /courses/image-generation/

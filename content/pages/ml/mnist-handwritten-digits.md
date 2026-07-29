@@ -7,8 +7,8 @@ author: Pankaj Doharey
 summary: Train a from-scratch neural network on real handwritten digit scans, this time with numpy - the payoff chapter for everything the course built by hand.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 20: Diffusion Models from Scratch"
-  url: /courses/machine-learning/diffusion-models-from-scratch/
+  title: "Chapter 19: Building a Mini-GPT from Scratch"
+  url: /courses/machine-learning/build-a-mini-gpt/
 date: 2026-04-14
 ---
 

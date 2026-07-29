@@ -87,8 +87,8 @@
   slug: machine-learning
   free: true
   level: beginner
-  lessons: 21
-  estimated_hours: 55
+  lessons: 20
+  estimated_hours: 52
   modules:
     - id: foundations
       title: Foundations
@@ -124,7 +124,6 @@
         - attention-and-transformers
         - how-llms-work
         - build-a-mini-gpt
-        - diffusion-models-from-scratch
     - id: applied-projects
       title: Applied Projects
       tutorials:
@@ -137,8 +136,8 @@
   slug: image-generation
   free: true
   level: intermediate
-  lessons: 7
-  estimated_hours: 14
+  lessons: 8
+  estimated_hours: 16
   modules:
     - id: seeing-images
       title: Seeing Images

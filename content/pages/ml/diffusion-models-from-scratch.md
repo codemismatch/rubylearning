@@ -1,21 +1,21 @@
 ---
 layout: tutorial
-title: "Chapter 20 &ndash; Diffusion Models from Scratch"
-permalink: /courses/machine-learning/diffusion-models-from-scratch/
+title: "Diffusion Models from Scratch: Sprite Training"
+permalink: /courses/image-generation/diffusion-models-from-scratch/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Train a real denoising diffusion model (DDPM) in pure Python on procedurally generated 8x8 sprites, then sample brand-new sprites from pure noise - entirely in the browser.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 19: Building a Mini-GPT from Scratch"
-  url: /courses/machine-learning/build-a-mini-gpt/
+  title: "Diffusion Models: DDPM from First Principles"
+  url: /courses/image-generation/ddpm-from-first-principles/
 next_tutorial:
-  title: "Chapter 21: MNIST: Recognizing Handwritten Digits"
-  url: /courses/machine-learning/mnist-handwritten-digits/
+  title: "Latent Diffusion & Super-Resolution"
+  url: /courses/image-generation/latent-diffusion/
 date: 2026-04-07
 ---
 
-Every model in this course so far has been **discriminative**: given x, predict y. Even the mini-GPT, which *generated* text, did it by classification - predicting the next token over a vocabulary. This final chapter is different in kind. A **diffusion model** learns to turn pure random noise into data. There are no labels anywhere - not even the self-supervised "next token" kind. The training signal is noise itself: we corrupt a real image with a known amount of Gaussian noise, and teach a network to predict *which noise was added*. Remove the noise a little at a time and a clean image appears.
+In the previous chapter we built a DDPM on 1D data and watched it denoise a distribution back into shape. Now we do it for real images. A **diffusion model** learns to turn pure random noise into data. There are no labels anywhere - not even the self-supervised "next token" kind. The training signal is noise itself: we corrupt a real image with a known amount of Gaussian noise, and teach a network to predict *which noise was added*. Remove the noise a little at a time and a clean image appears.
 
 That idea - DDPM, Denoising Diffusion Probabilistic Models - is the engine behind modern image generators like Stable Diffusion, DALL-E 3, and Midjourney. We will build a real one, small enough to train in this page: forward noising, a noise-predicting network with a time embedding, manual backpropagation, and the ancestral sampling loop. Our data is procedurally generated 8x8 sprites - infinite, free, and needing no labeling, because diffusion is unsupervised.
 

@@ -10,8 +10,8 @@ previous_tutorial:
   title: "GANs: A Generator and a Critic"
   url: /courses/image-generation/gans-from-scratch/
 next_tutorial:
-  title: "Latent Diffusion & Super-Resolution"
-  url: /courses/image-generation/latent-diffusion/
+  title: "Diffusion Models from Scratch: Sprite Training"
+  url: /courses/image-generation/diffusion-models-from-scratch/
 date: 2026-07-29
 ---
 

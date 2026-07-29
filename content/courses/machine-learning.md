@@ -75,19 +75,12 @@ date: 2026-01-06
               <li><a href="/courses/machine-learning/attention-and-transformers/">Attention &amp; Transformers</a></li>
               <li><a href="/courses/machine-learning/how-llms-work/">How LLMs Work</a></li>
               <li><a href="/courses/machine-learning/build-a-mini-gpt/">Building a Mini-GPT from Scratch</a></li>
-              <li><a href="/courses/machine-learning/diffusion-models-from-scratch/">Diffusion Models from Scratch</a></li>
             </ol>
           </div>
           <div>
             <h3>Applied Projects</h3>
             <ol>
               <li><a href="/courses/machine-learning/mnist-handwritten-digits/">MNIST: Recognizing Handwritten Digits</a></li>
-            </ol>
-          </div>
-          <div>
-            <h3>Keep Going</h3>
-            <ol>
-              <li><a href="/courses/image-generation/">Image Generation: From Pixels to Diffusion</a> &middot; convolutions, autoencoders, U-Nets, GANs and diffusion, from first principles</li>
             </ol>
           </div>
         </div>

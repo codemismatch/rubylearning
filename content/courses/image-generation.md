@@ -1,5 +1,5 @@
 ---
-layout: course
+layout: tutorial
 title: "Image Generation: From Pixels to Diffusion"
 permalink: /courses/image-generation/
 author: Pankaj Doharey
@@ -33,6 +33,7 @@ date: 2026-07-29
         <h3>Diffusion</h3>
         <ol>
           <li><a href="/courses/image-generation/ddpm-from-first-principles/">Diffusion Models: DDPM from First Principles</a></li>
+          <li><a href="/courses/image-generation/diffusion-models-from-scratch/">Diffusion Models from Scratch: Sprite Training</a></li>
           <li><a href="/courses/image-generation/latent-diffusion/">Latent Diffusion &amp; Super-Resolution</a></li>
         </ol>
       </div>
