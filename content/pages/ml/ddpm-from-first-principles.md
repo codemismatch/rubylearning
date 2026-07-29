@@ -1,14 +1,17 @@
 ---
 layout: tutorial
 title: "Chapter 23 &ndash; Diffusion Models: DDPM from First Principles"
-permalink: /courses/machine-learning/ddpm-from-first-principles/
+permalink: /courses/image-generation/ddpm-from-first-principles/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Understand how diffusion models generate data by destroying it first, then train a tiny pure-Python DDPM on 1D data and sample from it.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 19: Building a Mini-GPT from Scratch"
-  url: /courses/machine-learning/build-a-mini-gpt/
+  title: "GANs: A Generator and a Critic"
+  url: /courses/image-generation/gans-from-scratch/
+next_tutorial:
+  title: "Latent Diffusion & Super-Resolution"
+  url: /courses/image-generation/latent-diffusion/
 date: 2026-07-29
 ---
 

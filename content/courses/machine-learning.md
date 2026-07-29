@@ -79,15 +79,15 @@ date: 2026-01-06
             </ol>
           </div>
           <div>
-            <h3>Deep Learning &amp; Generative Models</h3>
+            <h3>Applied Projects</h3>
             <ol>
-              <li><a href="/courses/machine-learning/ddpm-from-first-principles/">Diffusion Models: DDPM from First Principles</a> <em>(+ in-browser moons dataset)</em></li>
-              <li>Convolutions &amp; CNNs from Scratch <em>(coming soon)</em></li>
-              <li>Backpropagation by Hand <em>(coming soon)</em></li>
-              <li><a href="/courses/machine-learning/autoencoders/">Autoencoders</a></li>
-              <li>Latent Diffusion &amp; Super-Resolution <em>(coming soon)</em></li>
-              <li>Training Tricks: Initialization, Normalization, ResNets <em>(coming soon)</em></li>
-              <li>Deploying a Model: From Notebook to a Small Web Service <em>(coming soon)</em></li>
+              <li><a href="/courses/machine-learning/mnist-handwritten-digits/">MNIST: Recognizing Handwritten Digits</a></li>
+            </ol>
+          </div>
+          <div>
+            <h3>Keep Going</h3>
+            <ol>
+              <li><a href="/courses/image-generation/">Image Generation: From Pixels to Diffusion</a> &middot; convolutions, autoencoders, U-Nets, GANs and diffusion, from first principles</li>
             </ol>
           </div>
         </div>

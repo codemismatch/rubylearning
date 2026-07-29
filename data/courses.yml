@@ -87,8 +87,8 @@
   slug: machine-learning
   free: true
   level: beginner
-  lessons: 20
-  estimated_hours: 50
+  lessons: 21
+  estimated_hours: 55
   modules:
     - id: foundations
       title: Foundations
@@ -125,3 +125,34 @@
         - how-llms-work
         - build-a-mini-gpt
         - diffusion-models-from-scratch
+    - id: applied-projects
+      title: Applied Projects
+      tutorials:
+        - mnist-handwritten-digits
+
+- id: image-generation
+  language: python
+  title: "Image Generation: From Pixels to Diffusion"
+  description: Build image models from first principles, from convolutions and autoencoders to U-Nets, GANs and diffusion.
+  slug: image-generation
+  free: true
+  level: intermediate
+  lessons: 7
+  estimated_hours: 14
+  modules:
+    - id: seeing-images
+      title: Seeing Images
+      tutorials:
+        - convolutions-cnns-from-scratch
+        - training-tricks
+    - id: compress-and-generate
+      title: Compress and Generate
+      tutorials:
+        - autoencoders
+        - unet
+        - gans-from-scratch
+    - id: diffusion
+      title: Diffusion
+      tutorials:
+        - ddpm-from-first-principles
+        - latent-diffusion

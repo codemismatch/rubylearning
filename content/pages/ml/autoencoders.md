@@ -1,17 +1,17 @@
 ---
 layout: tutorial
 title: "Chapter 22 &ndash; Autoencoders"
-permalink: /courses/machine-learning/autoencoders/
+permalink: /courses/image-generation/autoencoders/
 difficulty: intermediate
 author: Pankaj Doharey
 summary: Build an autoencoder in pure Python that squeezes 2D data through a 1-number bottleneck, and learn why compression is the road to generation.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 21: Backpropagation by Hand"
-  url: /courses/machine-learning/backpropagation-by-hand/
+  title: "Training Tricks: Initialization, Normalization, ResNets"
+  url: /courses/image-generation/training-tricks/
 next_tutorial:
-  title: "Chapter 23: Diffusion Models: DDPM from First Principles"
-  url: /courses/machine-learning/ddpm-from-first-principles/
+  title: "U-Net: The Workhorse of Image Models"
+  url: /courses/image-generation/unet/
 date: 2026-07-29
 ---
 

@@ -9,6 +9,9 @@ theme: pylearning
 previous_tutorial:
   title: "Chapter 19: Building a Mini-GPT from Scratch"
   url: /courses/machine-learning/build-a-mini-gpt/
+next_tutorial:
+  title: "Chapter 21: MNIST: Recognizing Handwritten Digits"
+  url: /courses/machine-learning/mnist-handwritten-digits/
 date: 2026-04-07
 ---
 
