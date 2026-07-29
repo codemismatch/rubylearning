@@ -96,10 +96,10 @@
     "tags": []
   },
   {
-    "title": "Chapter 20 &ndash; Diffusion Models from Scratch",
+    "title": "Diffusion Models from Scratch: Sprite Training",
     "description": null,
-    "permalink": "/courses/machine-learning/diffusion-models-from-scratch/",
-    "url": "https://rubylearning.in/courses/machine-learning/diffusion-models-from-scratch/",
+    "permalink": "/courses/image-generation/diffusion-models-from-scratch/",
+    "url": "https://rubylearning.in/courses/image-generation/diffusion-models-from-scratch/",
     "date": "2026-04-07",
     "tags": []
   },
