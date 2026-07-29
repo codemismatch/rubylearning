@@ -96,10 +96,7 @@ print(round(euclidean((15, 9), (300, 3)), 2))   # far apart
 print(round(euclidean((15, 9), (18, 10)), 2))   # close together
 ```
 
-```text
-285.06
-3.16
-```
+
 
 Other metrics exist and are worth knowing by name:
 
@@ -135,20 +132,7 @@ for point in [(19, 9), (320, 3), (100, 8)]:
         print(f"    neighbor {label:6s} at distance {d:8.2f}")
 ```
 
-```text
-point (19, 9) -> berry
-    neighbor berry  at distance     1.41
-    neighbor berry  at distance     1.41
-    neighbor berry  at distance     3.00
-point (320, 3) -> melon
-    neighbor melon  at distance    10.00
-    neighbor melon  at distance    20.00
-    neighbor melon  at distance    30.02
-point (100, 8) -> berry
-    neighbor berry  at distance    75.01
-    neighbor berry  at distance    78.01
-    neighbor berry  at distance    80.00
-```
+
 
 The first two predictions are obviously right. The third is wrong-looking: a 100g fruit with sweetness 8 is probably not a berry, but distance-wise it is still closer to the berries than to the faraway melons. KNN has no notion of "far from everything" - it must pick a class no matter what.
 
@@ -174,13 +158,7 @@ for k in [1, 3, 5, 7, 9]:
     print(f"k = {k}: leave-one-out accuracy {accuracy(data, k) * 100:.0f}%")
 ```
 
-```text
-k = 1: leave-one-out accuracy 100%
-k = 3: leave-one-out accuracy 100%
-k = 5: leave-one-out accuracy 100%
-k = 7: leave-one-out accuracy 100%
-k = 9: leave-one-out accuracy 0%
-```
+
 
 Here is that same table as a chart:
 
@@ -218,9 +196,7 @@ def knn_predict_weighted(data, point, k=3):
 print(knn_predict_weighted(data, (100, 8), k=3))
 ```
 
-```text
-berry
-```
+
 
 Distance weighting softens the dependence on k: with plain voting, adding a distant 7th neighbor can flip the result; with weights, that neighbor's vote is tiny anyway.
 

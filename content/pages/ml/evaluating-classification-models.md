@@ -81,10 +81,7 @@ print(confusion_matrix(y_true, y_pred))
 
 For the example, the matrix is:
 
-```text
-TP = 3   FP = 2
-FN = 2   TN = 3
-```
+
 
 The confusion matrix is more informative than a single score because it shows *which kind* of error the model makes.
 

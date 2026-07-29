@@ -200,14 +200,7 @@ for w1 in words:
 
 The output shows the structure we built in:
 
-```text
-          king   queen     man   woman   apple
-  king    1.00    0.92    1.00    0.11   -0.79
- queen    0.92    1.00    0.11    1.00   -0.96
-   man    1.00    0.11    1.00    0.11   -0.75
-  woman    0.11    1.00    0.11    1.00   -0.73
-  apple   -0.79   -0.96   -0.75   -0.73    1.00
-```
+
 
 Read it carefully: king and queen are close (0.92), man and woman are close (1.00), and apple is far from everyone (negative against all four). Meaning has become geometry.
 
@@ -238,11 +231,7 @@ for score, word in nearest(result, embeddings, exclude={"king", "man", "woman"})
 
 Running it:
 
-```text
-king - man + woman = [0.9, 1.0]
-  queen: cosine 1.000
-  apple: cosine -0.956
-```
+
 
 The result vector is `[0.9, 1.0]` - exactly where we placed "queen". The arithmetic works because the relationships "royalty" and "gender" are encoded as roughly independent directions, so subtracting one and adding the other lands you at the word with the combined properties. In real 300-dimensional word2vec embeddings the answer is not exact, but "queen" reliably comes out as the nearest neighbor.
 

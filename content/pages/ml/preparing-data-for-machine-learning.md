@@ -160,7 +160,7 @@ That lets the model distinguish "a typical-sized house" from "a house whose size
 
 A model cannot multiply `"north"` by a weight. We need numbers, but this is wrong:
 
-```python-exec
+```python
 # Bad: the numbers invent an order that does not exist.
 codes = {"north": 1, "south": 2, "west": 3}
 ```
@@ -183,9 +183,7 @@ The category vocabulary is also learned from training data. If an unseen categor
 
 `size_sqft` may be around 1,500 while `bedrooms` is around 3. Gradient descent reacts to those scales through the gradients, so the larger-numbered feature can dominate the updates. Standardization transforms each value into:
 
-```text
-standardized = (value - training_mean) / training_standard_deviation
-```
+
 
 Afterward, training values are centered near 0 with a spread near 1.
 
@@ -329,9 +327,7 @@ plt.show()
 
 This code deliberately keeps the preprocessor as a plain dictionary so every learned value is visible. Libraries package the same idea into transformers and pipelines, but the contract is unchanged:
 
-```text
-fit on training data -> freeze state -> transform training/test/future rows identically
-```
+
 
 ### Data leakage has many disguises
 

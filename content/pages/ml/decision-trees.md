@@ -79,16 +79,13 @@ print("entropy of full set:", round(entropy(labels), 3))
 print("entropy of pure set:", entropy(["yes", "yes", "yes"]))
 ```
 
-```text
-entropy of full set: 0.971
-entropy of pure set: 0.0
-```
+
 
 **Gini impurity** is the other classic: the probability that two randomly drawn labels disagree.
 
     gini = 1 - sum( p^2 )
 
-```python-exec
+```python
 def gini(labels):
     n = len(labels)
     counts = Counter(labels)
@@ -138,12 +135,7 @@ print("gain windy:           ", round(information_gain(data, 2), 3))
 print("gain temp<=29:        ", round(information_gain(data, 1, 29), 3))
 ```
 
-```text
-gain outlook=overcast: 0.171
-gain temp<=21:         0.046
-gain windy:            0.256
-gain temp<=29:         0.322
-```
+
 
 "Is the temperature at most 29?" wins - it carves off the two scorching no-days into a pure group, exactly the root split in Figure 1. Note that "temp <= 21" is a poor question while "temp <= 29" is the best one: for numeric features the threshold matters as much as the feature, which is why the builder below searches every midpoint instead of guessing.
 
@@ -168,14 +160,7 @@ plt.show()
 
 The algorithm, in plain text:
 
-```text
-build(rows):
-    if all labels equal:            return a leaf with that label
-    if no split improves things:    return a leaf with the majority label
-    find the question with the highest information gain
-    split rows into left and right
-    return a node(question, build(left), build(right))
-```
+
 
 And in Python. A node is a dict; a leaf just stores a label.
 
@@ -238,10 +223,7 @@ print(f"training accuracy: {correct}/{len(data)}")
 print("new day (sunny, 25, no wind):", predict(tree, ("sunny", 25, False, None)))
 ```
 
-```text
-training accuracy: 10/10
-new day (sunny, 25, no wind): yes
-```
+
 
 A mild, calm day gets a "yes" - trace the path by hand: temp 25 is at most 29, wind is calm, leaf says yes. You can also print the tree as text to inspect what it learned - highly recommended as a debugging habit:
 
@@ -268,21 +250,7 @@ def show(tree, indent=""):
 show(tree)
 ```
 
-```text
-temp <= 29.0?
-|-- yes:
-|   windy is true?
-|   |-- yes:
-|   |   outlook == overcast?
-|   |   |-- yes:
-|   |   |   yes
-|   |   `-- no:
-|   |       no
-|   `-- no:
-|       yes
-`-- no:
-    no
-```
+
 
 Compare with Figure 1 - same tree, drawn two ways. Hot days (temp above 29) are an immediate no; mild days are yes unless it is windy and not overcast.
 
@@ -300,12 +268,7 @@ for d in [1, 2, 3, 10]:
     print(f"max_depth {d:2d}: training accuracy {correct}/{len(noisy)}")
 ```
 
-```text
-max_depth  1: training accuracy 9/11
-max_depth  2: training accuracy 10/11
-max_depth  3: training accuracy 11/11
-max_depth 10: training accuracy 11/11
-```
+
 
 The deep tree contorts itself to fit one contradictory example. A depth of 1 or 2 misclassifies the noisy row but captures the real pattern - exactly what we want. Choose `max_depth` (or a minimum leaf size) on validation data, not by gut feeling.
 

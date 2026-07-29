@@ -105,9 +105,7 @@ Learning curves can also compare performance against the number of training exam
 
 Regularization adds a preference for simpler solutions. Instead of minimizing only data loss:
 
-```text
-total loss = data loss
-```
+
 
 we minimize:
 
@@ -170,9 +168,7 @@ Standardize numeric features using the training statistics from Chapter 3 before
 
 L1 adds absolute weight values:
 
-```text
-L1 penalty = |w1| + |w2| + ... + |wk|
-```
+
 
 Its pressure is constant rather than proportional to weight size, so some weights can become exactly zero. That makes L1 useful when you suspect only a subset of features is necessary or when a sparse, easier-to-inspect model is valuable.
 

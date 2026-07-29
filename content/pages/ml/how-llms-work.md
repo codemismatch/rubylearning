@@ -179,12 +179,7 @@ print(generate("the", seed=42))
 
 Typical output:
 
-```text
-training loss: 0.995  perplexity: 2.70
-the cat sat on the mat
-the cat sat on the bone
-the dog ate the bone
-```
+
 
 Read the `generate` function slowly - it *is* an LLM in miniature:
 

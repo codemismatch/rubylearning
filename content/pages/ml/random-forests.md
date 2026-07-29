@@ -144,11 +144,7 @@ for point in [(19, 9, 8), (320, 3, 2), (60, 6, 5)]:
     print(f"{point} -> {guess}  (votes: {dict(votes)})")
 ```
 
-```text
-(19, 9, 8) -> berry  (votes: {'berry': 25})
-(320, 3, 2) -> melon  (votes: {'melon': 25})
-(60, 6, 5) -> berry  (votes: {'berry': 15, 'melon': 10})
-```
+
 
 Notice the third line: the vote tally itself is a free confidence estimate. 25-0 is a sure thing; 15-10 is "probably, but check". Single trees cannot tell you that.
 
@@ -187,9 +183,7 @@ s, f = accuracy_single_vs_forest()
 print(f"single tree: {s * 100:.1f}%   forest: {f * 100:.1f}%")
 ```
 
-```text
-single tree: 85.0%   forest: 92.5%
-```
+
 
 Here is that result as a chart:
 
@@ -224,9 +218,7 @@ def oob_accuracy(rows, n_trees=25):
 print(f"OOB accuracy: {oob_accuracy(rows) * 100:.1f}%")
 ```
 
-```text
-OOB accuracy: 100.0%
-```
+
 
 (The `id()` trick works here because every row is a distinct object; in real code you would track indices instead.) On large real datasets OOB error tracks test error closely - a genuine convenience when data is scarce.
 

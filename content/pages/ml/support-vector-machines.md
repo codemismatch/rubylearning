@@ -101,12 +101,7 @@ def train_svm(data, lam=0.002, epochs=100000):
 w = train_svm(data)
 ```
 
-```text
-step  25000  w = [1.860, -0.560]  b = -3.800  margin violations: 0
-step  50000  w = [1.530, -0.350]  b = -3.840  margin violations: 1
-step  75000  w = [1.480, -0.240]  b = -3.953  margin violations: 1
-step 100000  w = [1.390, -0.250]  b = -3.945  margin violations: 0
-```
+
 
 The weights wobble a little along the way - normal for stochastic updates with a shrinking step size - and settle near `w = [1.39, -0.25]`, `b = -3.95`. Study hours dominate, as they should: the fails all studied 3 hours or fewer, the passes 5 or more.
 
@@ -122,11 +117,7 @@ print("new student (4, 6):", predict(w, (4, 6)))
 print("new student (1, 9):", predict(w, (1, 9)))
 ```
 
-```text
-training accuracy: 10/10
-new student (4, 6): 1
-new student (1, 9): -1
-```
+
 
 ### Meeting the support vectors
 
@@ -139,11 +130,7 @@ for x, y in by_margin[:3]:
     print(f"closest to the boundary: {x} (functional margin {m:.3f})")
 ```
 
-```text
-closest to the boundary: (5, 8) (functional margin 1.005)
-closest to the boundary: (3, 5) (functional margin 1.025)
-closest to the boundary: (5, 6) (functional margin 1.505)
-```
+
 
 The two points sitting right on the margin - the pass student at `(5, 8)` and the fail student at `(3, 5)` - are the support vectors, and they carry the model: everything else is comfortably far away, and deleting it would leave the boundary essentially unchanged. That sparsity is a big part of why SVMs generalize well and why they were the algorithm to beat in the 1990s and 2000s.
 
@@ -190,13 +177,7 @@ for x, y in xor:
     print(f"{x}: predicted {guess:+d}, actual {y:+d}")
 ```
 
-```text
-lifted weights: [2.0, 2.0, -4.013, -1.0]
-(0, 0): predicted -1, actual -1
-(0, 1): predicted +1, actual +1
-(1, 0): predicted +1, actual +1
-(1, 1): predicted -1, actual -1
-```
+
 
 Perfect - a flat plane in the lifted space corresponds to a curved boundary in the original 2D space. Look at the learned weights `[2, 2, -4, -1]`: the score is `2*x1 + 2*x2 - 4*x1*x2 - 1`, which is negative at the corners `(0, 0)` and `(1, 1)` and positive at `(0, 1)` and `(1, 0)` - exactly XOR, discovered by gradient descent.
 

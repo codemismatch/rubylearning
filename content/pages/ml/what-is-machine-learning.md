@@ -52,12 +52,7 @@ for email in emails:
 
 Run it:
 
-```text
-SPAM | Congratulations! You are a WINNER. Click here to claim your free prize!!!
-OK   | Hi Pankaj, are we still meeting at 3pm tomorrow?
-SPAM | URGENT: your account needs verification. Click here now!
-OK   | Lunch on Friday? The new place near the office is free at noon.
-```
+
 
 It works - sort of. Notice the last email contains the word "free" but is not spam, and our rule nearly catches it anyway. Now imagine maintaining this function for real: spammers change tactics weekly, legitimate mail keeps tripping rules, and the function grows into hundreds of brittle `if` statements. You are encoding *your* guess about what spam looks like, and your guess is always incomplete.
 

@@ -120,7 +120,7 @@ for token, out in zip(["cat", "sat"], self_attention(Q, K, V)):
 
 Run it and you should see:
 
-```python-exec
+```python
 # cat -> [1.6605, 2.6605]
 # sat -> [2.3395, 3.3395]
 ```
@@ -226,7 +226,7 @@ graph LR
 
 A toy pure-Python block (relu for the nonlinearity, plain mean/variance layer norm) looks like this:
 
-```python-exec
+```python
 import math
 
 def relu(x):

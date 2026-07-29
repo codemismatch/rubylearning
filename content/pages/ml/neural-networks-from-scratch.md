@@ -76,10 +76,7 @@ print(relu(1.5))      # 1.5
 
 Before training anything, let's push one input through a tiny fixed network by hand so there is no mystery left. Take input (x1, x2) = (1, 0), and pretend the first hidden neuron has weights w1 = 0.5, w2 = -0.4, bias b = 0.1:
 
-```text
-z = 0.5*1 + (-0.4)*0 + 0.1 = 0.6
-h1 = relu(0.6) = 0.6
-```
+
 
 Now suppose all four hidden neurons came out to h = [0.6, 0.0, 0.3, 0.9], and the output neuron has weights [0.7, 0.2, -0.5, 0.4] with bias 0.05:
 
@@ -121,13 +118,7 @@ print("y =", y)  # ~0.664
 
 XOR's truth table:
 
-```text
-x1 x2 | y
-0  0  | 0
-0  1  | 1
-1  0  | 1
-1  1  | 0
-```
+
 
 Plot those four points: the 1s sit on opposite corners. No straight line puts the 1s on one side and the 0s on the other, which is exactly why logistic regression fails here. A hidden layer fixes this by learning *intermediate features* - for example, one neuron can learn "is x1 OR x2 on" and another "are both on", and the output neuron combines them: "OR is on AND both-on is off." Curved boundary, problem solved.
 
@@ -222,13 +213,7 @@ for x, y in zip(X, Y):
 
 A typical run shows the average loss dropping from around 0.7 to under 0.01, and final predictions like:
 
-```text
-predictions:
-  [0.0, 0.0] -> 0.0231  (target 0.0)
-  [0.0, 1.0] -> 0.9785  (target 1.0)
-  [1.0, 0.0] -> 0.9790  (target 1.0)
-  [1.0, 1.0] -> 0.0244  (target 0.0)
-```
+
 
 Every prediction lands near the right 0 or 1 - the network learned XOR.
 

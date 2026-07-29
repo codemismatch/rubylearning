@@ -138,12 +138,7 @@ for text in tests:
     print(f"{text!r:35} -> {label:4} (spam {s:.2f}, ham {h:.2f})")
 ```
 
-```text
-'free prize claim now'              -> spam (spam -12.42, ham -17.51)
-'meeting moved to tomorrow'         -> ham  (spam -17.33, ham -14.33)
-'win free coffee'                   -> spam (spam -9.95, ham -12.61)
-'review the attached report'        -> ham  (spam -17.33, ham -14.33)
-```
+
 
 All four correct, including the tricky "win free coffee", where spam vocabulary ("win", "free") outweighs the neutral "coffee". Note the log scores are negative (sums of logs of fractions) and we only ever compare them - we never convert back to raw probabilities.
 
@@ -169,12 +164,7 @@ for text in tests:
     print(f"{text!r:35} spam probability {spam_probability(text):.3f}")
 ```
 
-```text
-'free prize claim now'              spam probability 0.994
-'meeting moved to tomorrow'         spam probability 0.048
-'win free coffee'                   spam probability 0.935
-'review the attached report'        spam probability 0.048
-```
+
 
 Take these numbers with a grain of salt: naive Bayes scores are notoriously overconfident (the independence assumption double-counts evidence - 0.994 from four words is bold), but their *ranking* is usually sound.
 
@@ -195,9 +185,7 @@ for i, (text, label) in enumerate(training):
 print(f"leave-one-out accuracy: {correct}/{len(training)}")
 ```
 
-```text
-leave-one-out accuracy: 10/12
-```
+
 
 Ten out of twelve - and the two misses are instructive. The misclassified messages are "project deadline moved to friday" and "can you review my code": hold either out, and its words appear in *no* remaining ham message, so every word scores via Laplace smoothing alone - and smoothed unseen words score slightly higher under spam, because spam has fewer total words and therefore a smaller denominator. Small vocabularies make individual messages brittle; real corpora with thousands of messages suffer far less, and accuracies above 95% with just this much code are common - exactly why naive Bayes was the original spam weapon.
 

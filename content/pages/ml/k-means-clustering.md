@@ -105,12 +105,7 @@ for i, (c, cluster) in enumerate(zip(centroids, clusters)):
     print(f"cluster {i}: centroid {nice}, {len(cluster)} points -> {cluster}")
 ```
 
-```text
-converged after 2 epochs
-cluster 0: centroid (1.5, 1.5), 5 points -> [(1, 1), (2, 1), (1, 2), (2, 2), (1.5, 1.5)]
-cluster 1: centroid (8.5, 8.5), 5 points -> [(8, 8), (9, 8), (8, 9), (9, 9), (8.5, 8.5)]
-cluster 2: centroid (1.5, 8.5), 5 points -> [(1, 8), (2, 9), (1, 9), (2, 8), (1.5, 8.5)]
-```
+
 
 Three blobs found, centroids parked exactly on the blob means. That is the whole algorithm - assignment, update, repeat. And here it is as a picture - one series per cluster, with the centroids marked:
 
@@ -143,14 +138,7 @@ for k in [1, 2, 3, 4, 5, 6]:
     print(f"k = {k}: inertia {best:7.2f}")
 ```
 
-```text
-k = 1: inertia  332.67
-k = 2: inertia  128.50
-k = 3: inertia    6.00
-k = 4: inertia    5.17
-k = 5: inertia    4.54
-k = 6: inertia    3.71
-```
+
 
 The curve falls off a cliff at k = 3 - from 128.5 to 6 - and then barely moves. The elbow says 3, which matches the blobs we planted. (Notice we run each k ten times and keep the best; the reason why is next.)
 
@@ -168,12 +156,7 @@ for cluster in clusters_bad:
     print(" ", len(cluster), "points:", cluster[:3], "...")
 ```
 
-```text
-inertia with unlucky init: 127.67
-  3 points: [(8, 8), (8, 9), (8.5, 8.5)] ...
-  10 points: [(1, 1), (2, 1), (1, 2)] ...
-  2 points: [(9, 8), (9, 9)] ...
-```
+
 
 There it is: two initial centroids landed in the top-right blob and none in the top-left, so the algorithm split one blob and merged the other two - inertia 127.67 against the optimum of 6.0, a 20x worse answer it cannot escape. Two standard defenses:
 
@@ -235,10 +218,7 @@ print(f"random init found the best clustering {naive_ok}/100 times")
 print(f"k-means++ init found the best clustering {plusplus_ok}/100 times")
 ```
 
-```text
-random init found the best clustering 71/100 times
-k-means++ init found the best clustering 98/100 times
-```
+
 
 Random restarts alone leave a one-in-three chance of a bad answer on any single run; k-means++ cuts that to a few percent (it can still occasionally pick two centroids in one blob - nothing is free). Combine both defenses and failure becomes vanishingly rare. In libraries, `k-means++` is the default initializer - now you know what the `++` buys.
 

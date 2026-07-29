@@ -60,13 +60,7 @@ for z in [-6, -2, 0, 2, 6]:
 
 Output:
 
-```text
--6 0.0025
--2 0.1192
-0 0.5
-2 0.8808
-6 0.9975
-```
+
 
 ### From score to decision
 
@@ -182,15 +176,7 @@ print(f"\nfinal: w = {w:.3f}, b = {b:.3f}")
 
 Running this prints the loss shrinking steadily:
 
-```text
-epoch    0  loss 0.6484  w 0.550  b 0.000
-epoch  400  loss 0.0751  w 2.050  b -6.956
-epoch  800  loss 0.0538  w 2.604  b -8.923
-epoch 1200  loss 0.0436  w 2.991  b -10.293
-epoch 1600  loss 0.0372  w 3.301  b -11.385
 
-final: w = 3.563, b = -12.306
-```
 
 The initial loss, before any training, is exactly `log(2)` ≈ 0.6931 - what you get by predicting 0.5 for everything, i.e. shrugging. The first printed epoch is already one gradient step better than that. From there the model learns that more hours means more pass probability.
 
@@ -226,26 +212,7 @@ print(f"\ntraining accuracy: {accuracy(w, b, xs, ys) * 100:.0f}%")
 
 Typical output:
 
-```text
-hours  probability  predicted  actual
-  0.5        0.000          0       0
-  1.0        0.000          0       0
-  1.5        0.001          0       0
-  2.0        0.006          0       0
-  3.0        0.165          0       0
-  4.0        0.875          1       1
-  5.0        0.996          1       1
-  6.0        1.000          1       1
-  7.0        1.000          1       1
-  8.0        1.000          1       1
 
-new students:
-2.5 hours -> pass probability 0.032
-3.4 hours -> pass probability 0.452
-5.5 hours -> pass probability 0.999
-
-training accuracy: 100%
-```
 
 Every training point is classified correctly, though the model has to thread an abrupt jump in the toy data between 2 and 4 hours. On messier real data, 100% training accuracy on ten points would tell you almost nothing; that is why Chapter 7: Evaluating Classification Models introduces proper train/test splits and metrics beyond accuracy.
 

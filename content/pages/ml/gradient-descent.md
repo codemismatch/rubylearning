@@ -156,15 +156,7 @@ print(f"Prediction for 1700 sqft: ${predict(1.7, w, b):,.0f}")
 
 Run it and watch the console. The loss starts in the tens of billions and falls steadily:
 
-```text
-epoch   0  loss = 86,825,000,000  w = 90,225.0  b = 56,500.0
-epoch  10  loss = 40,023,391      w = 137,340.0  b = 87,878.0
-...
-epoch  99  loss = 35,279,121      w = 134,441.8  b = 92,527.5
 
-Final model: price = 134,441.8 * (size/1000) + 92,527.5
-Prediction for 1700 sqft: $321,079
-```
 
 The same numbers as a curve - the classic gradient-descent shape, steep at first then flattening as it converges:
 

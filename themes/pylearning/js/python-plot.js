@@ -72,6 +72,15 @@ class _TypophicPlt:
     def legend(self, *_args, **_kwargs):
         pass  # legends are drawn automatically for labelled series
 
+    def imshow(self, grid, label=None, **_ignored):
+        """Show a 2D grid of numbers (0..1) as a grayscale image."""
+        self._series.append({
+            "kind": "image",
+            "grid": [[float(v) for v in row] for row in grid],
+            "label": str(label) if label is not None else None,
+        })
+        return self
+
     def show(self):
         spec = {
             "title": self._title,
@@ -107,6 +116,44 @@ def progress(step, total, width=28, suffix=""):
 
   const NS = "http://www.w3.org/2000/svg";
 
+  // Renders {kind:"image", grid, label} series as side-by-side grayscale grids.
+  function renderImages(spec, images) {
+    const CELL = 14, PAD = 14, LABEL_H = 18, TITLE_H = spec.title ? 24 : 0;
+    const perW = images.map(s => s.grid[0].length * CELL + PAD * 2);
+    const W = perW.reduce((a, b) => a + b, 0);
+    const H = images[0].grid.length * CELL + PAD * 2 + LABEL_H + TITLE_H;
+    const svg = el("svg", {
+      viewBox: `0 0 ${W} ${H}`,
+      class: "typophic-plot",
+      role: "img",
+      "aria-label": spec.title || "image",
+      style: "max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"
+    });
+    if (spec.title) {
+      svg.appendChild(el("text", { x: W / 2, y: 16, fill: "#e5e7eb", "font-size": 13, "font-weight": "bold", "text-anchor": "middle" }, spec.title));
+    }
+    let ox = 0;
+    images.forEach((s, i) => {
+      const rows = s.grid.length, cols = s.grid[0].length;
+      for (let r = 0; r < rows; r++) {
+        for (let c = 0; c < cols; c++) {
+          const v = Math.max(0, Math.min(1, s.grid[r][c]));
+          const g = Math.round(v * 255);
+          svg.appendChild(el("rect", {
+            x: ox + PAD + c * CELL, y: TITLE_H + PAD + r * CELL,
+            width: CELL, height: CELL,
+            fill: `rgb(${g},${g},${g})`
+          }));
+        }
+      }
+      if (s.label) {
+        svg.appendChild(el("text", { x: ox + perW[i] / 2, y: TITLE_H + PAD + rows * CELL + 14, fill: "#9ca3af", "font-size": 11, "text-anchor": "middle" }, s.label));
+      }
+      ox += perW[i];
+    });
+    return svg;
+  }
+
   function el(tag, attrs, text) {
     const node = document.createElementNS(NS, tag);
     if (attrs) Object.keys(attrs).forEach(k => node.setAttribute(k, attrs[k]));
@@ -135,8 +182,12 @@ def progress(step, total, width=28, suffix=""):
     return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.?0+$/, "");
   }
 
-  // spec: {title, xlabel, ylabel, series: [{kind, x:[], y:[], label}]}
+  // spec: {title, xlabel, ylabel, series: [{kind, x:[], y:[], label} | {kind:"image", grid, label}]}
   function render(spec) {
+    // Image specs render as a row of grayscale pixel grids.
+    const images = (spec.series || []).filter(s => s.kind === "image");
+    if (images.length) return renderImages(spec, images);
+
     const W = 640, H = 360;
     const M = { top: 34, right: 16, bottom: 46, left: 58 };
     const iw = W - M.left - M.right;

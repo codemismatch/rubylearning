@@ -72,9 +72,7 @@ To know whether a candidate line is good, we need a single number that measures 
 
 Written out in plain text:
 
-```text
-MSE = (1/n) * sum over i of ( (w * x_i + b) - y_i )^2
-```
+
 
 In Python:
 
@@ -109,10 +107,7 @@ Why bother with the iterative way if a formula exists? Because the closed form o
 
 Minimizing MSE by setting its derivatives to zero (we will do that derivation properly in Chapter 5) gives:
 
-```text
-w = sum of (x_i - mean_x) * (y_i - mean_y)  /  sum of (x_i - mean_x)^2
-b = mean_y - w * mean_x
-```
+
 
 In words: the numerator is the covariance between `x` and `y` (how they move together), and the denominator is the variance of `x` (how spread out the inputs are). The intercept then centers the line so it passes through the point `(mean_x, mean_y)`.
 
@@ -177,19 +172,7 @@ print(f"predicted price for {new_size} m^2: ${predict(new_size, w, b):.2f}k")
 
 Run `python3 linear_regression.py` and you should see output close to:
 
-```text
-learned w = 2.4074, b = 27.4074
 
-training examples:
-  size   50 -> true  150  predicted  147.78
-  size   60 -> true  180  predicted  171.85
-  size   80 -> true  230  predicted  220.00
-  size  100 -> true  290  predicted  268.15
-  size  120 -> true  330  predicted  316.30
-
-MSE on training data: 24.9627
-predicted price for 90 m^2: $244.07k
-```
 
 A picture makes the fit obvious - the data points and the learned line:
 
