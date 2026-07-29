@@ -1,4 +1,16 @@
-!function(){function e(e,t,l){const i=document.createElementNS(n,e);return t&&Object.keys(t).forEach(e=>i.setAttribute(e,t[e])),null!=l&&(i.textContent=l),i}function t(e,t,l){if(!isFinite(e)||!isFinite(t)||e===t)return[e||0];const i=(t-e)/l,s=Math.pow(10,Math.floor(Math.log10(i))),o=i/s,n=(o>=5?10:o>=2?5:o>=1?2:1)*s,a=[];for(let l=Math.ceil(e/n)*n;l<=t+1e-9;l+=n)a.push(l);return a}function l(e){const t=Math.abs(e);return 0!==t&&(t>=1e4||t<.01)?e.toExponential(1):Number.isInteger(e)?String(e):e.toFixed(2).replace(/\.?0+$/,"")}function i(i){const s=640,n=360,a={top:34,right:16,bottom:46,left:58},r=s-a.left-a.right,f=n-a.top-a.bottom,p=e("svg",{viewBox:`0 0 ${s} ${n}`,class:"typophic-plot",role:"img","aria-label":i.title||"plot",style:"max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"}),d=[],h=[];if((i.series||[]).forEach(e=>{(e.x||[]).forEach(e=>{null!=e&&d.push(e)}),(e.y||[]).forEach(e=>{null!=e&&h.push(e)})}),!d.length||!h.length)return p;let c=Math.min(...d),x=Math.max(...d),y=Math.min(...h),b=Math.max(...h);c===x&&(c-=1,x+=1),y===b&&(y-=1,b+=1);const _=.06*(b-y);y-=_,b+=_;const u=e=>a.left+(e-c)/(x-c)*r,m=e=>a.top+f-(e-y)/(b-y)*f,g="#9ca3af";if(p.appendChild(e("line",{x1:a.left,y1:a.top,x2:a.left,y2:a.top+f,stroke:g,"stroke-width":1})),p.appendChild(e("line",{x1:a.left,y1:a.top+f,x2:a.left+r,y2:a.top+f,stroke:g,"stroke-width":1})),t(c,x,6).forEach(t=>{p.appendChild(e("line",{x1:u(t),y1:a.top+f,x2:u(t),y2:a.top+f+5,stroke:g}));const i=e("text",{x:u(t),y:a.top+f+18,fill:g,"font-size":11,"text-anchor":"middle"},l(t));p.appendChild(i)}),t(y,b,5).forEach(t=>{p.appendChild(e("line",{x1:a.left-5,y1:m(t),x2:a.left,y2:m(t),stroke:g})),p.appendChild(e("line",{x1:a.left,y1:m(t),x2:a.left+r,y2:m(t),stroke:g,"stroke-opacity":.15})),p.appendChild(e("text",{x:a.left-8,y:m(t)+4,fill:g,"font-size":11,"text-anchor":"end"},l(t)))}),i.title&&p.appendChild(e("text",{x:s/2,y:20,fill:"#e5e7eb","font-size":14,"font-weight":"bold","text-anchor":"middle"},i.title)),i.xlabel&&p.appendChild(e("text",{x:a.left+r/2,y:n-8,fill:g,"font-size":12,"text-anchor":"middle"},i.xlabel)),i.ylabel){const t=e("text",{x:14,y:a.top+f/2,fill:g,"font-size":12,"text-anchor":"middle",transform:`rotate(-90 14 ${a.top+f/2})`},i.ylabel);p.appendChild(t)}(i.series||[]).forEach((t,l)=>{const i=o[l%o.length],s=(t.x||[]).map((e,l)=>[e,(t.y||[])[l]]).filter(e=>null!=e[0]&&null!=e[1]);if(s.length)if("scatter"===t.kind)s.forEach(([t,l])=>{p.appendChild(e("circle",{cx:u(t),cy:m(l),r:3.5,fill:i,"fill-opacity":.85}))});else if("bar"===t.kind){const t=Math.max(2,r/s.length*.7),l=m(Math.max(y,0));s.forEach(([s,o])=>{const n=m(Math.max(o,0)),a=m(Math.min(o,0));p.appendChild(e("rect",{x:u(s)-t/2,y:n,width:t,height:Math.max(1,(a===n?l:a)-n),fill:i,"fill-opacity":.8}))})}else{const t=s.map(([e,t],l)=>`${l?"L":"M"}${u(e).toFixed(1)},${m(t).toFixed(1)}`).join(" ");p.appendChild(e("path",{d:t,fill:"none",stroke:i,"stroke-width":2}))}});const w=(i.series||[]).filter(e=>e.label);if(w.length){const t=e("g",{class:"typophic-plot-legend"});w.forEach((l,s)=>{const n=(i.series||[]).indexOf(l),r=a.top+6+16*s;t.appendChild(e("rect",{x:a.left+8,y:r-8,width:10,height:10,fill:o[n%o.length]})),t.appendChild(e("text",{x:a.left+22,y:r+1,fill:"#e5e7eb","font-size":11},l.label))}),p.appendChild(t)}return p}const s=String.raw`
+/* Notebook-style plotting for python-exec cells.
+ *
+ * Two parts:
+ *  1. A tiny matplotlib-like Python shim (`plt`) installed into the shared
+ *     Pyodide namespace. Cells use it exactly like a notebook:
+ *       plt.plot(xs, ys, label="loss"); plt.title("Training"); plt.show()
+ *     plt.show() serializes the figure to JSON and hands it to JS via the
+ *     _typophic_emit_plot global (installed by python-runtime.js).
+ *  2. TypophicPlot.render(spec) draws that JSON as a lightweight SVG chart
+ *     (line/scatter/bar, axes, ticks, legend) with the theme palette.
+ */
+(function () {
+  const SHIM_SOURCE = String.raw`
 import json as _typophic_json
 
 def _typophic_nums(seq):
@@ -89,4 +101,137 @@ def progress(step, total, width=28, suffix=""):
     print("\r[" + bar + "] " + str(pct) + "% " + str(step) + "/" + str(total) + (" " + suffix if suffix else ""), end="")
     if step >= total:
         print()
-`,o=["#2563eb","#f59e0b","#22c55e","#ef4444","#a855f7","#06b6d4","#f97316","#84cc16"],n="http://www.w3.org/2000/svg";window.TypophicPlot={shimSource:s,render:i}}();
+`;
+
+  const PALETTE = ["#2563eb", "#f59e0b", "#22c55e", "#ef4444", "#a855f7", "#06b6d4", "#f97316", "#84cc16"];
+
+  const NS = "http://www.w3.org/2000/svg";
+
+  function el(tag, attrs, text) {
+    const node = document.createElementNS(NS, tag);
+    if (attrs) Object.keys(attrs).forEach(k => node.setAttribute(k, attrs[k]));
+    if (text != null) node.textContent = text;
+    return node;
+  }
+
+  function niceTicks(min, max, count) {
+    if (!isFinite(min) || !isFinite(max) || min === max) {
+      return [min || 0];
+    }
+    const span = max - min;
+    const step0 = span / count;
+    const mag = Math.pow(10, Math.floor(Math.log10(step0)));
+    const norm = step0 / mag;
+    const step = (norm >= 5 ? 10 : norm >= 2 ? 5 : norm >= 1 ? 2 : 1) * mag;
+    const start = Math.ceil(min / step) * step;
+    const ticks = [];
+    for (let v = start; v <= max + 1e-9; v += step) ticks.push(v);
+    return ticks;
+  }
+
+  function fmt(v) {
+    const a = Math.abs(v);
+    if (a !== 0 && (a >= 10000 || a < 0.01)) return v.toExponential(1);
+    return Number.isInteger(v) ? String(v) : v.toFixed(2).replace(/\.?0+$/, "");
+  }
+
+  // spec: {title, xlabel, ylabel, series: [{kind, x:[], y:[], label}]}
+  function render(spec) {
+    const W = 640, H = 360;
+    const M = { top: 34, right: 16, bottom: 46, left: 58 };
+    const iw = W - M.left - M.right;
+    const ih = H - M.top - M.bottom;
+
+    const svg = el("svg", {
+      viewBox: `0 0 ${W} ${H}`,
+      class: "typophic-plot",
+      role: "img",
+      "aria-label": spec.title || "plot",
+      style: "max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"
+    });
+
+    const allX = [], allY = [];
+    (spec.series || []).forEach(s => {
+      (s.x || []).forEach(v => { if (v != null) allX.push(v); });
+      (s.y || []).forEach(v => { if (v != null) allY.push(v); });
+    });
+    if (!allX.length || !allY.length) return svg;
+
+    let xMin = Math.min(...allX), xMax = Math.max(...allX);
+    let yMin = Math.min(...allY), yMax = Math.max(...allY);
+    if (xMin === xMax) { xMin -= 1; xMax += 1; }
+    if (yMin === yMax) { yMin -= 1; yMax += 1; }
+    const yPad = (yMax - yMin) * 0.06;
+    yMin -= yPad; yMax += yPad;
+
+    const sx = v => M.left + ((v - xMin) / (xMax - xMin)) * iw;
+    const sy = v => M.top + ih - ((v - yMin) / (yMax - yMin)) * ih;
+
+    const axisColor = "#9ca3af";
+    // axes
+    svg.appendChild(el("line", { x1: M.left, y1: M.top, x2: M.left, y2: M.top + ih, stroke: axisColor, "stroke-width": 1 }));
+    svg.appendChild(el("line", { x1: M.left, y1: M.top + ih, x2: M.left + iw, y2: M.top + ih, stroke: axisColor, "stroke-width": 1 }));
+
+    niceTicks(xMin, xMax, 6).forEach(t => {
+      svg.appendChild(el("line", { x1: sx(t), y1: M.top + ih, x2: sx(t), y2: M.top + ih + 5, stroke: axisColor }));
+      const label = el("text", { x: sx(t), y: M.top + ih + 18, fill: axisColor, "font-size": 11, "text-anchor": "middle" }, fmt(t));
+      svg.appendChild(label);
+    });
+    niceTicks(yMin, yMax, 5).forEach(t => {
+      svg.appendChild(el("line", { x1: M.left - 5, y1: sy(t), x2: M.left, y2: sy(t), stroke: axisColor }));
+      svg.appendChild(el("line", { x1: M.left, y1: sy(t), x2: M.left + iw, y2: sy(t), stroke: axisColor, "stroke-opacity": 0.15 }));
+      svg.appendChild(el("text", { x: M.left - 8, y: sy(t) + 4, fill: axisColor, "font-size": 11, "text-anchor": "end" }, fmt(t)));
+    });
+
+    if (spec.title) {
+      svg.appendChild(el("text", { x: W / 2, y: 20, fill: "#e5e7eb", "font-size": 14, "font-weight": "bold", "text-anchor": "middle" }, spec.title));
+    }
+    if (spec.xlabel) {
+      svg.appendChild(el("text", { x: M.left + iw / 2, y: H - 8, fill: axisColor, "font-size": 12, "text-anchor": "middle" }, spec.xlabel));
+    }
+    if (spec.ylabel) {
+      const t = el("text", { x: 14, y: M.top + ih / 2, fill: axisColor, "font-size": 12, "text-anchor": "middle", transform: `rotate(-90 14 ${M.top + ih / 2})` }, spec.ylabel);
+      svg.appendChild(t);
+    }
+
+    (spec.series || []).forEach((s, i) => {
+      const color = PALETTE[i % PALETTE.length];
+      const pts = (s.x || []).map((xv, j) => [xv, (s.y || [])[j]]).filter(p => p[0] != null && p[1] != null);
+      if (!pts.length) return;
+      if (s.kind === "scatter") {
+        pts.forEach(([xv, yv]) => {
+          svg.appendChild(el("circle", { cx: sx(xv), cy: sy(yv), r: 3.5, fill: color, "fill-opacity": 0.85 }));
+        });
+      } else if (s.kind === "bar") {
+        const bw = Math.max(2, iw / pts.length * 0.7);
+        const base = sy(Math.max(yMin, 0));
+        pts.forEach(([xv, yv]) => {
+          const y0 = sy(Math.max(yv, 0)), y1 = sy(Math.min(yv, 0));
+          svg.appendChild(el("rect", { x: sx(xv) - bw / 2, y: y0, width: bw, height: Math.max(1, (y1 === y0 ? base : y1) - y0), fill: color, "fill-opacity": 0.8 }));
+        });
+      } else {
+        const d = pts.map(([xv, yv], j) => `${j ? "L" : "M"}${sx(xv).toFixed(1)},${sy(yv).toFixed(1)}`).join(" ");
+        svg.appendChild(el("path", { d, fill: "none", stroke: color, "stroke-width": 2 }));
+      }
+    });
+
+    const labelled = (spec.series || []).filter(s => s.label);
+    if (labelled.length) {
+      const lg = el("g", { class: "typophic-plot-legend" });
+      labelled.forEach((s, i) => {
+        const idx = (spec.series || []).indexOf(s);
+        const y = M.top + 6 + i * 16;
+        lg.appendChild(el("rect", { x: M.left + 8, y: y - 8, width: 10, height: 10, fill: PALETTE[idx % PALETTE.length] }));
+        lg.appendChild(el("text", { x: M.left + 22, y: y + 1, fill: "#e5e7eb", "font-size": 11 }, s.label));
+      });
+      svg.appendChild(lg);
+    }
+
+    return svg;
+  }
+
+  window.TypophicPlot = {
+    shimSource: SHIM_SOURCE,
+    render: render
+  };
+})();

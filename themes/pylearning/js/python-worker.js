@@ -1,1 +1,104 @@
-const WRAPPER='\nimport sys, io, traceback\nclass _TypophicStream:\n    def write(self, s):\n        if s:\n            _typophic_stream(s)\n    def flush(self):\n        pass\n_stdout = sys.stdout\n_stderr = sys.stderr\n_stream = _TypophicStream()\nsys.stdout = _stream\nsys.stderr = _stream\nns = globals()\ntry:\n    try:\n        compiled = compile(__typophic_code, "<console>", "eval")\n    except SyntaxError:\n        compiled = None\n\n    if compiled is not None:\n        result = eval(compiled, ns)\n        if result is not None:\n            print(repr(result))\n    else:\n        exec(__typophic_code, ns)\nexcept Exception:\n    traceback.print_exc()\nfinally:\n    sys.stdout = _stdout\n    sys.stderr = _stderr\n""\n';let pyodide=null,plots=[],chunks=[],currentRunId=0;self.onmessage=async e=>{const s=e.data||{};if("init"!==s.type){if(pyodide)if("set"!==s.type){if("run"===s.type)try{if("function"==typeof pyodide.loadPackagesFromImports)try{await pyodide.loadPackagesFromImports(s.code)}catch(e){}pyodide.globals.set("__typophic_code",s.code),plots=[],chunks=[],currentRunId=s.id,await pyodide.runPythonAsync(WRAPPER),self.postMessage({type:"result",id:s.id,result:chunks.join(""),plots:plots})}catch(e){self.postMessage({type:"result",id:s.id,result:String(e&&e.message||e),plots:[]})}}else try{pyodide.globals.set(s.name,s.value)}catch(e){}}else try{importScripts(s.url),pyodide=await loadPyodide({indexURL:s.index}),pyodide.globals.set("_typophic_emit_plot",e=>{try{plots.push(JSON.parse(e))}catch(e){}}),pyodide.globals.set("_typophic_stream",e=>{chunks.push(String(e)),self.postMessage({type:"stream",id:currentRunId,text:String(e)})}),s.shim&&await pyodide.runPythonAsync(s.shim),self.postMessage({type:"ready"})}catch(e){self.postMessage({type:"error",error:String(e&&e.message||e)})}};
+/* Pyodide Web Worker: runs Python off the main thread so heavy cells
+ * (e.g. the mini-GPT training loop) don't freeze the page.
+ *
+ * Protocol (main -> worker):
+ *   {type:'init', url, index, shim}  -> loads Pyodide + installs plt shim
+ *   {type:'run', id, code}           -> executes in the shared namespace
+ *   {type:'set', name, value}        -> sets a global (e.g. uploaded corpus)
+ * Protocol (worker -> main):
+ *   {type:'ready'} | {type:'error', error}
+ *   {type:'result', id, result, plots}
+ */
+const WRAPPER = `
+import sys, io, traceback
+class _TypophicStream:
+    def write(self, s):
+        if s:
+            _typophic_stream(s)
+    def flush(self):
+        pass
+_stdout = sys.stdout
+_stderr = sys.stderr
+_stream = _TypophicStream()
+sys.stdout = _stream
+sys.stderr = _stream
+ns = globals()
+try:
+    try:
+        compiled = compile(__typophic_code, "<console>", "eval")
+    except SyntaxError:
+        compiled = None
+
+    if compiled is not None:
+        result = eval(compiled, ns)
+        if result is not None:
+            print(repr(result))
+    else:
+        exec(__typophic_code, ns)
+except Exception:
+    traceback.print_exc()
+finally:
+    sys.stdout = _stdout
+    sys.stderr = _stderr
+""
+`;
+
+let pyodide = null;
+let plots = [];
+let chunks = [];
+let currentRunId = 0;
+
+self.onmessage = async (e) => {
+  const msg = e.data || {};
+
+  if (msg.type === "init") {
+    try {
+      importScripts(msg.url);
+      // eslint-disable-next-line no-undef
+      pyodide = await loadPyodide({ indexURL: msg.index });
+      pyodide.globals.set("_typophic_emit_plot", (payload) => {
+        try {
+          plots.push(JSON.parse(payload));
+        } catch (_) { /* ignore malformed specs */ }
+      });
+      pyodide.globals.set("_typophic_stream", (text) => {
+        chunks.push(String(text));
+        self.postMessage({ type: "stream", id: currentRunId, text: String(text) });
+      });
+      if (msg.shim) {
+        await pyodide.runPythonAsync(msg.shim);
+      }
+      self.postMessage({ type: "ready" });
+    } catch (err) {
+      self.postMessage({ type: "error", error: String((err && err.message) || err) });
+    }
+    return;
+  }
+
+  if (!pyodide) return;
+
+  if (msg.type === "set") {
+    try {
+      pyodide.globals.set(msg.name, msg.value);
+    } catch (_) { /* ignore */ }
+    return;
+  }
+
+  if (msg.type === "run") {
+    try {
+      if (typeof pyodide.loadPackagesFromImports === "function") {
+        try {
+          await pyodide.loadPackagesFromImports(msg.code);
+        } catch (_) { /* import error surfaces in output */ }
+      }
+      pyodide.globals.set("__typophic_code", msg.code);
+      plots = [];
+      chunks = [];
+      currentRunId = msg.id;
+      await pyodide.runPythonAsync(WRAPPER);
+      self.postMessage({ type: "result", id: msg.id, result: chunks.join(""), plots: plots });
+    } catch (err) {
+      self.postMessage({ type: "result", id: msg.id, result: String((err && err.message) || err), plots: [] });
+    }
+  }
+};
