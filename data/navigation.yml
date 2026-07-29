@@ -14,8 +14,6 @@ primary:
         url: /courses/machine-learning/
       - label: "Image Hero: From Pixels to Diffusion"
         url: /courses/image-generation/
-  - label: Tutorials
-    path: tutorials/
   - label: Courses
     url: /courses/
   - label: Mentorship
