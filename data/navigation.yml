@@ -9,6 +9,8 @@ primary:
     url: /courses/python-basics/
   - label: Learn ML
     url: /courses/machine-learning/
+  - label: Learn Image AI
+    url: /courses/image-generation/
   - label: Tutorials
     path: tutorials/
   - label: Courses
@@ -31,6 +33,8 @@ footer_quick:
     url: /courses/python-basics/
   - label: Learn ML
     url: /courses/machine-learning/
+  - label: Learn Image AI
+    url: /courses/image-generation/
   - label: Tutorials
     path: tutorials/
   - label: Blog
