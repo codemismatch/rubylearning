@@ -99,7 +99,7 @@ class TinyDenoiser:
 
 ### Training: teach it what noise looks like
 
-The dataset is a 1D two-bump mixture (points near -2 and +2). Each training step: pick a point, pick a random t, noise it, and penalize the model's noise guess with plain gradient descent. The gradients below are the same backprop you wrote in Chapter 15, just applied to MSE:
+The dataset is a 1D two-bump mixture (points near -2 and +2). Each training step: pick a point, pick a random t, noise it, and penalize the model's noise guess with plain gradient descent. The gradients below are the same backprop you wrote in [Chapter 15 of the ML course](/courses/machine-learning/neural-networks-from-scratch/), just applied to MSE:
 
 ```python
 def train(model, data, steps=4000, lr=0.02):
@@ -178,7 +178,7 @@ A model that only ever saw noisy numbers has learned the *shape* of the dataset:
 
 Three ideas carry all of DDPM. First, the forward process is fixed and closed-form, so training pairs `(x_t, eps)` are free and infinite. Second, the model predicts noise rather than data, which turns generation into ordinary regression. Third, sampling is a Markov walk: many small, easy denoising steps instead of one impossible leap.
 
-Image diffusion models are exactly this, scaled up: the 1D point becomes a latent tensor, our 16-neuron MLP becomes a U-Net with attention (Chapter 17's mechanism, repurposed to look across pixels), and the time embedding stays almost identical. When you read that Stable Diffusion "denoises latents", you now know precisely which equation is running inside.
+Image diffusion models are exactly this, scaled up: the 1D point becomes a latent tensor, our 16-neuron MLP becomes a U-Net with attention ([the attention mechanism from the ML course](/courses/machine-learning/attention-and-transformers/), repurposed to look across pixels), and the time embedding stays almost identical. When you read that Stable Diffusion "denoises latents", you now know precisely which equation is running inside.
 
 ### Bonus: the same model on a real micro dataset, in your browser
 
@@ -297,5 +297,5 @@ Two moons, drawn from memory. Same equations as the 1D case, same equations as S
 ### Where to go next
 
 - **Try it:** change the dataset to three bumps, or make `T` smaller. What breaks first, sample quality or training stability?
-- **Chapter 8: Latent Diffusion & Super-Resolution** explains why modern systems diffuse in a compressed latent space (Chapter 3's autoencoder returns) instead of raw pixels, and how the same machinery upscales images.
+- **Chapter 9: Latent Diffusion & Super-Resolution** explains why modern systems diffuse in a compressed latent space (Chapter 3's autoencoder returns) instead of raw pixels, and how the same machinery upscales images.
 - The original paper, Ho et al. 2020, *Denoising Diffusion Probabilistic Models*, reads very comfortably after this chapter.

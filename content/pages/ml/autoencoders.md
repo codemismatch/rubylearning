@@ -15,7 +15,7 @@ next_tutorial:
 date: 2026-07-29
 ---
 
-In Chapter 15 you trained a network to map inputs to *labels*. An autoencoder has a stranger target: map the input to **itself**, through a bottleneck so narrow the network cannot possibly copy. Whatever survives the squeeze is the data's essence. That idea, learning a compressed representation without any labels, is the foundation under modern generative models - and in Chapter 8 it becomes the "latent" in latent diffusion.
+In [Chapter 15 of Machine Learning: From Zero to LLMs](/courses/machine-learning/neural-networks-from-scratch/) you trained a network to map inputs to *labels*. An autoencoder has a stranger target: map the input to **itself**, through a bottleneck so narrow the network cannot possibly copy. Whatever survives the squeeze is the data's essence. That idea, learning a compressed representation without any labels, is the foundation under modern generative models - and in Chapter 9 it becomes the "latent" in latent diffusion.
 
 In this chapter we build one in pure Python: an encoder that crushes 2D points down to a single number, a decoder that tries to inflate that number back, and the training loop that teaches both at once.
 
@@ -87,7 +87,7 @@ rx, ry, _ = ae.forward(2.0, 0.0)
 print(f"untrained reconstruction of (2.0, 0.0): ({rx:+.3f}, {ry:+.3f})")
 ```
 
-Untrained, the reconstruction is garbage. Training it is the same hand-written backprop you know, with the loss being plain MSE across the two output coordinates. Rather than repeat Chapter 15's gradient code line for line, here is the training loop with the gradients worked out for this exact architecture:
+Untrained, the reconstruction is garbage. Training it is the same hand-written backprop you know, with the loss being plain MSE across the two output coordinates. Rather than repeat [the neural networks chapter's](/courses/machine-learning/neural-networks-from-scratch/) gradient code line for line, here is the training loop with the gradients worked out for this exact architecture:
 
 ```python-exec
 def train(ae, data, steps=3000, lr=0.02):
@@ -169,7 +169,7 @@ plt.show()
 
 ### Why this matters for what comes next
 
-Three things to carry forward. First, a network can learn coordinates for data without being told any - the bottleneck forces structure out of statistics. Second, the latent space is where generation gets easy: it is simpler to model one well-behaved number than two entangled coordinates. Third, this exact pairing - encoder to compress, decoder to reconstruct - is the front and back of a latent diffusion model. In Chapter 6 we generate data by denoising; in Chapter 8 we will do that denoising *inside* an autoencoder's latent space, which is why Stable Diffusion is fast enough to exist.
+Three things to carry forward. First, a network can learn coordinates for data without being told any - the bottleneck forces structure out of statistics. Second, the latent space is where generation gets easy: it is simpler to model one well-behaved number than two entangled coordinates. Third, this exact pairing - encoder to compress, decoder to reconstruct - is the front and back of a latent diffusion model. In Chapter 6 we generate data by denoising; in Chapter 9 we will do that denoising *inside* an autoencoder's latent space, which is why Stable Diffusion is fast enough to exist.
 
 ### Where to go next
 

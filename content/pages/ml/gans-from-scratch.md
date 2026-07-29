@@ -30,7 +30,7 @@ flowchart TD
 
 D trains to say: real -> 1, fake -> 0. G trains to make D say: fake -> 1.
 
-The discriminator is just logistic regression (Chapter 6!). The generator is a one-layer tanh network mapping a noise number to a data number. The loss for D is binary cross-entropy; the loss for G is the same BCE but with the labels flipped, and its gradient flows *through* D into G, which is the elegant part.
+The discriminator is just logistic regression ([Chapter 6 of the ML course](/courses/machine-learning/logistic-regression-classification/)!). The generator is a one-layer tanh network mapping a noise number to a data number. The loss for D is binary cross-entropy; the loss for G is the same BCE but with the labels flipped, and its gradient flows *through* D into G, which is the elegant part.
 
 ```python-exec
 import math, random

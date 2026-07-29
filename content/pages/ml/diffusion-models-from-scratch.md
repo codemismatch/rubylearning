@@ -10,8 +10,8 @@ previous_tutorial:
   title: "Diffusion Models: DDPM from First Principles"
   url: /courses/image-generation/ddpm-from-first-principles/
 next_tutorial:
-  title: "Latent Diffusion & Super-Resolution"
-  url: /courses/image-generation/latent-diffusion/
+  title: "Text-to-Image: Teaching Diffusion to Listen"
+  url: /courses/image-generation/text-to-image-sprites/
 date: 2026-04-07
 ---
 
@@ -120,7 +120,7 @@ By t = 199 the sprite is essentially gone. The model's job is to walk this film 
 
 ### The denoiser: an MLP that predicts noise
 
-The network takes a noisy 64-vector plus a **time embedding** - 16 sine/cosine features of t (the same trick as Chapter 17's positional encoding) so the network knows how much noise to expect - and predicts the 64 noise values that were added. This epsilon-prediction parameterization is the standard DDPM choice: predicting noise works much better than predicting the clean image directly. One hidden layer of 64 with ReLU is enough at this scale; the output layer starts at zero, a small trick that makes early training stable.
+The network takes a noisy 64-vector plus a **time embedding** - 16 sine/cosine features of t (the same trick as [positional encoding in the ML course](/courses/machine-learning/attention-and-transformers/)) so the network knows how much noise to expect - and predicts the 64 noise values that were added. This epsilon-prediction parameterization is the standard DDPM choice: predicting noise works much better than predicting the clean image directly. One hidden layer of 64 with ReLU is enough at this scale; the output layer starts at zero, a small trick that makes early training stable.
 
 ```python-exec
 def dot(a, b): return sum(x * y for x, y in zip(a, b))
@@ -161,7 +161,7 @@ print(f"denoiser: {DIN} -> {H} -> {DOUT}, {n_params} parameters")
 
 ### Training: predict the noise that was added
 
-One training step is four random choices: pick a sprite, pick a time t, draw Gaussian noise, corrupt the sprite - then make the network predict that exact noise and descend the MSE. We train in small batches of 16 with the Adam optimizer (Chapter 5's gradient descent, plus a per-parameter adaptive step size: keep running averages of each gradient and its square, and scale the step by their ratio).
+One training step is four random choices: pick a sprite, pick a time t, draw Gaussian noise, corrupt the sprite - then make the network predict that exact noise and descend the MSE. We train in small batches of 16 with the Adam optimizer ([gradient descent from the ML course](/courses/machine-learning/gradient-descent/), plus a per-parameter adaptive step size: keep running averages of each gradient and its square, and scale the step by their ratio).
 
 ```python-exec
 _ms, _vs, _t_adam = {}, {}, 0
@@ -287,6 +287,129 @@ for r in range(8):      # the first one as ASCII art
 ```
 
 Be honest about what you see: these are blobby, imperfect, and none of them is a carbon copy of a training sprite. That is the correct result at this scale. The model has clearly learned the *style* - dense blobs of pixels with rough edges, holes, and near-symmetries, in the same proportions as the data - rather than memorizing individuals. A pure-noise image would be salt-and-pepper with no structure; these have mass and shape. With a bigger network, more steps, and a larger dataset, the same loop produces crisply recognizable characters. Scale it by a trillion and it produces photographs.
+
+### Real data: 96 dungeon sprites
+
+The procedural generator had a quiet superpower: it never repeats. Every batch showed the model sprites it had never seen, drawn fresh from an effectively infinite supply. Real projects are not like that. Real projects have a folder. Ours holds 96 sprites from Kenney's Tiny Dungeon tileset, shipped with this site as a CSV of ±1 pixels. The page fetches it and hands it to the Python runtime as `sprites_text`.
+
+Sprites: Kenney Tiny Dungeon, CC0 (kenney.nl) - real game art, reduced to 8x8 silhouettes.
+
+<div data-corpus-url="/assets/data/sprites.csv" data-corpus-var="sprites_text"></div>
+
+```python-exec
+rows = [r.split(",") for r in sprites_text.strip().split("\n")[1:]]
+real_names = [r[0] for r in rows]
+real_sprites = [[float(v) for v in r[1:]] for r in rows]
+print(f"{len(real_sprites)} real sprites, {len(real_sprites[0])} pixels each")
+
+def gallery(imgs, cols=4, gap=1):
+    """Tile flattened 8x8 sprites into one wall: gutters at 0.35, background 0."""
+    nrows = (len(imgs) + cols - 1) // cols
+    W = cols * 8 + (cols - 1) * gap
+    H = nrows * 8 + (nrows - 1) * gap
+    wall = [[0.0] * W for _ in range(H)]
+    for gr in range(1, nrows):                    # horizontal gutter bands
+        r0 = gr * 8 + (gr - 1) * gap
+        for r in range(r0, r0 + gap):
+            for c in range(W):
+                wall[r][c] = 0.35
+    for gc in range(1, cols):                     # vertical gutter bands
+        c0 = gc * 8 + (gc - 1) * gap
+        for c in range(c0, c0 + gap):
+            for r in range(H):
+                wall[r][c] = 0.35
+    for k, x in enumerate(imgs):
+        r0 = (k // cols) * (8 + gap)
+        c0 = (k % cols) * (8 + gap)
+        tile = show01(x)
+        for r in range(8):
+            for c in range(8):
+                wall[r0 + r][c0 + c] = tile[r][c]
+    return wall
+
+plt.imshow(gallery(real_sprites[:16], cols=4), label="16 of the 96 tiles")
+plt.title("The real training set - Kenney Tiny Dungeon")
+plt.show()
+```
+
+Walls, floors, crates, skulls, doors. Notice how different this distribution is from the aliens: thick horizontal strokes, big empty interiors, borders that hug the edges. A real distribution, with lopsided statistics no random generator would invent.
+
+### Retraining on the 96 sprites
+
+Same network, same optimizer, same 3000 steps - only the data line changes. We re-initialize the weights and wipe Adam's running averages (they still belong to the procedural model), then swap `random.choice(sprites)` for `random.choice(real_sprites)`. Everything else, including `B`, `steps`, and the hand-written backprop, is still sitting in memory from the first run.
+
+```python-exec
+random.seed(4242)
+W1 = rand_matrix(H, DIN, math.sqrt(2 / DIN)); b1 = [0.0] * H
+W2 = rand_matrix(DOUT, H, 0.0)
+b2 = [0.0] * DOUT
+_ms.clear(); _vs.clear(); _t_adam = 0
+
+for step in range(steps + 1):
+    _t_adam += 1
+    gW1 = [[0.0] * DIN for _ in range(H)]; gb1 = [0.0] * H
+    gW2 = [[0.0] * H for _ in range(DOUT)]; gb2 = [0.0] * DOUT
+    loss_b = 0.0
+    for _ in range(B):
+        x0 = random.choice(real_sprites)      # the only data change
+        tt = random.randrange(T)
+        noise = [random.gauss(0, 1) for _ in range(64)]
+        xin = q_sample(x0, tt, noise) + TE_CACHE[tt]
+        pred, h1 = forward(xin)
+        loss_b += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 64
+        d2 = [2 * (p_ - n) / (64 * B) for p_, n in zip(pred, noise)]
+        for i in range(DOUT):
+            for j in range(H):
+                gW2[i][j] += d2[i] * h1[j]
+            gb2[i] += d2[i]
+        dh1 = vecmat(d2, W2)
+        dh1 = [d * (1.0 if h > 0 else 0.0) for d, h in zip(dh1, h1)]
+        for i in range(H):
+            for j in range(DIN):
+                gW1[i][j] += dh1[i] * xin[j]
+            gb1[i] += dh1[i]
+    adam('W1', W1, gW1); adam('b1', b1, gb1)
+    adam('W2', W2, gW2); adam('b2', b2, gb2)
+    if step % 250 == 0:
+        progress(step, steps, suffix=f"loss {loss_b / B:.4f}")
+        print(f"step {step:4d}  loss {loss_b / B:.4f}")
+```
+
+### What the model dreams - and the memorization lesson
+
+Now sample 12 sprites from the retrained model, and keep ourselves honest with a measurement: for every sample, find its nearest neighbor in the training set. Two unrelated ±1 sprites of 64 pixels sit about 128 squared units apart on average; a near-copy lands far below that.
+
+```python-exec
+random.seed(2026)
+dreams = [sample() for _ in range(12)]
+
+def nearest(x, data):
+    best, bd = 0, 1e18
+    for i, d in enumerate(data):
+        dist = sum((a - b) ** 2 for a, b in zip(x, d))
+        if dist < bd:
+            best, bd = i, dist
+    return best, bd
+
+matches = [nearest(s, real_sprites) for s in dreams]
+nd = sorted(d for _, d in matches)
+print("squared distance from each dream to its closest training sprite:")
+print("  " + " ".join(f"{d:.0f}" for d in nd))
+print(f"median {nd[len(nd) // 2]:.0f} - two unrelated sprites sit ~128 apart")
+
+plt.imshow(gallery(real_sprites[:16], cols=4), label="real sprites")
+plt.imshow(gallery(dreams, cols=4), label="what the model dreams")
+plt.title("The 96 training sprites (left) vs what the model dreams (right)")
+plt.show()
+```
+
+Hold the two walls side by side. The right wall should look uncomfortably familiar: many of those "new" sprites are near-copies of real tiles, with softened edges and a pixel or two flipped. The distances say the same thing in numbers - most dreams sit within a few dozen squared units of a training sprite, where unrelated pairs sit near 128.
+
+This is **overfitting**, and it was inevitable. The dataset has 96 fixed examples; 3000 steps of batch-16 training means 48,000 draws, so every sprite was seen about 500 times. The network has one job - predict the noise on this dataset - and the cheapest way to be right is to remember the 96 answers. Diffusion offers no protection: the reverse process is just the network applied over and over, so a memorized denoiser walks pure noise back to a memorized sprite. The model has become a fuzzy photocopier.
+
+Contrast with the first run of this chapter. The procedural generator minted fresh aliens, bars, boxes, and crosses on demand, so the model could train forever without seeing the same sprite twice. Memorization was not even available as a strategy - the only way to lower the loss was to learn the *rules* of sprite-ness, and the samples came out novel and imperfect. The whole lesson in one line: infinite data forces generalization, a tiny fixed dataset invites memorization.
+
+The fixes are exactly the ones from [Chapter 2's training tricks](/courses/image-generation/training-tricks/): more data, augmentation (flip and rotate every tile and 96 becomes 768), or a smaller network. Keep this failure mode in mind whenever a generative model's output looks "too good" - sometimes it is not creating, it is reciting.
 
 ### Where this leads
 

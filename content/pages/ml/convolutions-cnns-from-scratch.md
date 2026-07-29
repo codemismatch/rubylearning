@@ -79,7 +79,7 @@ for name, k in kernels.items():
     print(f"{name:22s} total activation {total:.1f}")
 ```
 
-For sixty years these kernels were designed by hand. The deep-learning move was to stop designing them and **learn the kernel values by gradient descent**, exactly the way we learned weights in Chapter 15.
+For sixty years these kernels were designed by hand. The deep-learning move was to stop designing them and **learn the kernel values by gradient descent**, exactly the way we learned weights in [Chapter 15 of the ML course](/courses/machine-learning/neural-networks-from-scratch/).
 
 ### A trainable convolution layer
 
@@ -139,4 +139,4 @@ Three ideas do the heavy lifting in every CNN you will ever meet. **Locality:** 
 ### Where to go next
 
 - **Try it:** give the model an 8x8 image with two squares and train it to count them. What does the kernel learn?
-- **Chapter 21: Backpropagation by Hand** slows the gradient computation down to one neuron and one number at a time, so the chain rule stops being a formula and becomes a habit.
+- **[Backpropagation by Hand](/courses/machine-learning/backpropagation-by-hand/)** (bonus chapter in the ML course) slows the gradient computation down to one neuron and one number at a time, so the chain rule stops being a formula and becomes a habit.

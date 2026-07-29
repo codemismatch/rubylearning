@@ -184,8 +184,8 @@
   slug: image-generation
   free: true
   level: intermediate
-  lessons: 8
-  estimated_hours: 16
+  lessons: 10
+  estimated_hours: 18
   modules:
     - id: seeing-images
       title: Seeing Images
@@ -203,4 +203,9 @@
       tutorials:
         - ddpm-from-first-principles
         - diffusion-models-from-scratch
+        - text-to-image-sprites
         - latent-diffusion
+    - id: beyond-generation
+      title: Beyond Generation
+      tutorials:
+        - style-transfer

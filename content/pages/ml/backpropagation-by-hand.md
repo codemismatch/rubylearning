@@ -1,17 +1,17 @@
 ---
 layout: tutorial
-title: "Chapter 21 &ndash; Backpropagation by Hand"
+title: "Bonus &ndash; Backpropagation by Hand"
 permalink: /courses/machine-learning/backpropagation-by-hand/
 difficulty: intermediate
 author: Pankaj Doharey
 summary: Differentiate a tiny network on paper and in code at the same time, and internalize the chain rule the way practitioners actually use it.
 theme: pylearning
 previous_tutorial:
-  title: "Chapter 20: Convolutions & CNNs from Scratch"
-  url: /courses/machine-learning/convolutions-cnns-from-scratch/
+  title: "Chapter 20: MNIST: Recognizing Handwritten Digits"
+  url: /courses/machine-learning/mnist-handwritten-digits/
 next_tutorial:
-  title: "Chapter 22: Autoencoders"
-  url: /courses/machine-learning/autoencoders/
+  title: "Back to the course index"
+  url: /courses/machine-learning/
 date: 2026-07-29
 ---
 
@@ -117,4 +117,4 @@ Notice the shape of what we did: forward pass *saves* intermediate values (z1, h
 ### Where to go next
 
 - **Try it:** add a second hidden neuron and derive d loss / d x. Where does the input gradient get used? (Answer: adversarial examples and saliency maps.)
-- **Chapter 22: Autoencoders** puts the same gradients to work on a stranger target: reconstructing the input itself through a one-number bottleneck.
+- **[Autoencoders](/courses/image-generation/autoencoders/)** (Image Generation course) puts the same gradients to work on a stranger target: reconstructing the input itself through a one-number bottleneck.

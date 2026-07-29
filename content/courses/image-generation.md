@@ -57,7 +57,14 @@ date: 2026-07-29
             <ol>
               <li><a href="/courses/image-generation/ddpm-from-first-principles/">Diffusion Models: DDPM from First Principles</a></li>
               <li><a href="/courses/image-generation/diffusion-models-from-scratch/">Diffusion Models from Scratch: Sprite Training</a></li>
+              <li><a href="/courses/image-generation/text-to-image-sprites/">Text-to-Image: Teaching Diffusion to Listen</a></li>
               <li><a href="/courses/image-generation/latent-diffusion/">Latent Diffusion &amp; Super-Resolution</a></li>
+            </ol>
+          </div>
+          <div>
+            <h3>Beyond Generation</h3>
+            <ol>
+              <li><a href="/courses/image-generation/style-transfer/">Style Transfer: Stealing the Statistics of Style</a></li>
             </ol>
           </div>
         </div>

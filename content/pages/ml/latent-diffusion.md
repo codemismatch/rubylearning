@@ -1,17 +1,17 @@
 ---
 layout: tutorial
-title: "Chapter 8 &ndash; Latent Diffusion & Super-Resolution"
+title: "Chapter 9 &ndash; Latent Diffusion & Super-Resolution"
 permalink: /courses/image-generation/latent-diffusion/
 difficulty: advanced
 author: Pankaj Doharey
 summary: Combine the autoencoder and DDPM into latent diffusion, the architecture of Stable Diffusion, and see how the same machinery upscales images.
 theme: pylearning
 previous_tutorial:
-  title: "Diffusion Models from Scratch: Sprite Training"
-  url: /courses/image-generation/diffusion-models-from-scratch/
+  title: "Text-to-Image: Teaching Diffusion to Listen"
+  url: /courses/image-generation/text-to-image-sprites/
 next_tutorial:
-  title: "Back to the course index"
-  url: /courses/image-generation/
+  title: "Chapter 10: Style Transfer: Stealing the Statistics of Style"
+  url: /courses/image-generation/style-transfer/
 date: 2026-07-29
 ---
 

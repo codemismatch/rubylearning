@@ -1,6 +1,6 @@
 ---
 layout: tutorial
-title: "Chapter 21 &ndash; MNIST: Recognizing Handwritten Digits"
+title: "Chapter 20 &ndash; MNIST: Recognizing Handwritten Digits"
 permalink: /courses/machine-learning/mnist-handwritten-digits/
 difficulty: intermediate
 author: Pankaj Doharey
@@ -223,7 +223,7 @@ Everything above transfers to the full 28x28 MNIST with three changes:
 
 - **Bigger input.** 784 pixels instead of 64; the same code runs, just wider matrices.
 - **More data.** 60,000 training images - which is exactly why full MNIST reaches 99%+ where our 1,500 images plateau at ~96%. Data scale still beats cleverness (Chapter 18's scaling laws, applied to digits).
-- **Convolutions.** Our network flattens the image into a vector, throwing away "which pixels are neighbors." A convolutional network slides small filters across the image, sharing weights across positions - the same "look at local structure" idea as Chapter 16's windows and Chapter 20's pixels, made architectural. That is the leap from 99% to 99.7%+ and the beginning of modern computer vision.
+- **Convolutions.** Our network flattens the image into a vector, throwing away "which pixels are neighbors." A convolutional network slides small filters across the image, sharing weights across positions - the same "look at local structure" idea as Chapter 16's context windows, made architectural. It is exactly what [Chapter 1 of the Image Generation course](/courses/image-generation/convolutions-cnns-from-scratch/) builds from scratch. That is the leap from 99% to 99.7%+ and the beginning of modern computer vision.
 
 Where to go next: the classic references are LeCun et al.'s 1998 paper "Gradient-Based Learning Applied to Document Recognition" (the original MNIST result) and Michael Nielsen's free online book *Neural Networks and Deep Learning*, whose first chapters build full-MNIST in numpy at exactly this course's altitude.
 
