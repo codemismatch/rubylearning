@@ -9,8 +9,11 @@ primary:
     url: /courses/python-basics/
   - label: Learn ML
     url: /courses/machine-learning/
-  - label: Learn Image AI
-    url: /courses/image-generation/
+    children:
+      - label: "From Zero to LLMs"
+        url: /courses/machine-learning/
+      - label: "Image Hero: From Pixels to Diffusion"
+        url: /courses/image-generation/
   - label: Tutorials
     path: tutorials/
   - label: Courses
