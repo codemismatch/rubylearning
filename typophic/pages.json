@@ -416,14 +416,6 @@
     "tags": []
   },
   {
-    "title": "Tutorials",
-    "description": null,
-    "permalink": "/tutorials/",
-    "url": "https://rubylearning.in/tutorials/",
-    "date": "2025-03-17",
-    "tags": []
-  },
-  {
     "title": "Chapter 4 &ndash; Classes & objects",
     "description": null,
     "permalink": "/courses/ruby-basics/classes-and-objects/",
