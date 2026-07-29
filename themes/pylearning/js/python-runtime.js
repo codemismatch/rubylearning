@@ -121,10 +121,10 @@
         worker,
         pending,
         queue: Promise.resolve(),
-        run(code) {
+        run(code, onStream) {
           const id = ++nextId;
           const task = new Promise((resolveRun) => {
-            pending.set(id, resolveRun);
+            pending.set(id, { resolve: resolveRun, onStream });
             worker.postMessage({ type: "run", id, code });
           });
           // Serialize runs so the shared namespace behaves like notebook cells.
@@ -166,19 +166,21 @@
           return;
         }
         if (msg.type === "stream") {
-          if (streamHandler) {
+          const entry = pending.get(msg.id);
+          const handler = (entry && entry.onStream) || streamHandler;
+          if (handler) {
             try {
-              streamHandler(String(msg.text || ""));
+              handler(String(msg.text || ""));
             } catch (_e) { /* ignore */ }
           }
           return;
         }
         if (msg.type === "result") {
-          const resolveRun = pending.get(msg.id);
-          if (resolveRun) {
+          const entry = pending.get(msg.id);
+          if (entry) {
             pending.delete(msg.id);
             emitPlots(msg.plots);
-            resolveRun(String(msg.result || ""));
+            entry.resolve(String(msg.result || ""));
           }
         }
       };
@@ -313,9 +315,9 @@ buf.getvalue()
     return readyPromise;
   }
 
-  async function runPython(code) {
+  async function runPython(code, onStream) {
     const state = await ready();
-    return state.run(code);
+    return state.run(code, onStream);
   }
 
   // Compatibility facade for callers that used to touch pyodide directly

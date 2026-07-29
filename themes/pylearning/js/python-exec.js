@@ -114,12 +114,10 @@
               plotArea.appendChild(window.TypophicPlot.render(spec));
             });
           }
-          // Stream stdout/stderr live (Web Worker mode).
-          if (window.PythonRuntime.setStreamHandler) {
-            PythonRuntime.setStreamHandler(appendTerminalText);
-          }
+          // Stream stdout/stderr live (Web Worker mode); routed per run so
+          // concurrent windows never cross streams.
           try {
-            const result = await PythonRuntime.run(code);
+            const result = await PythonRuntime.run(code, appendTerminalText);
             // Main-thread fallback has no streaming; use the final buffer.
             if (!outputContent.textContent) {
               appendTerminalText(result || "");

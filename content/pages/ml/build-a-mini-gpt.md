@@ -348,13 +348,19 @@ for step in range(steps + 1):
     if step % 50 == 0 or step == steps:
         progress(step, steps, suffix=f"loss {loss:.4f}")   # PyTorch-style bar, updates in place
 
-# honest evaluation: average loss over the whole corpus
+# honest evaluation: average loss over the corpus
+# (sampled - with a big uploaded corpus we cap the number of windows so
+# this stays quick instead of running a million forward passes)
+eval_starts = list(range(0, len(data) - T - 1, 8))[:1000]
 total, nwin = 0.0, 0
-for st in range(0, len(data) - T - 1, 8):
+for st in eval_starts:
     lg, _ = forward(data[st:st + T])
     l, _ = loss_and_grads(lg, data[st + 1:st + T + 1])
     total += l; nwin += 1
-print(f"full-corpus loss: {total / nwin:.4f}")
+if len(eval_starts) < len(range(0, len(data) - T - 1, 8)):
+    print(f"full-corpus loss: {total / nwin:.4f}  (sampled over {nwin} windows)")
+else:
+    print(f"full-corpus loss: {total / nwin:.4f}")
 ```
 
 The recorded history makes the shape of learning visible - fast early progress, noisy middle, then the learning-rate drop at step 2000 settles it into a much deeper minimum:
