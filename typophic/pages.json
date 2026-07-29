@@ -56,7 +56,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 21 &ndash; Backpropagation by Hand",
+    "title": "Bonus &ndash; Backpropagation by Hand",
     "description": null,
     "permalink": "/courses/machine-learning/backpropagation-by-hand/",
     "url": "https://rubylearning.in/courses/machine-learning/backpropagation-by-hand/",
@@ -160,7 +160,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 8 &ndash; Latent Diffusion & Super-Resolution",
+    "title": "Chapter 9 &ndash; Latent Diffusion & Super-Resolution",
     "description": null,
     "permalink": "/courses/image-generation/latent-diffusion/",
     "url": "https://rubylearning.in/courses/image-generation/latent-diffusion/",
@@ -184,7 +184,7 @@
     "tags": []
   },
   {
-    "title": "Chapter 21 &ndash; MNIST: Recognizing Handwritten Digits",
+    "title": "Chapter 20 &ndash; MNIST: Recognizing Handwritten Digits",
     "description": null,
     "permalink": "/courses/machine-learning/mnist-handwritten-digits/",
     "url": "https://rubylearning.in/courses/machine-learning/mnist-handwritten-digits/",
@@ -232,6 +232,14 @@
     "tags": []
   },
   {
+    "title": "Chapter 10 &ndash; Style Transfer: Stealing the Statistics of Style",
+    "description": null,
+    "permalink": "/courses/image-generation/style-transfer/",
+    "url": "https://rubylearning.in/courses/image-generation/style-transfer/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
     "title": "Chapter 12 &ndash; Support Vector Machines",
     "description": null,
     "permalink": "/courses/machine-learning/support-vector-machines/",
@@ -245,6 +253,14 @@
     "permalink": "/courses/machine-learning/text-embeddings/",
     "url": "https://rubylearning.in/courses/machine-learning/text-embeddings/",
     "date": "2026-03-10",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Text-to-Image: Teaching Diffusion to Listen",
+    "description": null,
+    "permalink": "/courses/image-generation/text-to-image-sprites/",
+    "url": "https://rubylearning.in/courses/image-generation/text-to-image-sprites/",
+    "date": "2026-07-29",
     "tags": []
   },
   {
