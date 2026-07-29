@@ -170,6 +170,35 @@
     });
   }
 
+  // Turns <div data-corpus-url="/path/file.csv" data-corpus-var="moons_text">
+  // markers into an auto-loaded dataset: the file is fetched once from the
+  // site itself and stored in the shared Pyodide namespace under the given
+  // variable name, so chapter cells can train on committed micro datasets
+  // entirely in the browser.
+  function initCorpusUrls() {
+    document.querySelectorAll("[data-corpus-url]").forEach(async (marker) => {
+      if (marker.dataset.corpusUrlInitialized === "true") return;
+      marker.dataset.corpusUrlInitialized = "true";
+      const url = marker.getAttribute("data-corpus-url");
+      const varName = marker.getAttribute("data-corpus-var") || "dataset_text";
+      const status = document.createElement("div");
+      status.className = "corpus-url-status";
+      status.style.cssText = "margin:0.5rem 0;font-size:0.9em;opacity:0.85;";
+      status.textContent = "Loading dataset " + url + " ...";
+      marker.appendChild(status);
+      try {
+        const resp = await fetch(url);
+        const text = await resp.text();
+        const py = await PythonRuntime.getPyodide();
+        py.globals.set(varName, text);
+        status.textContent = "Dataset ready: " + url.split("/").pop() +
+          " (" + (text.split("\n").length - 1) + " rows) loaded as `" + varName + "`.";
+      } catch (err) {
+        status.textContent = "Could not load " + url + ": " + err;
+      }
+    });
+  }
+
   // Turns <div data-corpus-upload="variable_name"> markers into a file-upload
   // widget. The uploaded .txt content is stored in the shared Pyodide
   // namespace under `variable_name`, so chapter cells can train on it.
@@ -250,6 +279,7 @@
   onReady(() => {
     initPythonExecBlocks();
     initCorpusUploads();
+  initCorpusUrls();
   });
 
   document.addEventListener("PythonRuntimeLoaded", () => {

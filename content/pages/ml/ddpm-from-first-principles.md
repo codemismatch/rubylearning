@@ -177,6 +177,120 @@ Three ideas carry all of DDPM. First, the forward process is fixed and closed-fo
 
 Image diffusion models are exactly this, scaled up: the 1D point becomes a latent tensor, our 16-neuron MLP becomes a U-Net with attention (Chapter 17's mechanism, repurposed to look across pixels), and the time embedding stays almost identical. When you read that Stable Diffusion "denoises latents", you now know precisely which equation is running inside.
 
+### Bonus: the same model on a real micro dataset, in your browser
+
+The 1D bumps were synthetic. To prove the machinery does not care, here is a committed micro dataset - 400 two-moons points - loaded straight from this site into the Python runtime. No upload, no install: the page fetches `moons.csv` and hands it to the cells as `moons_text`.
+
+<div data-corpus-url="/assets/data/moons.csv" data-corpus-var="moons_text"></div>
+
+```python-exec
+rows = [r.split(",") for r in moons_text.strip().split("\n")[1:]]
+data2d = [(float(r[0]), float(r[1])) for r in rows]
+print("points:", len(data2d), " first:", data2d[0])
+
+xs = [p[0] for p in data2d]
+ys = [p[1] for p in data2d]
+plt.scatter(xs, ys, label="moons (real)")
+plt.title("The training distribution")
+plt.legend()
+plt.show()
+```
+
+The denoiser gets one extra input dimension (x and y plus the time embedding) but not one new idea:
+
+```python-exec
+class TinyDenoiser2D(TinyDenoiser):
+    def forward(self, x, y, t):
+        inp = [x, y] + time_embedding(t)
+        h1 = [math.tanh(sum(w * v for w, v in zip(row, inp)) + b) for row, b in zip(self.W1, self.b1)]
+        h2 = [math.tanh(sum(w * v for w, v in zip(row, h1)) + b) for row, b in zip(self.W2, self.b2)]
+        out = sum(w * v for w, v in zip(self.W3, h2)) + self.b3
+        return out, (inp, h1, h2)
+
+def q_sample_2d(p, t):
+    ab = alpha_bars[t]
+    ex, ey = random.gauss(0, 1), random.gauss(0, 1)
+    s = math.sqrt(ab)
+    n = math.sqrt(1 - ab)
+    return (s * p[0] + n * ex, s * p[1] + n * ey), (ex, ey)
+```
+
+Training and sampling are the chapter's code with two coordinates instead of one. Two thousand steps takes about a minute in the browser; run it and watch the model redraw the moons from pure static:
+
+```python-exec
+import time
+m2 = TinyDenoiser2D()
+# widen input fan-in: rebuild W1 for 2+8 inputs
+m2.W1 = [[random.gauss(0, 0.3) for _ in range(2 + 8)] for _ in range(16)]
+
+t0 = time.time()
+for step in range(2000):
+    p = random.choice(data2d)
+    tt = random.randrange(T)
+    (xt, yt), (ex, ey) = q_sample_2d(p, tt)
+    # two independent noise-prediction losses, one per coordinate
+    for coord, (val, eps_true) in enumerate([(xt, ex), (yt, ey)]):
+        other = yt if coord == 0 else xt
+        eps_pred, (inp, h1, h2) = m2.forward(val, other, tt)
+        err = eps_pred - eps_true
+        dW3 = [2 * err * v for v in h2]
+        db3 = 2 * err
+        dh2 = [2 * err * w for w in m2.W3]
+        dW2, db2, dh1 = [], [], [0.0] * 16
+        for j in range(16):
+            d = dh2[j] * (1 - h2[j] ** 2)
+            dW2.append([d * v for v in h1]); db2.append(d)
+            for k in range(16):
+                dh1[k] += d * m2.W2[j][k]
+        dW1, db1 = [], []
+        for k in range(16):
+            d = dh1[k] * (1 - h1[k] ** 2)
+            dW1.append([d * v for v in inp]); db1.append(d)
+        lr = 0.02
+        for j in range(16): m2.W3[j] -= lr * dW3[j]
+        m2.b3 -= lr * db3
+        for j in range(16):
+            for k in range(16): m2.W2[j][k] -= lr * dW2[j][k]
+            m2.b2[j] -= lr * db2[j]
+        for k in range(16):
+            for i in range(10): m2.W1[k][i] -= lr * dW1[k][i]
+            m2.b1[k] -= lr * db1[k]
+    if step % 500 == 0:
+        print(f"step {step:5d}  err^2 = {err * err:.4f}")
+print(f"trained in {time.time() - t0:.1f}s")
+```
+
+```python-exec
+def p_sample_2d(m, x, y, t):
+    ab = alpha_bars[t]
+    ab_prev = alpha_bars[t - 1] if t > 0 else 1.0
+    beta = betas[t]
+    ex, _ = m.forward(x, y, t)
+    ey, _ = m.forward(y, x, t)
+    mean_x = (x - beta * ex / math.sqrt(1 - ab)) / math.sqrt(alphas[t])
+    mean_y = (y - beta * ey / math.sqrt(1 - ab)) / math.sqrt(alphas[t])
+    if t == 0:
+        return mean_x, mean_y
+    var = beta * (1 - ab_prev) / (1 - ab)
+    s = math.sqrt(var)
+    return mean_x + s * random.gauss(0, 1), mean_y + s * random.gauss(0, 1)
+
+gen_x, gen_y = [], []
+for _ in range(300):
+    x, y = random.gauss(0, 1), random.gauss(0, 1)
+    for tt in reversed(range(T)):
+        x, y = p_sample_2d(m2, x, y, tt)
+    gen_x.append(x); gen_y.append(y)
+
+plt.scatter(xs, ys, label="real moons")
+plt.scatter(gen_x, gen_y, label="DDPM samples")
+plt.title("Real data vs samples drawn by the model")
+plt.legend()
+plt.show()
+```
+
+Two moons, drawn from memory. Same equations as the 1D case, same equations as Stable Diffusion, only the shapes of the tensors differ.
+
 ### Where to go next
 
 - **Try it:** change the dataset to three bumps, or make `T` smaller. What breaks first, sample quality or training stability?

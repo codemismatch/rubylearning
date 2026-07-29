@@ -81,10 +81,10 @@ date: 2026-01-06
           <div>
             <h3>Deep Learning &amp; Generative Models</h3>
             <ol>
-              <li><a href="/courses/machine-learning/ddpm-from-first-principles/">Diffusion Models: DDPM from First Principles</a></li>
+              <li><a href="/courses/machine-learning/ddpm-from-first-principles/">Diffusion Models: DDPM from First Principles</a> <em>(+ in-browser moons dataset)</em></li>
               <li>Convolutions &amp; CNNs from Scratch <em>(coming soon)</em></li>
               <li>Backpropagation by Hand <em>(coming soon)</em></li>
-              <li>Autoencoders <em>(coming soon)</em></li>
+              <li><a href="/courses/machine-learning/autoencoders/">Autoencoders</a></li>
               <li>Latent Diffusion &amp; Super-Resolution <em>(coming soon)</em></li>
               <li>Training Tricks: Initialization, Normalization, ResNets <em>(coming soon)</em></li>
               <li>Deploying a Model: From Notebook to a Small Web Service <em>(coming soon)</em></li>
