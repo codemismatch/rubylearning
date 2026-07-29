@@ -13,6 +13,8 @@ primary:
     path: tutorials/
   - label: Courses
     url: /courses/
+  - label: Mentorship
+    path: pages/mentorship/
   - label: Blog
     path: blog/
   - label: Resources
