@@ -45,6 +45,10 @@ description: Browse structured courses across Ruby and other languages.
           <p class="course-card__description">
             {{ course.description }}
           </p>
+          <p class="course-card__progress">
+            <span class="chapter-progress-marker course-card__pie" data-course-pie="{{ course.slug }}" role="img" aria-label="Course progress"></span>
+            <span class="course-card__progress-label" data-course-pie-label>Not started</span>
+          </p>
           <p class="course-card__tags">
             {% if course.free == false %}
               <span class="course-pill course-pill--pro">Pro</span>
@@ -65,28 +69,6 @@ description: Browse structured courses across Ruby and other languages.
               </span>
             </span>
           </p>
-          {% if course.modules %}
-          <div class="course-lessons">
-            {% for module in course.modules %}
-            <h3 class="course-lessons__module">{{ module.title }}</h3>
-            <ol class="course-lessons__list">
-              {% for slug in module.tutorials %}
-              {% assign lesson_href = '/courses/' | append: course.slug | append: '/' | append: slug | append: '/' %}
-              {% assign lesson_page = site.pages | where: "permalink", lesson_href | first %}
-              <li>
-                <a href="{{ lesson_href | url_for }}">
-                  {% if lesson_page and lesson_page.title %}
-                    {{ lesson_page.title | replace: '&ndash;', '–' }}
-                  {% else %}
-                    {{ slug | replace: '-', ' ' | capitalize }}
-                  {% endif %}
-                </a>
-              </li>
-              {% endfor %}
-            </ol>
-            {% endfor %}
-          </div>
-          {% endif %}
         </article>
       {% endfor %}
     {% else %}

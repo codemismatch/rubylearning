@@ -563,3 +563,109 @@ function initCourseTrackHeader() {
   if (barEl) barEl.style.width = `${averagePercent}%`;
   if (statsEl) statsEl.textContent = `${completedChapters}/${totalChapters} chapters complete - ${averagePercent}% overall`;
 }
+
+// Course-card progress pies on the /courses/ index: aggregate the same
+// per-chapter localStorage progress used on course pages into one ring per card.
+function computeChapterPercentFromStorage(chapterKeyPrefix) {
+  try {
+    const scrollStr = window.localStorage.getItem(`${chapterKeyPrefix}:scroll-percent`);
+    const scrollPercent = scrollStr ? Math.max(0, Math.min(100, parseFloat(scrollStr))) : 0;
+
+    const totalStr = window.localStorage.getItem(`${chapterKeyPrefix}:total`);
+    const total = totalStr ? parseInt(totalStr, 10) : 0;
+    let practiceCompleted = 0;
+    if (total > 0) {
+      for (let i = 0; i < total; i++) {
+        if (window.localStorage.getItem(`${chapterKeyPrefix}:item:${i}`) === '1') practiceCompleted += 1;
+      }
+    }
+
+    const examplesTotalStr = window.localStorage.getItem(`${chapterKeyPrefix}:examples_total`);
+    const examplesTotal = examplesTotalStr ? parseInt(examplesTotalStr, 10) : 0;
+    let examplesCompleted = 0;
+    if (examplesTotal > 0) {
+      for (let i = 0; i < examplesTotal; i++) {
+        if (window.localStorage.getItem(`${chapterKeyPrefix}:example:${i}`) === '1') examplesCompleted += 1;
+      }
+    }
+
+    const hasPractice = total > 0;
+    const hasExamples = examplesTotal > 0;
+    const scroll0to1 = scrollPercent / 100;
+    const practice0to1 = hasPractice ? (practiceCompleted / total) : 0;
+    const examples0to1 = hasExamples ? (examplesCompleted / examplesTotal) : 0;
+    const anyPracticeDone = hasPractice && practiceCompleted > 0;
+    const anyExamplesDone = hasExamples && examplesCompleted > 0;
+
+    let percent = 0;
+    if (hasPractice || hasExamples) {
+      if (!anyPracticeDone && !anyExamplesDone) {
+        percent = 0;
+      } else if (hasPractice && hasExamples) {
+        percent = scroll0to1 * 40 + practice0to1 * 30 + examples0to1 * 30;
+      } else if (hasPractice && !hasExamples) {
+        percent = scroll0to1 * 50 + practice0to1 * 50;
+      } else {
+        percent = scroll0to1 * 50 + examples0to1 * 50;
+      }
+    } else {
+      percent = scrollPercent;
+    }
+    return Math.max(0, Math.min(100, Math.round(percent)));
+  } catch (_) {
+    return 0;
+  }
+}
+
+function initCourseCardPies() {
+  const pies = document.querySelectorAll('[data-course-pie]');
+  if (!pies.length) return;
+
+  pies.forEach(pie => {
+    const slug = pie.getAttribute('data-course-pie');
+    if (!slug) return;
+    const label = pie.parentElement
+      ? pie.parentElement.querySelector('[data-course-pie-label]')
+      : null;
+
+    fetch(`/courses/${slug}/`, { credentials: 'same-origin' })
+      .then(res => (res.ok ? res.text() : null))
+      .then(html => {
+        if (!html) return;
+        const doc = new DOMParser().parseFromString(html, 'text/html');
+        const links = doc.querySelectorAll('.chapter-nav ol li > a[href^="/courses/"]');
+        if (!links.length) return;
+
+        let totalPercent = 0;
+        let chapters = 0;
+        links.forEach(link => {
+          try {
+            const url = new URL(link.getAttribute('href'), window.location.origin);
+            const path = url.pathname.replace(/\/$/, '');
+            totalPercent += computeChapterPercentFromStorage(`rl:chapter:${path}`);
+            chapters += 1;
+          } catch (_) {
+            // skip malformed link
+          }
+        });
+        if (!chapters) return;
+
+        const percent = Math.round(totalPercent / chapters);
+        const stateClass = percent >= 100 ? 'is-complete' : percent > 0 ? 'is-partial' : 'is-pending';
+        pie.classList.add(stateClass);
+        pie.style.setProperty('--percent', percent + '%');
+        pie.setAttribute('aria-label', `Course progress: ${percent}%`);
+        pie.setAttribute('title', `Course progress: ${percent}%`);
+        if (label) {
+          label.textContent = percent > 0 ? `${percent}% complete` : 'Not started';
+        }
+      })
+      .catch(() => {
+        // offline or fetch failure: leave the pie at 0%
+      });
+  });
+}
+
+runTutorialEnhancementsOnReady(function() {
+  initCourseCardPies();
+});
