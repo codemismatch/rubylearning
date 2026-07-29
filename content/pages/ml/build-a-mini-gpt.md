@@ -9,6 +9,9 @@ theme: pylearning
 previous_tutorial:
   title: "Chapter 18: How LLMs Work"
   url: /courses/machine-learning/how-llms-work/
+next_tutorial:
+  title: "Chapter 20: Diffusion Models from Scratch"
+  url: /courses/machine-learning/diffusion-models-from-scratch/
 date: 2026-03-31
 ---
 
