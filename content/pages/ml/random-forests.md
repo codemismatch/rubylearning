@@ -110,7 +110,7 @@ def predict_tree(tree, row):
 
 Back to the fruit world from Chapter 9: K-Nearest Neighbors, but with three features now - weight, sweetness, and crunchiness - and a bit of noise so single trees can stumble.
 
-```python-exec
+```python
 # (weight_g, sweetness, crunch), label
 data = [
     ((15, 9, 8), "berry"), ((20, 8, 9), "berry"), ((18, 10, 7), "berry"),

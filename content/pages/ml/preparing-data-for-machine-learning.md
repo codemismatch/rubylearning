@@ -31,7 +31,7 @@ This chapter builds a small preprocessing pipeline in pure Python. By the end, y
 
 Suppose each house is represented by a dictionary:
 
-```python-exec
+```python
 rows = [
     {"size_sqft": 750,  "bedrooms": 2, "neighborhood": "north", "price": 180000},
     {"size_sqft": 940,  "bedrooms": 2, "neighborhood": "south", "price": 220000},

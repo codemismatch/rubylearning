@@ -109,8 +109,31 @@
           outputArea.scrollTop = outputArea.scrollHeight;
         };
 
+        // Notebook semantics: before the first Run in any window, silently
+        // execute every earlier Python block on the page (exec cells and
+        // plain data blocks) so shared names just exist. Data-only blocks
+        // therefore never need a Run button of their own.
+        let contextReady = false;
+        const collectContextCode = () => {
+          const wins = [...document.querySelectorAll(".code-window")];
+          const idx = wins.indexOf(codeWindow);
+          const ctx = [];
+          for (let i = 0; i >= 0 && i < idx; i++) {
+            const c = wins[i].querySelector("pre code.python-exec, pre code.language-python");
+            if (c && c.textContent.trim()) ctx.push(c.textContent);
+          }
+          return ctx.join("\n\n");
+        };
+
         const runCell = async () => {
           const code = currentCode.trimEnd();
+          if (!contextReady) {
+            contextReady = true;
+            const ctx = collectContextCode();
+            if (ctx.trim()) {
+              try { await PythonRuntime.run(ctx, () => {}); } catch (_) { /* context best-effort */ }
+            }
+          }
           plotArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
           if (window.PythonRuntime.isBusy && PythonRuntime.isBusy()) {
             // Another cell (e.g. the training cell) is running; this run

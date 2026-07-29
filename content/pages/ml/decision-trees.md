@@ -23,7 +23,7 @@ Everything here is pure Python. Save the snippets into one file, say `tree.py`, 
 
 A tiny dataset: deciding whether to play tennis based on the weather. Each row is (outlook, temperature in C, windy) plus the decision.
 
-```python-exec
+```python
 # (outlook, temp_c, windy), decision
 data = [
     ("sunny",    30, False, "no"),
