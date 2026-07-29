@@ -192,3 +192,14 @@
   height: 1.7rem;
   display: block;
 }
+
+/* Figures render below the scroll-capped text output, full size */
+.code-window .plot-area {
+  background: #1e1e1e;
+  border-top: 1px solid #444;
+  padding: 10px;
+}
+
+.code-window .plot-area:empty {
+  display: none;
+}

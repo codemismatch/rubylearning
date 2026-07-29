@@ -77,6 +77,12 @@
         outputArea.appendChild(outputContent);
         codeWindow.appendChild(outputArea);
 
+        // Plots live outside the height-capped scroll window so figures
+        // never get chopped.
+        const plotArea = document.createElement("div");
+        plotArea.className = "plot-area";
+        codeWindow.appendChild(plotArea);
+
         const runButton = document.createElement("button");
         runButton.className = "run-button";
         runButton.innerHTML = "▶&nbsp;Run";
@@ -102,12 +108,10 @@
         runButton.addEventListener("click", async () => {
           const code = currentCode.trimEnd();
           outputContent.textContent = "";
-          // Route plt.show() figures into this block's output area.
-          outputArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
+          plotArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
           if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
             PythonRuntime.setPlotHandler(spec => {
-              outputArea.appendChild(window.TypophicPlot.render(spec));
-              outputArea.scrollTop = outputArea.scrollHeight;
+              plotArea.appendChild(window.TypophicPlot.render(spec));
             });
           }
           // Stream stdout/stderr live (Web Worker mode).
