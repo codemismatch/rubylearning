@@ -216,6 +216,30 @@
     "tags": []
   },
   {
+    "title": "Chapter 12 &ndash; Capstone: Build a Word-Counter CLI",
+    "description": null,
+    "permalink": "/courses/python-basics/python-basics-project/",
+    "url": "https://rubylearning.in/courses/python-basics/python-basics-project/",
+    "date": "2026-02-17",
+    "tags": []
+  },
+  {
+    "title": "Chapter 11 &ndash; Classes and Objects",
+    "description": null,
+    "permalink": "/courses/python-basics/python-classes/",
+    "url": "https://rubylearning.in/courses/python-basics/python-classes/",
+    "date": "2026-02-10",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Comprehensions and Iteration",
+    "description": null,
+    "permalink": "/courses/python-basics/python-comprehensions/",
+    "url": "https://rubylearning.in/courses/python-basics/python-comprehensions/",
+    "date": "2026-01-20",
+    "tags": []
+  },
+  {
     "title": "Chapter 3 &ndash; Control Flow in Python",
     "description": null,
     "permalink": "/courses/python-basics/python-control-flow/",
@@ -224,11 +248,51 @@
     "tags": []
   },
   {
+    "title": "Chapter 7 &ndash; Dictionaries and Sets",
+    "description": null,
+    "permalink": "/courses/python-basics/python-dicts-sets/",
+    "url": "https://rubylearning.in/courses/python-basics/python-dicts-sets/",
+    "date": "2026-01-13",
+    "tags": []
+  },
+  {
+    "title": "Chapter 9 &ndash; Files and Exceptions",
+    "description": null,
+    "permalink": "/courses/python-basics/python-files-exceptions/",
+    "url": "https://rubylearning.in/courses/python-basics/python-files-exceptions/",
+    "date": "2026-01-27",
+    "tags": []
+  },
+  {
     "title": "Chapter 4 &ndash; Functions in Python",
     "description": null,
     "permalink": "/courses/python-basics/python-functions/",
     "url": "https://rubylearning.in/courses/python-basics/python-functions/",
     "date": "2025-12-23",
+    "tags": []
+  },
+  {
+    "title": "Chapter 6 &ndash; Lists and Tuples",
+    "description": null,
+    "permalink": "/courses/python-basics/python-lists-tuples/",
+    "url": "https://rubylearning.in/courses/python-basics/python-lists-tuples/",
+    "date": "2026-01-06",
+    "tags": []
+  },
+  {
+    "title": "Chapter 10 &ndash; Modules and the Standard Library",
+    "description": null,
+    "permalink": "/courses/python-basics/python-modules/",
+    "url": "https://rubylearning.in/courses/python-basics/python-modules/",
+    "date": "2026-02-03",
+    "tags": []
+  },
+  {
+    "title": "Chapter 5 &ndash; Strings in Python",
+    "description": null,
+    "permalink": "/courses/python-basics/python-strings/",
+    "url": "https://rubylearning.in/courses/python-basics/python-strings/",
+    "date": "2025-12-30",
     "tags": []
   },
   {
