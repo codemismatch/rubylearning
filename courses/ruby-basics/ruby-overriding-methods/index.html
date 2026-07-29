@@ -1,238 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 30 &ndash; Overriding Methods - Ruby Learning</title>
-  <meta name="description" content="A beautiful static website for learning Ruby">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  
-  
-  
-
-  
-
-  
-  <link rel="stylesheet" href="/themes/rubylearning/css/style.css">
-
-  <!-- Modern fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=1785339006">
-
-  <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/rubylearning/css/course.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=1785339006">
-  
-
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="site-logo">
-        
-        <span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span>
-        <span class="logo-text">Ruby</span>
-        
-        <span class="logo-accent">Learning</span>
-      </a>
-      <nav class="site-nav">
-        
-        
-        <ul>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/" >Home</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/about/" >About</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/python-basics/" >Learn Python</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li class="has-dropdown">
-            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
-            <ul class="dropdown-menu">
-              
-              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
-              
-              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
-              
-            </ul>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/" >Courses</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/mentorship/" >Mentorship</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/blog/" >Blog</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/resources/" >Resources</a>
-          </li>
-          
-          
-          
-        </ul>
-      </nav>
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-    </div>
-  </header>
-
-  <main class="site-content">
-    <div class="container">
-      <div class="tutorial-wrapper">
-  
-  <nav class="breadcrumbs">
-    <ol>
-      <li><a href="/">Home</a></li>
-      
-      <li><a href="/courses/">Courses</a></li>
-      <li>Chapter 30 &ndash; Overriding Methods</li>
-      
-    </ol>
-  </nav>
-  
-
-  <article class="tutorial">
-    <header class="tutorial-header">
-      <h1>
-        Chapter 30 &ndash; Overriding Methods
-        
-        <span class="difficulty difficulty-intermediate">Intermediate</span>
-        
-      </h1>
-      
-      
-      
-      
-      
-      <p class="tutorial-summary">Customize inherited behavior by overriding methods and using `super` to build on parent logic.</p>
-      
-    </header>
-
-    
-    <div class="tutorial-content">
-      <div class='markdown'><p>> Adapted from Satish Talim's "Overriding Methods" lesson.</p>
-<p>Inheritance gives you defaults; overriding lets subclasses tailor those defaults. Ruby makes overriding straightforward: define a method with the same name in the subclass, and call <code>super</code> when you need the parent's behavior.</p>
-<h3>Basic override</h3>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Animal
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 30 &ndash; Overriding Methods - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="rubylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/rubylearning/css/style.css?v=1785339371"><link rel="stylesheet" href="/themes/rubylearning/css/prism-monokai.css?v=1785339371"><link rel="stylesheet" href="/themes/rubylearning/css/enhanced-code.css?v=1785339371"><link rel="stylesheet" href="/themes/rubylearning/css/tutorials.css?v=1785339371"><link rel="stylesheet" href="/themes/rubylearning/css/course.css?v=1785339371"><link rel="stylesheet" href="/themes/rubylearning/css/badges.css?v=1785339371"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon tinted-diamond" aria-hidden="true">&#x1F48E;</span><span class="logo-text">Ruby</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 30 &ndash; Overriding Methods</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 30 &ndash; Overriding Methods <span class="difficulty difficulty-intermediate">Intermediate</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2025-11-14" class="tutorial-date"> November 14, 2025 </time></div></div><div class="tutorial-contributors"><span class="contributors-label">Edited by:</span><div class="contributors-list"><div class="contributor-item" title="Neeraj Doharey"><img src="/images/avatars/neerajdoharey.jpg" alt="Neeraj Doharey" class="contributor-avatar"><span class="contributor-name">Neeraj Doharey</span></div></div></div></div><p class="tutorial-summary">Customize inherited behavior by overriding methods and using `super` to build on parent logic.</p></header><div class="tutorial-content"><div class='markdown'><p>> Adapted from Satish Talim's "Overriding Methods" lesson. Inheritance gives you defaults; overriding lets subclasses tailor those defaults. Ruby makes overriding straightforward: define a method with the same name in the subclass, and call <code>super</code> when you need the parent's behavior. <h3>Basic override</h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Animal
   def speak
     &quot;generic noise&quot;
   end
@@ -245,23 +11,8 @@ class Dog &lt; Animal
 end
 
 puts Animal.new.speak  #=&gt; &quot;generic noise&quot;
-puts Dog.new.speak     #=&gt; &quot;generic noise ruff&quot;</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p><code>super</code> with no parentheses forwards the original arguments automatically. Use <code>super()</code> to forward none, or <code>super(arg1, arg2)</code> for explicit control.</p>
-<h3>Legacy motorcycle example</h3>
-<p>The original lesson used a <code>Motorcycle</code> base class and subclasses that override <code>#info</code>:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Motorcycle
+puts Dog.new.speak     #=&gt; &quot;generic noise ruff&quot;
+      </code></pre></div></div></div><code>super</code> with no parentheses forwards the original arguments automatically. Use <code>super()</code> to forward none, or <code>super(arg1, arg2)</code> for explicit control. <h3>Legacy motorcycle example</h3> The original lesson used a <code>Motorcycle</code> base class and subclasses that override <code>#info</code>: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">ruby.rb</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Ruby VM</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight language-ruby" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-ruby ruby-exec">class Motorcycle
   def info
     &quot;Two wheels, generic motorcycle&quot;
   end
@@ -273,40 +24,9 @@ class SportsBike &lt; Motorcycle
   end
 end
 
-puts SportsBike.new.info</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Feel free to stack overrides across multiple generations; each call to <code>super</code> climbs one level up the hierarchy.</p>
-<h3>Practice checklist</h3>
-<ul>
-<li>[ ] Build a <code>Vehicle</code> hierarchy with a base <code>#description</code> and override it in <code>Car</code> and <code>Truck</code>.</li>
-<li>[ ] Override <code>initialize</code> in a subclass and experiment with <code>super</code>, <code>super()</code>, and explicit argument lists.</li>
-<li>[ ] Add logging to an overridden method by printing before/after calling <code>super</code>.</li>
-<li>[ ] Combine overrides with modules: include a module that defines a method, then override it in the class to tweak output.</li>
-</ul>
-<p>Next: keep exploring Flow Control & Collections, now with multiple levels of behavior you can toggle via overrides.</p>
-<h4>Practice 1 - Overriding #description</h4>
-<p><strong>Goal:</strong> Build a <code>Vehicle</code> hierarchy with a base <code>#description</code> and override it in <code>Car</code> and <code>Truck</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="0" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;built for the road&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;hauling cargo&#39;) }"><code class="language-ruby"># TODO: Define Vehicle#description and override it in Car and Truck
-# to return specialised strings, then instantiate and print them.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods"
-     data-practice-index="0"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:0">
+puts SportsBike.new.info
+      </code></pre></div></div></div> Feel free to stack overrides across multiple generations; each call to <code>super</code> climbs one level up the hierarchy. <h3>Practice checklist</h3><ul><li>[ ] Build a <code>Vehicle</code> hierarchy with a base <code>#description</code> and override it in <code>Car</code> and <code>Truck</code>.</li><li>[ ] Override <code>initialize</code> in a subclass and experiment with <code>super</code>, <code>super()</code>, and explicit argument lists.</li><li>[ ] Add logging to an overridden method by printing before/after calling <code>super</code>.</li><li>[ ] Combine overrides with modules: include a module that defines a method, then override it in the class to tweak output.</li></ul> Next: keep exploring Flow Control & Collections, now with multiple levels of behavior you can toggle via overrides. <h4>Practice 1 - Overriding #description</h4><strong>Goal:</strong> Build a <code>Vehicle</code> hierarchy with a base <code>#description</code> and override it in <code>Car</code> and <code>Truck</code>. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="0" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;built for the road&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;hauling cargo&#39;) }"><code class="language-ruby"># TODO: Define Vehicle#description and override it in Car and Truck
+# to return specialised strings, then instantiate and print them.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="0"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:0">
 class Vehicle
   def description
     "A generic vehicle"
@@ -327,28 +47,8 @@ end
 
 puts Car.new.description
 puts Truck.new.description
-</script>
-<h4>Practice 2 - Overriding initialize with super variants</h4></p>
-<p><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code>, <code>super()</code>, and explicit argument lists.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="1" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Child received&#39;) } &amp;&amp; lines.count { |l| l.include?(&#39;Base initialized&#39;) } == 2"><code class="language-ruby"># TODO: Sketch a base/subclass pair where the subclass uses both
-# super and super() in different contexts and print labelled lines.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods"
-     data-practice-index="1"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:1">
+</script><h4>Practice 2 - Overriding initialize with super variants</h4><strong>Goal:</strong> Override <code>initialize</code> in a subclass and experiment with <code>super</code>, <code>super()</code>, and explicit argument lists. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="1" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;Child received&#39;) } &amp;&amp; lines.count { |l| l.include?(&#39;Base initialized&#39;) } == 2"><code class="language-ruby"># TODO: Sketch a base/subclass pair where the subclass uses both
+# super and super() in different contexts and print labelled lines.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="1"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:1">
 class Base
   def initialize(msg = "default")
     puts "Base initialized with #{msg}"
@@ -364,28 +64,8 @@ class Child < Base
 end
 
 Child.new("custom")
-</script>
-<h4>Practice 3 - Logging around super</h4></p>
-<p><strong>Goal:</strong> Add logging to an overridden method by printing before/after calling <code>super</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="2" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;before super&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;after super&#39;) }"><code class="language-ruby"># TODO: Print an override that logs before and after calling super in
-# a method such as #save.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods"
-     data-practice-index="2"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:2">
+</script><h4>Practice 3 - Logging around super</h4><strong>Goal:</strong> Add logging to an overridden method by printing before/after calling <code>super</code>. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="2" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;before super&#39;) } &amp;&amp; lines.any? { |l| l.include?(&#39;after super&#39;) }"><code class="language-ruby"># TODO: Print an override that logs before and after calling super in
+# a method such as #save.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="2"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:2">
 class Model
   def save
     puts "Saving record"
@@ -401,29 +81,9 @@ class LoggedModel < Model
 end
 
 LoggedModel.new.save
-</script>
-<h4>Practice 4 - Overrides plus modules</h4></p>
-<p><strong>Goal:</strong> Combine overrides with modules: include a module defining a method, then override it in the class.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">ruby.rb</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="3" data-test="out = output.string; lines = out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;hello, friend&#39;) }"><code class="language-ruby"># TODO: Print a simple module with a greeting method, include it in a
+</script><h4>Practice 4 - Overrides plus modules</h4><strong>Goal:</strong> Combine overrides with modules: include a module defining a method, then override it in the class. <pre class="language-ruby" data-executable="true" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="3" data-test="out = output.string; lines=out.lines.map(&amp;:strip); lines.any? { |l| l.include?(&#39;hello, friend&#39;) }"><code class="language-ruby"># TODO: Print a simple module with a greeting method, include it in a
 # class, and override the method to tweak output while still calling
-# super.</code></pre>
-      </div>
-    </div>
-  </div>
-<div class="practice-feedback"
-     data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods"
-     data-practice-index="3"></div></p>
-<p><script type="text/plain"
-        data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:3">
+# super.</code></pre><div class="practice-feedback" data-practice-chapter="rl:chapter:/courses/ruby-basics/ruby-overriding-methods" data-practice-index="3"></div><script type="text/plain" data-practice-solution="rl:chapter:/courses/ruby-basics/ruby-overriding-methods:3">
 module Greeter
   def greet
     "hello"
@@ -439,238 +99,7 @@ class Friendly
 end
 
 puts Friendly.new.greet
-</script></p></div>
-    </div>
-
-    
-    <nav class="tutorial-nav">
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/ruby-basics/ruby-inheritance/">
-        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-        <span>Chapter 29: Ruby Inheritance</span>
-      </a>
-      
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/ruby-basics/ruby-overloading-methods/">
-        <span>Chapter 31: "Overloading" Methods the Ruby Way</span>
-        <span class="icon-arrow" aria-hidden="true">&gt;</span>
-      </a>
-      
-    </nav>
-    
-
-    
-    <div class="related-tutorials">
-      <h2>Related Tutorials</h2>
-      <ul>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/ruby-basics/writing-our-own-class/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Writing Our Own Class</span>
-          </a>
-        </li>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/ruby-basics/ruby-open-classes/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Ruby Open Classes</span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-  </article>
-
-  
-
-  
-  <div class="ruby-console-drawer">
-    <button class="ruby-console-toggle" type="button" aria-expanded="false">
-      <span class="ruby-console-toggle-label">Ruby console</span>
-      <span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span>
-    </button>
-    <div class="ruby-console-body">
-      <div class="ruby-irb" data-ruby-console="true">
-        <div class="ruby-irb-output" aria-live="polite"></div>
-        <form class="ruby-irb-form">
-          <span class="ruby-irb-prompt">mrc(main):001&gt;</span>
-          <div class="ruby-irb-input-wrapper">
-            <span class="ruby-irb-caret" aria-hidden="true"></span>
-            <pre class="ruby-irb-ghost"></pre>
-            <textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off"
-              rows="1"></textarea>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-about">
-          <h3>Ruby Learning</h3>
-          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
-        </div>
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          
-          
-          <ul>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/" >Home</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/about/" >About</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/python-basics/" >Learn Python</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/machine-learning/" >Learn ML</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/image-generation/" >Learn Image AI</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/blog/" >Blog</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/resources/" >Resources</a>
-            </li>
-            
-            
-          </ul>
-        </div>
-        <div class="footer-resources">
-          <h3>Ruby Resources</h3>
-          
-          <ul>
-            
-            
-            
-            
-            
-            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-            
-            
-            
-            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-            
-            
-            
-            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-            
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>
-          &copy; 2026 Ruby Learning.
-          Built with
-          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
-          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
-          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
-          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/site.js?v=1785339006"></script>
-  
-  
-
-  <script>
+</script></p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/ruby-basics/ruby-inheritance/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 29: Ruby Inheritance</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/ruby-basics/ruby-overloading-methods/"><span>Chapter 31: "Overloading" Methods the Ruby Way</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/ruby-basics/writing-our-own-class/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Writing Our Own Class</span></a></li><li><a href="/courses/ruby-basics/ruby-open-classes/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Ruby Open Classes</span></a></li></ul></div></article><div class="ruby-console-drawer"><button class="ruby-console-toggle" type="button" aria-expanded="false"><span class="ruby-console-toggle-label">Ruby console</span><span class="ruby-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="ruby-console-body"><div class="ruby-irb" data-ruby-console="true"><div class="ruby-irb-output" aria-live="polite"></div><form class="ruby-irb-form"><span class="ruby-irb-prompt">mrc(main):001&gt;</span><div class="ruby-irb-input-wrapper"><span class="ruby-irb-caret" aria-hidden="true"></span><textarea class="ruby-irb-input" placeholder="Enter Ruby code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785339371"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339371"></script><script src="/themes/rubylearning/js/site.js?v=1785339371"></script><script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -681,13 +110,6 @@ puts Friendly.new.greet
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script>
-
-  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
-  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
-  <script>
+  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785339371"></script><script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script>
-</body>
-
-</html>
+  </script></body></html>

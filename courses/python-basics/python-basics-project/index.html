@@ -1,270 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 12 &ndash; Capstone: Build a Word-Counter CLI - Ruby Learning</title>
-  <meta name="description" content="A beautiful static website for learning Ruby">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  
-  
-  
-
-  
-
-  
-  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
-
-  <!-- Modern fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
-
-  <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
-  
-
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="site-logo">
-        
-        <span class="logo-icon logo-icon-python" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
-            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
-          </svg>
-        </span>
-        <span class="logo-text">Python</span>
-        
-        <span class="logo-accent">Learning</span>
-      </a>
-      <nav class="site-nav">
-        
-        
-        <ul>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/" >Home</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/about/" >About</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/python-basics/" >Learn Python</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li class="has-dropdown">
-            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
-            <ul class="dropdown-menu">
-              
-              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
-              
-              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
-              
-            </ul>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/" >Courses</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/mentorship/" >Mentorship</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/blog/" >Blog</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/resources/" >Resources</a>
-          </li>
-          
-          
-          
-        </ul>
-      </nav>
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-    </div>
-  </header>
-
-  <main class="site-content">
-    <div class="container">
-      <div class="tutorial-wrapper">
-  
-  <nav class="breadcrumbs">
-    <ol>
-      <li><a href="/">Home</a></li>
-      
-      <li><a href="/courses/">Courses</a></li>
-      <li>Chapter 12 &ndash; Capstone: Build a Word-Counter CLI</li>
-      
-    </ol>
-  </nav>
-  
-
-  <article class="tutorial">
-    <header class="tutorial-header">
-      <h1>
-        Chapter 12 &ndash; Capstone: Build a Word-Counter CLI
-        
-        <span class="difficulty difficulty-beginner">Beginner</span>
-        
-      </h1>
-      
-      
-      
-      
-      
-      
-      <div class="tutorial-meta">
-        
-        <div class="tutorial-author">
-          <div class="tutorial-author-avatar">
-            
-            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
-            
-          </div>
-          <div class="tutorial-author-text">
-            <div class="tutorial-author-name">
-              Pankaj Doharey
-            </div>
-            
-            <time datetime="2026-02-17" class="tutorial-date">
-              February 17, 2026
-            </time>
-            
-          </div>
-        </div>
-        
-
-        
-      </div>
-      
-      
-      <p class="tutorial-summary">Tie the whole course together &mdash; functions, dicts, comprehensions, exceptions, and string methods &mdash; by building a text-analysis tool step by step on a bundled sample text.</p>
-      
-    </header>
-
-    
-    <div class="tutorial-content">
-      <div class='markdown'><p>Time to put eleven chapters to work. We'll build a small <strong>text-analysis tool</strong> &mdash; the kind of script that counts words, finds the most frequent ones, and prints a tidy report. A real CLI version would read a file passed on the command line; here in the browser, our "input file" is a bundled sample text, and <code>print</code> is our interface. The logic is identical.</p>
-<p>Every step reuses something you already know: string methods (ch5), dicts (ch7), comprehensions (ch8), exceptions (ch9), the standard library (ch10), and functions to glue it together (ch4).</p>
-<h3>Step 0: the sample text</h3>
-<p>Our corpus is a few paragraphs about computing pioneers. In a file-based version this would come from <code>open("sample.txt").read()</code> &mdash; everything below works unchanged on that string.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">SAMPLE_TEXT = &quot;&quot;&quot;
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 12 &ndash; Capstone: Build a Word-Counter CLI - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339371"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 12 &ndash; Capstone: Build a Word-Counter CLI</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 12 &ndash; Capstone: Build a Word-Counter CLI <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2026-02-17" class="tutorial-date"> February 17, 2026 </time></div></div></div><p class="tutorial-summary">Tie the whole course together &mdash; functions, dicts, comprehensions, exceptions, and string methods &mdash; by building a text-analysis tool step by step on a bundled sample text.</p></header><div class="tutorial-content"><div class='markdown'><p>Time to put eleven chapters to work. We'll build a small <strong>text-analysis tool</strong> &mdash; the kind of script that counts words, finds the most frequent ones, and prints a tidy report. A real CLI version would read a file passed on the command line; here in the browser, our "input file" is a bundled sample text, and <code>print</code> is our interface. The logic is identical. Every step reuses something you already know: string methods (ch5), dicts (ch7), comprehensions (ch8), exceptions (ch9), the standard library (ch10), and functions to glue it together (ch4). <h3>Step 0: the sample text</h3> Our corpus is a few paragraphs about computing pioneers. In a file-based version this would come from <code>open("sample.txt").read()</code> &mdash; everything below works unchanged on that string. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">SAMPLE_TEXT = &quot;&quot;&quot;
 Ada Lovelace wrote the first algorithm intended for a machine,
 the Analytical Engine, and saw what others missed: that numbers
 could represent music, images, and ideas.
@@ -279,22 +13,8 @@ the Turing machine, simple enough to reason about, powerful enough
 to compute anything computable.
 &quot;&quot;&quot;
 
-print(f&quot;{len(SAMPLE_TEXT)} characters loaded&quot;)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Step 1: tokenize</h3>
-<p>Turn raw text into a list of clean words: lowercase it, strip punctuation from the edges, drop anything empty. All Chapter 5 material.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import string
+print(f&quot;{len(SAMPLE_TEXT)} characters loaded&quot;)
+      </code></pre></div></div></div><h3>Step 1: tokenize</h3> Turn raw text into a list of clean words: lowercase it, strip punctuation from the edges, drop anything empty. All Chapter 5 material. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import string
 
 def tokenize(text):
     &quot;&quot;&quot;Split text into lowercase words with edge punctuation removed.&quot;&quot;&quot;
@@ -307,22 +27,8 @@ def tokenize(text):
 
 tokens = tokenize(SAMPLE_TEXT)
 print(len(tokens), &quot;tokens&quot;)
-print(tokens[:12])</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Step 2: count frequencies</h3>
-<p>A dict maps each word to its count &mdash; Chapter 7's core pattern, upgraded with <code>Counter</code> from Chapter 10. We'll show both, but keep the plain-dict version as our implementation so the mechanics stay visible.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def count_words(tokens):
+print(tokens[:12])
+      </code></pre></div></div></div><h3>Step 2: count frequencies</h3> A dict maps each word to its count &mdash; Chapter 7's core pattern, upgraded with <code>Counter</code> from Chapter 10. We'll show both, but keep the plain-dict version as our implementation so the mechanics stay visible. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def count_words(tokens):
     &quot;&quot;&quot;Return a dict mapping each token to its frequency.&quot;&quot;&quot;
     counts = {}
     for word in tokens:
@@ -332,22 +38,8 @@ print(tokens[:12])</code></pre>
 counts = count_words(tokens)
 print(len(counts), &quot;unique words&quot;)
 print(&quot;machine:&quot;, counts[&quot;machine&quot;])
-print(&quot;first:&quot;, counts[&quot;first&quot;])</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Step 3: the report helpers</h3>
-<p>Small functions, each doing one job &mdash; and each testable in one line. Notice the comprehension from Chapter 8 doing the heavy lifting in <code>top_words</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def top_words(counts, n=5):
+print(&quot;first:&quot;, counts[&quot;first&quot;])
+      </code></pre></div></div></div><h3>Step 3: the report helpers</h3> Small functions, each doing one job &mdash; and each testable in one line. Notice the comprehension from Chapter 8 doing the heavy lifting in <code>top_words</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def top_words(counts, n=5):
     &quot;&quot;&quot;Return the n most common (word, count) pairs, ties alphabetical.&quot;&quot;&quot;
     ranked = sorted(counts.items(), key=lambda kv: (-kv[1], kv[0]))
     return ranked[:n]
@@ -366,22 +58,8 @@ def stats(tokens, counts):
 
 print(top_words(counts, 5))
 print(longest_words(counts, 5))
-print(stats(tokens, counts))</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Step 4: guard the edges</h3>
-<p>Real input is hostile: empty strings, whitespace-only files. Chapter 9's answer &mdash; raise a clear error early, handle it at the boundary.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def analyze(text):
+print(stats(tokens, counts))
+      </code></pre></div></div></div><h3>Step 4: guard the edges</h3> Real input is hostile: empty strings, whitespace-only files. Chapter 9's answer &mdash; raise a clear error early, handle it at the boundary. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def analyze(text):
     &quot;&quot;&quot;Analyze text and return (stats, top, longest). Raises ValueError on empty input.&quot;&quot;&quot;
     tokens = tokenize(text)
     if not tokens:
@@ -395,22 +73,8 @@ for sample in [SAMPLE_TEXT, &quot;   \n  &quot;, &quot;!!! ???&quot;]:
         s, top, long_ = analyze(sample)
         print(&quot;ok:&quot;, s[&quot;total_words&quot;], &quot;words&quot;)
     except ValueError as err:
-        print(f&quot;rejected input: {err}&quot;)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Step 5: format the report</h3>
-<p>F-strings from Chapter 5 make the output something you'd actually show a user &mdash; aligned columns and a bar chart drawn with <code>"#" * n</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def render_report(text, top_n=8):
+        print(f&quot;rejected input: {err}&quot;)
+      </code></pre></div></div></div><h3>Step 5: format the report</h3> F-strings from Chapter 5 make the output something you'd actually show a user &mdash; aligned columns and a bar chart drawn with <code>"#" * n</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def render_report(text, top_n=8):
     &quot;&quot;&quot;Print a formatted word-frequency report for the given text.&quot;&quot;&quot;
     s, top, long_ = analyze(text)
 
@@ -428,22 +92,8 @@ for sample in [SAMPLE_TEXT, &quot;   \n  &quot;, &quot;!!! ???&quot;]:
     print(&quot;-&quot; * 40)
     print(&quot;Longest:&quot;, &quot;, &quot;.join(long_[:5]))
 
-render_report(SAMPLE_TEXT)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>The complete tool, assembled</h3>
-<p>Here's everything in one cell &mdash; the shape your final <code>wordcount.py</code> file would have, <code>__main__</code> guard included (Chapter 10). Rerun it after tweaking any step above.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import string
+render_report(SAMPLE_TEXT)
+      </code></pre></div></div></div><h3>The complete tool, assembled</h3> Here's everything in one cell &mdash; the shape your final <code>wordcount.py</code> file would have, <code>__main__</code> guard included (Chapter 10). Rerun it after tweaking any step above. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import string
 
 def tokenize(text):
     words = []
@@ -479,98 +129,26 @@ def main():
         print(f&quot;error: {err}&quot;)
 
 if __name__ == &quot;__main__&quot;:
-    main()</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>To turn this into a true CLI on your own machine: replace <code>SAMPLE_TEXT</code> with <code>open(sys.argv[1]).read()</code> wrapped in a <code>try</code>/<code>except FileNotFoundError</code>, and you have a real tool.</p>
-<h3>Where to go next</h3>
-<p>You've completed Python Basics! Natural next steps:</p>
-<ul>
-<li>The <strong><a href="/courses/machine-learning/">Machine Learning course</a></strong> &mdash; put your Python to work on data, from first principles up to how large language models function.</li>
-<li>The standard library docs &mdash; revisit <code>pathlib</code>, <code>csv</code>, <code>re</code>, and <code>argparse</code> to make this tool production-grade.</li>
-<li>Practice sites like Exercism or the "Python Crash Course" problem sets &mdash; fluency comes from reps.</li>
-</ul>
-<h3>Practice checklist</h3>
-<ul>
-<li>[ ] Tokenize text with punctuation stripped and lowercase applied.</li>
-<li>[ ] Count word frequencies with a dict and <code>get</code>.</li>
-<li>[ ] Sort (word, count) pairs by frequency, breaking ties alphabetically.</li>
-<li>[ ] Raise and catch a <code>ValueError</code> for empty input.</li>
-<li>[ ] Format an aligned report with f-strings and a <code>#</code> bar chart.</li>
-</ul>
-<h4>Practice 1 - Your own corpus</h4>
-<p><strong>Goal:</strong> Run the tool on new text.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">my_text = &quot;&quot;&quot;
+    main()
+      </code></pre></div></div></div> To turn this into a true CLI on your own machine: replace <code>SAMPLE_TEXT</code> with <code>open(sys.argv[1]).read()</code> wrapped in a <code>try</code>/<code>except FileNotFoundError</code>, and you have a real tool. <h3>Where to go next</h3> You've completed Python Basics! Natural next steps: <ul><li>The <strong><a href="/courses/machine-learning/">Machine Learning course</a></strong> &mdash; put your Python to work on data, from first principles up to how large language models function.</li><li>The standard library docs &mdash; revisit <code>pathlib</code>, <code>csv</code>, <code>re</code>, and <code>argparse</code> to make this tool production-grade.</li><li>Practice sites like Exercism or the "Python Crash Course" problem sets &mdash; fluency comes from reps.</li></ul><h3>Practice checklist</h3><ul><li>[ ] Tokenize text with punctuation stripped and lowercase applied.</li><li>[ ] Count word frequencies with a dict and <code>get</code>.</li><li>[ ] Sort (word, count) pairs by frequency, breaking ties alphabetically.</li><li>[ ] Raise and catch a <code>ValueError</code> for empty input.</li><li>[ ] Format an aligned report with f-strings and a <code>#</code> bar chart.</li></ul><h4>Practice 1 - Your own corpus</h4><strong>Goal:</strong> Run the tool on new text. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">my_text = &quot;&quot;&quot;
 Python is great. Ruby is great too. Is Python better?
 Better is a strong word; great is a friendly word.
 &quot;&quot;&quot;
 
 # TODO: Call analyze(my_text) (defined above), unpack the
 # three results, and print the stats dict plus the top 3
-# (word, count) pairs.</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h4>Practice 2 - Filter stop words</h4>
-<p><strong>Goal:</strong> Extend the pipeline.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">STOP = {&quot;the&quot;, &quot;a&quot;, &quot;an&quot;, &quot;and&quot;, &quot;is&quot;, &quot;of&quot;, &quot;to&quot;, &quot;in&quot;, &quot;it&quot;, &quot;for&quot;}
+# (word, count) pairs.
+      </code></pre></div></div></div><h4>Practice 2 - Filter stop words</h4><strong>Goal:</strong> Extend the pipeline. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">STOP = {&quot;the&quot;, &quot;a&quot;, &quot;an&quot;, &quot;and&quot;, &quot;is&quot;, &quot;of&quot;, &quot;to&quot;, &quot;in&quot;, &quot;it&quot;, &quot;for&quot;}
 
 # TODO: Write a version of the top-words report that ignores
 # words in STOP. Hint: build a filtered dict with a
 # comprehension - {w: n for w, n in counts.items() if w not in STOP}
-# - then reuse top_words(). Print the new top 5.</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h4>Practice 3 - Word-length histogram</h4>
-<p><strong>Goal:</strong> New aggregation with the same tools.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Build a dict mapping word length -&gt; how many tokens
+# - then reuse top_words(). Print the new top 5.
+      </code></pre></div></div></div><h4>Practice 3 - Word-length histogram</h4><strong>Goal:</strong> New aggregation with the same tools. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec"># TODO: Build a dict mapping word length -&gt; how many tokens
 # have that length (use `tokens` from step 1). Print it as
 # a histogram sorted by length:
-#   3: ########  (8 words of length 3)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h4>Practice 4 - Compare two texts</h4>
-<p><strong>Goal:</strong> Sets meet the analyzer.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">text_b = &quot;&quot;&quot;
+#   3: ########  (8 words of length 3)
+      </code></pre></div></div></div><h4>Practice 4 - Compare two texts</h4><strong>Goal:</strong> Sets meet the analyzer. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">text_b = &quot;&quot;&quot;
 Katherine Johnson computed trajectories by hand and by machine,
 checking the computers that checked her. Mathematics sent
 astronauts around the machine of orbital mechanics.
@@ -580,239 +158,8 @@ astronauts around the machine of orbital mechanics.
 # a set of unique words, and print:
 # - words appearing in BOTH texts
 # - words unique to text_b
-# sorted alphabetically.</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Congratulations &mdash; you built a real tool from scratch. See you in the Machine Learning course!</p></div>
-    </div>
-
-    
-    <nav class="tutorial-nav">
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/python-classes/">
-        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-        <span>Chapter 11: Classes and Objects</span>
-      </a>
-      
-      
-    </nav>
-    
-
-    
-    <div class="related-tutorials">
-      <h2>Related Tutorials</h2>
-      <ul>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/python-basics/python-dicts-sets/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Dictionaries and Sets</span>
-          </a>
-        </li>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/python-basics/python-strings/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Strings in Python</span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-  </article>
-
-  
-
-  
-  <div class="python-console-drawer">
-    <button class="python-console-toggle" type="button" aria-expanded="false">
-      <span class="python-console-toggle-label">Python console</span>
-      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
-    </button>
-    <div class="python-console-body">
-      <div class="python-repl" data-python-console="true">
-        <div class="python-repl-output" aria-live="polite"></div>
-        <form class="python-repl-form">
-          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
-          <div class="python-repl-input-wrapper">
-            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
-              rows="1"></textarea>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-about">
-          <h3>Ruby Learning</h3>
-          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
-        </div>
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          
-          
-          <ul>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/" >Home</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/about/" >About</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/python-basics/" >Learn Python</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/machine-learning/" >Learn ML</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/image-generation/" >Learn Image AI</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/blog/" >Blog</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/resources/" >Resources</a>
-            </li>
-            
-            
-          </ul>
-        </div>
-        <div class="footer-resources">
-          <h3>Ruby Resources</h3>
-          
-          <ul>
-            
-            
-            
-            
-            
-            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-            
-            
-            
-            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-            
-            
-            
-            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-            
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>
-          &copy; 2026 Ruby Learning.
-          Built with
-          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
-          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
-          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
-          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
-  
-  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
-  
-  
-
-  <script>
+# sorted alphabetically.
+      </code></pre></div></div></div> Congratulations &mdash; you built a real tool from scratch. See you in the Machine Learning course! </p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/python-classes/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 11: Classes and Objects</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/python-basics/python-dicts-sets/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Dictionaries and Sets</span></a></li><li><a href="/courses/python-basics/python-strings/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Strings in Python</span></a></li></ul></div></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785339371"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339371"></script><script src="/themes/pylearning/js/site.js?v=1785339371"></script><script src="/themes/pylearning/js/python-plot.js?v=1785339371"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339371"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785339371"></script><script src="/themes/pylearning/js/python-console.js?v=1785339371"></script><script src="/themes/pylearning/js/python-exec.js?v=1785339371"></script><script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -823,13 +170,6 @@ astronauts around the machine of orbital mechanics.
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script>
-
-  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
-  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
-  <script>
+  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785339371"></script><script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script>
-</body>
-
-</html>
+  </script></body></html>

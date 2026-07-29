@@ -1,0 +1,826 @@
+[
+  {
+    "title": "About",
+    "description": null,
+    "permalink": "/pages/about/",
+    "url": "https://rubylearning.in/pages/about/",
+    "date": "2025-03-17",
+    "tags": []
+  },
+  {
+    "title": "Ruby & Rails Blog",
+    "description": "Fresh lessons, tips, and project write-ups for Ruby and Ruby on Rails developers.",
+    "permalink": "/blog/",
+    "url": "https://rubylearning.in/blog/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Courses",
+    "description": "Browse structured courses across Ruby and other languages.",
+    "permalink": "/courses/",
+    "url": "https://rubylearning.in/courses/",
+    "date": "2026-07-24",
+    "tags": []
+  },
+  {
+    "title": "Home",
+    "description": "Learn Ruby step-by-step with runnable examples, curated lessons, and community-driven resources.",
+    "permalink": "/",
+    "url": "https://rubylearning.in/",
+    "date": "2025-03-17",
+    "tags": []
+  },
+  {
+    "title": "Mentorship Programme",
+    "description": null,
+    "permalink": "/pages/mentorship/",
+    "url": "https://rubylearning.in/pages/mentorship/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 17 &ndash; Attention & Transformers",
+    "description": null,
+    "permalink": "/courses/machine-learning/attention-and-transformers/",
+    "url": "https://rubylearning.in/courses/machine-learning/attention-and-transformers/",
+    "date": "2026-03-17",
+    "tags": []
+  },
+  {
+    "title": "Chapter 3 &ndash; Autoencoders",
+    "description": null,
+    "permalink": "/courses/image-generation/autoencoders/",
+    "url": "https://rubylearning.in/courses/image-generation/autoencoders/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 21 &ndash; Backpropagation by Hand",
+    "description": null,
+    "permalink": "/courses/machine-learning/backpropagation-by-hand/",
+    "url": "https://rubylearning.in/courses/machine-learning/backpropagation-by-hand/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 19 &ndash; Building a Mini-GPT from Scratch",
+    "description": null,
+    "permalink": "/courses/machine-learning/build-a-mini-gpt/",
+    "url": "https://rubylearning.in/courses/machine-learning/build-a-mini-gpt/",
+    "date": "2026-03-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 1 &ndash; Convolutions & CNNs from Scratch",
+    "description": null,
+    "permalink": "/courses/image-generation/convolutions-cnns-from-scratch/",
+    "url": "https://rubylearning.in/courses/image-generation/convolutions-cnns-from-scratch/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 6 &ndash; Diffusion Models: DDPM from First Principles",
+    "description": null,
+    "permalink": "/courses/image-generation/ddpm-from-first-principles/",
+    "url": "https://rubylearning.in/courses/image-generation/ddpm-from-first-principles/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 10 &ndash; Decision Trees",
+    "description": null,
+    "permalink": "/courses/machine-learning/decision-trees/",
+    "url": "https://rubylearning.in/courses/machine-learning/decision-trees/",
+    "date": "2026-02-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 7 &ndash; Diffusion Models from Scratch: Sprite Training",
+    "description": null,
+    "permalink": "/courses/image-generation/diffusion-models-from-scratch/",
+    "url": "https://rubylearning.in/courses/image-generation/diffusion-models-from-scratch/",
+    "date": "2026-04-07",
+    "tags": []
+  },
+  {
+    "title": "Chapter 7 &ndash; Evaluating Classification Models",
+    "description": null,
+    "permalink": "/courses/machine-learning/evaluating-classification-models/",
+    "url": "https://rubylearning.in/courses/machine-learning/evaluating-classification-models/",
+    "date": "2026-02-06",
+    "tags": []
+  },
+  {
+    "title": "Chapter 5 &ndash; GANs: A Generator and a Critic",
+    "description": null,
+    "permalink": "/courses/image-generation/gans-from-scratch/",
+    "url": "https://rubylearning.in/courses/image-generation/gans-from-scratch/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Generalization & Regularization",
+    "description": null,
+    "permalink": "/courses/machine-learning/generalization-and-regularization/",
+    "url": "https://rubylearning.in/courses/machine-learning/generalization-and-regularization/",
+    "date": "2026-02-08",
+    "tags": []
+  },
+  {
+    "title": "Chapter 5 &ndash; Gradient Descent",
+    "description": null,
+    "permalink": "/courses/machine-learning/gradient-descent/",
+    "url": "https://rubylearning.in/courses/machine-learning/gradient-descent/",
+    "date": "2026-01-27",
+    "tags": []
+  },
+  {
+    "title": "Chapter 18 &ndash; How LLMs Work",
+    "description": null,
+    "permalink": "/courses/machine-learning/how-llms-work/",
+    "url": "https://rubylearning.in/courses/machine-learning/how-llms-work/",
+    "date": "2026-03-24",
+    "tags": []
+  },
+  {
+    "title": "Chapter 14 &ndash; K-Means Clustering",
+    "description": null,
+    "permalink": "/courses/machine-learning/k-means-clustering/",
+    "url": "https://rubylearning.in/courses/machine-learning/k-means-clustering/",
+    "date": "2026-02-24",
+    "tags": []
+  },
+  {
+    "title": "Chapter 9 &ndash; K-Nearest Neighbors",
+    "description": null,
+    "permalink": "/courses/machine-learning/k-nearest-neighbors/",
+    "url": "https://rubylearning.in/courses/machine-learning/k-nearest-neighbors/",
+    "date": "2026-02-12",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Latent Diffusion & Super-Resolution",
+    "description": null,
+    "permalink": "/courses/image-generation/latent-diffusion/",
+    "url": "https://rubylearning.in/courses/image-generation/latent-diffusion/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 4 &ndash; Linear Regression from Scratch",
+    "description": null,
+    "permalink": "/courses/machine-learning/linear-regression-from-scratch/",
+    "url": "https://rubylearning.in/courses/machine-learning/linear-regression-from-scratch/",
+    "date": "2026-01-20",
+    "tags": []
+  },
+  {
+    "title": "Chapter 6 &ndash; Logistic Regression & Classification",
+    "description": null,
+    "permalink": "/courses/machine-learning/logistic-regression-classification/",
+    "url": "https://rubylearning.in/courses/machine-learning/logistic-regression-classification/",
+    "date": "2026-02-03",
+    "tags": []
+  },
+  {
+    "title": "Chapter 21 &ndash; MNIST: Recognizing Handwritten Digits",
+    "description": null,
+    "permalink": "/courses/machine-learning/mnist-handwritten-digits/",
+    "url": "https://rubylearning.in/courses/machine-learning/mnist-handwritten-digits/",
+    "date": "2026-04-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 13 &ndash; Naive Bayes",
+    "description": null,
+    "permalink": "/courses/machine-learning/naive-bayes/",
+    "url": "https://rubylearning.in/courses/machine-learning/naive-bayes/",
+    "date": "2026-02-21",
+    "tags": []
+  },
+  {
+    "title": "Chapter 15 &ndash; Neural Networks from Scratch",
+    "description": null,
+    "permalink": "/courses/machine-learning/neural-networks-from-scratch/",
+    "url": "https://rubylearning.in/courses/machine-learning/neural-networks-from-scratch/",
+    "date": "2026-03-03",
+    "tags": []
+  },
+  {
+    "title": "Chapter 3 &ndash; Preparing Data for Machine Learning",
+    "description": null,
+    "permalink": "/courses/machine-learning/preparing-data-for-machine-learning/",
+    "url": "https://rubylearning.in/courses/machine-learning/preparing-data-for-machine-learning/",
+    "date": "2026-01-16",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; Python for ML",
+    "description": null,
+    "permalink": "/courses/machine-learning/python-for-ml/",
+    "url": "https://rubylearning.in/courses/machine-learning/python-for-ml/",
+    "date": "2026-01-13",
+    "tags": []
+  },
+  {
+    "title": "Chapter 11 &ndash; Random Forests",
+    "description": null,
+    "permalink": "/courses/machine-learning/random-forests/",
+    "url": "https://rubylearning.in/courses/machine-learning/random-forests/",
+    "date": "2026-02-17",
+    "tags": []
+  },
+  {
+    "title": "Chapter 12 &ndash; Support Vector Machines",
+    "description": null,
+    "permalink": "/courses/machine-learning/support-vector-machines/",
+    "url": "https://rubylearning.in/courses/machine-learning/support-vector-machines/",
+    "date": "2026-02-19",
+    "tags": []
+  },
+  {
+    "title": "Chapter 16 &ndash; Text Embeddings",
+    "description": null,
+    "permalink": "/courses/machine-learning/text-embeddings/",
+    "url": "https://rubylearning.in/courses/machine-learning/text-embeddings/",
+    "date": "2026-03-10",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; Training Tricks: Initialization, Normalization, ResNets",
+    "description": null,
+    "permalink": "/courses/image-generation/training-tricks/",
+    "url": "https://rubylearning.in/courses/image-generation/training-tricks/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 4 &ndash; U-Net: The Workhorse of Image Models",
+    "description": null,
+    "permalink": "/courses/image-generation/unet/",
+    "url": "https://rubylearning.in/courses/image-generation/unet/",
+    "date": "2026-07-29",
+    "tags": []
+  },
+  {
+    "title": "Chapter 1 &ndash; What is Machine Learning",
+    "description": null,
+    "permalink": "/courses/machine-learning/what-is-machine-learning/",
+    "url": "https://rubylearning.in/courses/machine-learning/what-is-machine-learning/",
+    "date": "2026-01-06",
+    "tags": []
+  },
+  {
+    "title": "Chapter 1 &ndash; Introduction to Python",
+    "description": null,
+    "permalink": "/courses/python-basics/intro-to-python/",
+    "url": "https://rubylearning.in/courses/python-basics/intro-to-python/",
+    "date": "2025-12-02",
+    "tags": []
+  },
+  {
+    "title": "Chapter 12 &ndash; Capstone: Build a Word-Counter CLI",
+    "description": null,
+    "permalink": "/courses/python-basics/python-basics-project/",
+    "url": "https://rubylearning.in/courses/python-basics/python-basics-project/",
+    "date": "2026-02-17",
+    "tags": []
+  },
+  {
+    "title": "Chapter 11 &ndash; Classes and Objects",
+    "description": null,
+    "permalink": "/courses/python-basics/python-classes/",
+    "url": "https://rubylearning.in/courses/python-basics/python-classes/",
+    "date": "2026-02-10",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Comprehensions and Iteration",
+    "description": null,
+    "permalink": "/courses/python-basics/python-comprehensions/",
+    "url": "https://rubylearning.in/courses/python-basics/python-comprehensions/",
+    "date": "2026-01-20",
+    "tags": []
+  },
+  {
+    "title": "Chapter 3 &ndash; Control Flow in Python",
+    "description": null,
+    "permalink": "/courses/python-basics/python-control-flow/",
+    "url": "https://rubylearning.in/courses/python-basics/python-control-flow/",
+    "date": "2025-12-16",
+    "tags": []
+  },
+  {
+    "title": "Chapter 7 &ndash; Dictionaries and Sets",
+    "description": null,
+    "permalink": "/courses/python-basics/python-dicts-sets/",
+    "url": "https://rubylearning.in/courses/python-basics/python-dicts-sets/",
+    "date": "2026-01-13",
+    "tags": []
+  },
+  {
+    "title": "Chapter 9 &ndash; Files and Exceptions",
+    "description": null,
+    "permalink": "/courses/python-basics/python-files-exceptions/",
+    "url": "https://rubylearning.in/courses/python-basics/python-files-exceptions/",
+    "date": "2026-01-27",
+    "tags": []
+  },
+  {
+    "title": "Chapter 4 &ndash; Functions in Python",
+    "description": null,
+    "permalink": "/courses/python-basics/python-functions/",
+    "url": "https://rubylearning.in/courses/python-basics/python-functions/",
+    "date": "2025-12-23",
+    "tags": []
+  },
+  {
+    "title": "Chapter 6 &ndash; Lists and Tuples",
+    "description": null,
+    "permalink": "/courses/python-basics/python-lists-tuples/",
+    "url": "https://rubylearning.in/courses/python-basics/python-lists-tuples/",
+    "date": "2026-01-06",
+    "tags": []
+  },
+  {
+    "title": "Chapter 10 &ndash; Modules and the Standard Library",
+    "description": null,
+    "permalink": "/courses/python-basics/python-modules/",
+    "url": "https://rubylearning.in/courses/python-basics/python-modules/",
+    "date": "2026-02-03",
+    "tags": []
+  },
+  {
+    "title": "Chapter 5 &ndash; Strings in Python",
+    "description": null,
+    "permalink": "/courses/python-basics/python-strings/",
+    "url": "https://rubylearning.in/courses/python-basics/python-strings/",
+    "date": "2025-12-30",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; Variables in Python",
+    "description": null,
+    "permalink": "/courses/python-basics/python-variables/",
+    "url": "https://rubylearning.in/courses/python-basics/python-variables/",
+    "date": "2025-12-09",
+    "tags": []
+  },
+  {
+    "title": "Rails track",
+    "description": "A project-driven path for learning Ruby on Rails through modern tooling and real-world practice.",
+    "permalink": "/rails/",
+    "url": "https://rubylearning.in/rails/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Ruby Learning Resources",
+    "description": "Curated references, courses, and communities for becoming confident with Ruby and Ruby on Rails.",
+    "permalink": "/pages/resources/",
+    "url": "https://rubylearning.in/pages/resources/",
+    "date": "2025-03-17",
+    "tags": []
+  },
+  {
+    "title": "Ruby track",
+    "description": "Curated guidance for mastering Ruby fundamentals with structured notes and hands-on practice.",
+    "permalink": "/ruby/",
+    "url": "https://rubylearning.in/ruby/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Diagram Testing",
+    "description": null,
+    "permalink": "/test-diagrams/",
+    "url": "https://rubylearning.in/test-diagrams/",
+    "date": "2025-11-25",
+    "tags": []
+  },
+  {
+    "title": "Test Ruby Exec",
+    "description": null,
+    "permalink": "/test-ruby-exec/",
+    "url": "https://rubylearning.in/test-ruby-exec/",
+    "date": "2025-11-23",
+    "tags": []
+  },
+  {
+    "title": "Test Socket Polyfill",
+    "description": null,
+    "permalink": "/pages/test-socket/",
+    "url": "https://rubylearning.in/pages/test-socket/",
+    "date": "2025-11-28",
+    "tags": []
+  },
+  {
+    "title": "Chapter 4 &ndash; Classes & objects",
+    "description": null,
+    "permalink": "/courses/ruby-basics/classes-and-objects/",
+    "url": "https://rubylearning.in/courses/ruby-basics/classes-and-objects/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 36 &ndash; Duck Typing",
+    "description": null,
+    "permalink": "/courses/ruby-basics/duck-typing/",
+    "url": "https://rubylearning.in/courses/ruby-basics/duck-typing/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 6 &ndash; Files, gems & next steps",
+    "description": null,
+    "permalink": "/courses/ruby-basics/files-gems-next-steps/",
+    "url": "https://rubylearning.in/courses/ruby-basics/files-gems-next-steps/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 3 &ndash; First Ruby Program",
+    "description": null,
+    "permalink": "/courses/ruby-basics/first-ruby-program/",
+    "url": "https://rubylearning.in/courses/ruby-basics/first-ruby-program/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; Flow control & collections",
+    "description": null,
+    "permalink": "/courses/ruby-basics/flow-control-collections/",
+    "url": "https://rubylearning.in/courses/ruby-basics/flow-control-collections/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 6 &ndash; Fun with Strings",
+    "description": null,
+    "permalink": "/courses/ruby-basics/fun-with-strings/",
+    "url": "https://rubylearning.in/courses/ruby-basics/fun-with-strings/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 9 &ndash; Getting Input",
+    "description": null,
+    "permalink": "/courses/ruby-basics/getting-input/",
+    "url": "https://rubylearning.in/courses/ruby-basics/getting-input/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 27 &ndash; Including Other Files",
+    "description": null,
+    "permalink": "/courses/ruby-basics/including-other-files/",
+    "url": "https://rubylearning.in/courses/ruby-basics/including-other-files/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 2 &ndash; Modern Ruby Installation Guide",
+    "description": null,
+    "permalink": "/courses/ruby-basics/installation-setup/",
+    "url": "https://rubylearning.in/courses/ruby-basics/installation-setup/",
+    "date": "2025-11-05",
+    "tags": []
+  },
+  {
+    "title": "Chapter 1 &ndash; Meet Ruby",
+    "description": null,
+    "permalink": "/courses/ruby-basics/meet-ruby/",
+    "url": "https://rubylearning.in/courses/ruby-basics/meet-ruby/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 3 &ndash; Methods & blocks",
+    "description": null,
+    "permalink": "/courses/ruby-basics/methods-and-blocks/",
+    "url": "https://rubylearning.in/courses/ruby-basics/methods-and-blocks/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 40 &ndash; Modules & Mixins",
+    "description": null,
+    "permalink": "/courses/ruby-basics/modules-and-mixins/",
+    "url": "https://rubylearning.in/courses/ruby-basics/modules-and-mixins/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 11 &ndash; More on Ruby Methods",
+    "description": null,
+    "permalink": "/courses/ruby-basics/more-on-ruby-methods/",
+    "url": "https://rubylearning.in/courses/ruby-basics/more-on-ruby-methods/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 14 &ndash; More on Strings",
+    "description": null,
+    "permalink": "/courses/ruby-basics/more-on-strings/",
+    "url": "https://rubylearning.in/courses/ruby-basics/more-on-strings/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 38 &ndash; Mutable vs Immutable Objects",
+    "description": null,
+    "permalink": "/courses/ruby-basics/mutable-and-immutable-objects/",
+    "url": "https://rubylearning.in/courses/ruby-basics/mutable-and-immutable-objects/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 5 &ndash; Numbers in Ruby",
+    "description": null,
+    "permalink": "/courses/ruby-basics/numbers-in-ruby/",
+    "url": "https://rubylearning.in/courses/ruby-basics/numbers-in-ruby/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 39 &ndash; Object Serialization (Marshal)",
+    "description": null,
+    "permalink": "/courses/ruby-basics/object-serialization/",
+    "url": "https://rubylearning.in/courses/ruby-basics/object-serialization/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Super Fast Ruby Intro (40 minutes)",
+    "description": null,
+    "permalink": "/courses/ruby-basics/quick-intro/",
+    "url": "https://rubylearning.in/courses/ruby-basics/quick-intro/",
+    "date": "2025-11-16",
+    "tags": []
+  },
+  {
+    "title": "Chapter R3 &ndash; Rails Hotwire feedback",
+    "description": null,
+    "permalink": "/courses/ruby-basics/rails-hotwire-feedback/",
+    "url": "https://rubylearning.in/courses/ruby-basics/rails-hotwire-feedback/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter R1 &ndash; Rails project setup",
+    "description": null,
+    "permalink": "/courses/ruby-basics/rails-project-setup/",
+    "url": "https://rubylearning.in/courses/ruby-basics/rails-project-setup/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter R2 &ndash; Rails routes & controllers",
+    "description": null,
+    "permalink": "/courses/ruby-basics/rails-routes-controllers/",
+    "url": "https://rubylearning.in/courses/ruby-basics/rails-routes-controllers/",
+    "date": "2025-10-31",
+    "tags": []
+  },
+  {
+    "title": "Chapter 22 &ndash; Read/Write Text Files",
+    "description": null,
+    "permalink": "/courses/ruby-basics/read-write-files/",
+    "url": "https://rubylearning.in/courses/ruby-basics/read-write-files/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 32 &ndash; Ruby Access Control",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-access-control/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-access-control/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 17 &ndash; Ruby Arrays",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-arrays/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-arrays/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 16 &ndash; Ruby Blocks",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-blocks/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-blocks/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 42 &ndash; Ruby Constants",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-constants/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-constants/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 33 &ndash; Ruby Exceptions",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-exceptions/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-exceptions/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 4 &ndash; Ruby Features",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-features/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-features/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 20 &ndash; Ruby Hashes",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-hashes/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-hashes/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 29 &ndash; Ruby Inheritance",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-inheritance/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-inheritance/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 34 &ndash; Ruby Logging",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-logging/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-logging/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 25 &ndash; Ruby `method_missing`",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-method-missing/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-method-missing/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 10 &ndash; Ruby Names",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-names/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-names/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 28 &ndash; Ruby Open Classes",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-open-classes/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-open-classes/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 31 &ndash; \"Overloading\" Methods the Ruby Way",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-overloading-methods/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-overloading-methods/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 30 &ndash; Overriding Methods",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-overriding-methods/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-overriding-methods/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 26 &ndash; Ruby Procs & Lambdas",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-procs/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-procs/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 21 &ndash; Ruby Random Numbers",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-random-numbers/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-random-numbers/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 18 &ndash; Ruby Ranges",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-ranges/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-ranges/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 23 &ndash; Ruby Regular Expressions",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-regular-expressions/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-regular-expressions/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 13 &ndash; Ruby `ri` Tool",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-ri-tool/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-ri-tool/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 41 &ndash; Understanding `self`",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-self/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-self/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 43 &ndash; Socket Programming & Threads",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-socket-programming/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-socket-programming/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 19 &ndash; Ruby Symbols",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-symbols/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-symbols/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 37 &ndash; Ruby Syntactic Sugar",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-syntactic-sugar/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-syntactic-sugar/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 35 &ndash; Ruby `Time` Class",
+    "description": null,
+    "permalink": "/courses/ruby-basics/ruby-time-class/",
+    "url": "https://rubylearning.in/courses/ruby-basics/ruby-time-class/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 8 &ndash; Scope",
+    "description": null,
+    "permalink": "/courses/ruby-basics/scope/",
+    "url": "https://rubylearning.in/courses/ruby-basics/scope/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 15 &ndash; Simple Constructs",
+    "description": null,
+    "permalink": "/courses/ruby-basics/simple-constructs/",
+    "url": "https://rubylearning.in/courses/ruby-basics/simple-constructs/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 7 &ndash; Variables & Assignment",
+    "description": null,
+    "permalink": "/courses/ruby-basics/variables-and-assignment/",
+    "url": "https://rubylearning.in/courses/ruby-basics/variables-and-assignment/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 24 &ndash; Writing Our Own Class",
+    "description": null,
+    "permalink": "/courses/ruby-basics/writing-our-own-class/",
+    "url": "https://rubylearning.in/courses/ruby-basics/writing-our-own-class/",
+    "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Chapter 12 &ndash; Writing Your Own Ruby Methods",
+    "description": null,
+    "permalink": "/courses/ruby-basics/writing-own-ruby-methods/",
+    "url": "https://rubylearning.in/courses/ruby-basics/writing-own-ruby-methods/",
+    "date": "2025-11-14",
+    "tags": []
+  }
+]

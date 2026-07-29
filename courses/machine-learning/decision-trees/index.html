@@ -1,270 +1,4 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 10 &ndash; Decision Trees - Ruby Learning</title>
-  <meta name="description" content="A beautiful static website for learning Ruby">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  
-  
-  
-
-  
-
-  
-  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
-
-  <!-- Modern fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
-
-  <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
-  
-
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="site-logo">
-        
-        <span class="logo-icon logo-icon-python" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
-            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
-          </svg>
-        </span>
-        <span class="logo-text">Python</span>
-        
-        <span class="logo-accent">Learning</span>
-      </a>
-      <nav class="site-nav">
-        
-        
-        <ul>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/" >Home</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/about/" >About</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/python-basics/" >Learn Python</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li class="has-dropdown">
-            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
-            <ul class="dropdown-menu">
-              
-              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
-              
-              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
-              
-            </ul>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/" >Courses</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/mentorship/" >Mentorship</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/blog/" >Blog</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/resources/" >Resources</a>
-          </li>
-          
-          
-          
-        </ul>
-      </nav>
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-    </div>
-  </header>
-
-  <main class="site-content">
-    <div class="container">
-      <div class="tutorial-wrapper">
-  
-  <nav class="breadcrumbs">
-    <ol>
-      <li><a href="/">Home</a></li>
-      
-      <li><a href="/courses/">Courses</a></li>
-      <li>Chapter 10 &ndash; Decision Trees</li>
-      
-    </ol>
-  </nav>
-  
-
-  <article class="tutorial">
-    <header class="tutorial-header">
-      <h1>
-        Chapter 10 &ndash; Decision Trees
-        
-        <span class="difficulty difficulty-intermediate">Intermediate</span>
-        
-      </h1>
-      
-      
-      
-      
-      
-      
-      <div class="tutorial-meta">
-        
-        <div class="tutorial-author">
-          <div class="tutorial-author-avatar">
-            
-            <img src="/images/avatars/neerajdoharey.jpg" alt="Neeraj Doharey">
-            
-          </div>
-          <div class="tutorial-author-text">
-            <div class="tutorial-author-name">
-              Neeraj Doharey
-            </div>
-            
-            <time datetime="2026-02-14" class="tutorial-date">
-              February 14, 2026
-            </time>
-            
-          </div>
-        </div>
-        
-
-        
-      </div>
-      
-      
-      <p class="tutorial-summary">Learn splits with entropy and information gain, build a decision tree classifier recursively from scratch, and see why depth control prevents overfitting.</p>
-      
-    </header>
-
-    
-    <div class="tutorial-content">
-      <div class='markdown'><p>In Chapter 9: K-Nearest Neighbors the model was the data itself. A decision tree is the opposite extreme: it compresses the training set into a flowchart of yes/no questions. Should the bank approve this loan? Ask a handful of questions in sequence - income above 50k? employed for over a year? - and arrive at an answer. Trees are fast, need no feature scaling, and you can read them out loud, which is why they underpin both business rule engines and the random forests we build in Chapter 11: Random Forests.</p>
-<p>Everything here is pure Python. Save the snippets into one file, say <code>tree.py</code>, and run with <code>python3 tree.py</code>.</p>
-<h3>What a tree looks like</h3>
-<p>A tiny dataset: deciding whether to play tennis based on the weather. Each row is (outlook, temperature in C, windy) plus the decision.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># (outlook, temp_c, windy), decision
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 10 &ndash; Decision Trees - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339371"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 10 &ndash; Decision Trees</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 10 &ndash; Decision Trees <span class="difficulty difficulty-intermediate">Intermediate</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/neerajdoharey.jpg" alt="Neeraj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Neeraj Doharey </div><time datetime="2026-02-14" class="tutorial-date"> February 14, 2026 </time></div></div></div><p class="tutorial-summary">Learn splits with entropy and information gain, build a decision tree classifier recursively from scratch, and see why depth control prevents overfitting.</p></header><div class="tutorial-content"><div class='markdown'><p>In Chapter 9: K-Nearest Neighbors the model was the data itself. A decision tree is the opposite extreme: it compresses the training set into a flowchart of yes/no questions. Should the bank approve this loan? Ask a handful of questions in sequence - income above 50k? employed for over a year? - and arrive at an answer. Trees are fast, need no feature scaling, and you can read them out loud, which is why they underpin both business rule engines and the random forests we build in Chapter 11: Random Forests. Everything here is pure Python. Save the snippets into one file, say <code>tree.py</code>, and run with <code>python3 tree.py</code>. <h3>What a tree looks like</h3> A tiny dataset: deciding whether to play tennis based on the weather. Each row is (outlook, temperature in C, windy) plus the decision. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python"># (outlook, temp_c, windy), decision
 data = [
     (&quot;sunny&quot;,    30, False, &quot;no&quot;),
     (&quot;sunny&quot;,    32, True,  &quot;no&quot;),
@@ -276,13 +10,8 @@ data = [
     (&quot;sunny&quot;,    22, False, &quot;yes&quot;),
     (&quot;sunny&quot;,    26, True,  &quot;no&quot;),
     (&quot;rain&quot;,     24, False, &quot;yes&quot;),
-]</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>A decision tree learning algorithm asks: which single question best splits this data into purer groups? Maybe "is the temperature at most 29 degrees?" cuts off the scorching no-days in one shot. Then it recurses on each group until the groups are pure or we tell it to stop.</p>
-<div class="diagram-container mermaid-diagram">
-<div class="mermaid" id="mermaid-cc7da7bf">
+]
+      </code></pre></div></div></div> A decision tree learning algorithm asks: which single question best splits this data into purer groups? Maybe "is the temperature at most 29 degrees?" cuts off the scorching no-days in one shot. Then it recurses on each group until the groups are pure or we tell it to stop. <div class="diagram-container mermaid-diagram"><div class="mermaid" id="mermaid-cc7da7bf">
 graph TD
   A[is temp at most 29] -->|yes| B[is windy]
   A -->|no| C[play no]
@@ -290,24 +19,7 @@ graph TD
   B -->|yes| E[is outlook overcast]
   E -->|yes| F[play yes]
   E -->|no| G[play no]
-</div>
-<p class="diagram-caption">Figure 1: A small decision tree for the tennis data</p>
-</div>
-<h3>Impurity: entropy and gini</h3>
-<p>To pick the best question we need a number that says how "mixed" a group of labels is. Two standard measures exist.</p>
-<p><strong>Entropy</strong> comes from information theory. For a group with class proportions p1, p2, ... :</p>
-<p>entropy = - sum( p * log2(p) )</p>
-<p>Pure group (all one class): entropy 0. A 50/50 binary mix: entropy 1, the maximum.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
+</div><p class="diagram-caption">Figure 1: A small decision tree for the tennis data</p></div><h3>Impurity: entropy and gini</h3> To pick the best question we need a number that says how "mixed" a group of labels is. Two standard measures exist. <strong>Entropy</strong> comes from information theory. For a group with class proportions p1, p2, ... : entropy = - sum( p * log2(p) ) Pure group (all one class): entropy 0. A 50/50 binary mix: entropy 1, the maximum. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import math
 from collections import Counter
 
 def entropy(labels):
@@ -321,43 +33,12 @@ def entropy(labels):
 
 labels = [row[3] for row in data]
 print(&quot;entropy of full set:&quot;, round(entropy(labels), 3))
-print(&quot;entropy of pure set:&quot;, entropy([&quot;yes&quot;, &quot;yes&quot;, &quot;yes&quot;]))</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p><strong>Gini impurity</strong> is the other classic: the probability that two randomly drawn labels disagree.</p>
-<p>gini = 1 - sum( p^2 )</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python">def gini(labels):
+print(&quot;entropy of pure set:&quot;, entropy([&quot;yes&quot;, &quot;yes&quot;, &quot;yes&quot;]))
+      </code></pre></div></div></div><strong>Gini impurity</strong> is the other classic: the probability that two randomly drawn labels disagree. gini = 1 - sum( p^2 ) <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" style="white-space: pre-wrap; outline: none;"><code class="language-python">def gini(labels):
     n = len(labels)
     counts = Counter(labels)
-    return 1.0 - sum((c / n) ** 2 for c in counts.values())</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Both reach zero for pure groups and their maxima for even mixes, and in practice they rank splits almost identically. Entropy is the traditional choice (the ID3/C4.5 family); gini is slightly cheaper to compute (CART). We will use entropy below - swapping in <code>gini</code> is a one-line change.</p>
-<h3>Information gain: scoring a split</h3>
-<p>A split divides a group into children. Its quality is the parent's impurity minus the weighted average impurity of the children. With entropy, that difference is called <strong>information gain</strong>:</p>
-<p>gain = entropy(parent) - sum( (size(child)/size(parent)) * entropy(child) )</p>
-<p>For numeric features like temperature we test thresholds: sort the values, try the midpoint between each adjacent pair, keep the best.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def split_labels(rows, feature_index, threshold=None):
+    return 1.0 - sum((c / n) ** 2 for c in counts.values())
+      </code></pre></div></div></div> Both reach zero for pure groups and their maxima for even mixes, and in practice they rank splits almost identically. Entropy is the traditional choice (the ID3/C4.5 family); gini is slightly cheaper to compute (CART). We will use entropy below - swapping in <code>gini</code> is a one-line change. <h3>Information gain: scoring a split</h3> A split divides a group into children. Its quality is the parent's impurity minus the weighted average impurity of the children. With entropy, that difference is called <strong>information gain</strong>: gain = entropy(parent) - sum( (size(child)/size(parent)) * entropy(child) ) For numeric features like temperature we test thresholds: sort the values, try the midpoint between each adjacent pair, keep the best. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def split_labels(rows, feature_index, threshold=None):
     left, right = [], []
     for row in rows:
         value = row[feature_index]
@@ -386,22 +67,8 @@ print(&quot;gain temp&lt;=21:        &quot;, round(information_gain(data, 1, 21)
 # boolean: windy?
 print(&quot;gain windy:           &quot;, round(information_gain(data, 2), 3))
 # numeric: trying every temperature threshold finds the best one
-print(&quot;gain temp&lt;=29:        &quot;, round(information_gain(data, 1, 29), 3))</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>"Is the temperature at most 29?" wins - it carves off the two scorching no-days into a pure group, exactly the root split in Figure 1. Note that "temp <= 21" is a poor question while "temp <= 29" is the best one: for numeric features the threshold matters as much as the feature, which is why the builder below searches every midpoint instead of guessing.</p>
-<p>Those same gains as a picture - every candidate split the builder would consider, sorted best first:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">candidates = [(&quot;windy&quot;, 2, None)]
+print(&quot;gain temp&lt;=29:        &quot;, round(information_gain(data, 1, 29), 3))
+      </code></pre></div></div></div> "Is the temperature at most 29?" wins - it carves off the two scorching no-days into a pure group, exactly the root split in Figure 1. Note that "temp <= 21" is a poor question while "temp <= 29" is the best one: for numeric features the threshold matters as much as the feature, which is why the builder below searches every midpoint instead of guessing. Those same gains as a picture - every candidate split the builder would consider, sorted best first: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">candidates = [(&quot;windy&quot;, 2, None)]
 candidates += [(&quot;outlook==&quot; + v, 0, v) for v in sorted(set(r[0] for r in data))]
 ordered = sorted(set(r[1] for r in data))
 candidates += [(&quot;temp&lt;=&quot; + str((a + b) / 2), 1, (a + b) / 2)
@@ -412,23 +79,8 @@ plt.bar([name for g, name in scored], [g for g, name in scored])
 plt.title(&quot;Information gain per candidate split&quot;)
 plt.xlabel(&quot;split question&quot;)
 plt.ylabel(&quot;information gain&quot;)
-plt.show()</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Building the tree recursively</h3>
-<p>The algorithm, in plain text:</p>
-<p>And in Python. A node is a dict; a leaf just stores a label.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def best_split(rows):
+plt.show()
+      </code></pre></div></div></div><h3>Building the tree recursively</h3> The algorithm, in plain text: And in Python. A node is a dict; a leaf just stores a label. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def best_split(rows):
     best = (0.0, None, None)   # gain, feature_index, threshold
     n_features = len(rows[0]) - 1
     for fi in range(n_features):
@@ -463,21 +115,8 @@ def build_tree(rows, depth=0, max_depth=5):
             &quot;yes&quot;: build_tree(left, depth + 1, max_depth),
             &quot;no&quot;:  build_tree(right, depth + 1, max_depth)}
 
-tree = build_tree(data)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Predicting is just walking from the root to a leaf:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def predict(tree, row):
+tree = build_tree(data)
+      </code></pre></div></div></div> Predicting is just walking from the root to a leaf: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">def predict(tree, row):
     while &quot;leaf&quot; not in tree:
         value = row[tree[&quot;feature&quot;]]
         t = tree[&quot;threshold&quot;]
@@ -491,21 +130,8 @@ tree = build_tree(data)</code></pre>
 
 correct = sum(1 for row in data if predict(tree, row) == row[3])
 print(f&quot;training accuracy: {correct}/{len(data)}&quot;)
-print(&quot;new day (sunny, 25, no wind):&quot;, predict(tree, (&quot;sunny&quot;, 25, False, None)))</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>A mild, calm day gets a "yes" - trace the path by hand: temp 25 is at most 29, wind is calm, leaf says yes. You can also print the tree as text to inspect what it learned - highly recommended as a debugging habit:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">NAMES = [&quot;outlook&quot;, &quot;temp&quot;, &quot;windy&quot;]
+print(&quot;new day (sunny, 25, no wind):&quot;, predict(tree, (&quot;sunny&quot;, 25, False, None)))
+      </code></pre></div></div></div> A mild, calm day gets a "yes" - trace the path by hand: temp 25 is at most 29, wind is calm, leaf says yes. You can also print the tree as text to inspect what it learned - highly recommended as a debugging habit: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">NAMES = [&quot;outlook&quot;, &quot;temp&quot;, &quot;windy&quot;]
 
 def show(tree, indent=&quot;&quot;):
     if &quot;leaf&quot; in tree:
@@ -524,259 +150,13 @@ def show(tree, indent=&quot;&quot;):
     print(indent + &quot;`-- no:&quot;)
     show(tree[&quot;no&quot;], indent + &quot;    &quot;)
 
-show(tree)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Compare with Figure 1 - same tree, drawn two ways. Hot days (temp above 29) are an immediate no; mild days are yes unless it is windy and not overcast.</p>
-<h3>Overfitting and depth</h3>
-<p>Unrestricted, a tree can always reach 100% training accuracy - worst case it memorizes every row into its own leaf. That is the overfitting pattern from Chapter 8: Generalization & Regularization in its purest form: zero training error, poor performance on new data.</p>
-<p>Depth is the main knob. Try limiting <code>max_depth</code> and watch what happens on data with a noisy point:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">noisy = data + [(&quot;overcast&quot;, 27, False, &quot;no&quot;)]   # contradicts the pattern
+show(tree)
+      </code></pre></div></div></div> Compare with Figure 1 - same tree, drawn two ways. Hot days (temp above 29) are an immediate no; mild days are yes unless it is windy and not overcast. <h3>Overfitting and depth</h3> Unrestricted, a tree can always reach 100% training accuracy - worst case it memorizes every row into its own leaf. That is the overfitting pattern from Chapter 8: Generalization & Regularization in its purest form: zero training error, poor performance on new data. Depth is the main knob. Try limiting <code>max_depth</code> and watch what happens on data with a noisy point: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">noisy = data + [(&quot;overcast&quot;, 27, False, &quot;no&quot;)]   # contradicts the pattern
 for d in [1, 2, 3, 10]:
     t = build_tree(noisy, max_depth=d)
     correct = sum(1 for row in noisy if predict(t, row) == row[3])
-    print(f&quot;max_depth {d:2d}: training accuracy {correct}/{len(noisy)}&quot;)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>The deep tree contorts itself to fit one contradictory example. A depth of 1 or 2 misclassifies the noisy row but captures the real pattern - exactly what we want. Choose <code>max_depth</code> (or a minimum leaf size) on validation data, not by gut feeling.</p>
-<h3>Pruning, in one paragraph</h3>
-<p>The alternative to stopping early is growing the full tree and then *pruning*: repeatedly collapse a split whose removal does not hurt validation accuracy. Cost-complexity pruning (used by CART) formalizes this by penalizing trees with many leaves, trading a little training accuracy for a lot of simplicity. Intuitively: grow generously, then cut back the branches that only model noise.</p>
-<h3>Strengths and weaknesses</h3>
-<ul>
-<li><strong>Strengths</strong>: human-readable decisions, handles numeric, categorical, and boolean features natively, needs no scaling, and predicts in microseconds.</li>
-<li><strong>Weaknesses</strong>: unstable - tiny changes in data can flip the top split and reshape the whole tree; axis-aligned splits struggle with diagonal boundaries; deep unpruned trees overfit badly.</li>
-</ul>
-<p>The instability is real, but it is also the seed of a fix: if one tree is a shaky expert, average many different trees. That is Chapter 11: Random Forests.</p>
-<h3>The full file</h3>
-<p>Assemble the snippets into <code>tree.py</code> in this order: imports, dataset, entropy/gini, split and gain functions, <code>best_split</code>/<code>build_tree</code>, <code>predict</code>, <code>show</code>, and the depth experiment. Run <code>python3 tree.py</code> and reproduce every number. Then tinker: flip one label, raise <code>max_depth</code>, and watch the printed tree grow a branch that exists only to accommodate your edit.</p>
-<h3>Practice checklist</h3>
-<ul>
-<li>[ ] Compute the entropy of a group with 3 yes and 1 no by hand and verify with the function.</li>
-<li>[ ] Write the gini impurity of a 50/50 group from memory and check it equals 0.5.</li>
-<li>[ ] Explain in one sentence why information gain cannot be negative for a split the algorithm accepts.</li>
-<li>[ ] Add a fourth feature (humidity, numeric) with made-up values and see where it lands in the printed tree.</li>
-<li>[ ] Set <code>max_depth=1</code> and describe which single question the tree considers most important.</li>
-<li>[ ] In your own words, why does a very deep tree usually fail on new data even when it is perfect on training data?</li>
-</ul></div>
-    </div>
-
-    
-    <nav class="tutorial-nav">
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/k-nearest-neighbors/">
-        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-        <span>Chapter 9: K-Nearest Neighbors</span>
-      </a>
-      
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/random-forests/">
-        <span>Chapter 11: Random Forests</span>
-        <span class="icon-arrow" aria-hidden="true">&gt;</span>
-      </a>
-      
-    </nav>
-    
-
-    
-  </article>
-
-  
-
-  
-  <div class="python-console-drawer">
-    <button class="python-console-toggle" type="button" aria-expanded="false">
-      <span class="python-console-toggle-label">Python console</span>
-      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
-    </button>
-    <div class="python-console-body">
-      <div class="python-repl" data-python-console="true">
-        <div class="python-repl-output" aria-live="polite"></div>
-        <form class="python-repl-form">
-          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
-          <div class="python-repl-input-wrapper">
-            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
-              rows="1"></textarea>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-about">
-          <h3>Ruby Learning</h3>
-          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
-        </div>
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          
-          
-          <ul>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/" >Home</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/about/" >About</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/python-basics/" >Learn Python</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/machine-learning/" >Learn ML</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/image-generation/" >Learn Image AI</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/blog/" >Blog</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/resources/" >Resources</a>
-            </li>
-            
-            
-          </ul>
-        </div>
-        <div class="footer-resources">
-          <h3>Ruby Resources</h3>
-          
-          <ul>
-            
-            
-            
-            
-            
-            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-            
-            
-            
-            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-            
-            
-            
-            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-            
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>
-          &copy; 2026 Ruby Learning.
-          Built with
-          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
-          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
-          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
-          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
-  
-  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
-  
-  
-
-  <script>
+    print(f&quot;max_depth {d:2d}: training accuracy {correct}/{len(noisy)}&quot;)
+      </code></pre></div></div></div> The deep tree contorts itself to fit one contradictory example. A depth of 1 or 2 misclassifies the noisy row but captures the real pattern - exactly what we want. Choose <code>max_depth</code> (or a minimum leaf size) on validation data, not by gut feeling. <h3>Pruning, in one paragraph</h3> The alternative to stopping early is growing the full tree and then *pruning*: repeatedly collapse a split whose removal does not hurt validation accuracy. Cost-complexity pruning (used by CART) formalizes this by penalizing trees with many leaves, trading a little training accuracy for a lot of simplicity. Intuitively: grow generously, then cut back the branches that only model noise. <h3>Strengths and weaknesses</h3><ul><li><strong>Strengths</strong>: human-readable decisions, handles numeric, categorical, and boolean features natively, needs no scaling, and predicts in microseconds.</li><li><strong>Weaknesses</strong>: unstable - tiny changes in data can flip the top split and reshape the whole tree; axis-aligned splits struggle with diagonal boundaries; deep unpruned trees overfit badly.</li></ul> The instability is real, but it is also the seed of a fix: if one tree is a shaky expert, average many different trees. That is Chapter 11: Random Forests. <h3>The full file</h3> Assemble the snippets into <code>tree.py</code> in this order: imports, dataset, entropy/gini, split and gain functions, <code>best_split</code>/<code>build_tree</code>, <code>predict</code>, <code>show</code>, and the depth experiment. Run <code>python3 tree.py</code> and reproduce every number. Then tinker: flip one label, raise <code>max_depth</code>, and watch the printed tree grow a branch that exists only to accommodate your edit. <h3>Practice checklist</h3><ul><li>[ ] Compute the entropy of a group with 3 yes and 1 no by hand and verify with the function.</li><li>[ ] Write the gini impurity of a 50/50 group from memory and check it equals 0.5.</li><li>[ ] Explain in one sentence why information gain cannot be negative for a split the algorithm accepts.</li><li>[ ] Add a fourth feature (humidity, numeric) with made-up values and see where it lands in the printed tree.</li><li>[ ] Set <code>max_depth=1</code> and describe which single question the tree considers most important.</li><li>[ ] In your own words, why does a very deep tree usually fail on new data even when it is perfect on training data?</li></ul></p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/machine-learning/k-nearest-neighbors/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 9: K-Nearest Neighbors</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/machine-learning/random-forests/"><span>Chapter 11: Random Forests</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785339371"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339371"></script><script src="/themes/pylearning/js/site.js?v=1785339371"></script><script src="/themes/pylearning/js/python-plot.js?v=1785339371"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339371"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785339371"></script><script src="/themes/pylearning/js/python-console.js?v=1785339371"></script><script src="/themes/pylearning/js/python-exec.js?v=1785339371"></script><script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -787,13 +167,6 @@ for d in [1, 2, 3, 10]:
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script>
-
-  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
-  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
-  <script>
+  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785339371"></script><script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script>
-</body>
-
-</html>
+  </script></body></html>

@@ -1,1 +1,1 @@
-document.addEventListener("DOMContentLoaded",function(){var e=document.querySelector(".menu-toggle"),t=document.querySelector(".site-nav");e&&t&&e.addEventListener("click",function(){t.classList.toggle("active"),e.classList.toggle("active")}),"undefined"!=typeof Prism&&Prism&&"function"==typeof Prism.highlightAll&&Prism.highlightAll()});
+"undefined"!=typeof console&&console.debug("rubylearning site.js loaded");

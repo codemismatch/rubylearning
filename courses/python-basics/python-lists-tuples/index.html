@@ -1,307 +1,17 @@
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Chapter 6 &ndash; Lists and Tuples - Ruby Learning</title>
-  <meta name="description" content="A beautiful static website for learning Ruby">
-  <link rel="icon" type="image/x-icon" href="/images/favicon.ico">
-  
-  
-  
-
-  
-
-  
-  <link rel="stylesheet" href="/themes/pylearning/css/style.css">
-
-  <!-- Modern fonts -->
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link
-    href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"
-    rel="stylesheet">
-
-  <!-- Syntax highlighting -->
-  <link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339006">
-
-  <!-- Tutorial styles -->
-  <link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339006">
-  <link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339006">
-  
-
-</head>
-
-<body>
-  <header class="site-header">
-    <div class="container">
-      <a href="/" class="site-logo">
-        
-        <span class="logo-icon logo-icon-python" aria-hidden="true">
-          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
-            <path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/>
-            <path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/>
-          </svg>
-        </span>
-        <span class="logo-text">Python</span>
-        
-        <span class="logo-accent">Learning</span>
-      </a>
-      <nav class="site-nav">
-        
-        
-        <ul>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/" >Home</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/about/" >About</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/python-basics/" >Learn Python</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li class="has-dropdown">
-            <a href="/courses/machine-learning/" >Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a>
-            <ul class="dropdown-menu">
-              
-              <li><a href="/courses/machine-learning/">From Zero to LLMs</a></li>
-              
-              <li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li>
-              
-            </ul>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/courses/" >Courses</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/mentorship/" >Mentorship</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/blog/" >Blog</a>
-          </li>
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          
-          <li>
-            <a href="/pages/resources/" >Resources</a>
-          </li>
-          
-          
-          
-        </ul>
-      </nav>
-      <button class="menu-toggle" aria-label="Toggle menu">
-        <span class="bar"></span>
-        <span class="bar"></span>
-        <span class="bar"></span>
-      </button>
-    </div>
-  </header>
-
-  <main class="site-content">
-    <div class="container">
-      <div class="tutorial-wrapper">
-  
-  <nav class="breadcrumbs">
-    <ol>
-      <li><a href="/">Home</a></li>
-      
-      <li><a href="/courses/">Courses</a></li>
-      <li>Chapter 6 &ndash; Lists and Tuples</li>
-      
-    </ol>
-  </nav>
-  
-
-  <article class="tutorial">
-    <header class="tutorial-header">
-      <h1>
-        Chapter 6 &ndash; Lists and Tuples
-        
-        <span class="difficulty difficulty-beginner">Beginner</span>
-        
-      </h1>
-      
-      
-      
-      
-      
-      
-      <div class="tutorial-meta">
-        
-        <div class="tutorial-author">
-          <div class="tutorial-author-avatar">
-            
-            <img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey">
-            
-          </div>
-          <div class="tutorial-author-text">
-            <div class="tutorial-author-name">
-              Pankaj Doharey
-            </div>
-            
-            <time datetime="2026-01-06" class="tutorial-date">
-              January 6, 2026
-            </time>
-            
-          </div>
-        </div>
-        
-
-        
-      </div>
-      
-      
-      <p class="tutorial-summary">Work with Python's ordered collections: list methods, slicing, sorting, the mutability and aliasing traps, tuples, and unpacking.</p>
-      
-    </header>
-
-    
-    <div class="tutorial-content">
-      <div class='markdown'><p>Python has two built-in ordered sequence types: the <strong>list</strong> (mutable, like a Ruby <code>Array</code>) and the <strong>tuple</strong> (immutable, like a frozen array). Knowing which to reach for &mdash; and how copying really works &mdash; will save you from the most classic Python bugs.</p>
-<h3>Creating and reading lists</h3>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Chapter 6 &ndash; Lists and Tuples - Ruby Learning</title><meta name="description" content="A beautiful static website for learning Ruby"><link rel="icon" type="image/x-icon" href="/images/favicon.ico"><meta name="typophic-theme" content="pylearning"><link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Fira+Sans:wght@400;500;700&family=JetBrains+Mono:wght@400;700&display=swap"><link rel="stylesheet" href="/themes/pylearning/css/style.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/prism-monokai.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/enhanced-code.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/tutorials.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/course.css?v=1785339371"><link rel="stylesheet" href="/themes/pylearning/css/badges.css?v=1785339371"></head><body><header class="site-header"><div class="container"><a href="/" class="site-logo"><span class="logo-icon logo-icon-python" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path fill="#3776ab" d="M12 2c-2.6 0-4.6.8-4.6 2.6v2.1h4.8v.8H5.4C3.6 7.5 2 9.3 2 12s1.6 4.5 3.4 4.5h2v-2.6c0-1.8 1.5-3.4 3.4-3.4h4.4c1.5 0 2.8-1.2 2.8-2.8V4.6C18 2.8 14.6 2 12 2zM9.4 4.2a.9.9 0 1 1 0 1.8.9.9 0 0 1 0-1.8z"/><path fill="#ffd43b" d="M12 22c2.6 0 4.6-.8 4.6-2.6v-2.1h-4.8v-.8h6.8c1.8 0 3.4-1.8 3.4-4.5s-1.6-4.5-3.4-4.5h-2v2.6c0 1.8-1.5 3.4-3.4 3.4H8.8c-1.5 0-2.8 1.2-2.8 2.8v3.1C6 21.2 9.4 22 12 22zm2.6-2.2a.9.9 0 1 1 0-1.8.9.9 0 0 1 0 1.8z"/></svg></span><span class="logo-text">Python</span><span class="logo-accent">Learning</span></a><nav class="site-nav"><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li class="has-dropdown"><a href="/courses/machine-learning/">Learn ML <span class="dropdown-caret" aria-hidden="true">▾</span></a><ul class="dropdown-menu"><li><a href="/courses/machine-learning/">From Zero to LLMs</a></li><li><a href="/courses/image-generation/">Image Hero: From Pixels to Diffusion</a></li></ul></li><li><a href="/courses/">Courses</a></li><li><a href="/pages/mentorship/">Mentorship</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></nav><button class="menu-toggle" aria-label="Toggle menu"><span class="bar"></span><span class="bar"></span><span class="bar"></span></button></div></header><main class="site-content"><div class="container"><div class="tutorial-wrapper"><nav class="breadcrumbs"><ol><li><a href="/">Home</a></li><li><a href="/courses/">Courses</a></li><li>Chapter 6 &ndash; Lists and Tuples</li></ol></nav><article class="tutorial"><header class="tutorial-header"><h1> Chapter 6 &ndash; Lists and Tuples <span class="difficulty difficulty-beginner">Beginner</span></h1><div class="tutorial-meta"><div class="tutorial-author"><div class="tutorial-author-avatar"><img src="/images/avatars/metacritical.jpg" alt="Pankaj Doharey"></div><div class="tutorial-author-text"><div class="tutorial-author-name"> Pankaj Doharey </div><time datetime="2026-01-06" class="tutorial-date"> January 6, 2026 </time></div></div></div><p class="tutorial-summary">Work with Python's ordered collections: list methods, slicing, sorting, the mutability and aliasing traps, tuples, and unpacking.</p></header><div class="tutorial-content"><div class='markdown'><p>Python has two built-in ordered sequence types: the <strong>list</strong> (mutable, like a Ruby <code>Array</code>) and the <strong>tuple</strong> (immutable, like a frozen array). Knowing which to reach for &mdash; and how copying really works &mdash; will save you from the most classic Python bugs. <h3>Creating and reading lists</h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">numbers = [3, 1, 4, 1, 5, 9, 2, 6]
 mixed = [1, &quot;two&quot;, 3.0, True]     # lists can hold anything
 empty = []
 
 print(numbers[0])      # 3 - first
 print(numbers[-1])     # 6 - last
 print(len(numbers))    # 8
-print(4 in numbers)    # True - membership test</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Indexing and slicing work exactly like strings (Chapter 5):</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">numbers = [3, 1, 4, 1, 5, 9, 2, 6]
+print(4 in numbers)    # True - membership test
+      </code></pre></div></div></div> Indexing and slicing work exactly like strings (Chapter 5): <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">numbers = [3, 1, 4, 1, 5, 9, 2, 6]
 
 print(numbers[2:5])    # [4, 1, 5]
 print(numbers[::-1])   # reversed copy
-print(numbers[::2])    # every second item</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Adding and removing</h3>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">fruits = [&quot;apple&quot;, &quot;banana&quot;]
+print(numbers[::2])    # every second item
+      </code></pre></div></div></div><h3>Adding and removing</h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">fruits = [&quot;apple&quot;, &quot;banana&quot;]
 
 fruits.append(&quot;cherry&quot;)          # add one at the end
 fruits.insert(1, &quot;apricot&quot;)      # insert at index 1
@@ -314,42 +24,15 @@ first = fruits.pop(0)            # pop by index
 print(first, last, fruits)
 
 del fruits[0]                    # delete by index
-print(fruits)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p><code>append</code> vs <code>extend</code> trips everyone once: <code>append</code> adds its argument as a single element, <code>extend</code> merges another iterable in.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">a = [1, 2]
+print(fruits)
+      </code></pre></div></div></div><code>append</code> vs <code>extend</code> trips everyone once: <code>append</code> adds its argument as a single element, <code>extend</code> merges another iterable in. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">a = [1, 2]
 a.append([3, 4])
 print(a)        # [1, 2, [3, 4]] - nested!
 
 b = [1, 2]
 b.extend([3, 4])
-print(b)        # [1, 2, 3, 4] - flat</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Sorting: sort vs sorted</h3>
-<p><code>list.sort()</code> sorts <strong>in place</strong> and returns <code>None</code>; <code>sorted()</code> returns a <strong>new sorted list</strong> and leaves the original alone. Ruby's <code>sort!</code> vs <code>sort</code> &mdash; same idea.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">scores = [42, 7, 19, 73]
+print(b)        # [1, 2, 3, 4] - flat
+      </code></pre></div></div></div><h3>Sorting: sort vs sorted</h3><code>list.sort()</code> sorts <strong>in place</strong> and returns <code>None</code>; <code>sorted()</code> returns a <strong>new sorted list</strong> and leaves the original alone. Ruby's <code>sort!</code> vs <code>sort</code> &mdash; same idea. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">scores = [42, 7, 19, 73]
 
 asc = sorted(scores)
 desc = sorted(scores, reverse=True)
@@ -360,82 +43,28 @@ print(scores)                # now it changed
 
 # Gotcha: sort() returns None!
 result = scores.sort()
-print(result)                # None - a classic bug source</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Sort by anything with <code>key</code> &mdash; it takes a function applied to each element:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">words = [&quot;banana&quot;, &quot;fig&quot;, &quot;cherry&quot;, &quot;date&quot;]
+print(result)                # None - a classic bug source
+      </code></pre></div></div></div> Sort by anything with <code>key</code> &mdash; it takes a function applied to each element: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">words = [&quot;banana&quot;, &quot;fig&quot;, &quot;cherry&quot;, &quot;date&quot;]
 
 print(sorted(words, key=len))                # by length
 print(sorted(words, key=lambda w: w[-1]))    # by last letter
 
 pairs = [(&quot;ada&quot;, 36), (&quot;grace&quot;, 85), (&quot;alan&quot;, 41)]
-print(sorted(pairs, key=lambda p: p[1]))     # by second element</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p><code>reverse()</code> flips a list in place; <code>reversed()</code> gives you an iterator over a reversed view.</p>
-<h3>Mutability and the aliasing trap</h3>
-<p>This is the most important section of the chapter. Assignment <strong>never copies</strong> a list &mdash; both names point at the same object.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">original = [1, 2, 3]
+print(sorted(pairs, key=lambda p: p[1]))     # by second element
+      </code></pre></div></div></div><code>reverse()</code> flips a list in place; <code>reversed()</code> gives you an iterator over a reversed view. <h3>Mutability and the aliasing trap</h3> This is the most important section of the chapter. Assignment <strong>never copies</strong> a list &mdash; both names point at the same object. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">original = [1, 2, 3]
 alias = original            # NOT a copy - same list!
 
 alias.append(99)
-print(original)             # [1, 2, 3, 99] - oops</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>To actually copy, use a slice, <code>.copy()</code>, or <code>list()</code>:</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">original = [1, 2, 3]
+print(original)             # [1, 2, 3, 99] - oops
+      </code></pre></div></div></div> To actually copy, use a slice, <code>.copy()</code>, or <code>list()</code>: <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">original = [1, 2, 3]
 
 copy1 = original[:]         # slice copy
 copy2 = original.copy()
 copy3 = list(original)
 
 copy1.append(99)
-print(original, copy1)      # original safe this time</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>These are <strong>shallow</strong> copies: the outer list is new, but nested objects are still shared. For nested structures use <code>copy.deepcopy</code>.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import copy
+print(original, copy1)      # original safe this time
+      </code></pre></div></div></div> These are <strong>shallow</strong> copies: the outer list is new, but nested objects are still shared. For nested structures use <code>copy.deepcopy</code>. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">import copy
 
 matrix = [[1, 2], [3, 4]]
 shallow = matrix[:]
@@ -445,22 +74,8 @@ shallow[0].append(99)
 print(matrix)     # [[1, 2, 99], [3, 4]] - inner list still shared!
 
 deep[0].append(7)
-print(matrix)     # unchanged - deep copy is fully independent</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>The same aliasing logic explains the mutable-default-argument gotcha from Chapter 4 &mdash; and why you should compare identity with <code>is</code> only for singletons like <code>None</code>.</p>
-<h3>Useful list utilities</h3>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">nums = [5, 2, 8, 2, 9]
+print(matrix)     # unchanged - deep copy is fully independent
+      </code></pre></div></div></div> The same aliasing logic explains the mutable-default-argument gotcha from Chapter 4 &mdash; and why you should compare identity with <code>is</code> only for singletons like <code>None</code>. <h3>Useful list utilities</h3><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">nums = [5, 2, 8, 2, 9]
 
 print(sum(nums))       # 26
 print(min(nums), max(nums))
@@ -468,67 +83,21 @@ print(nums.count(2))   # 2 - occurrences
 print(nums.index(8))   # 2 - first position (ValueError if missing)
 
 nums.clear()
-print(nums)            # []</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Tuples: immutable sequences</h3>
-<p>Tuples are created with parentheses (or just commas) and cannot be changed after creation.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">point = (3, 4)
+print(nums)            # []
+      </code></pre></div></div></div><h3>Tuples: immutable sequences</h3> Tuples are created with parentheses (or just commas) and cannot be changed after creation. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">point = (3, 4)
 rgb = 255, 128, 0          # parentheses optional
 single = (5,)              # one-element tuple needs the comma!
 
 print(point[0], len(rgb))
 print(type((5)), type(single))   # &lt;class &#39;int&#39;&gt; vs &lt;class &#39;tuple&#39;&gt;
 
-# point[0] = 10            # TypeError - tuples are immutable</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Why use tuples at all?</p>
-<ul>
-<li><strong>Safety</strong> &mdash; they can't be modified accidentally.</li>
-<li><strong>Hashable</strong> &mdash; tuples of hashable items can be dict keys or set members (Chapter 7); lists cannot.</li>
-<li><strong>Intent</strong> &mdash; a tuple says "this is a fixed record," like <code>(latitude, longitude)</code>.</li>
-</ul>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">locations = {
+# point[0] = 10            # TypeError - tuples are immutable
+      </code></pre></div></div></div> Why use tuples at all? <ul><li><strong>Safety</strong> &mdash; they can't be modified accidentally.</li><li><strong>Hashable</strong> &mdash; tuples of hashable items can be dict keys or set members (Chapter 7); lists cannot.</li><li><strong>Intent</strong> &mdash; a tuple says "this is a fixed record," like <code>(latitude, longitude)</code>.</li></ul><div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">locations = {
     (40.71, -74.00): &quot;New York&quot;,
     (51.50, -0.12): &quot;London&quot;,
 }
-print(locations[(51.50, -0.12)])</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h3>Unpacking and starred assignment</h3>
-<p>You saw basic unpacking in Chapter 2. Lists and tuples unpack the same way, and <code>*</code> collects the leftovers.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">name, age = (&quot;Ada&quot;, 36)
+print(locations[(51.50, -0.12)])
+      </code></pre></div></div></div><h3>Unpacking and starred assignment</h3> You saw basic unpacking in Chapter 2. Lists and tuples unpack the same way, and <code>*</code> collects the leftovers. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">name, age = (&quot;Ada&quot;, 36)
 print(name, age)
 
 first, *middle, last = [1, 2, 3, 4, 5]
@@ -537,339 +106,30 @@ print(first, middle, last)     # 1 [2, 3, 4] 5
 # swap, no temp variable:
 a, b = 1, 2
 a, b = b, a
-print(a, b)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>For records you access often but don't want to unpack, <code>collections.namedtuple</code> gives named fields &mdash; a lightweight preview of classes (Chapter 11).</p>
-<h3>When which?</h3>
-<ul>
-<li><strong>List</strong> &mdash; a collection you'll grow, shrink, sort, or filter. The default choice.</li>
-<li><strong>Tuple</strong> &mdash; a fixed-size record, a dict key, or data that must not change.</li>
-<li>Rule of thumb: items of the *same kind* → list; a *record* of different fields → tuple.</li>
-</ul>
-<h3>Practice checklist</h3>
-<ul>
-<li>[ ] Build a list with <code>append</code> and <code>extend</code>, then remove items three different ways.</li>
-<li>[ ] Sort a list with <code>sorted(key=...)</code> without mutating the original.</li>
-<li>[ ] Demonstrate the aliasing trap, then fix it with a copy.</li>
-<li>[ ] Swap two variables and unpack a list with a starred name.</li>
-<li>[ ] Use a tuple as a dictionary key.</li>
-</ul>
-<h4>Practice 1 - List gym</h4>
-<p><strong>Goal:</strong> Practice the core mutation methods.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">tasks = [&quot;email&quot;, &quot;call&quot;]
+print(a, b)
+      </code></pre></div></div></div> For records you access often but don't want to unpack, <code>collections.namedtuple</code> gives named fields &mdash; a lightweight preview of classes (Chapter 11). <h3>When which?</h3><ul><li><strong>List</strong> &mdash; a collection you'll grow, shrink, sort, or filter. The default choice.</li><li><strong>Tuple</strong> &mdash; a fixed-size record, a dict key, or data that must not change.</li><li>Rule of thumb: items of the *same kind* → list; a *record* of different fields → tuple.</li></ul><h3>Practice checklist</h3><ul><li>[ ] Build a list with <code>append</code> and <code>extend</code>, then remove items three different ways.</li><li>[ ] Sort a list with <code>sorted(key=...)</code> without mutating the original.</li><li>[ ] Demonstrate the aliasing trap, then fix it with a copy.</li><li>[ ] Swap two variables and unpack a list with a starred name.</li><li>[ ] Use a tuple as a dictionary key.</li></ul><h4>Practice 1 - List gym</h4><strong>Goal:</strong> Practice the core mutation methods. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">tasks = [&quot;email&quot;, &quot;call&quot;]
 
 # TODO: Append &quot;code&quot;, insert &quot;standup&quot; at position 0,
 # then remove &quot;call&quot; by value and pop the last item.
-# Print the final list.</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h4>Practice 2 - Safe sort</h4>
-<p><strong>Goal:</strong> Sort without destroying the original order.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">ranking = [&quot;charlie&quot;, &quot;al&quot;, &quot;bobby&quot;]
+# Print the final list.
+      </code></pre></div></div></div><h4>Practice 2 - Safe sort</h4><strong>Goal:</strong> Sort without destroying the original order. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">ranking = [&quot;charlie&quot;, &quot;al&quot;, &quot;bobby&quot;]
 
 # TODO: Print the list sorted alphabetically WITHOUT
 # changing `ranking`, then print `ranking` to prove it&#39;s
-# still in the original order. Then sort by name length.</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h4>Practice 3 - Copy carefully</h4>
-<p><strong>Goal:</strong> Fix the aliasing bug.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">cart = [&quot;milk&quot;, &quot;eggs&quot;]
+# still in the original order. Then sort by name length.
+      </code></pre></div></div></div><h4>Practice 3 - Copy carefully</h4><strong>Goal:</strong> Fix the aliasing bug. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">cart = [&quot;milk&quot;, &quot;eggs&quot;]
 gift_cart = cart          # TODO: this is an alias - fix it!
 gift_cart.append(&quot;card&quot;)
 
 # After your fix this should print two DIFFERENT lists:
 print(cart)
-print(gift_cart)</code></pre>
-      </div>
-    </div>
-  </div></p>
-<h4>Practice 4 - Unpack the record</h4>
-<p><strong>Goal:</strong> Use tuple unpacking and a starred catch-all.</p>
-<p><div class="code-window">
-    <div class="code-header">
-      <span class="window-btn red"></span>
-      <span class="window-btn yellow"></span>
-      <span class="window-btn green"></span>
-      <span class="window-title">python.python</span>
-    </div>
-    <div class="code-content">
-      <div class="code-editor">
-        <pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">record = (&quot;Ada&quot;, &quot;Lovelace&quot;, 1815, &quot;London&quot;, &quot;mathematician&quot;)
+print(gift_cart)
+      </code></pre></div></div></div><h4>Practice 4 - Unpack the record</h4><strong>Goal:</strong> Use tuple unpacking and a starred catch-all. <div class="code-window"><div class="code-header"><span class="window-btn red"></span><span class="window-btn yellow"></span><span class="window-btn green"></span><span class="window-title">python.python</span><div class="loading-indicator"><span class="loading-spinner"></span><span class="loading-text">Loading Python runtime</span></div></div><div class="code-content"><div class="code-editor"><pre class="code-editor__highlight" data-executable="true" style="white-space: pre-wrap; outline: none;"><code class="language-python python-exec">record = (&quot;Ada&quot;, &quot;Lovelace&quot;, 1815, &quot;London&quot;, &quot;mathematician&quot;)
 
 # TODO: Unpack so that `first` is &quot;Ada&quot;, `last` is
 # &quot;mathematician&quot;, and `details` holds everything between.
-# Print all three.</code></pre>
-      </div>
-    </div>
-  </div></p>
-<p>Next up: key-value data with dictionaries and unique values with sets in Chapter 7.</p></div>
-    </div>
-
-    
-    <nav class="tutorial-nav">
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/python-strings/">
-        <span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span>
-        <span>Chapter 5: Strings in Python</span>
-      </a>
-      
-      
-      
-      
-      <a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/python-basics/python-dicts-sets/">
-        <span>Chapter 7: Dictionaries and Sets</span>
-        <span class="icon-arrow" aria-hidden="true">&gt;</span>
-      </a>
-      
-    </nav>
-    
-
-    
-    <div class="related-tutorials">
-      <h2>Related Tutorials</h2>
-      <ul>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/python-basics/python-strings/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Strings in Python</span>
-          </a>
-        </li>
-        
-        
-        
-        
-        <li>
-          <a href="/courses/python-basics/python-comprehensions/">
-            <span class="related-icon" aria-hidden="true">&gt;</span>
-            <span>Comprehensions and Iteration</span>
-          </a>
-        </li>
-        
-      </ul>
-    </div>
-    
-  </article>
-
-  
-
-  
-  <div class="python-console-drawer">
-    <button class="python-console-toggle" type="button" aria-expanded="false">
-      <span class="python-console-toggle-label">Python console</span>
-      <span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span>
-    </button>
-    <div class="python-console-body">
-      <div class="python-repl" data-python-console="true">
-        <div class="python-repl-output" aria-live="polite"></div>
-        <form class="python-repl-form">
-          <span class="python-repl-prompt">&gt;&gt;&gt; </span>
-          <div class="python-repl-input-wrapper">
-            <textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off"
-              rows="1"></textarea>
-          </div>
-        </form>
-      </div>
-    </div>
-  </div>
-  
-</div>
-
-    </div>
-  </main>
-
-  <footer class="site-footer">
-    <div class="container">
-      <div class="footer-grid">
-        <div class="footer-about">
-          <h3>Ruby Learning</h3>
-          <p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p>
-        </div>
-        <div class="footer-links">
-          <h3>Quick Links</h3>
-          
-          
-          <ul>
-            
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/" >Home</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/about/" >About</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/ruby-basics/#ruby-track" >Learn Ruby</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/python-basics/" >Learn Python</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/machine-learning/" >Learn ML</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/courses/image-generation/" >Learn Image AI</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/blog/" >Blog</a>
-            </li>
-            
-            
-            
-            
-            
-            
-            
-            
-            <li><a href="/pages/resources/" >Resources</a>
-            </li>
-            
-            
-          </ul>
-        </div>
-        <div class="footer-resources">
-          <h3>Ruby Resources</h3>
-          
-          <ul>
-            
-            
-            
-            
-            
-            <li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li>
-            
-            
-            
-            
-            <li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li>
-            
-            
-            
-            
-            <li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li>
-            
-            
-          </ul>
-        </div>
-      </div>
-      <div class="footer-bottom">
-        <p>
-          &copy; 2026 Ruby Learning.
-          Built with
-          <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>.
-          Made with <span aria-hidden="true">&#10084;&#65039;</span> by
-          <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @
-          <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>.
-        </p>
-      </div>
-    </div>
-  </footer>
-
-  <!-- Scripts -->
-  
-  <script src="/themes/rubylearning/js/prism.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-ruby.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-markdown.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/prism-python.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/code-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/site.js?v=1785339006"></script>
-  
-  <script src="/themes/pylearning/js/python-plot.js?v=1785339006"></script>
-  <script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-runtime.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-console.js?v=1785339006"></script>
-  <script src="/themes/pylearning/js/python-exec.js?v=1785339006"></script>
-  
-  
-
-  <script>
+# Print all three.
+      </code></pre></div></div></div> Next up: key-value data with dictionaries and unique values with sets in Chapter 7. </p></div></div><nav class="tutorial-nav"><a class="tutorial-nav__link tutorial-nav__link--prev" href="/courses/python-basics/python-strings/"><span class="icon-arrow icon-arrow--left" aria-hidden="true">&lt;</span><span>Chapter 5: Strings in Python</span></a><a class="tutorial-nav__link tutorial-nav__link--next" href="/courses/python-basics/python-dicts-sets/"><span>Chapter 7: Dictionaries and Sets</span><span class="icon-arrow" aria-hidden="true">&gt;</span></a></nav><div class="related-tutorials"><h2>Related Tutorials</h2><ul><li><a href="/courses/python-basics/python-strings/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Strings in Python</span></a></li><li><a href="/courses/python-basics/python-comprehensions/"><span class="related-icon" aria-hidden="true">&gt;</span><span>Comprehensions and Iteration</span></a></li></ul></div></article><div class="python-console-drawer"><button class="python-console-toggle" type="button" aria-expanded="false"><span class="python-console-toggle-label">Python console</span><span class="python-console-toggle-icon" aria-hidden="true">&#9660;</span></button><div class="python-console-body"><div class="python-repl" data-python-console="true"><div class="python-repl-output" aria-live="polite"></div><form class="python-repl-form"><span class="python-repl-prompt">&gt;&gt;&gt; </span><div class="python-repl-input-wrapper"><textarea class="python-repl-input" placeholder="Enter Python code here..." autocomplete="off" rows="1"></textarea></div></form></div></div></div></div></div></main><footer class="site-footer"><div class="container"><div class="footer-grid"><div class="footer-about"><h3>Ruby Learning</h3><p>A modern resource for learning the Ruby programming language through practical tutorials and examples.</p></div><div class="footer-links"><h3>Quick Links</h3><ul><li><a href="/">Home</a></li><li><a href="/pages/about/">About</a></li><li><a href="/courses/ruby-basics/#ruby-track">Learn Ruby</a></li><li><a href="/courses/python-basics/">Learn Python</a></li><li><a href="/courses/machine-learning/">Learn ML</a></li><li><a href="/courses/image-generation/">Learn Image AI</a></li><li><a href="/blog/">Blog</a></li><li><a href="/pages/resources/">Resources</a></li></ul></div><div class="footer-resources"><h3>Ruby Resources</h3><ul><li><a href="https://ruby-lang.org" target="_blank" rel="noopener">Ruby Official Site</a></li><li><a href="https://ruby-doc.org" target="_blank" rel="noopener">Ruby Documentation</a></li><li><a href="https://rubygems.org" target="_blank" rel="noopener">RubyGems</a></li></ul></div></div><div class="footer-bottom"><p> &copy; 2026 Ruby Learning. Built with <a href="https://github.com/metacritical/typophic" target="_blank" rel="noopener">Typophic</a>. Made with <span aria-hidden="true">&#10084;&#65039;</span> by <a href="https://www.linkedin.com/in/pankaj-doharey" target="_blank" rel="noopener">Pankaj Doharey</a> @ <a href="https://codemismatch.com" target="_blank" rel="noopener">codemismatch.com</a>. </p></div></div></footer><script src="/themes/rubylearning/js/prism.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-ruby.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-markdown.js?v=1785339371"></script><script src="/themes/rubylearning/js/prism-python.js?v=1785339371"></script><script src="/themes/rubylearning/js/code-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/tutorial-enhancements.js?v=1785339371"></script><script src="/themes/rubylearning/js/github-pages-fix.js?v=1785339371"></script><script src="/themes/pylearning/js/site.js?v=1785339371"></script><script src="/themes/pylearning/js/python-plot.js?v=1785339371"></script><script src="/themes/rubylearning/js/modules/code-overlay-editor.js?v=1785339371"></script><script src="/themes/pylearning/js/python-runtime.js?v=1785339371"></script><script src="/themes/pylearning/js/python-console.js?v=1785339371"></script><script src="/themes/pylearning/js/python-exec.js?v=1785339371"></script><script>
     // Alias executable-block language tags to their grammars so Prism
     // highlights python-exec / ruby-exec fences like regular code.
     if (window.Prism && Prism.languages) {
@@ -880,13 +140,6 @@ print(gift_cart)</code></pre>
         Prism.languages['ruby-exec'] = Prism.languages.ruby;
       }
     }
-  </script>
-
-  <!-- Mermaid diagram support (vendored locally, no CDN dependency) -->
-  <script src="/themes/rubylearning/js/mermaid.min.js?v=1785339006"></script>
-  <script>
+  </script><script src="/themes/rubylearning/js/mermaid.min.js?v=1785339371"></script><script>
     mermaid.initialize({ startOnLoad: true, theme: 'default' });
-  </script>
-</body>
-
-</html>
+  </script></body></html>
