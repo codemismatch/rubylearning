@@ -339,8 +339,8 @@ for step in range(steps + 1):
         lr = 0.02                                  # settle into the minimum
     if step % 100 == 0:
         history.append((step, loss))
-    if step % 500 == 0:
-        print(f"step {step:4d}  loss {loss:.4f}")
+    if step % 50 == 0 or step == steps:
+        progress(step, steps, suffix=f"loss {loss:.4f}")   # PyTorch-style bar, updates in place
 
 # honest evaluation: average loss over the whole corpus
 total, nwin = 0.0, 0

@@ -72,13 +72,8 @@
       if (!header.querySelector(".run-button")) {
         const outputArea = document.createElement("div");
         outputArea.className = "output-area";
-        const progress = document.createElement("div");
-        progress.className = "typophic-progress";
-        progress.style.display = "none";
-        progress.innerHTML = '<div class="typophic-progress-bar"></div>';
         const outputContent = document.createElement("pre");
         outputContent.className = "output-content";
-        outputArea.appendChild(progress);
         outputArea.appendChild(outputContent);
         codeWindow.appendChild(outputArea);
 
@@ -87,10 +82,26 @@
         runButton.innerHTML = "▶&nbsp;Run";
         header.appendChild(runButton);
 
+        // Append streamed text like a terminal: \r rewrites the current
+        // line (PyTorch-style ASCII progress bars), \n scrolls up inside
+        // the fixed-height window.
+        const appendTerminalText = (text) => {
+          let cur = outputContent.textContent;
+          for (const ch of text) {
+            if (ch === "\r") {
+              const i = cur.lastIndexOf("\n");
+              cur = cur.slice(0, i + 1);
+            } else {
+              cur += ch;
+            }
+          }
+          outputContent.textContent = cur;
+          outputArea.scrollTop = outputArea.scrollHeight;
+        };
+
         runButton.addEventListener("click", async () => {
           const code = currentCode.trimEnd();
           outputContent.textContent = "";
-          progress.style.display = "block";
           // Route plt.show() figures into this block's output area.
           outputArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
           if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
@@ -99,24 +110,19 @@
               outputArea.scrollTop = outputArea.scrollHeight;
             });
           }
-          // Stream stdout/stderr live (Web Worker mode) and keep the
-          // output window pinned to the newest line.
+          // Stream stdout/stderr live (Web Worker mode).
           if (window.PythonRuntime.setStreamHandler) {
-            PythonRuntime.setStreamHandler(text => {
-              outputContent.textContent += text;
-              outputArea.scrollTop = outputArea.scrollHeight;
-            });
+            PythonRuntime.setStreamHandler(appendTerminalText);
           }
           try {
             const result = await PythonRuntime.run(code);
             // Main-thread fallback has no streaming; use the final buffer.
             if (!outputContent.textContent) {
-              outputContent.textContent = result || "";
+              appendTerminalText(result || "");
             }
           } catch (err) {
             outputContent.textContent = String(err);
           } finally {
-            progress.style.display = "none";
             outputArea.scrollTop = outputArea.scrollHeight;
           }
         });

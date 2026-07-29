@@ -86,6 +86,21 @@ class _TypophicPlt:
         self._series = []
 
 plt = _TypophicPlt()
+
+def progress(step, total, width=28, suffix=""):
+    """PyTorch-style ASCII progress bar that rewrites one line.
+    Usage in a training loop: progress(step, total, suffix=f"loss {loss:.4f}")"""
+    frac = (step / total) if total else 0
+    frac = max(0.0, min(1.0, frac))
+    done = int(width * frac)
+    if done >= width:
+        bar = "=" * width
+    else:
+        bar = "=" * done + ">" + "." * (width - done - 1)
+    pct = int(frac * 100)
+    print("\r[" + bar + "] " + str(pct) + "% " + str(step) + "/" + str(total) + (" " + suffix if suffix else ""), end="")
+    if step >= total:
+        print()
 `;
 
   const PALETTE = ["#2563eb", "#f59e0b", "#22c55e", "#ef4444", "#a855f7", "#06b6d4", "#f97316", "#84cc16"];
