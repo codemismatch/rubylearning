@@ -198,6 +198,10 @@
         if (!window.__typophicRestartListenerAdded) {
           window.__typophicRestartListenerAdded = true;
           document.addEventListener("PythonRuntimeRestarted", (ev) => {
+            // The worker's memory was wiped, so the page's "context already
+            // ran" flag is now a lie: the next click must replay earlier
+            // cells to rebuild the namespace.
+            window.__typophicContextReady = false;
             document.querySelectorAll(".code-window .output-content").forEach((oc) => {
               oc.textContent += "\n[Python runtime was restarted" +
                 (ev.detail && ev.detail.reason ? ": " + ev.detail.reason : "") +
