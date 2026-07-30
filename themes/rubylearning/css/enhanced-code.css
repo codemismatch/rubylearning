@@ -697,3 +697,18 @@ pre.language-shell::before {
 .ruby-irb-code .token.instance-variable {
   color: #e06c75;
 }
+
+/* Stop button: kill a run and restart the Python runtime */
+.run-button.stop-button {
+  background: #b91c1c;
+  right: 170px;
+}
+
+.run-button.stop-button:hover {
+  background: #991b1b;
+}
+
+.run-button:disabled {
+  opacity: 0.55;
+  cursor: default;
+}

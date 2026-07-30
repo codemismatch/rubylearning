@@ -2,16 +2,28 @@
  * so heavy cells never block the page's main thread. Falls back to running
  * Pyodide on the main thread when Workers are unavailable or fail to start.
  *
- * Public API (unchanged):
+ * Hardened 2026-07-29:
+ *   - Runs are TRULY serialized: code is only posted to the worker once the
+ *     previous run has resolved (previously the post went out immediately,
+ *     so a second Run corrupted the in-flight one's state).
+ *   - Watchdog: a run that never resolves (worker OOM/crash) rejects, the
+ *     worker is restarted, and the queue keeps moving instead of hanging
+ *     every later Run forever.
+ *   - PythonRuntime.restart(): manual escape hatch; corpus variables set via
+ *     globals.set are replayed after the restart.
+ *
+ * Public API:
  *   PythonRuntime.run(code)           -> Promise<string> (stdout+tracebacks)
  *   PythonRuntime.setPlotHandler(fn)  -> receives plt.show() figure specs
  *   PythonRuntime.getPyodide()        -> facade with globals.set(name, value)
  *   PythonRuntime.ready()             -> Promise resolving when usable
  *   PythonRuntime.isWorker()          -> true when running in a Web Worker
+ *   PythonRuntime.restart()           -> kill and re-init (namespace resets)
  */
 (function () {
   const CDN_PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js";
   const CDN_PYODIDE_INDEX = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/";
+  const RUN_TIMEOUT_MS = 15 * 60 * 1000; // a legit training cell takes minutes; a dead worker takes forever
 
   function normalizeDir(path) {
     if (!path) return "";
@@ -19,10 +31,6 @@
   }
 
   // Allow overriding the Pyodide location so we can host it locally.
-  // Priority:
-  //   1) window.TypophicPythonRuntimeConfig.{scriptURL, indexURL, baseURL}
-  //   2) <meta name="pyodide-base" content="...">
-  //   3) CDN defaults.
   function resolveOverrideConfig() {
     try {
       if (typeof window !== "undefined" && window.TypophicPythonRuntimeConfig) {
@@ -95,8 +103,20 @@
     });
   }
 
+  // Globals set through the facade are remembered so they can be replayed
+  // after a worker restart (corpus datasets like sprites_text survive).
+  const savedGlobals = new Map();
+
   // ---------------------------------------------------------------- worker
   let workerState = null; // { worker, pending: Map, queue: Promise, mode }
+  let readyPromise = null;
+  let restarting = false;
+
+  function notifyRestart(reason) {
+    try {
+      document.dispatchEvent(new CustomEvent("PythonRuntimeRestarted", { detail: { reason } }));
+    } catch (_e) { /* non-browser env */ }
+  }
 
   function initWorker() {
     if (typeof Worker === "undefined") {
@@ -116,6 +136,13 @@
       let nextId = 0;
       let settled = false;
 
+      const rejectAllPending = (message) => {
+        pending.forEach((entry) => {
+          try { entry.reject(new Error(message)); } catch (_e) { /* noop */ }
+        });
+        pending.clear();
+      };
+
       const state = {
         mode: "worker",
         worker,
@@ -123,21 +150,54 @@
         queue: Promise.resolve(),
         inFlight: 0,
         run(code, onStream) {
-          const id = ++nextId;
-          const task = new Promise((resolveRun) => {
-            pending.set(id, { resolve: resolveRun, onStream });
+          // Serialize EXECUTION, not just resolution: the code is only posted
+          // once the previous run fully resolved. Queue is kept resolved at
+          // all times so one failure never stalls later runs.
+          const exec = () => new Promise((resolveRun, rejectRun) => {
+            const id = ++nextId;
+            const watchdog = setTimeout(() => {
+              pending.delete(id);
+              crashAndRestart("run timed out");
+              rejectRun(new Error(
+                "This run took too long or the Python runtime crashed. " +
+                "The runtime was restarted; re-run the earlier cells to rebuild its memory."
+              ));
+            }, RUN_TIMEOUT_MS);
+            pending.set(id, {
+              resolve: (v) => { clearTimeout(watchdog); resolveRun(v); },
+              reject: (e) => { clearTimeout(watchdog); rejectRun(e); },
+              onStream
+            });
             worker.postMessage({ type: "run", id, code });
           });
-          // Serialize runs so the shared namespace behaves like notebook cells.
           state.inFlight += 1;
-          const chained = state.queue.then(() => task);
+          const chained = state.queue.then(exec);
           state.queue = chained.catch(() => {});
           return chained.finally(() => { state.inFlight -= 1; });
         },
         set(name, value) {
+          savedGlobals.set(name, value);
           worker.postMessage({ type: "set", name, value });
+        },
+        crash(message) {
+          rejectAllPending(message);
         }
       };
+
+      function crashAndRestart(reason) {
+        if (restarting) return;
+        restarting = true;
+        rejectAllPending(
+          "The Python runtime crashed (" + reason + ") and was restarted. " +
+          "Re-run the earlier cells to rebuild its memory."
+        );
+        try { worker.terminate(); } catch (_e) { /* noop */ }
+        workerState = null;
+        readyPromise = null;
+        notifyRestart(reason);
+        ready().finally(() => { restarting = false; });
+      }
+      state._crashAndRestart = crashAndRestart;
 
       const initTimeout = setTimeout(() => {
         if (!settled) {
@@ -154,6 +214,11 @@
             settled = true;
             clearTimeout(initTimeout);
             workerState = state;
+            // Replay remembered globals (corpus datasets) before any run;
+            // postMessages are FIFO, so runs posted after this arrive last.
+            savedGlobals.forEach((value, name) => {
+              worker.postMessage({ type: "set", name, value });
+            });
             resolve(state);
           }
           return;
@@ -192,7 +257,10 @@
           settled = true;
           clearTimeout(initTimeout);
           reject(new Error(e.message || "Pyodide worker error"));
+          return;
         }
+        // Crash during a run (e.g. WASM OOM): nothing will ever resolve again.
+        crashAndRestart(e.message || "worker error");
       };
 
       const shim =
@@ -200,9 +268,6 @@
           ? window.TypophicPlot.shimSource
           : "";
 
-      // One init attempt in the worker (override config if present, else the
-      // default CDN). On failure the caller falls back to the main thread,
-      // which retries all candidates itself.
       const cfg = pyodideCandidates()[0];
       worker.postMessage({ type: "init", url: cfg.url, index: cfg.index, shim });
     });
@@ -249,6 +314,10 @@
         if (window.TypophicPlot && window.TypophicPlot.shimSource) {
           await instance.runPythonAsync(window.TypophicPlot.shimSource);
         }
+        // Replay remembered globals (corpus datasets).
+        savedGlobals.forEach((value, name) => {
+          try { instance.globals.set(name, value); } catch (_e) { /* noop */ }
+        });
 
         const state = {
           mode: "main",
@@ -290,11 +359,12 @@ buf.getvalue()
 `);
               return String(result || "");
             };
-            const chained = state.queue.then(task);
+            const chained = state.queue.then(task, task);
             state.queue = chained.catch(() => {});
             return chained;
           },
           set(name, value) {
+            savedGlobals.set(name, value);
             instance.globals.set(name, value);
           }
         };
@@ -308,8 +378,6 @@ buf.getvalue()
   }
 
   // ------------------------------------------------------------ public API
-  let readyPromise = null;
-
   function ready() {
     if (!readyPromise) {
       readyPromise = initWorker().catch(() => initMainThread());
@@ -322,8 +390,6 @@ buf.getvalue()
     return state.run(code, onStream);
   }
 
-  // Compatibility facade for callers that used to touch pyodide directly
-  // (e.g. the corpus upload widget setting globals).
   async function getPyodideFacade() {
     const state = await ready();
     return {
@@ -335,9 +401,22 @@ buf.getvalue()
     };
   }
 
+  async function restart(reason) {
+    if (workerState && workerState._crashAndRestart) {
+      workerState._crashAndRestart(reason || "manual stop");
+      return;
+    }
+    // Main-thread mode cannot be killed; clear queue state and re-init facade.
+    workerState = null;
+    readyPromise = null;
+    notifyRestart(reason || "manual stop");
+    await ready();
+  }
+
   window.PythonRuntime = {
     getPyodide: getPyodideFacade,
     run: runPython,
+    restart: restart,
     setPlotHandler: setPlotHandler,
     setStreamHandler: setStreamHandler,
     ready: ready,
@@ -350,14 +429,11 @@ buf.getvalue()
     window.pyodide = { viaWorker: workerState && workerState.mode === "worker" };
   }).catch(() => {});
 
-  // Let other scripts know that the PythonRuntime shim is available. This
-  // fires before the actual Pyodide runtime has finished loading; callers
-  // should still await getPyodide() as needed.
+  // Let other scripts know that the PythonRuntime shim is available.
   if (typeof document !== "undefined" && document.dispatchEvent) {
     try {
       document.dispatchEvent(new Event("PythonRuntimeLoaded"));
     } catch (_e) {
-      // IE11-style fallback, just in case
       try {
         var evt = document.createEvent("Event");
         evt.initEvent("PythonRuntimeLoaded", false, false);

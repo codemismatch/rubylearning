@@ -88,6 +88,12 @@
         runButton.innerHTML = "▶&nbsp;Run";
         header.appendChild(runButton);
 
+        const stopButton = document.createElement("button");
+        stopButton.className = "run-button stop-button";
+        stopButton.innerHTML = "&#9632;&nbsp;Stop";
+        stopButton.title = "Stop the current run and restart the Python runtime (its memory is reset; re-run earlier cells)";
+        header.appendChild(stopButton);
+
         // Append streamed text like a terminal: \r rewrites the current
         // line (PyTorch-style ASCII progress bars), \n scrolls up inside
         // the fixed-height window.
@@ -111,8 +117,9 @@
 
         // Notebook semantics: before the first Run in any window, silently
         // execute every earlier Python block on the page (exec cells and
-        // plain data blocks) so shared names just exist. Data-only blocks
-        // therefore never need a Run button of their own.
+        // plain data blocks) so shared names just exist. On heavy chapters
+        // this can take minutes, so it is STREAMED VISIBLY now instead of
+        // running silently (which looked exactly like a dead Run button).
         let contextReady = false;
         const collectContextCode = () => {
           const wins = [...document.querySelectorAll(".code-window")];
@@ -126,46 +133,66 @@
         };
 
         const runCell = async () => {
+          if (codeWindow.dataset.running === "1") return; // no double-press spam
+          codeWindow.dataset.running = "1";
+          runButton.disabled = true;
           const code = currentCode.trimEnd();
-          if (!contextReady) {
-            contextReady = true;
-            const ctx = collectContextCode();
-            if (ctx.trim()) {
-              try { await PythonRuntime.run(ctx, () => {}); } catch (_) { /* context best-effort */ }
-            }
-          }
-          plotArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
-          if (window.PythonRuntime.isBusy && PythonRuntime.isBusy()) {
-            // Another cell (e.g. the training cell) is running; this run
-            // is queued in the worker and will start right after it.
-            outputContent.textContent = "queued - this cell will run as soon as the current one finishes...\n";
-            outputContent.dataset.queued = "1";
-          } else {
-            outputContent.textContent = "";
-          }
-          if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
-            PythonRuntime.setPlotHandler(spec => {
-              plotArea.appendChild(window.TypophicPlot.render(spec));
-            });
-          }
-          // Stream stdout/stderr live (Web Worker mode); routed per run so
-          // concurrent windows never cross streams.
           try {
+            if (!contextReady) {
+              contextReady = true;
+              const ctx = collectContextCode();
+              if (ctx.trim()) {
+                appendTerminalText("Preparing this page: running the earlier cells first " +
+                  "(on training chapters this takes a few minutes - watch the progress below)\n\n");
+                try { await PythonRuntime.run(ctx, appendTerminalText); } catch (_) { /* context best-effort */ }
+                appendTerminalText("\n--- earlier cells done, running THIS cell ---\n");
+              }
+            }
+            plotArea.querySelectorAll(".typophic-plot").forEach(p => p.remove());
+            if (window.PythonRuntime.isBusy && PythonRuntime.isBusy()) {
+              outputContent.textContent = "queued - this cell will run as soon as the current one finishes...\n";
+              outputContent.dataset.queued = "1";
+            }
+            if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
+              PythonRuntime.setPlotHandler(spec => {
+                plotArea.appendChild(window.TypophicPlot.render(spec));
+              });
+            }
             const result = await PythonRuntime.run(code, appendTerminalText);
             // Main-thread fallback has no streaming; use the final buffer.
             if (!outputContent.textContent) {
               appendTerminalText(result || "");
             }
           } catch (err) {
-            outputContent.textContent = String(err);
+            appendTerminalText("\n" + String(err && err.message ? err.message : err) + "\n");
           } finally {
             outputArea.scrollTop = outputArea.scrollHeight;
+            delete codeWindow.dataset.running;
+            runButton.disabled = false;
           }
         };
 
         // Exposed so the corpus-upload widget can re-run cells in order.
         codeWindow.runCell = runCell;
         runButton.addEventListener("click", runCell);
+        stopButton.addEventListener("click", () => {
+          if (window.PythonRuntime && window.PythonRuntime.restart) {
+            appendTerminalText("\nStopping and restarting the Python runtime (memory reset; re-run earlier cells)...\n");
+            window.PythonRuntime.restart("manual stop");
+          }
+        });
+
+        // Surface runtime restarts (crash/watchdog/manual) in every window.
+        if (!window.__typophicRestartListenerAdded) {
+          window.__typophicRestartListenerAdded = true;
+          document.addEventListener("PythonRuntimeRestarted", (ev) => {
+            document.querySelectorAll(".code-window .output-content").forEach((oc) => {
+              oc.textContent += "\n[Python runtime was restarted" +
+                (ev.detail && ev.detail.reason ? ": " + ev.detail.reason : "") +
+                ". Its memory was reset - re-run earlier cells before this one.]\n";
+            });
+          });
+        }
       }
     });
   }
