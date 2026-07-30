@@ -25,3 +25,4 @@ vendor/
 
 # Generated static site output
 public/
+.wrangler/
