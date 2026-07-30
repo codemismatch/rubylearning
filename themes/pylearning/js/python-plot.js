@@ -73,12 +73,23 @@ class _TypophicPlt:
         pass  # legends are drawn automatically for labelled series
 
     def imshow(self, grid, label=None, **_ignored):
-        """Show a 2D grid of numbers (0..1) as a grayscale image."""
-        self._series.append({
-            "kind": "image",
-            "grid": [[float(v) for v in row] for row in grid],
-            "label": str(label) if label is not None else None,
-        })
+        """Show a 2D grid of numbers (0..1) as grayscale, or an HxWx3 grid as RGB."""
+        try:
+            first = grid[0][0]
+        except Exception:
+            first = 0
+        if isinstance(first, (list, tuple)) and len(first) >= 3:
+            self._series.append({
+                "kind": "image_rgb",
+                "grid": [[[float(c) for c in list(px)[:3]] for px in row] for row in grid],
+                "label": str(label) if label is not None else None,
+            })
+        else:
+            self._series.append({
+                "kind": "image",
+                "grid": [[float(v) for v in row] for row in grid],
+                "label": str(label) if label is not None else None,
+            })
         return self
 
     def show(self):
@@ -135,14 +146,25 @@ def progress(step, total, width=28, suffix=""):
     let ox = 0;
     images.forEach((s, i) => {
       const rows = s.grid.length, cols = s.grid[0].length;
+      const isRGB = s.kind === "image_rgb";
       for (let r = 0; r < rows; r++) {
         for (let c = 0; c < cols; c++) {
-          const v = Math.max(0, Math.min(1, s.grid[r][c]));
-          const g = Math.round(v * 255);
+          let fill;
+          if (isRGB) {
+            const px = s.grid[r][c];
+            const rc = Math.round(Math.max(0, Math.min(1, px[0])) * 255);
+            const gc = Math.round(Math.max(0, Math.min(1, px[1])) * 255);
+            const bc = Math.round(Math.max(0, Math.min(1, px[2])) * 255);
+            fill = `rgb(${rc},${gc},${bc})`;
+          } else {
+            const v = Math.max(0, Math.min(1, s.grid[r][c]));
+            const g = Math.round(v * 255);
+            fill = `rgb(${g},${g},${g})`;
+          }
           svg.appendChild(el("rect", {
             x: ox + PAD + c * CELL, y: TITLE_H + PAD + r * CELL,
             width: CELL, height: CELL,
-            fill: `rgb(${g},${g},${g})`
+            fill: fill
           }));
         }
       }
@@ -184,8 +206,8 @@ def progress(step, total, width=28, suffix=""):
 
   // spec: {title, xlabel, ylabel, series: [{kind, x:[], y:[], label} | {kind:"image", grid, label}]}
   function render(spec) {
-    // Image specs render as a row of grayscale pixel grids.
-    const images = (spec.series || []).filter(s => s.kind === "image");
+    // Image specs render as a row of pixel grids (grayscale or RGB).
+    const images = (spec.series || []).filter(s => s.kind === "image" || s.kind === "image_rgb");
     if (images.length) return renderImages(spec, images);
 
     const W = 640, H = 360;
