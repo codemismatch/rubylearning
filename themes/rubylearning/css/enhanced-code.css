@@ -57,6 +57,28 @@ pre.language-shell::before {
   background-color: rgba(46, 204, 113, 0.6);
 }
 
+/* Code windows keep the language class on <code>, not <pre> - cover those
+   with the same curved labels and per-language colors. */
+pre:has(> code.language-python)::before {
+  content: 'Python';
+  background-color: rgba(55, 118, 171, 0.75);
+}
+
+pre:has(> code.language-text)::before {
+  content: 'Text';
+  background-color: rgba(107, 114, 128, 0.6);
+}
+
+pre:has(> code.language-bash)::before {
+  content: 'Shell';
+  background-color: rgba(46, 204, 113, 0.6);
+}
+
+pre:has(> code.language-mermaid)::before {
+  content: 'Mermaid';
+  background-color: rgba(113, 80, 160, 0.6);
+}
+
 /* Line highlight effect */
 .line-highlight {
   background: rgba(255, 255, 255, 0.1);
