@@ -23,7 +23,7 @@
 (function () {
   const CDN_PYODIDE_URL = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/pyodide.js";
   const CDN_PYODIDE_INDEX = "https://cdn.jsdelivr.net/pyodide/v0.25.1/full/";
-  const RUN_TIMEOUT_MS = 15 * 60 * 1000; // a legit training cell takes minutes; a dead worker takes forever
+  const RUN_SILENCE_MS = 6 * 60 * 1000; // no output for 6 min = dead; active cells stream progress bars
 
   function normalizeDir(path) {
     if (!path) return "";
@@ -155,18 +155,26 @@
           // all times so one failure never stalls later runs.
           const exec = () => new Promise((resolveRun, rejectRun) => {
             const id = ++nextId;
-            const watchdog = setTimeout(() => {
+            // Silence watchdog: a live training cell streams progress output,
+            // a dead/OOM'd worker goes quiet. Kill only on 6 min of silence,
+            // never on total runtime - hour-long runs are fine.
+            const arm = () => setTimeout(() => {
               pending.delete(id);
-              crashAndRestart("run timed out");
+              crashAndRestart("run went silent");
               rejectRun(new Error(
-                "This run took too long or the Python runtime crashed. " +
-                "The runtime was restarted; re-run the earlier cells to rebuild its memory."
+                "This run produced no output for 6 minutes and the runtime was restarted. " +
+                "Re-run the earlier cells to rebuild its memory."
               ));
-            }, RUN_TIMEOUT_MS);
+            }, RUN_SILENCE_MS);
+            let watchdog = arm();
             pending.set(id, {
               resolve: (v) => { clearTimeout(watchdog); resolveRun(v); },
               reject: (e) => { clearTimeout(watchdog); rejectRun(e); },
-              onStream
+              onStream: (text) => {
+                clearTimeout(watchdog);
+                watchdog = arm();
+                if (onStream) onStream(text);
+              }
             });
             worker.postMessage({ type: "run", id, code });
           });
