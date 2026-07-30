@@ -88,11 +88,18 @@
         runButton.innerHTML = "▶&nbsp;Run";
         header.appendChild(runButton);
 
-        const stopButton = document.createElement("button");
-        stopButton.className = "run-button stop-button";
-        stopButton.innerHTML = "&#9632;&nbsp;Stop";
-        stopButton.title = "Stop the current run and restart the Python runtime (its memory is reset; re-run earlier cells)";
-        header.appendChild(stopButton);
+        // One button, two states: Run while idle, Stop while this cell runs.
+        const setRunState = (running) => {
+          if (running) {
+            runButton.classList.add("is-stop");
+            runButton.innerHTML = "&#9632;&nbsp;Stop";
+            runButton.title = "Stop this run and restart the Python runtime (its memory resets; re-run earlier cells)";
+          } else {
+            runButton.classList.remove("is-stop");
+            runButton.innerHTML = "▶&nbsp;Run";
+            runButton.title = "";
+          }
+        };
 
         // Append streamed text like a terminal: \r rewrites the current
         // line (PyTorch-style ASCII progress bars), \n scrolls up inside
@@ -133,9 +140,9 @@
         };
 
         const runCell = async () => {
-          if (codeWindow.dataset.running === "1") return; // no double-press spam
+          if (codeWindow.dataset.running === "1") return; // click while running = Stop, handled below
           codeWindow.dataset.running = "1";
-          runButton.disabled = true;
+          setRunState(true);
           const code = currentCode.trimEnd();
           try {
             if (!contextReady) {
@@ -168,17 +175,21 @@
           } finally {
             outputArea.scrollTop = outputArea.scrollHeight;
             delete codeWindow.dataset.running;
-            runButton.disabled = false;
+            setRunState(false);
           }
         };
 
         // Exposed so the corpus-upload widget can re-run cells in order.
         codeWindow.runCell = runCell;
-        runButton.addEventListener("click", runCell);
-        stopButton.addEventListener("click", () => {
-          if (window.PythonRuntime && window.PythonRuntime.restart) {
-            appendTerminalText("\nStopping and restarting the Python runtime (memory reset; re-run earlier cells)...\n");
-            window.PythonRuntime.restart("manual stop");
+        // The single button toggles: idle = Run, while this cell runs = Stop.
+        runButton.addEventListener("click", () => {
+          if (codeWindow.dataset.running === "1") {
+            if (window.PythonRuntime && window.PythonRuntime.restart) {
+              appendTerminalText("\nStopping and restarting the Python runtime (memory reset; re-run earlier cells)...\n");
+              window.PythonRuntime.restart("manual stop");
+            }
+          } else {
+            runCell();
           }
         });
 

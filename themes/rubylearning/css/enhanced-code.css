@@ -720,13 +720,12 @@ pre:has(> code.language-mermaid)::before {
   color: #e06c75;
 }
 
-/* Stop button: kill a run and restart the Python runtime */
-.run-button.stop-button {
+/* Stop state of the Run button: same spot, red, while a cell runs */
+.run-button.is-stop {
   background: #b91c1c;
-  right: 170px;
 }
 
-.run-button.stop-button:hover {
+.run-button.is-stop:hover {
   background: #991b1b;
 }
 
