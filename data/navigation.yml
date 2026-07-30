@@ -2,7 +2,7 @@ primary:
   - label: Home
     path: /
   - label: About
-    path: pages/about/
+    path: about/
   - label: Learn Ruby
     url: /courses/ruby-basics/#ruby-track
   - label: Learn Python
@@ -17,17 +17,17 @@ primary:
   - label: Courses
     url: /courses/
   - label: Mentorship
-    path: pages/mentorship/
+    path: mentorship/
   - label: Blog
     path: blog/
   - label: Resources
-    path: pages/resources/
+    path: resources/
 
 footer_quick:
   - label: Home
     path: /
   - label: About
-    path: pages/about/
+    path: about/
   - label: Learn Ruby
     url: /courses/ruby-basics/#ruby-track
   - label: Learn Python
@@ -37,7 +37,7 @@ footer_quick:
   - label: Blog
     path: blog/
   - label: Resources
-    path: pages/resources/
+    path: resources/
 
 footer_resources:
   - label: Ruby Official Site

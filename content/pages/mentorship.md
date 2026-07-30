@@ -28,7 +28,65 @@ Cohorts stay small on purpose. Write to us with: which track you completed, one 
 
 ## Apply
 
-Pick a preferred slot for a first 30-minute conversation, then send your application by email:
+Fill in the form below and it lands directly in our inbox - no mail client needed. Prefer email? The mail-to option further down still works too.
+
+<form id="mentorship-form" class="contact-form">
+  <label for="cf-name">Your name</label>
+  <input type="text" id="cf-name" name="name" placeholder="Ada Lovelace" required>
+
+  <label for="cf-email">Your email</label>
+  <input type="email" id="cf-email" name="email" placeholder="ada@example.com" required>
+
+  <label for="cf-track">Track you completed (or are finishing)</label>
+  <select id="cf-track" name="track">
+    <option value="">Choose a track</option>
+    <option>Ruby Basics</option>
+    <option>Advanced Ruby</option>
+    <option>Python Basics</option>
+    <option>Machine Learning: From Zero to LLMs</option>
+    <option>Image Generation: From Pixels to Diffusion</option>
+    <option>Other / self-taught</option>
+  </select>
+
+  <label for="cf-message">Your application</label>
+  <textarea id="cf-message" name="message" rows="8" required placeholder="Tell us: one piece of code you wrote that you are not fully happy with, and what you want to build next."></textarea>
+
+  <button type="submit" id="cf-submit">Send application</button>
+  <p id="cf-status" class="contact-form-status" role="status"></p>
+</form>
+
+<script>
+var FORM_ENDPOINT = "https://contact-form-mailer.YOUR-SUBDOMAIN.workers.dev";
+// After `npx wrangler deploy` (see workers/contact-form-mailer/README.md),
+// replace YOUR-SUBDOMAIN above - or route rubylearning.in/api/mentorship and
+// set FORM_ENDPOINT = "/api/mentorship".
+
+document.getElementById("mentorship-form").addEventListener("submit", async function (e) {
+  e.preventDefault();
+  var btn = document.getElementById("cf-submit");
+  var status = document.getElementById("cf-status");
+  btn.disabled = true;
+  status.className = "contact-form-status";
+  status.textContent = "Sending...";
+  try {
+    var res = await fetch(FORM_ENDPOINT, { method: "POST", body: new FormData(e.target) });
+    if (res.ok) {
+      status.classList.add("contact-form-status--ok");
+      status.textContent = "Application sent! We reply to every serious application within a week.";
+      e.target.reset();
+    } else {
+      throw new Error("HTTP " + res.status);
+    }
+  } catch (err) {
+    status.classList.add("contact-form-status--error");
+    status.textContent = "Could not send right now - please use the email option below instead.";
+  } finally {
+    btn.disabled = false;
+  }
+});
+</script>
+
+Or pick a preferred slot for a first 30-minute conversation, then send your application by email:
 
 <div class="mentorship-apply">
   <label for="slot-date">Preferred date</label>
