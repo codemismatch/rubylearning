@@ -71,7 +71,11 @@ Each step has two moves. First D learns one gradient step telling real from fake
 
 ```python-exec
 lr = 0.05
+SNAP_ZS = [-1.0 + 2.0 * i / 63 for i in range(64)]   # fixed noise grid, no RNG
+snapshots = {}                    # step -> generator outputs on SNAP_ZS
 for step in range(4000):
+    if step in (0, 2000):
+        snapshots[step] = [G.forward(z)[0] for z in SNAP_ZS]
     # move 1: train D on one real and one fake
     xr = random.choice(real)
     z = random.uniform(-1, 1)
@@ -97,6 +101,27 @@ for step in range(4000):
     G.b2 -= lr * db2
     if step % 1000 == 0:
         print(f"step {step:5d}  D(real)={D.prob_real(random.choice(real)):.3f}  D(fake)={p:.3f}")
+
+snapshots[4000] = [G.forward(z)[0] for z in SNAP_ZS]   # the finished forger
+```
+
+Here is what the game looks like from the generator's side: 64 outputs on a fixed grid of noise values, captured untrained, halfway, and at the end - each set sorted and drawn as an intensity strip, with a strip of real samples beside them for scale (darker = smaller number, same scale for all four):
+
+```python-exec
+all_vals = [v for s in snapshots.values() for v in s] + real[:64]
+lo, hi = min(all_vals), max(all_vals)
+
+def snap_strip(vals):
+    """64 values -> sorted 8x8 strip, scaled 0..1 on the shared lo..hi range."""
+    s = sorted(vals)
+    return [[(s[r * 8 + c] - lo) / (hi - lo) for c in range(8)] for r in range(8)]
+
+plt.imshow(snap_strip(real[:64]), label="real samples")
+plt.imshow(snap_strip(snapshots[0]), label="G untrained (step 0)")
+plt.imshow(snap_strip(snapshots[2000]), label="G at step 2000")
+plt.imshow(snap_strip(snapshots[4000]), label="G at step 4000")
+plt.title("The counterfeits tighten around the target")
+plt.show()
 ```
 
 ### Did the forger learn?

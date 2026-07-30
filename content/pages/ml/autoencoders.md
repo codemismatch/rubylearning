@@ -151,7 +151,18 @@ print(f"mean squared reconstruction error on 60 points: {sum(errs) / len(errs):.
 print(f"latent range: [{min(zs):+.2f}, {max(zs):+.2f}]")
 ```
 
-The reconstruction error collapses toward zero even though every coordinate round-trips through one number. And the latent code spreads across a real range - the network invented its own coordinate for "where on the circle". It will not be a clean angle (any monotone reparametrization works), but it *is* a one-dimensional description of a two-dimensional shape, found with no labels.
+The reconstruction error falls fast at first - from the untrained chaos down toward a fraction of its starting value - but watch the printed trace: it bounces rather than gliding to zero. That is this tiny setup showing its limits honestly (single-sample SGD, a one-number bottleneck, tanh everywhere), and it is exactly the tension the next chapters resolve with better training tricks and the U-Net. What does hold up is the latent code: it spreads across a real range - the network invented its own coordinate for "where on the circle". It will not be a clean angle (any monotone reparametrization works), but it *is* a one-dimensional description of a two-dimensional shape, found with no labels.
+
+Here is the latent code plotted against the true angle of each point:
+
+```python-exec
+plt.scatter(angles, zs, label="learned latent code")
+plt.title("The network invented its own angle coordinate")
+plt.xlabel("true angle (radians)")
+plt.ylabel("latent z")
+plt.legend()
+plt.show()
+```
 
 ```python-exec
 # reconstructed points vs real points
@@ -164,6 +175,26 @@ plt.scatter(real_x, real_y, label="real")
 plt.scatter(rec_x, rec_y, label="reconstructed")
 plt.title("The ring, rebuilt through a 1-number bottleneck")
 plt.legend()
+plt.show()
+```
+
+Scatter plots can fool the eye when points overlap, so here is the same comparison rendered as images - each point cloud binned into a density grid, real next to reconstructed:
+
+```python-exec
+def density_image(xs, ys, bins=16, lo=-2.6, hi=2.6):
+    """Bin points into a bins x bins grid, normalized to 0..1."""
+    grid = [[0.0] * bins for _ in range(bins)]
+    for x, y in zip(xs, ys):
+        c = int((x - lo) / (hi - lo) * bins)
+        r = int((y - lo) / (hi - lo) * bins)
+        if 0 <= r < bins and 0 <= c < bins:
+            grid[r][c] += 1.0
+    peak = max(max(row) for row in grid) or 1.0
+    return [[v / peak for v in row] for row in grid]
+
+plt.imshow(density_image(real_x, real_y), label="real ring")
+plt.imshow(density_image(rec_x, rec_y), label="rebuilt through 1 number")
+plt.title("Two images, one number of bandwidth between them")
 plt.show()
 ```
 

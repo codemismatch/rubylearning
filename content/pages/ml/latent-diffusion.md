@@ -74,6 +74,115 @@ print("sampled latent %+.2f decodes to point %s" % (z_sample, tuple(round(v, 2) 
 
 In the real Stable Diffusion, the encoder maps 512x512x3 images to 64x64x4 latents (48x compression), the DDPM's U-Net (Chapter 4) denoises those latents, and the decoder renders the final pixels. Ours maps 2D to 1 number, but the data flow is identical.
 
+Angles are a fine latent for a ring, but the claim was about *images*. So here is the same round trip at a scale this page can actually run: a tiny autoencoder - 64 pixels in, a **four-number latent** (a 2x2 grid), 64 pixels out - trained right here on four hand-drawn 8x8 sprites. Sixteen-to-one compression, the same ratio class as the real thing:
+
+```python-exec
+# a tiny image autoencoder: 64 pixels -> 4 latent numbers -> 64 pixels
+rng = random.Random(11)          # private stream, so the cells above are untouched
+
+def rows_to_img(rows):
+    return [float(v) for r in rows for v in r]
+
+PLUS = rows_to_img([[0,0,0,1,1,0,0,0],[0,0,0,1,1,0,0,0],[0,0,0,1,1,0,0,0],
+                    [1,1,1,1,1,1,1,1],[1,1,1,1,1,1,1,1],[0,0,0,1,1,0,0,0],
+                    [0,0,0,1,1,0,0,0],[0,0,0,1,1,0,0,0]])
+BOX  = rows_to_img([[1,1,1,1,1,1,1,1],[1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,1],[1,0,0,0,0,0,0,1],
+                    [1,0,0,0,0,0,0,1],[1,1,1,1,1,1,1,1]])
+CROSS = rows_to_img([[1,1,0,0,0,0,1,1],[1,1,1,0,0,1,1,1],[0,1,1,1,1,1,1,0],
+                     [0,0,1,1,1,1,0,0],[0,0,1,1,1,1,0,0],[0,1,1,1,1,1,1,0],
+                     [1,1,1,0,0,1,1,1],[1,1,0,0,0,0,1,1]])
+SLASH = rows_to_img([[1,1,0,0,0,0,0,0],[1,1,1,0,0,0,0,0],[0,1,1,1,0,0,0,0],
+                     [0,0,1,1,1,0,0,0],[0,0,0,1,1,1,0,0],[0,0,0,0,1,1,1,0],
+                     [0,0,0,0,0,1,1,1],[0,0,0,0,0,0,1,1]])
+ae_imgs = [PLUS, BOX, CROSS, SLASH]
+
+def sig(v):
+    return 1.0 / (1.0 + math.exp(-v))
+
+LAT = 4                          # the whole image, squeezed into 4 numbers
+W1 = [[rng.gauss(0, 0.3) for _ in range(64)] for _ in range(LAT)]
+b1 = [0.0] * LAT
+W2 = [[rng.gauss(0, 0.3) for _ in range(LAT)] for _ in range(64)]
+b2 = [0.0] * 64
+
+def ae_forward(x):
+    """64 pixels -> (latent of 4, reconstructed 64 pixels)."""
+    h = [sum(W1[k][i] * x[i] for i in range(64)) + b1[k] for k in range(LAT)]
+    out = [sig(sum(W2[i][k] * h[k] for k in range(LAT)) + b2[i]) for i in range(64)]
+    return h, out
+
+def ae_decode(h):
+    """Any point in latent space -> 64 pixels."""
+    return [sig(sum(W2[i][k] * h[k] for k in range(LAT)) + b2[i]) for i in range(64)]
+
+ae_steps, lr = 4000, 0.5
+for step in range(1, ae_steps + 1):
+    gW1 = [[0.0] * 64 for _ in range(LAT)]; gb1 = [0.0] * LAT
+    gW2 = [[0.0] * LAT for _ in range(64)]; gb2 = [0.0] * 64
+    loss = 0.0
+    for x in ae_imgs:
+        h, out = ae_forward(x)
+        d = [2 * (out[i] - x[i]) * out[i] * (1 - out[i]) / 64 for i in range(64)]
+        loss += sum((out[i] - x[i]) ** 2 for i in range(64)) / 64
+        dh = [0.0] * LAT
+        for i in range(64):
+            for k in range(LAT):
+                gW2[i][k] += d[i] * h[k]
+                dh[k] += W2[i][k] * d[i]
+            gb2[i] += d[i]
+        for k in range(LAT):
+            for i in range(64):
+                gW1[k][i] += dh[k] * x[i]
+            gb1[k] += dh[k]
+    n = len(ae_imgs)
+    for i in range(64):
+        for k in range(LAT):
+            W2[i][k] -= lr * gW2[i][k] / n
+        b2[i] -= lr * gb2[i] / n
+    for k in range(LAT):
+        for i in range(64):
+            W1[k][i] -= lr * gW1[k][i] / n
+        b1[k] -= lr * gb1[k] / n
+    if step % 1000 == 0:
+        progress(step, ae_steps, suffix=f"recon loss {loss / n:.4f}")
+print(f"trained: recon loss {loss / n:.4f} on {n} sprites")
+
+def to_grid8(flat):
+    return [[flat[r * 8 + c] for c in range(8)] for r in range(8)]
+
+h_plus, out_plus = ae_forward(PLUS)
+mx = max(abs(v) for v in h_plus)
+latent_show = [[(v / mx + 1) / 2 for v in row] for row in
+               [[h_plus[0], h_plus[1]], [h_plus[2], h_plus[3]]]]
+print("the plus sprite, as 4 latent numbers:", [round(v, 2) for v in h_plus])
+```
+
+Sixty-four pixels became four numbers and back. Here is the whole compression in one row - the sprite, the 2x2 latent it was squeezed into (scaled to 0..1 for display), and what the decoder rebuilds from just those four numbers:
+
+```python-exec
+plt.imshow(to_grid8(PLUS), label="original: the plus sprite")
+plt.imshow(latent_show, label="latent z (2x2, scaled)")
+plt.imshow(to_grid8(out_plus), label="decoded back from z")
+plt.title("Encode once: 64 pixels -> 4 numbers -> 64 pixels")
+plt.show()
+```
+
+And sampling? Decoding points chosen in latent space shows exactly why the DDPM has to *walk* there: nudge a real sprite's latent and the plus survives; stop halfway to the box's latent and you get a genuine blend; jump to a blind random latent and you get mush - mush that the reverse diffusion process exists to walk away from, one denoising step at a time:
+
+```python-exec
+h_box, _ = ae_forward(BOX)
+near  = [h_plus[k] + rng.gauss(0, 0.2) for k in range(LAT)]   # a small step off the plus
+blend = [(h_plus[k] + h_box[k]) / 2 for k in range(LAT)]      # halfway to the box
+blind = [rng.gauss(0, 1.0) for k in range(LAT)]               # no idea where we are
+
+plt.imshow(to_grid8(ae_decode(near)),  label="near a real latent")
+plt.imshow(to_grid8(ae_decode(blend)), label="halfway plus->box")
+plt.imshow(to_grid8(ae_decode(blind)), label="blind random latent")
+plt.title("Decoding sampled latents: structure near the data, mush far from it")
+plt.show()
+```
+
 ### Super-resolution: the same machine, pointed elsewhere
 
 Super-resolution is not a new model - it is latent diffusion with a condition. Give the denoiser the low-resolution image alongside the noisy latent (concatenated at the input, or injected via cross-attention), and train on pairs: the forward process destroys the *high*-res latent, the reverse process rebuilds it while the low-res image guides every step. The model learns "hallucinate detail consistent with this small image". Nothing in the math changes; only the inputs get an extra passenger:

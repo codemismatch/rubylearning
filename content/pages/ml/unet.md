@@ -76,7 +76,18 @@ print("input :", " ".join(f"{v:+.1f}" for v in x))
 print("output:", " ".join(f"{v:+.2f}" for v in out))
 ```
 
-Untrained, the output is noise-shaped, but notice it is *full length*: the architecture preserves resolution by construction. Training it is MSE against the clean signal with the same backprop you have written three times now - the only new wrinkle is that the skip gradient splits: part flows up through the decoder, part flows straight back into the encoder level that produced the skip.
+Untrained, the output is noise-shaped, but notice it is *full length*: the architecture preserves resolution by construction. Here is that same pass drawn as pictures - the two input pulses, and the untrained network's full-length answer:
+
+```python-exec
+lo, hi = min(out), max(out)
+out01 = [(v - lo) / (hi - lo) for v in out]
+plt.imshow([x], label="input (16)")
+plt.imshow([out01], label="output (16), rescaled")
+plt.title("Untrained, but already resolution-preserving")
+plt.show()
+```
+
+Training it is MSE against the clean signal with the same backprop you have written three times now - the only new wrinkle is that the skip gradient splits: part flows up through the decoder, part flows straight back into the encoder level that produced the skip.
 
 ### Why skips change everything
 
@@ -90,6 +101,23 @@ e2_probe = conv1d(downsample(e1_probe), net.w2, net.b2)
 bn_probe = conv1d(downsample(e2_probe), net.wb, net.bb)
 print("bottleneck (4 values, coarse):", " ".join(f"{v:+.2f}" for v in bn_probe))
 print("skip from level 1 (first 6 of 16, fine):", " ".join(f"{v:+.2f}" for v in e1_probe[:6]))
+```
+
+Watch the signal shrink as it walks down the encoder - the same input, the 8-wide level-2 map, and the 4-wide bottleneck (each run through the network's tanh and rescaled for display):
+
+```python-exec
+import math
+
+def strip01(s):
+    a = [math.tanh(v) for v in s]
+    lo, hi = min(a), max(a)
+    return [[(v - lo) / (hi - lo + 1e-9) for v in a]]
+
+plt.imshow([x], label="input (16)")
+plt.imshow(strip01(e2_probe), label="encoder level 2 (8)")
+plt.imshow(strip01(bn_probe), label="bottleneck (4)")
+plt.title("Down the U: 16 values become 4")
+plt.show()
 ```
 
 ### The denoiser in a diffusion model

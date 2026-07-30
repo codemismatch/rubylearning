@@ -62,6 +62,23 @@ for row in conv2d(img, vertical_edge):
 
 Read the output: the left block (bright-then-dark) lights up with one sign, the right block with the other. The kernel is literally measuring "bright on my left, dark on my right" at every spot.
 
+Here is what that looks like as actual pixels - the input, the kernel, and the feature map it produces:
+
+```python-exec
+def to01(grid):
+    """Min-max normalise any grid to 0..1 for plt.imshow."""
+    flat = [v for row in grid for v in row]
+    lo, hi = min(flat), max(flat)
+    span = (hi - lo) or 1.0
+    return [[(v - lo) / span for v in row] for row in grid]
+
+plt.imshow(to01(img), label="input image")
+plt.imshow(to01(vertical_edge), label="kernel (vertical edge)")
+plt.imshow(to01(conv2d(img, vertical_edge)), label="feature map")
+plt.title("Image in, feature map out")
+plt.show()
+```
+
 ### Filters worth knowing by name
 
 Sobel and friends are just hand-picked kernels. Watch a horizontal-edge detector ignore the vertical edges the first kernel found:
@@ -80,6 +97,28 @@ for name, k in kernels.items():
 ```
 
 For sixty years these kernels were designed by hand. The deep-learning move was to stop designing them and **learn the kernel values by gradient descent**, exactly the way we learned weights in [Chapter 15 of the ML course](/courses/machine-learning/neural-networks-from-scratch/).
+
+To see the filters properly, here is a slightly bigger 8x8 sprite - a filled diamond - passed through each of them in turn:
+
+```python-exec
+sprite = [
+    [0, 0, 0, 1, 1, 0, 0, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0],
+    [0, 1, 1, 1, 1, 1, 1, 0],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [1, 1, 1, 1, 1, 1, 1, 1],
+    [0, 1, 1, 1, 1, 1, 1, 0],
+    [0, 0, 1, 1, 1, 1, 0, 0],
+    [0, 0, 0, 1, 1, 0, 0, 0],
+]
+plt.imshow(to01(sprite), label="input sprite")
+for name, k in kernels.items():
+    plt.imshow(to01(conv2d(sprite, k)), label=name)
+plt.title("One sprite, four filters")
+plt.show()
+```
+
+Notice how each kernel keeps a different part of the diamond: the Sobels keep only the edges (one orientation each), the blur keeps the shape but softens it, and the sharpen exaggerates the boundary.
 
 ### A trainable convolution layer
 
@@ -102,6 +141,7 @@ train = [(with_square(0, 0), 1), (with_square(3, 3), 0),
 
 K = [[random.gauss(0, 0.1) for _ in range(3)] for _ in range(3)]
 w, b = 0.0, 0.0
+history = []
 
 def sigmoid(v):
     return 1.0 / (1.0 + math.exp(-v))
@@ -111,6 +151,7 @@ for step in range(3000):
     fm = conv2d(im, K)
     pooled = sum(sum(row) for row in fm)
     p = sigmoid(w * pooled + b)
+    history.append((p - label) ** 2)
     d = (p - label) * p * (1 - p)      # d loss / d pooled
     dw, db = d * pooled, d
     for i in range(4):
@@ -131,6 +172,29 @@ for row in K:
 ```
 
 Every training example classifies correctly, and the learned kernel has grown large weights in the patch positions that distinguish top-left from bottom-right. It *invented* a position detector, the same way a Sobel was invented by hand, except nobody told it what an edge is.
+
+The squared error over the 3000 steps shows the single kernel doing all the work - it drops to near zero within the first few hundred steps:
+
+```python-exec
+window = 100
+smoothed = [sum(history[i:i + window]) / window
+            for i in range(0, len(history), window)]
+plt.plot(range(0, len(history), window), smoothed, label="squared error (smoothed)")
+plt.xlabel("training step")
+plt.ylabel("loss")
+plt.title("One kernel learns to classify")
+plt.show()
+```
+
+And here is what it learned, next to the two kinds of input it separates:
+
+```python-exec
+plt.imshow(to01(train[0][0]), label="top-left square (label 1)")
+plt.imshow(to01(train[1][0]), label="bottom-right square (label 0)")
+plt.imshow(to01(K), label="learned kernel")
+plt.title("The kernel gradient descent invented")
+plt.show()
+```
 
 ### Why this scales to real vision
 

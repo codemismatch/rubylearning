@@ -278,11 +278,15 @@ def p_sample_2d(m, x, y, t):
     s = math.sqrt(var)
     return mean_x + s * random.gauss(0, 1), mean_y + s * random.gauss(0, 1)
 
+SNAP_T = [49, 35, 20, 5, 0]          # steps to photograph mid-walk
+traj = {t: ([], []) for t in SNAP_T} # t -> (xs, ys) across all walks
 gen_x, gen_y = [], []
 for _ in range(300):
     x, y = random.gauss(0, 1), random.gauss(0, 1)
     for tt in reversed(range(T)):
         x, y = p_sample_2d(m2, x, y, tt)
+        if tt in traj:
+            traj[tt][0].append(x); traj[tt][1].append(y)
     gen_x.append(x); gen_y.append(y)
 
 plt.scatter(xs, ys, label="real moons")
@@ -293,6 +297,52 @@ plt.show()
 ```
 
 Two moons, drawn from memory. Same equations as the 1D case, same equations as Stable Diffusion, only the shapes of the tensors differ.
+
+### Watching the noise turn into moons
+
+The scatter above only shows the landing. While sampling ran, we photographed every walk at five intermediate steps, so here is the reverse process frame by frame - pure static on the left, the two moons condensing out of it on the right:
+
+```python-exec
+def density(px, py, n=24, lo=-3.0, hi=3.0):
+    """Bin points into an n x n grid, normalized to 0..1 for plt.imshow."""
+    grid = [[0.0] * n for _ in range(n)]
+    for x, y in zip(px, py):
+        c = int((x - lo) / (hi - lo) * n)
+        r = int((y - lo) / (hi - lo) * n)
+        if 0 <= r < n and 0 <= c < n:
+            grid[r][c] += 1.0
+    mx = max(max(row) for row in grid) or 1.0
+    return [[v / mx for v in row] for row in grid]
+
+for t in SNAP_T:
+    plt.imshow(density(traj[t][0], traj[t][1]), label=f"t={t}")
+plt.title("300 reverse walks, photographed at five steps")
+plt.show()
+```
+
+Each frame is a density map of where all 300 walks were at that step. At t=49 they sit in a round Gaussian blob; by t=5 the blob has split and stretched; at t=0 only the moons remain.
+
+Is any of this structure actually the training's doing, or would the random-walk formula draw moons with any old weights? Cheap to check: build a second denoiser, never train it, and walk it through the same sampler:
+
+```python-exec
+m2_raw = TinyDenoiser2D()
+m2_raw.W1 = [[random.gauss(0, 0.3) for _ in range(2 + 8)] for _ in range(16)]
+
+raw_x, raw_y = [], []
+for _ in range(100):
+    x, y = random.gauss(0, 1), random.gauss(0, 1)
+    for tt in reversed(range(T)):
+        x, y = p_sample_2d(m2_raw, x, y, tt)
+    raw_x.append(x); raw_y.append(y)
+
+plt.imshow(density(raw_x, raw_y), label="untrained denoiser")
+plt.imshow(density(gen_x, gen_y), label="trained denoiser")
+plt.imshow(density(xs, ys), label="real moons")
+plt.title("Same sampler, same schedule - only the weights differ")
+plt.show()
+```
+
+The untrained network's samples stay a shapeless smear - the sampler alone is just a random walk. The trained weights are what steer each step toward the data manifold. That contrast is the whole chapter in one picture.
 
 ### Where to go next
 

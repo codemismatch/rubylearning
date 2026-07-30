@@ -110,6 +110,37 @@ print(f"loss after update:  {new_loss:.6f}")
 
 The loss drops because every parameter moved opposite its gradient. That is the entire algorithm. Everything else in deep learning - momentum, Adam, learning-rate schedules - is a refinement of how big that step should be and in what direction.
 
+One step is a promise; a few hundred steps are the proof. Same network, same starting weights, same hand-derived gradients, just repeated - recording the loss each time:
+
+```python-exec
+tw1, tb1, tw2, tb2 = w1, b1, w2, b2
+losses = []
+for step in range(300):
+    h_t = math.tanh(tw1 * x + tb1)
+    losses.append((tw2 * h_t + tb2 - y) ** 2)
+    dz2 = 2 * (tw2 * h_t + tb2 - y)
+    dz1 = dz2 * tw2 * (1 - h_t ** 2)
+    tw1 -= lr * dz1 * x
+    tb1 -= lr * dz1
+    tw2 -= lr * dz2 * h_t
+    tb2 -= lr * dz2
+
+print(f"loss at step 0:   {losses[0]:.6f}")
+print(f"loss at step 299: {losses[-1]:.6f}")
+```
+
+Here is what "the loss falls" actually looks like when you let it run:
+
+```python-exec
+plt.plot(list(range(300)), losses, label="loss")
+plt.title("300 steps of the gradients we derived by hand")
+plt.xlabel("gradient step")
+plt.ylabel("squared-error loss")
+plt.show()
+```
+
+A steep early drop, then a long shallow tail as the output approaches y = 1.0 and the gradients shrink toward zero - the classic shape of gradient descent converging, produced entirely by the arithmetic from this chapter.
+
 ### The pattern behind every backprop you will ever write
 
 Notice the shape of what we did: forward pass *saves* intermediate values (z1, h, z2), backward pass reuses them, multiplying an incoming gradient by one local derivative at a time. Deep frameworks automate this by recording every operation on a tape and replaying it in reverse (that is what "autograd" means), but the arithmetic is identical to what you just did by hand. When a gradient in a real model looks wrong, the debugging skill is the one from this chapter: pick a tiny case, walk the chain link by link, and gradient-check.

@@ -30,18 +30,32 @@ def layer_out(x, W):
 
 def run_depth(fan_in, scale, layers=20):
     x = [random.gauss(0, 1) for _ in range(fan_in)]
+    hist = []                       # variance after each layer, for the plot below
     for _ in range(layers):
         W = [[random.gauss(0, scale) for _ in range(fan_in)] for _ in range(fan_in)]
         x = layer_out(x, W)
-    return sum(v * v for v in x) / fan_in
+        hist.append(sum(v * v for v in x) / fan_in)
+    return hist
 
-var_random = run_depth(64, 1.0)
-var_xavier = run_depth(64, math.sqrt(1.0 / 64))
+hist_random = run_depth(64, 1.0)
+hist_xavier = run_depth(64, math.sqrt(1.0 / 64))
+var_random, var_xavier = hist_random[-1], hist_xavier[-1]
 print(f"variance after 20 layers, naive init: {var_random:.6f}")
 print(f"variance after 20 layers, xavier init: {var_xavier:.4f}")
 ```
 
-The naive version dies exponentially; the Xavier-scaled version is still alive twenty layers in. Same architecture, same data - only the starting numbers changed.
+The naive version dies exponentially; the Xavier-scaled version is still alive twenty layers in. Same architecture, same data - only the starting numbers changed. Here is the same experiment drawn layer by layer, on a log scale so the cliff is visible:
+
+```python-exec
+depths = list(range(1, 21))
+log10 = lambda vs: [math.log10(max(v, 1e-30)) for v in vs]
+plt.plot(depths, log10(hist_random), label="naive init (scale 1.0)")
+plt.plot(depths, log10(hist_xavier), label="xavier init (scale 1/sqrt(fan_in))")
+plt.title("Activation variance vs depth")
+plt.xlabel("layer")
+plt.ylabel("log10 variance")
+plt.show()
+```
 
 ### Trick 2: normalize the inputs
 
@@ -74,27 +88,44 @@ residual: y = F(x) + x     # F only learns the correction
 If the best a layer can do is nothing, a residual layer just learns to push F toward zero and the identity passes through. Watch the difference over 30 layers:
 
 ```python-exec
-def deep_plain(x, layers=30):
+norm = lambda v: (sum(t * t for t in v) / len(v)) ** 0.5
+
+def deep_plain(x, layers=30, hist=None):
     for _ in range(layers):
         W = [[random.gauss(0, 0.15) for _ in range(len(x))] for _ in range(len(x))]
         x = layer_out(x, W)
+        if hist is not None:
+            hist.append(norm(x))
     return x
 
-def deep_residual(x, layers=30):
+def deep_residual(x, layers=30, hist=None):
     for _ in range(layers):
         W = [[random.gauss(0, 0.15) for _ in range(len(x))] for _ in range(len(x))]
         fx = layer_out(x, W)
         x = [a + b for a, b in zip(fx, x)]
+        if hist is not None:
+            hist.append(norm(x))
     return x
 
 x0 = [random.gauss(0, 1) for _ in range(16)]
-norm = lambda v: (sum(t * t for t in v) / len(v)) ** 0.5
+hist_plain, hist_res = [], []
 print(f"input magnitude:           {norm(x0):.3f}")
-print(f"after 30 plain layers:     {norm(deep_plain(x0)):.6f}")
-print(f"after 30 residual layers:  {norm(deep_residual(x0)):.3f}")
+print(f"after 30 plain layers:     {norm(deep_plain(x0, hist=hist_plain)):.6f}")
+print(f"after 30 residual layers:  {norm(deep_residual(x0, hist=hist_res)):.3f}")
 ```
 
-The plain stack's signal fades to nothing; the residual stack passes it through. That one `+ x` is why networks hundreds of layers deep train at all, and why the U-Net in the next chapter can afford its depth.
+The plain stack's signal fades to nothing; the residual stack passes it through. That one `+ x` is why networks hundreds of layers deep train at all, and why the U-Net in the next chapter can afford its depth. Same thing drawn over depth - the residual curve keeps the signal alive near the input's magnitude:
+
+```python-exec
+depths30 = list(range(1, 31))
+plt.plot(depths30, hist_plain, label="plain stack")
+plt.plot(depths30, hist_res, label="residual stack")
+plt.plot(depths30, [norm(x0)] * 30, label="input magnitude")
+plt.title("Signal magnitude vs depth, 30 layers")
+plt.xlabel("layer")
+plt.ylabel("RMS magnitude")
+plt.show()
+```
 
 ### Where these show up later
 
