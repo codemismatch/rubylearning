@@ -314,6 +314,7 @@ for ln in rows:
         caps[word] = parts[1].strip('"')
     px = [float(v) * 2 - 1 for v in parts[2:]]     # 0..1 -> -1..1
     cdata.append((px, CLASSES.index(word)))
+assert cdata, "coco_text had no valid rows - hard-refresh, wait for 'Dataset ready', run again."
 
 def show16(x, lo=-1.0, hi=1.0):
     """Flattened 16x16 photo -> 0..1 grid for plt.imshow."""
@@ -514,6 +515,7 @@ for ln in rows:
         caps[word] = parts[1].strip('"')
     px = [float(v) * 2 - 1 for v in parts[2:]]
     cdata.append((px, CLASSES.index(word)))
+assert cdata, "pixel_text had no valid rows - hard-refresh, wait for 'Dataset ready', run again."
 
 print(f"{len(cdata)} pixel-art images, {len(CLASSES)} classes: {CLASSES}")
 for w in CLASSES:
@@ -663,6 +665,7 @@ for ln in rows:
         caps[word] = parts[1].strip('"')
     px = [float(v) * 2 - 1 for v in parts[2:]]
     data.append((px, VOCAB.index(word)))
+assert data, "pixel8_text had no valid rows - hard-refresh, wait for 'Dataset ready', run again."
 
 print(f"{len(data)} images, {len(VOCAB)} classes: {VOCAB}")
 for w in VOCAB:
@@ -846,6 +849,7 @@ for ln in rows:
         caps[word] = parts[1].strip('"')
     px = [float(v) * 2 - 1 for v in parts[2:]]
     data.append((down2(px), VOCAB.index(word)))
+assert data, "rgb_text had no valid rows - hard-refresh, wait for 'Dataset ready', run again."
 
 def show_rgb(x):
     """Flat 48-vector (+-1) -> 4x4 grid of [r, g, b] in 0..1."""

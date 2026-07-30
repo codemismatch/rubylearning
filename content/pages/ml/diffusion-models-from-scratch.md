@@ -300,6 +300,7 @@ Sprites: Kenney Tiny Dungeon, CC0 (kenney.nl) - real game art, reduced to 8x8 si
 ```python-exec
 rows = [r.split(",") for r in sprites_text.strip().split("\n")[1:]]
 rows = [r for r in rows if len(r) >= 65]   # drop anything that is not sprite data
+assert rows, "sprites_text had no valid rows - the dataset did not load. Hard-refresh the page, wait for 'Dataset ready', then run again."
 real_names = [r[0] for r in rows]
 real_sprites = [[float(v) for v in r[1:]] for r in rows]
 print(f"{len(real_sprites)} real sprites, {len(real_sprites[0])} pixels each")
