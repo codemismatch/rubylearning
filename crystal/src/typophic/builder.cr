@@ -702,7 +702,7 @@ module Typophic
       when "posts"
         "/posts/#{slug}/"
       when "pages"
-        "/#{slug}/"
+        "/pages/#{slug}/"
       else
         segments = intermediate_segments || [] of String
         path_parts = segments + [slug]
