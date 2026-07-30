@@ -186,25 +186,37 @@ module Typophic
       end
 
       def render_lists
-        # Convert runs of "- item" lines into proper <ul><li> blocks.
-        # Must run before wrap_paragraphs, which would otherwise merge the
-        # list lines into a single inline paragraph.
+        # Convert runs of "- item" or "1. item" lines into proper
+        # <ul>/<ol> blocks. Must run before wrap_paragraphs, which would
+        # otherwise merge the list lines into a single inline paragraph.
         lines = @content.split("\n", -1)
         out = []
-        in_list = false
+        list_type = nil # nil | :ul | :ol
+
+        close_list = -> do
+          if list_type
+            out << (list_type == :ul ? "</ul>" : "</ol>")
+            list_type = nil
+          end
+        end
 
         lines.each do |line|
           if line =~ /\A[ \t]*\-\s+(.+?)\s*\z/
-            out << "<ul>" unless in_list
-            in_list = true
+            close_list.call if list_type == :ol
+            out << "<ul>" unless list_type == :ul
+            list_type = :ul
+            out << "<li>#{Regexp.last_match(1)}</li>"
+          elsif line =~ /\A[ \t]*\d+\.\s+(.+?)\s*\z/
+            close_list.call if list_type == :ul
+            out << "<ol>" unless list_type == :ol
+            list_type = :ol
             out << "<li>#{Regexp.last_match(1)}</li>"
           else
-            out << "</ul>" if in_list
-            in_list = false
+            close_list.call
             out << line
           end
         end
-        out << "</ul>" if in_list
+        close_list.call
 
         @content = out.join("\n")
       end

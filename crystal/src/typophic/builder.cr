@@ -1363,24 +1363,44 @@ module Typophic
         end
       end
 
-      # Lists: runs of lines starting with "- " become <ul><li> blocks.
-      # Line-based, mirroring the Ruby renderer (regex approaches proved
-      # fragile with blank lines between items and paragraphs).
+      # Lists: runs of "- " lines become <ul>, runs of "1. " lines become
+      # <ol>. Line-based, mirroring the Ruby renderer.
       list_lines = html.split("\n")
       list_out = [] of String
-      in_list = false
+      list_type = :none
       list_lines.each do |line|
         if item_match = /\A[ \t]*\-\s+(.+?)\s*\z/.match(line)
-          list_out << "<ul>" unless in_list
-          in_list = true
+          if list_type == :ol
+            list_out << "</ol>"
+            list_type = :none
+          end
+          if list_type != :ul
+            list_out << "<ul>"
+            list_type = :ul
+          end
+          list_out << "<li>#{item_match[1]}</li>"
+        elsif item_match = /\A[ \t]*\d+\.\s+(.+?)\s*\z/.match(line)
+          if list_type == :ul
+            list_out << "</ul>"
+            list_type = :none
+          end
+          if list_type != :ol
+            list_out << "<ol>"
+            list_type = :ol
+          end
           list_out << "<li>#{item_match[1]}</li>"
         else
-          list_out << "</ul>" if in_list
-          in_list = false
+          if list_type == :ul
+            list_out << "</ul>"
+          elsif list_type == :ol
+            list_out << "</ol>"
+          end
+          list_type = :none
           list_out << line
         end
       end
-      list_out << "</ul>" if in_list
+      list_out << "</ul>" if list_type == :ul
+      list_out << "</ol>" if list_type == :ol
       html = list_out.join("\n")
 
       # Paragraphs
