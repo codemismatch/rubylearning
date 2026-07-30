@@ -160,12 +160,12 @@
               outputContent.textContent = "queued - this cell will run as soon as the current one finishes...\n";
               outputContent.dataset.queued = "1";
             }
-            if (window.PythonRuntime.setPlotHandler && window.TypophicPlot) {
-              PythonRuntime.setPlotHandler(spec => {
-                plotArea.appendChild(window.TypophicPlot.render(spec));
-              });
-            }
-            const result = await PythonRuntime.run(code, appendTerminalText);
+            // Route this run's figures to THIS window's plot area - a
+            // later click elsewhere must not steal them.
+            const onPlot = (window.TypophicPlot)
+              ? (spec) => { plotArea.appendChild(window.TypophicPlot.render(spec)); }
+              : null;
+            const result = await PythonRuntime.run(code, appendTerminalText, onPlot);
             // Main-thread fallback has no streaming; use the final buffer.
             if (!outputContent.textContent) {
               appendTerminalText(result || "");
@@ -181,6 +181,7 @@
 
         // Exposed so the corpus-upload widget can re-run cells in order.
         codeWindow.runCell = runCell;
+        codeWindow.markContextReady = () => { contextReady = true; };
         // The single button toggles: idle = Run, while this cell runs = Stop.
         runButton.addEventListener("click", () => {
           if (codeWindow.dataset.running === "1") {
@@ -206,6 +207,56 @@
         }
       }
     });
+
+    // "Run all cells" bar above the first code window: notebook-style
+    // sequential execution of every runnable cell on the page, in order.
+    if (!document.querySelector(".run-all-bar")) {
+      const execWindows = [...document.querySelectorAll(".code-window")]
+        .filter(cw => typeof cw.runCell === "function");
+      if (execWindows.length >= 2) {
+        const bar = document.createElement("div");
+        bar.className = "run-all-bar";
+        const btn = document.createElement("button");
+        btn.className = "run-all-button";
+        btn.innerHTML = "▶&nbsp;Run all cells";
+        bar.appendChild(btn);
+        const note = document.createElement("span");
+        note.className = "run-all-note";
+        note.textContent = "runs every cell on this page top to bottom, in the shared namespace";
+        bar.appendChild(note);
+        // Place it at the top of the chapter, right after the header
+        // (title, author, difficulty badge); fall back to the first cell.
+        const header = document.querySelector(".tutorial-header");
+        if (header && header.parentNode) {
+          header.parentNode.insertBefore(bar, header.nextSibling);
+        } else {
+          execWindows[0].parentNode.insertBefore(bar, execWindows[0]);
+        }
+
+        btn.addEventListener("click", async () => {
+          if (btn.disabled) return;
+          btn.disabled = true;
+          // Wait for corpus datasets (sprites_text, coco_text, ...) to land.
+          const markers = [...document.querySelectorAll("[data-corpus-url]")];
+          if (markers.length) {
+            btn.innerHTML = "Loading datasets&#8230;";
+            const t0 = Date.now();
+            while (markers.some(m => !m.dataset.corpusReady) && Date.now() - t0 < 120000) {
+              await new Promise(r => setTimeout(r, 300));
+            }
+          }
+          // Every cell runs once, in order, so defs accumulate naturally and
+          // no per-cell context replay is needed.
+          execWindows.forEach(cw => { if (cw.markContextReady) cw.markContextReady(); });
+          for (let i = 0; i < execWindows.length; i++) {
+            btn.innerHTML = `Running ${i + 1}/${execWindows.length}&#8230;`;
+            try { await execWindows[i].runCell(); } catch (_) { /* keep going */ }
+          }
+          btn.innerHTML = "▶&nbsp;Run all cells";
+          btn.disabled = false;
+        });
+      }
+    }
   }
 
   // Turns <div data-corpus-url="/path/file.csv" data-corpus-var="moons_text">
@@ -229,9 +280,11 @@
         const text = await resp.text();
         const py = await PythonRuntime.getPyodide();
         py.globals.set(varName, text);
+        marker.dataset.corpusReady = "1";
         status.textContent = "Dataset ready: " + url.split("/").pop() +
           " (" + (text.split("\n").length - 1) + " rows) loaded as `" + varName + "`.";
       } catch (err) {
+        marker.dataset.corpusReady = "error";
         status.textContent = "Could not load " + url + ": " + err;
       }
     });

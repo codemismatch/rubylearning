@@ -23,7 +23,7 @@ In this chapter we build one in pure Python: an encoder that crushes 2D points d
 
 Our dataset is a noisy ring: points that live on a circle of radius 2, plus jitter. A circle is a 2D shape, but any point on it is described fully by one number - its angle. A good autoencoder should discover the angle all by itself, because that is the cheapest way to survive a 1-number bottleneck.
 
-```python
+```python-exec
 import math, random
 random.seed(11)
 

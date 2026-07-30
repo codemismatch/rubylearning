@@ -39,7 +39,7 @@ For a small dataset, a common starting split is 70% train, 15% validation, and 1
 
 Suppose a model predicts the probability that a transaction is fraudulent:
 
-```python
+```python-exec
 y_true =  [0,    0,    1,    0,    1,    1,    0,    1,    0,    1]
 probs =   [0.05, 0.62, 0.91, 0.10, 0.44, 0.81, 0.30, 0.72, 0.55, 0.20]
 ```

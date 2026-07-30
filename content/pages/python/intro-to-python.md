@@ -158,7 +158,7 @@ import this
 
 **Goal:** The code below has a broken indent. Fix it so it runs.
 
-```python
+```python-exec
 language = "Python"
 
 if language == "Python":

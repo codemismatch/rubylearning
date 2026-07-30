@@ -55,7 +55,7 @@ graph LR
 
 Twelve short messages, six spam and six ham, with word counts kept small so you can verify every number by hand.
 
-```python
+```python-exec
 training = [
     ("win money now", "spam"),
     ("claim your free prize", "spam"),

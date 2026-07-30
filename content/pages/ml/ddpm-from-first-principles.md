@@ -29,7 +29,7 @@ x_t = sqrt(alpha_bar_t) * x0 + sqrt(1 - alpha_bar_t) * epsilon,   epsilon ~ N(0,
 
 `alpha_bar_t` is the fraction of the original signal left at step t. It starts near 1 (barely noisy) and decays toward 0 (pure noise). The schedule is fixed in advance; nothing is learned here.
 
-```python
+```python-exec
 import math, random
 random.seed(7)
 
@@ -69,7 +69,7 @@ loss = mean((eps_true - eps_pred(x_t, t))^2)
 
 Our noise predictor is a tiny two-layer network that takes `x_t` and a sinusoidal embedding of `t` (the same trick transformers use for positions):
 
-```python
+```python-exec
 def time_embedding(t, dim=8):
     out = []
     for i in range(dim // 2):
@@ -101,7 +101,7 @@ class TinyDenoiser:
 
 The dataset is a 1D two-bump mixture (points near -2 and +2). Each training step: pick a point, pick a random t, noise it, and penalize the model's noise guess with plain gradient descent. The gradients below are the same backprop you wrote in [Chapter 15 of the ML course](/courses/machine-learning/neural-networks-from-scratch/), just applied to MSE:
 
-```python
+```python-exec
 def train(model, data, steps=4000, lr=0.02):
     for step in range(steps):
         x0 = random.choice(data)
@@ -148,7 +148,7 @@ Loss will bounce around (every step uses a random t and a fresh noise draw) but 
 
 Now the payoff. Start from pure noise, and for t = 49 down to 0, ask the model what the noise is, remove most of it, and add a smaller fresh pinch (except at the last step). If training worked, the numbers that fall out should cluster near -2 and +2, the shape of our dataset:
 
-```python
+```python-exec
 def p_sample(model, xt, t):
     eps_pred, _ = model.forward(xt, t)
     ab, ab_prev = alpha_bars[t], alpha_bars[t - 1] if t > 0 else 1.0

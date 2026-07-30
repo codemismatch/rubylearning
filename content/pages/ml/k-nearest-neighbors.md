@@ -42,7 +42,7 @@ If `k = 3` and two of the three closest neighbors are red, the point is predicte
 
 We will classify fruit by weight in grams and sweetness on a 1-10 scale. Small and sweet is a berry; heavy and mild is a melon.
 
-```python
+```python-exec
 # (weight_grams, sweetness), label
 data = [
     ((15, 9),  "berry"),

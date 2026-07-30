@@ -226,7 +226,7 @@ graph LR
 
 A toy pure-Python block (relu for the nonlinearity, plain mean/variance layer norm) looks like this:
 
-```python
+```python-exec
 import math
 
 def relu(x):

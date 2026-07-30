@@ -127,21 +127,26 @@ def progress(step, total, width=28, suffix=""):
 
   const NS = "http://www.w3.org/2000/svg";
 
-  // Renders {kind:"image", grid, label} series as side-by-side grayscale grids.
+  // Renders image series as side-by-side pixel grids (grayscale or RGB),
+  // scaled to use the full plot width with real gaps between images.
   function renderImages(spec, images) {
-    const CELL = 14, PAD = 14, LABEL_H = 18, TITLE_H = spec.title ? 24 : 0;
-    const perW = images.map(s => s.grid[0].length * CELL + PAD * 2);
-    const W = perW.reduce((a, b) => a + b, 0);
+    const cols0 = images[0].grid[0].length;
+    const CELL = cols0 <= 4 ? 34 : cols0 <= 8 ? 24 : cols0 <= 16 ? 16 : 12;
+    const GAP = 26, PAD = 16, LABEL_H = 20, TITLE_H = spec.title ? 26 : 0;
+    const perW = images.map(s => s.grid[0].length * CELL + PAD * 2 + GAP);
+    const W = perW.reduce((a, b) => a + b, 0) - GAP;
     const H = images[0].grid.length * CELL + PAD * 2 + LABEL_H + TITLE_H;
     const svg = el("svg", {
       viewBox: `0 0 ${W} ${H}`,
       class: "typophic-plot",
       role: "img",
+      preserveAspectRatio: "xMidYMid meet",
       "aria-label": spec.title || "image",
-      style: "max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"
+      // Scale to fill the plot width; SVG stays crisp at any size.
+      style: "width:100%;max-width:100%;height:auto;display:block;background:var(--code-bg,#1e1e1e);border-radius:8px;margin:0.5rem 0;"
     });
     if (spec.title) {
-      svg.appendChild(el("text", { x: W / 2, y: 16, fill: "#e5e7eb", "font-size": 13, "font-weight": "bold", "text-anchor": "middle" }, spec.title));
+      svg.appendChild(el("text", { x: W / 2, y: 17, fill: "#e5e7eb", "font-size": 14, "font-weight": "bold", "text-anchor": "middle" }, spec.title));
     }
     let ox = 0;
     images.forEach((s, i) => {
@@ -169,7 +174,8 @@ def progress(step, total, width=28, suffix=""):
         }
       }
       if (s.label) {
-        svg.appendChild(el("text", { x: ox + perW[i] / 2, y: TITLE_H + PAD + rows * CELL + 14, fill: "#9ca3af", "font-size": 11, "text-anchor": "middle" }, s.label));
+        const fs = s.label.length > 22 ? 9.5 : 11.5;
+        svg.appendChild(el("text", { x: ox + perW[i] / 2 - GAP / 2, y: TITLE_H + PAD + rows * CELL + 15, fill: "#9ca3af", "font-size": fs, "text-anchor": "middle" }, s.label));
       }
       ox += perW[i];
     });
@@ -217,6 +223,8 @@ def progress(step, total, width=28, suffix=""):
 
     const svg = el("svg", {
       viewBox: `0 0 ${W} ${H}`,
+      width: String(W),
+      height: String(H),
       class: "typophic-plot",
       role: "img",
       "aria-label": spec.title || "plot",

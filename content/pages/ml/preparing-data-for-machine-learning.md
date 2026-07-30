@@ -31,7 +31,7 @@ This chapter builds a small preprocessing pipeline in pure Python. By the end, y
 
 Suppose each house is represented by a dictionary:
 
-```python
+```python-exec
 rows = [
     {"size_sqft": 750,  "bedrooms": 2, "neighborhood": "north", "price": 180000},
     {"size_sqft": 940,  "bedrooms": 2, "neighborhood": "south", "price": 220000},
@@ -160,7 +160,7 @@ That lets the model distinguish "a typical-sized house" from "a house whose size
 
 A model cannot multiply `"north"` by a weight. We need numbers, but this is wrong:
 
-```python
+```python-exec
 # Bad: the numbers invent an order that does not exist.
 codes = {"north": 1, "south": 2, "west": 3}
 ```

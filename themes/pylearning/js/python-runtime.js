@@ -94,11 +94,12 @@
     streamHandler = fn;
   }
 
-  function emitPlots(specs) {
-    if (!plotHandler || !Array.isArray(specs)) return;
+  function emitPlots(specs, onPlot) {
+    const handler = onPlot || plotHandler;
+    if (!handler || !Array.isArray(specs)) return;
     specs.forEach((spec) => {
       try {
-        plotHandler(spec);
+        handler(spec);
       } catch (_e) { /* ignore render errors */ }
     });
   }
@@ -149,7 +150,7 @@
         pending,
         queue: Promise.resolve(),
         inFlight: 0,
-        run(code, onStream) {
+        run(code, onStream, onPlot) {
           // Serialize EXECUTION, not just resolution: the code is only posted
           // once the previous run fully resolved. Queue is kept resolved at
           // all times so one failure never stalls later runs.
@@ -174,7 +175,8 @@
                 clearTimeout(watchdog);
                 watchdog = arm();
                 if (onStream) onStream(text);
-              }
+              },
+              onPlot
             });
             worker.postMessage({ type: "run", id, code });
           });
@@ -254,7 +256,7 @@
           const entry = pending.get(msg.id);
           if (entry) {
             pending.delete(msg.id);
-            emitPlots(msg.plots);
+            emitPlots(msg.plots, entry.onPlot);
             entry.resolve(String(msg.result || ""));
           }
         }
@@ -393,9 +395,9 @@ buf.getvalue()
     return readyPromise;
   }
 
-  async function runPython(code, onStream) {
+  async function runPython(code, onStream, onPlot) {
     const state = await ready();
-    return state.run(code, onStream);
+    return state.run(code, onStream, onPlot);
   }
 
   async function getPyodideFacade() {

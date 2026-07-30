@@ -23,7 +23,7 @@ Everything here is pure Python. Save the snippets into one file, say `tree.py`, 
 
 A tiny dataset: deciding whether to play tennis based on the weather. Each row is (outlook, temperature in C, windy) plus the decision.
 
-```python
+```python-exec
 # (outlook, temp_c, windy), decision
 data = [
     ("sunny",    30, False, "no"),
@@ -85,7 +85,7 @@ print("entropy of pure set:", entropy(["yes", "yes", "yes"]))
 
     gini = 1 - sum( p^2 )
 
-```python
+```python-exec
 def gini(labels):
     n = len(labels)
     counts = Counter(labels)
