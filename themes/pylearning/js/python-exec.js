@@ -277,7 +277,9 @@
       marker.appendChild(status);
       try {
         const resp = await fetch(url);
+        if (!resp.ok) throw new Error("HTTP " + resp.status + " (server may need a rebuild)");
         const text = await resp.text();
+        if (/^\s*</.test(text)) throw new Error("got an HTML page instead of data - the site build is stale, rebuild with --no-incremental");
         const py = await PythonRuntime.getPyodide();
         py.globals.set(varName, text);
         marker.dataset.corpusReady = "1";

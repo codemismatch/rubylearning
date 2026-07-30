@@ -301,7 +301,7 @@ The sprite labels were free because we wrote both sides of every pair. Real text
 <div data-corpus-url="/assets/data/coco16.csv" data-corpus-var="coco_text"></div>
 
 ```python-exec
-rows = coco_text.strip().split("\n")[1:]      # skip the header
+rows = [ln for ln in coco_text.strip().split("\n")[1:] if ln.count(",") >= 257   # skip the header, drop non-data lines
 CLASSES = []
 cdata = []          # (flat 256-vector rescaled to +-1, class index)
 caps = {}
@@ -505,6 +505,8 @@ cdata = []
 caps = {}
 for ln in rows:
     parts = ln.split(",")
+    if len(parts) < 258:
+        continue        # not data (stale build served a page?)
     word = parts[0]
     if word not in CLASSES:
         CLASSES.append(word)
@@ -652,6 +654,8 @@ data = []
 caps = {}
 for ln in rows:
     parts = ln.split(",")
+    if len(parts) < 66:
+        continue        # not data (stale build served a page?)
     word = parts[0]
     if word not in VOCAB:
         VOCAB.append(word)
@@ -831,6 +835,8 @@ def down2(x):
 
 for ln in rows:
     parts = ln.split(",")
+    if len(parts) < 194:
+        continue        # not data (stale build served a page?)
     word = parts[0]
     if word not in KEEP:
         continue
