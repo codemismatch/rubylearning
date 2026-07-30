@@ -234,6 +234,7 @@ for x0, tt, noise in evals:
     pred, _ = forward(q_sample(x0, tt, noise) + TE_CACHE[tt])
     total += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 64
 print(f"eval loss: {total / 200:.4f}")
+print("Training done - the Sampling cell below turns these learned weights into brand-new sprites from pure noise. Run it to see them.")
 ```
 
 The loss curve, from the recorded history:

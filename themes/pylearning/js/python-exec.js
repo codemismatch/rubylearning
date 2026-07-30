@@ -122,12 +122,12 @@
           outputArea.scrollTop = outputArea.scrollHeight;
         };
 
-        // Notebook semantics: before the first Run in any window, silently
-        // execute every earlier Python block on the page (exec cells and
-        // plain data blocks) so shared names just exist. On heavy chapters
-        // this can take minutes, so it is STREAMED VISIBLY now instead of
-        // running silently (which looked exactly like a dead Run button).
-        let contextReady = false;
+        // Notebook semantics: before the first Run ANYWHERE on this page,
+        // execute every earlier Python block (exec cells and plain data
+        // blocks) so shared names just exist. The flag is PAGE-WIDE: once
+        // anything has run, later cells trust the namespace instead of
+        // replaying the whole training for every window. On heavy chapters
+        // the replay is streamed visibly.
         const collectContextCode = () => {
           const wins = [...document.querySelectorAll(".code-window")];
           const idx = wins.indexOf(codeWindow);
@@ -145,8 +145,8 @@
           setRunState(true);
           const code = currentCode.trimEnd();
           try {
-            if (!contextReady) {
-              contextReady = true;
+            if (!window.__typophicContextReady) {
+              window.__typophicContextReady = true;
               const ctx = collectContextCode();
               if (ctx.trim()) {
                 appendTerminalText("Preparing this page: running the earlier cells first " +
@@ -181,7 +181,7 @@
 
         // Exposed so the corpus-upload widget can re-run cells in order.
         codeWindow.runCell = runCell;
-        codeWindow.markContextReady = () => { contextReady = true; };
+        codeWindow.markContextReady = () => { window.__typophicContextReady = true; };
         // The single button toggles: idle = Run, while this cell runs = Stop.
         runButton.addEventListener("click", () => {
           if (codeWindow.dataset.running === "1") {
