@@ -28,7 +28,7 @@ Cohorts stay small on purpose. Write to us with: which track you completed, one 
 
 ## Apply
 
-Fill in the form below and it lands directly in our inbox - no mail client needed. Prefer email? The mail-to option further down still works too.
+Fill in the form below and it lands directly in our inbox - no mail client needed. We reply to every serious application within a week.
 
 <form id="mentorship-form" class="contact-form">
   <label for="cf-name">Your name</label>
@@ -81,26 +81,4 @@ document.getElementById("mentorship-form").addEventListener("submit", async func
     btn.disabled = false;
   }
 });
-</script>
-
-Or pick a preferred slot for a first 30-minute conversation, then send your application by email:
-
-<div class="mentorship-apply">
-  <label for="slot-date">Preferred date</label>
-  <input type="date" id="slot-date" name="slot-date">
-  <label for="slot-time">Preferred time (IST)</label>
-  <select id="slot-time" name="slot-time">
-    <option>10:00</option><option>14:00</option><option>18:00</option><option>20:00</option>
-  </select>
-  <button type="button" onclick="applyMentorship()">Apply by email</button>
-  <p class="apply-note">This opens your mail client with everything pre-filled. You can also write to us directly at <a href="mailto:pankajdoharey@gmail.com?subject=Mentorship%20Programme%20Application">pankajdoharey@gmail.com</a> with the subject "Mentorship Programme Application".</p>
-</div>
-
-<script>
-function applyMentorship() {
-  var d = document.getElementById('slot-date').value;
-  var t = document.getElementById('slot-time').value;
-  var body = 'Hello,\n\nI would like to apply for the Ruby Learning Mentorship Programme.\n\nTrack completed:\nA piece of code I am not fully happy with:\nWhat I want to build next:\n\nPreferred first conversation slot: ' + (d || '(any date)') + ' at ' + t + ' IST.\n\nThank you.';
-  window.location.href = 'mailto:pankajdoharey@gmail.com?subject=' + encodeURIComponent('Mentorship Programme Application') + '&body=' + encodeURIComponent(body);
-}
 </script>
