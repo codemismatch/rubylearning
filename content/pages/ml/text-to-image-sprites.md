@@ -796,7 +796,214 @@ In our runs, three quarters or more of the generated images land closest to the 
 
 Four acts, one lesson. Toy sprites obey: structure came free with the code. Photographs say nothing at thumbnail scale: no structure to amplify. Pixel art at 16x16 has the structure, and our extractor is too small to use it. Shrink the problem to 8x8 and three classes, and the sprite-sized network steers real, human-made data with real category labels. The equations never changed once; only the fit between problem size and model size did.
 
-The honest footnote: the real field took the other exit. Faced with "shrink the problem or grow the machine", it grew everything - billion-image datasets, billion-parameter U-Nets, ten thousand GPUs - which is the only reason you can type "a dragon" into Stable Diffusion at 1024x1024 and get a dragon. This chapter cannot fit that sentence in a browser tab. But it can prove, and just did, every clause that makes it necessary.
+The honest footnote: the real field took the other exit. Faced with "shrink the problem or grow the machine", it grew everything - billion-image datasets, billion-parameter U-Nets, ten thousand GPUs - which is the only reason you can type "a dragon" into Stable Diffusion at 1024x1024 and get a dragon in full color. This chapter cannot fit that sentence in a browser tab. But it can prove, and just did, every clause that makes it necessary.
+
+### Full color: the same equations, three channels
+
+Everything on this page so far has been one channel of gray. Color is not a new idea - it is the same tensor with three channels, red, green, and blue, and the denoiser never needs to know. Our source set is the same pixel art, kept in color this time: 270 thumbnails at 8x8x3, which is 192 numbers per image (unstonio/pixelgpt-24x24-20k, reduced for the browser).
+
+<div data-corpus-url="/assets/data/pixelart8rgb.csv" data-corpus-var="rgb_text"></div>
+
+192 numbers is fewer than the 256 that failed at 16x16 grayscale, and we tried it exactly that way first: the same conditional MLP, 2000 steps, three minutes. The 16x16 story repeated - eval loss stuck near 0.65, and not one class obeyed its word. You already know the move from the last section: shrink the problem once more. Downsample to 4x4, keeping all three channels, and each image is 48 numbers - *fewer* than the 64 grayscale numbers that already won. The silhouettes die at 4x4, but the hues survive, and hue is most of how you tell a bee from a building anyway. First, which classes should play? We measured prototype distances in full RGB across all six: dragons and helmets still huddle together even in color, so they stay on the bench. The grayscale trio - bee, potion, building - gains a fourth member: flower.
+
+| classes measured at 8x8 RGB | self-sort | chance |
+| --- | --- | --- |
+| all six | 55% | 17% |
+| bee, potion, building (the grayscale trio) | 76% | 33% |
+| those three + flower (our four) | 71% | 25% |
+
+```python-exec
+KEEP = ["bee", "flower", "potion", "building"]   # widest RGB prototypes
+rows = rgb_text.strip().split("\n")[1:]          # skip the header
+VOCAB = []
+data = []
+caps = {}
+
+def down2(x):
+    """8x8 RGB flat -> 4x4 RGB flat, 2x2 mean per channel."""
+    out = []
+    for r in range(0, 8, 2):
+        for c in range(0, 8, 2):
+            ids = [r * 8 + c, r * 8 + c + 1, (r + 1) * 8 + c, (r + 1) * 8 + c + 1]
+            for k in range(3):
+                out.append(sum(x[3 * i + k] for i in ids) / 4)
+    return out
+
+for ln in rows:
+    parts = ln.split(",")
+    word = parts[0]
+    if word not in KEEP:
+        continue
+    if word not in VOCAB:
+        VOCAB.append(word)
+    if word not in caps:
+        caps[word] = parts[1].strip('"')
+    px = [float(v) * 2 - 1 for v in parts[2:]]
+    data.append((down2(px), VOCAB.index(word)))
+
+def show_rgb(x):
+    """Flat 48-vector (+-1) -> 4x4 grid of [r, g, b] in 0..1."""
+    def px(i):
+        return [max(0.0, min(1.0, (x[3 * i + k] + 1) / 2)) for k in range(3)]
+    return [[px(r * 4 + c) for c in range(4)] for r in range(4)]
+
+print(f"{len(data)} color images, {len(VOCAB)} classes: {VOCAB}")
+```
+
+The preview needs no grayscale conversion this time - `plt.imshow` takes the HxWx3 grid directly. Yellow-and-black bees, pink-and-green flowers, brown potion mugs, gray buildings:
+
+```python-exec
+for wi, word in enumerate(VOCAB):
+    imgs = [x for x, i in data if i == wi][:3]
+    for j, x in enumerate(imgs):
+        plt.imshow(show_rgb(x), label=f"{word} #{j + 1}")
+    plt.title(f"real color thumbnails: {word}")
+    plt.show()
+```
+
+Same network, fresh weights, 48 numbers in and 48 out. Same embedding table, same 10% dropout, same guidance knob, fresh Adam clock. About two minutes on a laptop, several in the browser:
+
+```python-exec
+DIN, H, DOUT = 48 + TE, 96, 48
+random.seed(42)
+W1 = rand_matrix(H, DIN, math.sqrt(2 / DIN)); b1 = [0.0] * H
+W2 = rand_matrix(DOUT, H, 0.0)
+b2 = [0.0] * DOUT
+NULL = len(VOCAB)                                 # 4 classes + the NULL row
+EMB = rand_matrix(len(VOCAB) + 1, TE, 0.1)
+print(f"color denoiser: {DIN} -> {H} -> {DOUT}, plus a {len(VOCAB) + 1}x{TE} word table")
+```
+
+```python-exec
+B = 16
+steps = 3000
+_t_adam = 0           # fresh Adam clock
+history = []
+for step in range(steps + 1):
+    _t_adam += 1
+    gW1 = [[0.0] * DIN for _ in range(H)]; gb1 = [0.0] * H
+    gW2 = [[0.0] * H for _ in range(DOUT)]; gb2 = [0.0] * DOUT
+    gE = [[0.0] * TE for _ in range(len(VOCAB) + 1)]
+    loss_b = 0.0
+    for _ in range(B):
+        x0, wi = random.choice(data)
+        if random.random() < 0.1:
+            wi = NULL
+        tt = random.randrange(T)
+        noise = [random.gauss(0, 1) for _ in range(48)]
+        xin = q_sample(x0, tt, noise) + cond(wi, tt)
+        pred, h1 = forward(xin)
+        loss_b += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 48
+        d2 = [2 * (p_ - n) / (48 * B) for p_, n in zip(pred, noise)]
+        for i in range(DOUT):
+            for j in range(H):
+                gW2[i][j] += d2[i] * h1[j]
+            gb2[i] += d2[i]
+        dh1 = vecmat(d2, W2)
+        dh1 = [d * (1.0 if h > 0 else 0.0) for d, h in zip(dh1, h1)]
+        for i in range(H):
+            for j in range(DIN):
+                gW1[i][j] += dh1[i] * xin[j]
+            gb1[i] += dh1[i]
+        dxin = vecmat(dh1, W1)
+        for i in range(TE):
+            gE[wi][i] += dxin[48 + i]
+    adam('W1', W1, gW1); adam('b1', b1, gb1)
+    adam('W2', W2, gW2); adam('b2', b2, gb2)
+    adam('EMB', EMB, gE)
+    if step % 100 == 0:
+        history.append((step, loss_b / B))
+        progress(step, steps, suffix=f"loss {loss_b / B:.4f}")
+    if step % 500 == 0:
+        print(f"step {step:4d}  loss {loss_b / B:.4f}")
+
+random.seed(999)
+evals = [(random.choice(data), random.randrange(T),
+          [random.gauss(0, 1) for _ in range(48)]) for _ in range(200)]
+total = 0.0
+for (x0, wi), tt, noise in evals:
+    pred, _ = forward(q_sample(x0, tt, noise) + cond(wi, tt))
+    total += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 48
+print(f"eval loss: {total / 200:.4f}")
+```
+
+The measurements, one last time, with one new twist: color likes a firmer hand on the guidance knob. At `w = 2` about two thirds of samples obey; at `w = 3` nearly all of them do, so we sample with 3:
+
+```python-exec
+def eval_rgb(mode):
+    random.seed(999)
+    ev = [(random.choice(data), random.randrange(T),
+           [random.gauss(0, 1) for _ in range(48)]) for _ in range(200)]
+    tot = 0.0
+    for (x0, wi), tt, noise in ev:
+        if mode == "null":
+            wi = NULL
+        elif mode == "wrong":
+            wi = (wi + 1) % len(VOCAB)
+        pred, _ = forward(q_sample(x0, tt, noise) + cond(wi, tt))
+        tot += sum((p_ - n) ** 2 for p_, n in zip(pred, noise)) / 48
+    return tot / 200
+
+print(f"eval: correct word {eval_rgb('right'):.4f}  "
+      f"no word {eval_rgb('null'):.4f}  wrong word {eval_rgb('wrong'):.4f}")
+
+protos_rgb = []
+for wi in range(len(VOCAB)):
+    imgs = [x for x, i in data if i == wi]
+    protos_rgb.append([sum(im[k] for im in imgs) / len(imgs) for k in range(48)])
+
+def nearest_rgb(x):
+    d = [sum((a - b) ** 2 for a, b in zip(x, p)) for p in protos_rgb]
+    return d.index(min(d))
+
+hits = sum(1 for x, wi in data if nearest_rgb(x) == wi)
+print(f"real images closest to their own class average: "
+      f"{hits}/{len(data)} (chance is 1/{len(VOCAB)})")
+```
+
+And the finale, in full color. One real thumbnail and three generated ones per class. Judge them by eye, not just by the prototype count: the bee row should buzz yellow and black, the flower row should bloom pink and green, potions should pour brown and copper, buildings should sit gray and dark:
+
+```python-exec
+def rgbsample(word, guidance=3.0):
+    wi = VOCAB.index(word)
+    x = [random.gauss(0, 1) for _ in range(48)]
+    for tt in range(T - 1, -1, -1):
+        pc, _ = forward(x + cond(wi, tt))      # with the word
+        pu, _ = forward(x + cond(NULL, tt))    # without any word
+        pred = [u + guidance * (c - u) for c, u in zip(pc, pu)]
+        ab = alpha_bar[tt]
+        ab_prev = alpha_bar[tt - 1] if tt > 0 else 1.0
+        x0 = [(xi - math.sqrt(1 - ab) * e) / math.sqrt(ab)
+              for xi, e in zip(x, pred)]
+        x0 = [max(-1.0, min(1.0, v)) for v in x0]
+        k1 = math.sqrt(ab_prev) * betas[tt] / (1 - ab)
+        k2 = math.sqrt(alphas[tt]) * (1 - ab_prev) / (1 - ab)
+        mean = [k1 * a + k2 * xi for a, xi in zip(x0, x)]
+        if tt > 0:
+            s = math.sqrt(betas[tt])
+            x = [m + s * random.gauss(0, 1) for m in mean]
+        else:
+            x = mean
+    return x
+
+random.seed(123)
+hits = 0
+for wi, word in enumerate(VOCAB):
+    imgs = [x for x, i in data if i == wi][:1]
+    plt.imshow(show_rgb(imgs[0]), label=f"{word} (real)")
+    for j in range(3):
+        s = rgbsample(word)
+        hits += 1 if nearest_rgb(s) == wi else 0
+        plt.imshow(show_rgb(s), label=f"{word} #{j + 1}")
+    plt.title(f"You say '{word}', the model draws a {word}")
+    plt.show()
+print(f"generated images closest to the requested class average: "
+      f"{hits}/12 (chance is 3/12)")
+```
+
+In our runs, about three quarters or more of the generated thumbnails land closest to the requested class, against a one-in-four chance rate - and unlike the grayscale win, you can *see* it without any metric, because the colors themselves obey. Notice what just happened, because it is the quiet miracle of this whole course: the network was never told that red exists, or that pixels have channels, or that bees are yellow. It denoises a vector of 48 numbers. Color fell out of the same equations for free.
+
+That is the chapter. Sprites obeyed because their structure was free. Photographs had nothing to say at thumbnail scale. Pixel art had structure that outgrew our extractor at 16x16, so we shrank the problem until the extractor fit - first in grayscale, now in color. Every step used the same forward process, the same noise-prediction loss, the same guidance formula. The only thing that ever changed was the size of the fight.
 
 ### How the real ones do it
 
@@ -825,6 +1032,7 @@ graph TB
 - **Real data changes the cost, not the math.** One CSV of photographs and captions ran through the same code - and its honest answer was "bring more data and a bigger network". That answer is the whole story of modern text-to-image.
 - **Structure is necessary, not sufficient.** The pixel-art set has it (a dragon self-sorts as a dragon), yet the toy model still fails, because extracting structure from real data takes parameters and compute. Steering wheel, road, engine: conditioning, data, scale.
 - **Shrink the problem until it wins.** At 8x8 and three classes, the sprite-sized network steers real data - most samples land on the requested class, several times the chance rate. The equations never changed; the fit between problem size and model size did.
+- **Color is free.** Three channels are the same vector three times longer. The network never learns what red is; it denoises numbers, and the numbers come out yellow-and-black when you ask for a bee.
 - **Guidance is the obedience dial.** Next chapter, [Latent Diffusion & Super-Resolution](/courses/image-generation/latent-diffusion/), shrinks what the model diffuses - everything about conditioning stays exactly as you learned it here.
 
 ### Further reading

@@ -56,10 +56,7 @@ Fill in the form below and it lands directly in our inbox - no mail client neede
 </form>
 
 <script>
-var FORM_ENDPOINT = "https://contact-form-mailer.YOUR-SUBDOMAIN.workers.dev";
-// After `npx wrangler deploy` (see workers/contact-form-mailer/README.md),
-// replace YOUR-SUBDOMAIN above - or route rubylearning.in/api/mentorship and
-// set FORM_ENDPOINT = "/api/mentorship".
+var FORM_ENDPOINT = "https://contact-form-mailer.pankajdoharey.workers.dev";
 
 document.getElementById("mentorship-form").addEventListener("submit", async function (e) {
   e.preventDefault();
