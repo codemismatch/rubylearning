@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/meet-ruby/
   - title: "Chapter 3: First Ruby Program"
     url: /courses/ruby-basics/first-ruby-program/
+date: 2025-11-16
 ---
 
 > This is a 40-minute Ruby wow session. Instead of reading a reference, you will walk a straight path: from "Ruby as a calculator" through blocks, classes, and a tiny DSL, then finish with some Ruby party tricks and an interactive script.

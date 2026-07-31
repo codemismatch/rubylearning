@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/methods-and-blocks/
   - title: "Ruby Names"
     url: /courses/ruby-basics/ruby-names/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Writing Own Ruby Methods" lesson.

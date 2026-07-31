@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-access-control/
   - title: "Ruby `method_missing`"
     url: /courses/ruby-basics/ruby-method-missing/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Duck Typing" lesson.

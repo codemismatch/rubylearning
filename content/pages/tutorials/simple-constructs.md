@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/flow-control-collections/
   - title: "Ruby Names"
     url: /courses/ruby-basics/ruby-names/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Simple Constructs" lesson.

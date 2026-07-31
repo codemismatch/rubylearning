@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/methods-and-blocks/
   - title: "Variables & Assignment"
     url: /courses/ruby-basics/variables-and-assignment/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "More on Ruby Methods" chapter.

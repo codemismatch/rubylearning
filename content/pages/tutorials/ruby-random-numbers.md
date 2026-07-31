@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/simple-constructs/
   - title: "Flow control & collections"
     url: /courses/ruby-basics/flow-control-collections/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Random Numbers" chapter.

@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Exceptions"
     url: /courses/ruby-basics/ruby-exceptions/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Ruby Time Class" lesson.

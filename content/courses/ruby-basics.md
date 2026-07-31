@@ -4,6 +4,7 @@ title: Ruby Basics
 permalink: /courses/ruby-basics/
 summary: Learn the fundamentals of Ruby, from installation to your first program.
 breadcrumbs: true
+date: 2025-10-31
 ---
 
 <div class="course-continue">

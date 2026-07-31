@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/flow-control-collections/
   - title: "Writing Your Own Ruby Methods"
     url: /courses/ruby-basics/writing-own-ruby-methods/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original arrays chapter, refreshed for Typophic.

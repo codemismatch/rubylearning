@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/flow-control-collections/
   - title: "Simple Constructs"
     url: /courses/ruby-basics/simple-constructs/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original ranges lesson.

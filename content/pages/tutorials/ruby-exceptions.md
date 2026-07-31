@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Procs & Lambdas"
     url: /courses/ruby-basics/ruby-procs/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Ruby Exceptions" lesson.

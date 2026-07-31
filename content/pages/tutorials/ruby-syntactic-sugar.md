@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-open-classes/
   - title: "Ruby Overloading Methods"
     url: /courses/ruby-basics/ruby-overloading-methods/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Ruby Syntactic Sugar" notes.

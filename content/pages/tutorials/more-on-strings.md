@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/fun-with-strings/
   - title: "Variables & Assignment"
     url: /courses/ruby-basics/variables-and-assignment/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "More on Strings" lesson, with modern Ruby notes.

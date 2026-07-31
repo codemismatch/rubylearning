@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-threads/
   - title: "Ruby Features"
     url: /courses/ruby-basics/ruby-features/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Socket Programming and Threads" lesson, updated for Typophic.

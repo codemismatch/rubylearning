@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-symbols/
   - title: "Ruby Open Classes"
     url: /courses/ruby-basics/ruby-open-classes/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Mutable and Immutable Objects" lesson.

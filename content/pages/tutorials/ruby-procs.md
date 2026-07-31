@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-symbols/
   - title: "Writing Our Own Class"
     url: /courses/ruby-basics/writing-our-own-class/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original "Ruby Procs" lesson.

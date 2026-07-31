@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-arrays/
   - title: "Ruby Hashes"
     url: /courses/ruby-basics/ruby-hashes/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's Read/Write Files lesson.

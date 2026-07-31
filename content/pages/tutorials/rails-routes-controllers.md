@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/rails-hotwire-feedback/
   - title: "Rails learning hub"
     url: /rails/
+date: 2025-10-31
 ---
 
 ```ruby-exec

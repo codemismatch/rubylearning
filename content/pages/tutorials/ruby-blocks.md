@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/methods-and-blocks/
   - title: "Writing Your Own Ruby Methods"
     url: /courses/ruby-basics/writing-own-ruby-methods/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original Ruby Blocks lesson.

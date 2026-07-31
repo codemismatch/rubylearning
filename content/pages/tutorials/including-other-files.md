@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-hashes/
   - title: "Read/Write Text Files"
     url: /courses/ruby-basics/read-write-files/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Including Other Files" lesson.

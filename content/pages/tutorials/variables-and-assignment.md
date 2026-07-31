@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-features/
   - title: "Numbers in Ruby"
     url: /courses/ruby-basics/numbers-in-ruby/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original RubyLearning lesson on variables, modernised for this Typophic site.

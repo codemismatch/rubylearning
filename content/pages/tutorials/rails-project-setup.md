@@ -12,6 +12,7 @@ related_tutorials:
     url: /rails/
   - title: "Rails routes & controllers"
     url: /courses/ruby-basics/rails-routes-controllers/
+date: 2025-10-31
 ---
 
 ```bash

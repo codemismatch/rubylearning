@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/flow-control-collections/
   - title: "Ruby resources"
     url: /pages/resources/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original RubyLearning course notes, refreshed for the modern Typophic-powered site.

@@ -12,6 +12,7 @@ related_tutorials:
     url: /rails/
   - title: "Project-driven roadmap for learning Rails"
     url: /blog/rails-learning-roadmap/
+date: 2025-10-31
 ---
 
 ```erb

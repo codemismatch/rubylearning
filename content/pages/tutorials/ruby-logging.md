@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/read-write-files/
   - title: "Ruby Access Control"
     url: /courses/ruby-basics/ruby-access-control/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Ruby Logging" notes.

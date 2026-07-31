@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-features/
   - title: "Methods & blocks"
     url: /courses/ruby-basics/methods-and-blocks/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's primer on `ri` and `RDoc`.

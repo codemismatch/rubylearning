@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/modules-and-mixins/
   - title: "Why Ruby's RubyLearning approach still works"
     url: /blog/ruby-learning-playbook/
+date: 2025-10-31
 ---
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.

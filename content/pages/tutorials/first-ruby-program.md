@@ -10,6 +10,7 @@ previous_tutorial:
 next_tutorial:
   title: "Chapter 4: Ruby Features"
   url: /courses/ruby-basics/ruby-features/
+date: 2025-11-14
 ---
 
 ### Running Ruby Code

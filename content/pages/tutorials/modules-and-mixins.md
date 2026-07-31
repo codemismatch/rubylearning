@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-open-classes/
   - title: "Ruby Inheritance"
     url: /courses/ruby-basics/ruby-inheritance/
+date: 2025-10-31
 ---
 
 > Adapted from Satish Talim's "Modules & Mixins" lesson.

@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/classes-and-objects/
   - title: "Ruby practice examples"
     url: /blog/ruby-examples/
+date: 2025-10-31
 ---
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.

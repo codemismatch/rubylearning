@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/variables-and-assignment/
   - title: "Ruby Features"
     url: /courses/ruby-basics/ruby-features/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's original RubyLearning lesson on user input, refreshed for Typophic.

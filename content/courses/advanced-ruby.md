@@ -6,6 +6,7 @@ summary: Deep dive into metaprogramming and more advanced Ruby topics.
 description: Deep dive into metaprogramming and more advanced Ruby topics.
 course_id: advanced-ruby
 breadcrumbs: true
+date: 2025-11-14
 ---
 
 <div class="course-continue">

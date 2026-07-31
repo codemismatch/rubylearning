@@ -16,6 +16,7 @@ related_tutorials:
     url: /courses/ruby-basics/ruby-features/
   - title: "Flow control & collections"
     url: /courses/ruby-basics/flow-control-collections/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Fun with Strings" lesson on RubyLearning, refreshed with modern Ruby notes.

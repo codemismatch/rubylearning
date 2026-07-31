@@ -15,6 +15,7 @@ related_tutorials:
     url: /courses/ruby-basics/writing-our-own-class/
   - title: "Ruby Symbols"
     url: /courses/ruby-basics/ruby-symbols/
+date: 2025-11-14
 ---
 
 > Adapted from Satish Talim's "Ruby Open Classes" lesson.

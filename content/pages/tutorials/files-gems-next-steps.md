@@ -12,6 +12,7 @@ related_tutorials:
     url: /courses/ruby-basics/rails-project-setup/
   - title: "Ruby resources"
     url: /pages/resources/
+date: 2025-10-31
 ---
 
 > Revived from RubyLearning's tutorials by Satish Talim, with updates for modern Ruby development.
