@@ -5,30 +5,24 @@ layout: page
 
 # The Ruby Learning Mentorship Programme
 
-A free, structured, remote mentorship programme for early-career programmers, run by **Pankaj Doharey** (CTO and co-founder of VoxLogic.ai, 17 years in software engineering). The programme exists for one reason: good engineers kept doors open for us, and this is how we keep them open for you.
+A free, self-study programme with light-touch mentorship for early-career programmers, run by **Pankaj Doharey** (CTO and co-founder of VoxLogic.ai, 17 years in software engineering). This exists for one reason: good engineers kept doors open for us, and this is how we keep them open for you.
 
 ## Who it is for
 
-- You have finished (or are finishing) one of our tracks: Ruby Basics, Advanced Ruby, Python Basics, or Machine Learning: From Zero to LLMs.
-- You can commit **3 to 4 hours a week for 8 weeks**.
-- You want a working engineer, not a tutorial, to review your code and your thinking.
+- You are working through (or have finished) one of our tracks: Ruby Basics, Advanced Ruby, Python Basics, or Machine Learning: From Zero to LLMs.
+- You want a working engineer, not a tutorial, to point you in the right direction when you get stuck.
 
-## What the 8 weeks look like
+## How it works
 
-1. **Weeks 1 to 2:** fundamentals review, a small project brief, and your first code review.
-2. **Weeks 3 to 5:** building a real feature end to end: tests, version control discipline, reading legacy code.
-3. **Weeks 6 to 7:** production habits: debugging, logs, deployment, and how senior engineers actually make decisions.
-4. **Week 8:** a capstone review, a written evaluation you can show to employers, and a plan for your next six months.
+This is a self-study programme. There are no classes, no scheduled doubt-clearing sessions, and no multi-week commitment:
 
-Sessions are held online, one to one or in very small cohorts.
+1. **An introductory call.** We start with one relaxed call to understand where you are, what you are learning, and what you want to build.
+2. **You study on your own.** Work through the tracks and your own projects at your own pace.
+3. **Email when you have a doubt.** Whenever something will not click - a concept, a design decision, a piece of code - drop me an email and I will reply with pointers, explanations, or a review.
 
-## How we select
+## Get in touch
 
-Cohorts stay small on purpose. Write to us with: which track you completed, one piece of code you wrote that you are not fully happy with, and what you want to build next. We reply to every serious application within a week.
-
-## Apply
-
-Fill in the form below and it lands directly in our inbox - no mail client needed. We reply to every serious application within a week.
+Fill in the form below and it lands directly in my inbox - no mail client needed. Tell me which track you are on and what you are working on, and we will set up the introductory call.
 
 <form id="mentorship-form" class="contact-form">
   <label for="cf-name">Your name</label>
@@ -37,7 +31,7 @@ Fill in the form below and it lands directly in our inbox - no mail client neede
   <label for="cf-email">Your email</label>
   <input type="email" id="cf-email" name="email" placeholder="ada@example.com" required>
 
-  <label for="cf-track">Track you completed (or are finishing)</label>
+  <label for="cf-track">Track you are studying (or have finished)</label>
   <select id="cf-track" name="track">
     <option value="">Choose a track</option>
     <option>Ruby Basics</option>
@@ -48,10 +42,10 @@ Fill in the form below and it lands directly in our inbox - no mail client neede
     <option>Other / self-taught</option>
   </select>
 
-  <label for="cf-message">Your application</label>
-  <textarea id="cf-message" name="message" rows="8" required placeholder="Tell us: one piece of code you wrote that you are not fully happy with, and what you want to build next."></textarea>
+  <label for="cf-message">Your message</label>
+  <textarea id="cf-message" name="message" rows="8" required placeholder="Tell me where you are in your studies, what you are working on, and what you would like help with."></textarea>
 
-  <button type="submit" id="cf-submit">Send application</button>
+  <button type="submit" id="cf-submit">Send message</button>
   <p id="cf-status" class="contact-form-status" role="status"></p>
 </form>
 
@@ -69,14 +63,14 @@ document.getElementById("mentorship-form").addEventListener("submit", async func
     var res = await fetch(FORM_ENDPOINT, { method: "POST", body: new FormData(e.target) });
     if (res.ok) {
       status.classList.add("contact-form-status--ok");
-      status.textContent = "Application sent! We reply to every serious application within a week.";
+      status.textContent = "Message sent! I will get back to you soon.";
       e.target.reset();
     } else {
       throw new Error("HTTP " + res.status);
     }
   } catch (err) {
     status.classList.add("contact-form-status--error");
-    status.textContent = "Could not send right now - please use the email option below instead.";
+    status.textContent = "Could not send right now - please try again in a moment.";
   } finally {
     btn.disabled = false;
   }
