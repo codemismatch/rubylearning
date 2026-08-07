@@ -5,6 +5,13 @@ primary:
     path: pages/about/
   - label: Learn Ruby
     url: /courses/ruby-basics/#ruby-track
+    children:
+      - label: "Ruby Basics course"
+        url: /courses/ruby-basics/
+      - label: "Vibe Coding with Ruby"
+        url: /pages/vibe-coding/
+      - label: "AI-Powered Learning"
+        url: /pages/ai-powered-learning/
   - label: Learn Python
     url: /courses/python-basics/
   - label: Learn ML
