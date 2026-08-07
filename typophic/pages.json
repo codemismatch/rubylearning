@@ -8,6 +8,14 @@
     "tags": []
   },
   {
+    "title": "AI-Powered Learning",
+    "description": "Turn any AI assistant into a personal Ruby teacher - daily classes, a custom curriculum built on our tracks, homework with feedback, and answers whenever you are stuck.",
+    "permalink": "/pages/ai-powered-learning/",
+    "url": "https://rubylearning.in/pages/ai-powered-learning/",
+    "date": "2026-08-07",
+    "tags": []
+  },
+  {
     "title": "Ruby & Rails Blog",
     "description": "Fresh lessons, tips, and project write-ups for Ruby and Ruby on Rails developers.",
     "permalink": "/blog/",
@@ -432,6 +440,14 @@
     "tags": []
   },
   {
+    "title": "Testimonials",
+    "description": "What learners from around the world say about studying Ruby, Python, and machine learning with RubyLearning's tracks and mentorship.",
+    "permalink": "/pages/testimonials/",
+    "url": "https://rubylearning.in/pages/testimonials/",
+    "date": "2026-08-07",
+    "tags": []
+  },
+  {
     "title": "Chapter 4 &ndash; Classes & objects",
     "description": null,
     "permalink": "/courses/ruby-basics/classes-and-objects/",
@@ -837,6 +853,14 @@
     "permalink": "/courses/ruby-basics/writing-own-ruby-methods/",
     "url": "https://rubylearning.in/courses/ruby-basics/writing-own-ruby-methods/",
     "date": "2025-11-14",
+    "tags": []
+  },
+  {
+    "title": "Vibe Coding with Ruby",
+    "description": "Learn Ruby by vibe coding - describe what you want in plain English, let AI generate the code, and grow into the engineer who can review, fix, and improve it.",
+    "permalink": "/pages/vibe-coding/",
+    "url": "https://rubylearning.in/pages/vibe-coding/",
+    "date": "2026-08-07",
     "tags": []
   }
 ]
