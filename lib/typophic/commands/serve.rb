@@ -513,12 +513,9 @@ module Typophic
           script = live_reload_script
           injection = "<!-- data-typophic-livereload -->\n#{script}"
 
-          html = html.dup
-          source_encoding = html.encoding
-          source_encoding = Encoding::UTF_8 if source_encoding == Encoding::ASCII_8BIT
-
-          html = html.encode(source_encoding, invalid: :replace, undef: :replace)
-          injection = injection.encode(source_encoding, invalid: :replace, undef: :replace)
+          # Page bytes on disk are already valid UTF-8; retag instead of
+          # re-encoding, otherwise high bytes (e.g. the ▾ nav caret) become U+FFFD.
+          html = html.dup.force_encoding(Encoding::UTF_8)
 
           if html.include?("</body>")
             html.sub("</body>", "#{injection}\n</body>")
