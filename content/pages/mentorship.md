@@ -39,6 +39,8 @@ Fill in the form below and it lands directly in my inbox - no mail client needed
     <option>Python Basics</option>
     <option>Machine Learning: From Zero to LLMs</option>
     <option>Image Generation: From Pixels to Diffusion</option>
+    <option>Vibe Coding with Ruby</option>
+    <option>AI-Powered Learning</option>
     <option>Other / self-taught</option>
   </select>
 

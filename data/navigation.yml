@@ -36,6 +36,8 @@ footer_quick:
     url: /courses/machine-learning/
   - label: Blog
     path: blog/
+  - label: Testimonials
+    path: pages/testimonials/
   - label: Resources
     path: pages/resources/
 
