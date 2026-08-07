@@ -50,7 +50,10 @@ module Typophic
           # Mermaid diagram source must keep its line breaks — collapsing
           # them turns the diagram into a single-line syntax error.
           preserve_patterns: options.fetch(:preserve_patterns, [
-            /<div class="mermaid"[\s\S]*?<\/div>/m
+            /<div class="mermaid"[\s\S]*?<\/div>/m,
+            # htmlcompressor drops empty block elements; the Ruby console's
+            # ghost <pre> is populated by JS at runtime and must survive.
+            /<pre class="ruby-irb-ghost"><\/pre>/
           ])
         )
         result = compressor.compress(html.to_s)
