@@ -126,9 +126,25 @@ function initRubyConsoles(vm) {
     const form = container.querySelector('.ruby-irb-form');
     const input = container.querySelector('.ruby-irb-input');
     const promptEl = container.querySelector('.ruby-irb-prompt');
-    const ghostEl = container.querySelector('.ruby-irb-ghost');
-    const caretEl = container.querySelector('.ruby-irb-caret');
-    if (!outputEl || !form || !input || !ghostEl || !caretEl) return;
+    if (!outputEl || !form || !input) return;
+
+    // The HTML minifier may strip empty elements; recreate the runtime-only
+    // caret and ghost nodes instead of leaving the console unwired.
+    const wrapper = input.parentElement;
+    let caretEl = container.querySelector('.ruby-irb-caret');
+    if (!caretEl && wrapper) {
+      caretEl = document.createElement('span');
+      caretEl.className = 'ruby-irb-caret';
+      caretEl.setAttribute('aria-hidden', 'true');
+      wrapper.insertBefore(caretEl, input);
+    }
+    let ghostEl = container.querySelector('.ruby-irb-ghost');
+    if (!ghostEl && wrapper) {
+      ghostEl = document.createElement('pre');
+      ghostEl.className = 'ruby-irb-ghost';
+      wrapper.insertBefore(ghostEl, input);
+    }
+    if (!ghostEl || !caretEl) return;
 
     const appendLine = (text, cssClass, asHtml = false) => {
       const line = document.createElement('div');
